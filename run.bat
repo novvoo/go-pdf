@@ -1,0 +1,1 @@
+go run .\cmd\render_pdf.go
