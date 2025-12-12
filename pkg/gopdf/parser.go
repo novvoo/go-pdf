@@ -113,6 +113,11 @@ func tokenize(content string) []string {
 	return tokens
 }
 
+// ParseTokens 解析 token 为操作符（导出供测试使用）
+func ParseTokens(tokens []string) ([]PDFOperator, error) {
+	return parseTokens(tokens)
+}
+
 // parseTokens 解析 token 为操作符
 func parseTokens(tokens []string) ([]PDFOperator, error) {
 	var operators []PDFOperator
@@ -341,6 +346,17 @@ func createOperator(name string, args []interface{}) PDFOperator {
 		return &OpBeginText{}
 	case "ET":
 		return &OpEndText{}
+	case "EMC":
+		// 结束标记内容，忽略
+		return &OpIgnore{}
+	case "BDC":
+		// 开始标记内容（带属性），忽略
+		// BDC 有2个参数：标签名和属性字典
+		return &OpIgnore{}
+	case "BMC":
+		// 开始标记内容（简单），忽略
+		// BMC 有1个参数：标签名
+		return &OpIgnore{}
 	case "Tm":
 		if len(args) >= 6 {
 			return &OpSetTextMatrix{

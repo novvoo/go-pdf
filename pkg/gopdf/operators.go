@@ -49,6 +49,7 @@ func (op *OpSaveState) Name() string { return "q" }
 func (op *OpSaveState) Execute(ctx *RenderContext) error {
 	ctx.GraphicsStack.Push()
 	ctx.CairoCtx.Save()
+	debugPrintf("[q] Save graphics state - Stack depth: %d\n", ctx.GraphicsStack.Depth())
 	return nil
 }
 
@@ -60,6 +61,7 @@ func (op *OpRestoreState) Name() string { return "Q" }
 func (op *OpRestoreState) Execute(ctx *RenderContext) error {
 	ctx.GraphicsStack.Pop()
 	ctx.CairoCtx.Restore()
+	debugPrintf("[Q] Restore graphics state - Stack depth: %d\n", ctx.GraphicsStack.Depth())
 	return nil
 }
 
@@ -72,8 +74,15 @@ func (op *OpConcatMatrix) Name() string { return "cm" }
 
 func (op *OpConcatMatrix) Execute(ctx *RenderContext) error {
 	state := ctx.GetCurrentState()
+	oldCTM := state.CTM.Clone()
 	state.CTM = state.CTM.Multiply(op.Matrix)
 	op.Matrix.ApplyToCairoContext(ctx.CairoCtx)
+	debugPrintf("[cm] Concat matrix: [%.2f %.2f %.2f %.2f %.2f %.2f]\n",
+		op.Matrix.A, op.Matrix.B, op.Matrix.C, op.Matrix.D, op.Matrix.E, op.Matrix.F)
+	debugPrintf("     Old CTM: [%.2f %.2f %.2f %.2f %.2f %.2f]\n",
+		oldCTM.A, oldCTM.B, oldCTM.C, oldCTM.D, oldCTM.E, oldCTM.F)
+	debugPrintf("     New CTM: [%.2f %.2f %.2f %.2f %.2f %.2f]\n",
+		state.CTM.A, state.CTM.B, state.CTM.C, state.CTM.D, state.CTM.E, state.CTM.F)
 	return nil
 }
 
@@ -531,4 +540,14 @@ func cmykToRGB(c, m, y, k float64) (float64, float64, float64) {
 	g := (1 - m) * (1 - k)
 	b := (1 - y) * (1 - k)
 	return r, g, b
+}
+
+// OpIgnore - 忽略的操作符（用于标记内容等）
+type OpIgnore struct{}
+
+func (op *OpIgnore) Name() string { return "IGNORE" }
+
+func (op *OpIgnore) Execute(ctx *RenderContext) error {
+	// 什么都不做
+	return nil
 }

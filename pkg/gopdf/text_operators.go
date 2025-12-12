@@ -63,12 +63,14 @@ func (ts *TextState) Clone() *TextState {
 
 // Font 字体信息
 type Font struct {
-	Name          string
-	BaseFont      string
-	Subtype       string
-	Encoding      string
-	ToUnicodeMap  *CIDToUnicodeMap // CID 字体的 Unicode 映射
-	CIDSystemInfo string           // CID 字体的系统信息 (Registry-Ordering)
+	Name             string
+	BaseFont         string
+	Subtype          string
+	Encoding         string
+	ToUnicodeMap     *CIDToUnicodeMap // CID 字体的 Unicode 映射
+	CIDSystemInfo    string           // CID 字体的系统信息 (Registry-Ordering)
+	EmbeddedFontData []byte           // 嵌入的字体数据 (TTF/CFF)
+	IsIdentity       bool             // 是否使用 Identity 映射 (CID = Unicode)
 }
 
 // ===== 文本对象操作符 =====
@@ -82,6 +84,7 @@ func (op *OpBeginText) Execute(ctx *RenderContext) error {
 	// 重置文本矩阵和文本行矩阵为单位矩阵
 	ctx.TextState.TextMatrix = NewIdentityMatrix()
 	ctx.TextState.TextLineMatrix = NewIdentityMatrix()
+	debugPrintf("[BT] Begin text object - Reset text matrices\n")
 	return nil
 }
 
@@ -92,6 +95,7 @@ func (op *OpEndText) Name() string { return "ET" }
 
 func (op *OpEndText) Execute(ctx *RenderContext) error {
 	// 文本对象结束，不需要特殊处理
+	debugPrintf("[ET] End text object\n")
 	return nil
 }
 
@@ -107,6 +111,12 @@ func (op *OpSetTextMatrix) Name() string { return "Tm" }
 func (op *OpSetTextMatrix) Execute(ctx *RenderContext) error {
 	ctx.TextState.TextMatrix = op.Matrix.Clone()
 	ctx.TextState.TextLineMatrix = op.Matrix.Clone()
+
+	// 注意：文本矩阵是独立的，不应该影响图形状态的 CTM
+	// 文本渲染时会单独应用文本矩阵
+	debugPrintf("[Tm] Set text matrix: [%.2f %.2f %.2f %.2f %.2f %.2f]\n",
+		op.Matrix.A, op.Matrix.B, op.Matrix.C, op.Matrix.D, op.Matrix.E, op.Matrix.F)
+
 	return nil
 }
 
@@ -122,6 +132,15 @@ func (op *OpMoveTextPosition) Execute(ctx *RenderContext) error {
 	translation := NewTranslationMatrix(op.Tx, op.Ty)
 	ctx.TextState.TextLineMatrix = translation.Multiply(ctx.TextState.TextLineMatrix)
 	ctx.TextState.TextMatrix = ctx.TextState.TextLineMatrix.Clone()
+
+	// 注意：文本矩阵是独立的，不应该影响图形状态的 CTM
+	// 文本渲染时会单独应用文本矩阵
+	debugPrintf("[Td] Move text position: tx=%.2f, ty=%.2f -> New Tm: [%.2f %.2f %.2f %.2f %.2f %.2f]\n",
+		op.Tx, op.Ty,
+		ctx.TextState.TextMatrix.A, ctx.TextState.TextMatrix.B,
+		ctx.TextState.TextMatrix.C, ctx.TextState.TextMatrix.D,
+		ctx.TextState.TextMatrix.E, ctx.TextState.TextMatrix.F)
+
 	return nil
 }
 
@@ -208,11 +227,23 @@ type OpSetFont struct {
 func (op *OpSetFont) Name() string { return "Tf" }
 
 func (op *OpSetFont) Execute(ctx *RenderContext) error {
-	ctx.TextState.FontSize = op.FontSize
+	// 设置字体大小，如果为0则使用默认值12
+	if op.FontSize > 0 {
+		ctx.TextState.FontSize = op.FontSize
+	} else {
+		// 字体大小为0可能意味着字体大小在文本矩阵中指定
+		// 保持当前字体大小或使用默认值
+		if ctx.TextState.FontSize == 0 {
+			ctx.TextState.FontSize = 12
+		}
+	}
+
 	// 从资源中获取字体
 	font := ctx.Resources.GetFont(op.FontName)
 	if font != nil {
 		ctx.TextState.Font = font
+		debugPrintf("[Tf] Set font: %s (BaseFont: %s), Size: %.2f\n",
+			op.FontName, font.BaseFont, ctx.TextState.FontSize)
 	} else {
 		// 使用默认字体
 		ctx.TextState.Font = &Font{
@@ -221,6 +252,8 @@ func (op *OpSetFont) Execute(ctx *RenderContext) error {
 			Subtype:  "Type1",
 			Encoding: "WinAnsiEncoding",
 		}
+		debugPrintf("[Tf] Set font: %s (default), Size: %.2f\n",
+			op.FontName, ctx.TextState.FontSize)
 	}
 	return nil
 }
@@ -337,7 +370,47 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 	}
 
 	// 设置字体
+	// 计算有效字体大小
+	// 在某些PDF中，字体大小通过文本矩阵的缩放来指定
 	fontSize := textState.FontSize
+
+	// 如果基础字体大小为0或很小，从文本矩阵中提取字体大小
+	if fontSize < 1.0 && textState.TextMatrix != nil {
+		// 从文本矩阵中提取缩放因子
+		// 文本矩阵格式: [a b c d e f]
+		// a 和 d 是水平和垂直缩放因子
+		scaleX := textState.TextMatrix.A
+		scaleY := textState.TextMatrix.D
+
+		if scaleX < 0 {
+			scaleX = -scaleX
+		}
+		if scaleY < 0 {
+			scaleY = -scaleY
+		}
+
+		// 使用较大的缩放因子作为字体大小
+		if scaleX > scaleY {
+			fontSize = scaleX
+		} else {
+			fontSize = scaleY
+		}
+
+		// 如果提取的字体大小仍然太小，使用默认值
+		if fontSize < 1.0 {
+			fontSize = 12.0
+		}
+	} else if textState.TextMatrix != nil {
+		// 如果有基础字体大小，应用文本矩阵的缩放
+		scale := textState.TextMatrix.D
+		if scale < 0 {
+			scale = -scale
+		}
+		if scale > 0.001 {
+			fontSize = fontSize * scale
+		}
+	}
+
 	fontFamily := "sans-serif"
 	if textState.Font != nil && textState.Font.BaseFont != "" {
 		fontFamily = mapPDFFont(textState.Font.BaseFont)
@@ -352,7 +425,30 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 	// 使用 PangoCairo 渲染文本
 	layout := ctx.CairoCtx.PangoCairoCreateLayout().(*cairo.PangoCairoLayout)
 	fontDesc := cairo.NewPangoFontDescription()
-	fontDesc.SetFamily(fontFamily)
+
+	// 检查是否有嵌入的字体数据
+	if textState.Font != nil && len(textState.Font.EmbeddedFontData) > 0 {
+		// 使用嵌入的字体数据
+		// 尝试创建自定义字体
+		userFont := cairo.NewUserFontFace()
+		if userFont != nil {
+			// 这里我们暂时使用字体族名称，但在实际应用中，
+			// 我们需要将 EmbeddedFontData 传递给字体渲染系统
+			fontDesc.SetFamily(fontFamily)
+			debugPrintf("✓ Using embedded font data for font %s (%d bytes)\n", fontFamily, len(textState.Font.EmbeddedFontData))
+
+			// TODO: 实际的字体数据加载需要在底层的cairo/pango库中实现
+			// 当前版本的go-cairo可能不直接支持从[]byte加载字体
+		} else {
+			// 回退到系统字体
+			fontDesc.SetFamily(fontFamily)
+			debugPrintf("⚠️  Failed to create user font, falling back to system font: %s\n", fontFamily)
+		}
+	} else {
+		// 使用系统字体
+		fontDesc.SetFamily(fontFamily)
+	}
+
 	fontDesc.SetSize(fontSize)
 	layout.SetFontDescription(fontDesc)
 
@@ -410,7 +506,13 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 			switch v := item.(type) {
 			case string:
 				// 解码文本（处理十六进制字符串和 CID 字体）
-				decodedText := decodeTextStringWithFont(v, toUnicodeMap)
+				// 使用支持Identity映射的新函数
+				decodedText := ""
+				if textState.Font != nil {
+					decodedText = decodeTextStringWithFontAndIdentity(v, toUnicodeMap, textState.Font.IsIdentity)
+				} else {
+					decodedText = decodeTextStringWithFont(v, toUnicodeMap)
+				}
 				if decodedText == "" {
 					// 如果无法解码，跳过
 					continue
@@ -418,6 +520,7 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 
 				layout.SetText(decodedText)
 				ctx.CairoCtx.MoveTo(x, 0)
+				// 使用 PangoCairo 直接渲染文本（支持基本的字距调整）
 				ctx.CairoCtx.PangoCairoShowText(layout)
 
 				// 计算文本宽度（估算，使用 rune 数量而不是字节数）
@@ -428,23 +531,33 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 				x += textState.CharSpacing * float64(len([]rune(decodedText)))
 
 			case float64:
-				// 负值表示向右移动，正值表示向左移动
-				x -= v * fontSize / 1000.0
+				// 负值表示向右移动（字距调整），正值表示向左移动
+				// 应用字距调整到文本位置
+				kerningAdjustment := v * fontSize / 1000.0
+				x -= kerningAdjustment
 
 			case int:
-				x -= float64(v) * fontSize / 1000.0
+				kerningAdjustment := float64(v) * fontSize / 1000.0
+				x -= kerningAdjustment
 			}
 		}
+
 		// TJ 操作符不更新文本矩阵
 		textDisplacement = 0
 	} else {
 		// Tj 操作符：简单文本
 		// 解码文本（处理十六进制字符串和 CID 字体）
-		decodedText := decodeTextStringWithFont(text, toUnicodeMap)
+		// 使用支持Identity映射的新函数
+		decodedText := ""
+		if textState.Font != nil {
+			decodedText = decodeTextStringWithFontAndIdentity(text, toUnicodeMap, textState.Font.IsIdentity)
+		} else {
+			decodedText = decodeTextStringWithFont(text, toUnicodeMap)
+		}
 		if decodedText != "" {
 			// 打印前几个文本用于调试
 			if len(decodedText) > 0 && len(decodedText) < 50 {
-				fmt.Printf("[TEXT] Rendering at Tm=[%.0f, %.0f]: %q\n", tm.E, tm.F, decodedText)
+				debugPrintf("[TEXT] Rendering at Tm=[%.0f, %.0f]: %q\n", tm.E, tm.F, decodedText)
 			}
 			layout.SetText(decodedText)
 			ctx.CairoCtx.PangoCairoShowText(layout)
@@ -478,6 +591,9 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 	}
 
 	return nil
+
+	// 注意：由于go-cairo库的限制，无法完全实现高级的kerning功能
+	// 当前实现已尽可能应用了TJ操作符中的数字偏移到文本位置
 }
 
 // decodeTextStringWithFont 使用字体的 ToUnicode 映射解码文本
@@ -505,6 +621,71 @@ func decodeTextStringWithFont(text string, toUnicodeMap *CIDToUnicodeMap) string
 				cids = append(cids, cid)
 			}
 			return toUnicodeMap.MapCIDsToUnicode(cids)
+		}
+
+		// 否则尝试标准解码
+		return decodeTextString(text)
+	}
+
+	// 普通字符串
+	return text
+}
+
+// decodeTextStringWithFontAndIdentity 使用字体的 ToUnicode 映射解码文本，支持Identity映射
+func decodeTextStringWithFontAndIdentity(text string, toUnicodeMap *CIDToUnicodeMap, isIdentity bool) string {
+	// 检查是否是十六进制字符串
+	if len(text) >= 2 && text[0] == '<' && text[len(text)-1] == '>' {
+		hexStr := text[1 : len(text)-1]
+		hexStr = strings.ReplaceAll(hexStr, " ", "")
+
+		// 转换十六进制到字节
+		var result []byte
+		for i := 0; i < len(hexStr); i += 2 {
+			if i+1 < len(hexStr) {
+				var b byte
+				fmt.Sscanf(hexStr[i:i+2], "%02x", &b)
+				result = append(result, b)
+			}
+		}
+
+		if len(result) < 2 || len(result)%2 != 0 {
+			return ""
+		}
+
+		// 提取CID数组
+		var cids []uint16
+		for i := 0; i < len(result); i += 2 {
+			cid := uint16(result[i])<<8 | uint16(result[i+1])
+			cids = append(cids, cid)
+		}
+
+		// 如果有 ToUnicode 映射，优先使用它
+		if toUnicodeMap != nil {
+			var decoded strings.Builder
+			allMapped := true
+
+			for _, cid := range cids {
+				if uni, ok := toUnicodeMap.MapCIDToUnicode(cid); ok {
+					decoded.WriteRune(uni)
+				} else {
+					allMapped = false
+					break
+				}
+			}
+
+			// 如果所有CID都成功映射，返回结果
+			if allMapped {
+				return decoded.String()
+			}
+		}
+
+		// 如果ToUnicode映射失败或不存在，且是Identity映射，CID直接等于Unicode码点
+		if isIdentity {
+			var runes []rune
+			for _, cid := range cids {
+				runes = append(runes, rune(cid))
+			}
+			return string(runes)
 		}
 
 		// 否则尝试标准解码

@@ -18,9 +18,9 @@ type CIDToUnicodeMap struct {
 }
 
 type cidRange struct {
-	startCID uint16
-	endCID   uint16
-	startUni rune
+	StartCID uint16
+	EndCID   uint16
+	StartUni rune
 }
 
 // NewCIDToUnicodeMap 创建新的 CID 到 Unicode 映射
@@ -60,6 +60,23 @@ func ParseToUnicodeCMap(cmapData []byte) (*CIDToUnicodeMap, error) {
 			if err := parseBfRange(reader, cidMap); err != nil {
 				return nil, err
 			}
+		}
+
+		// 解析 begincodespacerange ... endcodespacerange
+		if strings.Contains(line, "begincodespacerange") {
+			// codespacerange 主要用于确定输入码的长度，对于解码不是必需的
+			// 但我们仍然需要解析它以跳过相关内容
+			if err := parseCodeSpaceRange(reader); err != nil {
+				return nil, err
+			}
+		}
+
+		// 检查是否是Identity-H或Identity-V映射
+		// 这些是特殊的CMap，CID直接等于Unicode码点
+		if strings.Contains(line, "/Identity-H") || strings.Contains(line, "/Identity-V") {
+			// Identity映射：CID = Unicode
+			// 在这种情况下，我们不需要额外的映射表，因为CID直接就是Unicode码点
+			debugPrintf("✓ Detected Identity CMap: %s\n", line)
 		}
 	}
 
@@ -129,9 +146,9 @@ func parseBfRange(reader *bufio.Reader, cidMap *CIDToUnicodeMap) error {
 			startUniVal := rune(startUni[0])<<8 | rune(startUni[1])
 
 			cidMap.Ranges = append(cidMap.Ranges, cidRange{
-				startCID: startCIDVal,
-				endCID:   endCIDVal,
-				startUni: startUniVal,
+				StartCID: startCIDVal,
+				EndCID:   endCIDVal,
+				StartUni: startUniVal,
 			})
 		}
 	}
@@ -156,6 +173,26 @@ func parseHexString(s string) []byte {
 	return result
 }
 
+// parseCodeSpaceRange 解析 codespacerange（主要用于跳过）
+func parseCodeSpaceRange(reader *bufio.Reader) error {
+	for {
+		line, err := reader.ReadString('\n')
+		if err != nil {
+			return err
+		}
+
+		line = strings.TrimSpace(line)
+		if strings.Contains(line, "endcodespacerange") {
+			break
+		}
+
+		// 我们不需要实际解析codespacerange的内容
+		// 它主要用于确定输入码的长度
+	}
+
+	return nil
+}
+
 // MapCIDToUnicode 将 CID 映射到 Unicode
 func (m *CIDToUnicodeMap) MapCIDToUnicode(cid uint16) (rune, bool) {
 	// 首先查找直接映射
@@ -165,13 +202,24 @@ func (m *CIDToUnicodeMap) MapCIDToUnicode(cid uint16) (rune, bool) {
 
 	// 然后查找范围映射
 	for _, r := range m.Ranges {
-		if cid >= r.startCID && cid <= r.endCID {
-			offset := cid - r.startCID
-			return r.startUni + rune(offset), true
+		if cid >= r.StartCID && cid <= r.EndCID {
+			offset := cid - r.StartCID
+			return r.StartUni + rune(offset), true
 		}
 	}
 
 	return 0, false
+}
+
+// MapCIDToUnicodeWithIdentity 将 CID 映射到 Unicode，支持Identity映射
+func (m *CIDToUnicodeMap) MapCIDToUnicodeWithIdentity(cid uint16, isIdentity bool) (rune, bool) {
+	// 如果是Identity映射，CID直接等于Unicode码点
+	if isIdentity {
+		return rune(cid), true
+	}
+
+	// 否则使用常规映射
+	return m.MapCIDToUnicode(cid)
 }
 
 // MapCIDsToUnicode 将 CID 数组映射到 Unicode 字符串
@@ -244,4 +292,3 @@ func LoadCIDToUnicodeFromRegistry(registry string) (*CIDToUnicodeMap, error) {
 
 	return cidMap, nil
 }
-

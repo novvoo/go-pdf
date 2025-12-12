@@ -1,0 +1,2355 @@
+PDF Rendering Report
+====================
+Time: 2025-12-12 18:37:47
+
+ParseTokens Test:
+-----------------
+✅ ParseTokens test passed: 3 operators parsed
+  [1] q
+  [2] cm
+  [3] Q
+
+📄 Input PDF: test/test_vector.pdf
+📁 Output PNG: test/test_vector.png
+
+Rendering Process:
+------------------
+✅ PDF rendered successfully
+✅ Output saved to: test/test_vector.png
+
+Output File Info:
+-----------------
+Size: 21565 bytes
+Created: 2025-12-12 18:37:49
+
+Page Information:
+-----------------
+Page Size: 594.96 x 841.92 points
+Page Size: 8.26 x 11.69 inches
+
+
+Font Information:
+=================
+
+[Font 1] F4
+  BaseFont: AAAAAA+MicrosoftYaHeiUI-Bold
+  Subtype: Type0
+  Encoding: Identity-H
+  Identity Mapping: YES
+  ToUnicode Map: YES (15 mappings, 1 ranges)
+  Embedded Font: NO
+
+[Font 2] F5
+  BaseFont: BAAAAA+Consolas
+  Subtype: Type0
+  Encoding: Identity-H
+  Identity Mapping: YES
+  ToUnicode Map: YES (21 mappings, 6 ranges)
+  Embedded Font: NO
+
+[Font 3] F6
+  BaseFont: CAAAAA+NSimSun
+  Subtype: Type0
+  Encoding: Identity-H
+  Identity Mapping: YES
+  ToUnicode Map: YES (4 mappings, 0 ranges)
+  Embedded Font: NO
+
+[Font 4] F7
+  BaseFont: DAAAAA+Consolas-Italic
+  Subtype: Type0
+  Encoding: Identity-H
+  Identity Mapping: YES
+  ToUnicode Map: YES (4 mappings, 0 ranges)
+  Embedded Font: NO
+
+[Font 5] F8
+  BaseFont: EAAAAA+NSimSun
+  Subtype: Type0
+  Encoding: Identity-H
+  Identity Mapping: YES
+  ToUnicode Map: YES (17 mappings, 0 ranges)
+  Embedded Font: NO
+
+
+ExtractPageElements Test:
+=========================
+Page 1 Element Extraction:
+============================
+
+Page Size: 594.96 x 841.92 points (8.26 x 11.69 inches)
+
+Text Elements: 724
+----------------
+⚠️  Elements out of page bounds: 720 (99.4%)
+📏 Max X coordinate: 1090.52 (page width: 594.96)
+📏 Max Y coordinate: 1497.34 (page height: 841.92)
+
+First 20 elements:
+[1] Position: (243.50, 1497.34) ⚠️ OUT OF BOUNDS
+    Font: F4, Size: 32.00
+    Text: "二十四点游戏的深度搜索算法demo"
+
+[2] Position: (243.50, 1454.34) ⚠️ OUT OF BOUNDS
+    Font: F5, Size: 14.00
+    Text: "def"
+
+[3] Position: (266.59, 1454.34) ⚠️ OUT OF BOUNDS
+    Font: F5, Size: 14.00
+    Text: " "
+
+[4] Position: (274.30, 1454.34) ⚠️ OUT OF BOUNDS
+    Font: F5, Size: 14.00
+    Text: "solve24"
+
+[5] Position: (328.19, 1454.34) ⚠️ OUT OF BOUNDS
+    Font: F5, Size: 14.00
+    Text: "("
+
+[6] Position: (335.89, 1454.34) ⚠️ OUT OF BOUNDS
+    Font: F5, Size: 14.00
+    Text: "nums"
+
+[7] Position: (366.69, 1454.34) ⚠️ OUT OF BOUNDS
+    Font: F5, Size: 14.00
+    Text: "):"
+
+[8] Position: (243.50, 1435.34) ⚠️ OUT OF BOUNDS
+    Font: F5, Size: 14.00
+    Text: " "
+
+[9] Position: (250.50, 1435.34) ⚠️ OUT OF BOUNDS
+    Font: F5, Size: 14.00
+    Text: " "
+
+[10] Position: (257.50, 1435.34) ⚠️ OUT OF BOUNDS
+    Font: F5, Size: 14.00
+    Text: " "
+
+[11] Position: (264.50, 1435.34) ⚠️ OUT OF BOUNDS
+    Font: F5, Size: 14.00
+    Text: " "
+
+[12] Position: (274.30, 1435.34) ⚠️ OUT OF BOUNDS
+    Font: F5, Size: 14.00
+    Text: "def"
+
+[13] Position: (297.39, 1435.34) ⚠️ OUT OF BOUNDS
+    Font: F5, Size: 14.00
+    Text: " "
+
+[14] Position: (305.09, 1435.34) ⚠️ OUT OF BOUNDS
+    Font: F5, Size: 14.00
+    Text: "dfs"
+
+[15] Position: (328.19, 1435.34) ⚠️ OUT OF BOUNDS
+    Font: F5, Size: 14.00
+    Text: "("
+
+[16] Position: (335.89, 1435.34) ⚠️ OUT OF BOUNDS
+    Font: F5, Size: 14.00
+    Text: "nums"
+
+[17] Position: (366.69, 1435.34) ⚠️ OUT OF BOUNDS
+    Font: F5, Size: 14.00
+    Text: ","
+
+[18] Position: (374.39, 1435.34) ⚠️ OUT OF BOUNDS
+    Font: F5, Size: 14.00
+    Text: " "
+
+[19] Position: (382.09, 1435.34) ⚠️ OUT OF BOUNDS
+    Font: F5, Size: 14.00
+    Text: "path"
+
+[20] Position: (412.89, 1435.34) ⚠️ OUT OF BOUNDS
+    Font: F5, Size: 14.00
+    Text: "):"
+
+... and 704 more text elements
+
+Sample of out-of-bounds elements:
+[1] Position: (243.50, 1497.34) ⚠️ OUT OF BOUNDS
+    Font: F4, Size: 32.00
+    Text: "二十四点游戏的深度搜索算法demo"
+
+[2] Position: (243.50, 1454.34) ⚠️ OUT OF BOUNDS
+    Font: F5, Size: 14.00
+    Text: "def"
+
+[3] Position: (266.59, 1454.34) ⚠️ OUT OF BOUNDS
+    Font: F5, Size: 14.00
+    Text: " "
+
+[4] Position: (274.30, 1454.34) ⚠️ OUT OF BOUNDS
+    Font: F5, Size: 14.00
+    Text: "solve24"
+
+[5] Position: (328.19, 1454.34) ⚠️ OUT OF BOUNDS
+    Font: F5, Size: 14.00
+    Text: "("
+
+[6] Position: (335.89, 1454.34) ⚠️ OUT OF BOUNDS
+    Font: F5, Size: 14.00
+    Text: "nums"
+
+[7] Position: (366.69, 1454.34) ⚠️ OUT OF BOUNDS
+    Font: F5, Size: 14.00
+    Text: "):"
+
+[8] Position: (243.50, 1435.34) ⚠️ OUT OF BOUNDS
+    Font: F5, Size: 14.00
+    Text: " "
+
+[9] Position: (250.50, 1435.34) ⚠️ OUT OF BOUNDS
+    Font: F5, Size: 14.00
+    Text: " "
+
+[10] Position: (257.50, 1435.34) ⚠️ OUT OF BOUNDS
+    Font: F5, Size: 14.00
+    Text: " "
+
+Image Elements: None found
+
+Text Elements:
+--------------
+Total text elements: 724
+
+[1] Position: (243.50, 1497.34)
+    Font: F4, Size: 32.00
+    Text: "二十四点游戏的深度搜索算法demo"
+
+[2] Position: (243.50, 1454.34)
+    Font: F5, Size: 14.00
+    Text: "def"
+
+[3] Position: (266.59, 1454.34)
+    Font: F5, Size: 14.00
+    Text: " "
+
+[4] Position: (274.30, 1454.34)
+    Font: F5, Size: 14.00
+    Text: "solve24"
+
+[5] Position: (328.19, 1454.34)
+    Font: F5, Size: 14.00
+    Text: "("
+
+[6] Position: (335.89, 1454.34)
+    Font: F5, Size: 14.00
+    Text: "nums"
+
+[7] Position: (366.69, 1454.34)
+    Font: F5, Size: 14.00
+    Text: "):"
+
+[8] Position: (243.50, 1435.34)
+    Font: F5, Size: 14.00
+    Text: " "
+
+[9] Position: (250.50, 1435.34)
+    Font: F5, Size: 14.00
+    Text: " "
+
+[10] Position: (257.50, 1435.34)
+    Font: F5, Size: 14.00
+    Text: " "
+
+[11] Position: (264.50, 1435.34)
+    Font: F5, Size: 14.00
+    Text: " "
+
+[12] Position: (274.30, 1435.34)
+    Font: F5, Size: 14.00
+    Text: "def"
+
+[13] Position: (297.39, 1435.34)
+    Font: F5, Size: 14.00
+    Text: " "
+
+[14] Position: (305.09, 1435.34)
+    Font: F5, Size: 14.00
+    Text: "dfs"
+
+[15] Position: (328.19, 1435.34)
+    Font: F5, Size: 14.00
+    Text: "("
+
+[16] Position: (335.89, 1435.34)
+    Font: F5, Size: 14.00
+    Text: "nums"
+
+[17] Position: (366.69, 1435.34)
+    Font: F5, Size: 14.00
+    Text: ","
+
+[18] Position: (374.39, 1435.34)
+    Font: F5, Size: 14.00
+    Text: " "
+
+[19] Position: (382.09, 1435.34)
+    Font: F5, Size: 14.00
+    Text: "path"
+
+[20] Position: (412.89, 1435.34)
+    Font: F5, Size: 14.00
+    Text: "):"
+
+[21] Position: (243.50, 1416.34)
+    Font: F5, Size: 14.00
+    Text: " "
+
+[22] Position: (250.50, 1416.34)
+    Font: F5, Size: 14.00
+    Text: " "
+
+[23] Position: (257.50, 1416.34)
+    Font: F5, Size: 14.00
+    Text: " "
+
+[24] Position: (264.50, 1416.34)
+    Font: F5, Size: 14.00
+    Text: " "
+
+[25] Position: (271.50, 1416.34)
+    Font: F5, Size: 14.00
+    Text: " "
+
+[26] Position: (278.50, 1416.34)
+    Font: F5, Size: 14.00
+    Text: " "
+
+[27] Position: (285.50, 1416.34)
+    Font: F5, Size: 14.00
+    Text: " "
+
+[28] Position: (292.50, 1416.34)
+    Font: F5, Size: 14.00
+    Text: " "
+
+[29] Position: (305.08, 1416.34)
+    Font: F5, Size: 14.00
+    Text: "if"
+
+[30] Position: (320.48, 1416.34)
+    Font: F5, Size: 14.00
+    Text: " "
+
+[31] Position: (328.19, 1416.34)
+    Font: F5, Size: 14.00
+    Text: "len"
+
+[32] Position: (351.28, 1416.34)
+    Font: F5, Size: 14.00
+    Text: "("
+
+[33] Position: (358.98, 1416.34)
+    Font: F5, Size: 14.00
+    Text: "nums"
+
+[34] Position: (389.78, 1416.34)
+    Font: F5, Size: 14.00
+    Text: ")"
+
+[35] Position: (397.48, 1416.34)
+    Font: F5, Size: 14.00
+    Text: " "
+
+[36] Position: (405.19, 1416.34)
+    Font: F5, Size: 14.00
+    Text: "=="
+
+[37] Position: (420.59, 1416.34)
+    Font: F5, Size: 14.00
+    Text: " "
+
+[38] Position: (428.30, 1416.34)
+    Font: F5, Size: 14.00
+    Text: "1"
+
+[39] Position: (436.00, 1416.34)
+    Font: F5, Size: 14.00
+    Text: ":"
+
+[40] Position: (243.50, 1397.34)
+    Font: F5, Size: 14.00
+    Text: " "
+
+[41] Position: (250.50, 1397.34)
+    Font: F5, Size: 14.00
+    Text: " "
+
+[42] Position: (257.50, 1397.34)
+    Font: F5, Size: 14.00
+    Text: " "
+
+[43] Position: (264.50, 1397.34)
+    Font: F5, Size: 14.00
+    Text: " "
+
+[44] Position: (271.50, 1397.34)
+    Font: F5, Size: 14.00
+    Text: " "
+
+[45] Position: (278.50, 1397.34)
+    Font: F5, Size: 14.00
+    Text: " "
+
+[46] Position: (285.50, 1397.34)
+    Font: F5, Size: 14.00
+    Text: " "
+
+[47] Position: (292.50, 1397.34)
+    Font: F5, Size: 14.00
+    Text: " "
+
+[48] Position: (299.50, 1397.34)
+    Font: F5, Size: 14.00
+    Text: " "
+
+[49] Position: (306.50, 1397.34)
+    Font: F5, Size: 14.00
+    Text: " "
+
+[50] Position: (313.50, 1397.34)
+    Font: F5, Size: 14.00
+    Text: " "
+
+... and 674 more text elements
+
+Image Elements: None found
+
+Debug Information:
+------------------
+Starting PDF rendering...
+Input: test/test_vector.pdf
+Output: test/test_vector.png
+PDF reader created
+Rendering page 1 at 150 DPI...
+Rendering completed successfully
+
+
+Detailed Debug Output:
+----------------------
+[DEBUG applyPathToPango] Applied 5 path operations
+[DEBUG applyPathToPango] Applied 7 path operations
+[DEBUG applyPathToPango] Applied 7 path operations
+[DEBUG] Glyph 1218 at (0.00, 0.00): added 18 path segments
+[DEBUG applyPathToPango] Applied 18 path operations
+[DEBUG] Glyph 2423 at (32.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 3345 at (64.00, 0.00): added 33 path segments
+[DEBUG applyPathToPango] Applied 33 path operations
+[DEBUG] Glyph 9967 at (96.00, 0.00): added 43 path segments
+[DEBUG applyPathToPango] Applied 43 path operations
+[DEBUG] Glyph 9326 at (128.00, 0.00): added 101 path segments
+[DEBUG applyPathToPango] Applied 101 path operations
+[DEBUG] Glyph 6213 at (160.00, 0.00): added 52 path segments
+[DEBUG applyPathToPango] Applied 52 path operations
+[DEBUG] Glyph 11450 at (192.00, 0.00): added 54 path segments
+[DEBUG applyPathToPango] Applied 54 path operations
+[DEBUG] Glyph 9255 at (224.00, 0.00): added 65 path segments
+[DEBUG applyPathToPango] Applied 65 path operations
+[DEBUG] Glyph 5340 at (256.00, 0.00): added 62 path segments
+[DEBUG applyPathToPango] Applied 62 path operations
+[DEBUG] Glyph 6738 at (288.00, 0.00): added 84 path segments
+[DEBUG applyPathToPango] Applied 84 path operations
+[DEBUG] Glyph 13144 at (320.00, 0.00): added 70 path segments
+[DEBUG applyPathToPango] Applied 70 path operations
+[DEBUG] Glyph 12749 at (352.00, 0.00): added 79 path segments
+[DEBUG applyPathToPango] Applied 79 path operations
+[DEBUG] Glyph 8971 at (384.00, 0.00): added 57 path segments
+[DEBUG applyPathToPango] Applied 57 path operations
+[DEBUG] Glyph 71 at (416.00, 0.00): added 23 path segments
+[DEBUG applyPathToPango] Applied 23 path operations
+[DEBUG] Glyph 72 at (432.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 80 at (448.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 82 at (464.00, 0.00): added 18 path segments
+[DEBUG applyPathToPango] Applied 18 path operations
+[DEBUG] Glyph 71 at (480.00, 0.00): added 23 path segments
+[DEBUG applyPathToPango] Applied 23 path operations
+[DEBUG] Glyph 72 at (487.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 73 at (494.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 86 at (508.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 82 at (515.00, 0.00): added 18 path segments
+[DEBUG applyPathToPango] Applied 18 path operations
+[DEBUG] Glyph 79 at (522.00, 0.00): added 5 path segments
+[DEBUG applyPathToPango] Applied 5 path operations
+[DEBUG] Glyph 89 at (529.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 72 at (536.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 21 at (543.00, 0.00): added 22 path segments
+[DEBUG applyPathToPango] Applied 22 path operations
+[DEBUG] Glyph 23 at (550.00, 0.00): added 16 path segments
+[DEBUG applyPathToPango] Applied 16 path operations
+[DEBUG] Glyph 11 at (557.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 81 at (564.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (571.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (578.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (585.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 12 at (592.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 29 at (599.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 71 at (634.00, 0.00): added 23 path segments
+[DEBUG applyPathToPango] Applied 23 path operations
+[DEBUG] Glyph 72 at (641.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 73 at (648.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 71 at (662.00, 0.00): added 23 path segments
+[DEBUG applyPathToPango] Applied 23 path operations
+[DEBUG] Glyph 73 at (669.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 86 at (676.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 11 at (683.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 81 at (690.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (697.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (704.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (711.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 15 at (718.00, 0.00): added 8 path segments
+[DEBUG applyPathToPango] Applied 8 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 83 at (732.00, 0.00): added 23 path segments
+[DEBUG applyPathToPango] Applied 23 path operations
+[DEBUG] Glyph 68 at (739.00, 0.00): added 34 path segments
+[DEBUG applyPathToPango] Applied 34 path operations
+[DEBUG] Glyph 87 at (746.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 75 at (753.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 12 at (760.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 29 at (767.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 76 at (830.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 73 at (837.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 79 at (851.00, 0.00): added 5 path segments
+[DEBUG applyPathToPango] Applied 5 path operations
+[DEBUG] Glyph 72 at (858.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 81 at (865.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 11 at (872.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 81 at (879.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (886.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (893.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (900.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 12 at (907.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 32 at (921.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 32 at (928.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 20 at (942.00, 0.00): added 8 path segments
+[DEBUG applyPathToPango] Applied 8 path operations
+[DEBUG] Glyph 29 at (949.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 76 at (1040.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 73 at (1047.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 68 at (1061.00, 0.00): added 34 path segments
+[DEBUG applyPathToPango] Applied 34 path operations
+[DEBUG] Glyph 69 at (1068.00, 0.00): added 23 path segments
+[DEBUG applyPathToPango] Applied 23 path operations
+[DEBUG] Glyph 86 at (1075.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 11 at (1082.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 81 at (1089.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (1096.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (1103.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (1110.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 62 at (1117.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 19 at (1124.00, 0.00): added 24 path segments
+[DEBUG applyPathToPango] Applied 24 path operations
+[DEBUG] Glyph 64 at (1131.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 16 at (1145.00, 0.00): added 5 path segments
+[DEBUG applyPathToPango] Applied 5 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 21 at (1159.00, 0.00): added 22 path segments
+[DEBUG applyPathToPango] Applied 22 path operations
+[DEBUG] Glyph 23 at (1166.00, 0.00): added 16 path segments
+[DEBUG applyPathToPango] Applied 16 path operations
+[DEBUG] Glyph 12 at (1173.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 31 at (1187.00, 0.00): added 7 path segments
+[DEBUG applyPathToPango] Applied 7 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 20 at (1201.00, 0.00): added 8 path segments
+[DEBUG applyPathToPango] Applied 8 path operations
+[DEBUG] Glyph 72 at (1208.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 16 at (1215.00, 0.00): added 5 path segments
+[DEBUG applyPathToPango] Applied 5 path operations
+[DEBUG] Glyph 25 at (1222.00, 0.00): added 24 path segments
+[DEBUG applyPathToPango] Applied 24 path operations
+[DEBUG] Glyph 29 at (1229.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 85 at (1348.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 72 at (1355.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 86 at (1362.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 88 at (1369.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 79 at (1376.00, 0.00): added 5 path segments
+[DEBUG applyPathToPango] Applied 5 path operations
+[DEBUG] Glyph 87 at (1383.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 17 at (1390.00, 0.00): added 5 path segments
+[DEBUG applyPathToPango] Applied 5 path operations
+[DEBUG] Glyph 68 at (1397.00, 0.00): added 34 path segments
+[DEBUG applyPathToPango] Applied 34 path operations
+[DEBUG] Glyph 83 at (1404.00, 0.00): added 23 path segments
+[DEBUG applyPathToPango] Applied 23 path operations
+[DEBUG] Glyph 83 at (1411.00, 0.00): added 23 path segments
+[DEBUG applyPathToPango] Applied 23 path operations
+[DEBUG] Glyph 72 at (1418.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 81 at (1425.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 71 at (1432.00, 0.00): added 23 path segments
+[DEBUG applyPathToPango] Applied 23 path operations
+[DEBUG] Glyph 11 at (1439.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 83 at (1446.00, 0.00): added 23 path segments
+[DEBUG applyPathToPango] Applied 23 path operations
+[DEBUG] Glyph 68 at (1453.00, 0.00): added 34 path segments
+[DEBUG applyPathToPango] Applied 34 path operations
+[DEBUG] Glyph 87 at (1460.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 75 at (1467.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 12 at (1474.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 85 at (1593.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 72 at (1600.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 87 at (1607.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 88 at (1614.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 85 at (1621.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 81 at (1628.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 55 at (1642.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 85 at (1649.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 88 at (1656.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 72 at (1663.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 85 at (1754.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 72 at (1761.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 87 at (1768.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 88 at (1775.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 85 at (1782.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 81 at (1789.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 41 at (1803.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 68 at (1810.00, 0.00): added 34 path segments
+[DEBUG applyPathToPango] Applied 34 path operations
+[DEBUG] Glyph 79 at (1817.00, 0.00): added 5 path segments
+[DEBUG applyPathToPango] Applied 5 path operations
+[DEBUG] Glyph 86 at (1824.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 72 at (1831.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 73 at (1950.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 82 at (1957.00, 0.00): added 18 path segments
+[DEBUG applyPathToPango] Applied 18 path operations
+[DEBUG] Glyph 85 at (1964.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 76 at (1978.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 76 at (1992.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 81 at (1999.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 85 at (2013.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 68 at (2020.00, 0.00): added 34 path segments
+[DEBUG applyPathToPango] Applied 34 path operations
+[DEBUG] Glyph 81 at (2027.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 74 at (2034.00, 0.00): added 54 path segments
+[DEBUG applyPathToPango] Applied 54 path operations
+[DEBUG] Glyph 72 at (2041.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 11 at (2048.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 79 at (2055.00, 0.00): added 5 path segments
+[DEBUG applyPathToPango] Applied 5 path operations
+[DEBUG] Glyph 72 at (2062.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 81 at (2069.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 11 at (2076.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 81 at (2083.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (2090.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (2097.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (2104.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 12 at (2111.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 12 at (2118.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 29 at (2125.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 73 at (2216.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 82 at (2223.00, 0.00): added 18 path segments
+[DEBUG applyPathToPango] Applied 18 path operations
+[DEBUG] Glyph 85 at (2230.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 77 at (2244.00, 0.00): added 18 path segments
+[DEBUG applyPathToPango] Applied 18 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 76 at (2258.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 81 at (2265.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 85 at (2279.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 68 at (2286.00, 0.00): added 34 path segments
+[DEBUG applyPathToPango] Applied 34 path operations
+[DEBUG] Glyph 81 at (2293.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 74 at (2300.00, 0.00): added 54 path segments
+[DEBUG applyPathToPango] Applied 54 path operations
+[DEBUG] Glyph 72 at (2307.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 11 at (2314.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 79 at (2321.00, 0.00): added 5 path segments
+[DEBUG applyPathToPango] Applied 5 path operations
+[DEBUG] Glyph 72 at (2328.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 81 at (2335.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 11 at (2342.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 81 at (2349.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (2356.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (2363.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (2370.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 12 at (2377.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 12 at (2384.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 29 at (2391.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 76 at (2510.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 73 at (2517.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 76 at (2531.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 4 at (2545.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 32 at (2552.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 77 at (2566.00, 0.00): added 18 path segments
+[DEBUG applyPathToPango] Applied 18 path operations
+[DEBUG] Glyph 29 at (2573.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 81 at (2720.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 72 at (2727.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 91 at (2734.00, 0.00): added 13 path segments
+[DEBUG applyPathToPango] Applied 13 path operations
+[DEBUG] Glyph 87 at (2741.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 66 at (2748.00, 0.00): added 5 path segments
+[DEBUG applyPathToPango] Applied 5 path operations
+[DEBUG] Glyph 81 at (2755.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (2762.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (2769.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (2776.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 32 at (2790.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 62 at (2804.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 81 at (2811.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (2818.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (2825.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (2832.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 62 at (2839.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 78 at (2846.00, 0.00): added 13 path segments
+[DEBUG applyPathToPango] Applied 13 path operations
+[DEBUG] Glyph 64 at (2853.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 73 at (2867.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 82 at (2874.00, 0.00): added 18 path segments
+[DEBUG applyPathToPango] Applied 18 path operations
+[DEBUG] Glyph 85 at (2881.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 78 at (2895.00, 0.00): added 13 path segments
+[DEBUG applyPathToPango] Applied 13 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 76 at (2909.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 81 at (2916.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 85 at (2930.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 68 at (2937.00, 0.00): added 34 path segments
+[DEBUG applyPathToPango] Applied 34 path operations
+[DEBUG] Glyph 81 at (2944.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 74 at (2951.00, 0.00): added 54 path segments
+[DEBUG applyPathToPango] Applied 54 path operations
+[DEBUG] Glyph 72 at (2958.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 11 at (2965.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 79 at (2972.00, 0.00): added 5 path segments
+[DEBUG applyPathToPango] Applied 5 path operations
+[DEBUG] Glyph 72 at (2979.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 81 at (2986.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 11 at (2993.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 81 at (3000.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (3007.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (3014.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (3021.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 12 at (3028.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 12 at (3035.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 76 at (3049.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 73 at (3056.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 78 at (3070.00, 0.00): added 13 path segments
+[DEBUG applyPathToPango] Applied 13 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 4 at (3084.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 32 at (3091.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 76 at (3105.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 68 at (3119.00, 0.00): added 34 path segments
+[DEBUG applyPathToPango] Applied 34 path operations
+[DEBUG] Glyph 81 at (3126.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 71 at (3133.00, 0.00): added 23 path segments
+[DEBUG applyPathToPango] Applied 23 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 78 at (3147.00, 0.00): added 13 path segments
+[DEBUG applyPathToPango] Applied 13 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 4 at (3161.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 32 at (3168.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 77 at (3182.00, 0.00): added 18 path segments
+[DEBUG applyPathToPango] Applied 18 path operations
+[DEBUG] Glyph 64 at (3189.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 76 at (3336.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 73 at (3343.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 71 at (3357.00, 0.00): added 23 path segments
+[DEBUG applyPathToPango] Applied 23 path operations
+[DEBUG] Glyph 73 at (3364.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 86 at (3371.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 11 at (3378.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 81 at (3385.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 72 at (3392.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 91 at (3399.00, 0.00): added 13 path segments
+[DEBUG applyPathToPango] Applied 13 path operations
+[DEBUG] Glyph 87 at (3406.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 66 at (3413.00, 0.00): added 5 path segments
+[DEBUG applyPathToPango] Applied 5 path operations
+[DEBUG] Glyph 81 at (3420.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (3427.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (3434.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (3441.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 14 at (3455.00, 0.00): added 13 path segments
+[DEBUG applyPathToPango] Applied 13 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 62 at (3469.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 81 at (3476.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (3483.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (3490.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (3497.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 62 at (3504.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 76 at (3511.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 64 at (3518.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 14 at (3532.00, 0.00): added 13 path segments
+[DEBUG applyPathToPango] Applied 13 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 81 at (3546.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (3553.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (3560.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (3567.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 62 at (3574.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 77 at (3581.00, 0.00): added 18 path segments
+[DEBUG applyPathToPango] Applied 18 path operations
+[DEBUG] Glyph 64 at (3588.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 64 at (3595.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 15 at (3602.00, 0.00): added 8 path segments
+[DEBUG applyPathToPango] Applied 8 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 83 at (3616.00, 0.00): added 23 path segments
+[DEBUG applyPathToPango] Applied 23 path operations
+[DEBUG] Glyph 68 at (3623.00, 0.00): added 34 path segments
+[DEBUG applyPathToPango] Applied 34 path operations
+[DEBUG] Glyph 87 at (3630.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 75 at (3637.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 14 at (3651.00, 0.00): added 13 path segments
+[DEBUG applyPathToPango] Applied 13 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 73 at (3665.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 5 at (3672.00, 0.00): added 14 path segments
+[DEBUG applyPathToPango] Applied 14 path operations
+[DEBUG] Glyph 94 at (3679.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 81 at (3686.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (3693.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (3700.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (3707.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 62 at (3714.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 76 at (3721.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 64 at (3728.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 96 at (3735.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 14 at (3749.00, 0.00): added 13 path segments
+[DEBUG applyPathToPango] Applied 13 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 94 at (3763.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 81 at (3770.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (3777.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (3784.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (3791.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 62 at (3798.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 77 at (3805.00, 0.00): added 18 path segments
+[DEBUG applyPathToPango] Applied 18 path operations
+[DEBUG] Glyph 64 at (3812.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 96 at (3819.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 32 at (3833.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 94 at (3847.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 81 at (3854.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (3861.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (3868.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (3875.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 62 at (3882.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 76 at (3889.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 64 at (3896.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 14 at (3910.00, 0.00): added 13 path segments
+[DEBUG applyPathToPango] Applied 13 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 81 at (3924.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (3931.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (3938.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (3945.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 62 at (3952.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 77 at (3959.00, 0.00): added 18 path segments
+[DEBUG applyPathToPango] Applied 18 path operations
+[DEBUG] Glyph 64 at (3966.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 85 at (4141.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 72 at (4148.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 87 at (4155.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 88 at (4162.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 85 at (4169.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 81 at (4176.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 55 at (4190.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 85 at (4197.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 88 at (4204.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 72 at (4211.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 76 at (4358.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 73 at (4365.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 71 at (4379.00, 0.00): added 23 path segments
+[DEBUG applyPathToPango] Applied 23 path operations
+[DEBUG] Glyph 73 at (4386.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 86 at (4393.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 11 at (4400.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 81 at (4407.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 72 at (4414.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 91 at (4421.00, 0.00): added 13 path segments
+[DEBUG applyPathToPango] Applied 13 path operations
+[DEBUG] Glyph 87 at (4428.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 66 at (4435.00, 0.00): added 5 path segments
+[DEBUG applyPathToPango] Applied 5 path operations
+[DEBUG] Glyph 81 at (4442.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (4449.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (4456.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (4463.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 14 at (4477.00, 0.00): added 13 path segments
+[DEBUG applyPathToPango] Applied 13 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 62 at (4491.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 81 at (4498.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (4505.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (4512.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (4519.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 62 at (4526.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 76 at (4533.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 64 at (4540.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 16 at (4554.00, 0.00): added 5 path segments
+[DEBUG applyPathToPango] Applied 5 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 81 at (4568.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (4575.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (4582.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (4589.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 62 at (4596.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 77 at (4603.00, 0.00): added 18 path segments
+[DEBUG applyPathToPango] Applied 18 path operations
+[DEBUG] Glyph 64 at (4610.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 64 at (4617.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 15 at (4624.00, 0.00): added 8 path segments
+[DEBUG applyPathToPango] Applied 8 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 83 at (4638.00, 0.00): added 23 path segments
+[DEBUG applyPathToPango] Applied 23 path operations
+[DEBUG] Glyph 68 at (4645.00, 0.00): added 34 path segments
+[DEBUG applyPathToPango] Applied 34 path operations
+[DEBUG] Glyph 87 at (4652.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 75 at (4659.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 14 at (4673.00, 0.00): added 13 path segments
+[DEBUG applyPathToPango] Applied 13 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 73 at (4687.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 5 at (4694.00, 0.00): added 14 path segments
+[DEBUG applyPathToPango] Applied 14 path operations
+[DEBUG] Glyph 94 at (4701.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 81 at (4708.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (4715.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (4722.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (4729.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 62 at (4736.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 76 at (4743.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 64 at (4750.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 96 at (4757.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 16 at (4771.00, 0.00): added 5 path segments
+[DEBUG applyPathToPango] Applied 5 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 94 at (4785.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 81 at (4792.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (4799.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (4806.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (4813.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 62 at (4820.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 77 at (4827.00, 0.00): added 18 path segments
+[DEBUG applyPathToPango] Applied 18 path operations
+[DEBUG] Glyph 64 at (4834.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 96 at (4841.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 32 at (4855.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 94 at (4869.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 81 at (4876.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (4883.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (4890.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (4897.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 62 at (4904.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 76 at (4911.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 64 at (4918.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 16 at (4932.00, 0.00): added 5 path segments
+[DEBUG applyPathToPango] Applied 5 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 81 at (4946.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (4953.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (4960.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (4967.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 62 at (4974.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 77 at (4981.00, 0.00): added 18 path segments
+[DEBUG applyPathToPango] Applied 18 path operations
+[DEBUG] Glyph 64 at (4988.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 85 at (5163.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 72 at (5170.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 87 at (5177.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 88 at (5184.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 85 at (5191.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 81 at (5198.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 55 at (5212.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 85 at (5219.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 88 at (5226.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 72 at (5233.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 76 at (5380.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 73 at (5387.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 71 at (5401.00, 0.00): added 23 path segments
+[DEBUG applyPathToPango] Applied 23 path operations
+[DEBUG] Glyph 73 at (5408.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 86 at (5415.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 11 at (5422.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 81 at (5429.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 72 at (5436.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 91 at (5443.00, 0.00): added 13 path segments
+[DEBUG applyPathToPango] Applied 13 path operations
+[DEBUG] Glyph 87 at (5450.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 66 at (5457.00, 0.00): added 5 path segments
+[DEBUG applyPathToPango] Applied 5 path operations
+[DEBUG] Glyph 81 at (5464.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (5471.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (5478.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (5485.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 14 at (5499.00, 0.00): added 13 path segments
+[DEBUG applyPathToPango] Applied 13 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 62 at (5513.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 81 at (5520.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (5527.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (5534.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (5541.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 62 at (5548.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 76 at (5555.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 64 at (5562.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 13 at (5576.00, 0.00): added 19 path segments
+[DEBUG applyPathToPango] Applied 19 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 81 at (5590.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (5597.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (5604.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (5611.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 62 at (5618.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 77 at (5625.00, 0.00): added 18 path segments
+[DEBUG applyPathToPango] Applied 18 path operations
+[DEBUG] Glyph 64 at (5632.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 64 at (5639.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 15 at (5646.00, 0.00): added 8 path segments
+[DEBUG applyPathToPango] Applied 8 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 83 at (5660.00, 0.00): added 23 path segments
+[DEBUG applyPathToPango] Applied 23 path operations
+[DEBUG] Glyph 68 at (5667.00, 0.00): added 34 path segments
+[DEBUG applyPathToPango] Applied 34 path operations
+[DEBUG] Glyph 87 at (5674.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 75 at (5681.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 14 at (5695.00, 0.00): added 13 path segments
+[DEBUG applyPathToPango] Applied 13 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 73 at (5709.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 5 at (5716.00, 0.00): added 14 path segments
+[DEBUG applyPathToPango] Applied 14 path operations
+[DEBUG] Glyph 94 at (5723.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 81 at (5730.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (5737.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (5744.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (5751.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 62 at (5758.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 76 at (5765.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 64 at (5772.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 96 at (5779.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 13 at (5793.00, 0.00): added 19 path segments
+[DEBUG applyPathToPango] Applied 19 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 94 at (5807.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 81 at (5814.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (5821.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (5828.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (5835.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 62 at (5842.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 77 at (5849.00, 0.00): added 18 path segments
+[DEBUG applyPathToPango] Applied 18 path operations
+[DEBUG] Glyph 64 at (5856.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 96 at (5863.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 32 at (5877.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 94 at (5891.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 81 at (5898.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (5905.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (5912.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (5919.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 62 at (5926.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 76 at (5933.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 64 at (5940.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 13 at (5954.00, 0.00): added 19 path segments
+[DEBUG applyPathToPango] Applied 19 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 81 at (5968.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (5975.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (5982.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (5989.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 62 at (5996.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 77 at (6003.00, 0.00): added 18 path segments
+[DEBUG applyPathToPango] Applied 18 path operations
+[DEBUG] Glyph 64 at (6010.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 85 at (6185.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 72 at (6192.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 87 at (6199.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 88 at (6206.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 85 at (6213.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 81 at (6220.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 55 at (6234.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 85 at (6241.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 88 at (6248.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 72 at (6255.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 76 at (6402.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 73 at (6409.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 81 at (6423.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (6430.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (6437.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (6444.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 62 at (6451.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 77 at (6458.00, 0.00): added 18 path segments
+[DEBUG applyPathToPango] Applied 18 path operations
+[DEBUG] Glyph 64 at (6465.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 4 at (6479.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 32 at (6486.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 19 at (6500.00, 0.00): added 24 path segments
+[DEBUG applyPathToPango] Applied 24 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 68 at (6514.00, 0.00): added 34 path segments
+[DEBUG applyPathToPango] Applied 34 path operations
+[DEBUG] Glyph 81 at (6521.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 71 at (6528.00, 0.00): added 23 path segments
+[DEBUG applyPathToPango] Applied 23 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 71 at (6542.00, 0.00): added 23 path segments
+[DEBUG applyPathToPango] Applied 23 path operations
+[DEBUG] Glyph 73 at (6549.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 86 at (6556.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 11 at (6563.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 81 at (6570.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 72 at (6577.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 91 at (6584.00, 0.00): added 13 path segments
+[DEBUG applyPathToPango] Applied 13 path operations
+[DEBUG] Glyph 87 at (6591.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 66 at (6598.00, 0.00): added 5 path segments
+[DEBUG applyPathToPango] Applied 5 path operations
+[DEBUG] Glyph 81 at (6605.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (6612.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (6619.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (6626.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 14 at (6640.00, 0.00): added 13 path segments
+[DEBUG applyPathToPango] Applied 13 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 62 at (6654.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 81 at (6661.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (6668.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (6675.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (6682.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 62 at (6689.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 76 at (6696.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 64 at (6703.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 18 at (6717.00, 0.00): added 5 path segments
+[DEBUG applyPathToPango] Applied 5 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 81 at (6731.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (6738.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (6745.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (6752.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 62 at (6759.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 77 at (6766.00, 0.00): added 18 path segments
+[DEBUG applyPathToPango] Applied 18 path operations
+[DEBUG] Glyph 64 at (6773.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 64 at (6780.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 15 at (6787.00, 0.00): added 8 path segments
+[DEBUG applyPathToPango] Applied 8 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 83 at (6801.00, 0.00): added 23 path segments
+[DEBUG applyPathToPango] Applied 23 path operations
+[DEBUG] Glyph 68 at (6808.00, 0.00): added 34 path segments
+[DEBUG applyPathToPango] Applied 34 path operations
+[DEBUG] Glyph 87 at (6815.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 75 at (6822.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 14 at (6836.00, 0.00): added 13 path segments
+[DEBUG applyPathToPango] Applied 13 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 73 at (6850.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 5 at (6857.00, 0.00): added 14 path segments
+[DEBUG applyPathToPango] Applied 14 path operations
+[DEBUG] Glyph 94 at (6864.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 81 at (6871.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (6878.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (6885.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (6892.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 62 at (6899.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 76 at (6906.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 64 at (6913.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 96 at (6920.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 18 at (6934.00, 0.00): added 5 path segments
+[DEBUG applyPathToPango] Applied 5 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 94 at (6948.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 81 at (6955.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (6962.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (6969.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (6976.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 62 at (6983.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 77 at (6990.00, 0.00): added 18 path segments
+[DEBUG applyPathToPango] Applied 18 path operations
+[DEBUG] Glyph 64 at (6997.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 96 at (7004.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 32 at (7018.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 94 at (7032.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 85 at (7207.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 72 at (7214.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 87 at (7221.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 88 at (7228.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 85 at (7235.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 81 at (7242.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 55 at (7256.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 85 at (7263.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 88 at (7270.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 72 at (7277.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 85 at (7340.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 72 at (7347.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 87 at (7354.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 88 at (7361.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 85 at (7368.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 81 at (7375.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 41 at (7389.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 68 at (7396.00, 0.00): added 34 path segments
+[DEBUG applyPathToPango] Applied 34 path operations
+[DEBUG] Glyph 79 at (7403.00, 0.00): added 5 path segments
+[DEBUG applyPathToPango] Applied 5 path operations
+[DEBUG] Glyph 86 at (7410.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 72 at (7417.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 85 at (7452.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 72 at (7459.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 86 at (7466.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 88 at (7473.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 79 at (7480.00, 0.00): added 5 path segments
+[DEBUG applyPathToPango] Applied 5 path operations
+[DEBUG] Glyph 87 at (7487.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 32 at (7501.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 62 at (7515.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 64 at (7522.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 76 at (7557.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 73 at (7564.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 71 at (7578.00, 0.00): added 23 path segments
+[DEBUG applyPathToPango] Applied 23 path operations
+[DEBUG] Glyph 73 at (7585.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 86 at (7592.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 11 at (7599.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 81 at (7606.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (7613.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (7620.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (7627.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 15 at (7634.00, 0.00): added 8 path segments
+[DEBUG applyPathToPango] Applied 8 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 5 at (7648.00, 0.00): added 14 path segments
+[DEBUG applyPathToPango] Applied 14 path operations
+[DEBUG] Glyph 5 at (7655.00, 0.00): added 14 path segments
+[DEBUG applyPathToPango] Applied 14 path operations
+[DEBUG] Glyph 12 at (7662.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 29 at (7669.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 85 at (7732.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 72 at (7739.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 87 at (7746.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 88 at (7753.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 85 at (7760.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 81 at (7767.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 85 at (7781.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 72 at (7788.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 86 at (7795.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 88 at (7802.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 79 at (7809.00, 0.00): added 5 path segments
+[DEBUG applyPathToPango] Applied 5 path operations
+[DEBUG] Glyph 87 at (7816.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 62 at (7823.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 19 at (7830.00, 0.00): added 24 path segments
+[DEBUG applyPathToPango] Applied 24 path operations
+[DEBUG] Glyph 64 at (7837.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 72 at (7872.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 79 at (7879.00, 0.00): added 5 path segments
+[DEBUG applyPathToPango] Applied 5 path operations
+[DEBUG] Glyph 86 at (7886.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 72 at (7893.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 29 at (7900.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 85 at (7963.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 72 at (7970.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 87 at (7977.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 88 at (7984.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 85 at (7991.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 81 at (7998.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 5 at (8012.00, 0.00): added 14 path segments
+[DEBUG applyPathToPango] Applied 14 path operations
+[DEBUG] Glyph 7190 at (8019.00, 0.00): added 39 path segments
+[DEBUG applyPathToPango] Applied 39 path operations
+[DEBUG] Glyph 8971 at (8033.00, 0.00): added 57 path segments
+[DEBUG applyPathToPango] Applied 57 path operations
+[DEBUG] Glyph 5581 at (8047.00, 0.00): added 65 path segments
+[DEBUG applyPathToPango] Applied 65 path operations
+[DEBUG] Glyph 2150 at (8061.00, 0.00): added 67 path segments
+[DEBUG applyPathToPango] Applied 67 path operations
+[DEBUG] Glyph 21 at (8075.00, 0.00): added 22 path segments
+[DEBUG applyPathToPango] Applied 22 path operations
+[DEBUG] Glyph 23 at (8082.00, 0.00): added 16 path segments
+[DEBUG applyPathToPango] Applied 16 path operations
+[DEBUG] Glyph 4 at (8089.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 5 at (8096.00, 0.00): added 14 path segments
+[DEBUG applyPathToPango] Applied 14 path operations
+[DEBUG] Glyph 6 at (8103.00, 0.00): added 34 path segments
+[DEBUG applyPathToPango] Applied 34 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 17865 at (8117.00, 0.00): added 95 path segments
+[DEBUG applyPathToPango] Applied 95 path operations
+[DEBUG] Glyph 1947 at (8131.00, 0.00): added 13 path segments
+[DEBUG applyPathToPango] Applied 13 path operations
+[DEBUG] Glyph 7078 at (8145.00, 0.00): added 88 path segments
+[DEBUG applyPathToPango] Applied 88 path operations
+[DEBUG] Glyph 4493 at (8159.00, 0.00): added 45 path segments
+[DEBUG applyPathToPango] Applied 45 path operations
+[DEBUG] Glyph 81 at (8173.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (8180.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (8187.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (8194.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 32 at (8208.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 62 at (8222.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 21 at (8229.00, 0.00): added 22 path segments
+[DEBUG applyPathToPango] Applied 22 path operations
+[DEBUG] Glyph 19 at (8236.00, 0.00): added 24 path segments
+[DEBUG applyPathToPango] Applied 24 path operations
+[DEBUG] Glyph 15 at (8243.00, 0.00): added 8 path segments
+[DEBUG applyPathToPango] Applied 8 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 21 at (8257.00, 0.00): added 22 path segments
+[DEBUG applyPathToPango] Applied 22 path operations
+[DEBUG] Glyph 19 at (8264.00, 0.00): added 24 path segments
+[DEBUG applyPathToPango] Applied 24 path operations
+[DEBUG] Glyph 15 at (8271.00, 0.00): added 8 path segments
+[DEBUG applyPathToPango] Applied 8 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 21 at (8285.00, 0.00): added 22 path segments
+[DEBUG applyPathToPango] Applied 22 path operations
+[DEBUG] Glyph 15 at (8292.00, 0.00): added 8 path segments
+[DEBUG applyPathToPango] Applied 8 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 20 at (8306.00, 0.00): added 8 path segments
+[DEBUG applyPathToPango] Applied 8 path operations
+[DEBUG] Glyph 24 at (8313.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 64 at (8320.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 6 at (8327.00, 0.00): added 34 path segments
+[DEBUG applyPathToPango] Applied 34 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 16409 at (8341.00, 0.00): added 107 path segments
+[DEBUG applyPathToPango] Applied 107 path operations
+[DEBUG] Glyph 2025 at (8355.00, 0.00): added 43 path segments
+[DEBUG applyPathToPango] Applied 43 path operations
+[DEBUG] Glyph 21 at (8369.00, 0.00): added 22 path segments
+[DEBUG applyPathToPango] Applied 22 path operations
+[DEBUG] Glyph 23 at (8376.00, 0.00): added 16 path segments
+[DEBUG applyPathToPango] Applied 16 path operations
+[DEBUG] Glyph 9967 at (8383.00, 0.00): added 43 path segments
+[DEBUG applyPathToPango] Applied 43 path operations
+[DEBUG] Glyph 9326 at (8397.00, 0.00): added 101 path segments
+[DEBUG applyPathToPango] Applied 101 path operations
+[DEBUG] Glyph 6213 at (8411.00, 0.00): added 52 path segments
+[DEBUG applyPathToPango] Applied 52 path operations
+[DEBUG] Glyph 5292 at (8425.00, 0.00): added 40 path segments
+[DEBUG applyPathToPango] Applied 40 path operations
+[DEBUG] Glyph 17865 at (8439.00, 0.00): added 95 path segments
+[DEBUG applyPathToPango] Applied 95 path operations
+[DEBUG] Glyph 2096 at (8453.00, 0.00): added 41 path segments
+[DEBUG applyPathToPango] Applied 41 path operations
+[DEBUG] Glyph 4546 at (8467.00, 0.00): added 53 path segments
+[DEBUG applyPathToPango] Applied 53 path operations
+[DEBUG] Glyph 7082 at (8481.00, 0.00): added 92 path segments
+[DEBUG applyPathToPango] Applied 92 path operations
+[DEBUG] Glyph 16855 at (8495.00, 0.00): added 40 path segments
+[DEBUG applyPathToPango] Applied 40 path operations
+[DEBUG] Glyph 12749 at (8509.00, 0.00): added 79 path segments
+[DEBUG applyPathToPango] Applied 79 path operations
+[DEBUG] Glyph 17917 at (8523.00, 0.00): added 48 path segments
+[DEBUG applyPathToPango] Applied 48 path operations
+[DEBUG] Glyph 12353 at (8537.00, 0.00): added 76 path segments
+[DEBUG applyPathToPango] Applied 76 path operations
+[DEBUG] Glyph 86 at (8551.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 82 at (8558.00, 0.00): added 18 path segments
+[DEBUG applyPathToPango] Applied 18 path operations
+[DEBUG] Glyph 79 at (8565.00, 0.00): added 5 path segments
+[DEBUG applyPathToPango] Applied 5 path operations
+[DEBUG] Glyph 88 at (8572.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 87 at (8579.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 76 at (8586.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 82 at (8593.00, 0.00): added 18 path segments
+[DEBUG applyPathToPango] Applied 18 path operations
+[DEBUG] Glyph 81 at (8600.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 32 at (8614.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Skipping glyph 3: empty path
+[DEBUG] Glyph 86 at (8628.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 82 at (8635.00, 0.00): added 18 path segments
+[DEBUG applyPathToPango] Applied 18 path operations
+[DEBUG] Glyph 79 at (8642.00, 0.00): added 5 path segments
+[DEBUG applyPathToPango] Applied 5 path operations
+[DEBUG] Glyph 89 at (8649.00, 0.00): added 9 path segments
+[DEBUG applyPathToPango] Applied 9 path operations
+[DEBUG] Glyph 72 at (8656.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 21 at (8663.00, 0.00): added 22 path segments
+[DEBUG applyPathToPango] Applied 22 path operations
+[DEBUG] Glyph 23 at (8670.00, 0.00): added 16 path segments
+[DEBUG applyPathToPango] Applied 16 path operations
+[DEBUG] Glyph 11 at (8677.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 81 at (8684.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 88 at (8691.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 80 at (8698.00, 0.00): added 28 path segments
+[DEBUG applyPathToPango] Applied 28 path operations
+[DEBUG] Glyph 86 at (8705.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 12 at (8712.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 83 at (8719.00, 0.00): added 23 path segments
+[DEBUG applyPathToPango] Applied 23 path operations
+[DEBUG] Glyph 85 at (8726.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 76 at (8733.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 81 at (8740.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 87 at (8747.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 11 at (8754.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+[DEBUG] Glyph 86 at (8761.00, 0.00): added 27 path segments
+[DEBUG applyPathToPango] Applied 27 path operations
+[DEBUG] Glyph 82 at (8768.00, 0.00): added 18 path segments
+[DEBUG applyPathToPango] Applied 18 path operations
+[DEBUG] Glyph 79 at (8775.00, 0.00): added 5 path segments
+[DEBUG applyPathToPango] Applied 5 path operations
+[DEBUG] Glyph 88 at (8782.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 87 at (8789.00, 0.00): added 21 path segments
+[DEBUG applyPathToPango] Applied 21 path operations
+[DEBUG] Glyph 76 at (8796.00, 0.00): added 10 path segments
+[DEBUG applyPathToPango] Applied 10 path operations
+[DEBUG] Glyph 82 at (8803.00, 0.00): added 18 path segments
+[DEBUG applyPathToPango] Applied 18 path operations
+[DEBUG] Glyph 81 at (8810.00, 0.00): added 17 path segments
+[DEBUG applyPathToPango] Applied 17 path operations
+[DEBUG] Glyph 12 at (8817.00, 0.00): added 11 path segments
+[DEBUG applyPathToPango] Applied 11 path operations
+
+
+Status: SUCCESS

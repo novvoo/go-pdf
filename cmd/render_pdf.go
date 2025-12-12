@@ -4,79 +4,192 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
-	"log"
+	"io"
 	"os"
+	"path/filepath"
+	"time"
 
 	"github.com/novvoo/go-pdf/pkg/gopdf"
-
-	"github.com/novvoo/go-cairo/pkg/cairo"
+	"github.com/novvoo/go-pdf/test"
 )
 
 func main() {
-	fmt.Println("🎨 Rendering PDF to PNG")
-	fmt.Println("=" + string(make([]byte, 50)))
+	// 固定使用 test_vector.pdf
+	pdfPath := "test/test_vector.pdf"
+	outputPath := "test/test_vector.png"
+	reportPath := "test/render_vector.txt"
 
-	// 优先使用简单 PDF，然后矢量 PDF，最后 test.pdf
-	pdfPath := "test_vector.pdf"
-	if !fileExists(pdfPath) {
-		pdfPath = "test_vector.pdf"
-		if !fileExists(pdfPath) {
-			pdfPath = "test.pdf"
-		}
-	}
+	// 立即重定向所有输出到缓冲区，确保终端完全静默
+	oldStdout := os.Stdout
+	oldStderr := os.Stderr
+	r, w, _ := os.Pipe()
+	os.Stdout = w
+	os.Stderr = w
 
-	outputPath := "test.png"
-	rendered := false
+	// 同时重定向gopdf的debug输出到io.Discard，避免任何输出到终端
+	gopdf.SetDebugOutput(io.Discard)
 
-	fmt.Printf("📄 Using PDF: %s\n", pdfPath)
+	// 在后台读取输出
+	outputChan := make(chan string)
+	go func() {
+		var buf bytes.Buffer
+		io.Copy(&buf, r)
+		outputChan <- buf.String()
+	}()
 
-	// 方法 1: 尝试使用 pdfcpu + go-cairo 渲染真实的 PDF
-	fmt.Println("\n📖 Attempting to render PDF using pdfcpu + go-cairo...")
+	var report string
+	report += "PDF Rendering Report\n"
+	report += "====================\n"
+	report += fmt.Sprintf("Time: %s\n\n", time.Now().Format("2006-01-02 15:04:05"))
 
-	if fileExists(pdfPath) {
-		reader := gopdf.NewPDFReader(pdfPath)
-		err := reader.RenderPageToPNG(1, outputPath, 150)
-		if err != nil {
-			fmt.Printf("⚠️  pdfcpu rendering failed: %v\n", err)
-		} else {
-			fmt.Printf("✅ PDF rendered successfully with pdfcpu: %s\n", outputPath)
-			rendered = true
+	// 测试 parseTokens 函数
+	report += "ParseTokens Test:\n"
+	report += "-----------------\n"
+	testTokens := []string{"q", "1", "0", "0", "1", "100", "200", "cm", "Q"}
+	if ops, err := gopdf.ParseTokens(testTokens); err == nil {
+		report += fmt.Sprintf("✅ ParseTokens test passed: %d operators parsed\n", len(ops))
+		for i, op := range ops {
+			report += fmt.Sprintf("  [%d] %s\n", i+1, op.Name())
 		}
 	} else {
-		fmt.Printf("⚠️  PDF file not found: %s\n", pdfPath)
+		report += fmt.Sprintf("❌ ParseTokens test failed: %v\n", err)
 	}
+	report += "\n"
 
-	// 方法 2: 如果系统工具不可用，使用 go-cairo 创建演示内容
-	if !rendered {
-		fmt.Println("\n📄 System tools not available, creating demo content with go-cairo...")
-
-		renderer := gopdf.NewPDFRenderer(600, 800)
-		renderer.SetDPI(150)
-
-		err := renderer.RenderToPNG(outputPath, drawTestContent)
-		if err != nil {
-			log.Fatalf("❌ Failed to create PNG: %v", err)
-		}
-		fmt.Printf("✅ Demo PNG created: %s\n", outputPath)
-		rendered = true
-	}
-
-	fmt.Println("\n" + string(make([]byte, 50)))
-	if rendered {
-		fmt.Println("🎉 Rendering completed!")
-		fmt.Printf("📁 Output: %s\n", outputPath)
-	} else {
-		fmt.Println("❌ Failed to render image")
-	}
-
+	// 检查 PDF 文件是否存在
 	if !fileExists(pdfPath) {
-		fmt.Println("\n💡 Note: test.pdf not found.")
-		fmt.Println("   This demo uses pdfcpu + go-cairo for PDF rendering (pure Go solution)")
-		fmt.Println("   Alternative options:")
-		fmt.Println("   1. ImageMagick: magick convert -density 150 your.pdf[0] test.png")
-		fmt.Println("   2. poppler-utils: pdftoppm -png -singlefile -r 150 your.pdf test")
+		report += fmt.Sprintf("❌ Error: PDF file not found: %s\n", pdfPath)
+		w.Close()
+		os.Stdout = oldStdout
+		os.Stderr = oldStderr
+		<-outputChan
+		writeReport(reportPath, report)
+		return
 	}
+
+	report += fmt.Sprintf("📄 Input PDF: %s\n", pdfPath)
+	report += fmt.Sprintf("📁 Output PNG: %s\n\n", outputPath)
+
+	// 使用测试模块进行渲染调试
+	report += "Rendering Process:\n"
+	report += "------------------\n"
+
+	// 执行渲染
+	result := test.RenderTestVectorPDF(pdfPath, outputPath)
+
+	// 恢复标准输出和标准错误
+	w.Close()
+	os.Stdout = oldStdout
+	os.Stderr = oldStderr
+
+	// 获取捕获的输出
+	capturedOutput := <-outputChan
+
+	if result.Error != nil {
+		report += fmt.Sprintf("❌ Rendering failed: %v\n", result.Error)
+		report += fmt.Sprintf("\nDebug Info:\n%s\n", result.DebugInfo)
+		if capturedOutput != "" {
+			report += fmt.Sprintf("\nCaptured Output:\n%s\n", capturedOutput)
+		}
+		writeReport(reportPath, report)
+		return
+	}
+
+	report += "✅ PDF rendered successfully\n"
+	report += fmt.Sprintf("✅ Output saved to: %s\n\n", outputPath)
+
+	// 获取输出文件信息
+	if fileInfo, err := os.Stat(outputPath); err == nil {
+		report += "Output File Info:\n"
+		report += "-----------------\n"
+		report += fmt.Sprintf("Size: %d bytes\n", fileInfo.Size())
+		report += fmt.Sprintf("Created: %s\n\n", fileInfo.ModTime().Format("2006-01-02 15:04:05"))
+	}
+
+	// 添加页面信息
+	report += "Page Information:\n"
+	report += "-----------------\n"
+	report += fmt.Sprintf("Page Size: %.2f x %.2f points\n", result.PageWidth, result.PageHeight)
+	report += fmt.Sprintf("Page Size: %.2f x %.2f inches\n\n", result.PageWidth/72, result.PageHeight/72)
+
+	// 添加字体信息
+	report += "\n"
+	fontReport := test.ExtractFontInfoForReport(pdfPath, 1)
+	report += fontReport
+
+	// 添加 ExtractPageElements 测试结果
+	report += "\n"
+	report += "ExtractPageElements Test:\n"
+	report += "=========================\n"
+	extractReport := test.ExtractPageElementsForReport(pdfPath, 1)
+	report += extractReport
+
+	// 添加文本元素信息
+	if len(result.TextElements) > 0 {
+		report += "Text Elements:\n"
+		report += "--------------\n"
+		report += fmt.Sprintf("Total text elements: %d\n\n", len(result.TextElements))
+
+		// 显示前 50 个文本元素
+		maxDisplay := 50
+		if len(result.TextElements) < maxDisplay {
+			maxDisplay = len(result.TextElements)
+		}
+
+		for i := 0; i < maxDisplay; i++ {
+			te := result.TextElements[i]
+			report += fmt.Sprintf("[%d] Position: (%.2f, %.2f)\n", i+1, te.X, te.Y)
+			report += fmt.Sprintf("    Font: %s, Size: %.2f\n", te.FontName, te.FontSize)
+			// 限制文本长度
+			displayText := te.Text
+			if len(displayText) > 100 {
+				displayText = displayText[:100] + "..."
+			}
+			report += fmt.Sprintf("    Text: %q\n\n", displayText)
+		}
+
+		if len(result.TextElements) > maxDisplay {
+			report += fmt.Sprintf("... and %d more text elements\n\n", len(result.TextElements)-maxDisplay)
+		}
+	} else {
+		report += "Text Elements: None found\n\n"
+	}
+
+	// 添加图片元素信息
+	if len(result.Images) > 0 {
+		report += "Image Elements:\n"
+		report += "---------------\n"
+		report += fmt.Sprintf("Total images: %d\n\n", len(result.Images))
+
+		for i, img := range result.Images {
+			report += fmt.Sprintf("[%d] Name: %s\n", i+1, img.Name)
+			report += fmt.Sprintf("    Position: (%.2f, %.2f)\n", img.X, img.Y)
+			report += fmt.Sprintf("    Size: %.2f x %.2f\n\n", img.Width, img.Height)
+		}
+	} else {
+		report += "Image Elements: None found\n\n"
+	}
+
+	// 添加调试信息
+	if result.DebugInfo != "" {
+		report += "Debug Information:\n"
+		report += "------------------\n"
+		report += result.DebugInfo + "\n\n"
+	}
+
+	// 添加捕获的输出（包括 C 库的 DEBUG 信息）
+	if capturedOutput != "" {
+		report += "Detailed Debug Output:\n"
+		report += "----------------------\n"
+		report += capturedOutput + "\n\n"
+	}
+
+	report += "Status: SUCCESS\n"
+
+	// 写入报告
+	writeReport(reportPath, report)
 }
 
 // fileExists 检查文件是否存在
@@ -85,109 +198,14 @@ func fileExists(path string) bool {
 	return err == nil
 }
 
-func drawTestContent(ctx cairo.Context) {
-	// 这个函数被 RenderToPDF 和 RenderToPNG 共用
-	// 绘制标题
-	ctx.SetSourceRGB(0.1, 0.1, 0.1)
-	layout := ctx.PangoCairoCreateLayout().(*cairo.PangoCairoLayout)
-	fontDesc := cairo.NewPangoFontDescription()
-	fontDesc.SetFamily("sans-serif")
-	fontDesc.SetSize(36)
-	fontDesc.SetWeight(cairo.PangoWeightBold)
-	layout.SetFontDescription(fontDesc)
-	layout.SetText("Test PDF Rendering")
-
-	ctx.MoveTo(50, 50)
-	ctx.PangoCairoShowText(layout)
-
-	// 绘制副标题
-	fontDesc.SetSize(18)
-	fontDesc.SetWeight(cairo.PangoWeightNormal)
-	layout.SetFontDescription(fontDesc)
-	layout.SetText("This is a demonstration of PDF rendering capabilities")
-	ctx.SetSourceRGB(0.4, 0.4, 0.4)
-	ctx.MoveTo(50, 110)
-	ctx.PangoCairoShowText(layout)
-
-	// 绘制分隔线
-	ctx.SetSourceRGB(0.2, 0.4, 0.8)
-	ctx.SetLineWidth(2)
-	ctx.MoveTo(50, 150)
-	ctx.LineTo(550, 150)
-	ctx.Stroke()
-
-	// 绘制一些图形示例
-	// 矩形
-	ctx.SetSourceRGB(0.9, 0.3, 0.3)
-	ctx.Rectangle(50, 180, 120, 80)
-	ctx.Fill()
-
-	ctx.SetSourceRGB(0, 0, 0)
-	fontDesc.SetSize(14)
-	layout.SetFontDescription(fontDesc)
-	layout.SetText("Rectangle")
-	ctx.MoveTo(60, 280)
-	ctx.PangoCairoShowText(layout)
-
-	// 圆形
-	ctx.SetSourceRGB(0.3, 0.9, 0.3)
-	ctx.Arc(280, 220, 40, 0, 6.28318530718)
-	ctx.Fill()
-
-	layout.SetText("Circle")
-	ctx.MoveTo(250, 280)
-	ctx.PangoCairoShowText(layout)
-
-	// 线条
-	ctx.SetSourceRGB(0.3, 0.3, 0.9)
-	ctx.SetLineWidth(5)
-	ctx.MoveTo(380, 180)
-	ctx.LineTo(500, 260)
-	ctx.Stroke()
-
-	layout.SetText("Line")
-	ctx.MoveTo(420, 280)
-	ctx.PangoCairoShowText(layout)
-
-	// 绘制文本框
-	ctx.SetSourceRGB(0.95, 0.95, 0.95)
-	ctx.Rectangle(50, 320, 500, 150)
-	ctx.Fill()
-
-	ctx.SetSourceRGB(0, 0, 0)
-	ctx.SetLineWidth(1)
-	ctx.Rectangle(50, 320, 500, 150)
-	ctx.Stroke()
-
-	fontDesc.SetSize(16)
-	layout.SetFontDescription(fontDesc)
-	layout.SetText("PDF Rendering Features:")
-	ctx.MoveTo(70, 340)
-	ctx.PangoCairoShowText(layout)
-
-	fontDesc.SetSize(14)
-	layout.SetFontDescription(fontDesc)
-
-	features := []string{
-		"✓ Vector graphics rendering",
-		"✓ Text with custom fonts",
-		"✓ Multiple shapes and colors",
-		"✓ High-quality output",
+// writeReport 写入报告文件（静默模式，不输出任何信息）
+func writeReport(path string, content string) {
+	dir := filepath.Dir(path)
+	if err := os.MkdirAll(dir, 0755); err != nil {
+		// 静默失败，不输出任何信息
+		return
 	}
 
-	y := 370.0
-	for _, feature := range features {
-		layout.SetText(feature)
-		ctx.MoveTo(90, y)
-		ctx.PangoCairoShowText(layout)
-		y += 30
-	}
-
-	// 底部信息
-	ctx.SetSourceRGB(0.5, 0.5, 0.5)
-	fontDesc.SetSize(12)
-	layout.SetFontDescription(fontDesc)
-	layout.SetText("Generated with go-cairo library • https://github.com/novvoo/go-cairo")
-	ctx.MoveTo(50, 750)
-	ctx.PangoCairoShowText(layout)
+	// 静默写入，不输出任何信息
+	os.WriteFile(path, []byte(content), 0644)
 }

@@ -187,6 +187,293 @@ func (r *PDFReader) GetPageCount() (int, error) {
 	return api.PageCountFile(r.pdfPath)
 }
 
+// PageInfo 页面信息
+type PageInfo struct {
+	Width  float64
+	Height float64
+}
+
+// TextElementInfo 文本元素信息
+type TextElementInfo struct {
+	Text     string
+	X        float64
+	Y        float64
+	FontName string
+	FontSize float64
+}
+
+// ImageElementInfo 图片元素信息
+type ImageElementInfo struct {
+	Name   string
+	X      float64
+	Y      float64
+	Width  float64
+	Height float64
+}
+
+// GetPageInfo 获取页面信息
+func (r *PDFReader) GetPageInfo(pageNum int) (PageInfo, error) {
+	pageDims, err := api.PageDimsFile(r.pdfPath)
+	if err != nil {
+		return PageInfo{}, fmt.Errorf("failed to get page dimensions: %w", err)
+	}
+
+	if pageNum < 1 || pageNum > len(pageDims) {
+		return PageInfo{Width: 612, Height: 792}, nil // 默认 Letter 尺寸
+	}
+
+	dim := pageDims[pageNum-1]
+	return PageInfo{
+		Width:  dim.Width,
+		Height: dim.Height,
+	}, nil
+}
+
+// ExtractPageElements 提取页面中的文本和图片元素
+func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []ImageElementInfo) {
+	var textElements []TextElementInfo
+	var imageElements []ImageElementInfo
+
+	// 打开 PDF 文件并读取上下文
+	ctx, err := api.ReadContextFile(r.pdfPath)
+	if err != nil {
+		debugPrintf("Failed to read PDF context: %v\n", err)
+		return textElements, imageElements
+	}
+
+	// 获取页面字典
+	pageDict, _, _, err := ctx.PageDict(pageNum, false)
+	if err != nil {
+		debugPrintf("Failed to get page dict: %v\n", err)
+		return textElements, imageElements
+	}
+
+	// 获取页面尺寸
+	pageInfo, _ := r.GetPageInfo(pageNum)
+
+	// 提取资源
+	resources := NewResources()
+	if resourcesObj, found := pageDict.Find("Resources"); found {
+		if err := loadResources(ctx, resourcesObj, resources); err != nil {
+			debugPrintf("Failed to load resources: %v\n", err)
+		}
+	}
+
+	// 提取内容流
+	contents, found := pageDict.Find("Contents")
+	if !found {
+		return textElements, imageElements
+	}
+
+	contentStreams, err := extractContentStreams(ctx, contents)
+	if err != nil {
+		debugPrintf("Failed to extract content streams: %v\n", err)
+		return textElements, imageElements
+	}
+
+	// 合并所有内容流
+	var allContent []byte
+	for _, stream := range contentStreams {
+		allContent = append(allContent, stream...)
+		allContent = append(allContent, '\n')
+	}
+
+	// 解析操作符
+	operators, err := ParseContentStream(allContent)
+	if err != nil {
+		debugPrintf("Failed to parse content stream: %v\n", err)
+		return textElements, imageElements
+	}
+
+	// 分析操作符以提取文本和图片信息
+	currentFont := ""
+	baseFontSize := 0.0                   // Tf 操作符设置的基础字体大小
+	currentMatrix := &Matrix{A: 1, D: 1}  // 单位矩阵
+	textLineMatrix := &Matrix{A: 1, D: 1} // 文本行矩阵
+	ctm := NewIdentityMatrix()            // 当前变换矩阵 (Current Transformation Matrix)
+
+	for _, op := range operators {
+		// 跳过忽略的操作符
+		if op.Name() == "IGNORE" {
+			continue
+		}
+
+		switch op.Name() {
+		case "BT": // 开始文本对象
+			// 重置文本矩阵和文本行矩阵为单位矩阵
+			currentMatrix = &Matrix{A: 1, D: 1}
+			textLineMatrix = &Matrix{A: 1, D: 1}
+			debugPrintf("[DEBUG] BT operator: Reset text matrices\n")
+
+		case "ET": // 结束文本对象
+			debugPrintf("[DEBUG] ET operator: End text object\n")
+
+		case "Tf": // 设置字体
+			if tfOp, ok := op.(*OpSetFont); ok {
+				currentFont = tfOp.FontName
+				baseFontSize = tfOp.FontSize
+				debugPrintf("[DEBUG] Tf operator: Font=%s, Size=%.2f\n", currentFont, baseFontSize)
+			}
+
+		case "Tm": // 设置文本矩阵
+			if tmOp, ok := op.(*OpSetTextMatrix); ok {
+				currentMatrix = tmOp.Matrix.Clone()
+				textLineMatrix = tmOp.Matrix.Clone()
+				debugPrintf("[DEBUG] Tm operator: Matrix=%s\n", currentMatrix.String())
+			}
+
+		case "cm": // 连接变换矩阵
+			if cmOp, ok := op.(*OpConcatMatrix); ok {
+				// 更新当前变换矩阵：CTM' = cm × CTM
+				ctm = cmOp.Matrix.Multiply(ctm)
+				debugPrintf("[DEBUG] cm operator: Matrix=%s, new CTM=%s\n", cmOp.Matrix.String(), ctm.String())
+			}
+
+		case "Td": // 文本位置偏移
+			if tdOp, ok := op.(*OpMoveTextPosition); ok {
+				translation := &Matrix{A: 1, D: 1, E: tdOp.Tx, F: tdOp.Ty}
+				textLineMatrix = translation.Multiply(textLineMatrix)
+				currentMatrix = textLineMatrix.Clone()
+				debugPrintf("[DEBUG] Td operator: Tx=%.2f, Ty=%.2f, new E=%.2f, F=%.2f\n",
+					tdOp.Tx, tdOp.Ty, currentMatrix.E, currentMatrix.F)
+			}
+
+		case "Tj", "TJ", "'", "\"": // 显示文本
+			var text string
+			var textArray []interface{}
+
+			switch t := op.(type) {
+			case *OpShowText:
+				text = t.Text
+			case *OpShowTextArray:
+				textArray = t.Array
+				for _, elem := range t.Array {
+					if s, ok := elem.(string); ok {
+						text += s
+					}
+				}
+			case *OpShowTextNextLine:
+				text = t.Text
+			case *OpShowTextWithSpacing:
+				text = t.Text
+			}
+
+			// 解码文本（处理CID字体和十六进制字符串）
+			if text != "" {
+				font := resources.GetFont(currentFont)
+				if font != nil {
+					text = decodeTextStringWithFontAndIdentity(text, font.ToUnicodeMap, font.IsIdentity)
+				} else {
+					text = decodeTextString(text)
+				}
+			}
+
+			if text != "" && currentMatrix != nil {
+				// 应用当前变换矩阵 (CTM) 到文本矩阵
+				// 根据 PDF 规范：最终坐标 = (x, y) × Tm × CTM
+				// 这里文本位置是 (0, 0)，所以最终位置就是 CTM × Tm 的平移部分
+				finalMatrix := ctm.Multiply(currentMatrix)
+
+				// PDF 坐标系：左下角为原点，Y 轴向上
+				// 转换为屏幕坐标系：左上角为原点，Y 轴向下
+				x := finalMatrix.E
+				y := pageInfo.Height - finalMatrix.F
+
+				// 计算有效字体大小：基础大小 * 文本矩阵的垂直缩放
+				// 文本矩阵的 D 分量表示垂直缩放
+				// 特殊情况：如果 Tf 设置的字体大小为 0，则直接使用文本矩阵的缩放作为字体大小
+				effectiveFontSize := baseFontSize
+				if currentMatrix != nil {
+					scale := currentMatrix.D
+					if scale < 0 {
+						scale = -scale
+					}
+					if baseFontSize == 0 {
+						// 当 Tf 设置字体大小为 0 时，字体大小完全由文本矩阵决定
+						effectiveFontSize = scale
+					} else {
+						effectiveFontSize = baseFontSize * scale
+					}
+				}
+
+				debugPrintf("[DEBUG] Text element: baseFontSize=%.2f, scale=%.2f, effectiveFontSize=%.2f\n",
+					baseFontSize, currentMatrix.D, effectiveFontSize)
+
+				textElements = append(textElements, TextElementInfo{
+					Text:     text,
+					X:        x,
+					Y:        y,
+					FontName: currentFont,
+					FontSize: effectiveFontSize,
+				})
+
+				// 更新文本矩阵：显示文本后，文本位置会向右移动
+				// 计算文本宽度（估算）
+				var textDisplacement float64
+
+				if textArray != nil {
+					// TJ 操作符：处理文本数组和字距调整
+					xOffset := 0.0
+					for _, item := range textArray {
+						switch v := item.(type) {
+						case string:
+							// 解码并计算文本宽度
+							decodedText := ""
+							font := resources.GetFont(currentFont)
+							if font != nil {
+								decodedText = decodeTextStringWithFontAndIdentity(v, font.ToUnicodeMap, font.IsIdentity)
+							} else {
+								decodedText = decodeTextString(v)
+							}
+							if decodedText != "" {
+								runeCount := float64(len([]rune(decodedText)))
+								xOffset += runeCount * effectiveFontSize * 0.5
+							}
+						case float64:
+							// 字距调整：负值向右移动，正值向左移动
+							xOffset -= v * effectiveFontSize / 1000.0
+						case int:
+							xOffset -= float64(v) * effectiveFontSize / 1000.0
+						}
+					}
+					textDisplacement = xOffset
+				} else {
+					// Tj 操作符：简单文本
+					runeCount := float64(len([]rune(text)))
+					textDisplacement = runeCount * effectiveFontSize * 0.5
+				}
+
+				// 更新文本矩阵
+				if textDisplacement != 0 {
+					translation := &Matrix{A: 1, D: 1, E: textDisplacement, F: 0}
+					currentMatrix = currentMatrix.Multiply(translation)
+					debugPrintf("[DEBUG] Updated text matrix after rendering: E=%.2f\n", currentMatrix.E)
+				}
+			}
+
+		case "Do": // 绘制 XObject（可能是图片）
+			if doOp, ok := op.(*OpDoXObject); ok {
+				xobj := resources.GetXObject(doOp.XObjectName)
+				if xobj != nil && xobj.Subtype == "/Image" {
+					// 获取当前变换矩阵来确定图片位置
+					x := currentMatrix.E
+					y := pageInfo.Height - currentMatrix.F
+
+					imageElements = append(imageElements, ImageElementInfo{
+						Name:   doOp.XObjectName,
+						X:      x,
+						Y:      y,
+						Width:  float64(xobj.Width),
+						Height: float64(xobj.Height),
+					})
+				}
+			}
+		}
+	}
+
+	return textElements, imageElements
+}
+
 // RenderAllPagesToPNG 将所有页面渲染为 PNG 文件
 func (r *PDFReader) RenderAllPagesToPNG(outputDir string, dpi float64) error {
 	pageCount, err := r.GetPageCount()
@@ -227,6 +514,10 @@ func renderPDFPageToCairo(pdfPath string, pageNum int, cairoCtx cairo.Context, w
 	cairoCtx.Save()
 	defer cairoCtx.Restore()
 
+	// 设置裁剪区域，防止内容超出页面边界
+	cairoCtx.Rectangle(0, 0, width, height)
+	cairoCtx.Clip()
+
 	// PDF 坐标系转换：PDF 使用左下角为原点，Y 轴向上
 	// Cairo 使用左上角为原点，Y 轴向下
 	// 需要翻转 Y 轴并平移
@@ -235,7 +526,7 @@ func renderPDFPageToCairo(pdfPath string, pageNum int, cairoCtx cairo.Context, w
 
 	// 处理页面的 MediaBox, CropBox, Rotate 等属性
 	if err := applyPageTransformations(pageDict, cairoCtx, width, height); err != nil {
-		fmt.Printf("Warning: failed to apply page transformations: %v\n", err)
+		debugPrintf("Warning: failed to apply page transformations: %v\n", err)
 	}
 
 	// 创建渲染上下文
@@ -244,14 +535,14 @@ func renderPDFPageToCairo(pdfPath string, pageNum int, cairoCtx cairo.Context, w
 	// 提取页面资源
 	if resourcesObj, found := pageDict.Find("Resources"); found {
 		if err := loadResources(ctx, resourcesObj, renderCtx.Resources); err != nil {
-			fmt.Printf("Warning: failed to load resources: %v\n", err)
+			debugPrintf("Warning: failed to load resources: %v\n", err)
 		}
 	}
 
 	// 提取页面内容流
 	contents, found := pageDict.Find("Contents")
 	if !found {
-		fmt.Println("⚠️  Page has no Contents entry")
+		debugPrintln("⚠️  Page has no Contents entry")
 		return nil
 	}
 
@@ -270,7 +561,7 @@ func renderPDFPageToCairo(pdfPath string, pageNum int, cairoCtx cairo.Context, w
 
 	// 如果内容流为空或太小，PDF 可能没有矢量内容
 	if len(allContent) < 10 {
-		fmt.Println("⚠️  Content stream is empty or too small, PDF may have no vector content")
+		debugPrintln("⚠️  Content stream is empty or too small, PDF may have no vector content")
 		return nil
 	}
 
@@ -281,22 +572,27 @@ func renderPDFPageToCairo(pdfPath string, pageNum int, cairoCtx cairo.Context, w
 	}
 
 	// 执行所有操作符
-	fmt.Printf("📊 Executing %d PDF operators...\n", len(operators))
+	debugPrintf("📊 Executing %d PDF operators...\n", len(operators))
 
 	opCount := make(map[string]int)
 	for _, op := range operators {
+		// 跳过忽略的操作符
+		if op.Name() == "IGNORE" {
+			continue
+		}
+
 		opCount[op.Name()]++
 		if err := op.Execute(renderCtx); err != nil {
 			// 继续执行，不中断渲染
-			fmt.Printf("⚠️  Operator %s failed: %v\n", op.Name(), err)
+			debugPrintf("⚠️  Operator %s failed: %v\n", op.Name(), err)
 		}
 	}
 
 	// 显示操作符统计
-	fmt.Println("\n📈 Operator Statistics:")
+	debugPrintln("\n📈 Operator Statistics:")
 	for opName, count := range opCount {
 		if count > 0 {
-			fmt.Printf("   %s: %d\n", opName, count)
+			debugPrintf("   %s: %d\n", opName, count)
 		}
 	}
 
@@ -368,46 +664,46 @@ func extractContentStreams(ctx *model.Context, contents types.Object) ([][]byte,
 		if err != nil {
 			return nil, fmt.Errorf("failed to dereference contents: %w", err)
 		}
-		fmt.Printf("   Dereferenced to: %T\n", derefObj)
+		debugPrintf("   Dereferenced to: %T\n", derefObj)
 		return extractContentStreams(ctx, derefObj)
 
 	case types.StreamDict:
 		// 单个流
-		fmt.Printf("   Decoding StreamDict...\n")
-		fmt.Printf("   Raw: %d bytes, Content: %d bytes\n", len(obj.Raw), len(obj.Content))
+		debugPrintf("   Decoding StreamDict...\n")
+		debugPrintf("   Raw: %d bytes, Content: %d bytes\n", len(obj.Raw), len(obj.Content))
 
 		// 如果 Content 为空但 Raw 不为空，需要解码
 		if len(obj.Content) == 0 && len(obj.Raw) > 0 {
-			fmt.Printf("   Calling Decode()...\n")
+			debugPrintf("   Calling Decode()...\n")
 			err := obj.Decode()
 			if err != nil {
-				fmt.Printf("   ⚠️  Decode error: %v\n", err)
+				debugPrintf("   ⚠️  Decode error: %v\n", err)
 				return nil, fmt.Errorf("failed to decode stream: %w", err)
 			}
-			fmt.Printf("   ✓ After decode: %d bytes\n", len(obj.Content))
+			debugPrintf("   ✓ After decode: %d bytes\n", len(obj.Content))
 		}
 
 		if len(obj.Content) > 0 {
 			streams = append(streams, obj.Content)
 		} else {
-			fmt.Printf("   ⚠️  No content available\n")
+			debugPrintf("   ⚠️  No content available\n")
 		}
 
 	case types.Array:
 		// 多个流
-		fmt.Printf("   Processing array with %d items\n", len(obj))
+		debugPrintf("   Processing array with %d items\n", len(obj))
 		for i, item := range obj {
-			fmt.Printf("   Array item %d: %T\n", i, item)
+			debugPrintf("   Array item %d: %T\n", i, item)
 			itemStreams, err := extractContentStreams(ctx, item)
 			if err == nil {
 				streams = append(streams, itemStreams...)
 			} else {
-				fmt.Printf("   ⚠️  Error extracting item %d: %v\n", i, err)
+				debugPrintf("   ⚠️  Error extracting item %d: %v\n", i, err)
 			}
 		}
 
 	default:
-		fmt.Printf("   ⚠️  Unknown contents type: %T\n", obj)
+		debugPrintf("   ⚠️  Unknown contents type: %T\n", obj)
 	}
 
 	return streams, nil
@@ -434,7 +730,7 @@ func loadResources(ctx *model.Context, resourcesObj types.Object, resources *Res
 		if fontsDict, ok := fontsObj.(types.Dict); ok {
 			for fontName, fontObj := range fontsDict {
 				if err := loadFont(ctx, fontName, fontObj, resources); err != nil {
-					fmt.Printf("Warning: failed to load font %s: %v\n", fontName, err)
+					debugPrintf("Warning: failed to load font %s: %v\n", fontName, err)
 				}
 			}
 		}
@@ -445,7 +741,7 @@ func loadResources(ctx *model.Context, resourcesObj types.Object, resources *Res
 		if xobjectsDict, ok := xobjectsObj.(types.Dict); ok {
 			for xobjName, xobjObj := range xobjectsDict {
 				if err := loadXObject(ctx, xobjName, xobjObj, resources); err != nil {
-					fmt.Printf("Warning: failed to load XObject %s: %v\n", xobjName, err)
+					debugPrintf("Warning: failed to load XObject %s: %v\n", xobjName, err)
 				}
 			}
 		}
@@ -456,7 +752,7 @@ func loadResources(ctx *model.Context, resourcesObj types.Object, resources *Res
 		if extGStateDict, ok := extGStateObj.(types.Dict); ok {
 			for gsName, gsObj := range extGStateDict {
 				if err := loadExtGState(ctx, gsName, gsObj, resources); err != nil {
-					fmt.Printf("Warning: failed to load ExtGState %s: %v\n", gsName, err)
+					debugPrintf("Warning: failed to load ExtGState %s: %v\n", gsName, err)
 				}
 			}
 		}
@@ -503,6 +799,39 @@ func loadFont(ctx *model.Context, fontName string, fontObj types.Object, resourc
 		}
 	}
 
+	// 加载字体文件数据（用于嵌入字体）
+	if fontDescriptorObj, found := fontDict.Find("FontDescriptor"); found {
+		if indRef, ok := fontDescriptorObj.(types.IndirectRef); ok {
+			derefObj, err := ctx.Dereference(indRef)
+			if err == nil {
+				if fontDescriptorDict, ok := derefObj.(types.Dict); ok {
+					// 尝试加载 FontFile2 (TTF) 或 FontFile3 (CFF)
+					if fontFileObj, found := fontDescriptorDict.Find("FontFile2"); found {
+						if fontFileRef, ok := fontFileObj.(types.IndirectRef); ok {
+							fontFileData, err := loadFontFileData(ctx, fontFileRef)
+							if err == nil {
+								font.EmbeddedFontData = fontFileData
+								debugPrintf("✓ Loaded embedded TTF font data for font %s (%d bytes)\n", fontName, len(fontFileData))
+							} else {
+								debugPrintf("Warning: failed to load FontFile2 data for font %s: %v\n", fontName, err)
+							}
+						}
+					} else if fontFileObj, found := fontDescriptorDict.Find("FontFile3"); found {
+						if fontFileRef, ok := fontFileObj.(types.IndirectRef); ok {
+							fontFileData, err := loadFontFileData(ctx, fontFileRef)
+							if err == nil {
+								font.EmbeddedFontData = fontFileData
+								debugPrintf("✓ Loaded embedded CFF font data for font %s (%d bytes)\n", fontName, len(fontFileData))
+							} else {
+								debugPrintf("Warning: failed to load FontFile3 data for font %s: %v\n", fontName, err)
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
 	// 加载 ToUnicode CMap（用于 CID 字体）
 	if toUnicodeObj, found := fontDict.Find("ToUnicode"); found {
 		if indRef, ok := toUnicodeObj.(types.IndirectRef); ok {
@@ -514,7 +843,7 @@ func loadFont(ctx *model.Context, fontName string, fontObj types.Object, resourc
 					if len(streamDict.Content) == 0 && len(streamDict.Raw) > 0 {
 						err := streamDict.Decode()
 						if err != nil {
-							fmt.Printf("Warning: failed to decode ToUnicode stream for font %s: %v\n", fontName, err)
+							debugPrintf("Warning: failed to decode ToUnicode stream for font %s: %v\n", fontName, err)
 						}
 					}
 
@@ -523,15 +852,24 @@ func loadFont(ctx *model.Context, fontName string, fontObj types.Object, resourc
 						cidMap, err := ParseToUnicodeCMap(streamDict.Content)
 						if err == nil {
 							font.ToUnicodeMap = cidMap
-							fmt.Printf("✓ Loaded ToUnicode CMap for font %s (%d mappings, %d ranges)\n",
+							debugPrintf("✓ Loaded ToUnicode CMap for font %s (%d mappings, %d ranges)\n",
 								fontName, len(cidMap.Mappings), len(cidMap.Ranges))
 						} else {
-							fmt.Printf("Warning: failed to parse ToUnicode CMap for font %s: %v\n", fontName, err)
+							debugPrintf("Warning: failed to parse ToUnicode CMap for font %s: %v\n", fontName, err)
 						}
 					}
 				}
 			}
 		}
+	}
+
+	// 检查是否使用 Identity-H 或 Identity-V 编码
+	isIdentity := false
+	if font.Encoding == "/Identity-H" || font.Encoding == "Identity-H" ||
+		font.Encoding == "/Identity-V" || font.Encoding == "Identity-V" {
+		isIdentity = true
+		font.IsIdentity = true
+		debugPrintf("✓ Detected Identity encoding for font %s: %s\n", fontName, font.Encoding)
 	}
 
 	// 如果没有 ToUnicode，尝试从 poppler-data 加载
@@ -540,15 +878,24 @@ func loadFont(ctx *model.Context, fontName string, fontObj types.Object, resourc
 		// 例如: MicrosoftYaHeiUI-Bold 可能是中文字体
 		registry := guessCIDRegistry(font.BaseFont)
 		if registry != "" {
-			fmt.Printf("→ Trying to load CID map from poppler-data: %s for font %s\n", registry, fontName)
+			debugPrintf("→ Trying to load CID map from poppler-data: %s for font %s\n", registry, fontName)
 			cidMap, err := LoadCIDToUnicodeFromRegistry(registry)
 			if err == nil {
 				font.ToUnicodeMap = cidMap
 				font.CIDSystemInfo = registry
-				fmt.Printf("✓ Loaded CID map from poppler-data: %s (%d mappings)\n", registry, len(cidMap.Mappings))
+				debugPrintf("✓ Loaded CID map from poppler-data: %s (%d mappings)\n", registry, len(cidMap.Mappings))
 			} else {
-				fmt.Printf("Warning: failed to load CID map for %s: %v\n", registry, err)
+				debugPrintf("Warning: failed to load CID map for %s: %v\n", registry, err)
+				// 如果加载失败，尝试使用Identity映射作为后备
+				if !isIdentity {
+					debugPrintf("→ Falling back to Identity mapping for font %s\n", fontName)
+					font.IsIdentity = true
+				}
 			}
+		} else if !isIdentity {
+			// 如果无法推断注册表，使用Identity映射作为后备
+			debugPrintf("→ Cannot guess CID registry, using Identity mapping for font %s\n", fontName)
+			font.IsIdentity = true
 		}
 	}
 
@@ -693,6 +1040,33 @@ func loadXObject(ctx *model.Context, xobjName string, xobjObj types.Object, reso
 
 	resources.AddXObject(xobjName, xobj)
 	return nil
+}
+
+// loadFontFileData 从间接引用加载字体文件数据
+func loadFontFileData(ctx *model.Context, fontFileRef types.IndirectRef) ([]byte, error) {
+	// 解引用字体文件对象
+	fontFileObj, err := ctx.Dereference(fontFileRef)
+	if err != nil {
+		return nil, fmt.Errorf("failed to dereference font file: %w", err)
+	}
+
+	// 检查是否为流字典
+	if streamDict, ok := fontFileObj.(types.StreamDict); ok {
+		// 如果内容为空但原始数据存在，需要解码
+		if len(streamDict.Content) == 0 && len(streamDict.Raw) > 0 {
+			if err := streamDict.Decode(); err != nil {
+				return nil, fmt.Errorf("failed to decode font file stream: %w", err)
+			}
+		}
+
+		// 返回解码后的内容
+		if len(streamDict.Content) > 0 {
+			return streamDict.Content, nil
+		}
+		return nil, fmt.Errorf("font file stream is empty")
+	}
+
+	return nil, fmt.Errorf("font file is not a stream dictionary")
 }
 
 // loadExtGState 加载扩展图形状态
@@ -992,3 +1366,67 @@ func SaveImageToPNG(img image.Image, outputPath string) error {
 	return png.Encode(outFile, img)
 }
 
+// FontInfo 字体信息
+type FontInfo struct {
+	Name              string
+	BaseFont          string
+	Subtype           string
+	Encoding          string
+	IsIdentity        bool
+	HasToUnicode      bool
+	ToUnicodeMappings int
+	ToUnicodeRanges   int
+	CIDSystemInfo     string
+	EmbeddedFontSize  int
+}
+
+// ExtractFontInfo 提取页面中使用的字体信息
+func (r *PDFReader) ExtractFontInfo(pageNum int) []FontInfo {
+	var fontInfos []FontInfo
+
+	// 打开 PDF 文件并读取上下文
+	ctx, err := api.ReadContextFile(r.pdfPath)
+	if err != nil {
+		debugPrintf("Failed to read PDF context: %v\n", err)
+		return fontInfos
+	}
+
+	// 获取页面字典
+	pageDict, _, _, err := ctx.PageDict(pageNum, false)
+	if err != nil {
+		debugPrintf("Failed to get page dict: %v\n", err)
+		return fontInfos
+	}
+
+	// 提取资源
+	resources := NewResources()
+	if resourcesObj, found := pageDict.Find("Resources"); found {
+		if err := loadResources(ctx, resourcesObj, resources); err != nil {
+			debugPrintf("Failed to load resources: %v\n", err)
+			return fontInfos
+		}
+	}
+
+	// 遍历所有字体
+	for name, font := range resources.Font {
+		info := FontInfo{
+			Name:             name,
+			BaseFont:         font.BaseFont,
+			Subtype:          font.Subtype,
+			Encoding:         font.Encoding,
+			IsIdentity:       font.IsIdentity,
+			CIDSystemInfo:    font.CIDSystemInfo,
+			EmbeddedFontSize: len(font.EmbeddedFontData),
+		}
+
+		if font.ToUnicodeMap != nil {
+			info.HasToUnicode = true
+			info.ToUnicodeMappings = len(font.ToUnicodeMap.Mappings)
+			info.ToUnicodeRanges = len(font.ToUnicodeMap.Ranges)
+		}
+
+		fontInfos = append(fontInfos, info)
+	}
+
+	return fontInfos
+}

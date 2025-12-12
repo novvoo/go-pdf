@@ -87,7 +87,7 @@ func renderFormXObject(ctx *RenderContext, xobj *XObject) error {
 		for _, op := range operators {
 			if err := op.Execute(ctx); err != nil {
 				// 继续执行其他操作符，不中断
-				fmt.Printf("Warning: operator %s failed: %v\n", op.Name(), err)
+				debugPrintf("Warning: operator %s failed: %v\n", op.Name(), err)
 			}
 		}
 	}
@@ -235,8 +235,63 @@ func decodeImageXObject(xobj *XObject) error {
 			}
 		}
 
+	case "Indexed", "/Indexed":
+		// Indexed 颜色空间（调色板颜色）
+		// 注意：当前实现假设调色板数据已存储在xobj.ColorSpace的附加信息中
+		// 在实际应用中，需要从PDF资源中提取调色板数据
+		debugPrintf("⚠️  Indexed color space detected but not fully implemented\n")
+
+		// 创建一个简单的调色板（仅为演示）
+		palette := make([]color.RGBA, 256)
+		for i := 0; i < 256; i++ {
+			// 简单的灰度调色板
+			palette[i] = color.RGBA{R: uint8(i), G: uint8(i), B: uint8(i), A: 255}
+		}
+
+		// 使用调色板解码图像
+		if bpc == 8 {
+			for y := 0; y < height; y++ {
+				for x := 0; x < width; x++ {
+					offset := y*width + x
+					if offset < len(xobj.Stream) {
+						paletteIndex := int(xobj.Stream[offset])
+						if paletteIndex < len(palette) {
+							img.Set(x, y, palette[paletteIndex])
+						} else {
+							img.Set(x, y, color.RGBA{R: 0, G: 0, B: 0, A: 255})
+						}
+					}
+				}
+			}
+		}
+		debugPrintf("✓ Processed Indexed color space image (%dx%d)\n", width, height)
+
+	case "ICCBased", "/ICCBased":
+		// ICCBased 颜色空间
+		// 注意：当前实现只是简单地将其视为RGB处理
+		// 在实际应用中，需要解析ICC配置文件并进行颜色转换
+		debugPrintf("⚠️  ICCBased color space detected but using RGB approximation\n")
+
+		// 假设是RGB颜色空间进行处理
+		bytesPerPixel := 3
+		if bpc == 8 {
+			for y := 0; y < height; y++ {
+				for x := 0; x < width; x++ {
+					offset := (y*width + x) * bytesPerPixel
+					if offset+2 < len(xobj.Stream) {
+						r := xobj.Stream[offset]
+						g := xobj.Stream[offset+1]
+						b := xobj.Stream[offset+2]
+						img.Set(x, y, color.RGBA{R: r, G: g, B: b, A: 255})
+					}
+				}
+			}
+		}
+		debugPrintf("✓ Processed ICCBased color space image (%dx%d)\n", width, height)
+
 	default:
 		// 不支持的颜色空间，创建占位图像
+		debugPrintf("⚠️  Unsupported color space: %s, using placeholder image\n", xobj.ColorSpace)
 		for y := 0; y < height; y++ {
 			for x := 0; x < width; x++ {
 				// 棋盘格图案
