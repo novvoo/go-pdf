@@ -326,15 +326,12 @@ func (op *OpStroke) Name() string { return "S" }
 
 func (op *OpStroke) Execute(ctx *RenderContext) error {
 	state := ctx.GetCurrentState()
-	if state.StrokeColor != nil {
-		ctx.CairoCtx.SetSourceRGBA(
-			state.StrokeColor.R,
-			state.StrokeColor.G,
-			state.StrokeColor.B,
-			state.StrokeColor.A,
-		)
+	filler := NewPathFiller(ctx.CairoCtx)
+
+	if err := filler.StrokePath(ctx.CurrentPath, state.StrokeColor, state.LineWidth); err != nil {
+		return err
 	}
-	ctx.CairoCtx.Stroke()
+
 	ctx.CurrentPath.Clear()
 	return nil
 }
@@ -356,16 +353,13 @@ func (op *OpFill) Name() string { return "f" }
 
 func (op *OpFill) Execute(ctx *RenderContext) error {
 	state := ctx.GetCurrentState()
-	if state.FillColor != nil {
-		ctx.CairoCtx.SetSourceRGBA(
-			state.FillColor.R,
-			state.FillColor.G,
-			state.FillColor.B,
-			state.FillColor.A,
-		)
+	filler := NewPathFiller(ctx.CairoCtx)
+	filler.SetFillRule(FillRuleNonZero)
+
+	if err := filler.FillPath(ctx.CurrentPath, state.FillColor); err != nil {
+		return err
 	}
-	ctx.CairoCtx.SetFillRule(cairo.FillRuleWinding)
-	ctx.CairoCtx.Fill()
+
 	ctx.CurrentPath.Clear()
 	return nil
 }
@@ -377,16 +371,13 @@ func (op *OpFillEvenOdd) Name() string { return "f*" }
 
 func (op *OpFillEvenOdd) Execute(ctx *RenderContext) error {
 	state := ctx.GetCurrentState()
-	if state.FillColor != nil {
-		ctx.CairoCtx.SetSourceRGBA(
-			state.FillColor.R,
-			state.FillColor.G,
-			state.FillColor.B,
-			state.FillColor.A,
-		)
+	filler := NewPathFiller(ctx.CairoCtx)
+	filler.SetFillRule(FillRuleEvenOdd)
+
+	if err := filler.FillPath(ctx.CurrentPath, state.FillColor); err != nil {
+		return err
 	}
-	ctx.CairoCtx.SetFillRule(cairo.FillRuleEvenOdd)
-	ctx.CairoCtx.Fill()
+
 	ctx.CurrentPath.Clear()
 	return nil
 }
@@ -398,33 +389,13 @@ func (op *OpFillAndStroke) Name() string { return "B" }
 
 func (op *OpFillAndStroke) Execute(ctx *RenderContext) error {
 	state := ctx.GetCurrentState()
+	filler := NewPathFiller(ctx.CairoCtx)
+	filler.SetFillRule(FillRuleNonZero)
 
-	// 保存路径
-	ctx.CairoCtx.Save()
-
-	// 填充
-	if state.FillColor != nil {
-		ctx.CairoCtx.SetSourceRGBA(
-			state.FillColor.R,
-			state.FillColor.G,
-			state.FillColor.B,
-			state.FillColor.A,
-		)
+	if err := filler.FillAndStrokePath(ctx.CurrentPath, state.FillColor, state.StrokeColor, state.LineWidth); err != nil {
+		return err
 	}
-	ctx.CairoCtx.FillPreserve()
 
-	// 描边
-	if state.StrokeColor != nil {
-		ctx.CairoCtx.SetSourceRGBA(
-			state.StrokeColor.R,
-			state.StrokeColor.G,
-			state.StrokeColor.B,
-			state.StrokeColor.A,
-		)
-	}
-	ctx.CairoCtx.Stroke()
-
-	ctx.CairoCtx.Restore()
 	ctx.CurrentPath.Clear()
 	return nil
 }
@@ -456,9 +427,9 @@ type OpClip struct{}
 func (op *OpClip) Name() string { return "W" }
 
 func (op *OpClip) Execute(ctx *RenderContext) error {
-	ctx.CairoCtx.SetFillRule(cairo.FillRuleWinding)
-	ctx.CairoCtx.Clip()
-	return nil
+	filler := NewPathFiller(ctx.CairoCtx)
+	filler.SetFillRule(FillRuleNonZero)
+	return filler.ClipPath(ctx.CurrentPath)
 }
 
 // OpClipEvenOdd W* - 裁剪（奇偶规则）
@@ -467,9 +438,9 @@ type OpClipEvenOdd struct{}
 func (op *OpClipEvenOdd) Name() string { return "W*" }
 
 func (op *OpClipEvenOdd) Execute(ctx *RenderContext) error {
-	ctx.CairoCtx.SetFillRule(cairo.FillRuleEvenOdd)
-	ctx.CairoCtx.Clip()
-	return nil
+	filler := NewPathFiller(ctx.CairoCtx)
+	filler.SetFillRule(FillRuleEvenOdd)
+	return filler.ClipPath(ctx.CurrentPath)
 }
 
 // ===== 颜色操作符 =====

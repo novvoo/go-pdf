@@ -3,7 +3,7 @@ module github.com/novvoo/go-pdf
 go 1.24.4
 
 require (
-	github.com/novvoo/go-cairo v0.0.0-20251211025534-389e794e02e4
+	github.com/novvoo/go-cairo v0.0.0-20251212050820-7155b5e7036d
 	github.com/pdfcpu/pdfcpu v0.11.1
 )
 

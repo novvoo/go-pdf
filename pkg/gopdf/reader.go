@@ -251,7 +251,8 @@ func renderPDFPageToCairo(pdfPath string, pageNum int, cairoCtx cairo.Context, w
 	// 提取页面内容流
 	contents, found := pageDict.Find("Contents")
 	if !found {
-		return fmt.Errorf("page has no contents")
+		fmt.Println("⚠️  Page has no Contents entry")
+		return nil
 	}
 
 	// 解析并渲染内容流
@@ -265,6 +266,12 @@ func renderPDFPageToCairo(pdfPath string, pageNum int, cairoCtx cairo.Context, w
 	for _, stream := range contentStreams {
 		allContent = append(allContent, stream...)
 		allContent = append(allContent, '\n')
+	}
+
+	// 如果内容流为空或太小，PDF 可能没有矢量内容
+	if len(allContent) < 10 {
+		fmt.Println("⚠️  Content stream is empty or too small, PDF may have no vector content")
+		return nil
 	}
 
 	// 解析操作符
@@ -361,26 +368,46 @@ func extractContentStreams(ctx *model.Context, contents types.Object) ([][]byte,
 		if err != nil {
 			return nil, fmt.Errorf("failed to dereference contents: %w", err)
 		}
+		fmt.Printf("   Dereferenced to: %T\n", derefObj)
 		return extractContentStreams(ctx, derefObj)
 
 	case types.StreamDict:
 		// 单个流
-		decoded, _, err := ctx.DereferenceStreamDict(obj)
-		if err != nil {
-			return nil, fmt.Errorf("failed to decode stream: %w", err)
+		fmt.Printf("   Decoding StreamDict...\n")
+		fmt.Printf("   Raw: %d bytes, Content: %d bytes\n", len(obj.Raw), len(obj.Content))
+
+		// 如果 Content 为空但 Raw 不为空，需要解码
+		if len(obj.Content) == 0 && len(obj.Raw) > 0 {
+			fmt.Printf("   Calling Decode()...\n")
+			err := obj.Decode()
+			if err != nil {
+				fmt.Printf("   ⚠️  Decode error: %v\n", err)
+				return nil, fmt.Errorf("failed to decode stream: %w", err)
+			}
+			fmt.Printf("   ✓ After decode: %d bytes\n", len(obj.Content))
 		}
-		if decoded != nil {
-			streams = append(streams, decoded.Content)
+
+		if len(obj.Content) > 0 {
+			streams = append(streams, obj.Content)
+		} else {
+			fmt.Printf("   ⚠️  No content available\n")
 		}
 
 	case types.Array:
 		// 多个流
-		for _, item := range obj {
+		fmt.Printf("   Processing array with %d items\n", len(obj))
+		for i, item := range obj {
+			fmt.Printf("   Array item %d: %T\n", i, item)
 			itemStreams, err := extractContentStreams(ctx, item)
 			if err == nil {
 				streams = append(streams, itemStreams...)
+			} else {
+				fmt.Printf("   ⚠️  Error extracting item %d: %v\n", i, err)
 			}
 		}
+
+	default:
+		fmt.Printf("   ⚠️  Unknown contents type: %T\n", obj)
 	}
 
 	return streams, nil
@@ -476,8 +503,90 @@ func loadFont(ctx *model.Context, fontName string, fontObj types.Object, resourc
 		}
 	}
 
+	// 加载 ToUnicode CMap（用于 CID 字体）
+	if toUnicodeObj, found := fontDict.Find("ToUnicode"); found {
+		if indRef, ok := toUnicodeObj.(types.IndirectRef); ok {
+			// 解引用 ToUnicode 流
+			derefObj, err := ctx.Dereference(indRef)
+			if err == nil {
+				if streamDict, ok := derefObj.(types.StreamDict); ok {
+					// 先解码流
+					if len(streamDict.Content) == 0 && len(streamDict.Raw) > 0 {
+						err := streamDict.Decode()
+						if err != nil {
+							fmt.Printf("Warning: failed to decode ToUnicode stream for font %s: %v\n", fontName, err)
+						}
+					}
+
+					// 解析 ToUnicode CMap
+					if len(streamDict.Content) > 0 {
+						cidMap, err := ParseToUnicodeCMap(streamDict.Content)
+						if err == nil {
+							font.ToUnicodeMap = cidMap
+							fmt.Printf("✓ Loaded ToUnicode CMap for font %s (%d mappings, %d ranges)\n",
+								fontName, len(cidMap.Mappings), len(cidMap.Ranges))
+						} else {
+							fmt.Printf("Warning: failed to parse ToUnicode CMap for font %s: %v\n", fontName, err)
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// 如果没有 ToUnicode，尝试从 poppler-data 加载
+	if font.ToUnicodeMap == nil && font.Subtype == "/Type0" {
+		// 尝试从字体名称推断 CID 系统信息
+		// 例如: MicrosoftYaHeiUI-Bold 可能是中文字体
+		registry := guessCIDRegistry(font.BaseFont)
+		if registry != "" {
+			fmt.Printf("→ Trying to load CID map from poppler-data: %s for font %s\n", registry, fontName)
+			cidMap, err := LoadCIDToUnicodeFromRegistry(registry)
+			if err == nil {
+				font.ToUnicodeMap = cidMap
+				font.CIDSystemInfo = registry
+				fmt.Printf("✓ Loaded CID map from poppler-data: %s (%d mappings)\n", registry, len(cidMap.Mappings))
+			} else {
+				fmt.Printf("Warning: failed to load CID map for %s: %v\n", registry, err)
+			}
+		}
+	}
+
 	resources.AddFont(fontName, font)
 	return nil
+}
+
+// guessCIDRegistry 从字体名称推断 CID 注册表
+func guessCIDRegistry(fontName string) string {
+	fontName = strings.ToLower(fontName)
+
+	// 中文字体
+	if strings.Contains(fontName, "simhei") || strings.Contains(fontName, "simsun") ||
+		strings.Contains(fontName, "yahei") || strings.Contains(fontName, "nsimsun") ||
+		strings.Contains(fontName, "fangsong") || strings.Contains(fontName, "kaiti") {
+		return "Adobe-GB1"
+	}
+
+	// 繁体中文字体
+	if strings.Contains(fontName, "mingliu") || strings.Contains(fontName, "pmingliu") ||
+		strings.Contains(fontName, "dfkai") {
+		return "Adobe-CNS1"
+	}
+
+	// 日文字体
+	if strings.Contains(fontName, "gothic") || strings.Contains(fontName, "mincho") ||
+		strings.Contains(fontName, "meiryo") || strings.Contains(fontName, "msmincho") ||
+		strings.Contains(fontName, "msgothic") {
+		return "Adobe-Japan1"
+	}
+
+	// 韩文字体
+	if strings.Contains(fontName, "batang") || strings.Contains(fontName, "dotum") ||
+		strings.Contains(fontName, "gulim") || strings.Contains(fontName, "malgun") {
+		return "Adobe-Korea1"
+	}
+
+	return ""
 }
 
 // loadXObject 加载 XObject 资源
@@ -622,8 +731,8 @@ func loadExtGState(ctx *model.Context, gsName string, gsObj types.Object, resour
 	return nil
 }
 
-// extractPageText 从 PDF 页面提取文本内容
-func extractPageText(ctx *model.Context, pageNum int) (string, error) {
+// ExtractPageText 从 PDF 页面提取文本内容（导出供外部使用）
+func ExtractPageText(ctx *model.Context, pageNum int) (string, error) {
 	// 使用 pdfcpu 的 ExtractPageContent 提取文本
 	// 这会返回页面的内容流
 
@@ -653,7 +762,7 @@ func extractPageText(ctx *model.Context, pageNum int) (string, error) {
 		if streamDict, ok := derefObj.(types.StreamDict); ok {
 			decoded, _, err := ctx.DereferenceStreamDict(streamDict)
 			if err == nil && decoded != nil {
-				textContent = extractTextFromStream(string(decoded.Content))
+				textContent = ExtractTextFromStream(string(decoded.Content))
 			}
 		}
 
@@ -661,7 +770,7 @@ func extractPageText(ctx *model.Context, pageNum int) (string, error) {
 		// 直接解码流内容
 		decoded, _, err := ctx.DereferenceStreamDict(obj)
 		if err == nil && decoded != nil {
-			textContent = extractTextFromStream(string(decoded.Content))
+			textContent = ExtractTextFromStream(string(decoded.Content))
 		}
 
 	case types.Array:
@@ -682,7 +791,7 @@ func extractPageText(ctx *model.Context, pageNum int) (string, error) {
 			if ok {
 				decoded, _, err := ctx.DereferenceStreamDict(streamDict)
 				if err == nil && decoded != nil {
-					textContent += extractTextFromStream(string(decoded.Content)) + "\n"
+					textContent += ExtractTextFromStream(string(decoded.Content)) + "\n"
 				}
 			}
 		}
@@ -695,8 +804,8 @@ func extractPageText(ctx *model.Context, pageNum int) (string, error) {
 	return textContent, nil
 }
 
-// extractTextFromStream 从 PDF 内容流中提取文本
-func extractTextFromStream(stream string) string {
+// ExtractTextFromStream 从 PDF 内容流中提取文本（导出供外部使用）
+func ExtractTextFromStream(stream string) string {
 	// 提取 PDF 内容流中的文本
 	// 支持 Tj, TJ, ' 和 " 操作符
 	var result strings.Builder
@@ -831,8 +940,8 @@ func extractTextFromStream(stream string) string {
 	return text
 }
 
-// convertCairoSurfaceToImage 将 Cairo surface 转换为 Go image.Image
-func convertCairoSurfaceToImage(imgSurf cairo.ImageSurface) image.Image {
+// ConvertCairoSurfaceToImage 将 Cairo surface 转换为 Go image.Image（导出供外部使用）
+func ConvertCairoSurfaceToImage(imgSurf cairo.ImageSurface) image.Image {
 	data := imgSurf.GetData()
 	stride := imgSurf.GetStride()
 	width := imgSurf.GetWidth()
@@ -882,3 +991,4 @@ func SaveImageToPNG(img image.Image, outputPath string) error {
 	// 使用标准库的 png 包保存
 	return png.Encode(outFile, img)
 }
+

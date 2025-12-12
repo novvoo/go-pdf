@@ -14,12 +14,22 @@ import (
 )
 
 func main() {
-	fmt.Println("🎨 Rendering test.pdf to PNG")
+	fmt.Println("🎨 Rendering PDF to PNG")
 	fmt.Println("=" + string(make([]byte, 50)))
 
-	pdfPath := "test.pdf"
+	// 优先使用简单 PDF，然后矢量 PDF，最后 test.pdf
+	pdfPath := "test_vector.pdf"
+	if !fileExists(pdfPath) {
+		pdfPath = "test_vector.pdf"
+		if !fileExists(pdfPath) {
+			pdfPath = "test.pdf"
+		}
+	}
+
 	outputPath := "test.png"
 	rendered := false
+
+	fmt.Printf("📄 Using PDF: %s\n", pdfPath)
 
 	// 方法 1: 尝试使用 pdfcpu + go-cairo 渲染真实的 PDF
 	fmt.Println("\n📖 Attempting to render PDF using pdfcpu + go-cairo...")

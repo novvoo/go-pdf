@@ -1,6 +1,9 @@
 package gopdf
 
 import (
+	"fmt"
+	"strings"
+
 	"github.com/novvoo/go-cairo/pkg/cairo"
 )
 
@@ -60,10 +63,12 @@ func (ts *TextState) Clone() *TextState {
 
 // Font 字体信息
 type Font struct {
-	Name     string
-	BaseFont string
-	Subtype  string
-	Encoding string
+	Name          string
+	BaseFont      string
+	Subtype       string
+	Encoding      string
+	ToUnicodeMap  *CIDToUnicodeMap // CID 字体的 Unicode 映射
+	CIDSystemInfo string           // CID 字体的系统信息 (Registry-Ordering)
 }
 
 // ===== 文本对象操作符 =====
@@ -309,15 +314,26 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 	defer ctx.CairoCtx.Restore()
 
 	// 应用文本矩阵
-	textState.TextMatrix.ApplyToCairoContext(ctx.CairoCtx)
+	// 注意：由于 renderPDFPageToCairo 已经应用了全局 Y 轴翻转 (Scale(1, -1))
+	// 而某些 PDF 的 Tm 矩阵中也包含了 Y 轴翻转 (d=-1)
+	// 我们需要检测并处理这种情况，避免双重翻转
+	tm := textState.TextMatrix.Clone()
 
-	// 由于 PDF 坐标系已经在页面级别翻转，文本需要再次翻转回来
-	// 以保持文本正向显示
-	ctx.CairoCtx.Scale(1, -1)
+	// 如果文本矩阵的 D 分量是负数，说明 PDF 已经做了 Y 轴翻转
+	// 这种情况下，F 值已经是从顶部算起的坐标
+	// 全局变换做了 Translate(0, height) + Scale(1, -1)
+	// 所以我们只需要反转 D，保持 F 不变
+	if tm.D < 0 {
+		// 只反转 D，不改变 F
+		tm.D = -tm.D
+		// F 保持不变，因为它已经是正确的坐标
+	}
+
+	tm.ApplyToCairoContext(ctx.CairoCtx)
 
 	// 应用文本上升
 	if textState.Rise != 0 {
-		ctx.CairoCtx.Translate(0, -textState.Rise) // 注意 Y 轴已翻转
+		ctx.CairoCtx.Translate(0, textState.Rise)
 	}
 
 	// 设置字体
@@ -325,6 +341,12 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 	fontFamily := "sans-serif"
 	if textState.Font != nil && textState.Font.BaseFont != "" {
 		fontFamily = mapPDFFont(textState.Font.BaseFont)
+	}
+
+	// 获取当前字体的 ToUnicode 映射
+	var toUnicodeMap *CIDToUnicodeMap
+	if textState.Font != nil {
+		toUnicodeMap = textState.Font.ToUnicodeMap
 	}
 
 	// 使用 PangoCairo 渲染文本
@@ -335,9 +357,10 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 	layout.SetFontDescription(fontDesc)
 
 	// 应用水平缩放
+	horizontalScale := 1.0
 	if textState.HorizontalScaling != 100 {
-		scale := textState.HorizontalScaling / 100.0
-		ctx.CairoCtx.Scale(scale, 1.0)
+		horizontalScale = textState.HorizontalScaling / 100.0
+		ctx.CairoCtx.Scale(horizontalScale, 1.0)
 	}
 
 	// 设置颜色（根据渲染模式）
@@ -350,6 +373,9 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 				state.FillColor.B,
 				state.FillColor.A,
 			)
+		} else {
+			// 默认使用黑色
+			ctx.CairoCtx.SetSourceRGBA(0, 0, 0, 1)
 		}
 	case 1: // 描边
 		if state.StrokeColor != nil {
@@ -373,6 +399,9 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 		return nil
 	}
 
+	// 计算文本位移（用于更新文本矩阵）
+	var textDisplacement float64
+
 	// 渲染文本
 	if array != nil {
 		// TJ 操作符：处理文本数组
@@ -380,16 +409,23 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 		for _, item := range array {
 			switch v := item.(type) {
 			case string:
-				layout.SetText(v)
+				// 解码文本（处理十六进制字符串和 CID 字体）
+				decodedText := decodeTextStringWithFont(v, toUnicodeMap)
+				if decodedText == "" {
+					// 如果无法解码，跳过
+					continue
+				}
+
+				layout.SetText(decodedText)
 				ctx.CairoCtx.MoveTo(x, 0)
 				ctx.CairoCtx.PangoCairoShowText(layout)
 
-				// 计算文本宽度（估算）
-				textWidth := float64(len(v)) * fontSize * 0.5
+				// 计算文本宽度（估算，使用 rune 数量而不是字节数）
+				textWidth := float64(len([]rune(decodedText))) * fontSize * 0.5
 				x += textWidth
 
 				// 应用字符间距
-				x += textState.CharSpacing * float64(len(v))
+				x += textState.CharSpacing * float64(len([]rune(decodedText)))
 
 			case float64:
 				// 负值表示向右移动，正值表示向左移动
@@ -399,29 +435,152 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 				x -= float64(v) * fontSize / 1000.0
 			}
 		}
+		// TJ 操作符不更新文本矩阵
+		textDisplacement = 0
 	} else {
 		// Tj 操作符：简单文本
-		layout.SetText(text)
-		ctx.CairoCtx.PangoCairoShowText(layout)
-
-		// 更新文本矩阵位置（估算文本宽度）
-		textWidth := float64(len(text)) * fontSize * 0.5
-		textWidth += textState.CharSpacing * float64(len(text))
-
-		// 计算单词间距
-		spaceCount := 0
-		for _, ch := range text {
-			if ch == ' ' {
-				spaceCount++
+		// 解码文本（处理十六进制字符串和 CID 字体）
+		decodedText := decodeTextStringWithFont(text, toUnicodeMap)
+		if decodedText != "" {
+			// 打印前几个文本用于调试
+			if len(decodedText) > 0 && len(decodedText) < 50 {
+				fmt.Printf("[TEXT] Rendering at Tm=[%.0f, %.0f]: %q\n", tm.E, tm.F, decodedText)
 			}
-		}
-		textWidth += textState.WordSpacing * float64(spaceCount)
+			layout.SetText(decodedText)
+			ctx.CairoCtx.PangoCairoShowText(layout)
 
-		// 更新文本矩阵
-		textState.TextMatrix = textState.TextMatrix.Translate(textWidth, 0)
+			// 计算文本宽度（用于更新文本矩阵，使用 rune 数量）
+			runeCount := float64(len([]rune(decodedText)))
+			textWidth := runeCount * fontSize * 0.5
+			textWidth += textState.CharSpacing * runeCount
+
+			// 计算单词间距
+			spaceCount := 0
+			for _, ch := range decodedText {
+				if ch == ' ' {
+					spaceCount++
+				}
+			}
+			textWidth += textState.WordSpacing * float64(spaceCount)
+
+			// 应用水平缩放到位移
+			textDisplacement = textWidth * horizontalScale
+		}
+	}
+
+	// 在 Cairo 状态恢复后更新文本矩阵
+	// 注意：文本位移应该在文本空间中进行
+	// 根据 PDF 规范，文本位移是：Tm' = Tm × [1 0 0 1 tx 0]
+	if textDisplacement != 0 {
+		// 在文本空间中移动
+		translation := NewTranslationMatrix(textDisplacement, 0)
+		textState.TextMatrix = textState.TextMatrix.Multiply(translation)
 	}
 
 	return nil
+}
+
+// decodeTextStringWithFont 使用字体的 ToUnicode 映射解码文本
+func decodeTextStringWithFont(text string, toUnicodeMap *CIDToUnicodeMap) string {
+	// 检查是否是十六进制字符串
+	if len(text) >= 2 && text[0] == '<' && text[len(text)-1] == '>' {
+		hexStr := text[1 : len(text)-1]
+		hexStr = strings.ReplaceAll(hexStr, " ", "")
+
+		// 转换十六进制到字节
+		var result []byte
+		for i := 0; i < len(hexStr); i += 2 {
+			if i+1 < len(hexStr) {
+				var b byte
+				fmt.Sscanf(hexStr[i:i+2], "%02x", &b)
+				result = append(result, b)
+			}
+		}
+
+		// 如果有 ToUnicode 映射，使用它
+		if toUnicodeMap != nil && len(result) >= 2 && len(result)%2 == 0 {
+			var cids []uint16
+			for i := 0; i < len(result); i += 2 {
+				cid := uint16(result[i])<<8 | uint16(result[i+1])
+				cids = append(cids, cid)
+			}
+			return toUnicodeMap.MapCIDsToUnicode(cids)
+		}
+
+		// 否则尝试标准解码
+		return decodeTextString(text)
+	}
+
+	// 普通字符串
+	return text
+}
+
+// decodeTextString 解码 PDF 文本字符串
+// 处理普通字符串和十六进制字符串 <...>
+func decodeTextString(text string) string {
+	// 检查是否是十六进制字符串
+	if len(text) >= 2 && text[0] == '<' && text[len(text)-1] == '>' {
+		// 十六进制字符串：<48656C6C6F> -> "Hello"
+		hexStr := text[1 : len(text)-1]
+
+		// 移除空格
+		hexStr = strings.ReplaceAll(hexStr, " ", "")
+
+		// 转换十六进制到字节
+		var result []byte
+		for i := 0; i < len(hexStr); i += 2 {
+			if i+1 < len(hexStr) {
+				var b byte
+				fmt.Sscanf(hexStr[i:i+2], "%02x", &b)
+				result = append(result, b)
+			}
+		}
+
+		// 尝试 UTF-16BE 解码（CID 字体常用）
+		if len(result) >= 2 && len(result)%2 == 0 {
+			// 检查是否有 BOM
+			if result[0] == 0xFE && result[1] == 0xFF {
+				result = result[2:] // 跳过 BOM
+			}
+
+			// UTF-16BE 解码
+			var runes []rune
+			for i := 0; i < len(result); i += 2 {
+				if i+1 < len(result) {
+					r := rune(result[i])<<8 | rune(result[i+1])
+					if r != 0 {
+						runes = append(runes, r)
+					}
+				}
+			}
+			if len(runes) > 0 {
+				return string(runes)
+			}
+		}
+
+		// 如果不是 UTF-16，尝试作为 Latin-1
+		// 但首先检查是否是 CID 字体的字形 ID
+		// CID 通常是 2 字节的值，如果所有字节都 > 0，可能是 CID
+		if len(result) >= 2 && len(result)%2 == 0 {
+			allHighBytes := true
+			for i := 0; i < len(result); i += 2 {
+				if result[i] == 0 {
+					allHighBytes = false
+					break
+				}
+			}
+			if allHighBytes {
+				// 可能是 CID 字体，返回占位符
+				// 每个 CID 用一个方块表示
+				return strings.Repeat("■", len(result)/2)
+			}
+		}
+
+		return string(result)
+	}
+
+	// 普通字符串，直接返回
+	return text
 }
 
 // mapPDFFont 将 PDF 字体名称映射到系统字体

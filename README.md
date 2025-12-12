@@ -104,7 +104,7 @@ Creates a PDF from an image file.
 Creates a new PDF reader.
 
 #### RenderPageToPNG(pageNum int, outputPath string, dpi float64) error
-Renders a PDF page to PNG (requires poppler-glib).
+Renders a PDF page to PNG .
 
 #### RenderPageToImage(pageNum int, dpi float64) (image.Image, error)
 Renders a PDF page to an image.Image.
@@ -113,11 +113,6 @@ Renders a PDF page to an image.Image.
 
 - [go-cairo](https://github.com/novvoo/go-cairo) - Cairo graphics bindings for Go
 
-## External Tools (Optional)
-
-For full PDF reading support, install:
-- **Windows**: [ImageMagick](https://imagemagick.org/)
-- **Linux/Mac**: poppler-utils (`apt install poppler-utils`)
 
 ## License
 

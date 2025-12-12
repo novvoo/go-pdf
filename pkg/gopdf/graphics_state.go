@@ -7,16 +7,16 @@ import (
 // GraphicsState 表示 PDF 图形状态
 // 包含当前变换矩阵 (CTM)、颜色、线宽等
 type GraphicsState struct {
-	CTM              *Matrix           // 当前变换矩阵
-	StrokeColor      *Color            // 描边颜色
-	FillColor        *Color            // 填充颜色
-	LineWidth        float64           // 线宽
-	LineCap          cairo.LineCap     // 线端点样式
-	LineJoin         cairo.LineJoin    // 线连接样式
-	MiterLimit       float64           // 斜接限制
-	DashPattern      []float64         // 虚线模式
-	DashOffset       float64           // 虚线偏移
-	CoordConverter   *CoordinateConverter // 坐标转换器
+	CTM            *Matrix              // 当前变换矩阵
+	StrokeColor    *Color               // 描边颜色
+	FillColor      *Color               // 填充颜色
+	LineWidth      float64              // 线宽
+	LineCap        cairo.LineCap        // 线端点样式
+	LineJoin       cairo.LineJoin       // 线连接样式
+	MiterLimit     float64              // 斜接限制
+	DashPattern    []float64            // 虚线模式
+	DashOffset     float64              // 虚线偏移
+	CoordConverter *CoordinateConverter // 坐标转换器
 }
 
 // Color 表示颜色
@@ -85,7 +85,7 @@ func (gs *GraphicsState) ApplyToCairoContext(ctx cairo.Context) {
 	ctx.SetMiterLimit(gs.MiterLimit)
 
 	// 应用虚线模式
-	if gs.DashPattern != nil && len(gs.DashPattern) > 0 {
+	if len(gs.DashPattern) > 0 {
 		ctx.SetDash(gs.DashPattern, gs.DashOffset)
 	}
 }
