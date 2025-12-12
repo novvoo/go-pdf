@@ -28,8 +28,9 @@ func main() {
 	os.Stdout = w
 	os.Stderr = w
 
-	// 同时重定向gopdf的debug输出到io.Discard，避免任何输出到终端
-	gopdf.SetDebugOutput(io.Discard)
+	// 创建缓冲区捕获 gopdf 的调试输出
+	var debugBuf bytes.Buffer
+	gopdf.SetDebugOutput(&debugBuf)
 
 	// 在后台读取输出
 	outputChan := make(chan string)
@@ -179,12 +180,19 @@ func main() {
 		report += result.DebugInfo + "\n\n"
 	}
 
+	// 添加 gopdf 的调试输出（操作符执行信息）
+	debugOutput := debugBuf.String()
+	if debugOutput != "" {
+		report += "Operator Execution Log:\n"
+		report += "------------------------\n"
+		report += debugOutput + "\n"
+	}
+
 	// 添加捕获的输出（包括 C 库的 DEBUG 信息）
 	if capturedOutput != "" {
-		report += "Detailed Debug Output:\n"
-		report += "----------------------\n"
-		report += capturedOutput + "\n\n"
-	}
+		report += "Cairo/Pango Debug Output:\n"
+		report += "-------------------------\n"
+		report += capturedOutp
 
 	report += "Status: SUCCESS\n"
 
