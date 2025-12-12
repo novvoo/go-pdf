@@ -217,40 +217,408 @@ func renderPDFPageToCairo(pdfPath string, pageNum int, cairoCtx cairo.Context, w
 		return fmt.Errorf("failed to read PDF context: %w", err)
 	}
 
-	// 提取页面文本
-	text, err := extractPageText(ctx, pageNum)
+	// 获取页面字典
+	pageDict, _, _, err := ctx.PageDict(pageNum, false)
 	if err != nil {
-		// 如果提取失败，显示错误信息
-		text = fmt.Sprintf("Failed to extract text from page %d: %v", pageNum, err)
-		fmt.Printf("[DEBUG] Text extraction error: %v\n", err)
-	} else {
-		fmt.Printf("[DEBUG] Extracted text length: %d\n", len(text))
-		if len(text) > 0 && len(text) < 200 {
-			fmt.Printf("[DEBUG] Extracted text: %q\n", text)
+		return fmt.Errorf("failed to get page dict: %w", err)
+	}
+
+	// 保存 Cairo 状态
+	cairoCtx.Save()
+	defer cairoCtx.Restore()
+
+	// PDF 坐标系转换：PDF 使用左下角为原点，Y 轴向上
+	// Cairo 使用左上角为原点，Y 轴向下
+	// 需要翻转 Y 轴并平移
+	cairoCtx.Translate(0, height)
+	cairoCtx.Scale(1, -1)
+
+	// 处理页面的 MediaBox, CropBox, Rotate 等属性
+	if err := applyPageTransformations(pageDict, cairoCtx, width, height); err != nil {
+		fmt.Printf("Warning: failed to apply page transformations: %v\n", err)
+	}
+
+	// 创建渲染上下文
+	renderCtx := NewRenderContext(cairoCtx, width, height)
+
+	// 提取页面资源
+	if resourcesObj, found := pageDict.Find("Resources"); found {
+		if err := loadResources(ctx, resourcesObj, renderCtx.Resources); err != nil {
+			fmt.Printf("Warning: failed to load resources: %v\n", err)
 		}
 	}
 
-	// 如果没有文本内容，显示提示
-	if text == "" {
-		text = fmt.Sprintf("Page %d (No text content found)", pageNum)
+	// 提取页面内容流
+	contents, found := pageDict.Find("Contents")
+	if !found {
+		return fmt.Errorf("page has no contents")
 	}
 
-	// 使用 PangoCairo 渲染文本
-	cairoCtx.SetSourceRGB(0, 0, 0)
+	// 解析并渲染内容流
+	contentStreams, err := extractContentStreams(ctx, contents)
+	if err != nil {
+		return fmt.Errorf("failed to extract content streams: %w", err)
+	}
 
-	layout := cairoCtx.PangoCairoCreateLayout().(*cairo.PangoCairoLayout)
-	fontDesc := cairo.NewPangoFontDescription()
-	fontDesc.SetFamily("sans-serif")
-	fontDesc.SetSize(12)
-	layout.SetFontDescription(fontDesc)
+	// 合并所有内容流
+	var allContent []byte
+	for _, stream := range contentStreams {
+		allContent = append(allContent, stream...)
+		allContent = append(allContent, '\n')
+	}
 
-	// 设置文本宽度以支持自动换行
-	layout.SetWidth(int((width - 40) * 1024)) // Pango 使用 1024 为单位
-	layout.SetText(text)
+	// 解析操作符
+	operators, err := ParseContentStream(allContent)
+	if err != nil {
+		return fmt.Errorf("failed to parse content stream: %w", err)
+	}
 
-	cairoCtx.MoveTo(20, 20)
-	cairoCtx.PangoCairoShowText(layout)
+	// 执行所有操作符
+	fmt.Printf("📊 Executing %d PDF operators...\n", len(operators))
 
+	opCount := make(map[string]int)
+	for _, op := range operators {
+		opCount[op.Name()]++
+		if err := op.Execute(renderCtx); err != nil {
+			// 继续执行，不中断渲染
+			fmt.Printf("⚠️  Operator %s failed: %v\n", op.Name(), err)
+		}
+	}
+
+	// 显示操作符统计
+	fmt.Println("\n📈 Operator Statistics:")
+	for opName, count := range opCount {
+		if count > 0 {
+			fmt.Printf("   %s: %d\n", opName, count)
+		}
+	}
+
+	return nil
+}
+
+// applyPageTransformations 应用页面级别的变换（旋转、裁剪等）
+func applyPageTransformations(pageDict types.Dict, cairoCtx cairo.Context, width, height float64) error {
+	// 处理页面旋转
+	if rotateObj, found := pageDict.Find("Rotate"); found {
+		var rotation int
+		switch v := rotateObj.(type) {
+		case types.Integer:
+			rotation = int(v)
+		case types.Float:
+			rotation = int(v)
+		}
+
+		// 应用旋转（90, 180, 270 度）
+		if rotation != 0 {
+			rotation = rotation % 360
+			switch rotation {
+			case 90:
+				cairoCtx.Translate(width, 0)
+				cairoCtx.Rotate(1.5707963267948966) // π/2
+			case 180:
+				cairoCtx.Translate(width, height)
+				cairoCtx.Rotate(3.141592653589793) // π
+			case 270:
+				cairoCtx.Translate(0, height)
+				cairoCtx.Rotate(4.71238898038469) // 3π/2
+			}
+		}
+	}
+
+	// 处理 CropBox（如果存在）
+	if cropBoxObj, found := pageDict.Find("CropBox"); found {
+		if arr, ok := cropBoxObj.(types.Array); ok && len(arr) == 4 {
+			var x1, y1 float64
+			if v, ok := arr[0].(types.Float); ok {
+				x1 = float64(v)
+			} else if v, ok := arr[0].(types.Integer); ok {
+				x1 = float64(v)
+			}
+			if v, ok := arr[1].(types.Float); ok {
+				y1 = float64(v)
+			} else if v, ok := arr[1].(types.Integer); ok {
+				y1 = float64(v)
+			}
+
+			// 应用裁剪框的平移
+			if x1 != 0 || y1 != 0 {
+				cairoCtx.Translate(-x1, -y1)
+			}
+		}
+	}
+
+	return nil
+}
+
+// extractContentStreams 提取页面的所有内容流
+func extractContentStreams(ctx *model.Context, contents types.Object) ([][]byte, error) {
+	var streams [][]byte
+
+	switch obj := contents.(type) {
+	case types.IndirectRef:
+		// 解引用
+		derefObj, err := ctx.Dereference(obj)
+		if err != nil {
+			return nil, fmt.Errorf("failed to dereference contents: %w", err)
+		}
+		return extractContentStreams(ctx, derefObj)
+
+	case types.StreamDict:
+		// 单个流
+		decoded, _, err := ctx.DereferenceStreamDict(obj)
+		if err != nil {
+			return nil, fmt.Errorf("failed to decode stream: %w", err)
+		}
+		if decoded != nil {
+			streams = append(streams, decoded.Content)
+		}
+
+	case types.Array:
+		// 多个流
+		for _, item := range obj {
+			itemStreams, err := extractContentStreams(ctx, item)
+			if err == nil {
+				streams = append(streams, itemStreams...)
+			}
+		}
+	}
+
+	return streams, nil
+}
+
+// loadResources 加载页面资源
+func loadResources(ctx *model.Context, resourcesObj types.Object, resources *Resources) error {
+	// 解引用资源对象
+	if indRef, ok := resourcesObj.(types.IndirectRef); ok {
+		derefObj, err := ctx.Dereference(indRef)
+		if err != nil {
+			return err
+		}
+		resourcesObj = derefObj
+	}
+
+	resourcesDict, ok := resourcesObj.(types.Dict)
+	if !ok {
+		return fmt.Errorf("resources is not a dictionary")
+	}
+
+	// 加载字体
+	if fontsObj, found := resourcesDict.Find("Font"); found {
+		if fontsDict, ok := fontsObj.(types.Dict); ok {
+			for fontName, fontObj := range fontsDict {
+				if err := loadFont(ctx, fontName, fontObj, resources); err != nil {
+					fmt.Printf("Warning: failed to load font %s: %v\n", fontName, err)
+				}
+			}
+		}
+	}
+
+	// 加载 XObjects
+	if xobjectsObj, found := resourcesDict.Find("XObject"); found {
+		if xobjectsDict, ok := xobjectsObj.(types.Dict); ok {
+			for xobjName, xobjObj := range xobjectsDict {
+				if err := loadXObject(ctx, xobjName, xobjObj, resources); err != nil {
+					fmt.Printf("Warning: failed to load XObject %s: %v\n", xobjName, err)
+				}
+			}
+		}
+	}
+
+	// 加载扩展图形状态
+	if extGStateObj, found := resourcesDict.Find("ExtGState"); found {
+		if extGStateDict, ok := extGStateObj.(types.Dict); ok {
+			for gsName, gsObj := range extGStateDict {
+				if err := loadExtGState(ctx, gsName, gsObj, resources); err != nil {
+					fmt.Printf("Warning: failed to load ExtGState %s: %v\n", gsName, err)
+				}
+			}
+		}
+	}
+
+	return nil
+}
+
+// loadFont 加载字体资源
+func loadFont(ctx *model.Context, fontName string, fontObj types.Object, resources *Resources) error {
+	// 解引用
+	if indRef, ok := fontObj.(types.IndirectRef); ok {
+		derefObj, err := ctx.Dereference(indRef)
+		if err != nil {
+			return err
+		}
+		fontObj = derefObj
+	}
+
+	fontDict, ok := fontObj.(types.Dict)
+	if !ok {
+		return fmt.Errorf("font is not a dictionary")
+	}
+
+	font := &Font{
+		Name: fontName,
+	}
+
+	if baseFont, found := fontDict.Find("BaseFont"); found {
+		if name, ok := baseFont.(types.Name); ok {
+			font.BaseFont = name.String()
+		}
+	}
+
+	if subtype, found := fontDict.Find("Subtype"); found {
+		if name, ok := subtype.(types.Name); ok {
+			font.Subtype = name.String()
+		}
+	}
+
+	if encoding, found := fontDict.Find("Encoding"); found {
+		if name, ok := encoding.(types.Name); ok {
+			font.Encoding = name.String()
+		}
+	}
+
+	resources.AddFont(fontName, font)
+	return nil
+}
+
+// loadXObject 加载 XObject 资源
+func loadXObject(ctx *model.Context, xobjName string, xobjObj types.Object, resources *Resources) error {
+	// 解引用
+	if indRef, ok := xobjObj.(types.IndirectRef); ok {
+		derefObj, err := ctx.Dereference(indRef)
+		if err != nil {
+			return err
+		}
+		xobjObj = derefObj
+	}
+
+	streamDict, ok := xobjObj.(types.StreamDict)
+	if !ok {
+		return fmt.Errorf("XObject is not a stream")
+	}
+
+	xobj := &XObject{}
+
+	// 获取子类型
+	if subtype, found := streamDict.Find("Subtype"); found {
+		if name, ok := subtype.(types.Name); ok {
+			xobj.Subtype = name.String()
+		}
+	}
+
+	// 解码流内容
+	decoded, _, err := ctx.DereferenceStreamDict(streamDict)
+	if err != nil {
+		return fmt.Errorf("failed to decode XObject stream: %w", err)
+	}
+	if decoded != nil {
+		xobj.Stream = decoded.Content
+	}
+
+	// 根据子类型加载特定属性
+	switch xobj.Subtype {
+	case "/Form":
+		// 加载表单 XObject 属性
+		if bbox, found := streamDict.Find("BBox"); found {
+			if arr, ok := bbox.(types.Array); ok {
+				xobj.BBox = make([]float64, len(arr))
+				for i, v := range arr {
+					if num, ok := v.(types.Float); ok {
+						xobj.BBox[i] = float64(num)
+					} else if num, ok := v.(types.Integer); ok {
+						xobj.BBox[i] = float64(num)
+					}
+				}
+			}
+		}
+
+		if matrix, found := streamDict.Find("Matrix"); found {
+			if arr, ok := matrix.(types.Array); ok && len(arr) == 6 {
+				xobj.Matrix = &Matrix{}
+				if v, ok := arr[0].(types.Float); ok {
+					xobj.Matrix.A = float64(v)
+				}
+				if v, ok := arr[1].(types.Float); ok {
+					xobj.Matrix.B = float64(v)
+				}
+				if v, ok := arr[2].(types.Float); ok {
+					xobj.Matrix.C = float64(v)
+				}
+				if v, ok := arr[3].(types.Float); ok {
+					xobj.Matrix.D = float64(v)
+				}
+				if v, ok := arr[4].(types.Float); ok {
+					xobj.Matrix.E = float64(v)
+				}
+				if v, ok := arr[5].(types.Float); ok {
+					xobj.Matrix.F = float64(v)
+				}
+			}
+		}
+
+	case "/Image":
+		// 加载图像 XObject 属性
+		if width, found := streamDict.Find("Width"); found {
+			if num, ok := width.(types.Integer); ok {
+				xobj.Width = int(num)
+			}
+		}
+
+		if height, found := streamDict.Find("Height"); found {
+			if num, ok := height.(types.Integer); ok {
+				xobj.Height = int(num)
+			}
+		}
+
+		if colorSpace, found := streamDict.Find("ColorSpace"); found {
+			if name, ok := colorSpace.(types.Name); ok {
+				xobj.ColorSpace = name.String()
+			}
+		}
+
+		if bpc, found := streamDict.Find("BitsPerComponent"); found {
+			if num, ok := bpc.(types.Integer); ok {
+				xobj.BitsPerComponent = int(num)
+			}
+		}
+	}
+
+	resources.AddXObject(xobjName, xobj)
+	return nil
+}
+
+// loadExtGState 加载扩展图形状态
+func loadExtGState(ctx *model.Context, gsName string, gsObj types.Object, resources *Resources) error {
+	// 解引用
+	if indRef, ok := gsObj.(types.IndirectRef); ok {
+		derefObj, err := ctx.Dereference(indRef)
+		if err != nil {
+			return err
+		}
+		gsObj = derefObj
+	}
+
+	gsDict, ok := gsObj.(types.Dict)
+	if !ok {
+		return fmt.Errorf("ExtGState is not a dictionary")
+	}
+
+	extGState := make(map[string]interface{})
+
+	// 提取常见的图形状态参数
+	for key, value := range gsDict {
+		switch v := value.(type) {
+		case types.Float:
+			extGState[key] = float64(v)
+		case types.Integer:
+			extGState[key] = int(v)
+		case types.Name:
+			extGState[key] = v.String()
+		case types.Boolean:
+			extGState[key] = bool(v)
+		}
+	}
+
+	resources.AddExtGState(gsName, extGState)
 	return nil
 }
 
@@ -285,14 +653,7 @@ func extractPageText(ctx *model.Context, pageNum int) (string, error) {
 		if streamDict, ok := derefObj.(types.StreamDict); ok {
 			decoded, _, err := ctx.DereferenceStreamDict(streamDict)
 			if err == nil && decoded != nil {
-				content := string(decoded.Content)
-				fmt.Printf("[DEBUG] Content stream length: %d bytes\n", len(content))
-				if len(content) < 500 {
-					fmt.Printf("[DEBUG] Content stream: %q\n", content)
-				} else {
-					fmt.Printf("[DEBUG] Content stream preview: %q...\n", content[:500])
-				}
-				textContent = extractTextFromStream(content)
+				textContent = extractTextFromStream(string(decoded.Content))
 			}
 		}
 

@@ -1,0 +1,563 @@
+package gopdf
+
+import (
+	"fmt"
+
+	"github.com/novvoo/go-cairo/pkg/cairo"
+)
+
+// PDFOperator 表示 PDF 操作符接口
+type PDFOperator interface {
+	Execute(ctx *RenderContext) error
+	Name() string
+}
+
+// RenderContext PDF 渲染上下文
+type RenderContext struct {
+	CairoCtx      cairo.Context
+	GraphicsStack *GraphicsStateStack
+	CurrentPath   *Path
+	TextState     *TextState
+	Resources     *Resources
+	XObjectCache  map[string]cairo.Surface
+}
+
+// NewRenderContext 创建新的渲染上下文
+func NewRenderContext(cairoCtx cairo.Context, width, height float64) *RenderContext {
+	return &RenderContext{
+		CairoCtx:      cairoCtx,
+		GraphicsStack: NewGraphicsStateStack(width, height),
+		CurrentPath:   NewPath(),
+		TextState:     NewTextState(),
+		Resources:     NewResources(),
+		XObjectCache:  make(map[string]cairo.Surface),
+	}
+}
+
+// GetCurrentState 获取当前图形状态
+func (rc *RenderContext) GetCurrentState() *GraphicsState {
+	return rc.GraphicsStack.Current()
+}
+
+// ===== 图形状态操作符 =====
+
+// OpSaveState q - 保存图形状态
+type OpSaveState struct{}
+
+func (op *OpSaveState) Name() string { return "q" }
+
+func (op *OpSaveState) Execute(ctx *RenderContext) error {
+	ctx.GraphicsStack.Push()
+	ctx.CairoCtx.Save()
+	return nil
+}
+
+// OpRestoreState Q - 恢复图形状态
+type OpRestoreState struct{}
+
+func (op *OpRestoreState) Name() string { return "Q" }
+
+func (op *OpRestoreState) Execute(ctx *RenderContext) error {
+	ctx.GraphicsStack.Pop()
+	ctx.CairoCtx.Restore()
+	return nil
+}
+
+// OpConcatMatrix cm - 连接变换矩阵
+type OpConcatMatrix struct {
+	Matrix *Matrix
+}
+
+func (op *OpConcatMatrix) Name() string { return "cm" }
+
+func (op *OpConcatMatrix) Execute(ctx *RenderContext) error {
+	state := ctx.GetCurrentState()
+	state.CTM = state.CTM.Multiply(op.Matrix)
+	op.Matrix.ApplyToCairoContext(ctx.CairoCtx)
+	return nil
+}
+
+// OpSetLineWidth w - 设置线宽
+type OpSetLineWidth struct {
+	Width float64
+}
+
+func (op *OpSetLineWidth) Name() string { return "w" }
+
+func (op *OpSetLineWidth) Execute(ctx *RenderContext) error {
+	state := ctx.GetCurrentState()
+	state.LineWidth = op.Width
+	ctx.CairoCtx.SetLineWidth(op.Width)
+	return nil
+}
+
+// OpSetLineCap J - 设置线端点样式
+type OpSetLineCap struct {
+	Cap int // 0=butt, 1=round, 2=square
+}
+
+func (op *OpSetLineCap) Name() string { return "J" }
+
+func (op *OpSetLineCap) Execute(ctx *RenderContext) error {
+	state := ctx.GetCurrentState()
+	var cap cairo.LineCap
+	switch op.Cap {
+	case 0:
+		cap = cairo.LineCapButt
+	case 1:
+		cap = cairo.LineCapRound
+	case 2:
+		cap = cairo.LineCapSquare
+	default:
+		cap = cairo.LineCapButt
+	}
+	state.LineCap = cap
+	ctx.CairoCtx.SetLineCap(cap)
+	return nil
+}
+
+// OpSetLineJoin j - 设置线连接样式
+type OpSetLineJoin struct {
+	Join int // 0=miter, 1=round, 2=bevel
+}
+
+func (op *OpSetLineJoin) Name() string { return "j" }
+
+func (op *OpSetLineJoin) Execute(ctx *RenderContext) error {
+	state := ctx.GetCurrentState()
+	var join cairo.LineJoin
+	switch op.Join {
+	case 0:
+		join = cairo.LineJoinMiter
+	case 1:
+		join = cairo.LineJoinRound
+	case 2:
+		join = cairo.LineJoinBevel
+	default:
+		join = cairo.LineJoinMiter
+	}
+	state.LineJoin = join
+	ctx.CairoCtx.SetLineJoin(join)
+	return nil
+}
+
+// OpSetMiterLimit M - 设置斜接限制
+type OpSetMiterLimit struct {
+	Limit float64
+}
+
+func (op *OpSetMiterLimit) Name() string { return "M" }
+
+func (op *OpSetMiterLimit) Execute(ctx *RenderContext) error {
+	state := ctx.GetCurrentState()
+	state.MiterLimit = op.Limit
+	ctx.CairoCtx.SetMiterLimit(op.Limit)
+	return nil
+}
+
+// OpSetDash d - 设置虚线模式
+type OpSetDash struct {
+	Pattern []float64
+	Offset  float64
+}
+
+func (op *OpSetDash) Name() string { return "d" }
+
+func (op *OpSetDash) Execute(ctx *RenderContext) error {
+	state := ctx.GetCurrentState()
+	state.SetDash(op.Pattern, op.Offset)
+	ctx.CairoCtx.SetDash(op.Pattern, op.Offset)
+	return nil
+}
+
+// OpSetGraphicsState gs - 设置图形状态参数
+type OpSetGraphicsState struct {
+	DictName string
+}
+
+func (op *OpSetGraphicsState) Name() string { return "gs" }
+
+func (op *OpSetGraphicsState) Execute(ctx *RenderContext) error {
+	// 从资源字典中获取扩展图形状态
+	extGState := ctx.Resources.GetExtGState(op.DictName)
+	if extGState == nil {
+		return fmt.Errorf("graphics state %s not found", op.DictName)
+	}
+
+	state := ctx.GetCurrentState()
+
+	// 应用扩展图形状态参数
+	if lw, ok := extGState["LW"].(float64); ok {
+		state.LineWidth = lw
+		ctx.CairoCtx.SetLineWidth(lw)
+	}
+
+	if lc, ok := extGState["LC"].(int); ok {
+		(&OpSetLineCap{Cap: lc}).Execute(ctx)
+	}
+
+	if lj, ok := extGState["LJ"].(int); ok {
+		(&OpSetLineJoin{Join: lj}).Execute(ctx)
+	}
+
+	if ml, ok := extGState["ML"].(float64); ok {
+		state.MiterLimit = ml
+		ctx.CairoCtx.SetMiterLimit(ml)
+	}
+
+	// 透明度
+	if ca, ok := extGState["ca"].(float64); ok {
+		// 填充透明度
+		if state.FillColor != nil {
+			state.FillColor.A = ca
+		}
+	}
+
+	if CA, ok := extGState["CA"].(float64); ok {
+		// 描边透明度
+		if state.StrokeColor != nil {
+			state.StrokeColor.A = CA
+		}
+	}
+
+	return nil
+}
+
+// ===== 路径构造操作符 =====
+
+// OpMoveTo m - 移动到
+type OpMoveTo struct {
+	X, Y float64
+}
+
+func (op *OpMoveTo) Name() string { return "m" }
+
+func (op *OpMoveTo) Execute(ctx *RenderContext) error {
+	ctx.CurrentPath.MoveTo(op.X, op.Y)
+	ctx.CairoCtx.MoveTo(op.X, op.Y)
+	return nil
+}
+
+// OpLineTo l - 直线到
+type OpLineTo struct {
+	X, Y float64
+}
+
+func (op *OpLineTo) Name() string { return "l" }
+
+func (op *OpLineTo) Execute(ctx *RenderContext) error {
+	ctx.CurrentPath.LineTo(op.X, op.Y)
+	ctx.CairoCtx.LineTo(op.X, op.Y)
+	return nil
+}
+
+// OpCurveTo c - 三次贝塞尔曲线
+type OpCurveTo struct {
+	X1, Y1, X2, Y2, X3, Y3 float64
+}
+
+func (op *OpCurveTo) Name() string { return "c" }
+
+func (op *OpCurveTo) Execute(ctx *RenderContext) error {
+	ctx.CurrentPath.CurveTo(op.X1, op.Y1, op.X2, op.Y2, op.X3, op.Y3)
+	ctx.CairoCtx.CurveTo(op.X1, op.Y1, op.X2, op.Y2, op.X3, op.Y3)
+	return nil
+}
+
+// OpCurveToV v - 三次贝塞尔曲线（初始点重复）
+type OpCurveToV struct {
+	X2, Y2, X3, Y3 float64
+}
+
+func (op *OpCurveToV) Name() string { return "v" }
+
+func (op *OpCurveToV) Execute(ctx *RenderContext) error {
+	// 当前点作为第一个控制点
+	x, y := ctx.CairoCtx.GetCurrentPoint()
+	ctx.CurrentPath.CurveTo(x, y, op.X2, op.Y2, op.X3, op.Y3)
+	ctx.CairoCtx.CurveTo(x, y, op.X2, op.Y2, op.X3, op.Y3)
+	return nil
+}
+
+// OpCurveToY y - 三次贝塞尔曲线（终点重复）
+type OpCurveToY struct {
+	X1, Y1, X3, Y3 float64
+}
+
+func (op *OpCurveToY) Name() string { return "y" }
+
+func (op *OpCurveToY) Execute(ctx *RenderContext) error {
+	// 终点作为第二个控制点
+	ctx.CurrentPath.CurveTo(op.X1, op.Y1, op.X3, op.Y3, op.X3, op.Y3)
+	ctx.CairoCtx.CurveTo(op.X1, op.Y1, op.X3, op.Y3, op.X3, op.Y3)
+	return nil
+}
+
+// OpRectangle re - 矩形
+type OpRectangle struct {
+	X, Y, Width, Height float64
+}
+
+func (op *OpRectangle) Name() string { return "re" }
+
+func (op *OpRectangle) Execute(ctx *RenderContext) error {
+	ctx.CurrentPath.Rectangle(op.X, op.Y, op.Width, op.Height)
+	ctx.CairoCtx.Rectangle(op.X, op.Y, op.Width, op.Height)
+	return nil
+}
+
+// OpClosePath h - 闭合路径
+type OpClosePath struct{}
+
+func (op *OpClosePath) Name() string { return "h" }
+
+func (op *OpClosePath) Execute(ctx *RenderContext) error {
+	ctx.CurrentPath.ClosePath()
+	ctx.CairoCtx.ClosePath()
+	return nil
+}
+
+// ===== 路径绘制操作符 =====
+
+// OpStroke S - 描边
+type OpStroke struct{}
+
+func (op *OpStroke) Name() string { return "S" }
+
+func (op *OpStroke) Execute(ctx *RenderContext) error {
+	state := ctx.GetCurrentState()
+	if state.StrokeColor != nil {
+		ctx.CairoCtx.SetSourceRGBA(
+			state.StrokeColor.R,
+			state.StrokeColor.G,
+			state.StrokeColor.B,
+			state.StrokeColor.A,
+		)
+	}
+	ctx.CairoCtx.Stroke()
+	ctx.CurrentPath.Clear()
+	return nil
+}
+
+// OpCloseAndStroke s - 闭合并描边
+type OpCloseAndStroke struct{}
+
+func (op *OpCloseAndStroke) Name() string { return "s" }
+
+func (op *OpCloseAndStroke) Execute(ctx *RenderContext) error {
+	ctx.CairoCtx.ClosePath()
+	return (&OpStroke{}).Execute(ctx)
+}
+
+// OpFill f/F - 填充（非零缠绕规则）
+type OpFill struct{}
+
+func (op *OpFill) Name() string { return "f" }
+
+func (op *OpFill) Execute(ctx *RenderContext) error {
+	state := ctx.GetCurrentState()
+	if state.FillColor != nil {
+		ctx.CairoCtx.SetSourceRGBA(
+			state.FillColor.R,
+			state.FillColor.G,
+			state.FillColor.B,
+			state.FillColor.A,
+		)
+	}
+	ctx.CairoCtx.SetFillRule(cairo.FillRuleWinding)
+	ctx.CairoCtx.Fill()
+	ctx.CurrentPath.Clear()
+	return nil
+}
+
+// OpFillEvenOdd f* - 填充（奇偶规则）
+type OpFillEvenOdd struct{}
+
+func (op *OpFillEvenOdd) Name() string { return "f*" }
+
+func (op *OpFillEvenOdd) Execute(ctx *RenderContext) error {
+	state := ctx.GetCurrentState()
+	if state.FillColor != nil {
+		ctx.CairoCtx.SetSourceRGBA(
+			state.FillColor.R,
+			state.FillColor.G,
+			state.FillColor.B,
+			state.FillColor.A,
+		)
+	}
+	ctx.CairoCtx.SetFillRule(cairo.FillRuleEvenOdd)
+	ctx.CairoCtx.Fill()
+	ctx.CurrentPath.Clear()
+	return nil
+}
+
+// OpFillAndStroke B - 填充并描边
+type OpFillAndStroke struct{}
+
+func (op *OpFillAndStroke) Name() string { return "B" }
+
+func (op *OpFillAndStroke) Execute(ctx *RenderContext) error {
+	state := ctx.GetCurrentState()
+
+	// 保存路径
+	ctx.CairoCtx.Save()
+
+	// 填充
+	if state.FillColor != nil {
+		ctx.CairoCtx.SetSourceRGBA(
+			state.FillColor.R,
+			state.FillColor.G,
+			state.FillColor.B,
+			state.FillColor.A,
+		)
+	}
+	ctx.CairoCtx.FillPreserve()
+
+	// 描边
+	if state.StrokeColor != nil {
+		ctx.CairoCtx.SetSourceRGBA(
+			state.StrokeColor.R,
+			state.StrokeColor.G,
+			state.StrokeColor.B,
+			state.StrokeColor.A,
+		)
+	}
+	ctx.CairoCtx.Stroke()
+
+	ctx.CairoCtx.Restore()
+	ctx.CurrentPath.Clear()
+	return nil
+}
+
+// OpCloseAndFillAndStroke b - 闭合、填充并描边
+type OpCloseAndFillAndStroke struct{}
+
+func (op *OpCloseAndFillAndStroke) Name() string { return "b" }
+
+func (op *OpCloseAndFillAndStroke) Execute(ctx *RenderContext) error {
+	ctx.CairoCtx.ClosePath()
+	return (&OpFillAndStroke{}).Execute(ctx)
+}
+
+// OpEndPath n - 结束路径（不绘制）
+type OpEndPath struct{}
+
+func (op *OpEndPath) Name() string { return "n" }
+
+func (op *OpEndPath) Execute(ctx *RenderContext) error {
+	ctx.CairoCtx.NewPath()
+	ctx.CurrentPath.Clear()
+	return nil
+}
+
+// OpClip W - 裁剪（非零缠绕规则）
+type OpClip struct{}
+
+func (op *OpClip) Name() string { return "W" }
+
+func (op *OpClip) Execute(ctx *RenderContext) error {
+	ctx.CairoCtx.SetFillRule(cairo.FillRuleWinding)
+	ctx.CairoCtx.Clip()
+	return nil
+}
+
+// OpClipEvenOdd W* - 裁剪（奇偶规则）
+type OpClipEvenOdd struct{}
+
+func (op *OpClipEvenOdd) Name() string { return "W*" }
+
+func (op *OpClipEvenOdd) Execute(ctx *RenderContext) error {
+	ctx.CairoCtx.SetFillRule(cairo.FillRuleEvenOdd)
+	ctx.CairoCtx.Clip()
+	return nil
+}
+
+// ===== 颜色操作符 =====
+
+// OpSetStrokeColorRGB RG - 设置描边颜色（RGB）
+type OpSetStrokeColorRGB struct {
+	R, G, B float64
+}
+
+func (op *OpSetStrokeColorRGB) Name() string { return "RG" }
+
+func (op *OpSetStrokeColorRGB) Execute(ctx *RenderContext) error {
+	state := ctx.GetCurrentState()
+	state.SetStrokeColor(op.R, op.G, op.B, 1.0)
+	return nil
+}
+
+// OpSetFillColorRGB rg - 设置填充颜色（RGB）
+type OpSetFillColorRGB struct {
+	R, G, B float64
+}
+
+func (op *OpSetFillColorRGB) Name() string { return "rg" }
+
+func (op *OpSetFillColorRGB) Execute(ctx *RenderContext) error {
+	state := ctx.GetCurrentState()
+	state.SetFillColor(op.R, op.G, op.B, 1.0)
+	return nil
+}
+
+// OpSetStrokeColorGray G - 设置描边颜色（灰度）
+type OpSetStrokeColorGray struct {
+	Gray float64
+}
+
+func (op *OpSetStrokeColorGray) Name() string { return "G" }
+
+func (op *OpSetStrokeColorGray) Execute(ctx *RenderContext) error {
+	state := ctx.GetCurrentState()
+	state.SetStrokeColor(op.Gray, op.Gray, op.Gray, 1.0)
+	return nil
+}
+
+// OpSetFillColorGray g - 设置填充颜色（灰度）
+type OpSetFillColorGray struct {
+	Gray float64
+}
+
+func (op *OpSetFillColorGray) Name() string { return "g" }
+
+func (op *OpSetFillColorGray) Execute(ctx *RenderContext) error {
+	state := ctx.GetCurrentState()
+	state.SetFillColor(op.Gray, op.Gray, op.Gray, 1.0)
+	return nil
+}
+
+// OpSetStrokeColorCMYK K - 设置描边颜色（CMYK）
+type OpSetStrokeColorCMYK struct {
+	C, M, Y, K float64
+}
+
+func (op *OpSetStrokeColorCMYK) Name() string { return "K" }
+
+func (op *OpSetStrokeColorCMYK) Execute(ctx *RenderContext) error {
+	r, g, b := cmykToRGB(op.C, op.M, op.Y, op.K)
+	state := ctx.GetCurrentState()
+	state.SetStrokeColor(r, g, b, 1.0)
+	return nil
+}
+
+// OpSetFillColorCMYK k - 设置填充颜色（CMYK）
+type OpSetFillColorCMYK struct {
+	C, M, Y, K float64
+}
+
+func (op *OpSetFillColorCMYK) Name() string { return "k" }
+
+func (op *OpSetFillColorCMYK) Execute(ctx *RenderContext) error {
+	r, g, b := cmykToRGB(op.C, op.M, op.Y, op.K)
+	state := ctx.GetCurrentState()
+	state.SetFillColor(r, g, b, 1.0)
+	return nil
+}
+
+// cmykToRGB 将 CMYK 转换为 RGB
+func cmykToRGB(c, m, y, k float64) (float64, float64, float64) {
+	r := (1 - c) * (1 - k)
+	g := (1 - m) * (1 - k)
+	b := (1 - y) * (1 - k)
+	return r, g, b
+}
