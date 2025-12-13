@@ -216,13 +216,13 @@ func (op *OpMoveTextPosition) Name() string { return "Td" }
 
 func (op *OpMoveTextPosition) Execute(ctx *RenderContext) error {
 	// 根据PDF规范：Tm = Tlm = Tlm × [1 0 0 1 tx ty]
-	// 正确的矩阵乘法顺序：先应用当前矩阵，再应用平移
+	// 关键修复：直接从 TextLineMatrix 创建新矩阵，避免累积之前的偏移
 	translation := NewTranslationMatrix(op.Tx, op.Ty)
+	// 使用 TextLineMatrix 的当前值（不是 TextMatrix）
 	ctx.TextState.TextLineMatrix = ctx.TextState.TextLineMatrix.Multiply(translation)
+	// 重置 TextMatrix 为新的 TextLineMatrix，避免双重平移
 	ctx.TextState.TextMatrix = ctx.TextState.TextLineMatrix.Clone()
 
-	// 注意：文本矩阵是独立的，不应该影响图形状态的 CTM
-	// 文本渲染时会单独应用文本矩阵
 	debugPrintf("[Td] Move text position: tx=%.2f, ty=%.2f -> New Tm: [%.2f %.2f %.2f %.2f %.2f %.2f]\n",
 		op.Tx, op.Ty,
 		ctx.TextState.TextMatrix.A, ctx.TextState.TextMatrix.B,
@@ -681,10 +681,16 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 	// 在 Cairo 状态恢复后更新文本矩阵
 	// 注意：文本位移应该在文本空间中进行
 	// 根据 PDF 规范，文本位移是：Tm' = Tm × [1 0 0 1 tx 0]
+	// 关键修复：只有当我们有实际的字形宽度信息时才更新 TextMatrix
+	// 如果使用了 Pango 自动布局（textDisplacement == 0），不更新矩阵
 	if textDisplacement != 0 {
 		// 在文本空间中移动
 		translation := NewTranslationMatrix(textDisplacement, 0)
 		textState.TextMatrix = textState.TextMatrix.Multiply(translation)
+		debugPrintf("[TEXT_MATRIX] Updated after text: displacement=%.2f, new E=%.2f\n",
+			textDisplacement, textState.TextMatrix.E)
+	} else {
+		debugPrintf("[TEXT_MATRIX] No displacement update (using Pango layout)\n")
 	}
 
 	return nil
@@ -803,9 +809,11 @@ func decodeTextStringWithCIDs(text string, toUnicodeMap *CIDToUnicodeMap, font *
 // calculateTextWidth 使用字形宽度计算文本宽度
 func calculateTextWidth(cids []uint16, textState *TextState, decodedText string) float64 {
 	if textState.Font == nil || len(cids) == 0 {
-		// 回退到简单估算
-		runeCount := float64(len([]rune(decodedText)))
-		return runeCount * textState.FontSize * 0.5
+		// 关键修复：当没有字体信息时，返回0而不是过估
+		// 这样可以避免推动后续文本向右偏移
+		// Pango 会自动处理文本布局和宽度
+		debugPrintf("[WIDTH] No font info, returning 0 (Pango will handle layout)\n")
+		return 0.0
 	}
 
 	totalWidth := 0.0
@@ -833,6 +841,7 @@ func calculateTextWidth(cids []uint16, textState *TextState, decodedText string)
 		totalWidth += textState.WordSpacing * float64(spaceCount)
 	}
 
+	debugPrintf("[WIDTH] Calculated width=%.2f for %d CIDs\n", totalWidth, len(cids))
 	return totalWidth
 }
 
