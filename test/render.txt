@@ -1,6 +1,6 @@
 PDF Rendering Report
 ====================
-Time: 2025-12-13 19:54:40
+Time: 2025-12-13 23:59:51
 
 ParseTokens Test:
 -----------------
@@ -20,7 +20,7 @@ Rendering Process:
 Output File Info:
 -----------------
 Size: 105269 bytes
-Created: 2025-12-13 19:54:42
+Created: 2025-12-13 23:59:53
 
 Page Information:
 -----------------
@@ -31,15 +31,7 @@ Page Size: 8.26 x 11.69 inches
 Font Information:
 =================
 
-[Font 1] F6
-  BaseFont: CAAAAA+MicrosoftYaHei
-  Subtype: Type0
-  Encoding: Identity-H
-  Identity Mapping: YES
-  ToUnicode Map: YES (736 mappings, 91 ranges)
-  Embedded Font: NO
-
-[Font 2] F4
+[Font 1] F4
   BaseFont: AAAAAA+FreightSansProBold-Regular
   Subtype: Type0
   Encoding: Identity-H
@@ -47,12 +39,20 @@ Font Information:
   ToUnicode Map: YES (8 mappings, 3 ranges)
   Embedded Font: NO
 
-[Font 3] F5
+[Font 2] F5
   BaseFont: BAAAAA+FreightSansProBook-Regular
   Subtype: Type0
   Encoding: Identity-H
   Identity Mapping: YES
   ToUnicode Map: YES (8 mappings, 9 ranges)
+  Embedded Font: NO
+
+[Font 3] F6
+  BaseFont: CAAAAA+MicrosoftYaHei
+  Subtype: Type0
+  Encoding: Identity-H
+  Identity Mapping: YES
+  ToUnicode Map: YES (736 mappings, 91 ranges)
   Embedded Font: NO
 
 
@@ -441,12 +441,12 @@ Rendering completed successfully
 
 Operator Execution Log:
 ------------------------
-✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
-✓ Detected Identity encoding for font F6: Identity-H
 ✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
 ✓ Detected Identity encoding for font F4: Identity-H
 ✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
 ✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
+✓ Detected Identity encoding for font F6: Identity-H
    Dereferenced to: types.StreamDict
    Decoding StreamDict...
    Raw: 13401 bytes, Content: 0 bytes
@@ -458,139 +458,180 @@ Operator Execution Log:
 [DEBUG] Tf operator: Font=F4, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 486.812 81.000]
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=493.81
 [DEBUG] Td operator: Tx=9.91, Ty=0.00, new E=496.73, F=81.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=503.73
 [DEBUG] Td operator: Tx=9.31, Ty=0.00, new E=506.04, F=81.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=513.04
 [DEBUG] Td operator: Tx=9.60, Ty=0.00, new E=515.64, F=81.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=522.64
 [DEBUG] Td operator: Tx=10.18, Ty=0.00, new E=525.82, F=81.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=532.82
 [DEBUG] Td operator: Tx=11.38, Ty=0.00, new E=537.20, F=81.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=544.20
 [DEBUG] Td operator: Tx=11.86, Ty=0.00, new E=549.06, F=81.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=556.06
 [DEBUG] Td operator: Tx=8.30, Ty=0.00, new E=557.36, F=81.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=564.36
 [DEBUG] Td operator: Tx=11.86, Ty=0.00, new E=569.22, F=81.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=576.22
 [DEBUG] Td operator: Tx=10.79, Ty=0.00, new E=580.02, F=81.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=587.02
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=36.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 311.453 137.000]
 [DEBUG] Text element: baseFontSize=36.00, scale=-1.00, effectiveFontSize=36.00
+[DEBUG] Estimated text width: 90.00, new E=401.45
 [DEBUG] Td operator: Tx=83.27, Ty=0.00, new E=394.72, F=137.00
 [DEBUG] Text element: baseFontSize=36.00, scale=-1.00, effectiveFontSize=36.00
+[DEBUG] Estimated text width: 180.00, new E=574.72
 [DEBUG] Td operator: Tx=146.41, Ty=0.00, new E=541.13, F=137.00
 [DEBUG] Text element: baseFontSize=36.00, scale=-1.00, effectiveFontSize=36.00
+[DEBUG] Estimated text width: 144.00, new E=685.13
 [DEBUG] Td operator: Tx=104.87, Ty=0.00, new E=646.00, F=137.00
 [DEBUG] Text element: baseFontSize=36.00, scale=-1.00, effectiveFontSize=36.00
+[DEBUG] Estimated text width: 144.00, new E=790.00
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 363.656 172.000]
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 42.00, new E=405.66
 [DEBUG] Td operator: Tx=28.23, Ty=0.00, new E=391.88, F=172.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 294.00, new E=685.88
 [DEBUG] Td operator: Tx=225.16, Ty=0.00, new E=617.04, F=172.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 28.00, new E=645.04
 [DEBUG] Td operator: Tx=22.71, Ty=0.00, new E=639.75, F=172.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 84.00, new E=723.75
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 405.500 195.000]
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 133.00, new E=538.50
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 545.828 236.000]
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=552.83
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 35.00, new E=462.70
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
 [DEBUG] Td operator: Tx=70.00, Ty=0.00, new E=497.70, F=267.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=504.70
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
 [DEBUG] Td operator: Tx=72.61, Ty=0.00, new E=500.31, F=267.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 21.00, new E=521.31
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
 [DEBUG] Td operator: Tx=114.61, Ty=0.00, new E=542.31, F=267.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 21.00, new E=563.31
 [DEBUG] Td operator: Tx=17.36, Ty=0.00, new E=559.68, F=267.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 21.00, new E=580.68
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
 [DEBUG] Td operator: Tx=147.18, Ty=0.00, new E=574.89, F=267.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=581.89
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
 [DEBUG] Td operator: Tx=161.18, Ty=0.00, new E=588.89, F=267.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 28.00, new E=616.89
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
 [DEBUG] Td operator: Tx=180.20, Ty=0.00, new E=607.91, F=267.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=614.91
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
 [DEBUG] Td operator: Tx=194.20, Ty=0.00, new E=621.91, F=267.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 21.00, new E=642.91
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
 [DEBUG] Td operator: Tx=207.59, Ty=0.00, new E=635.29, F=267.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=642.29
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 414.734 236.000]
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=421.73
 [DEBUG] Td operator: Tx=7.56, Ty=0.00, new E=422.29, F=236.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 35.00, new E=457.29
 [DEBUG] Td operator: Tx=36.55, Ty=0.00, new E=458.85, F=236.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=465.85
 [DEBUG] Td operator: Tx=8.07, Ty=0.00, new E=466.91, F=236.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 49.00, new E=515.91
 [DEBUG] Td operator: Tx=50.26, Ty=0.00, new E=517.17, F=236.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=524.17
 [DEBUG] Td operator: Tx=9.79, Ty=0.00, new E=526.96, F=236.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=533.96
 [DEBUG] Td operator: Tx=7.98, Ty=0.00, new E=534.94, F=236.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 14.00, new E=548.94
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 573.016 236.000]
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 21.00, new E=594.02
 [DEBUG] Td operator: Tx=20.77, Ty=0.00, new E=593.78, F=236.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 42.00, new E=635.78
 [DEBUG] Td operator: Tx=36.48, Ty=0.00, new E=630.26, F=236.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 28.00, new E=658.26
 [DEBUG] Td operator: Tx=19.97, Ty=0.00, new E=650.23, F=236.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 14.00, new E=664.23
 [DEBUG] ET operator: End text object
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 1177.083 739.582], new CTM=[1.042 0.000 0.000 -1.042 617.542 443.129]
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[2.170 0.000 0.000 -2.170 743.410 317.263]
@@ -598,8 +639,10 @@ Operator Execution Log:
 [DEBUG] Tf operator: Font=F5, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 538.750 314.000]
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 28.00, new E=566.75
 [DEBUG] Td operator: Tx=24.92, Ty=0.00, new E=563.67, F=314.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=570.67
 [DEBUG] ET operator: End text object
 [DEBUG] cm operator: Matrix=[2177.084 0.000 0.000 -725.000 154.167 1547.916], new CTM=[4724.575 0.000 0.000 1573.351 1077.973 -3041.930]
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[9842.864 0.000 0.000 3277.815 571964.109 187069.283]
@@ -607,50 +650,70 @@ Operator Execution Log:
 [DEBUG] Tf operator: Font=F4, Size=60.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 37.234 767.000]
 [DEBUG] Text element: baseFontSize=60.00, scale=-1.00, effectiveFontSize=60.00
+[DEBUG] Estimated text width: 30.00, new E=67.23
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 84.000 738.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=93.00
 [DEBUG] Td operator: Tx=2.64, Ty=0.00, new E=86.64, F=738.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 90.00, new E=176.64
 [DEBUG] Td operator: Tx=73.45, Ty=0.00, new E=160.09, F=738.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 108.00, new E=268.09
 [DEBUG] Td operator: Tx=84.62, Ty=0.00, new E=244.71, F=738.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 126.00, new E=370.71
 [DEBUG] Td operator: Tx=96.37, Ty=0.00, new E=341.08, F=738.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 198.00, new E=539.08
 [DEBUG] Td operator: Tx=164.42, Ty=0.00, new E=505.50, F=738.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 54.00, new E=559.50
 [DEBUG] Td operator: Tx=36.12, Ty=0.00, new E=541.62, F=738.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 189.00, new E=730.62
 [DEBUG] Td operator: Tx=149.48, Ty=0.00, new E=691.10, F=738.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 63.00, new E=754.10
 [DEBUG] Td operator: Tx=52.62, Ty=0.00, new E=743.72, F=738.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 144.00, new E=887.72
 [DEBUG] Td operator: Tx=107.17, Ty=0.00, new E=850.89, F=738.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 99.00, new E=949.89
 [DEBUG] Td operator: Tx=88.83, Ty=0.00, new E=939.72, F=738.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 81.00, new E=1020.72
 [DEBUG] Td operator: Tx=56.96, Ty=0.00, new E=996.68, F=738.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 54.00, new E=1050.68
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 84.000 769.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 189.00, new E=273.00
 [DEBUG] Td operator: Tx=143.48, Ty=0.00, new E=227.48, F=769.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 279.00, new E=506.48
 [DEBUG] Td operator: Tx=220.30, Ty=0.00, new E=447.78, F=769.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 144.00, new E=591.78
 [DEBUG] Td operator: Tx=122.07, Ty=0.00, new E=569.85, F=769.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=578.85
 [DEBUG] Td operator: Tx=7.54, Ty=0.00, new E=577.39, F=769.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 162.00, new E=739.39
 [DEBUG] Td operator: Tx=135.86, Ty=0.00, new E=713.25, F=769.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 63.00, new E=776.25
 [DEBUG] Td operator: Tx=53.96, Ty=0.00, new E=767.21, F=769.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=785.21
 [DEBUG] ET operator: End text object
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[20505.969 0.000 0.000 6828.782 1761310.322 583134.343]
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[42720.772 0.000 0.000 14226.630 4239115.130 1408269.949]
@@ -658,6 +721,7 @@ Operator Execution Log:
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 808.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 522.00, new E=538.00
 [DEBUG] ET operator: End text object
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[89001.616 0.000 0.000 29638.816 9401208.893 3127302.601]
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[185420.048 0.000 0.000 61747.538 20155571.758 6708620.910]
@@ -665,102 +729,146 @@ Operator Execution Log:
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 838.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 108.00, new E=124.00
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 877.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=25.00
 [DEBUG] Td operator: Tx=8.18, Ty=0.00, new E=24.18, F=877.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=33.18
 [DEBUG] Td operator: Tx=11.82, Ty=0.00, new E=36.00, F=877.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 90.00, new E=126.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=135.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 198.00, new E=333.00
 [DEBUG] Td operator: Tx=238.78, Ty=0.00, new E=274.79, F=877.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 54.00, new E=328.79
 [DEBUG] Td operator: Tx=44.05, Ty=0.00, new E=318.84, F=877.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 81.00, new E=399.84
 [DEBUG] Td operator: Tx=65.87, Ty=0.00, new E=384.70, F=877.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 189.00, new E=573.70
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 915.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 207.00, new E=223.00
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 976.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=34.00
 [DEBUG] Td operator: Tx=22.20, Ty=0.00, new E=38.20, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 36.00, new E=74.20
 [DEBUG] Td operator: Tx=26.68, Ty=0.00, new E=64.88, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 27.00, new E=91.88
 [DEBUG] Td operator: Tx=18.78, Ty=0.00, new E=83.67, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 54.00, new E=137.67
 [DEBUG] Td operator: Tx=43.15, Ty=0.00, new E=126.82, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 180.00, new E=306.82
 [DEBUG] Td operator: Tx=141.78, Ty=0.00, new E=268.60, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 72.00, new E=340.60
 [DEBUG] Td operator: Tx=55.76, Ty=0.00, new E=324.36, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=342.36
 [DEBUG] Td operator: Tx=14.69, Ty=0.00, new E=339.04, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 54.00, new E=393.04
 [DEBUG] Td operator: Tx=36.71, Ty=0.00, new E=375.75, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 99.00, new E=474.75
 [DEBUG] Td operator: Tx=71.77, Ty=0.00, new E=447.53, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 81.00, new E=528.53
 [DEBUG] Td operator: Tx=66.59, Ty=0.00, new E=514.12, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=532.12
 [DEBUG] Td operator: Tx=10.81, Ty=0.00, new E=524.93, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 90.00, new E=614.93
 [DEBUG] Td operator: Tx=66.73, Ty=0.00, new E=591.66, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 27.00, new E=618.66
 [DEBUG] Td operator: Tx=21.34, Ty=0.00, new E=613.00, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 72.00, new E=685.00
 [DEBUG] Td operator: Tx=55.95, Ty=0.00, new E=668.95, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 27.00, new E=695.95
 [DEBUG] Td operator: Tx=22.75, Ty=0.00, new E=691.69, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=709.69
 [DEBUG] Td operator: Tx=10.92, Ty=0.00, new E=702.61, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=711.61
 [DEBUG] Td operator: Tx=6.23, Ty=0.00, new E=708.84, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 63.00, new E=771.84
 [DEBUG] Td operator: Tx=54.64, Ty=0.00, new E=763.48, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=781.48
 [DEBUG] Td operator: Tx=14.65, Ty=0.00, new E=778.13, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 225.00, new E=1003.13
 [DEBUG] Td operator: Tx=175.78, Ty=0.00, new E=953.92, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=971.92
 [DEBUG] Td operator: Tx=13.73, Ty=0.00, new E=967.64, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 72.00, new E=1039.64
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1007.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=25.00
 [DEBUG] Td operator: Tx=8.18, Ty=0.00, new E=24.18, F=1007.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=42.18
 [DEBUG] Td operator: Tx=17.45, Ty=0.00, new E=41.63, F=1007.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=50.63
 [DEBUG] Td operator: Tx=7.54, Ty=0.00, new E=49.17, F=1007.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 54.00, new E=103.17
 [DEBUG] Td operator: Tx=45.12, Ty=0.00, new E=94.29, F=1007.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 54.00, new E=148.29
 [DEBUG] Td operator: Tx=39.30, Ty=0.00, new E=133.60, F=1007.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=142.60
 [DEBUG] Td operator: Tx=2.91, Ty=0.00, new E=136.51, F=1007.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 27.00, new E=163.51
 [DEBUG] Td operator: Tx=19.58, Ty=0.00, new E=156.09, F=1007.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 351.00, new E=507.09
 [DEBUG] Td operator: Tx=294.49, Ty=0.00, new E=450.58, F=1007.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 99.00, new E=549.58
 [DEBUG] Td operator: Tx=67.88, Ty=0.00, new E=518.45, F=1007.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 36.00, new E=554.45
 [DEBUG] Td operator: Tx=28.05, Ty=0.00, new E=546.50, F=1007.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=564.50
 [DEBUG] Td operator: Tx=17.58, Ty=0.00, new E=564.08, F=1007.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 72.00, new E=636.08
 [DEBUG] ET operator: End text object
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[386291.797 0.000 0.000 128640.714 42560496.188 14169701.319]
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[804774.642 0.000 0.000 268001.509 89237425.817 29713620.080]
@@ -768,36 +876,42 @@ Operator Execution Log:
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1045.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=25.00
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1045.000]
 [DEBUG] Td operator: Tx=6.91, Ty=0.00, new E=22.91, F=1045.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 144.00, new E=166.91
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1045.000]
 [DEBUG] Td operator: Tx=294.91, Ty=0.00, new E=310.91, F=1045.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=319.91
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1045.000]
 [DEBUG] Td operator: Tx=301.82, Ty=0.00, new E=317.82, F=1045.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 342.00, new E=659.82
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1045.000]
 [DEBUG] Td operator: Tx=985.82, Ty=0.00, new E=1001.82, F=1045.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=1019.82
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1045.000]
 [DEBUG] Td operator: Tx=996.82, Ty=0.00, new E=1012.82, F=1045.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=1030.82
 [DEBUG] ET operator: End text object
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[1676613.972 0.000 0.000 558336.522 186481036.991 62096786.757]
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[3492946.054 0.000 0.000 1163201.181 389071909.810 129561722.732]
@@ -805,134 +919,183 @@ Operator Execution Log:
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1076.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 36.00, new E=52.00
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1076.000]
 [DEBUG] Td operator: Tx=72.00, Ty=0.00, new E=88.00, F=1076.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=97.00
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1136.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=34.00
 [DEBUG] Td operator: Tx=15.17, Ty=0.00, new E=31.17, F=1136.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 72.00, new E=103.17
 [DEBUG] Td operator: Tx=43.85, Ty=0.00, new E=75.02, F=1136.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 36.00, new E=111.02
 [DEBUG] Td operator: Tx=28.67, Ty=0.00, new E=103.69, F=1136.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=112.69
 [DEBUG] Td operator: Tx=2.46, Ty=0.00, new E=106.15, F=1136.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 72.00, new E=178.15
 [DEBUG] Td operator: Tx=54.97, Ty=0.00, new E=161.12, F=1136.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=179.12
 [DEBUG] Td operator: Tx=13.78, Ty=0.00, new E=174.90, F=1136.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=183.90
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1175.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=25.00
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1175.000]
 [DEBUG] Td operator: Tx=6.91, Ty=0.00, new E=22.91, F=1175.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 72.00, new E=94.91
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1175.000]
 [DEBUG] Td operator: Tx=150.91, Ty=0.00, new E=166.91, F=1175.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=175.91
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1175.000]
 [DEBUG] Td operator: Tx=157.82, Ty=0.00, new E=173.82, F=1175.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 36.00, new E=209.82
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1236.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 297.00, new E=313.00
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1274.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 63.00, new E=79.00
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1313.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 36.00, new E=52.00
 [DEBUG] Td operator: Tx=33.17, Ty=0.00, new E=49.17, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=58.17
 [DEBUG] Td operator: Tx=11.82, Ty=0.00, new E=60.99, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=78.99
 [DEBUG] Td operator: Tx=15.04, Ty=0.00, new E=76.03, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 72.00, new E=148.03
 [DEBUG] Td operator: Tx=52.05, Ty=0.00, new E=128.08, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 54.00, new E=182.08
 [DEBUG] Td operator: Tx=42.21, Ty=0.00, new E=170.28, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=179.28
 [DEBUG] Td operator: Tx=9.47, Ty=0.00, new E=179.75, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 144.00, new E=323.75
 [DEBUG] Td operator: Tx=110.68, Ty=0.00, new E=290.43, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=299.43
 [DEBUG] Td operator: Tx=7.54, Ty=0.00, new E=297.97, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 108.00, new E=405.97
 [DEBUG] Td operator: Tx=82.44, Ty=0.00, new E=380.41, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 81.00, new E=461.41
 [DEBUG] Td operator: Tx=66.51, Ty=0.00, new E=446.92, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 81.00, new E=527.92
 [DEBUG] Td operator: Tx=60.45, Ty=0.00, new E=507.37, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 54.00, new E=561.37
 [DEBUG] Td operator: Tx=35.24, Ty=0.00, new E=542.61, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 108.00, new E=650.61
 [DEBUG] Td operator: Tx=96.42, Ty=0.00, new E=639.04, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=648.04
 [DEBUG] Td operator: Tx=11.82, Ty=0.00, new E=650.86, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 180.00, new E=830.86
 [DEBUG] Td operator: Tx=145.78, Ty=0.00, new E=796.64, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 54.00, new E=850.64
 [DEBUG] Td operator: Tx=46.50, Ty=0.00, new E=843.14, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=861.14
 [DEBUG] Td operator: Tx=15.44, Ty=0.00, new E=858.58, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 171.00, new E=1029.58
 [DEBUG] Td operator: Tx=134.78, Ty=0.00, new E=993.36, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=1011.36
 [DEBUG] Td operator: Tx=15.48, Ty=0.00, new E=1008.84, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 36.00, new E=1044.84
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1343.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=34.00
 [DEBUG] Td operator: Tx=13.73, Ty=0.00, new E=29.73, F=1343.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 180.00, new E=209.73
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=218.73
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 414.00, new E=632.73
 [DEBUG] Td operator: Tx=471.90, Ty=0.00, new E=501.63, F=1343.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=519.63
 [DEBUG] Td operator: Tx=13.73, Ty=0.00, new E=515.36, F=1343.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 189.00, new E=704.36
 [DEBUG] Td operator: Tx=140.11, Ty=0.00, new E=655.47, F=1343.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=673.47
 [DEBUG] Td operator: Tx=16.48, Ty=0.00, new E=671.95, F=1343.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=680.95
 [DEBUG] Td operator: Tx=9.47, Ty=0.00, new E=681.41, F=1343.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=690.41
 [DEBUG] Td operator: Tx=7.54, Ty=0.00, new E=688.95, F=1343.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 63.00, new E=751.95
 [DEBUG] Td operator: Tx=45.01, Ty=0.00, new E=733.96, F=1343.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=751.96
 [DEBUG] Td operator: Tx=15.08, Ty=0.00, new E=749.04, F=1343.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=758.04
 [DEBUG] Td operator: Tx=11.94, Ty=0.00, new E=760.99, F=1343.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=778.99
 [DEBUG] Td operator: Tx=14.13, Ty=0.00, new E=775.12, F=1343.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=793.12
 [DEBUG] ET operator: End text object
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[7276971.528 0.000 0.000 2423335.988 811136261.948 270113683.922]
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[15160358.564 0.000 0.000 5048617.046 1690437065.912 562930293.162]
@@ -940,6 +1103,7 @@ Operator Execution Log:
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1382.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 522.00, new E=538.00
 [DEBUG] ET operator: End text object
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[31584082.868 0.000 0.000 10517953.020 3522313887.389 1172964944.546]
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[65800177.905 0.000 0.000 21912403.878 7338724237.445 2443870569.936]
@@ -947,81 +1111,112 @@ Operator Execution Log:
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1413.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 54.00, new E=70.00
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1451.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=25.00
 [DEBUG] Td operator: Tx=8.18, Ty=0.00, new E=24.18, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 144.00, new E=168.18
 [DEBUG] Td operator: Tx=113.82, Ty=0.00, new E=138.00, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 99.00, new E=237.00
 [DEBUG] Td operator: Tx=77.64, Ty=0.00, new E=215.64, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 36.00, new E=251.64
 [DEBUG] Td operator: Tx=36.60, Ty=0.00, new E=252.24, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 63.00, new E=315.24
 [DEBUG] Td operator: Tx=47.20, Ty=0.00, new E=299.44, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 54.00, new E=353.44
 [DEBUG] Td operator: Tx=47.35, Ty=0.00, new E=346.79, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 117.00, new E=463.79
 [DEBUG] Td operator: Tx=85.58, Ty=0.00, new E=432.36, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 54.00, new E=486.36
 [DEBUG] Td operator: Tx=42.01, Ty=0.00, new E=474.38, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=492.38
 [DEBUG] Td operator: Tx=13.73, Ty=0.00, new E=488.10, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=506.10
 [DEBUG] Td operator: Tx=13.78, Ty=0.00, new E=501.89, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 27.00, new E=528.89
 [DEBUG] Td operator: Tx=16.49, Ty=0.00, new E=518.37, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=527.37
 [DEBUG] Td operator: Tx=7.54, Ty=0.00, new E=525.92, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=543.92
 [DEBUG] Td operator: Tx=15.13, Ty=0.00, new E=541.05, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 207.00, new E=748.05
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=757.05
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=766.05
 [DEBUG] Td operator: Tx=180.17, Ty=0.00, new E=721.22, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 45.00, new E=766.22
 [DEBUG] Td operator: Tx=40.90, Ty=0.00, new E=762.11, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 36.00, new E=798.11
 [DEBUG] Td operator: Tx=35.68, Ty=0.00, new E=797.80, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 126.00, new E=923.80
 [DEBUG] Td operator: Tx=99.11, Ty=0.00, new E=896.90, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 126.00, new E=1022.90
 [DEBUG] Td operator: Tx=94.62, Ty=0.00, new E=991.52, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=1009.52
 [DEBUG] Td operator: Tx=13.73, Ty=0.00, new E=1005.25, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 36.00, new E=1041.25
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1482.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 45.00, new E=61.00
 [DEBUG] Td operator: Tx=36.56, Ty=0.00, new E=52.56, F=1482.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=70.56
 [DEBUG] Td operator: Tx=16.48, Ty=0.00, new E=69.04, F=1482.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=87.04
 [DEBUG] Td operator: Tx=15.79, Ty=0.00, new E=84.83, F=1482.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 90.00, new E=174.83
 [DEBUG] Td operator: Tx=71.64, Ty=0.00, new E=156.47, F=1482.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=165.47
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1520.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 423.00, new E=439.00
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1520.000]
 [DEBUG] Td operator: Tx=846.00, Ty=0.00, new E=862.00, F=1520.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 36.00, new E=898.00
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1520.000]
 [DEBUG] Td operator: Tx=873.04, Ty=0.00, new E=889.04, F=1520.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 72.00, new E=961.04
 [DEBUG] ET operator: End text object
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[137083714.935 0.000 0.000 45650845.065 15289579769.462 5091590834.651]
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[285591095.628 0.000 0.000 95105934.828 31853863452.975 10607675160.758]
@@ -1031,13 +1226,14 @@ Operator Execution Log:
 [DEBUG] Tf operator: Font=F5, Size=17.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 643.891 28.000]
 [DEBUG] Text element: baseFontSize=17.00, scale=-1.00, effectiveFontSize=17.00
+[DEBUG] Estimated text width: 34.00, new E=677.89
 [DEBUG] ET operator: End text object
-✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
-✓ Detected Identity encoding for font F6: Identity-H
 ✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
 ✓ Detected Identity encoding for font F4: Identity-H
 ✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
 ✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
+✓ Detected Identity encoding for font F6: Identity-H
    Dereferenced to: types.StreamDict
    Decoding StreamDict...
    Raw: 13401 bytes, Content: 0 bytes
@@ -3270,31 +3466,31 @@ Operator Execution Log:
 [Q] Restore graphics state - Stack depth: 1
 
 📈 Operator Statistics:
-   re: 44
-   gs: 31
-   EMC: 54
-   Q: 44
-   h: 30
-   l: 51
-   n: 29
    BDC: 54
    Tm: 51
    Td: 158
-   f: 32
+   Q: 44
    c: 387
-   S: 8
-   Do: 1
-   cm: 22
    q: 44
    RG: 42
    Tf: 51
+   EMC: 54
+   f: 32
+   l: 51
+   W: 7
+   Do: 1
+   W*: 22
+   BT: 51
    Tj: 196
    ET: 51
-   W*: 22
-   rg: 42
-   BT: 51
    m: 32
-   W: 7
+   cm: 22
+   re: 44
+   rg: 42
+   h: 30
+   S: 8
+   n: 29
+   gs: 31
 
 📌 Rendering 3 annotations...
 [Annotation] Rendering annotation: Link
@@ -3303,12 +3499,12 @@ Operator Execution Log:
 [Annotation] Unsupported annotation type: Link
 [Annotation] Rendering annotation: Link
 [Annotation] Unsupported annotation type: Link
-✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
-✓ Detected Identity encoding for font F6: Identity-H
 ✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
 ✓ Detected Identity encoding for font F4: Identity-H
 ✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
 ✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
+✓ Detected Identity encoding for font F6: Identity-H
 ✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
 ✓ Detected Identity encoding for font F4: Identity-H
 ✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
@@ -3326,139 +3522,180 @@ Operator Execution Log:
 [DEBUG] Tf operator: Font=F4, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 486.812 81.000]
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=493.81
 [DEBUG] Td operator: Tx=9.91, Ty=0.00, new E=496.73, F=81.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=503.73
 [DEBUG] Td operator: Tx=9.31, Ty=0.00, new E=506.04, F=81.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=513.04
 [DEBUG] Td operator: Tx=9.60, Ty=0.00, new E=515.64, F=81.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=522.64
 [DEBUG] Td operator: Tx=10.18, Ty=0.00, new E=525.82, F=81.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=532.82
 [DEBUG] Td operator: Tx=11.38, Ty=0.00, new E=537.20, F=81.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=544.20
 [DEBUG] Td operator: Tx=11.86, Ty=0.00, new E=549.06, F=81.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=556.06
 [DEBUG] Td operator: Tx=8.30, Ty=0.00, new E=557.36, F=81.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=564.36
 [DEBUG] Td operator: Tx=11.86, Ty=0.00, new E=569.22, F=81.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=576.22
 [DEBUG] Td operator: Tx=10.79, Ty=0.00, new E=580.02, F=81.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=587.02
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=36.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 311.453 137.000]
 [DEBUG] Text element: baseFontSize=36.00, scale=-1.00, effectiveFontSize=36.00
+[DEBUG] Estimated text width: 90.00, new E=401.45
 [DEBUG] Td operator: Tx=83.27, Ty=0.00, new E=394.72, F=137.00
 [DEBUG] Text element: baseFontSize=36.00, scale=-1.00, effectiveFontSize=36.00
+[DEBUG] Estimated text width: 180.00, new E=574.72
 [DEBUG] Td operator: Tx=146.41, Ty=0.00, new E=541.13, F=137.00
 [DEBUG] Text element: baseFontSize=36.00, scale=-1.00, effectiveFontSize=36.00
+[DEBUG] Estimated text width: 144.00, new E=685.13
 [DEBUG] Td operator: Tx=104.87, Ty=0.00, new E=646.00, F=137.00
 [DEBUG] Text element: baseFontSize=36.00, scale=-1.00, effectiveFontSize=36.00
+[DEBUG] Estimated text width: 144.00, new E=790.00
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 363.656 172.000]
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 42.00, new E=405.66
 [DEBUG] Td operator: Tx=28.23, Ty=0.00, new E=391.88, F=172.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 294.00, new E=685.88
 [DEBUG] Td operator: Tx=225.16, Ty=0.00, new E=617.04, F=172.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 28.00, new E=645.04
 [DEBUG] Td operator: Tx=22.71, Ty=0.00, new E=639.75, F=172.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 84.00, new E=723.75
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 405.500 195.000]
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 133.00, new E=538.50
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 545.828 236.000]
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=552.83
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 35.00, new E=462.70
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
 [DEBUG] Td operator: Tx=70.00, Ty=0.00, new E=497.70, F=267.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=504.70
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
 [DEBUG] Td operator: Tx=72.61, Ty=0.00, new E=500.31, F=267.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 21.00, new E=521.31
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
 [DEBUG] Td operator: Tx=114.61, Ty=0.00, new E=542.31, F=267.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 21.00, new E=563.31
 [DEBUG] Td operator: Tx=17.36, Ty=0.00, new E=559.68, F=267.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 21.00, new E=580.68
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
 [DEBUG] Td operator: Tx=147.18, Ty=0.00, new E=574.89, F=267.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=581.89
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
 [DEBUG] Td operator: Tx=161.18, Ty=0.00, new E=588.89, F=267.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 28.00, new E=616.89
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
 [DEBUG] Td operator: Tx=180.20, Ty=0.00, new E=607.91, F=267.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=614.91
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
 [DEBUG] Td operator: Tx=194.20, Ty=0.00, new E=621.91, F=267.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 21.00, new E=642.91
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
 [DEBUG] Td operator: Tx=207.59, Ty=0.00, new E=635.29, F=267.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=642.29
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 414.734 236.000]
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=421.73
 [DEBUG] Td operator: Tx=7.56, Ty=0.00, new E=422.29, F=236.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 35.00, new E=457.29
 [DEBUG] Td operator: Tx=36.55, Ty=0.00, new E=458.85, F=236.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=465.85
 [DEBUG] Td operator: Tx=8.07, Ty=0.00, new E=466.91, F=236.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 49.00, new E=515.91
 [DEBUG] Td operator: Tx=50.26, Ty=0.00, new E=517.17, F=236.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=524.17
 [DEBUG] Td operator: Tx=9.79, Ty=0.00, new E=526.96, F=236.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=533.96
 [DEBUG] Td operator: Tx=7.98, Ty=0.00, new E=534.94, F=236.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 14.00, new E=548.94
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 573.016 236.000]
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 21.00, new E=594.02
 [DEBUG] Td operator: Tx=20.77, Ty=0.00, new E=593.78, F=236.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 42.00, new E=635.78
 [DEBUG] Td operator: Tx=36.48, Ty=0.00, new E=630.26, F=236.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 28.00, new E=658.26
 [DEBUG] Td operator: Tx=19.97, Ty=0.00, new E=650.23, F=236.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 14.00, new E=664.23
 [DEBUG] ET operator: End text object
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 1177.083 739.582], new CTM=[1.042 0.000 0.000 -1.042 617.542 443.129]
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[2.170 0.000 0.000 -2.170 743.410 317.263]
@@ -3466,8 +3703,10 @@ Operator Execution Log:
 [DEBUG] Tf operator: Font=F5, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 538.750 314.000]
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 28.00, new E=566.75
 [DEBUG] Td operator: Tx=24.92, Ty=0.00, new E=563.67, F=314.00
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Estimated text width: 7.00, new E=570.67
 [DEBUG] ET operator: End text object
 [DEBUG] cm operator: Matrix=[2177.084 0.000 0.000 -725.000 154.167 1547.916], new CTM=[4724.575 0.000 0.000 1573.351 1077.973 -3041.930]
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[9842.864 0.000 0.000 3277.815 571964.109 187069.283]
@@ -3475,50 +3714,70 @@ Operator Execution Log:
 [DEBUG] Tf operator: Font=F4, Size=60.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 37.234 767.000]
 [DEBUG] Text element: baseFontSize=60.00, scale=-1.00, effectiveFontSize=60.00
+[DEBUG] Estimated text width: 30.00, new E=67.23
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 84.000 738.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=93.00
 [DEBUG] Td operator: Tx=2.64, Ty=0.00, new E=86.64, F=738.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 90.00, new E=176.64
 [DEBUG] Td operator: Tx=73.45, Ty=0.00, new E=160.09, F=738.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 108.00, new E=268.09
 [DEBUG] Td operator: Tx=84.62, Ty=0.00, new E=244.71, F=738.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 126.00, new E=370.71
 [DEBUG] Td operator: Tx=96.37, Ty=0.00, new E=341.08, F=738.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 198.00, new E=539.08
 [DEBUG] Td operator: Tx=164.42, Ty=0.00, new E=505.50, F=738.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 54.00, new E=559.50
 [DEBUG] Td operator: Tx=36.12, Ty=0.00, new E=541.62, F=738.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 189.00, new E=730.62
 [DEBUG] Td operator: Tx=149.48, Ty=0.00, new E=691.10, F=738.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 63.00, new E=754.10
 [DEBUG] Td operator: Tx=52.62, Ty=0.00, new E=743.72, F=738.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 144.00, new E=887.72
 [DEBUG] Td operator: Tx=107.17, Ty=0.00, new E=850.89, F=738.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 99.00, new E=949.89
 [DEBUG] Td operator: Tx=88.83, Ty=0.00, new E=939.72, F=738.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 81.00, new E=1020.72
 [DEBUG] Td operator: Tx=56.96, Ty=0.00, new E=996.68, F=738.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 54.00, new E=1050.68
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 84.000 769.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 189.00, new E=273.00
 [DEBUG] Td operator: Tx=143.48, Ty=0.00, new E=227.48, F=769.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 279.00, new E=506.48
 [DEBUG] Td operator: Tx=220.30, Ty=0.00, new E=447.78, F=769.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 144.00, new E=591.78
 [DEBUG] Td operator: Tx=122.07, Ty=0.00, new E=569.85, F=769.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=578.85
 [DEBUG] Td operator: Tx=7.54, Ty=0.00, new E=577.39, F=769.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 162.00, new E=739.39
 [DEBUG] Td operator: Tx=135.86, Ty=0.00, new E=713.25, F=769.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 63.00, new E=776.25
 [DEBUG] Td operator: Tx=53.96, Ty=0.00, new E=767.21, F=769.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=785.21
 [DEBUG] ET operator: End text object
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[20505.969 0.000 0.000 6828.782 1761310.322 583134.343]
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[42720.772 0.000 0.000 14226.630 4239115.130 1408269.949]
@@ -3526,6 +3785,7 @@ Operator Execution Log:
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 808.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 522.00, new E=538.00
 [DEBUG] ET operator: End text object
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[89001.616 0.000 0.000 29638.816 9401208.893 3127302.601]
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[185420.048 0.000 0.000 61747.538 20155571.758 6708620.910]
@@ -3533,102 +3793,146 @@ Operator Execution Log:
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 838.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 108.00, new E=124.00
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 877.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=25.00
 [DEBUG] Td operator: Tx=8.18, Ty=0.00, new E=24.18, F=877.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=33.18
 [DEBUG] Td operator: Tx=11.82, Ty=0.00, new E=36.00, F=877.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 90.00, new E=126.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=135.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 198.00, new E=333.00
 [DEBUG] Td operator: Tx=238.78, Ty=0.00, new E=274.79, F=877.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 54.00, new E=328.79
 [DEBUG] Td operator: Tx=44.05, Ty=0.00, new E=318.84, F=877.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 81.00, new E=399.84
 [DEBUG] Td operator: Tx=65.87, Ty=0.00, new E=384.70, F=877.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 189.00, new E=573.70
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 915.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 207.00, new E=223.00
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 976.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=34.00
 [DEBUG] Td operator: Tx=22.20, Ty=0.00, new E=38.20, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 36.00, new E=74.20
 [DEBUG] Td operator: Tx=26.68, Ty=0.00, new E=64.88, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 27.00, new E=91.88
 [DEBUG] Td operator: Tx=18.78, Ty=0.00, new E=83.67, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 54.00, new E=137.67
 [DEBUG] Td operator: Tx=43.15, Ty=0.00, new E=126.82, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 180.00, new E=306.82
 [DEBUG] Td operator: Tx=141.78, Ty=0.00, new E=268.60, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 72.00, new E=340.60
 [DEBUG] Td operator: Tx=55.76, Ty=0.00, new E=324.36, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=342.36
 [DEBUG] Td operator: Tx=14.69, Ty=0.00, new E=339.04, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 54.00, new E=393.04
 [DEBUG] Td operator: Tx=36.71, Ty=0.00, new E=375.75, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 99.00, new E=474.75
 [DEBUG] Td operator: Tx=71.77, Ty=0.00, new E=447.53, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 81.00, new E=528.53
 [DEBUG] Td operator: Tx=66.59, Ty=0.00, new E=514.12, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=532.12
 [DEBUG] Td operator: Tx=10.81, Ty=0.00, new E=524.93, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 90.00, new E=614.93
 [DEBUG] Td operator: Tx=66.73, Ty=0.00, new E=591.66, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 27.00, new E=618.66
 [DEBUG] Td operator: Tx=21.34, Ty=0.00, new E=613.00, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 72.00, new E=685.00
 [DEBUG] Td operator: Tx=55.95, Ty=0.00, new E=668.95, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 27.00, new E=695.95
 [DEBUG] Td operator: Tx=22.75, Ty=0.00, new E=691.69, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=709.69
 [DEBUG] Td operator: Tx=10.92, Ty=0.00, new E=702.61, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=711.61
 [DEBUG] Td operator: Tx=6.23, Ty=0.00, new E=708.84, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 63.00, new E=771.84
 [DEBUG] Td operator: Tx=54.64, Ty=0.00, new E=763.48, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=781.48
 [DEBUG] Td operator: Tx=14.65, Ty=0.00, new E=778.13, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 225.00, new E=1003.13
 [DEBUG] Td operator: Tx=175.78, Ty=0.00, new E=953.92, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=971.92
 [DEBUG] Td operator: Tx=13.73, Ty=0.00, new E=967.64, F=976.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 72.00, new E=1039.64
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1007.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=25.00
 [DEBUG] Td operator: Tx=8.18, Ty=0.00, new E=24.18, F=1007.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=42.18
 [DEBUG] Td operator: Tx=17.45, Ty=0.00, new E=41.63, F=1007.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=50.63
 [DEBUG] Td operator: Tx=7.54, Ty=0.00, new E=49.17, F=1007.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 54.00, new E=103.17
 [DEBUG] Td operator: Tx=45.12, Ty=0.00, new E=94.29, F=1007.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 54.00, new E=148.29
 [DEBUG] Td operator: Tx=39.30, Ty=0.00, new E=133.60, F=1007.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=142.60
 [DEBUG] Td operator: Tx=2.91, Ty=0.00, new E=136.51, F=1007.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 27.00, new E=163.51
 [DEBUG] Td operator: Tx=19.58, Ty=0.00, new E=156.09, F=1007.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 351.00, new E=507.09
 [DEBUG] Td operator: Tx=294.49, Ty=0.00, new E=450.58, F=1007.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 99.00, new E=549.58
 [DEBUG] Td operator: Tx=67.88, Ty=0.00, new E=518.45, F=1007.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 36.00, new E=554.45
 [DEBUG] Td operator: Tx=28.05, Ty=0.00, new E=546.50, F=1007.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=564.50
 [DEBUG] Td operator: Tx=17.58, Ty=0.00, new E=564.08, F=1007.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 72.00, new E=636.08
 [DEBUG] ET operator: End text object
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[386291.797 0.000 0.000 128640.714 42560496.188 14169701.319]
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[804774.642 0.000 0.000 268001.509 89237425.817 29713620.080]
@@ -3636,36 +3940,42 @@ Operator Execution Log:
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1045.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=25.00
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1045.000]
 [DEBUG] Td operator: Tx=6.91, Ty=0.00, new E=22.91, F=1045.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 144.00, new E=166.91
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1045.000]
 [DEBUG] Td operator: Tx=294.91, Ty=0.00, new E=310.91, F=1045.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=319.91
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1045.000]
 [DEBUG] Td operator: Tx=301.82, Ty=0.00, new E=317.82, F=1045.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 342.00, new E=659.82
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1045.000]
 [DEBUG] Td operator: Tx=985.82, Ty=0.00, new E=1001.82, F=1045.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=1019.82
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1045.000]
 [DEBUG] Td operator: Tx=996.82, Ty=0.00, new E=1012.82, F=1045.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=1030.82
 [DEBUG] ET operator: End text object
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[1676613.972 0.000 0.000 558336.522 186481036.991 62096786.757]
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[3492946.054 0.000 0.000 1163201.181 389071909.810 129561722.732]
@@ -3673,134 +3983,183 @@ Operator Execution Log:
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1076.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 36.00, new E=52.00
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1076.000]
 [DEBUG] Td operator: Tx=72.00, Ty=0.00, new E=88.00, F=1076.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=97.00
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1136.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=34.00
 [DEBUG] Td operator: Tx=15.17, Ty=0.00, new E=31.17, F=1136.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 72.00, new E=103.17
 [DEBUG] Td operator: Tx=43.85, Ty=0.00, new E=75.02, F=1136.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 36.00, new E=111.02
 [DEBUG] Td operator: Tx=28.67, Ty=0.00, new E=103.69, F=1136.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=112.69
 [DEBUG] Td operator: Tx=2.46, Ty=0.00, new E=106.15, F=1136.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 72.00, new E=178.15
 [DEBUG] Td operator: Tx=54.97, Ty=0.00, new E=161.12, F=1136.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=179.12
 [DEBUG] Td operator: Tx=13.78, Ty=0.00, new E=174.90, F=1136.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=183.90
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1175.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=25.00
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1175.000]
 [DEBUG] Td operator: Tx=6.91, Ty=0.00, new E=22.91, F=1175.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 72.00, new E=94.91
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1175.000]
 [DEBUG] Td operator: Tx=150.91, Ty=0.00, new E=166.91, F=1175.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=175.91
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1175.000]
 [DEBUG] Td operator: Tx=157.82, Ty=0.00, new E=173.82, F=1175.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 36.00, new E=209.82
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1236.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 297.00, new E=313.00
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1274.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 63.00, new E=79.00
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1313.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 36.00, new E=52.00
 [DEBUG] Td operator: Tx=33.17, Ty=0.00, new E=49.17, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=58.17
 [DEBUG] Td operator: Tx=11.82, Ty=0.00, new E=60.99, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=78.99
 [DEBUG] Td operator: Tx=15.04, Ty=0.00, new E=76.03, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 72.00, new E=148.03
 [DEBUG] Td operator: Tx=52.05, Ty=0.00, new E=128.08, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 54.00, new E=182.08
 [DEBUG] Td operator: Tx=42.21, Ty=0.00, new E=170.28, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=179.28
 [DEBUG] Td operator: Tx=9.47, Ty=0.00, new E=179.75, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 144.00, new E=323.75
 [DEBUG] Td operator: Tx=110.68, Ty=0.00, new E=290.43, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=299.43
 [DEBUG] Td operator: Tx=7.54, Ty=0.00, new E=297.97, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 108.00, new E=405.97
 [DEBUG] Td operator: Tx=82.44, Ty=0.00, new E=380.41, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 81.00, new E=461.41
 [DEBUG] Td operator: Tx=66.51, Ty=0.00, new E=446.92, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 81.00, new E=527.92
 [DEBUG] Td operator: Tx=60.45, Ty=0.00, new E=507.37, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 54.00, new E=561.37
 [DEBUG] Td operator: Tx=35.24, Ty=0.00, new E=542.61, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 108.00, new E=650.61
 [DEBUG] Td operator: Tx=96.42, Ty=0.00, new E=639.04, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=648.04
 [DEBUG] Td operator: Tx=11.82, Ty=0.00, new E=650.86, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 180.00, new E=830.86
 [DEBUG] Td operator: Tx=145.78, Ty=0.00, new E=796.64, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 54.00, new E=850.64
 [DEBUG] Td operator: Tx=46.50, Ty=0.00, new E=843.14, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=861.14
 [DEBUG] Td operator: Tx=15.44, Ty=0.00, new E=858.58, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 171.00, new E=1029.58
 [DEBUG] Td operator: Tx=134.78, Ty=0.00, new E=993.36, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=1011.36
 [DEBUG] Td operator: Tx=15.48, Ty=0.00, new E=1008.84, F=1313.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 36.00, new E=1044.84
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1343.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=34.00
 [DEBUG] Td operator: Tx=13.73, Ty=0.00, new E=29.73, F=1343.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 180.00, new E=209.73
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=218.73
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 414.00, new E=632.73
 [DEBUG] Td operator: Tx=471.90, Ty=0.00, new E=501.63, F=1343.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=519.63
 [DEBUG] Td operator: Tx=13.73, Ty=0.00, new E=515.36, F=1343.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 189.00, new E=704.36
 [DEBUG] Td operator: Tx=140.11, Ty=0.00, new E=655.47, F=1343.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=673.47
 [DEBUG] Td operator: Tx=16.48, Ty=0.00, new E=671.95, F=1343.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=680.95
 [DEBUG] Td operator: Tx=9.47, Ty=0.00, new E=681.41, F=1343.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=690.41
 [DEBUG] Td operator: Tx=7.54, Ty=0.00, new E=688.95, F=1343.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 63.00, new E=751.95
 [DEBUG] Td operator: Tx=45.01, Ty=0.00, new E=733.96, F=1343.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=751.96
 [DEBUG] Td operator: Tx=15.08, Ty=0.00, new E=749.04, F=1343.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=758.04
 [DEBUG] Td operator: Tx=11.94, Ty=0.00, new E=760.99, F=1343.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=778.99
 [DEBUG] Td operator: Tx=14.13, Ty=0.00, new E=775.12, F=1343.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=793.12
 [DEBUG] ET operator: End text object
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[7276971.528 0.000 0.000 2423335.988 811136261.948 270113683.922]
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[15160358.564 0.000 0.000 5048617.046 1690437065.912 562930293.162]
@@ -3808,6 +4167,7 @@ Operator Execution Log:
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1382.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 522.00, new E=538.00
 [DEBUG] ET operator: End text object
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[31584082.868 0.000 0.000 10517953.020 3522313887.389 1172964944.546]
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[65800177.905 0.000 0.000 21912403.878 7338724237.445 2443870569.936]
@@ -3815,81 +4175,112 @@ Operator Execution Log:
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1413.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 54.00, new E=70.00
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1451.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=25.00
 [DEBUG] Td operator: Tx=8.18, Ty=0.00, new E=24.18, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 144.00, new E=168.18
 [DEBUG] Td operator: Tx=113.82, Ty=0.00, new E=138.00, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 99.00, new E=237.00
 [DEBUG] Td operator: Tx=77.64, Ty=0.00, new E=215.64, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 36.00, new E=251.64
 [DEBUG] Td operator: Tx=36.60, Ty=0.00, new E=252.24, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 63.00, new E=315.24
 [DEBUG] Td operator: Tx=47.20, Ty=0.00, new E=299.44, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 54.00, new E=353.44
 [DEBUG] Td operator: Tx=47.35, Ty=0.00, new E=346.79, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 117.00, new E=463.79
 [DEBUG] Td operator: Tx=85.58, Ty=0.00, new E=432.36, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 54.00, new E=486.36
 [DEBUG] Td operator: Tx=42.01, Ty=0.00, new E=474.38, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=492.38
 [DEBUG] Td operator: Tx=13.73, Ty=0.00, new E=488.10, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=506.10
 [DEBUG] Td operator: Tx=13.78, Ty=0.00, new E=501.89, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 27.00, new E=528.89
 [DEBUG] Td operator: Tx=16.49, Ty=0.00, new E=518.37, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=527.37
 [DEBUG] Td operator: Tx=7.54, Ty=0.00, new E=525.92, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=543.92
 [DEBUG] Td operator: Tx=15.13, Ty=0.00, new E=541.05, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 207.00, new E=748.05
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=757.05
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=766.05
 [DEBUG] Td operator: Tx=180.17, Ty=0.00, new E=721.22, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 45.00, new E=766.22
 [DEBUG] Td operator: Tx=40.90, Ty=0.00, new E=762.11, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 36.00, new E=798.11
 [DEBUG] Td operator: Tx=35.68, Ty=0.00, new E=797.80, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 126.00, new E=923.80
 [DEBUG] Td operator: Tx=99.11, Ty=0.00, new E=896.90, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 126.00, new E=1022.90
 [DEBUG] Td operator: Tx=94.62, Ty=0.00, new E=991.52, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=1009.52
 [DEBUG] Td operator: Tx=13.73, Ty=0.00, new E=1005.25, F=1451.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 36.00, new E=1041.25
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1482.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 45.00, new E=61.00
 [DEBUG] Td operator: Tx=36.56, Ty=0.00, new E=52.56, F=1482.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=70.56
 [DEBUG] Td operator: Tx=16.48, Ty=0.00, new E=69.04, F=1482.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 18.00, new E=87.04
 [DEBUG] Td operator: Tx=15.79, Ty=0.00, new E=84.83, F=1482.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 90.00, new E=174.83
 [DEBUG] Td operator: Tx=71.64, Ty=0.00, new E=156.47, F=1482.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 9.00, new E=165.47
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1520.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 423.00, new E=439.00
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1520.000]
 [DEBUG] Td operator: Tx=846.00, Ty=0.00, new E=862.00, F=1520.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 36.00, new E=898.00
 [DEBUG] ET operator: End text object
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1520.000]
 [DEBUG] Td operator: Tx=873.04, Ty=0.00, new E=889.04, F=1520.00
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Estimated text width: 72.00, new E=961.04
 [DEBUG] ET operator: End text object
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[137083714.935 0.000 0.000 45650845.065 15289579769.462 5091590834.651]
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[285591095.628 0.000 0.000 95105934.828 31853863452.975 10607675160.758]
@@ -3899,6 +4290,7 @@ Operator Execution Log:
 [DEBUG] Tf operator: Font=F5, Size=17.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 643.891 28.000]
 [DEBUG] Text element: baseFontSize=17.00, scale=-1.00, effectiveFontSize=17.00
+[DEBUG] Estimated text width: 34.00, new E=677.89
 [DEBUG] ET operator: End text object
 ✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
 ✓ Detected Identity encoding for font F4: Identity-H

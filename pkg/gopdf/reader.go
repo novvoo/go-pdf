@@ -340,14 +340,30 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 
 		case "Tj", "TJ", "'", "\"": // 显示文本
 			var text string
+			var textDisplacement float64 // 文本位移（用于更新文本矩阵）
 
 			switch t := op.(type) {
 			case *OpShowText:
 				text = t.Text
 			case *OpShowTextArray:
+				// TJ 操作符：处理文本数组，包括字距调整
 				for _, elem := range t.Array {
 					if s, ok := elem.(string); ok {
 						text += s
+					} else if num, ok := elem.(float64); ok {
+						// 数字元素表示字距调整
+						// 负值表示向右移动（收紧间距），正值表示向左移动（放宽间距）
+						// 调整量 = -num / 1000 * fontSize * horizScale
+						// 这里我们累积位移，稍后应用到文本矩阵
+						adjustment := -num / 1000.0 * baseFontSize
+						textDisplacement += adjustment
+						debugPrintf("[DEBUG] TJ kerning: num=%.0f, adjustment=%.4f, cumulative=%.4f\n",
+							num, adjustment, textDisplacement)
+					} else if num, ok := elem.(int); ok {
+						adjustment := -float64(num) / 1000.0 * baseFontSize
+						textDisplacement += adjustment
+						debugPrintf("[DEBUG] TJ kerning: num=%d, adjustment=%.4f, cumulative=%.4f\n",
+							num, adjustment, textDisplacement)
 					}
 				}
 			case *OpShowTextNextLine:
@@ -381,17 +397,15 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 				// 文本矩阵的 D 分量表示垂直缩放
 				// 特殊情况：如果 Tf 设置的字体大小为 0，则直接使用文本矩阵的缩放作为字体大小
 				effectiveFontSize := baseFontSize
-				if currentMatrix != nil {
-					scale := currentMatrix.D
-					if scale < 0 {
-						scale = -scale
-					}
-					if baseFontSize == 0 {
-						// 当 Tf 设置字体大小为 0 时，字体大小完全由文本矩阵决定
-						effectiveFontSize = scale
-					} else {
-						effectiveFontSize = baseFontSize * scale
-					}
+				scale := currentMatrix.D
+				if scale < 0 {
+					scale = -scale
+				}
+				if baseFontSize == 0 {
+					// 当 Tf 设置字体大小为 0 时，字体大小完全由文本矩阵决定
+					effectiveFontSize = scale
+				} else {
+					effectiveFontSize = baseFontSize * scale
 				}
 
 				debugPrintf("[DEBUG] Text element: baseFontSize=%.2f, scale=%.2f, effectiveFontSize=%.2f\n",
@@ -406,9 +420,24 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 				})
 
 				// 更新文本矩阵：显示文本后，文本位置会向右移动
-				// 注意：这里不需要更新文本矩阵，因为我们只是提取信息，不是渲染
-				// 文本位移的计算应该基于字体度量，而不是简单的估算
-				// 对于信息提取，我们不需要精确的位移计算
+				// 对于 TJ 操作符，需要考虑字距调整
+				if textDisplacement != 0 {
+					// 应用字距调整到文本矩阵
+					// 在文本空间中水平移动
+					translation := &Matrix{A: 1, D: 1, E: textDisplacement, F: 0}
+					currentMatrix = currentMatrix.Multiply(translation)
+					debugPrintf("[DEBUG] Applied TJ displacement: %.4f, new E=%.2f\n",
+						textDisplacement, currentMatrix.E)
+				}
+
+				// 估算文本宽度并更新文本矩阵（用于后续文本定位）
+				// 注意：这是一个粗略估算，实际宽度取决于字体度量
+				runeCount := float64(len([]rune(text)))
+				estimatedWidth := runeCount * effectiveFontSize * 0.5
+				translation := &Matrix{A: 1, D: 1, E: estimatedWidth, F: 0}
+				currentMatrix = currentMatrix.Multiply(translation)
+				debugPrintf("[DEBUG] Estimated text width: %.2f, new E=%.2f\n",
+					estimatedWidth, currentMatrix.E)
 			}
 
 		case "Do": // 绘制 XObject（可能是图片）

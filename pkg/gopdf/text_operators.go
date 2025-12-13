@@ -128,9 +128,10 @@ type OpMoveTextPosition struct {
 func (op *OpMoveTextPosition) Name() string { return "Td" }
 
 func (op *OpMoveTextPosition) Execute(ctx *RenderContext) error {
-	// Tm = Tlm = [1 0 0 1 tx ty] × Tlm
+	// 根据PDF规范：Tm = Tlm = Tlm × [1 0 0 1 tx ty]
+	// 正确的矩阵乘法顺序：先应用当前矩阵，再应用平移
 	translation := NewTranslationMatrix(op.Tx, op.Ty)
-	ctx.TextState.TextLineMatrix = translation.Multiply(ctx.TextState.TextLineMatrix)
+	ctx.TextState.TextLineMatrix = ctx.TextState.TextLineMatrix.Multiply(translation)
 	ctx.TextState.TextMatrix = ctx.TextState.TextLineMatrix.Clone()
 
 	// 注意：文本矩阵是独立的，不应该影响图形状态的 CTM
@@ -304,9 +305,12 @@ func (op *OpShowTextNextLine) Name() string { return "'" }
 
 func (op *OpShowTextNextLine) Execute(ctx *RenderContext) error {
 	// 等同于 T* Tj
+	// 先移动到下一行
 	if err := (&OpMoveToNextLine{}).Execute(ctx); err != nil {
 		return err
 	}
+	// 然后显示文本（会自动更新TextMatrix）
+	debugPrintf("['] Moving to next line and showing text\n")
 	return (&OpShowText{Text: op.Text}).Execute(ctx)
 }
 
@@ -320,9 +324,12 @@ type OpShowTextWithSpacing struct {
 func (op *OpShowTextWithSpacing) Name() string { return "\"" }
 
 func (op *OpShowTextWithSpacing) Execute(ctx *RenderContext) error {
-	// 等同于 Tw Tc '
+	// 等同于 Tw Tc T* Tj
+	// 先设置间距参数
+	debugPrintf("[\"] Setting WordSpacing=%.4f CharSpacing=%.4f\n", op.WordSpacing, op.CharSpacing)
 	ctx.TextState.WordSpacing = op.WordSpacing
 	ctx.TextState.CharSpacing = op.CharSpacing
+	// 然后移动到下一行并显示文本
 	return (&OpShowTextNextLine{Text: op.Text}).Execute(ctx)
 }
 
@@ -510,6 +517,8 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 		// TJ 操作符：处理文本数组
 		debugPrintf("[TJ_ARRAY] Processing %d items\n", len(array))
 		x := 0.0
+		totalTextWidth := 0.0 // 累计文本宽度用于更新文本矩阵
+
 		for idx, item := range array {
 			switch v := item.(type) {
 			case string:
@@ -536,37 +545,59 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 				ctx.CairoCtx.PangoCairoShowText(layout)
 
 				// 计算文本宽度（估算，使用 rune 数量而不是字节数）
-				textWidth := float64(len([]rune(decodedText))) * fontSize * 0.5
+				runeCount := float64(len([]rune(decodedText)))
+				textWidth := runeCount * fontSize * 0.5
 				debugPrintf("[TJ_ARRAY][%d] Estimated width=%.2f (%.0f runes × %.2f × 0.5)\n",
-					idx, textWidth, float64(len([]rune(decodedText))), fontSize)
-				x += textWidth
+					idx, textWidth, runeCount, fontSize)
 
 				// 应用字符间距
 				if textState.CharSpacing != 0 {
-					charAdj := textState.CharSpacing * float64(len([]rune(decodedText)))
-					debugPrintf("[TJ_ARRAY][%d] CharSpacing adj=%.2f (%.4f × %d)\n",
-						idx, charAdj, textState.CharSpacing, len([]rune(decodedText)))
-					x += charAdj
+					charAdj := textState.CharSpacing * runeCount
+					debugPrintf("[TJ_ARRAY][%d] CharSpacing adj=%.2f (%.4f × %.0f)\n",
+						idx, charAdj, textState.CharSpacing, runeCount)
+					textWidth += charAdj
 				}
 
+				// 应用单词间距
+				spaceCount := 0
+				for _, ch := range decodedText {
+					if ch == ' ' {
+						spaceCount++
+					}
+				}
+				if spaceCount > 0 && textState.WordSpacing != 0 {
+					wordAdj := textState.WordSpacing * float64(spaceCount)
+					debugPrintf("[TJ_ARRAY][%d] WordSpacing adj=%.2f (%.4f × %d spaces)\n",
+						idx, wordAdj, textState.WordSpacing, spaceCount)
+					textWidth += wordAdj
+				}
+
+				x += textWidth
+				totalTextWidth += textWidth
+
 			case float64:
-				// 负值表示向右移动（字距调整），正值表示向左移动
-				// 应用字距调整到文本位置
-				kerningAdjustment := v * fontSize / 1000.0
+				// PDF规范：负值表示向右移动，正值表示向左移动
+				// 调整值以千分之一em为单位
+				kerningAdjustment := -v * fontSize / 1000.0
 				debugPrintf("[TJ_ARRAY][%d] Kerning=%.0f adj=%.2f (x: %.2f -> %.2f)\n",
-					idx, v, kerningAdjustment, x, x-kerningAdjustment)
-				x -= kerningAdjustment
+					idx, v, kerningAdjustment, x, x+kerningAdjustment)
+				x += kerningAdjustment
+				totalTextWidth += kerningAdjustment
 
 			case int:
-				kerningAdjustment := float64(v) * fontSize / 1000.0
+				kerningAdjustment := -float64(v) * fontSize / 1000.0
 				debugPrintf("[TJ_ARRAY][%d] Kerning=%d adj=%.2f (x: %.2f -> %.2f)\n",
-					idx, v, kerningAdjustment, x, x-kerningAdjustment)
-				x -= kerningAdjustment
+					idx, v, kerningAdjustment, x, x+kerningAdjustment)
+				x += kerningAdjustment
+				totalTextWidth += kerningAdjustment
 			}
 		}
 
-		// TJ 操作符不更新文本矩阵
-		textDisplacement = 0
+		// TJ 操作符应该更新文本矩阵位置
+		// 应用水平缩放到总位移
+		textDisplacement = totalTextWidth * horizontalScale
+		debugPrintf("[TJ_ARRAY] Total displacement=%.2f (totalWidth=%.2f × scale=%.2f)\n",
+			textDisplacement, totalTextWidth, horizontalScale)
 	} else {
 		// Tj 操作符：简单文本
 		// 解码文本（处理十六进制字符串和 CID 字体）
