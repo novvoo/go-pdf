@@ -572,6 +572,20 @@ func renderPDFPageToCairo(pdfPath string, pageNum int, cairoCtx cairo.Context, w
 		}
 	}
 
+	// 渲染表单字段（在注释之后）
+	formFields, err := ExtractFormFields(ctx)
+	if err != nil {
+		debugPrintf("⚠️  Failed to extract form fields: %v\n", err)
+	} else if len(formFields) > 0 {
+		debugPrintf("\n📝 Rendering %d form fields...\n", len(formFields))
+		formRenderer := NewFormRenderer(cairoCtx)
+		for i, field := range formFields {
+			if err := formRenderer.RenderFormField(field); err != nil {
+				debugPrintf("⚠️  Failed to render form field %d: %v\n", i, err)
+			}
+		}
+	}
+
 	return nil
 }
 
@@ -1465,4 +1479,14 @@ func (r *PDFReader) ExtractFontInfo(pageNum int) []FontInfo {
 	}
 
 	return fontInfos
+}
+
+// LoadResourcesPublic 公开的资源加载函数，供测试使用
+func LoadResourcesPublic(ctx *model.Context, resourcesObj types.Object, resources *Resources) error {
+	return loadResources(ctx, resourcesObj, resources)
+}
+
+// ReadContextFile 公开的上下文读取函数，供测试使用
+func ReadContextFile(pdfPath string) (*model.Context, error) {
+	return api.ReadContextFile(pdfPath)
 }

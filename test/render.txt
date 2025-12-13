@@ -1,6 +1,6 @@
 PDF Rendering Report
 ====================
-Time: 2025-12-13 19:31:45
+Time: 2025-12-13 19:54:40
 
 ParseTokens Test:
 -----------------
@@ -20,7 +20,7 @@ Rendering Process:
 Output File Info:
 -----------------
 Size: 105269 bytes
-Created: 2025-12-13 19:31:47
+Created: 2025-12-13 19:54:42
 
 Page Information:
 -----------------
@@ -31,7 +31,15 @@ Page Size: 8.26 x 11.69 inches
 Font Information:
 =================
 
-[Font 1] F4
+[Font 1] F6
+  BaseFont: CAAAAA+MicrosoftYaHei
+  Subtype: Type0
+  Encoding: Identity-H
+  Identity Mapping: YES
+  ToUnicode Map: YES (736 mappings, 91 ranges)
+  Embedded Font: NO
+
+[Font 2] F4
   BaseFont: AAAAAA+FreightSansProBold-Regular
   Subtype: Type0
   Encoding: Identity-H
@@ -39,20 +47,12 @@ Font Information:
   ToUnicode Map: YES (8 mappings, 3 ranges)
   Embedded Font: NO
 
-[Font 2] F5
+[Font 3] F5
   BaseFont: BAAAAA+FreightSansProBook-Regular
   Subtype: Type0
   Encoding: Identity-H
   Identity Mapping: YES
   ToUnicode Map: YES (8 mappings, 9 ranges)
-  Embedded Font: NO
-
-[Font 3] F6
-  BaseFont: CAAAAA+MicrosoftYaHei
-  Subtype: Type0
-  Encoding: Identity-H
-  Identity Mapping: YES
-  ToUnicode Map: YES (736 mappings, 91 ranges)
   Embedded Font: NO
 
 
@@ -195,6 +195,32 @@ Sample of out-of-bounds elements:
 
 Image Elements: None found
 
+
+Advanced PDF Features:
+======================
+Annotations:
+------------
+Found 3 annotation(s):
+  [1] Type: Link
+      Rect: (272.50, 770.42, 324.00, 779.42)
+      Color: RGB(0.00, 0.00, 0.00)
+      Visible: true, Printable: true
+  [2] Type: Link
+      Rect: (150.50, 788.92, 257.00, 808.92)
+      Color: RGB(0.00, 0.00, 0.00)
+      Visible: true, Printable: true
+  [3] Type: Link
+      Rect: (335.50, 794.42, 380.50, 808.92)
+      Color: RGB(0.00, 0.00, 0.00)
+      Visible: true, Printable: true
+
+Form Fields:
+------------
+No form fields found
+
+Advanced Graphics:
+------------------
+✓ Found 9 extended graphics state(s) (blend modes/transparency)
 Text Elements:
 --------------
 Total text elements: 196
@@ -415,12 +441,12 @@ Rendering completed successfully
 
 Operator Execution Log:
 ------------------------
+✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
+✓ Detected Identity encoding for font F6: Identity-H
 ✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
 ✓ Detected Identity encoding for font F4: Identity-H
 ✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
 ✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
-✓ Detected Identity encoding for font F6: Identity-H
    Dereferenced to: types.StreamDict
    Decoding StreamDict...
    Raw: 13401 bytes, Content: 0 bytes
@@ -1006,12 +1032,12 @@ Operator Execution Log:
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 643.891 28.000]
 [DEBUG] Text element: baseFontSize=17.00, scale=-1.00, effectiveFontSize=17.00
 [DEBUG] ET operator: End text object
+✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
+✓ Detected Identity encoding for font F6: Identity-H
 ✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
 ✓ Detected Identity encoding for font F4: Identity-H
 ✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
 ✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
-✓ Detected Identity encoding for font F6: Identity-H
    Dereferenced to: types.StreamDict
    Decoding StreamDict...
    Raw: 13401 bytes, Content: 0 bytes
@@ -3244,37 +3270,45 @@ Operator Execution Log:
 [Q] Restore graphics state - Stack depth: 1
 
 📈 Operator Statistics:
-   q: 44
-   W*: 22
-   rg: 42
-   EMC: 54
-   ET: 51
-   h: 30
-   n: 29
-   BT: 51
-   BDC: 54
-   Tj: 196
-   f: 32
-   l: 51
-   W: 7
-   Do: 1
-   cm: 22
-   Tm: 51
-   m: 32
-   Td: 158
    re: 44
-   RG: 42
    gs: 31
-   Tf: 51
+   EMC: 54
    Q: 44
+   h: 30
+   l: 51
+   n: 29
+   BDC: 54
+   Tm: 51
+   Td: 158
+   f: 32
    c: 387
    S: 8
+   Do: 1
+   cm: 22
+   q: 44
+   RG: 42
+   Tf: 51
+   Tj: 196
+   ET: 51
+   W*: 22
+   rg: 42
+   BT: 51
+   m: 32
+   W: 7
+
+📌 Rendering 3 annotations...
+[Annotation] Rendering annotation: Link
+[Annotation] Unsupported annotation type: Link
+[Annotation] Rendering annotation: Link
+[Annotation] Unsupported annotation type: Link
+[Annotation] Rendering annotation: Link
+[Annotation] Unsupported annotation type: Link
+✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
+✓ Detected Identity encoding for font F6: Identity-H
 ✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
 ✓ Detected Identity encoding for font F4: Identity-H
 ✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
 ✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
-✓ Detected Identity encoding for font F6: Identity-H
 ✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
 ✓ Detected Identity encoding for font F4: Identity-H
 ✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
@@ -3866,6 +3900,12 @@ Operator Execution Log:
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 643.891 28.000]
 [DEBUG] Text element: baseFontSize=17.00, scale=-1.00, effectiveFontSize=17.00
 [DEBUG] ET operator: End text object
+✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
+✓ Detected Identity encoding for font F4: Identity-H
+✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
+✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
+✓ Detected Identity encoding for font F6: Identity-H
 
 Cairo/Pango Debug Output:
 -------------------------

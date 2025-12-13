@@ -168,3 +168,27 @@ func (r *Resources) Clone() *Resources {
 
 	return newRes
 }
+
+// CountShadings 返回资源中的渐变数量
+func (r *Resources) CountShadings() int {
+	return len(r.Shading)
+}
+
+// CountPatterns 返回资源中的图案数量
+func (r *Resources) CountPatterns() int {
+	return len(r.Pattern)
+}
+
+// CountExtGStates 返回资源中的扩展图形状态数量
+func (r *Resources) CountExtGStates() int {
+	return len(r.ExtGState)
+}
+
+// GetAllXObjects 返回所有 XObject
+func (r *Resources) GetAllXObjects() []*XObject {
+	xobjects := make([]*XObject, 0, len(r.XObject))
+	for _, xobj := range r.XObject {
+		xobjects = append(xobjects, xobj)
+	}
+	return xobjects
+}

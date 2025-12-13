@@ -127,6 +127,13 @@ func main() {
 	extractReport := test.ExtractPageElementsForReport(pdfPath, 1)
 	report += extractReport
 
+	// 添加高级 PDF 功能信息
+	report += "\n"
+	report += "Advanced PDF Features:\n"
+	report += "======================\n"
+	advancedReport := test.ExtractAdvancedFeaturesForReport(pdfPath, 1)
+	report += advancedReport
+
 	// 添加文本元素信息
 	if len(result.TextElements) > 0 {
 		report += "Text Elements:\n"

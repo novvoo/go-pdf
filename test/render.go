@@ -269,3 +269,133 @@ func ExtractFontInfoForReport(pdfPath string, pageNum int) string {
 
 	return report.String()
 }
+
+// ExtractAdvancedFeaturesForReport 提取高级 PDF 功能信息用于报告
+func ExtractAdvancedFeaturesForReport(pdfPath string, pageNum int) string {
+	var report strings.Builder
+
+	// 打开 PDF
+	ctx, err := gopdf.ReadContextFile(pdfPath)
+	if err != nil {
+		report.WriteString(fmt.Sprintf("❌ Failed to read PDF: %v\n", err))
+		return report.String()
+	}
+
+	// 获取页面字典
+	pageDict, _, _, err := ctx.PageDict(pageNum, false)
+	if err != nil {
+		report.WriteString(fmt.Sprintf("❌ Failed to get page dict: %v\n", err))
+		return report.String()
+	}
+
+	// 提取注释
+	report.WriteString("Annotations:\n")
+	report.WriteString("------------\n")
+	annotations, err := gopdf.ExtractAnnotations(ctx, pageDict)
+	if err != nil {
+		report.WriteString(fmt.Sprintf("❌ Failed to extract annotations: %v\n", err))
+	} else if len(annotations) == 0 {
+		report.WriteString("No annotations found\n")
+	} else {
+		report.WriteString(fmt.Sprintf("Found %d annotation(s):\n", len(annotations)))
+		for i, annot := range annotations {
+			report.WriteString(fmt.Sprintf("  [%d] Type: %s\n", i+1, annot.Subtype))
+			report.WriteString(fmt.Sprintf("      Rect: (%.2f, %.2f, %.2f, %.2f)\n",
+				annot.Rect[0], annot.Rect[1], annot.Rect[2], annot.Rect[3]))
+			if annot.Contents != "" {
+				report.WriteString(fmt.Sprintf("      Contents: %s\n", annot.Contents))
+			}
+			if len(annot.Color) >= 3 {
+				report.WriteString(fmt.Sprintf("      Color: RGB(%.2f, %.2f, %.2f)\n",
+					annot.Color[0], annot.Color[1], annot.Color[2]))
+			}
+			report.WriteString(fmt.Sprintf("      Visible: %v, Printable: %v\n",
+				annot.IsVisible(), annot.IsPrintable()))
+		}
+	}
+	report.WriteString("\n")
+
+	// 提取表单字段
+	report.WriteString("Form Fields:\n")
+	report.WriteString("------------\n")
+	formFields, err := gopdf.ExtractFormFields(ctx)
+	if err != nil {
+		report.WriteString(fmt.Sprintf("❌ Failed to extract form fields: %v\n", err))
+	} else if len(formFields) == 0 {
+		report.WriteString("No form fields found\n")
+	} else {
+		report.WriteString(fmt.Sprintf("Found %d form field(s):\n", len(formFields)))
+		for i, field := range formFields {
+			report.WriteString(fmt.Sprintf("  [%d] Name: %s\n", i+1, field.FieldName))
+			report.WriteString(fmt.Sprintf("      Type: %s\n", field.FieldType))
+			if field.Value != "" {
+				report.WriteString(fmt.Sprintf("      Value: %s\n", field.Value))
+			}
+			if field.DefaultValue != "" {
+				report.WriteString(fmt.Sprintf("      Default: %s\n", field.DefaultValue))
+			}
+			if len(field.Rect) >= 4 {
+				report.WriteString(fmt.Sprintf("      Rect: (%.2f, %.2f, %.2f, %.2f)\n",
+					field.Rect[0], field.Rect[1], field.Rect[2], field.Rect[3]))
+			}
+			report.WriteString(fmt.Sprintf("      ReadOnly: %v, Required: %v\n",
+				field.IsReadOnly(), field.IsRequired()))
+			if field.IsCheckbox() {
+				report.WriteString(fmt.Sprintf("      Checkbox - Checked: %v\n", field.IsChecked()))
+			} else if field.IsRadioButton() {
+				report.WriteString(fmt.Sprintf("      Radio Button - Selected: %v\n", field.IsChecked()))
+			}
+		}
+	}
+	report.WriteString("\n")
+
+	// 检查透明度组、渐变、图案等
+	report.WriteString("Advanced Graphics:\n")
+	report.WriteString("------------------\n")
+
+	// 加载资源
+	resources := gopdf.NewResources()
+	if resourcesObj, found := pageDict.Find("Resources"); found {
+		if err := gopdf.LoadResourcesPublic(ctx, resourcesObj, resources); err == nil {
+			// 检查渐变
+			shadingCount := resources.CountShadings()
+			if shadingCount > 0 {
+				report.WriteString(fmt.Sprintf("✓ Found %d shading(s) (gradients)\n", shadingCount))
+			}
+
+			// 检查图案
+			patternCount := resources.CountPatterns()
+			if patternCount > 0 {
+				report.WriteString(fmt.Sprintf("✓ Found %d pattern(s)\n", patternCount))
+			}
+
+			// 检查扩展图形状态（混合模式、透明度）
+			extGStateCount := resources.CountExtGStates()
+			if extGStateCount > 0 {
+				report.WriteString(fmt.Sprintf("✓ Found %d extended graphics state(s) (blend modes/transparency)\n", extGStateCount))
+			}
+
+			// 检查 XObject 中的透明度组
+			xobjects := resources.GetAllXObjects()
+			transparencyGroupCount := 0
+			for _, xobj := range xobjects {
+				if xobj.Group != nil {
+					transparencyGroupCount++
+				}
+			}
+			if transparencyGroupCount > 0 {
+				report.WriteString(fmt.Sprintf("✓ Found %d transparency group(s)\n", transparencyGroupCount))
+			}
+
+			if shadingCount == 0 && patternCount == 0 && extGStateCount == 0 && transparencyGroupCount == 0 {
+				report.WriteString("No advanced graphics features detected\n")
+			}
+		} else {
+			report.WriteString(fmt.Sprintf("⚠️  Failed to load resources: %v\n", err))
+		}
+	} else {
+		report.WriteString("No resources found on page\n")
+	}
+
+	return report.String()
+}
