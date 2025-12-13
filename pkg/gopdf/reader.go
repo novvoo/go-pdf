@@ -558,6 +558,20 @@ func renderPDFPageToCairo(pdfPath string, pageNum int, cairoCtx cairo.Context, w
 		}
 	}
 
+	// 渲染注释（在页面内容之后）
+	annotations, err := ExtractAnnotations(ctx, pageDict)
+	if err != nil {
+		debugPrintf("⚠️  Failed to extract annotations: %v\n", err)
+	} else if len(annotations) > 0 {
+		debugPrintf("\n📌 Rendering %d annotations...\n", len(annotations))
+		annotRenderer := NewAnnotationRenderer(cairoCtx)
+		for i, annot := range annotations {
+			if err := annotRenderer.RenderAnnotation(annot); err != nil {
+				debugPrintf("⚠️  Failed to render annotation %d: %v\n", i, err)
+			}
+		}
+	}
+
 	return nil
 }
 
