@@ -192,7 +192,8 @@ func main() {
 	if capturedOutput != "" {
 		report += "Cairo/Pango Debug Output:\n"
 		report += "-------------------------\n"
-		report += capturedOutp
+		report += capturedOutput + "\n\n"
+	}
 
 	report += "Status: SUCCESS\n"
 

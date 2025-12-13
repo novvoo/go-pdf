@@ -342,6 +342,10 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 	state := ctx.GetCurrentState()
 	textState := ctx.TextState
 
+	// 调试输出：文本状态
+	debugPrintf("\n[TEXT_STATE] CharSpacing=%.4f WordSpacing=%.4f HScale=%.2f%% FontSize=%.2f\n",
+		textState.CharSpacing, textState.WordSpacing, textState.HorizontalScaling, textState.FontSize)
+
 	// 保存 Cairo 状态
 	ctx.CairoCtx.Save()
 	defer ctx.CairoCtx.Restore()
@@ -463,6 +467,8 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 	switch textState.RenderMode {
 	case 0: // 填充
 		if state.FillColor != nil {
+			debugPrintf("[TEXT_STATE] Using FillColor: RGB(%.3f, %.3f, %.3f, %.3f)\n",
+				state.FillColor.R, state.FillColor.G, state.FillColor.B, state.FillColor.A)
 			ctx.CairoCtx.SetSourceRGBA(
 				state.FillColor.R,
 				state.FillColor.G,
@@ -471,6 +477,7 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 			)
 		} else {
 			// 默认使用黑色
+			debugPrintf("[TEXT_STATE] Using default black color\n")
 			ctx.CairoCtx.SetSourceRGBA(0, 0, 0, 1)
 		}
 	case 1: // 描边
@@ -501,8 +508,9 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 	// 渲染文本
 	if array != nil {
 		// TJ 操作符：处理文本数组
+		debugPrintf("[TJ_ARRAY] Processing %d items\n", len(array))
 		x := 0.0
-		for _, item := range array {
+		for idx, item := range array {
 			switch v := item.(type) {
 			case string:
 				// 解码文本（处理十六进制字符串和 CID 字体）
@@ -515,8 +523,12 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 				}
 				if decodedText == "" {
 					// 如果无法解码，跳过
+					debugPrintf("[TJ_ARRAY][%d] Empty string after decode\n", idx)
 					continue
 				}
+
+				debugPrintf("[TJ_ARRAY][%d] Text=%q (len=%d runes) at x=%.2f\n",
+					idx, decodedText, len([]rune(decodedText)), x)
 
 				layout.SetText(decodedText)
 				ctx.CairoCtx.MoveTo(x, 0)
@@ -525,19 +537,30 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 
 				// 计算文本宽度（估算，使用 rune 数量而不是字节数）
 				textWidth := float64(len([]rune(decodedText))) * fontSize * 0.5
+				debugPrintf("[TJ_ARRAY][%d] Estimated width=%.2f (%.0f runes × %.2f × 0.5)\n",
+					idx, textWidth, float64(len([]rune(decodedText))), fontSize)
 				x += textWidth
 
 				// 应用字符间距
-				x += textState.CharSpacing * float64(len([]rune(decodedText)))
+				if textState.CharSpacing != 0 {
+					charAdj := textState.CharSpacing * float64(len([]rune(decodedText)))
+					debugPrintf("[TJ_ARRAY][%d] CharSpacing adj=%.2f (%.4f × %d)\n",
+						idx, charAdj, textState.CharSpacing, len([]rune(decodedText)))
+					x += charAdj
+				}
 
 			case float64:
 				// 负值表示向右移动（字距调整），正值表示向左移动
 				// 应用字距调整到文本位置
 				kerningAdjustment := v * fontSize / 1000.0
+				debugPrintf("[TJ_ARRAY][%d] Kerning=%.0f adj=%.2f (x: %.2f -> %.2f)\n",
+					idx, v, kerningAdjustment, x, x-kerningAdjustment)
 				x -= kerningAdjustment
 
 			case int:
 				kerningAdjustment := float64(v) * fontSize / 1000.0
+				debugPrintf("[TJ_ARRAY][%d] Kerning=%d adj=%.2f (x: %.2f -> %.2f)\n",
+					idx, v, kerningAdjustment, x, x-kerningAdjustment)
 				x -= kerningAdjustment
 			}
 		}
@@ -555,17 +578,24 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 			decodedText = decodeTextStringWithFont(text, toUnicodeMap)
 		}
 		if decodedText != "" {
-			// 打印前几个文本用于调试
-			if len(decodedText) > 0 && len(decodedText) < 50 {
-				debugPrintf("[TEXT] Rendering at Tm=[%.0f, %.0f]: %q\n", tm.E, tm.F, decodedText)
-			}
+			// 打印文本用于调试
+			debugPrintf("[Tj] Text=%q (len=%d runes) at Tm=[%.2f, %.2f]\n",
+				decodedText, len([]rune(decodedText)), tm.E, tm.F)
 			layout.SetText(decodedText)
+			debugPrintf("[Tj] About to render text at current position\n")
 			ctx.CairoCtx.PangoCairoShowText(layout)
+			debugPrintf("[Tj] Text rendered\n")
 
 			// 计算文本宽度（用于更新文本矩阵，使用 rune 数量）
 			runeCount := float64(len([]rune(decodedText)))
 			textWidth := runeCount * fontSize * 0.5
-			textWidth += textState.CharSpacing * runeCount
+			debugPrintf("[Tj] Base width=%.2f (%.0f runes × %.2f × 0.5)\n", textWidth, runeCount, fontSize)
+
+			if textState.CharSpacing != 0 {
+				charAdj := textState.CharSpacing * runeCount
+				debugPrintf("[Tj] CharSpacing adj=%.2f (%.4f × %.0f)\n", charAdj, textState.CharSpacing, runeCount)
+				textWidth += charAdj
+			}
 
 			// 计算单词间距
 			spaceCount := 0
@@ -574,10 +604,15 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 					spaceCount++
 				}
 			}
-			textWidth += textState.WordSpacing * float64(spaceCount)
+			if spaceCount > 0 && textState.WordSpacing != 0 {
+				wordAdj := textState.WordSpacing * float64(spaceCount)
+				debugPrintf("[Tj] WordSpacing adj=%.2f (%.4f × %d spaces)\n", wordAdj, textState.WordSpacing, spaceCount)
+				textWidth += wordAdj
+			}
 
 			// 应用水平缩放到位移
 			textDisplacement = textWidth * horizontalScale
+			debugPrintf("[Tj] Final displacement=%.2f (width=%.2f × scale=%.2f)\n", textDisplacement, textWidth, horizontalScale)
 		}
 	}
 

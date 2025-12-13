@@ -75,8 +75,15 @@ func (op *OpConcatMatrix) Name() string { return "cm" }
 func (op *OpConcatMatrix) Execute(ctx *RenderContext) error {
 	state := ctx.GetCurrentState()
 	oldCTM := state.CTM.Clone()
-	state.CTM = state.CTM.Multiply(op.Matrix)
+
+	// PDF 规范: CTM_new = cm × CTM_old (右乘)
+	// 这意味着新的变换矩阵应该是 op.Matrix.Multiply(state.CTM)
+	state.CTM = op.Matrix.Multiply(state.CTM)
+
+	// 对于 Cairo，我们只需要应用增量变换（cm 矩阵本身）
+	// Cairo 的 Transform 会自动与当前矩阵组合
 	op.Matrix.ApplyToCairoContext(ctx.CairoCtx)
+
 	debugPrintf("[cm] Concat matrix: [%.2f %.2f %.2f %.2f %.2f %.2f]\n",
 		op.Matrix.A, op.Matrix.B, op.Matrix.C, op.Matrix.D, op.Matrix.E, op.Matrix.F)
 	debugPrintf("     Old CTM: [%.2f %.2f %.2f %.2f %.2f %.2f]\n",

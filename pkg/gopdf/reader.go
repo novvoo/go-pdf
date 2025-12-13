@@ -340,13 +340,11 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 
 		case "Tj", "TJ", "'", "\"": // 显示文本
 			var text string
-			var textArray []interface{}
 
 			switch t := op.(type) {
 			case *OpShowText:
 				text = t.Text
 			case *OpShowTextArray:
-				textArray = t.Array
 				for _, elem := range t.Array {
 					if s, ok := elem.(string); ok {
 						text += s
@@ -408,47 +406,9 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 				})
 
 				// 更新文本矩阵：显示文本后，文本位置会向右移动
-				// 计算文本宽度（估算）
-				var textDisplacement float64
-
-				if textArray != nil {
-					// TJ 操作符：处理文本数组和字距调整
-					xOffset := 0.0
-					for _, item := range textArray {
-						switch v := item.(type) {
-						case string:
-							// 解码并计算文本宽度
-							decodedText := ""
-							font := resources.GetFont(currentFont)
-							if font != nil {
-								decodedText = decodeTextStringWithFontAndIdentity(v, font.ToUnicodeMap, font.IsIdentity)
-							} else {
-								decodedText = decodeTextString(v)
-							}
-							if decodedText != "" {
-								runeCount := float64(len([]rune(decodedText)))
-								xOffset += runeCount * effectiveFontSize * 0.5
-							}
-						case float64:
-							// 字距调整：负值向右移动，正值向左移动
-							xOffset -= v * effectiveFontSize / 1000.0
-						case int:
-							xOffset -= float64(v) * effectiveFontSize / 1000.0
-						}
-					}
-					textDisplacement = xOffset
-				} else {
-					// Tj 操作符：简单文本
-					runeCount := float64(len([]rune(text)))
-					textDisplacement = runeCount * effectiveFontSize * 0.5
-				}
-
-				// 更新文本矩阵
-				if textDisplacement != 0 {
-					translation := &Matrix{A: 1, D: 1, E: textDisplacement, F: 0}
-					currentMatrix = currentMatrix.Multiply(translation)
-					debugPrintf("[DEBUG] Updated text matrix after rendering: E=%.2f\n", currentMatrix.E)
-				}
+				// 注意：这里不需要更新文本矩阵，因为我们只是提取信息，不是渲染
+				// 文本位移的计算应该基于字体度量，而不是简单的估算
+				// 对于信息提取，我们不需要精确的位移计算
 			}
 
 		case "Do": // 绘制 XObject（可能是图片）
@@ -515,8 +475,10 @@ func renderPDFPageToCairo(pdfPath string, pageNum int, cairoCtx cairo.Context, w
 	defer cairoCtx.Restore()
 
 	// 设置裁剪区域，防止内容超出页面边界
-	cairoCtx.Rectangle(0, 0, width, height)
-	cairoCtx.Clip()
+	// 注意：裁剪应该在所有变换之后应用，否则会裁剪掉变换后的内容
+	// 暂时禁用裁剪以调试渲染问题
+	// cairoCtx.Rectangle(0, 0, width, height)
+	// cairoCtx.Clip()
 
 	// PDF 坐标系转换：PDF 使用左下角为原点，Y 轴向上
 	// Cairo 使用左上角为原点，Y 轴向下
@@ -1217,10 +1179,12 @@ func ExtractTextFromStream(stream string) string {
 
 			if depth == 0 {
 				text := stream[start : i-1]
-				// 处理转义字符
+				// 处理转义字符 - 保留所有特殊字符
 				text = strings.ReplaceAll(text, "\\n", "\n")
-				text = strings.ReplaceAll(text, "\\r", "")
+				text = strings.ReplaceAll(text, "\\r", "\r")
 				text = strings.ReplaceAll(text, "\\t", "\t")
+				text = strings.ReplaceAll(text, "\\b", "\b")
+				text = strings.ReplaceAll(text, "\\f", "\f")
 				text = strings.ReplaceAll(text, "\\(", "(")
 				text = strings.ReplaceAll(text, "\\)", ")")
 				text = strings.ReplaceAll(text, "\\\\", "\\")
@@ -1235,10 +1199,12 @@ func ExtractTextFromStream(stream string) string {
 				if j < len(stream) {
 					if j+1 < len(stream) && stream[j:j+2] == "Tj" {
 						result.WriteString(text)
-						result.WriteString(" ")
-					} else if stream[j] == '\'' || stream[j] == '"' {
+					} else if stream[j] == '\'' {
+						// ' 操作符：移到下一行并显示文本
 						result.WriteString(text)
-						result.WriteString("\n")
+					} else if stream[j] == '"' {
+						// " 操作符：设置间距并显示文本
+						result.WriteString(text)
 					}
 				}
 			}
@@ -1274,9 +1240,12 @@ func ExtractTextFromStream(stream string) string {
 
 					if depth == 0 {
 						text := stream[start : i-1]
+						// 处理转义字符 - 保留所有特殊字符
 						text = strings.ReplaceAll(text, "\\n", "\n")
-						text = strings.ReplaceAll(text, "\\r", "")
+						text = strings.ReplaceAll(text, "\\r", "\r")
 						text = strings.ReplaceAll(text, "\\t", "\t")
+						text = strings.ReplaceAll(text, "\\b", "\b")
+						text = strings.ReplaceAll(text, "\\f", "\f")
 						text = strings.ReplaceAll(text, "\\(", "(")
 						text = strings.ReplaceAll(text, "\\)", ")")
 						text = strings.ReplaceAll(text, "\\\\", "\\")
@@ -1294,7 +1263,7 @@ func ExtractTextFromStream(stream string) string {
 					i++
 				}
 				if i+1 < len(stream) && stream[i:i+2] == "TJ" {
-					result.WriteString(" ")
+					// 不自动添加空格，保留原始文本
 					i += 2
 				}
 			}
@@ -1305,12 +1274,7 @@ func ExtractTextFromStream(stream string) string {
 	}
 
 	text := result.String()
-	if text == "" {
-		return ""
-	}
-
-	// 清理多余的空白
-	text = strings.TrimSpace(text)
+	// 不清理空白，保留原始格式
 	return text
 }
 

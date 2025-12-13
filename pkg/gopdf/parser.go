@@ -96,6 +96,7 @@ func tokenize(content string) []string {
 			tokens = append(tokens, string(ch))
 
 		case ' ', '\t', '\r', '\n':
+			// 只在非字符串上下文中作为分隔符
 			if current.Len() > 0 {
 				tokens = append(tokens, current.String())
 				current.Reset()
@@ -461,12 +462,92 @@ func toFloat(v interface{}) float64 {
 
 func toString(v interface{}) string {
 	if s, ok := v.(string); ok {
+		// 移除名称前缀 /
 		s = strings.TrimPrefix(s, "/")
-		s = strings.TrimPrefix(s, "(")
-		s = strings.TrimSuffix(s, ")")
+
+		// 如果是字符串字面量 (...)，移除括号并处理转义序列
+		if strings.HasPrefix(s, "(") && strings.HasSuffix(s, ")") {
+			s = s[1 : len(s)-1]
+			// 处理 PDF 字符串中的转义序列
+			s = unescapePDFString(s)
+		}
+
 		return s
 	}
 	return fmt.Sprintf("%v", v)
+}
+
+// unescapePDFString 处理 PDF 字符串中的转义序列
+func unescapePDFString(s string) string {
+	var result strings.Builder
+	i := 0
+	for i < len(s) {
+		if s[i] == '\\' && i+1 < len(s) {
+			switch s[i+1] {
+			case 'n':
+				result.WriteByte('\n')
+				i += 2
+			case 'r':
+				result.WriteByte('\r')
+				i += 2
+			case 't':
+				result.WriteByte('\t')
+				i += 2
+			case 'b':
+				result.WriteByte('\b')
+				i += 2
+			case 'f':
+				result.WriteByte('\f')
+				i += 2
+			case '(':
+				result.WriteByte('(')
+				i += 2
+			case ')':
+				result.WriteByte(')')
+				i += 2
+			case '\\':
+				result.WriteByte('\\')
+				i += 2
+			case '\r':
+				// \<回车> 被忽略
+				i += 2
+				if i < len(s) && s[i] == '\n' {
+					i++ // 跳过 \r\n
+				}
+			case '\n':
+				// \<换行> 被忽略
+				i += 2
+			default:
+				// 八进制转义 \ddd
+				if s[i+1] >= '0' && s[i+1] <= '7' {
+					octal := 0
+					digits := 0
+					j := i + 1
+					for j < len(s) && j < i+4 && s[j] >= '0' && s[j] <= '7' {
+						octal = octal*8 + int(s[j]-'0')
+						digits++
+						j++
+					}
+					if digits > 0 {
+						result.WriteByte(byte(octal))
+						i = j
+					} else {
+						// 无效的转义，保留反斜杠
+						result.WriteByte('\\')
+						i++
+					}
+				} else {
+					// 无效的转义，保留反斜杠
+					result.WriteByte('\\')
+					i++
+				}
+			}
+		} else {
+			result.WriteByte(s[i])
+			i++
+		}
+	}
+	return result.String()
 }
 
 func toFloatArray(v interface{}) []float64 {
