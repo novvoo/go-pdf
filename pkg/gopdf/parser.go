@@ -348,16 +348,30 @@ func createOperator(name string, args []interface{}) PDFOperator {
 	case "ET":
 		return &OpEndText{}
 	case "EMC":
-		// 结束标记内容，忽略
-		return &OpIgnore{}
+		// 结束标记内容
+		return &OpEndMarkedContent{}
 	case "BDC":
-		// 开始标记内容（带属性），忽略
+		// 开始标记内容（带属性）
 		// BDC 有2个参数：标签名和属性字典
-		return &OpIgnore{}
+		if len(args) >= 2 {
+			tag := toString(args[0])
+			var properties map[string]interface{}
+			if dict, ok := args[1].(map[string]interface{}); ok {
+				properties = dict
+			}
+			return &OpBeginMarkedContentWithProperties{
+				Tag:        tag,
+				Properties: properties,
+			}
+		}
+		return &OpBeginMarkedContentWithProperties{Tag: "Unknown"}
 	case "BMC":
-		// 开始标记内容（简单），忽略
+		// 开始标记内容（简单）
 		// BMC 有1个参数：标签名
-		return &OpIgnore{}
+		if len(args) >= 1 {
+			return &OpBeginMarkedContent{Tag: toString(args[0])}
+		}
+		return &OpBeginMarkedContent{Tag: "Unknown"}
 	case "Tm":
 		if len(args) >= 6 {
 			return &OpSetTextMatrix{
@@ -441,6 +455,11 @@ func createOperator(name string, args []interface{}) PDFOperator {
 		return &OpInlineImageData{}
 	case "EI":
 		return &OpEndInlineImage{}
+	case "sh":
+		// sh 操作符 - 使用 shading 填充
+		if len(args) >= 1 {
+			return &OpPaintShading{ShadingName: toString(args[0])}
+		}
 	}
 
 	return nil

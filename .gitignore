@@ -1,3 +1,4 @@
 test*.go
 check*.go
 debug*.go
+.kiro

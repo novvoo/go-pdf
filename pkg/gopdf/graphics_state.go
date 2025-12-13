@@ -17,6 +17,9 @@ type GraphicsState struct {
 	DashPattern    []float64            // 虚线模式
 	DashOffset     float64              // 虚线偏移
 	CoordConverter *CoordinateConverter // 坐标转换器
+	BlendMode      string               // 混合模式
+	FillAlpha      float64              // 填充透明度 (ca)
+	StrokeAlpha    float64              // 描边透明度 (CA)
 }
 
 // Color 表示颜色
@@ -37,6 +40,9 @@ func NewGraphicsState(width, height float64) *GraphicsState {
 		DashPattern:    nil,
 		DashOffset:     0,
 		CoordConverter: NewCoordinateConverter(width, height, CoordSystemPDF),
+		BlendMode:      "Normal",
+		FillAlpha:      1.0,
+		StrokeAlpha:    1.0,
 	}
 }
 
@@ -52,6 +58,9 @@ func (gs *GraphicsState) Clone() *GraphicsState {
 		MiterLimit:     gs.MiterLimit,
 		DashOffset:     gs.DashOffset,
 		CoordConverter: gs.CoordConverter,
+		BlendMode:      gs.BlendMode,
+		FillAlpha:      gs.FillAlpha,
+		StrokeAlpha:    gs.StrokeAlpha,
 	}
 
 	if gs.DashPattern != nil {

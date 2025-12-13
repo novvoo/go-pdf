@@ -14,23 +14,25 @@ type PDFOperator interface {
 
 // RenderContext PDF 渲染上下文
 type RenderContext struct {
-	CairoCtx      cairo.Context
-	GraphicsStack *GraphicsStateStack
-	CurrentPath   *Path
-	TextState     *TextState
-	Resources     *Resources
-	XObjectCache  map[string]cairo.Surface
+	CairoCtx           cairo.Context
+	GraphicsStack      *GraphicsStateStack
+	MarkedContentStack *MarkedContentStack
+	CurrentPath        *Path
+	TextState          *TextState
+	Resources          *Resources
+	XObjectCache       map[string]cairo.Surface
 }
 
 // NewRenderContext 创建新的渲染上下文
 func NewRenderContext(cairoCtx cairo.Context, width, height float64) *RenderContext {
 	return &RenderContext{
-		CairoCtx:      cairoCtx,
-		GraphicsStack: NewGraphicsStateStack(width, height),
-		CurrentPath:   NewPath(),
-		TextState:     NewTextState(),
-		Resources:     NewResources(),
-		XObjectCache:  make(map[string]cairo.Surface),
+		CairoCtx:           cairoCtx,
+		GraphicsStack:      NewGraphicsStateStack(width, height),
+		MarkedContentStack: NewMarkedContentStack(),
+		CurrentPath:        NewPath(),
+		TextState:          NewTextState(),
+		Resources:          NewResources(),
+		XObjectCache:       make(map[string]cairo.Surface),
 	}
 }
 
@@ -221,19 +223,23 @@ func (op *OpSetGraphicsState) Execute(ctx *RenderContext) error {
 		ctx.CairoCtx.SetMiterLimit(ml)
 	}
 
-	// 透明度
-	if ca, ok := extGState["ca"].(float64); ok {
-		// 填充透明度
-		if state.FillColor != nil {
-			state.FillColor.A = ca
-		}
+	// 混合模式
+	if bm, ok := extGState["BM"].(string); ok {
+		state.SetBlendMode(bm)
+		state.ApplyBlendMode(ctx.CairoCtx)
+		debugPrintf("[gs] Set blend mode: %s\n", bm)
 	}
 
+	// 填充透明度
+	if ca, ok := extGState["ca"].(float64); ok {
+		state.SetFillAlpha(ca)
+		debugPrintf("[gs] Set fill alpha: %.2f\n", ca)
+	}
+
+	// 描边透明度
 	if CA, ok := extGState["CA"].(float64); ok {
-		// 描边透明度
-		if state.StrokeColor != nil {
-			state.StrokeColor.A = CA
-		}
+		state.SetStrokeAlpha(CA)
+		debugPrintf("[gs] Set stroke alpha: %.2f\n", CA)
 	}
 
 	return nil
@@ -556,5 +562,132 @@ func (op *OpIgnore) Name() string { return "IGNORE" }
 
 func (op *OpIgnore) Execute(ctx *RenderContext) error {
 	// 什么都不做
+	return nil
+}
+
+// ===== Shading 操作符 =====
+
+// OpPaintShading sh - 使用 shading 填充区域
+type OpPaintShading struct {
+	ShadingName string
+}
+
+func (op *OpPaintShading) Name() string { return "sh" }
+
+func (op *OpPaintShading) Execute(ctx *RenderContext) error {
+	// 从资源中获取 shading
+	shadingObj := ctx.Resources.GetShading(op.ShadingName)
+	if shadingObj == nil {
+		debugPrintf("Warning: Shading %s not found\n", op.ShadingName)
+		return nil
+	}
+
+	shading, ok := shadingObj.(*Shading)
+	if !ok {
+		debugPrintf("Warning: Shading %s is not a valid Shading object\n", op.ShadingName)
+		return nil
+	}
+
+	// 创建渐变渲染器
+	renderer := NewGradientRenderer(ctx.CairoCtx)
+
+	var pattern cairo.Pattern
+	var err error
+
+	// 根据 shading 类型渲染
+	if shading.IsLinearGradient() {
+		pattern, err = renderer.RenderLinearGradient(shading)
+	} else if shading.IsRadialGradient() {
+		pattern, err = renderer.RenderRadialGradient(shading)
+	} else {
+		debugPrintf("Warning: Unsupported shading type %d\n", shading.ShadingType)
+		return nil
+	}
+
+	if err != nil {
+		debugPrintf("Warning: Failed to render shading: %v\n", err)
+		return nil
+	}
+
+	if pattern != nil {
+		// 应用渐变填充整个裁剪区域
+		ctx.CairoCtx.SetSource(pattern)
+		ctx.CairoCtx.Paint()
+		pattern.Destroy()
+	}
+
+	return nil
+}
+
+// ===== Pattern 操作符 =====
+// 注意：Pattern 操作符（scn/SCN）的完整实现需要扩展现有的颜色操作符
+// 当前版本中，pattern 支持已经通过 Resources 加载，但操作符集成待完善
+// 这是一个复杂的功能，需要修改颜色空间处理逻辑
+
+// OpSetFillPattern scn - 设置填充图案（占位符）
+type OpSetFillPattern struct {
+	PatternName string
+	ColorValues []float64
+}
+
+func (op *OpSetFillPattern) Name() string { return "scn" }
+
+func (op *OpSetFillPattern) Execute(ctx *RenderContext) error {
+	// 从资源中获取 pattern
+	patternObj := ctx.Resources.GetPattern(op.PatternName)
+	if patternObj == nil {
+		debugPrintf("Warning: Pattern %s not found\n", op.PatternName)
+		return nil
+	}
+
+	pattern, ok := patternObj.(*Pattern)
+	if !ok {
+		debugPrintf("Warning: Pattern %s is not a valid Pattern object\n", op.PatternName)
+		return nil
+	}
+
+	// 创建图案渲染器
+	renderer := NewPatternRenderer(ctx.CairoCtx)
+
+	// 应用图案填充
+	if err := renderer.ApplyPatternFill(pattern); err != nil {
+		debugPrintf("Warning: Failed to apply pattern fill: %v\n", err)
+		return nil
+	}
+
+	return nil
+}
+
+// OpSetStrokePattern SCN - 设置描边图案（占位符）
+type OpSetStrokePattern struct {
+	PatternName string
+	ColorValues []float64
+}
+
+func (op *OpSetStrokePattern) Name() string { return "SCN" }
+
+func (op *OpSetStrokePattern) Execute(ctx *RenderContext) error {
+	// 从资源中获取 pattern
+	patternObj := ctx.Resources.GetPattern(op.PatternName)
+	if patternObj == nil {
+		debugPrintf("Warning: Pattern %s not found\n", op.PatternName)
+		return nil
+	}
+
+	pattern, ok := patternObj.(*Pattern)
+	if !ok {
+		debugPrintf("Warning: Pattern %s is not a valid Pattern object\n", op.PatternName)
+		return nil
+	}
+
+	// 创建图案渲染器
+	renderer := NewPatternRenderer(ctx.CairoCtx)
+
+	// 应用图案描边
+	if err := renderer.ApplyPatternStroke(pattern); err != nil {
+		debugPrintf("Warning: Failed to apply pattern stroke: %v\n", err)
+		return nil
+	}
+
 	return nil
 }

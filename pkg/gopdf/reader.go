@@ -720,6 +720,17 @@ func loadResources(ctx *model.Context, resourcesObj types.Object, resources *Res
 		}
 	}
 
+	// 加载 Shading（渐变）
+	if shadingObj, found := resourcesDict.Find("Shading"); found {
+		if shadingDict, ok := shadingObj.(types.Dict); ok {
+			for shadingName, shadingObjItem := range shadingDict {
+				if err := loadShading(ctx, shadingName, shadingObjItem, resources); err != nil {
+					debugPrintf("Warning: failed to load Shading %s: %v\n", shadingName, err)
+				}
+			}
+		}
+	}
+
 	return nil
 }
 
