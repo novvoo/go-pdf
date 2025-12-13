@@ -368,9 +368,9 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 
 			if text != "" && currentMatrix != nil {
 				// 应用当前变换矩阵 (CTM) 到文本矩阵
-				// 根据 PDF 规范：最终坐标 = (x, y) × Tm × CTM
-				// 这里文本位置是 (0, 0)，所以最终位置就是 CTM × Tm 的平移部分
-				finalMatrix := ctm.Multiply(currentMatrix)
+				// 根据 PDF 规范：最终坐标 = Tm × CTM
+				// 这里文本位置是 (0, 0)，所以最终位置就是 Tm × CTM 的平移部分
+				finalMatrix := currentMatrix.Multiply(ctm)
 
 				// PDF 坐标系：左下角为原点，Y 轴向上
 				// 转换为屏幕坐标系：左上角为原点，Y 轴向下

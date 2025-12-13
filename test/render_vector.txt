@@ -1,6 +1,6 @@
 PDF Rendering Report
 ====================
-Time: 2025-12-13 13:57:39
+Time: 2025-12-13 14:03:34
 
 ParseTokens Test:
 -----------------
@@ -20,7 +20,7 @@ Rendering Process:
 Output File Info:
 -----------------
 Size: 21565 bytes
-Created: 2025-12-13 13:57:40
+Created: 2025-12-13 14:03:35
 
 Page Information:
 -----------------
@@ -31,15 +31,7 @@ Page Size: 8.26 x 11.69 inches
 Font Information:
 =================
 
-[Font 1] F8
-  BaseFont: EAAAAA+NSimSun
-  Subtype: Type0
-  Encoding: Identity-H
-  Identity Mapping: YES
-  ToUnicode Map: YES (17 mappings, 0 ranges)
-  Embedded Font: NO
-
-[Font 2] F4
+[Font 1] F4
   BaseFont: AAAAAA+MicrosoftYaHeiUI-Bold
   Subtype: Type0
   Encoding: Identity-H
@@ -47,7 +39,7 @@ Font Information:
   ToUnicode Map: YES (15 mappings, 1 ranges)
   Embedded Font: NO
 
-[Font 3] F5
+[Font 2] F5
   BaseFont: BAAAAA+Consolas
   Subtype: Type0
   Encoding: Identity-H
@@ -55,7 +47,7 @@ Font Information:
   ToUnicode Map: YES (21 mappings, 6 ranges)
   Embedded Font: NO
 
-[Font 4] F6
+[Font 3] F6
   BaseFont: CAAAAA+NSimSun
   Subtype: Type0
   Encoding: Identity-H
@@ -63,12 +55,20 @@ Font Information:
   ToUnicode Map: YES (4 mappings, 0 ranges)
   Embedded Font: NO
 
-[Font 5] F7
+[Font 4] F7
   BaseFont: DAAAAA+Consolas-Italic
   Subtype: Type0
   Encoding: Identity-H
   Identity Mapping: YES
   ToUnicode Map: YES (4 mappings, 0 ranges)
+  Embedded Font: NO
+
+[Font 5] F8
+  BaseFont: EAAAAA+NSimSun
+  Subtype: Type0
+  Encoding: Identity-H
+  Identity Mapping: YES
+  ToUnicode Map: YES (17 mappings, 0 ranges)
   Embedded Font: NO
 
 
@@ -81,133 +81,95 @@ Page Size: 594.96 x 841.92 points (8.26 x 11.69 inches)
 
 Text Elements: 724
 ----------------
-⚠️  Elements out of page bounds: 720 (99.4%)
-📏 Max X coordinate: 1090.52 (page width: 594.96)
-📏 Max Y coordinate: 1497.34 (page height: 841.92)
+⚠️  Elements out of page bounds: 0 (0.0%)
+📏 Max X coordinate: 563.05 (page width: 594.96)
+📏 Max Y coordinate: 445.26 (page height: 841.92)
 
 First 20 elements:
-[1] Position: (243.50, 1497.34) ⚠️ OUT OF BOUNDS
+[1] Position: (136.72, 108.03)
     Font: F4, Size: 32.00
     Text: "二十四点游戏的深度搜索算法demo"
 
-[2] Position: (243.50, 1454.34) ⚠️ OUT OF BOUNDS
+[2] Position: (136.72, 129.67)
     Font: F5, Size: 14.00
     Text: "def"
 
-[3] Position: (266.59, 1454.34) ⚠️ OUT OF BOUNDS
+[3] Position: (148.34, 129.67)
     Font: F5, Size: 14.00
     Text: " "
 
-[4] Position: (274.30, 1454.34) ⚠️ OUT OF BOUNDS
+[4] Position: (152.22, 129.67)
     Font: F5, Size: 14.00
     Text: "solve24"
 
-[5] Position: (328.19, 1454.34) ⚠️ OUT OF BOUNDS
+[5] Position: (179.34, 129.67)
     Font: F5, Size: 14.00
     Text: "("
 
-[6] Position: (335.89, 1454.34) ⚠️ OUT OF BOUNDS
+[6] Position: (183.22, 129.67)
     Font: F5, Size: 14.00
     Text: "nums"
 
-[7] Position: (366.69, 1454.34) ⚠️ OUT OF BOUNDS
+[7] Position: (198.72, 129.67)
     Font: F5, Size: 14.00
     Text: "):"
 
-[8] Position: (243.50, 1435.34) ⚠️ OUT OF BOUNDS
+[8] Position: (136.72, 139.23)
     Font: F5, Size: 14.00
     Text: " "
 
-[9] Position: (243.50, 1435.34) ⚠️ OUT OF BOUNDS
+[9] Position: (136.72, 139.23)
     Font: F5, Size: 14.00
     Text: " "
 
-[10] Position: (243.50, 1435.34) ⚠️ OUT OF BOUNDS
+[10] Position: (136.72, 139.23)
     Font: F5, Size: 14.00
     Text: " "
 
-[11] Position: (243.50, 1435.34) ⚠️ OUT OF BOUNDS
+[11] Position: (136.72, 139.23)
     Font: F5, Size: 14.00
     Text: " "
 
-[12] Position: (274.30, 1435.34) ⚠️ OUT OF BOUNDS
+[12] Position: (152.22, 139.23)
     Font: F5, Size: 14.00
     Text: "def"
 
-[13] Position: (297.39, 1435.34) ⚠️ OUT OF BOUNDS
+[13] Position: (163.84, 139.23)
     Font: F5, Size: 14.00
     Text: " "
 
-[14] Position: (305.09, 1435.34) ⚠️ OUT OF BOUNDS
+[14] Position: (167.72, 139.23)
     Font: F5, Size: 14.00
     Text: "dfs"
 
-[15] Position: (328.19, 1435.34) ⚠️ OUT OF BOUNDS
+[15] Position: (179.34, 139.23)
     Font: F5, Size: 14.00
     Text: "("
 
-[16] Position: (335.89, 1435.34) ⚠️ OUT OF BOUNDS
+[16] Position: (183.22, 139.23)
     Font: F5, Size: 14.00
     Text: "nums"
 
-[17] Position: (366.69, 1435.34) ⚠️ OUT OF BOUNDS
+[17] Position: (198.72, 139.23)
     Font: F5, Size: 14.00
     Text: ","
 
-[18] Position: (374.39, 1435.34) ⚠️ OUT OF BOUNDS
+[18] Position: (202.60, 139.23)
     Font: F5, Size: 14.00
     Text: " "
 
-[19] Position: (382.09, 1435.34) ⚠️ OUT OF BOUNDS
+[19] Position: (206.48, 139.23)
     Font: F5, Size: 14.00
     Text: "path"
 
-[20] Position: (412.89, 1435.34) ⚠️ OUT OF BOUNDS
+[20] Position: (221.98, 139.23)
     Font: F5, Size: 14.00
     Text: "):"
 
 ... and 704 more text elements
 
 Sample of out-of-bounds elements:
-[1] Position: (243.50, 1497.34) ⚠️ OUT OF BOUNDS
-    Font: F4, Size: 32.00
-    Text: "二十四点游戏的深度搜索算法demo"
-
-[2] Position: (243.50, 1454.34) ⚠️ OUT OF BOUNDS
-    Font: F5, Size: 14.00
-    Text: "def"
-
-[3] Position: (266.59, 1454.34) ⚠️ OUT OF BOUNDS
-    Font: F5, Size: 14.00
-    Text: " "
-
-[4] Position: (274.30, 1454.34) ⚠️ OUT OF BOUNDS
-    Font: F5, Size: 14.00
-    Text: "solve24"
-
-[5] Position: (328.19, 1454.34) ⚠️ OUT OF BOUNDS
-    Font: F5, Size: 14.00
-    Text: "("
-
-[6] Position: (335.89, 1454.34) ⚠️ OUT OF BOUNDS
-    Font: F5, Size: 14.00
-    Text: "nums"
-
-[7] Position: (366.69, 1454.34) ⚠️ OUT OF BOUNDS
-    Font: F5, Size: 14.00
-    Text: "):"
-
-[8] Position: (243.50, 1435.34) ⚠️ OUT OF BOUNDS
-    Font: F5, Size: 14.00
-    Text: " "
-
-[9] Position: (243.50, 1435.34) ⚠️ OUT OF BOUNDS
-    Font: F5, Size: 14.00
-    Text: " "
-
-[10] Position: (243.50, 1435.34) ⚠️ OUT OF BOUNDS
-    Font: F5, Size: 14.00
-    Text: " "
+  (No out-of-bounds elements found)
 
 Image Elements: None found
 
@@ -215,203 +177,203 @@ Text Elements:
 --------------
 Total text elements: 724
 
-[1] Position: (243.50, 1497.34)
+[1] Position: (136.72, 108.03)
     Font: F4, Size: 32.00
     Text: "二十四点游戏的深度搜索算法demo"
 
-[2] Position: (243.50, 1454.34)
+[2] Position: (136.72, 129.67)
     Font: F5, Size: 14.00
     Text: "def"
 
-[3] Position: (266.59, 1454.34)
+[3] Position: (148.34, 129.67)
     Font: F5, Size: 14.00
     Text: " "
 
-[4] Position: (274.30, 1454.34)
+[4] Position: (152.22, 129.67)
     Font: F5, Size: 14.00
     Text: "solve24"
 
-[5] Position: (328.19, 1454.34)
+[5] Position: (179.34, 129.67)
     Font: F5, Size: 14.00
     Text: "("
 
-[6] Position: (335.89, 1454.34)
+[6] Position: (183.22, 129.67)
     Font: F5, Size: 14.00
     Text: "nums"
 
-[7] Position: (366.69, 1454.34)
+[7] Position: (198.72, 129.67)
     Font: F5, Size: 14.00
     Text: "):"
 
-[8] Position: (243.50, 1435.34)
+[8] Position: (136.72, 139.23)
     Font: F5, Size: 14.00
     Text: " "
 
-[9] Position: (243.50, 1435.34)
+[9] Position: (136.72, 139.23)
     Font: F5, Size: 14.00
     Text: " "
 
-[10] Position: (243.50, 1435.34)
+[10] Position: (136.72, 139.23)
     Font: F5, Size: 14.00
     Text: " "
 
-[11] Position: (243.50, 1435.34)
+[11] Position: (136.72, 139.23)
     Font: F5, Size: 14.00
     Text: " "
 
-[12] Position: (274.30, 1435.34)
+[12] Position: (152.22, 139.23)
     Font: F5, Size: 14.00
     Text: "def"
 
-[13] Position: (297.39, 1435.34)
+[13] Position: (163.84, 139.23)
     Font: F5, Size: 14.00
     Text: " "
 
-[14] Position: (305.09, 1435.34)
+[14] Position: (167.72, 139.23)
     Font: F5, Size: 14.00
     Text: "dfs"
 
-[15] Position: (328.19, 1435.34)
+[15] Position: (179.34, 139.23)
     Font: F5, Size: 14.00
     Text: "("
 
-[16] Position: (335.89, 1435.34)
+[16] Position: (183.22, 139.23)
     Font: F5, Size: 14.00
     Text: "nums"
 
-[17] Position: (366.69, 1435.34)
+[17] Position: (198.72, 139.23)
     Font: F5, Size: 14.00
     Text: ","
 
-[18] Position: (374.39, 1435.34)
+[18] Position: (202.60, 139.23)
     Font: F5, Size: 14.00
     Text: " "
 
-[19] Position: (382.09, 1435.34)
+[19] Position: (206.48, 139.23)
     Font: F5, Size: 14.00
     Text: "path"
 
-[20] Position: (412.89, 1435.34)
+[20] Position: (221.98, 139.23)
     Font: F5, Size: 14.00
     Text: "):"
 
-[21] Position: (243.50, 1416.34)
+[21] Position: (136.72, 148.80)
     Font: F5, Size: 14.00
     Text: " "
 
-[22] Position: (243.50, 1416.34)
+[22] Position: (136.72, 148.80)
     Font: F5, Size: 14.00
     Text: " "
 
-[23] Position: (243.50, 1416.34)
+[23] Position: (136.72, 148.80)
     Font: F5, Size: 14.00
     Text: " "
 
-[24] Position: (243.50, 1416.34)
+[24] Position: (136.72, 148.80)
     Font: F5, Size: 14.00
     Text: " "
 
-[25] Position: (243.50, 1416.34)
+[25] Position: (136.72, 148.80)
     Font: F5, Size: 14.00
     Text: " "
 
-[26] Position: (243.50, 1416.34)
+[26] Position: (136.72, 148.80)
     Font: F5, Size: 14.00
     Text: " "
 
-[27] Position: (243.50, 1416.34)
+[27] Position: (136.72, 148.80)
     Font: F5, Size: 14.00
     Text: " "
 
-[28] Position: (243.50, 1416.34)
+[28] Position: (136.72, 148.80)
     Font: F5, Size: 14.00
     Text: " "
 
-[29] Position: (305.08, 1416.34)
+[29] Position: (167.71, 148.80)
     Font: F5, Size: 14.00
     Text: "if"
 
-[30] Position: (320.48, 1416.34)
+[30] Position: (175.47, 148.80)
     Font: F5, Size: 14.00
     Text: " "
 
-[31] Position: (328.19, 1416.34)
+[31] Position: (179.34, 148.80)
     Font: F5, Size: 14.00
     Text: "len"
 
-[32] Position: (351.28, 1416.34)
+[32] Position: (190.97, 148.80)
     Font: F5, Size: 14.00
     Text: "("
 
-[33] Position: (358.98, 1416.34)
+[33] Position: (194.84, 148.80)
     Font: F5, Size: 14.00
     Text: "nums"
 
-[34] Position: (389.78, 1416.34)
+[34] Position: (210.34, 148.80)
     Font: F5, Size: 14.00
     Text: ")"
 
-[35] Position: (397.48, 1416.34)
+[35] Position: (214.22, 148.80)
     Font: F5, Size: 14.00
     Text: " "
 
-[36] Position: (405.19, 1416.34)
+[36] Position: (218.10, 148.80)
     Font: F5, Size: 14.00
     Text: "=="
 
-[37] Position: (420.59, 1416.34)
+[37] Position: (225.85, 148.80)
     Font: F5, Size: 14.00
     Text: " "
 
-[38] Position: (428.30, 1416.34)
+[38] Position: (229.73, 148.80)
     Font: F5, Size: 14.00
     Text: "1"
 
-[39] Position: (436.00, 1416.34)
+[39] Position: (233.61, 148.80)
     Font: F5, Size: 14.00
     Text: ":"
 
-[40] Position: (243.50, 1397.34)
+[40] Position: (136.72, 158.36)
     Font: F5, Size: 14.00
     Text: " "
 
-[41] Position: (243.50, 1397.34)
+[41] Position: (136.72, 158.36)
     Font: F5, Size: 14.00
     Text: " "
 
-[42] Position: (243.50, 1397.34)
+[42] Position: (136.72, 158.36)
     Font: F5, Size: 14.00
     Text: " "
 
-[43] Position: (243.50, 1397.34)
+[43] Position: (136.72, 158.36)
     Font: F5, Size: 14.00
     Text: " "
 
-[44] Position: (243.50, 1397.34)
+[44] Position: (136.72, 158.36)
     Font: F5, Size: 14.00
     Text: " "
 
-[45] Position: (243.50, 1397.34)
+[45] Position: (136.72, 158.36)
     Font: F5, Size: 14.00
     Text: " "
 
-[46] Position: (243.50, 1397.34)
+[46] Position: (136.72, 158.36)
     Font: F5, Size: 14.00
     Text: " "
 
-[47] Position: (243.50, 1397.34)
+[47] Position: (136.72, 158.36)
     Font: F5, Size: 14.00
     Text: " "
 
-[48] Position: (243.50, 1397.34)
+[48] Position: (136.72, 158.36)
     Font: F5, Size: 14.00
     Text: " "
 
-[49] Position: (243.50, 1397.34)
+[49] Position: (136.72, 158.36)
     Font: F5, Size: 14.00
     Text: " "
 
-[50] Position: (243.50, 1397.34)
+[50] Position: (136.72, 158.36)
     Font: F5, Size: 14.00
     Text: " "
 
@@ -431,6 +393,8 @@ Rendering completed successfully
 
 Operator Execution Log:
 ------------------------
+✓ Loaded ToUnicode CMap for font F6 (4 mappings, 0 ranges)
+✓ Detected Identity encoding for font F6: Identity-H
 ✓ Loaded ToUnicode CMap for font F7 (4 mappings, 0 ranges)
 ✓ Detected Identity encoding for font F7: Identity-H
 ✓ Loaded ToUnicode CMap for font F8 (17 mappings, 0 ranges)
@@ -439,8 +403,6 @@ Operator Execution Log:
 ✓ Detected Identity encoding for font F4: Identity-H
 ✓ Loaded ToUnicode CMap for font F5 (21 mappings, 6 ranges)
 ✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded ToUnicode CMap for font F6 (4 mappings, 0 ranges)
-✓ Detected Identity encoding for font F6: Identity-H
    Dereferenced to: types.StreamDict
    Decoding StreamDict...
    Raw: 5100 bytes, Content: 0 bytes
@@ -2805,6 +2767,8 @@ Operator Execution Log:
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 322.781 828.000]
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
 [DEBUG] ET operator: End text object
+✓ Loaded ToUnicode CMap for font F7 (4 mappings, 0 ranges)
+✓ Detected Identity encoding for font F7: Identity-H
 ✓ Loaded ToUnicode CMap for font F8 (17 mappings, 0 ranges)
 ✓ Detected Identity encoding for font F8: Identity-H
 ✓ Loaded ToUnicode CMap for font F4 (15 mappings, 1 ranges)
@@ -2813,8 +2777,6 @@ Operator Execution Log:
 ✓ Detected Identity encoding for font F5: Identity-H
 ✓ Loaded ToUnicode CMap for font F6 (4 mappings, 0 ranges)
 ✓ Detected Identity encoding for font F6: Identity-H
-✓ Loaded ToUnicode CMap for font F7 (4 mappings, 0 ranges)
-✓ Detected Identity encoding for font F7: Identity-H
    Dereferenced to: types.StreamDict
    Decoding StreamDict...
    Raw: 5100 bytes, Content: 0 bytes
@@ -10258,22 +10220,24 @@ Operator Execution Log:
 [Q] Restore graphics state - Stack depth: 1
 
 📈 Operator Statistics:
+   BT: 409
+   re: 2
+   rg: 404
+   f: 1
+   Q: 2
+   n: 1
+   Tm: 405
+   Td: 5
+   Tj: 724
+   ET: 409
    cm: 2
    q: 2
-   n: 1
-   ET: 409
-   Td: 5
-   re: 2
-   gs: 1
-   BT: 409
-   RG: 404
-   f: 1
-   Tf: 405
-   Tj: 724
-   Q: 2
    W*: 1
-   rg: 404
-   Tm: 405
+   RG: 404
+   gs: 1
+   Tf: 405
+✓ Loaded ToUnicode CMap for font F4 (15 mappings, 1 ranges)
+✓ Detected Identity encoding for font F4: Identity-H
 ✓ Loaded ToUnicode CMap for font F5 (21 mappings, 6 ranges)
 ✓ Detected Identity encoding for font F5: Identity-H
 ✓ Loaded ToUnicode CMap for font F6 (4 mappings, 0 ranges)
@@ -10282,8 +10246,6 @@ Operator Execution Log:
 ✓ Detected Identity encoding for font F7: Identity-H
 ✓ Loaded ToUnicode CMap for font F8 (17 mappings, 0 ranges)
 ✓ Detected Identity encoding for font F8: Identity-H
-✓ Loaded ToUnicode CMap for font F4 (15 mappings, 1 ranges)
-✓ Detected Identity encoding for font F4: Identity-H
 ✓ Loaded ToUnicode CMap for font F6 (4 mappings, 0 ranges)
 ✓ Detected Identity encoding for font F6: Identity-H
 ✓ Loaded ToUnicode CMap for font F7 (4 mappings, 0 ranges)
