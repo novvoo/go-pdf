@@ -893,6 +893,24 @@ func loadFont(ctx *model.Context, fontName string, fontObj types.Object, resourc
 		}
 	}
 
+	// 先设置 Subtype，因为 loadFontWidths 需要它
+	// （Subtype 已经在上面设置了）
+
+	// 加载字形宽度信息
+	if err := loadFontWidths(ctx, fontDict, font); err != nil {
+		debugPrintf("Warning: failed to load font widths for %s: %v\n", fontName, err)
+	} else {
+		if font.Widths != nil {
+			if font.Subtype == "/Type0" {
+				debugPrintf("✓ Loaded font widths for %s: %d CID mappings, %d ranges, default=%.0f\n",
+					fontName, len(font.Widths.CIDWidths), len(font.Widths.CIDRanges), font.DefaultWidth)
+			} else {
+				debugPrintf("✓ Loaded font widths for %s: %d widths (FirstChar=%d, LastChar=%d)\n",
+					fontName, len(font.Widths.Widths), font.Widths.FirstChar, font.Widths.LastChar)
+			}
+		}
+	}
+
 	// 检查是否使用 Identity-H 或 Identity-V 编码
 	isIdentity := false
 	if font.Encoding == "/Identity-H" || font.Encoding == "Identity-H" ||
@@ -1117,6 +1135,236 @@ func loadXObject(ctx *model.Context, xobjName string, xobjObj types.Object, reso
 
 	resources.AddXObject(xobjName, xobj)
 	return nil
+}
+
+// loadFontWidths 加载字体宽度信息
+func loadFontWidths(ctx *model.Context, fontDict types.Dict, font *Font) error {
+	// 对于 Type0 (CID) 字体，需要从 DescendantFonts 中读取宽度信息
+	if font.Subtype == "/Type0" || font.Subtype == "Type0" {
+		return loadCIDFontWidths(ctx, fontDict, font)
+	}
+
+	// 对于 Type1/TrueType 字体，直接从字体字典读取
+	widths := &FontWidths{
+		CIDWidths: make(map[uint16]float64),
+	}
+
+	// 读取 FirstChar 和 LastChar
+	if firstCharObj, found := fontDict.Find("FirstChar"); found {
+		if num, ok := firstCharObj.(types.Integer); ok {
+			widths.FirstChar = int(num)
+		}
+	}
+
+	if lastCharObj, found := fontDict.Find("LastChar"); found {
+		if num, ok := lastCharObj.(types.Integer); ok {
+			widths.LastChar = int(num)
+		}
+	}
+
+	// 读取 Widths 数组
+	if widthsObj, found := fontDict.Find("Widths"); found {
+		// 解引用
+		if indRef, ok := widthsObj.(types.IndirectRef); ok {
+			derefObj, err := ctx.Dereference(indRef)
+			if err == nil {
+				widthsObj = derefObj
+			}
+		}
+
+		if widthsArray, ok := widthsObj.(types.Array); ok {
+			widths.Widths = make([]float64, len(widthsArray))
+			for i, w := range widthsArray {
+				if num, ok := w.(types.Integer); ok {
+					widths.Widths[i] = float64(num)
+				} else if num, ok := w.(types.Float); ok {
+					widths.Widths[i] = float64(num)
+				}
+			}
+			debugPrintf("✓ Loaded %d width values for font %s (FirstChar=%d, LastChar=%d)\n",
+				len(widths.Widths), font.Name, widths.FirstChar, widths.LastChar)
+		}
+	}
+
+	// 读取 MissingWidth（从 FontDescriptor）
+	if fontDescriptorObj, found := fontDict.Find("FontDescriptor"); found {
+		if indRef, ok := fontDescriptorObj.(types.IndirectRef); ok {
+			derefObj, err := ctx.Dereference(indRef)
+			if err == nil {
+				if fontDescriptorDict, ok := derefObj.(types.Dict); ok {
+					if missingWidthObj, found := fontDescriptorDict.Find("MissingWidth"); found {
+						if num, ok := missingWidthObj.(types.Integer); ok {
+							font.MissingWidth = float64(num)
+						} else if num, ok := missingWidthObj.(types.Float); ok {
+							font.MissingWidth = float64(num)
+						}
+					}
+				}
+			}
+		}
+	}
+
+	font.Widths = widths
+	return nil
+}
+
+// loadCIDFontWidths 加载 CID 字体的宽度信息
+func loadCIDFontWidths(ctx *model.Context, fontDict types.Dict, font *Font) error {
+	// Type0 字体的宽度信息在 DescendantFonts 中
+	descendantFontsObj, found := fontDict.Find("DescendantFonts")
+	if !found {
+		return fmt.Errorf("no DescendantFonts in Type0 font")
+	}
+
+	// 解引用
+	if indRef, ok := descendantFontsObj.(types.IndirectRef); ok {
+		derefObj, err := ctx.Dereference(indRef)
+		if err != nil {
+			return err
+		}
+		descendantFontsObj = derefObj
+	}
+
+	// DescendantFonts 是一个数组，通常只有一个元素
+	descendantFontsArray, ok := descendantFontsObj.(types.Array)
+	if !ok || len(descendantFontsArray) == 0 {
+		return fmt.Errorf("DescendantFonts is not an array or is empty")
+	}
+
+	// 获取第一个 descendant font
+	descendantFontObj := descendantFontsArray[0]
+	if indRef, ok := descendantFontObj.(types.IndirectRef); ok {
+		derefObj, err := ctx.Dereference(indRef)
+		if err != nil {
+			return err
+		}
+		descendantFontObj = derefObj
+	}
+
+	descendantFontDict, ok := descendantFontObj.(types.Dict)
+	if !ok {
+		return fmt.Errorf("descendant font is not a dictionary")
+	}
+
+	widths := &FontWidths{
+		CIDWidths: make(map[uint16]float64),
+		CIDRanges: make([]CIDWidthRange, 0),
+	}
+
+	// 读取 DW (Default Width)
+	if dwObj, found := descendantFontDict.Find("DW"); found {
+		if num, ok := dwObj.(types.Integer); ok {
+			font.DefaultWidth = float64(num)
+		} else if num, ok := dwObj.(types.Float); ok {
+			font.DefaultWidth = float64(num)
+		}
+		debugPrintf("✓ Default width for CID font %s: %.0f\n", font.Name, font.DefaultWidth)
+	}
+
+	// 读取 W (Widths) 数组
+	// 格式: [c1 c2 w] 或 [c [w1 w2 ... wn]]
+	if wObj, found := descendantFontDict.Find("W"); found {
+		// 解引用
+		if indRef, ok := wObj.(types.IndirectRef); ok {
+			derefObj, err := ctx.Dereference(indRef)
+			if err == nil {
+				wObj = derefObj
+			}
+		}
+
+		if wArray, ok := wObj.(types.Array); ok {
+			if err := parseCIDWidthsArray(wArray, widths); err != nil {
+				debugPrintf("Warning: failed to parse CID widths array: %v\n", err)
+			} else {
+				debugPrintf("✓ Loaded CID widths for font %s: %d direct mappings, %d ranges\n",
+					font.Name, len(widths.CIDWidths), len(widths.CIDRanges))
+			}
+		}
+	}
+
+	font.Widths = widths
+	return nil
+}
+
+// parseCIDWidthsArray 解析 CID 字体的 W 数组
+// 格式: [c1 c2 w] 表示 CID c1 到 c2 的宽度都是 w
+// 格式: [c [w1 w2 ... wn]] 表示从 CID c 开始的连续 CID 的宽度
+func parseCIDWidthsArray(wArray types.Array, widths *FontWidths) error {
+	i := 0
+	for i < len(wArray) {
+		// 读取起始 CID
+		startCIDObj := wArray[i]
+		startCID, ok := getInteger(startCIDObj)
+		if !ok {
+			i++
+			continue
+		}
+
+		if i+1 >= len(wArray) {
+			break
+		}
+
+		// 检查下一个元素是数组还是整数
+		nextObj := wArray[i+1]
+
+		if nextArray, ok := nextObj.(types.Array); ok {
+			// 格式: [c [w1 w2 ... wn]]
+			for j, widthObj := range nextArray {
+				if width, ok := getNumber(widthObj); ok {
+					cid := uint16(startCID + int64(j))
+					widths.CIDWidths[cid] = width
+				}
+			}
+			i += 2
+		} else {
+			// 格式: [c1 c2 w]
+			if i+2 >= len(wArray) {
+				break
+			}
+
+			endCID, ok := getInteger(wArray[i+1])
+			if !ok {
+				i++
+				continue
+			}
+
+			width, ok := getNumber(wArray[i+2])
+			if !ok {
+				i++
+				continue
+			}
+
+			// 添加范围
+			widths.CIDRanges = append(widths.CIDRanges, CIDWidthRange{
+				StartCID: uint16(startCID),
+				EndCID:   uint16(endCID),
+				Width:    width,
+			})
+
+			i += 3
+		}
+	}
+
+	return nil
+}
+
+// getInteger 从 PDF 对象获取整数值
+func getInteger(obj types.Object) (int64, bool) {
+	if num, ok := obj.(types.Integer); ok {
+		return int64(num), true
+	}
+	return 0, false
+}
+
+// getNumber 从 PDF 对象获取数值（整数或浮点数）
+func getNumber(obj types.Object) (float64, bool) {
+	if num, ok := obj.(types.Integer); ok {
+		return float64(num), true
+	}
+	if num, ok := obj.(types.Float); ok {
+		return float64(num), true
+	}
+	return 0, false
 }
 
 // loadFontFileData 从间接引用加载字体文件数据

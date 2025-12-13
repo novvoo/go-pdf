@@ -71,6 +71,93 @@ type Font struct {
 	CIDSystemInfo    string           // CID 字体的系统信息 (Registry-Ordering)
 	EmbeddedFontData []byte           // 嵌入的字体数据 (TTF/CFF)
 	IsIdentity       bool             // 是否使用 Identity 映射 (CID = Unicode)
+	Widths           *FontWidths      // 字形宽度信息
+	DefaultWidth     float64          // 默认字形宽度（用于 CID 字体）
+	MissingWidth     float64          // 缺失字形的宽度
+}
+
+// FontWidths 字形宽度信息
+type FontWidths struct {
+	// Type1/TrueType 字体：FirstChar 到 LastChar 的宽度数组
+	FirstChar int
+	LastChar  int
+	Widths    []float64
+
+	// CID 字体：CID 到宽度的映射
+	CIDWidths map[uint16]float64
+	// CID 字体：宽度范围
+	CIDRanges []CIDWidthRange
+}
+
+// CIDWidthRange CID 字体的宽度范围
+type CIDWidthRange struct {
+	StartCID uint16
+	EndCID   uint16
+	Width    float64   // 如果是单一宽度
+	Widths   []float64 // 如果是宽度数组
+}
+
+// GetWidth 获取字符的宽度（以千分之一 em 为单位）
+func (f *Font) GetWidth(cid uint16) float64 {
+	if f.Widths == nil {
+		// 如果没有宽度信息，返回默认宽度
+		if f.DefaultWidth > 0 {
+			return f.DefaultWidth
+		}
+		// 使用通用默认值：500（半个 em）
+		return 500.0
+	}
+
+	// CID 字体
+	if f.Subtype == "/Type0" || len(f.Widths.CIDWidths) > 0 || len(f.Widths.CIDRanges) > 0 {
+		// 首先查找直接映射
+		if width, ok := f.Widths.CIDWidths[cid]; ok {
+			return width
+		}
+
+		// 然后查找范围映射
+		for _, r := range f.Widths.CIDRanges {
+			if cid >= r.StartCID && cid <= r.EndCID {
+				if r.Width > 0 {
+					// 单一宽度
+					return r.Width
+				}
+				if len(r.Widths) > 0 {
+					// 宽度数组
+					offset := int(cid - r.StartCID)
+					if offset < len(r.Widths) {
+						return r.Widths[offset]
+					}
+				}
+			}
+		}
+
+		// 使用默认宽度
+		if f.DefaultWidth > 0 {
+			return f.DefaultWidth
+		}
+		if f.MissingWidth > 0 {
+			return f.MissingWidth
+		}
+		return 500.0
+	}
+
+	// Type1/TrueType 字体
+	if len(f.Widths.Widths) > 0 {
+		charCode := int(cid)
+		if charCode >= f.Widths.FirstChar && charCode <= f.Widths.LastChar {
+			offset := charCode - f.Widths.FirstChar
+			if offset < len(f.Widths.Widths) {
+				return f.Widths.Widths[offset]
+			}
+		}
+	}
+
+	// 使用默认宽度
+	if f.MissingWidth > 0 {
+		return f.MissingWidth
+	}
+	return 500.0
 }
 
 // ===== 文本对象操作符 =====
@@ -522,55 +609,25 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 		for idx, item := range array {
 			switch v := item.(type) {
 			case string:
-				// 解码文本（处理十六进制字符串和 CID 字体）
-				// 使用支持Identity映射的新函数
-				decodedText := ""
-				if textState.Font != nil {
-					decodedText = decodeTextStringWithFontAndIdentity(v, toUnicodeMap, textState.Font.IsIdentity)
-				} else {
-					decodedText = decodeTextStringWithFont(v, toUnicodeMap)
-				}
+				// 解码文本并获取 CID 数组
+				decodedText, cids := decodeTextStringWithCIDs(v, toUnicodeMap, textState.Font)
 				if decodedText == "" {
 					// 如果无法解码，跳过
 					debugPrintf("[TJ_ARRAY][%d] Empty string after decode\n", idx)
 					continue
 				}
 
-				debugPrintf("[TJ_ARRAY][%d] Text=%q (len=%d runes) at x=%.2f\n",
-					idx, decodedText, len([]rune(decodedText)), x)
+				debugPrintf("[TJ_ARRAY][%d] Text=%q (len=%d runes, %d CIDs) at x=%.2f\n",
+					idx, decodedText, len([]rune(decodedText)), len(cids), x)
 
 				layout.SetText(decodedText)
 				ctx.CairoCtx.MoveTo(x, 0)
 				// 使用 PangoCairo 直接渲染文本（支持基本的字距调整）
 				ctx.CairoCtx.PangoCairoShowText(layout)
 
-				// 计算文本宽度（估算，使用 rune 数量而不是字节数）
-				runeCount := float64(len([]rune(decodedText)))
-				textWidth := runeCount * fontSize * 0.5
-				debugPrintf("[TJ_ARRAY][%d] Estimated width=%.2f (%.0f runes × %.2f × 0.5)\n",
-					idx, textWidth, runeCount, fontSize)
-
-				// 应用字符间距
-				if textState.CharSpacing != 0 {
-					charAdj := textState.CharSpacing * runeCount
-					debugPrintf("[TJ_ARRAY][%d] CharSpacing adj=%.2f (%.4f × %.0f)\n",
-						idx, charAdj, textState.CharSpacing, runeCount)
-					textWidth += charAdj
-				}
-
-				// 应用单词间距
-				spaceCount := 0
-				for _, ch := range decodedText {
-					if ch == ' ' {
-						spaceCount++
-					}
-				}
-				if spaceCount > 0 && textState.WordSpacing != 0 {
-					wordAdj := textState.WordSpacing * float64(spaceCount)
-					debugPrintf("[TJ_ARRAY][%d] WordSpacing adj=%.2f (%.4f × %d spaces)\n",
-						idx, wordAdj, textState.WordSpacing, spaceCount)
-					textWidth += wordAdj
-				}
+				// 使用实际的字形宽度计算文本宽度
+				textWidth := calculateTextWidth(cids, textState, decodedText)
+				debugPrintf("[TJ_ARRAY][%d] Calculated width=%.2f\n", idx, textWidth)
 
 				x += textWidth
 				totalTextWidth += textWidth
@@ -600,46 +657,20 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 			textDisplacement, totalTextWidth, horizontalScale)
 	} else {
 		// Tj 操作符：简单文本
-		// 解码文本（处理十六进制字符串和 CID 字体）
-		// 使用支持Identity映射的新函数
-		decodedText := ""
-		if textState.Font != nil {
-			decodedText = decodeTextStringWithFontAndIdentity(text, toUnicodeMap, textState.Font.IsIdentity)
-		} else {
-			decodedText = decodeTextStringWithFont(text, toUnicodeMap)
-		}
+		// 解码文本并获取 CID 数组
+		decodedText, cids := decodeTextStringWithCIDs(text, toUnicodeMap, textState.Font)
 		if decodedText != "" {
 			// 打印文本用于调试
-			debugPrintf("[Tj] Text=%q (len=%d runes) at Tm=[%.2f, %.2f]\n",
-				decodedText, len([]rune(decodedText)), tm.E, tm.F)
+			debugPrintf("[Tj] Text=%q (len=%d runes, %d CIDs) at Tm=[%.2f, %.2f]\n",
+				decodedText, len([]rune(decodedText)), len(cids), tm.E, tm.F)
 			layout.SetText(decodedText)
 			debugPrintf("[Tj] About to render text at current position\n")
 			ctx.CairoCtx.PangoCairoShowText(layout)
 			debugPrintf("[Tj] Text rendered\n")
 
-			// 计算文本宽度（用于更新文本矩阵，使用 rune 数量）
-			runeCount := float64(len([]rune(decodedText)))
-			textWidth := runeCount * fontSize * 0.5
-			debugPrintf("[Tj] Base width=%.2f (%.0f runes × %.2f × 0.5)\n", textWidth, runeCount, fontSize)
-
-			if textState.CharSpacing != 0 {
-				charAdj := textState.CharSpacing * runeCount
-				debugPrintf("[Tj] CharSpacing adj=%.2f (%.4f × %.0f)\n", charAdj, textState.CharSpacing, runeCount)
-				textWidth += charAdj
-			}
-
-			// 计算单词间距
-			spaceCount := 0
-			for _, ch := range decodedText {
-				if ch == ' ' {
-					spaceCount++
-				}
-			}
-			if spaceCount > 0 && textState.WordSpacing != 0 {
-				wordAdj := textState.WordSpacing * float64(spaceCount)
-				debugPrintf("[Tj] WordSpacing adj=%.2f (%.4f × %d spaces)\n", wordAdj, textState.WordSpacing, spaceCount)
-				textWidth += wordAdj
-			}
+			// 使用实际的字形宽度计算文本宽度
+			textWidth := calculateTextWidth(cids, textState, decodedText)
+			debugPrintf("[Tj] Calculated width=%.2f\n", textWidth)
 
 			// 应用水平缩放到位移
 			textDisplacement = textWidth * horizontalScale
@@ -695,6 +726,114 @@ func decodeTextStringWithFont(text string, toUnicodeMap *CIDToUnicodeMap) string
 
 	// 普通字符串
 	return text
+}
+
+// decodeTextStringWithCIDs 解码文本并返回 Unicode 字符串和 CID 数组
+func decodeTextStringWithCIDs(text string, toUnicodeMap *CIDToUnicodeMap, font *Font) (string, []uint16) {
+	// 检查是否是十六进制字符串
+	if len(text) >= 2 && text[0] == '<' && text[len(text)-1] == '>' {
+		hexStr := text[1 : len(text)-1]
+		hexStr = strings.ReplaceAll(hexStr, " ", "")
+
+		// 转换十六进制到字节
+		var result []byte
+		for i := 0; i < len(hexStr); i += 2 {
+			if i+1 < len(hexStr) {
+				var b byte
+				fmt.Sscanf(hexStr[i:i+2], "%02x", &b)
+				result = append(result, b)
+			}
+		}
+
+		if len(result) < 2 || len(result)%2 != 0 {
+			return "", nil
+		}
+
+		// 提取CID数组
+		var cids []uint16
+		for i := 0; i < len(result); i += 2 {
+			cid := uint16(result[i])<<8 | uint16(result[i+1])
+			cids = append(cids, cid)
+		}
+
+		// 解码为 Unicode
+		var decoded strings.Builder
+		isIdentity := font != nil && font.IsIdentity
+
+		// 如果有 ToUnicode 映射，优先使用它
+		if toUnicodeMap != nil {
+			allMapped := true
+			for _, cid := range cids {
+				if uni, ok := toUnicodeMap.MapCIDToUnicode(cid); ok {
+					decoded.WriteRune(uni)
+				} else {
+					allMapped = false
+					break
+				}
+			}
+
+			// 如果所有CID都成功映射，返回结果
+			if allMapped {
+				return decoded.String(), cids
+			}
+			decoded.Reset()
+		}
+
+		// 如果ToUnicode映射失败或不存在，且是Identity映射，CID直接等于Unicode码点
+		if isIdentity {
+			for _, cid := range cids {
+				decoded.WriteRune(rune(cid))
+			}
+			return decoded.String(), cids
+		}
+
+		// 否则尝试标准解码
+		decodedStr := decodeTextString(text)
+		return decodedStr, cids
+	}
+
+	// 普通字符串 - 转换为 CID 数组（字节码）
+	var cids []uint16
+	for i := 0; i < len(text); i++ {
+		cids = append(cids, uint16(text[i]))
+	}
+	return text, cids
+}
+
+// calculateTextWidth 使用字形宽度计算文本宽度
+func calculateTextWidth(cids []uint16, textState *TextState, decodedText string) float64 {
+	if textState.Font == nil || len(cids) == 0 {
+		// 回退到简单估算
+		runeCount := float64(len([]rune(decodedText)))
+		return runeCount * textState.FontSize * 0.5
+	}
+
+	totalWidth := 0.0
+
+	// 使用字形宽度计算
+	for _, cid := range cids {
+		// 获取字形宽度（以千分之一 em 为单位）
+		glyphWidth := textState.Font.GetWidth(cid)
+		// 转换为用户空间单位：width = glyphWidth * fontSize / 1000
+		width := glyphWidth * textState.FontSize / 1000.0
+		totalWidth += width
+
+		// 应用字符间距
+		totalWidth += textState.CharSpacing
+	}
+
+	// 应用单词间距（只对空格字符）
+	if textState.WordSpacing != 0 {
+		spaceCount := 0
+		for _, ch := range decodedText {
+			if ch == ' ' {
+				spaceCount++
+			}
+		}
+		totalWidth += textState.WordSpacing * float64(spaceCount)
+	}
+
+	return totalWidth
 }
 
 // decodeTextStringWithFontAndIdentity 使用字体的 ToUnicode 映射解码文本，支持Identity映射

@@ -1,6 +1,6 @@
 PDF Rendering Report
 ====================
-Time: 2025-12-13 23:59:51
+Time: 2025-12-14 00:20:59
 
 ParseTokens Test:
 -----------------
@@ -19,8 +19,8 @@ Rendering Process:
 
 Output File Info:
 -----------------
-Size: 105269 bytes
-Created: 2025-12-13 23:59:53
+Size: 105290 bytes
+Created: 2025-12-14 00:21:00
 
 Page Information:
 -----------------
@@ -31,15 +31,7 @@ Page Size: 8.26 x 11.69 inches
 Font Information:
 =================
 
-[Font 1] F4
-  BaseFont: AAAAAA+FreightSansProBold-Regular
-  Subtype: Type0
-  Encoding: Identity-H
-  Identity Mapping: YES
-  ToUnicode Map: YES (8 mappings, 3 ranges)
-  Embedded Font: NO
-
-[Font 2] F5
+[Font 1] F5
   BaseFont: BAAAAA+FreightSansProBook-Regular
   Subtype: Type0
   Encoding: Identity-H
@@ -47,12 +39,20 @@ Font Information:
   ToUnicode Map: YES (8 mappings, 9 ranges)
   Embedded Font: NO
 
-[Font 3] F6
+[Font 2] F6
   BaseFont: CAAAAA+MicrosoftYaHei
   Subtype: Type0
   Encoding: Identity-H
   Identity Mapping: YES
   ToUnicode Map: YES (736 mappings, 91 ranges)
+  Embedded Font: NO
+
+[Font 3] F4
+  BaseFont: AAAAAA+FreightSansProBold-Regular
+  Subtype: Type0
+  Encoding: Identity-H
+  Identity Mapping: YES
+  ToUnicode Map: YES (8 mappings, 3 ranges)
   Embedded Font: NO
 
 
@@ -442,10 +442,19 @@ Rendering completed successfully
 Operator Execution Log:
 ------------------------
 ✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
+✓ Default width for CID font F4: 0
+✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
+✓ Loaded font widths for F4: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F4: Identity-H
 ✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
+✓ Default width for CID font F5: 500
+✓ Loaded CID widths for font F5: 102 direct mappings, 0 ranges
+✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F5: Identity-H
 ✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
+✓ Default width for CID font F6: 1000
+✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
+✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F6: Identity-H
    Dereferenced to: types.StreamDict
    Decoding StreamDict...
@@ -1228,12 +1237,21 @@ Operator Execution Log:
 [DEBUG] Text element: baseFontSize=17.00, scale=-1.00, effectiveFontSize=17.00
 [DEBUG] Estimated text width: 34.00, new E=677.89
 [DEBUG] ET operator: End text object
-✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
-✓ Detected Identity encoding for font F4: Identity-H
 ✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
+✓ Default width for CID font F5: 500
+✓ Loaded CID widths for font F5: 102 direct mappings, 0 ranges
+✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F5: Identity-H
 ✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
+✓ Default width for CID font F6: 1000
+✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
+✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F6: Identity-H
+✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
+✓ Default width for CID font F4: 0
+✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
+✓ Loaded font widths for F4: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F4: Identity-H
    Dereferenced to: types.StreamDict
    Decoding StreamDict...
    Raw: 13401 bytes, Content: 0 bytes
@@ -1256,92 +1274,92 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.028, 0.525, 0.235, 1.000)
-[Tj] Text="P" (len=1 runes) at Tm=[486.81, 81.00]
+[Tj] Text="P" (len=1 runes, 1 CIDs) at Tm=[486.81, 81.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=7.00 (1 runes × 14.00 × 0.5)
-[Tj] Final displacement=7.00 (width=7.00 × scale=1.00)
+[Tj] Calculated width=8.31
+[Tj] Final displacement=8.31 (width=8.31 × scale=1.00)
 [Td] Move text position: tx=9.91, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 496.73 81.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.028, 0.525, 0.235, 1.000)
-[Tj] Text="S" (len=1 runes) at Tm=[496.73, 81.00]
+[Tj] Text="S" (len=1 runes, 1 CIDs) at Tm=[496.73, 81.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=7.00 (1 runes × 14.00 × 0.5)
-[Tj] Final displacement=7.00 (width=7.00 × scale=1.00)
+[Tj] Calculated width=7.90
+[Tj] Final displacement=7.90 (width=7.90 × scale=1.00)
 [Td] Move text position: tx=9.31, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 506.04 81.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.028, 0.525, 0.235, 1.000)
-[Tj] Text="Y" (len=1 runes) at Tm=[506.04, 81.00]
+[Tj] Text="Y" (len=1 runes, 1 CIDs) at Tm=[506.04, 81.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=7.00 (1 runes × 14.00 × 0.5)
-[Tj] Final displacement=7.00 (width=7.00 × scale=1.00)
+[Tj] Calculated width=8.55
+[Tj] Final displacement=8.55 (width=8.55 × scale=1.00)
 [Td] Move text position: tx=9.60, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 515.64 81.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.028, 0.525, 0.235, 1.000)
-[Tj] Text="C" (len=1 runes) at Tm=[515.64, 81.00]
+[Tj] Text="C" (len=1 runes, 1 CIDs) at Tm=[515.64, 81.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=7.00 (1 runes × 14.00 × 0.5)
-[Tj] Final displacement=7.00 (width=7.00 × scale=1.00)
+[Tj] Calculated width=8.58
+[Tj] Final displacement=8.58 (width=8.58 × scale=1.00)
 [Td] Move text position: tx=10.18, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 525.82 81.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.028, 0.525, 0.235, 1.000)
-[Tj] Text="H" (len=1 runes) at Tm=[525.82, 81.00]
+[Tj] Text="H" (len=1 runes, 1 CIDs) at Tm=[525.82, 81.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=7.00 (1 runes × 14.00 × 0.5)
-[Tj] Final displacement=7.00 (width=7.00 × scale=1.00)
+[Tj] Calculated width=9.78
+[Tj] Final displacement=9.78 (width=9.78 × scale=1.00)
 [Td] Move text position: tx=11.38, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 537.20 81.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.028, 0.525, 0.235, 1.000)
-[Tj] Text="O" (len=1 runes) at Tm=[537.20, 81.00]
+[Tj] Text="O" (len=1 runes, 1 CIDs) at Tm=[537.20, 81.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=7.00 (1 runes × 14.00 × 0.5)
-[Tj] Final displacement=7.00 (width=7.00 × scale=1.00)
+[Tj] Calculated width=10.26
+[Tj] Final displacement=10.26 (width=10.26 × scale=1.00)
 [Td] Move text position: tx=11.86, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 549.06 81.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.028, 0.525, 0.235, 1.000)
-[Tj] Text="L" (len=1 runes) at Tm=[549.06, 81.00]
+[Tj] Text="L" (len=1 runes, 1 CIDs) at Tm=[549.06, 81.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=7.00 (1 runes × 14.00 × 0.5)
-[Tj] Final displacement=7.00 (width=7.00 × scale=1.00)
+[Tj] Calculated width=7.27
+[Tj] Final displacement=7.27 (width=7.27 × scale=1.00)
 [Td] Move text position: tx=8.30, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 557.36 81.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.028, 0.525, 0.235, 1.000)
-[Tj] Text="O" (len=1 runes) at Tm=[557.36, 81.00]
+[Tj] Text="O" (len=1 runes, 1 CIDs) at Tm=[557.36, 81.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=7.00 (1 runes × 14.00 × 0.5)
-[Tj] Final displacement=7.00 (width=7.00 × scale=1.00)
+[Tj] Calculated width=10.26
+[Tj] Final displacement=10.26 (width=10.26 × scale=1.00)
 [Td] Move text position: tx=11.86, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 569.22 81.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.028, 0.525, 0.235, 1.000)
-[Tj] Text="G" (len=1 runes) at Tm=[569.22, 81.00]
+[Tj] Text="G" (len=1 runes, 1 CIDs) at Tm=[569.22, 81.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=7.00 (1 runes × 14.00 × 0.5)
-[Tj] Final displacement=7.00 (width=7.00 × scale=1.00)
+[Tj] Calculated width=9.42
+[Tj] Final displacement=9.42 (width=9.42 × scale=1.00)
 [Td] Move text position: tx=10.79, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 580.02 81.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.028, 0.525, 0.235, 1.000)
-[Tj] Text="Y" (len=1 runes) at Tm=[580.02, 81.00]
+[Tj] Text="Y" (len=1 runes, 1 CIDs) at Tm=[580.02, 81.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=7.00 (1 runes × 14.00 × 0.5)
-[Tj] Final displacement=7.00 (width=7.00 × scale=1.00)
+[Tj] Calculated width=8.55
+[Tj] Final displacement=8.55 (width=8.55 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -1351,38 +1369,38 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=36.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="My Br" (len=5 runes) at Tm=[311.45, 137.00]
+[Tj] Text="My Br" (len=5 runes, 5 CIDs) at Tm=[311.45, 137.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=90.00 (5 runes × 36.00 × 0.5)
-[Tj] Final displacement=90.00 (width=90.00 × scale=1.00)
+[Tj] Calculated width=83.44
+[Tj] Final displacement=83.44 (width=83.44 × scale=1.00)
 [Td] Move text position: tx=83.27, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 394.72 137.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=36.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ain Doesn’" (len=10 runes) at Tm=[394.72, 137.00]
+[Tj] Text="ain Doesn’" (len=10 runes, 10 CIDs) at Tm=[394.72, 137.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=180.00 (10 runes × 36.00 × 0.5)
-[Tj] Final displacement=180.00 (width=180.00 × scale=1.00)
+[Tj] Calculated width=147.13
+[Tj] Final displacement=147.13 (width=147.13 × scale=1.00)
 [Td] Move text position: tx=146.41, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 541.13 137.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=36.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="t Pictur" (len=8 runes) at Tm=[541.13, 137.00]
+[Tj] Text="t Pictur" (len=8 runes, 8 CIDs) at Tm=[541.13, 137.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=144.00 (8 runes × 36.00 × 0.5)
-[Tj] Final displacement=144.00 (width=144.00 × scale=1.00)
+[Tj] Calculated width=105.22
+[Tj] Final displacement=105.22 (width=105.22 × scale=1.00)
 [Td] Move text position: tx=104.87, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 646.00 137.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=36.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="e Things" (len=8 runes) at Tm=[646.00, 137.00]
+[Tj] Text="e Things" (len=8 runes, 8 CIDs) at Tm=[646.00, 137.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=144.00 (8 runes × 36.00 × 0.5)
-[Tj] Final displacement=144.00 (width=144.00 × scale=1.00)
+[Tj] Calculated width=119.53
+[Tj] Final displacement=119.53 (width=119.53 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -1392,38 +1410,38 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="I can’" (len=6 runes) at Tm=[363.66, 172.00]
+[Tj] Text="I can’" (len=6 runes, 6 CIDs) at Tm=[363.66, 172.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=42.00 (6 runes × 14.00 × 0.5)
-[Tj] Final displacement=42.00 (width=42.00 × scale=1.00)
+[Tj] Calculated width=28.51
+[Tj] Final displacement=28.51 (width=28.51 × scale=1.00)
 [Td] Move text position: tx=28.23, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 391.88 172.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="t imagine sights, smells, or sounds. What’" (len=42 runes) at Tm=[391.88, 172.00]
+[Tj] Text="t imagine sights, smells, or sounds. What’" (len=42 runes, 42 CIDs) at Tm=[391.88, 172.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=294.00 (42 runes × 14.00 × 0.5)
-[Tj] Final displacement=294.00 (width=294.00 × scale=1.00)
+[Tj] Calculated width=225.50
+[Tj] Final displacement=225.50 (width=225.50 × scale=1.00)
 [Td] Move text position: tx=225.16, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 617.04 172.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="s wr" (len=4 runes) at Tm=[617.04, 172.00]
+[Tj] Text="s wr" (len=4 runes, 4 CIDs) at Tm=[617.04, 172.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=28.00 (4 runes × 14.00 × 0.5)
-[Tj] Final displacement=28.00 (width=28.00 × scale=1.00)
+[Tj] Calculated width=22.85
+[Tj] Final displacement=22.85 (width=22.85 × scale=1.00)
 [Td] Move text position: tx=22.71, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 639.75 172.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ong with me?" (len=12 runes) at Tm=[639.75, 172.00]
+[Tj] Text="ong with me?" (len=12 runes, 12 CIDs) at Tm=[639.75, 172.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=84.00 (12 runes × 14.00 × 0.5)
-[Tj] Final displacement=84.00 (width=84.00 × scale=1.00)
+[Tj] Calculated width=73.58
+[Tj] Final displacement=73.58 (width=73.58 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -1433,11 +1451,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="我无法想象景象、气味或声音。我怎么了？" (len=19 runes) at Tm=[405.50, 195.00]
+[Tj] Text="我无法想象景象、气味或声音。我怎么了？" (len=19 runes, 19 CIDs) at Tm=[405.50, 195.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=133.00 (19 runes × 14.00 × 0.5)
-[Tj] Final displacement=133.00 (width=133.00 × scale=1.00)
+[Tj] Calculated width=266.00
+[Tj] Final displacement=266.00 (width=266.00 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -1446,11 +1464,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text=" " (len=1 runes) at Tm=[545.83, 236.00]
+[Tj] Text=" " (len=1 runes, 1 CIDs) at Tm=[545.83, 236.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=7.00 (1 runes × 14.00 × 0.5)
-[Tj] Final displacement=7.00 (width=7.00 × scale=1.00)
+[Tj] Calculated width=3.19
+[Tj] Final displacement=3.19 (width=3.19 × scale=1.00)
 [ET] End text object
 [BT] Begin text object - Reset text matrices
 [BMC/BDC] Push marked content: tag=P, depth=1
@@ -1459,11 +1477,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="作者：马可" (len=5 runes) at Tm=[427.70, 267.00]
+[Tj] Text="作者：马可" (len=5 runes, 5 CIDs) at Tm=[427.70, 267.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=35.00 (5 runes × 14.00 × 0.5)
-[Tj] Final displacement=35.00 (width=35.00 × scale=1.00)
+[Tj] Calculated width=70.00
+[Tj] Final displacement=70.00 (width=70.00 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -1474,11 +1492,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="·" (len=1 runes) at Tm=[497.70, 267.00]
+[Tj] Text="·" (len=1 runes, 1 CIDs) at Tm=[497.70, 267.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=7.00 (1 runes × 14.00 × 0.5)
-[Tj] Final displacement=7.00 (width=7.00 × scale=1.00)
+[Tj] Calculated width=2.61
+[Tj] Final displacement=2.61 (width=2.61 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -1489,11 +1507,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="詹科蒂" (len=3 runes) at Tm=[500.31, 267.00]
+[Tj] Text="詹科蒂" (len=3 runes, 3 CIDs) at Tm=[500.31, 267.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=21.00 (3 runes × 14.00 × 0.5)
-[Tj] Final displacement=21.00 (width=21.00 × scale=1.00)
+[Tj] Calculated width=42.00
+[Tj] Final displacement=42.00 (width=42.00 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -1504,20 +1522,20 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text=" 20" (len=3 runes) at Tm=[542.31, 267.00]
+[Tj] Text=" 20" (len=3 runes, 3 CIDs) at Tm=[542.31, 267.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=21.00 (3 runes × 14.00 × 0.5)
-[Tj] Final displacement=21.00 (width=21.00 × scale=1.00)
+[Tj] Calculated width=17.43
+[Tj] Final displacement=17.43 (width=17.43 × scale=1.00)
 [Td] Move text position: tx=17.36, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 559.68 267.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="23 " (len=3 runes) at Tm=[559.68, 267.00]
+[Tj] Text="23 " (len=3 runes, 3 CIDs) at Tm=[559.68, 267.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=21.00 (3 runes × 14.00 × 0.5)
-[Tj] Final displacement=21.00 (width=21.00 × scale=1.00)
+[Tj] Calculated width=15.21
+[Tj] Final displacement=15.21 (width=15.21 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -1528,11 +1546,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="年" (len=1 runes) at Tm=[574.89, 267.00]
+[Tj] Text="年" (len=1 runes, 1 CIDs) at Tm=[574.89, 267.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=7.00 (1 runes × 14.00 × 0.5)
-[Tj] Final displacement=7.00 (width=7.00 × scale=1.00)
+[Tj] Calculated width=14.00
+[Tj] Final displacement=14.00 (width=14.00 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -1543,11 +1561,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text=" 10 " (len=4 runes) at Tm=[588.89, 267.00]
+[Tj] Text=" 10 " (len=4 runes, 4 CIDs) at Tm=[588.89, 267.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=28.00 (4 runes × 14.00 × 0.5)
-[Tj] Final displacement=28.00 (width=28.00 × scale=1.00)
+[Tj] Calculated width=19.02
+[Tj] Final displacement=19.02 (width=19.02 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -1558,11 +1576,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="月" (len=1 runes) at Tm=[607.91, 267.00]
+[Tj] Text="月" (len=1 runes, 1 CIDs) at Tm=[607.91, 267.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=7.00 (1 runes × 14.00 × 0.5)
-[Tj] Final displacement=7.00 (width=7.00 × scale=1.00)
+[Tj] Calculated width=14.00
+[Tj] Final displacement=14.00 (width=14.00 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -1573,11 +1591,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text=" 4 " (len=3 runes) at Tm=[621.91, 267.00]
+[Tj] Text=" 4 " (len=3 runes, 3 CIDs) at Tm=[621.91, 267.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=21.00 (3 runes × 14.00 × 0.5)
-[Tj] Final displacement=21.00 (width=21.00 × scale=1.00)
+[Tj] Calculated width=13.38
+[Tj] Final displacement=13.38 (width=13.38 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -1588,11 +1606,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="日" (len=1 runes) at Tm=[635.29, 267.00]
+[Tj] Text="日" (len=1 runes, 1 CIDs) at Tm=[635.29, 267.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=7.00 (1 runes × 14.00 × 0.5)
-[Tj] Final displacement=7.00 (width=7.00 × scale=1.00)
+[Tj] Calculated width=14.00
+[Tj] Final displacement=14.00 (width=14.00 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -1602,65 +1620,65 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="B" (len=1 runes) at Tm=[414.73, 236.00]
+[Tj] Text="B" (len=1 runes, 1 CIDs) at Tm=[414.73, 236.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=7.00 (1 runes × 14.00 × 0.5)
-[Tj] Final displacement=7.00 (width=7.00 × scale=1.00)
+[Tj] Calculated width=7.70
+[Tj] Final displacement=7.70 (width=7.70 × scale=1.00)
 [Td] Move text position: tx=7.56, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 422.29 236.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="Y MAR" (len=5 runes) at Tm=[422.29, 236.00]
+[Tj] Text="Y MAR" (len=5 runes, 5 CIDs) at Tm=[422.29, 236.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=35.00 (5 runes × 14.00 × 0.5)
-[Tj] Final displacement=35.00 (width=35.00 × scale=1.00)
+[Tj] Calculated width=36.62
+[Tj] Final displacement=36.62 (width=36.62 × scale=1.00)
 [Td] Move text position: tx=36.55, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 458.85 236.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="C" (len=1 runes) at Tm=[458.85, 236.00]
+[Tj] Text="C" (len=1 runes, 1 CIDs) at Tm=[458.85, 236.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=7.00 (1 runes × 14.00 × 0.5)
-[Tj] Final displacement=7.00 (width=7.00 × scale=1.00)
+[Tj] Calculated width=8.20
+[Tj] Final displacement=8.20 (width=8.20 × scale=1.00)
 [Td] Move text position: tx=8.07, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 466.91 236.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="O GIANC" (len=7 runes) at Tm=[466.91, 236.00]
+[Tj] Text="O GIANC" (len=7 runes, 7 CIDs) at Tm=[466.91, 236.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=49.00 (7 runes × 14.00 × 0.5)
-[Tj] Final displacement=49.00 (width=49.00 × scale=1.00)
+[Tj] Calculated width=50.39
+[Tj] Final displacement=50.39 (width=50.39 × scale=1.00)
 [Td] Move text position: tx=50.26, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 517.17 236.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="O" (len=1 runes) at Tm=[517.17, 236.00]
+[Tj] Text="O" (len=1 runes, 1 CIDs) at Tm=[517.17, 236.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=7.00 (1 runes × 14.00 × 0.5)
-[Tj] Final displacement=7.00 (width=7.00 × scale=1.00)
+[Tj] Calculated width=9.93
+[Tj] Final displacement=9.93 (width=9.93 × scale=1.00)
 [Td] Move text position: tx=9.79, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 526.96 236.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="T" (len=1 runes) at Tm=[526.96, 236.00]
+[Tj] Text="T" (len=1 runes, 1 CIDs) at Tm=[526.96, 236.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=7.00 (1 runes × 14.00 × 0.5)
-[Tj] Final displacement=7.00 (width=7.00 × scale=1.00)
+[Tj] Calculated width=7.70
+[Tj] Final displacement=7.70 (width=7.70 × scale=1.00)
 [Td] Move text position: tx=7.98, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 534.94 236.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="TI" (len=2 runes) at Tm=[534.94, 236.00]
+[Tj] Text="TI" (len=2 runes, 2 CIDs) at Tm=[534.94, 236.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=14.00 (2 runes × 14.00 × 0.5)
-[Tj] Final displacement=14.00 (width=14.00 × scale=1.00)
+[Tj] Calculated width=10.88
+[Tj] Final displacement=10.88 (width=10.88 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -1670,38 +1688,38 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="Oct" (len=3 runes) at Tm=[573.02, 236.00]
+[Tj] Text="Oct" (len=3 runes, 3 CIDs) at Tm=[573.02, 236.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=21.00 (3 runes × 14.00 × 0.5)
-[Tj] Final displacement=21.00 (width=21.00 × scale=1.00)
+[Tj] Calculated width=20.84
+[Tj] Final displacement=20.84 (width=20.84 × scale=1.00)
 [Td] Move text position: tx=20.77, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 593.78 236.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ober 4" (len=6 runes) at Tm=[593.78, 236.00]
+[Tj] Text="ober 4" (len=6 runes, 6 CIDs) at Tm=[593.78, 236.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=42.00 (6 runes × 14.00 × 0.5)
-[Tj] Final displacement=42.00 (width=42.00 × scale=1.00)
+[Tj] Calculated width=36.34
+[Tj] Final displacement=36.34 (width=36.34 × scale=1.00)
 [Td] Move text position: tx=36.48, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 630.26 236.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text=", 20" (len=4 runes) at Tm=[630.26, 236.00]
+[Tj] Text=", 20" (len=4 runes, 4 CIDs) at Tm=[630.26, 236.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=28.00 (4 runes × 14.00 × 0.5)
-[Tj] Final displacement=28.00 (width=28.00 × scale=1.00)
+[Tj] Calculated width=20.04
+[Tj] Final displacement=20.04 (width=20.04 × scale=1.00)
 [Td] Move text position: tx=19.97, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 650.23 236.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="23" (len=2 runes) at Tm=[650.23, 236.00]
+[Tj] Text="23" (len=2 runes, 2 CIDs) at Tm=[650.23, 236.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=14.00 (2 runes × 14.00 × 0.5)
-[Tj] Final displacement=14.00 (width=14.00 × scale=1.00)
+[Tj] Calculated width=12.02
+[Tj] Final displacement=12.02 (width=12.02 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [Q] Restore graphics state - Stack depth: 2
@@ -1727,20 +1745,20 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="Shar" (len=4 runes) at Tm=[538.75, 314.00]
+[Tj] Text="Shar" (len=4 runes, 4 CIDs) at Tm=[538.75, 314.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=28.00 (4 runes × 14.00 × 0.5)
-[Tj] Final displacement=28.00 (width=28.00 × scale=1.00)
+[Tj] Calculated width=25.05
+[Tj] Final displacement=25.05 (width=25.05 × scale=1.00)
 [Td] Move text position: tx=24.92, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 563.67 314.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="e" (len=1 runes) at Tm=[563.67, 314.00]
+[Tj] Text="e" (len=1 runes, 1 CIDs) at Tm=[563.67, 314.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=7.00 (1 runes × 14.00 × 0.5)
-[Tj] Final displacement=7.00 (width=7.00 × scale=1.00)
+[Tj] Calculated width=6.58
+[Tj] Final displacement=6.58 (width=6.58 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [Q] Restore graphics state - Stack depth: 2
@@ -1770,11 +1788,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=60.00
 [TEXT_STATE] Using FillColor: RGB(0.671, 0.478, 0.063, 1.000)
-[Tj] Text="I" (len=1 runes) at Tm=[37.23, 767.00]
+[Tj] Text="I" (len=1 runes, 1 CIDs) at Tm=[37.23, 767.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=30.00 (1 runes × 60.00 × 0.5)
-[Tj] Final displacement=30.00 (width=30.00 × scale=1.00)
+[Tj] Calculated width=17.52
+[Tj] Final displacement=17.52 (width=17.52 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -1784,110 +1802,110 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="’" (len=1 runes) at Tm=[84.00, 738.00]
+[Tj] Text="’" (len=1 runes, 1 CIDs) at Tm=[84.00, 738.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
-[Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[Tj] Calculated width=3.36
+[Tj] Final displacement=3.36 (width=3.36 × scale=1.00)
 [Td] Move text position: tx=2.64, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 86.64 738.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="m lying do" (len=10 runes) at Tm=[86.64, 738.00]
+[Tj] Text="m lying do" (len=10 runes, 10 CIDs) at Tm=[86.64, 738.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=90.00 (10 runes × 18.00 × 0.5)
-[Tj] Final displacement=90.00 (width=90.00 × scale=1.00)
+[Tj] Calculated width=73.54
+[Tj] Final displacement=73.54 (width=73.54 × scale=1.00)
 [Td] Move text position: tx=73.45, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 160.09 738.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="wn in a whit" (len=12 runes) at Tm=[160.09, 738.00]
+[Tj] Text="wn in a whit" (len=12 runes, 12 CIDs) at Tm=[160.09, 738.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=108.00 (12 runes × 18.00 × 0.5)
-[Tj] Final displacement=108.00 (width=108.00 × scale=1.00)
+[Tj] Calculated width=84.71
+[Tj] Final displacement=84.71 (width=84.71 × scale=1.00)
 [Td] Move text position: tx=84.62, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 244.71 738.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="e cylinder bar" (len=14 runes) at Tm=[244.71, 738.00]
+[Tj] Text="e cylinder bar" (len=14 runes, 14 CIDs) at Tm=[244.71, 738.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=126.00 (14 runes × 18.00 × 0.5)
-[Tj] Final displacement=126.00 (width=126.00 × scale=1.00)
+[Tj] Calculated width=96.55
+[Tj] Final displacement=96.55 (width=96.55 × scale=1.00)
 [Td] Move text position: tx=96.37, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 341.08 738.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ely wider than my body" (len=22 runes) at Tm=[341.08, 738.00]
+[Tj] Text="ely wider than my body" (len=22 runes, 22 CIDs) at Tm=[341.08, 738.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=198.00 (22 runes × 18.00 × 0.5)
-[Tj] Final displacement=198.00 (width=198.00 × scale=1.00)
+[Tj] Calculated width=165.14
+[Tj] Final displacement=165.14 (width=165.14 × scale=1.00)
 [Td] Move text position: tx=164.42, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 505.50 738.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text=", surr" (len=6 runes) at Tm=[505.50, 738.00]
+[Tj] Text=", surr" (len=6 runes, 6 CIDs) at Tm=[505.50, 738.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=54.00 (6 runes × 18.00 × 0.5)
-[Tj] Final displacement=54.00 (width=54.00 × scale=1.00)
+[Tj] Calculated width=36.30
+[Tj] Final displacement=36.30 (width=36.30 × scale=1.00)
 [Td] Move text position: tx=36.12, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 541.62 738.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ounded on all sides b" (len=21 runes) at Tm=[541.62, 738.00]
+[Tj] Text="ounded on all sides b" (len=21 runes, 21 CIDs) at Tm=[541.62, 738.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=189.00 (21 runes × 18.00 × 0.5)
-[Tj] Final displacement=189.00 (width=189.00 × scale=1.00)
+[Tj] Calculated width=149.56
+[Tj] Final displacement=149.56 (width=149.56 × scale=1.00)
 [Td] Move text position: tx=149.48, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 691.10 738.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="y a mas" (len=7 runes) at Tm=[691.10, 738.00]
+[Tj] Text="y a mas" (len=7 runes, 7 CIDs) at Tm=[691.10, 738.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=63.00 (7 runes × 18.00 × 0.5)
-[Tj] Final displacement=63.00 (width=63.00 × scale=1.00)
+[Tj] Calculated width=52.53
+[Tj] Final displacement=52.53 (width=52.53 × scale=1.00)
 [Td] Move text position: tx=52.62, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 743.72 738.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="s of sophisticat" (len=16 runes) at Tm=[743.72, 738.00]
+[Tj] Text="s of sophisticat" (len=16 runes, 16 CIDs) at Tm=[743.72, 738.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=144.00 (16 runes × 18.00 × 0.5)
-[Tj] Final displacement=144.00 (width=144.00 × scale=1.00)
+[Tj] Calculated width=107.26
+[Tj] Final displacement=107.26 (width=107.26 × scale=1.00)
 [Td] Move text position: tx=107.17, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 850.89 738.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ed machiner" (len=11 runes) at Tm=[850.89, 738.00]
+[Tj] Text="ed machiner" (len=11 runes, 11 CIDs) at Tm=[850.89, 738.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=99.00 (11 runes × 18.00 × 0.5)
-[Tj] Final displacement=99.00 (width=99.00 × scale=1.00)
+[Tj] Calculated width=88.56
+[Tj] Final displacement=88.56 (width=88.56 × scale=1.00)
 [Td] Move text position: tx=88.83, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 939.72 738.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="y the siz" (len=9 runes) at Tm=[939.72, 738.00]
+[Tj] Text="y the siz" (len=9 runes, 9 CIDs) at Tm=[939.72, 738.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=81.00 (9 runes × 18.00 × 0.5)
-[Tj] Final displacement=81.00 (width=81.00 × scale=1.00)
+[Tj] Calculated width=57.05
+[Tj] Final displacement=57.05 (width=57.05 × scale=1.00)
 [Td] Move text position: tx=56.96, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 996.68 738.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="e of a" (len=6 runes) at Tm=[996.68, 738.00]
+[Tj] Text="e of a" (len=6 runes, 6 CIDs) at Tm=[996.68, 738.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=54.00 (6 runes × 18.00 × 0.5)
-[Tj] Final displacement=54.00 (width=54.00 × scale=1.00)
+[Tj] Calculated width=39.46
+[Tj] Final displacement=39.46 (width=39.46 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -1897,65 +1915,65 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="small camper van. It’" (len=21 runes) at Tm=[84.00, 769.00]
+[Tj] Text="small camper van. It’" (len=21 runes, 21 CIDs) at Tm=[84.00, 769.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=189.00 (21 runes × 18.00 × 0.5)
-[Tj] Final displacement=189.00 (width=189.00 × scale=1.00)
+[Tj] Calculated width=143.93
+[Tj] Final displacement=143.93 (width=143.93 × scale=1.00)
 [Td] Move text position: tx=143.48, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 227.48 769.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="s an fMRI machine, one of the t" (len=31 runes) at Tm=[227.48, 769.00]
+[Tj] Text="s an fMRI machine, one of the t" (len=31 runes, 31 CIDs) at Tm=[227.48, 769.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=279.00 (31 runes × 18.00 × 0.5)
-[Tj] Final displacement=279.00 (width=279.00 × scale=1.00)
+[Tj] Calculated width=220.39
+[Tj] Final displacement=220.39 (width=220.39 × scale=1.00)
 [Td] Move text position: tx=220.30, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 447.78 769.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="echnological mar" (len=16 runes) at Tm=[447.78, 769.00]
+[Tj] Text="echnological mar" (len=16 runes, 16 CIDs) at Tm=[447.78, 769.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=144.00 (16 runes × 18.00 × 0.5)
-[Tj] Final displacement=144.00 (width=144.00 × scale=1.00)
+[Tj] Calculated width=121.80
+[Tj] Final displacement=121.80 (width=121.80 × scale=1.00)
 [Td] Move text position: tx=122.07, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 569.85 769.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="v" (len=1 runes) at Tm=[569.85, 769.00]
+[Tj] Text="v" (len=1 runes, 1 CIDs) at Tm=[569.85, 769.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
-[Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[Tj] Calculated width=7.63
+[Tj] Final displacement=7.63 (width=7.63 × scale=1.00)
 [Td] Move text position: tx=7.54, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 577.39 769.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="els of modern neur" (len=18 runes) at Tm=[577.39, 769.00]
+[Tj] Text="els of modern neur" (len=18 runes, 18 CIDs) at Tm=[577.39, 769.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=162.00 (18 runes × 18.00 × 0.5)
-[Tj] Final displacement=162.00 (width=162.00 × scale=1.00)
+[Tj] Calculated width=136.04
+[Tj] Final displacement=136.04 (width=136.04 × scale=1.00)
 [Td] Move text position: tx=135.86, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 713.25 769.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="oscienc" (len=7 runes) at Tm=[713.25, 769.00]
+[Tj] Text="oscienc" (len=7 runes, 7 CIDs) at Tm=[713.25, 769.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=63.00 (7 runes × 18.00 × 0.5)
-[Tj] Final displacement=63.00 (width=63.00 × scale=1.00)
+[Tj] Calculated width=54.04
+[Tj] Final displacement=54.04 (width=54.04 × scale=1.00)
 [Td] Move text position: tx=53.96, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 767.21 769.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="e." (len=2 runes) at Tm=[767.21, 769.00]
+[Tj] Text="e." (len=2 runes, 2 CIDs) at Tm=[767.21, 769.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
-[Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[Tj] Calculated width=11.81
+[Tj] Final displacement=11.81 (width=11.81 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [Q] Restore graphics state - Stack depth: 2
@@ -1981,11 +1999,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="我躺在一个只比我身体宽一点的白色圆柱体中，四周环绕着大量小型露营车大小的精密机械。这是一台功能磁共振成像机器，是现代" (len=58 runes) at Tm=[16.00, 808.00]
+[Tj] Text="我躺在一个只比我身体宽一点的白色圆柱体中，四周环绕着大量小型露营车大小的精密机械。这是一台功能磁共振成像机器，是现代" (len=58 runes, 58 CIDs) at Tm=[16.00, 808.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=522.00 (58 runes × 18.00 × 0.5)
-[Tj] Final displacement=522.00 (width=522.00 × scale=1.00)
+[Tj] Calculated width=1044.00
+[Tj] Final displacement=1044.00 (width=1044.00 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [Q] Restore graphics state - Stack depth: 2
@@ -2011,11 +2029,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="神经科学的技术奇迹之一。" (len=12 runes) at Tm=[16.00, 838.00]
+[Tj] Text="神经科学的技术奇迹之一。" (len=12 runes, 12 CIDs) at Tm=[16.00, 838.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=108.00 (12 runes × 18.00 × 0.5)
-[Tj] Final displacement=108.00 (width=108.00 × scale=1.00)
+[Tj] Calculated width=216.00
+[Tj] Final displacement=216.00 (width=216.00 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -2025,74 +2043,74 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="T" (len=1 runes) at Tm=[16.00, 877.00]
+[Tj] Text="T" (len=1 runes, 1 CIDs) at Tm=[16.00, 877.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
-[Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[Tj] Calculated width=9.90
+[Tj] Final displacement=9.90 (width=9.90 × scale=1.00)
 [Td] Move text position: tx=8.18, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 24.18 877.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="w" (len=1 runes) at Tm=[24.18, 877.00]
+[Tj] Text="w" (len=1 runes, 1 CIDs) at Tm=[24.18, 877.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
-[Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[Tj] Calculated width=11.91
+[Tj] Final displacement=11.91 (width=11.91 × scale=1.00)
 [Td] Move text position: tx=11.82, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 36.00 877.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="o small in" (len=10 runes) at Tm=[36.00, 877.00]
+[Tj] Text="o small in" (len=10 runes, 10 CIDs) at Tm=[36.00, 877.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=90.00 (10 runes × 18.00 × 0.5)
-[Tj] Final displacement=90.00 (width=90.00 × scale=1.00)
+[Tj] Calculated width=66.81
+[Tj] Final displacement=66.81 (width=66.81 × scale=1.00)
 [BMC/BDC] Push marked content: tag=Span, depth=2
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ﬂ" (len=1 runes) at Tm=[126.00, 877.00]
+[Tj] Text="ﬂ" (len=1 runes, 1 CIDs) at Tm=[102.81, 877.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
-[Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[Tj] Calculated width=8.97
+[Tj] Final displacement=8.97 (width=8.97 × scale=1.00)
 [EMC] Pop marked content: tag=Span, depth=1
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="atable cushions squeez" (len=22 runes) at Tm=[135.00, 877.00]
+[Tj] Text="atable cushions squeez" (len=22 runes, 22 CIDs) at Tm=[111.78, 877.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=198.00 (22 runes × 18.00 × 0.5)
-[Tj] Final displacement=198.00 (width=198.00 × scale=1.00)
+[Tj] Calculated width=163.09
+[Tj] Final displacement=163.09 (width=163.09 × scale=1.00)
 [Td] Move text position: tx=238.78, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 274.79 877.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="e my t" (len=6 runes) at Tm=[274.79, 877.00]
+[Tj] Text="e my t" (len=6 runes, 6 CIDs) at Tm=[274.79, 877.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=54.00 (6 runes × 18.00 × 0.5)
-[Tj] Final displacement=54.00 (width=54.00 × scale=1.00)
+[Tj] Calculated width=44.14
+[Tj] Final displacement=44.14 (width=44.14 × scale=1.00)
 [Td] Move text position: tx=44.05, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 318.84 877.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="emples, k" (len=9 runes) at Tm=[318.84, 877.00]
+[Tj] Text="emples, k" (len=9 runes, 9 CIDs) at Tm=[318.84, 877.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=81.00 (9 runes × 18.00 × 0.5)
-[Tj] Final displacement=81.00 (width=81.00 × scale=1.00)
+[Tj] Calculated width=66.04
+[Tj] Final displacement=66.04 (width=66.04 × scale=1.00)
 [Td] Move text position: tx=65.87, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 384.70 877.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="eeping my head still." (len=21 runes) at Tm=[384.70, 877.00]
+[Tj] Text="eeping my head still." (len=21 runes, 21 CIDs) at Tm=[384.70, 877.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=189.00 (21 runes × 18.00 × 0.5)
-[Tj] Final displacement=189.00 (width=189.00 × scale=1.00)
+[Tj] Calculated width=143.39
+[Tj] Final displacement=143.39 (width=143.39 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -2102,11 +2120,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="两个小充气垫挤压我的太阳穴，让我的头保持静止。" (len=23 runes) at Tm=[16.00, 915.00]
+[Tj] Text="两个小充气垫挤压我的太阳穴，让我的头保持静止。" (len=23 runes, 23 CIDs) at Tm=[16.00, 915.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=207.00 (23 runes × 18.00 × 0.5)
-[Tj] Final displacement=207.00 (width=207.00 × scale=1.00)
+[Tj] Calculated width=414.00
+[Tj] Final displacement=414.00 (width=414.00 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -2116,200 +2134,200 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="“W" (len=2 runes) at Tm=[16.00, 976.00]
+[Tj] Text="“W" (len=2 runes, 2 CIDs) at Tm=[16.00, 976.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
-[Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[Tj] Calculated width=23.01
+[Tj] Final displacement=23.01 (width=23.01 × scale=1.00)
 [Td] Move text position: tx=22.20, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 38.20 976.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="e ar" (len=4 runes) at Tm=[38.20, 976.00]
+[Tj] Text="e ar" (len=4 runes, 4 CIDs) at Tm=[38.20, 976.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=36.00 (4 runes × 18.00 × 0.5)
-[Tj] Final displacement=36.00 (width=36.00 × scale=1.00)
+[Tj] Calculated width=26.86
+[Tj] Final displacement=26.86 (width=26.86 × scale=1.00)
 [Td] Move text position: tx=26.68, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 64.88 976.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="e r" (len=3 runes) at Tm=[64.88, 976.00]
+[Tj] Text="e r" (len=3 runes, 3 CIDs) at Tm=[64.88, 976.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=27.00 (3 runes × 18.00 × 0.5)
-[Tj] Final displacement=27.00 (width=27.00 × scale=1.00)
+[Tj] Calculated width=18.96
+[Tj] Final displacement=18.96 (width=18.96 × scale=1.00)
 [Td] Move text position: tx=18.78, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 83.67 976.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="eady t" (len=6 runes) at Tm=[83.67, 976.00]
+[Tj] Text="eady t" (len=6 runes, 6 CIDs) at Tm=[83.67, 976.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=54.00 (6 runes × 18.00 × 0.5)
-[Tj] Final displacement=54.00 (width=54.00 × scale=1.00)
+[Tj] Calculated width=43.24
+[Tj] Final displacement=43.24 (width=43.24 × scale=1.00)
 [Td] Move text position: tx=43.15, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 126.82 976.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="o begin the next bat" (len=20 runes) at Tm=[126.82, 976.00]
+[Tj] Text="o begin the next bat" (len=20 runes, 20 CIDs) at Tm=[126.82, 976.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=180.00 (20 runes × 18.00 × 0.5)
-[Tj] Final displacement=180.00 (width=180.00 × scale=1.00)
+[Tj] Calculated width=141.86
+[Tj] Final displacement=141.86 (width=141.86 × scale=1.00)
 [Td] Move text position: tx=141.78, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 268.60 976.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ch of ex" (len=8 runes) at Tm=[268.60, 976.00]
+[Tj] Text="ch of ex" (len=8 runes, 8 CIDs) at Tm=[268.60, 976.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=72.00 (8 runes × 18.00 × 0.5)
-[Tj] Final displacement=72.00 (width=72.00 × scale=1.00)
+[Tj] Calculated width=55.85
+[Tj] Final displacement=55.85 (width=55.85 × scale=1.00)
 [Td] Move text position: tx=55.76, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 324.36 976.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="er" (len=2 runes) at Tm=[324.36, 976.00]
+[Tj] Text="er" (len=2 runes, 2 CIDs) at Tm=[324.36, 976.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
-[Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[Tj] Calculated width=14.86
+[Tj] Final displacement=14.86 (width=14.86 × scale=1.00)
 [Td] Move text position: tx=14.69, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 339.04 976.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="cises," (len=6 runes) at Tm=[339.04, 976.00]
+[Tj] Text="cises," (len=6 runes, 6 CIDs) at Tm=[339.04, 976.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=54.00 (6 runes × 18.00 × 0.5)
-[Tj] Final displacement=54.00 (width=54.00 × scale=1.00)
+[Tj] Calculated width=37.61
+[Tj] Final displacement=37.61 (width=37.61 × scale=1.00)
 [Td] Move text position: tx=36.71, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 375.75 976.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="” I hear Dr" (len=11 runes) at Tm=[375.75, 976.00]
+[Tj] Text="” I hear Dr" (len=11 runes, 11 CIDs) at Tm=[375.75, 976.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=99.00 (11 runes × 18.00 × 0.5)
-[Tj] Final displacement=99.00 (width=99.00 × scale=1.00)
+[Tj] Calculated width=72.85
+[Tj] Final displacement=72.85 (width=72.85 × scale=1.00)
 [Td] Move text position: tx=71.77, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 447.53 976.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text=". Horikaw" (len=9 runes) at Tm=[447.53, 976.00]
+[Tj] Text=". Horikaw" (len=9 runes, 9 CIDs) at Tm=[447.53, 976.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=81.00 (9 runes × 18.00 × 0.5)
-[Tj] Final displacement=81.00 (width=81.00 × scale=1.00)
+[Tj] Calculated width=66.56
+[Tj] Final displacement=66.56 (width=66.56 × scale=1.00)
 [Td] Move text position: tx=66.59, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 514.12 976.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="a’" (len=2 runes) at Tm=[514.12, 976.00]
+[Tj] Text="a’" (len=2 runes, 2 CIDs) at Tm=[514.12, 976.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
-[Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[Tj] Calculated width=11.26
+[Tj] Final displacement=11.26 (width=11.26 × scale=1.00)
 [Td] Move text position: tx=10.81, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 524.93 976.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="s gentle v" (len=10 runes) at Tm=[524.93, 976.00]
+[Tj] Text="s gentle v" (len=10 runes, 10 CIDs) at Tm=[524.93, 976.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=90.00 (10 runes × 18.00 × 0.5)
-[Tj] Final displacement=90.00 (width=90.00 × scale=1.00)
+[Tj] Calculated width=66.81
+[Tj] Final displacement=66.81 (width=66.81 × scale=1.00)
 [Td] Move text position: tx=66.73, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 591.66 976.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="oic" (len=3 runes) at Tm=[591.66, 976.00]
+[Tj] Text="oic" (len=3 runes, 3 CIDs) at Tm=[591.66, 976.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=27.00 (3 runes × 18.00 × 0.5)
-[Tj] Final displacement=27.00 (width=27.00 × scale=1.00)
+[Tj] Calculated width=21.43
+[Tj] Final displacement=21.43 (width=21.43 × scale=1.00)
 [Td] Move text position: tx=21.34, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 613.00 976.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="e saying" (len=8 runes) at Tm=[613.00, 976.00]
+[Tj] Text="e saying" (len=8 runes, 8 CIDs) at Tm=[613.00, 976.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=72.00 (8 runes × 18.00 × 0.5)
-[Tj] Final displacement=72.00 (width=72.00 × scale=1.00)
+[Tj] Calculated width=56.31
+[Tj] Final displacement=56.31 (width=56.31 × scale=1.00)
 [Td] Move text position: tx=55.95, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 668.95 976.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text=". W" (len=3 runes) at Tm=[668.95, 976.00]
+[Tj] Text=". W" (len=3 runes, 3 CIDs) at Tm=[668.95, 976.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=27.00 (3 runes × 18.00 × 0.5)
-[Tj] Final displacement=27.00 (width=27.00 × scale=1.00)
+[Tj] Calculated width=23.55
+[Tj] Final displacement=23.55 (width=23.55 × scale=1.00)
 [Td] Move text position: tx=22.75, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 691.69 976.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="e’" (len=2 runes) at Tm=[691.69, 976.00]
+[Tj] Text="e’" (len=2 runes, 2 CIDs) at Tm=[691.69, 976.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
-[Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[Tj] Calculated width=11.81
+[Tj] Final displacement=11.81 (width=11.81 × scale=1.00)
 [Td] Move text position: tx=10.92, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 702.61 976.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="r" (len=1 runes) at Tm=[702.61, 976.00]
+[Tj] Text="r" (len=1 runes, 1 CIDs) at Tm=[702.61, 976.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
-[Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[Tj] Calculated width=6.41
+[Tj] Final displacement=6.41 (width=6.41 × scale=1.00)
 [Td] Move text position: tx=6.23, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 708.84 976.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="e under" (len=7 runes) at Tm=[708.84, 976.00]
+[Tj] Text="e under" (len=7 runes, 7 CIDs) at Tm=[708.84, 976.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=63.00 (7 runes × 18.00 × 0.5)
-[Tj] Final displacement=63.00 (width=63.00 × scale=1.00)
+[Tj] Calculated width=54.82
+[Tj] Final displacement=54.82 (width=54.82 × scale=1.00)
 [Td] Move text position: tx=54.64, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 763.48 976.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="gr" (len=2 runes) at Tm=[763.48, 976.00]
+[Tj] Text="gr" (len=2 runes, 2 CIDs) at Tm=[763.48, 976.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
-[Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[Tj] Calculated width=14.83
+[Tj] Final displacement=14.83 (width=14.83 × scale=1.00)
 [Td] Move text position: tx=14.65, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 778.13 976.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ound, in one of the labor" (len=25 runes) at Tm=[778.13, 976.00]
+[Tj] Text="ound, in one of the labor" (len=25 runes, 25 CIDs) at Tm=[778.13, 976.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=225.00 (25 runes × 18.00 × 0.5)
-[Tj] Final displacement=225.00 (width=225.00 × scale=1.00)
+[Tj] Calculated width=175.87
+[Tj] Final displacement=175.87 (width=175.87 × scale=1.00)
 [Td] Move text position: tx=175.78, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 953.92 976.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="at" (len=2 runes) at Tm=[953.92, 976.00]
+[Tj] Text="at" (len=2 runes, 2 CIDs) at Tm=[953.92, 976.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
-[Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[Tj] Calculated width=13.82
+[Tj] Final displacement=13.82 (width=13.82 × scale=1.00)
 [Td] Move text position: tx=13.73, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 967.64 976.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ories of" (len=8 runes) at Tm=[967.64, 976.00]
+[Tj] Text="ories of" (len=8 runes, 8 CIDs) at Tm=[967.64, 976.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=72.00 (8 runes × 18.00 × 0.5)
-[Tj] Final displacement=72.00 (width=72.00 × scale=1.00)
+[Tj] Calculated width=54.15
+[Tj] Final displacement=54.15 (width=54.15 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -2319,110 +2337,110 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="T" (len=1 runes) at Tm=[16.00, 1007.00]
+[Tj] Text="T" (len=1 runes, 1 CIDs) at Tm=[16.00, 1007.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
-[Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[Tj] Calculated width=9.90
+[Tj] Final displacement=9.90 (width=9.90 × scale=1.00)
 [Td] Move text position: tx=8.18, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 24.18 1007.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ok" (len=2 runes) at Tm=[24.18, 1007.00]
+[Tj] Text="ok" (len=2 runes, 2 CIDs) at Tm=[24.18, 1007.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
-[Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[Tj] Calculated width=17.36
+[Tj] Final displacement=17.36 (width=17.36 × scale=1.00)
 [Td] Move text position: tx=17.45, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 41.63 1007.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="y" (len=1 runes) at Tm=[41.63, 1007.00]
+[Tj] Text="y" (len=1 runes, 1 CIDs) at Tm=[41.63, 1007.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
-[Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[Tj] Calculated width=7.63
+[Tj] Final displacement=7.63 (width=7.63 × scale=1.00)
 [Td] Move text position: tx=7.54, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 49.17 1007.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="o Univ" (len=6 runes) at Tm=[49.17, 1007.00]
+[Tj] Text="o Univ" (len=6 runes, 6 CIDs) at Tm=[49.17, 1007.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=54.00 (6 runes × 18.00 × 0.5)
-[Tj] Final displacement=54.00 (width=54.00 × scale=1.00)
+[Tj] Calculated width=45.21
+[Tj] Final displacement=45.21 (width=45.21 × scale=1.00)
 [Td] Move text position: tx=45.12, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 94.29 1007.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ersity" (len=6 runes) at Tm=[94.29, 1007.00]
+[Tj] Text="ersity" (len=6 runes, 6 CIDs) at Tm=[94.29, 1007.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=54.00 (6 runes × 18.00 × 0.5)
-[Tj] Final displacement=54.00 (width=54.00 × scale=1.00)
+[Tj] Calculated width=39.13
+[Tj] Final displacement=39.13 (width=39.13 × scale=1.00)
 [Td] Move text position: tx=39.30, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 133.60 1007.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="’" (len=1 runes) at Tm=[133.60, 1007.00]
+[Tj] Text="’" (len=1 runes, 1 CIDs) at Tm=[133.60, 1007.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
-[Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[Tj] Calculated width=3.36
+[Tj] Final displacement=3.36 (width=3.36 × scale=1.00)
 [Td] Move text position: tx=2.91, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 136.51 1007.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="s F" (len=3 runes) at Tm=[136.51, 1007.00]
+[Tj] Text="s F" (len=3 runes, 3 CIDs) at Tm=[136.51, 1007.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=27.00 (3 runes × 18.00 × 0.5)
-[Tj] Final displacement=27.00 (width=27.00 × scale=1.00)
+[Tj] Calculated width=19.67
+[Tj] Final displacement=19.67 (width=19.67 × scale=1.00)
 [Td] Move text position: tx=19.58, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 156.09 1007.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="aculty of Medicine, Hongo Campus. “Do y" (len=39 runes) at Tm=[156.09, 1007.00]
+[Tj] Text="aculty of Medicine, Hongo Campus. “Do y" (len=39 runes, 39 CIDs) at Tm=[156.09, 1007.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=351.00 (39 runes × 18.00 × 0.5)
-[Tj] Final displacement=351.00 (width=351.00 × scale=1.00)
+[Tj] Calculated width=294.57
+[Tj] Final displacement=294.57 (width=294.57 × scale=1.00)
 [Td] Move text position: tx=294.49, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 450.58 1007.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ou feel lik" (len=11 runes) at Tm=[450.58, 1007.00]
+[Tj] Text="ou feel lik" (len=11 runes, 11 CIDs) at Tm=[450.58, 1007.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=99.00 (11 runes × 18.00 × 0.5)
-[Tj] Final displacement=99.00 (width=99.00 × scale=1.00)
+[Tj] Calculated width=68.05
+[Tj] Final displacement=68.05 (width=68.05 × scale=1.00)
 [Td] Move text position: tx=67.88, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 518.45 1007.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="e pr" (len=4 runes) at Tm=[518.45, 1007.00]
+[Tj] Text="e pr" (len=4 runes, 4 CIDs) at Tm=[518.45, 1007.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=36.00 (4 runes × 18.00 × 0.5)
-[Tj] Final displacement=36.00 (width=36.00 × scale=1.00)
+[Tj] Calculated width=28.22
+[Tj] Final displacement=28.22 (width=28.22 × scale=1.00)
 [Td] Move text position: tx=28.05, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 546.50 1007.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="oc" (len=2 runes) at Tm=[546.50, 1007.00]
+[Tj] Text="oc" (len=2 runes, 2 CIDs) at Tm=[546.50, 1007.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
-[Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[Tj] Calculated width=17.67
+[Tj] Final displacement=17.67 (width=17.67 × scale=1.00)
 [Td] Move text position: tx=17.58, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 564.08 1007.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="eeding?”" (len=8 runes) at Tm=[564.08, 1007.00]
+[Tj] Text="eeding?”" (len=8 runes, 8 CIDs) at Tm=[564.08, 1007.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=72.00 (8 runes × 18.00 × 0.5)
-[Tj] Final displacement=72.00 (width=72.00 × scale=1.00)
+[Tj] Calculated width=60.61
+[Tj] Final displacement=60.61 (width=60.61 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [Q] Restore graphics state - Stack depth: 2
@@ -2448,11 +2466,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="“" (len=1 runes) at Tm=[16.00, 1045.00]
+[Tj] Text="“" (len=1 runes, 1 CIDs) at Tm=[16.00, 1045.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
-[Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[Tj] Calculated width=6.91
+[Tj] Final displacement=6.91 (width=6.91 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -2463,11 +2481,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="我们已经准备好开始下一批练习了。" (len=16 runes) at Tm=[22.91, 1045.00]
+[Tj] Text="我们已经准备好开始下一批练习了。" (len=16 runes, 16 CIDs) at Tm=[22.91, 1045.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=144.00 (16 runes × 18.00 × 0.5)
-[Tj] Final displacement=144.00 (width=144.00 × scale=1.00)
+[Tj] Calculated width=288.00
+[Tj] Final displacement=288.00 (width=288.00 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -2478,11 +2496,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="”" (len=1 runes) at Tm=[310.91, 1045.00]
+[Tj] Text="”" (len=1 runes, 1 CIDs) at Tm=[310.91, 1045.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
-[Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[Tj] Calculated width=6.91
+[Tj] Final displacement=6.91 (width=6.91 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -2493,11 +2511,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="我听到堀川博士温柔的声音说道。我们在东京大学医学院本乡校区的地下实验室之一。" (len=38 runes) at Tm=[317.82, 1045.00]
+[Tj] Text="我听到堀川博士温柔的声音说道。我们在东京大学医学院本乡校区的地下实验室之一。" (len=38 runes, 38 CIDs) at Tm=[317.82, 1045.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=342.00 (38 runes × 18.00 × 0.5)
-[Tj] Final displacement=342.00 (width=342.00 × scale=1.00)
+[Tj] Calculated width=684.00
+[Tj] Final displacement=684.00 (width=684.00 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -2508,11 +2526,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text=" “" (len=2 runes) at Tm=[1001.82, 1045.00]
+[Tj] Text=" “" (len=2 runes, 2 CIDs) at Tm=[1001.82, 1045.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
-[Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[Tj] Calculated width=11.00
+[Tj] Final displacement=11.00 (width=11.00 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -2523,11 +2541,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="你想" (len=2 runes) at Tm=[1012.82, 1045.00]
+[Tj] Text="你想" (len=2 runes, 2 CIDs) at Tm=[1012.82, 1045.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
-[Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[Tj] Calculated width=36.00
+[Tj] Final displacement=36.00 (width=36.00 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [Q] Restore graphics state - Stack depth: 2
@@ -2553,11 +2571,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="继续吗？" (len=4 runes) at Tm=[16.00, 1076.00]
+[Tj] Text="继续吗？" (len=4 runes, 4 CIDs) at Tm=[16.00, 1076.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=36.00 (4 runes × 18.00 × 0.5)
-[Tj] Final displacement=36.00 (width=36.00 × scale=1.00)
+[Tj] Calculated width=72.00
+[Tj] Final displacement=72.00 (width=72.00 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -2568,11 +2586,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="”" (len=1 runes) at Tm=[88.00, 1076.00]
+[Tj] Text="”" (len=1 runes, 1 CIDs) at Tm=[88.00, 1076.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
-[Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[Tj] Calculated width=6.91
+[Tj] Final displacement=6.91 (width=6.91 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -2582,65 +2600,65 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="“Y" (len=2 runes) at Tm=[16.00, 1136.00]
+[Tj] Text="“Y" (len=2 runes, 2 CIDs) at Tm=[16.00, 1136.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
-[Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[Tj] Calculated width=16.34
+[Tj] Final displacement=16.34 (width=16.34 × scale=1.00)
 [Td] Move text position: tx=15.17, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 31.17 1136.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="es, let’" (len=8 runes) at Tm=[31.17, 1136.00]
+[Tj] Text="es, let’" (len=8 runes, 8 CIDs) at Tm=[31.17, 1136.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=72.00 (8 runes × 18.00 × 0.5)
-[Tj] Final displacement=72.00 (width=72.00 × scale=1.00)
+[Tj] Calculated width=44.30
+[Tj] Final displacement=44.30 (width=44.30 × scale=1.00)
 [Td] Move text position: tx=43.85, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 75.02 1136.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="s go" (len=4 runes) at Tm=[75.02, 1136.00]
+[Tj] Text="s go" (len=4 runes, 4 CIDs) at Tm=[75.02, 1136.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=36.00 (4 runes × 18.00 × 0.5)
-[Tj] Final displacement=36.00 (width=36.00 × scale=1.00)
+[Tj] Calculated width=29.03
+[Tj] Final displacement=29.03 (width=29.03 × scale=1.00)
 [Td] Move text position: tx=28.67, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 103.69 1136.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="," (len=1 runes) at Tm=[103.69, 1136.00]
+[Tj] Text="," (len=1 runes, 1 CIDs) at Tm=[103.69, 1136.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
-[Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[Tj] Calculated width=3.36
+[Tj] Final displacement=3.36 (width=3.36 × scale=1.00)
 [Td] Move text position: tx=2.46, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 106.15 1136.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="” I answ" (len=8 runes) at Tm=[106.15, 1136.00]
+[Tj] Text="” I answ" (len=8 runes, 8 CIDs) at Tm=[106.15, 1136.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=72.00 (8 runes × 18.00 × 0.5)
-[Tj] Final displacement=72.00 (width=72.00 × scale=1.00)
+[Tj] Calculated width=55.05
+[Tj] Final displacement=55.05 (width=55.05 × scale=1.00)
 [Td] Move text position: tx=54.97, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 161.12 1136.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="er" (len=2 runes) at Tm=[161.12, 1136.00]
+[Tj] Text="er" (len=2 runes, 2 CIDs) at Tm=[161.12, 1136.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
-[Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[Tj] Calculated width=14.86
+[Tj] Final displacement=14.86 (width=14.86 × scale=1.00)
 [Td] Move text position: tx=13.78, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 174.90 1136.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="." (len=1 runes) at Tm=[174.90, 1136.00]
+[Tj] Text="." (len=1 runes, 1 CIDs) at Tm=[174.90, 1136.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
-[Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[Tj] Calculated width=3.36
+[Tj] Final displacement=3.36 (width=3.36 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -2650,11 +2668,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="“" (len=1 runes) at Tm=[16.00, 1175.00]
+[Tj] Text="“" (len=1 runes, 1 CIDs) at Tm=[16.00, 1175.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
-[Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[Tj] Calculated width=6.91
+[Tj] Final displacement=6.91 (width=6.91 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -2665,11 +2683,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="是的，我们走吧，" (len=8 runes) at Tm=[22.91, 1175.00]
+[Tj] Text="是的，我们走吧，" (len=8 runes, 8 CIDs) at Tm=[22.91, 1175.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=72.00 (8 runes × 18.00 × 0.5)
-[Tj] Final displacement=72.00 (width=72.00 × scale=1.00)
+[Tj] Calculated width=144.00
+[Tj] Final displacement=144.00 (width=144.00 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -2680,11 +2698,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="”" (len=1 runes) at Tm=[166.91, 1175.00]
+[Tj] Text="”" (len=1 runes, 1 CIDs) at Tm=[166.91, 1175.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
-[Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[Tj] Calculated width=6.91
+[Tj] Final displacement=6.91 (width=6.91 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -2695,11 +2713,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="我回答。" (len=4 runes) at Tm=[173.82, 1175.00]
+[Tj] Text="我回答。" (len=4 runes, 4 CIDs) at Tm=[173.82, 1175.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=36.00 (4 runes × 18.00 × 0.5)
-[Tj] Final displacement=36.00 (width=36.00 × scale=1.00)
+[Tj] Calculated width=72.00
+[Tj] Final displacement=72.00 (width=72.00 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -2709,11 +2727,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="The machine sets in motion again." (len=33 runes) at Tm=[16.00, 1236.00]
+[Tj] Text="The machine sets in motion again." (len=33 runes, 33 CIDs) at Tm=[16.00, 1236.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=297.00 (33 runes × 18.00 × 0.5)
-[Tj] Final displacement=297.00 (width=297.00 × scale=1.00)
+[Tj] Calculated width=241.66
+[Tj] Final displacement=241.66 (width=241.66 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -2723,11 +2741,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="机器再次启动。" (len=7 runes) at Tm=[16.00, 1274.00]
+[Tj] Text="机器再次启动。" (len=7 runes, 7 CIDs) at Tm=[16.00, 1274.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=63.00 (7 runes × 18.00 × 0.5)
-[Tj] Final displacement=63.00 (width=63.00 × scale=1.00)
+[Tj] Calculated width=126.00
+[Tj] Final displacement=126.00 (width=126.00 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -2737,182 +2755,182 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="A po" (len=4 runes) at Tm=[16.00, 1313.00]
+[Tj] Text="A po" (len=4 runes, 4 CIDs) at Tm=[16.00, 1313.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=36.00 (4 runes × 18.00 × 0.5)
-[Tj] Final displacement=36.00 (width=36.00 × scale=1.00)
+[Tj] Calculated width=33.26
+[Tj] Final displacement=33.26 (width=33.26 × scale=1.00)
 [Td] Move text position: tx=33.17, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 49.17 1313.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="w" (len=1 runes) at Tm=[49.17, 1313.00]
+[Tj] Text="w" (len=1 runes, 1 CIDs) at Tm=[49.17, 1313.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
-[Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[Tj] Calculated width=11.91
+[Tj] Final displacement=11.91 (width=11.91 × scale=1.00)
 [Td] Move text position: tx=11.82, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 60.99 1313.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="er" (len=2 runes) at Tm=[60.99, 1313.00]
+[Tj] Text="er" (len=2 runes, 2 CIDs) at Tm=[60.99, 1313.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
-[Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[Tj] Calculated width=14.86
+[Tj] Final displacement=14.86 (width=14.86 × scale=1.00)
 [Td] Move text position: tx=15.04, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 76.03 1313.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ful curr" (len=8 runes) at Tm=[76.03, 1313.00]
+[Tj] Text="ful curr" (len=8 runes, 8 CIDs) at Tm=[76.03, 1313.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=72.00 (8 runes × 18.00 × 0.5)
-[Tj] Final displacement=72.00 (width=72.00 × scale=1.00)
+[Tj] Calculated width=52.22
+[Tj] Final displacement=52.22 (width=52.22 × scale=1.00)
 [Td] Move text position: tx=52.05, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 128.08 1313.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ent gr" (len=6 runes) at Tm=[128.08, 1313.00]
+[Tj] Text="ent gr" (len=6 runes, 6 CIDs) at Tm=[128.08, 1313.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=54.00 (6 runes × 18.00 × 0.5)
-[Tj] Final displacement=54.00 (width=54.00 × scale=1.00)
+[Tj] Calculated width=42.38
+[Tj] Final displacement=42.38 (width=42.38 × scale=1.00)
 [Td] Move text position: tx=42.21, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 170.28 1313.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="o" (len=1 runes) at Tm=[170.28, 1313.00]
+[Tj] Text="o" (len=1 runes, 1 CIDs) at Tm=[170.28, 1313.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
-[Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[Tj] Calculated width=9.55
+[Tj] Final displacement=9.55 (width=9.55 × scale=1.00)
 [Td] Move text position: tx=9.47, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 179.75 1313.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ws inside the cr" (len=16 runes) at Tm=[179.75, 1313.00]
+[Tj] Text="ws inside the cr" (len=16 runes, 16 CIDs) at Tm=[179.75, 1313.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=144.00 (16 runes × 18.00 × 0.5)
-[Tj] Final displacement=144.00 (width=144.00 × scale=1.00)
+[Tj] Calculated width=110.41
+[Tj] Final displacement=110.41 (width=110.41 × scale=1.00)
 [Td] Move text position: tx=110.68, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 290.43 1313.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="y" (len=1 runes) at Tm=[290.43, 1313.00]
+[Tj] Text="y" (len=1 runes, 1 CIDs) at Tm=[290.43, 1313.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
-[Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[Tj] Calculated width=7.63
+[Tj] Final displacement=7.63 (width=7.63 × scale=1.00)
 [Td] Move text position: tx=7.54, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 297.97 1313.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ogenically c" (len=12 runes) at Tm=[297.97, 1313.00]
+[Tj] Text="ogenically c" (len=12 runes, 12 CIDs) at Tm=[297.97, 1313.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=108.00 (12 runes × 18.00 × 0.5)
-[Tj] Final displacement=108.00 (width=108.00 × scale=1.00)
+[Tj] Calculated width=82.53
+[Tj] Final displacement=82.53 (width=82.53 × scale=1.00)
 [Td] Move text position: tx=82.44, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 380.41 1313.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ooled wir" (len=9 runes) at Tm=[380.41, 1313.00]
+[Tj] Text="ooled wir" (len=9 runes, 9 CIDs) at Tm=[380.41, 1313.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=81.00 (9 runes × 18.00 × 0.5)
-[Tj] Final displacement=81.00 (width=81.00 × scale=1.00)
+[Tj] Calculated width=66.68
+[Tj] Final displacement=66.68 (width=66.68 × scale=1.00)
 [Td] Move text position: tx=66.51, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 446.92 1313.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="es that c" (len=9 runes) at Tm=[446.92, 1313.00]
+[Tj] Text="es that c" (len=9 runes, 9 CIDs) at Tm=[446.92, 1313.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=81.00 (9 runes × 18.00 × 0.5)
-[Tj] Final displacement=81.00 (width=81.00 × scale=1.00)
+[Tj] Calculated width=60.54
+[Tj] Final displacement=60.54 (width=60.54 × scale=1.00)
 [Td] Move text position: tx=60.45, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 507.37 1313.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="oil ar" (len=6 runes) at Tm=[507.37, 1313.00]
+[Tj] Text="oil ar" (len=6 runes, 6 CIDs) at Tm=[507.37, 1313.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=54.00 (6 runes × 18.00 × 0.5)
-[Tj] Final displacement=54.00 (width=54.00 × scale=1.00)
+[Tj] Calculated width=35.42
+[Tj] Final displacement=35.42 (width=35.42 × scale=1.00)
 [Td] Move text position: tx=35.24, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 542.61 1313.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ound me, sho" (len=12 runes) at Tm=[542.61, 1313.00]
+[Tj] Text="ound me, sho" (len=12 runes, 12 CIDs) at Tm=[542.61, 1313.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=108.00 (12 runes × 18.00 × 0.5)
-[Tj] Final displacement=108.00 (width=108.00 × scale=1.00)
+[Tj] Calculated width=96.51
+[Tj] Final displacement=96.51 (width=96.51 × scale=1.00)
 [Td] Move text position: tx=96.42, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 639.04 1313.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="w" (len=1 runes) at Tm=[639.04, 1313.00]
+[Tj] Text="w" (len=1 runes, 1 CIDs) at Tm=[639.04, 1313.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
-[Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[Tj] Calculated width=11.91
+[Tj] Final displacement=11.91 (width=11.91 × scale=1.00)
 [Td] Move text position: tx=11.82, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 650.86 1313.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ering my head with r" (len=20 runes) at Tm=[650.86, 1313.00]
+[Tj] Text="ering my head with r" (len=20 runes, 20 CIDs) at Tm=[650.86, 1313.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=180.00 (20 runes × 18.00 × 0.5)
-[Tj] Final displacement=180.00 (width=180.00 × scale=1.00)
+[Tj] Calculated width=145.86
+[Tj] Final displacement=145.86 (width=145.86 × scale=1.00)
 [Td] Move text position: tx=145.78, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 796.64 1313.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="adio w" (len=6 runes) at Tm=[796.64, 1313.00]
+[Tj] Text="adio w" (len=6 runes, 6 CIDs) at Tm=[796.64, 1313.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=54.00 (6 runes × 18.00 × 0.5)
-[Tj] Final displacement=54.00 (width=54.00 × scale=1.00)
+[Tj] Calculated width=46.47
+[Tj] Final displacement=46.47 (width=46.47 × scale=1.00)
 [Td] Move text position: tx=46.50, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 843.14 1313.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="av" (len=2 runes) at Tm=[843.14, 1313.00]
+[Tj] Text="av" (len=2 runes, 2 CIDs) at Tm=[843.14, 1313.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
-[Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[Tj] Calculated width=15.53
+[Tj] Final displacement=15.53 (width=15.53 × scale=1.00)
 [Td] Move text position: tx=15.44, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 858.58 1313.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="es, knocking the hy" (len=19 runes) at Tm=[858.58, 1313.00]
+[Tj] Text="es, knocking the hy" (len=19 runes, 19 CIDs) at Tm=[858.58, 1313.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=171.00 (19 runes × 18.00 × 0.5)
-[Tj] Final displacement=171.00 (width=171.00 × scale=1.00)
+[Tj] Calculated width=134.87
+[Tj] Final displacement=134.87 (width=134.87 × scale=1.00)
 [Td] Move text position: tx=134.78, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 993.36 1313.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="dr" (len=2 runes) at Tm=[993.36, 1313.00]
+[Tj] Text="dr" (len=2 runes, 2 CIDs) at Tm=[993.36, 1313.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
-[Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[Tj] Calculated width=15.65
+[Tj] Final displacement=15.65 (width=15.65 × scale=1.00)
 [Td] Move text position: tx=15.48, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 1008.84 1313.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ogen" (len=4 runes) at Tm=[1008.84, 1313.00]
+[Tj] Text="ogen" (len=4 runes, 4 CIDs) at Tm=[1008.84, 1313.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=36.00 (4 runes × 18.00 × 0.5)
-[Tj] Final displacement=36.00 (width=36.00 × scale=1.00)
+[Tj] Calculated width=35.52
+[Tj] Final displacement=35.52 (width=35.52 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -2922,128 +2940,128 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="at" (len=2 runes) at Tm=[16.00, 1343.00]
+[Tj] Text="at" (len=2 runes, 2 CIDs) at Tm=[16.00, 1343.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
-[Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[Tj] Calculated width=13.82
+[Tj] Final displacement=13.82 (width=13.82 × scale=1.00)
 [Td] Move text position: tx=13.73, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 29.73 1343.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="oms inside my head o" (len=20 runes) at Tm=[29.73, 1343.00]
+[Tj] Text="oms inside my head o" (len=20 runes, 20 CIDs) at Tm=[29.73, 1343.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=180.00 (20 runes × 18.00 × 0.5)
-[Tj] Final displacement=180.00 (width=180.00 × scale=1.00)
+[Tj] Calculated width=153.94
+[Tj] Final displacement=153.94 (width=153.94 × scale=1.00)
 [BMC/BDC] Push marked content: tag=Span, depth=2
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ﬀ" (len=1 runes) at Tm=[209.73, 1343.00]
+[Tj] Text="ﬀ" (len=1 runes, 1 CIDs) at Tm=[183.67, 1343.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
-[Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[Tj] Calculated width=10.81
+[Tj] Final displacement=10.81 (width=10.81 × scale=1.00)
 [EMC] Pop marked content: tag=Span, depth=1
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text=" their original spin axis, and measuring the r" (len=46 runes) at Tm=[218.73, 1343.00]
+[Tj] Text=" their original spin axis, and measuring the r" (len=46 runes, 46 CIDs) at Tm=[194.48, 1343.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=414.00 (46 runes × 18.00 × 0.5)
-[Tj] Final displacement=414.00 (width=414.00 × scale=1.00)
+[Tj] Calculated width=307.24
+[Tj] Final displacement=307.24 (width=307.24 × scale=1.00)
 [Td] Move text position: tx=471.90, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 501.63 1343.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="at" (len=2 runes) at Tm=[501.63, 1343.00]
+[Tj] Text="at" (len=2 runes, 2 CIDs) at Tm=[501.63, 1343.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
-[Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[Tj] Calculated width=13.82
+[Tj] Final displacement=13.82 (width=13.82 × scale=1.00)
 [Td] Move text position: tx=13.73, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 515.36 1343.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="e at which the axis r" (len=21 runes) at Tm=[515.36, 1343.00]
+[Tj] Text="e at which the axis r" (len=21 runes, 21 CIDs) at Tm=[515.36, 1343.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=189.00 (21 runes × 18.00 × 0.5)
-[Tj] Final displacement=189.00 (width=189.00 × scale=1.00)
+[Tj] Calculated width=140.28
+[Tj] Final displacement=140.28 (width=140.28 × scale=1.00)
 [Td] Move text position: tx=140.11, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 655.47 1343.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ec" (len=2 runes) at Tm=[655.47, 1343.00]
+[Tj] Text="ec" (len=2 runes, 2 CIDs) at Tm=[655.47, 1343.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
-[Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[Tj] Calculated width=16.57
+[Tj] Final displacement=16.57 (width=16.57 × scale=1.00)
 [Td] Move text position: tx=16.48, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 671.95 1343.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="o" (len=1 runes) at Tm=[671.95, 1343.00]
+[Tj] Text="o" (len=1 runes, 1 CIDs) at Tm=[671.95, 1343.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
-[Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[Tj] Calculated width=9.55
+[Tj] Final displacement=9.55 (width=9.55 × scale=1.00)
 [Td] Move text position: tx=9.47, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 681.41 1343.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="v" (len=1 runes) at Tm=[681.41, 1343.00]
+[Tj] Text="v" (len=1 runes, 1 CIDs) at Tm=[681.41, 1343.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
-[Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[Tj] Calculated width=7.63
+[Tj] Final displacement=7.63 (width=7.63 × scale=1.00)
 [Td] Move text position: tx=7.54, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 688.95 1343.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ers aft" (len=7 runes) at Tm=[688.95, 1343.00]
+[Tj] Text="ers aft" (len=7 runes, 7 CIDs) at Tm=[688.95, 1343.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=63.00 (7 runes × 18.00 × 0.5)
-[Tj] Final displacement=63.00 (width=63.00 × scale=1.00)
+[Tj] Calculated width=45.10
+[Tj] Final displacement=45.10 (width=45.10 × scale=1.00)
 [Td] Move text position: tx=45.01, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 733.96 1343.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="er" (len=2 runes) at Tm=[733.96, 1343.00]
+[Tj] Text="er" (len=2 runes, 2 CIDs) at Tm=[733.96, 1343.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
-[Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[Tj] Calculated width=14.86
+[Tj] Final displacement=14.86 (width=14.86 × scale=1.00)
 [Td] Move text position: tx=15.08, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 749.04 1343.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="w" (len=1 runes) at Tm=[749.04, 1343.00]
+[Tj] Text="w" (len=1 runes, 1 CIDs) at Tm=[749.04, 1343.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
-[Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[Tj] Calculated width=11.91
+[Tj] Final displacement=11.91 (width=11.91 × scale=1.00)
 [Td] Move text position: tx=11.94, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 760.99 1343.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ar" (len=2 runes) at Tm=[760.99, 1343.00]
+[Tj] Text="ar" (len=2 runes, 2 CIDs) at Tm=[760.99, 1343.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
-[Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[Tj] Calculated width=14.31
+[Tj] Final displacement=14.31 (width=14.31 × scale=1.00)
 [Td] Move text position: tx=14.13, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 775.12 1343.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="d." (len=2 runes) at Tm=[775.12, 1343.00]
+[Tj] Text="d." (len=2 runes, 2 CIDs) at Tm=[775.12, 1343.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
-[Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[Tj] Calculated width=12.60
+[Tj] Final displacement=12.60 (width=12.60 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [Q] Restore graphics state - Stack depth: 2
@@ -3069,11 +3087,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="缠绕在我周围的低温冷却电线内产生强大的电流，无线电波照射到我的头部，将我头部内的氢原子撞离原来的自旋轴，并测量轴随后" (len=58 runes) at Tm=[16.00, 1382.00]
+[Tj] Text="缠绕在我周围的低温冷却电线内产生强大的电流，无线电波照射到我的头部，将我头部内的氢原子撞离原来的自旋轴，并测量轴随后" (len=58 runes, 58 CIDs) at Tm=[16.00, 1382.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=522.00 (58 runes × 18.00 × 0.5)
-[Tj] Final displacement=522.00 (width=522.00 × scale=1.00)
+[Tj] Calculated width=1044.00
+[Tj] Final displacement=1044.00 (width=1044.00 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [Q] Restore graphics state - Stack depth: 2
@@ -3099,11 +3117,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="恢复的速度。" (len=6 runes) at Tm=[16.00, 1413.00]
+[Tj] Text="恢复的速度。" (len=6 runes, 6 CIDs) at Tm=[16.00, 1413.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=54.00 (6 runes × 18.00 × 0.5)
-[Tj] Final displacement=54.00 (width=54.00 × scale=1.00)
+[Tj] Calculated width=108.00
+[Tj] Final displacement=108.00 (width=108.00 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -3113,200 +3131,200 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="T" (len=1 runes) at Tm=[16.00, 1451.00]
+[Tj] Text="T" (len=1 runes, 1 CIDs) at Tm=[16.00, 1451.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
-[Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[Tj] Calculated width=9.90
+[Tj] Final displacement=9.90 (width=9.90 × scale=1.00)
 [Td] Move text position: tx=8.18, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 24.18 1451.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="o the sensors ar" (len=16 runes) at Tm=[24.18, 1451.00]
+[Tj] Text="o the sensors ar" (len=16 runes, 16 CIDs) at Tm=[24.18, 1451.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=144.00 (16 runes × 18.00 × 0.5)
-[Tj] Final displacement=144.00 (width=144.00 × scale=1.00)
+[Tj] Calculated width=113.99
+[Tj] Final displacement=113.99 (width=113.99 × scale=1.00)
 [Td] Move text position: tx=113.82, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 138.00 1451.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ound me, I’" (len=11 runes) at Tm=[138.00, 1451.00]
+[Tj] Text="ound me, I’" (len=11 runes, 11 CIDs) at Tm=[138.00, 1451.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=99.00 (11 runes × 18.00 × 0.5)
-[Tj] Final displacement=99.00 (width=99.00 × scale=1.00)
+[Tj] Calculated width=78.36
+[Tj] Final displacement=78.36 (width=78.36 × scale=1.00)
 [Td] Move text position: tx=77.64, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 215.64 1451.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="m no" (len=4 runes) at Tm=[215.64, 1451.00]
+[Tj] Text="m no" (len=4 runes, 4 CIDs) at Tm=[215.64, 1451.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=36.00 (4 runes × 18.00 × 0.5)
-[Tj] Final displacement=36.00 (width=36.00 × scale=1.00)
+[Tj] Calculated width=36.69
+[Tj] Final displacement=36.69 (width=36.69 × scale=1.00)
 [Td] Move text position: tx=36.60, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 252.24 1451.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="w as tr" (len=7 runes) at Tm=[252.24, 1451.00]
+[Tj] Text="w as tr" (len=7 runes, 7 CIDs) at Tm=[252.24, 1451.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=63.00 (7 runes × 18.00 × 0.5)
-[Tj] Final displacement=63.00 (width=63.00 × scale=1.00)
+[Tj] Calculated width=47.29
+[Tj] Final displacement=47.29 (width=47.29 × scale=1.00)
 [Td] Move text position: tx=47.20, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 299.44 1451.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="anspar" (len=6 runes) at Tm=[299.44, 1451.00]
+[Tj] Text="anspar" (len=6 runes, 6 CIDs) at Tm=[299.44, 1451.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=54.00 (6 runes × 18.00 × 0.5)
-[Tj] Final displacement=54.00 (width=54.00 × scale=1.00)
+[Tj] Calculated width=47.52
+[Tj] Final displacement=47.52 (width=47.52 × scale=1.00)
 [Td] Move text position: tx=47.35, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 346.79 1451.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ent as a glas" (len=13 runes) at Tm=[346.79, 1451.00]
+[Tj] Text="ent as a glas" (len=13 runes, 13 CIDs) at Tm=[346.79, 1451.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=117.00 (13 runes × 18.00 × 0.5)
-[Tj] Final displacement=117.00 (width=117.00 × scale=1.00)
+[Tj] Calculated width=85.49
+[Tj] Final displacement=85.49 (width=85.49 × scale=1.00)
 [Td] Move text position: tx=85.58, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 432.36 1451.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="s of w" (len=6 runes) at Tm=[432.36, 1451.00]
+[Tj] Text="s of w" (len=6 runes, 6 CIDs) at Tm=[432.36, 1451.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=54.00 (6 runes × 18.00 × 0.5)
-[Tj] Final displacement=54.00 (width=54.00 × scale=1.00)
+[Tj] Calculated width=41.98
+[Tj] Final displacement=41.98 (width=41.98 × scale=1.00)
 [Td] Move text position: tx=42.01, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 474.38 1451.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="at" (len=2 runes) at Tm=[474.38, 1451.00]
+[Tj] Text="at" (len=2 runes, 2 CIDs) at Tm=[474.38, 1451.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
-[Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[Tj] Calculated width=13.82
+[Tj] Final displacement=13.82 (width=13.82 × scale=1.00)
 [Td] Move text position: tx=13.73, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 488.10 1451.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="er" (len=2 runes) at Tm=[488.10, 1451.00]
+[Tj] Text="er" (len=2 runes, 2 CIDs) at Tm=[488.10, 1451.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
-[Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[Tj] Calculated width=14.86
+[Tj] Final displacement=14.86 (width=14.86 × scale=1.00)
 [Td] Move text position: tx=13.78, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 501.89 1451.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text=". E" (len=3 runes) at Tm=[501.89, 1451.00]
+[Tj] Text=". E" (len=3 runes, 3 CIDs) at Tm=[501.89, 1451.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=27.00 (3 runes × 18.00 × 0.5)
-[Tj] Final displacement=27.00 (width=27.00 × scale=1.00)
+[Tj] Calculated width=16.58
+[Tj] Final displacement=16.58 (width=16.58 × scale=1.00)
 [Td] Move text position: tx=16.49, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 518.37 1451.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="v" (len=1 runes) at Tm=[518.37, 1451.00]
+[Tj] Text="v" (len=1 runes, 1 CIDs) at Tm=[518.37, 1451.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
-[Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[Tj] Calculated width=7.63
+[Tj] Final displacement=7.63 (width=7.63 × scale=1.00)
 [Td] Move text position: tx=7.54, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 525.92 1451.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="er" (len=2 runes) at Tm=[525.92, 1451.00]
+[Tj] Text="er" (len=2 runes, 2 CIDs) at Tm=[525.92, 1451.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
-[Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[Tj] Calculated width=14.86
+[Tj] Final displacement=14.86 (width=14.86 × scale=1.00)
 [Td] Move text position: tx=15.13, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 541.05 1451.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="y tiny change of blood " (len=23 runes) at Tm=[541.05, 1451.00]
+[Tj] Text="y tiny change of blood " (len=23 runes, 23 CIDs) at Tm=[541.05, 1451.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=207.00 (23 runes × 18.00 × 0.5)
-[Tj] Final displacement=207.00 (width=207.00 × scale=1.00)
+[Tj] Calculated width=161.73
+[Tj] Final displacement=161.73 (width=161.73 × scale=1.00)
 [BMC/BDC] Push marked content: tag=Span, depth=2
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ﬂ" (len=1 runes) at Tm=[748.05, 1451.00]
+[Tj] Text="ﬂ" (len=1 runes, 1 CIDs) at Tm=[702.78, 1451.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
-[Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[Tj] Calculated width=8.97
+[Tj] Final displacement=8.97 (width=8.97 × scale=1.00)
 [EMC] Pop marked content: tag=Span, depth=1
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="o" (len=1 runes) at Tm=[757.05, 1451.00]
+[Tj] Text="o" (len=1 runes, 1 CIDs) at Tm=[711.75, 1451.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
-[Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[Tj] Calculated width=9.55
+[Tj] Final displacement=9.55 (width=9.55 × scale=1.00)
 [Td] Move text position: tx=180.17, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 721.22 1451.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="w any" (len=5 runes) at Tm=[721.22, 1451.00]
+[Tj] Text="w any" (len=5 runes, 5 CIDs) at Tm=[721.22, 1451.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=45.00 (5 runes × 18.00 × 0.5)
-[Tj] Final displacement=45.00 (width=45.00 × scale=1.00)
+[Tj] Calculated width=40.62
+[Tj] Final displacement=40.62 (width=40.62 × scale=1.00)
 [Td] Move text position: tx=40.90, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 762.11 1451.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="wher" (len=4 runes) at Tm=[762.11, 1451.00]
+[Tj] Text="wher" (len=4 runes, 4 CIDs) at Tm=[762.11, 1451.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=36.00 (4 runes × 18.00 × 0.5)
-[Tj] Final displacement=36.00 (width=36.00 × scale=1.00)
+[Tj] Calculated width=35.86
+[Tj] Final displacement=35.86 (width=35.86 × scale=1.00)
 [Td] Move text position: tx=35.68, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 797.80 1451.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="e inside my br" (len=14 runes) at Tm=[797.80, 1451.00]
+[Tj] Text="e inside my br" (len=14 runes, 14 CIDs) at Tm=[797.80, 1451.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=126.00 (14 runes × 18.00 × 0.5)
-[Tj] Final displacement=126.00 (width=126.00 × scale=1.00)
+[Tj] Calculated width=99.19
+[Tj] Final displacement=99.19 (width=99.19 × scale=1.00)
 [Td] Move text position: tx=99.11, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 896.90 1451.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ain is being w" (len=14 runes) at Tm=[896.90, 1451.00]
+[Tj] Text="ain is being w" (len=14 runes, 14 CIDs) at Tm=[896.90, 1451.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=126.00 (14 runes × 18.00 × 0.5)
-[Tj] Final displacement=126.00 (width=126.00 × scale=1.00)
+[Tj] Calculated width=94.59
+[Tj] Final displacement=94.59 (width=94.59 × scale=1.00)
 [Td] Move text position: tx=94.62, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 991.52 1451.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="at" (len=2 runes) at Tm=[991.52, 1451.00]
+[Tj] Text="at" (len=2 runes, 2 CIDs) at Tm=[991.52, 1451.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
-[Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[Tj] Calculated width=13.82
+[Tj] Final displacement=13.82 (width=13.82 × scale=1.00)
 [Td] Move text position: tx=13.73, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 1005.25 1451.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ched" (len=4 runes) at Tm=[1005.25, 1451.00]
+[Tj] Text="ched" (len=4 runes, 4 CIDs) at Tm=[1005.25, 1451.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=36.00 (4 runes × 18.00 × 0.5)
-[Tj] Final displacement=36.00 (width=36.00 × scale=1.00)
+[Tj] Calculated width=34.90
+[Tj] Final displacement=34.90 (width=34.90 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -3316,47 +3334,47 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="and r" (len=5 runes) at Tm=[16.00, 1482.00]
+[Tj] Text="and r" (len=5 runes, 5 CIDs) at Tm=[16.00, 1482.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=45.00 (5 runes × 18.00 × 0.5)
-[Tj] Final displacement=45.00 (width=45.00 × scale=1.00)
+[Tj] Calculated width=36.74
+[Tj] Final displacement=36.74 (width=36.74 × scale=1.00)
 [Td] Move text position: tx=36.56, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 52.56 1482.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ec" (len=2 runes) at Tm=[52.56, 1482.00]
+[Tj] Text="ec" (len=2 runes, 2 CIDs) at Tm=[52.56, 1482.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
-[Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[Tj] Calculated width=16.57
+[Tj] Final displacement=16.57 (width=16.57 × scale=1.00)
 [Td] Move text position: tx=16.48, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 69.04 1482.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="or" (len=2 runes) at Tm=[69.04, 1482.00]
+[Tj] Text="or" (len=2 runes, 2 CIDs) at Tm=[69.04, 1482.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
-[Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[Tj] Calculated width=15.96
+[Tj] Final displacement=15.96 (width=15.96 × scale=1.00)
 [Td] Move text position: tx=15.79, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 84.83 1482.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="ded in 3-D" (len=10 runes) at Tm=[84.83, 1482.00]
+[Tj] Text="ded in 3-D" (len=10 runes, 10 CIDs) at Tm=[84.83, 1482.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=90.00 (10 runes × 18.00 × 0.5)
-[Tj] Final displacement=90.00 (width=90.00 × scale=1.00)
+[Tj] Calculated width=72.09
+[Tj] Final displacement=72.09 (width=72.09 × scale=1.00)
 [Td] Move text position: tx=71.64, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 156.47 1482.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="." (len=1 runes) at Tm=[156.47, 1482.00]
+[Tj] Text="." (len=1 runes, 1 CIDs) at Tm=[156.47, 1482.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
-[Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[Tj] Calculated width=3.36
+[Tj] Final displacement=3.36 (width=3.36 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -3366,11 +3384,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="对于我周围的传感器来说，我现在就像一杯水一样透明。我大脑内任何地方血流的每一个微小变化都会被以" (len=47 runes) at Tm=[16.00, 1520.00]
+[Tj] Text="对于我周围的传感器来说，我现在就像一杯水一样透明。我大脑内任何地方血流的每一个微小变化都会被以" (len=47 runes, 47 CIDs) at Tm=[16.00, 1520.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=423.00 (47 runes × 18.00 × 0.5)
-[Tj] Final displacement=423.00 (width=423.00 × scale=1.00)
+[Tj] Calculated width=846.00
+[Tj] Final displacement=846.00 (width=846.00 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -3381,11 +3399,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text=" 3D " (len=4 runes) at Tm=[862.00, 1520.00]
+[Tj] Text=" 3D " (len=4 runes, 4 CIDs) at Tm=[862.00, 1520.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=36.00 (4 runes × 18.00 × 0.5)
-[Tj] Final displacement=36.00 (width=36.00 × scale=1.00)
+[Tj] Calculated width=27.04
+[Tj] Final displacement=27.04 (width=27.04 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
@@ -3396,11 +3414,11 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
-[Tj] Text="方式观察和记录。" (len=8 runes) at Tm=[889.04, 1520.00]
+[Tj] Text="方式观察和记录。" (len=8 runes, 8 CIDs) at Tm=[889.04, 1520.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=72.00 (8 runes × 18.00 × 0.5)
-[Tj] Final displacement=72.00 (width=72.00 × scale=1.00)
+[Tj] Calculated width=144.00
+[Tj] Final displacement=144.00 (width=144.00 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [Q] Restore graphics state - Stack depth: 2
@@ -3455,42 +3473,42 @@ Operator Execution Log:
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=17.00
 [TEXT_STATE] Using FillColor: RGB(0.671, 0.671, 0.671, 1.000)
-[Tj] Text="Join" (len=4 runes) at Tm=[643.89, 28.00]
+[Tj] Text="Join" (len=4 runes, 4 CIDs) at Tm=[643.89, 28.00]
 [Tj] About to render text at current position
 [Tj] Text rendered
-[Tj] Base width=34.00 (4 runes × 17.00 × 0.5)
-[Tj] Final displacement=34.00 (width=34.00 × scale=1.00)
+[Tj] Calculated width=28.19
+[Tj] Final displacement=28.19 (width=28.19 × scale=1.00)
 [EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [Q] Restore graphics state - Stack depth: 2
 [Q] Restore graphics state - Stack depth: 1
 
 📈 Operator Statistics:
-   BDC: 54
-   Tm: 51
-   Td: 158
-   Q: 44
-   c: 387
-   q: 44
-   RG: 42
-   Tf: 51
-   EMC: 54
-   f: 32
-   l: 51
-   W: 7
-   Do: 1
-   W*: 22
-   BT: 51
-   Tj: 196
-   ET: 51
-   m: 32
    cm: 22
    re: 44
+   RG: 42
+   gs: 31
+   Td: 158
+   ET: 51
+   Do: 1
+   W*: 22
+   n: 29
+   BT: 51
+   BDC: 54
+   Tf: 51
+   Tj: 196
+   f: 32
+   m: 32
+   q: 44
    rg: 42
+   Tm: 51
+   EMC: 54
+   c: 387
    h: 30
    S: 8
-   n: 29
-   gs: 31
+   W: 7
+   Q: 44
+   l: 51
 
 📌 Rendering 3 annotations...
 [Annotation] Rendering annotation: Link
@@ -3500,17 +3518,35 @@ Operator Execution Log:
 [Annotation] Rendering annotation: Link
 [Annotation] Unsupported annotation type: Link
 ✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
+✓ Default width for CID font F4: 0
+✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
+✓ Loaded font widths for F4: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F4: Identity-H
 ✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
+✓ Default width for CID font F5: 500
+✓ Loaded CID widths for font F5: 102 direct mappings, 0 ranges
+✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F5: Identity-H
 ✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
+✓ Default width for CID font F6: 1000
+✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
+✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F6: Identity-H
+✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
+✓ Default width for CID font F5: 500
+✓ Loaded CID widths for font F5: 102 direct mappings, 0 ranges
+✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
+✓ Default width for CID font F6: 1000
+✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
+✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F6: Identity-H
 ✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
+✓ Default width for CID font F4: 0
+✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
+✓ Loaded font widths for F4: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F4: Identity-H
-✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
-✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
-✓ Detected Identity encoding for font F6: Identity-H
    Dereferenced to: types.StreamDict
    Decoding StreamDict...
    Raw: 13401 bytes, Content: 0 bytes
@@ -4292,12 +4328,21 @@ Operator Execution Log:
 [DEBUG] Text element: baseFontSize=17.00, scale=-1.00, effectiveFontSize=17.00
 [DEBUG] Estimated text width: 34.00, new E=677.89
 [DEBUG] ET operator: End text object
+✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
+✓ Default width for CID font F6: 1000
+✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
+✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F6: Identity-H
 ✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
+✓ Default width for CID font F4: 0
+✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
+✓ Loaded font widths for F4: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F4: Identity-H
 ✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
+✓ Default width for CID font F5: 500
+✓ Loaded CID widths for font F5: 102 direct mappings, 0 ranges
+✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
-✓ Detected Identity encoding for font F6: Identity-H
 
 Cairo/Pango Debug Output:
 -------------------------
