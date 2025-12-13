@@ -1,6 +1,6 @@
 PDF Rendering Report
 ====================
-Time: 2025-12-13 14:06:26
+Time: 2025-12-13 19:31:45
 
 ParseTokens Test:
 -----------------
@@ -20,7 +20,7 @@ Rendering Process:
 Output File Info:
 -----------------
 Size: 105269 bytes
-Created: 2025-12-13 14:06:28
+Created: 2025-12-13 19:31:47
 
 Page Information:
 -----------------
@@ -1026,7 +1026,9 @@ Operator Execution Log:
 [cm] Concat matrix: [2.08 0.00 0.00 2.08 120.83 120.83]
      Old CTM: [0.24 0.00 0.00 -0.24 0.00 841.92]
      New CTM: [0.50 0.00 0.00 -0.50 29.00 812.92]
+[gs] Set blend mode: Normal
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F4 (BaseFont: AAAAAA+FreightSansProBold-Regular), Size: 14.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 486.81 81.00]
 
@@ -1118,8 +1120,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=7.00 (1 runes × 14.00 × 0.5)
 [Tj] Final displacement=7.00 (width=7.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F5 (BaseFont: BAAAAA+FreightSansProBook-Regular), Size: 36.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 311.45 137.00]
 
@@ -1157,8 +1161,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=144.00 (8 runes × 36.00 × 0.5)
 [Tj] Final displacement=144.00 (width=144.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F5 (BaseFont: BAAAAA+FreightSansProBook-Regular), Size: 14.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 363.66 172.00]
 
@@ -1196,8 +1202,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=84.00 (12 runes × 14.00 × 0.5)
 [Tj] Final displacement=84.00 (width=84.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F6 (BaseFont: CAAAAA+MicrosoftYaHei), Size: 14.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 405.50 195.00]
 
@@ -1208,6 +1216,7 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=133.00 (19 runes × 14.00 × 0.5)
 [Tj] Final displacement=133.00 (width=133.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
 [Tf] Set font: F5 (BaseFont: BAAAAA+FreightSansProBook-Regular), Size: 14.00
@@ -1222,6 +1231,7 @@ Operator Execution Log:
 [Tj] Final displacement=7.00 (width=7.00 × scale=1.00)
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F6 (BaseFont: CAAAAA+MicrosoftYaHei), Size: 14.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 427.70 267.00]
 
@@ -1232,8 +1242,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=35.00 (5 runes × 14.00 × 0.5)
 [Tj] Final displacement=35.00 (width=35.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F5 (BaseFont: BAAAAA+FreightSansProBook-Regular), Size: 14.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 427.70 267.00]
 [Td] Move text position: tx=70.00, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 497.70 267.00]
@@ -1245,8 +1257,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=7.00 (1 runes × 14.00 × 0.5)
 [Tj] Final displacement=7.00 (width=7.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F6 (BaseFont: CAAAAA+MicrosoftYaHei), Size: 14.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 427.70 267.00]
 [Td] Move text position: tx=72.61, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 500.31 267.00]
@@ -1258,8 +1272,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=21.00 (3 runes × 14.00 × 0.5)
 [Tj] Final displacement=21.00 (width=21.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F5 (BaseFont: BAAAAA+FreightSansProBook-Regular), Size: 14.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 427.70 267.00]
 [Td] Move text position: tx=114.61, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 542.31 267.00]
@@ -1280,8 +1296,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=21.00 (3 runes × 14.00 × 0.5)
 [Tj] Final displacement=21.00 (width=21.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F6 (BaseFont: CAAAAA+MicrosoftYaHei), Size: 14.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 427.70 267.00]
 [Td] Move text position: tx=147.18, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 574.89 267.00]
@@ -1293,8 +1311,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=7.00 (1 runes × 14.00 × 0.5)
 [Tj] Final displacement=7.00 (width=7.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F5 (BaseFont: BAAAAA+FreightSansProBook-Regular), Size: 14.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 427.70 267.00]
 [Td] Move text position: tx=161.18, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 588.89 267.00]
@@ -1306,8 +1326,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=28.00 (4 runes × 14.00 × 0.5)
 [Tj] Final displacement=28.00 (width=28.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F6 (BaseFont: CAAAAA+MicrosoftYaHei), Size: 14.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 427.70 267.00]
 [Td] Move text position: tx=180.20, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 607.91 267.00]
@@ -1319,8 +1341,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=7.00 (1 runes × 14.00 × 0.5)
 [Tj] Final displacement=7.00 (width=7.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F5 (BaseFont: BAAAAA+FreightSansProBook-Regular), Size: 14.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 427.70 267.00]
 [Td] Move text position: tx=194.20, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 621.91 267.00]
@@ -1332,8 +1356,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=21.00 (3 runes × 14.00 × 0.5)
 [Tj] Final displacement=21.00 (width=21.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F6 (BaseFont: CAAAAA+MicrosoftYaHei), Size: 14.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 427.70 267.00]
 [Td] Move text position: tx=207.59, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 635.29 267.00]
@@ -1345,8 +1371,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=7.00 (1 runes × 14.00 × 0.5)
 [Tj] Final displacement=7.00 (width=7.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F5 (BaseFont: BAAAAA+FreightSansProBook-Regular), Size: 14.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 414.73 236.00]
 
@@ -1411,8 +1439,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=14.00 (2 runes × 14.00 × 0.5)
 [Tj] Final displacement=14.00 (width=14.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F5 (BaseFont: BAAAAA+FreightSansProBook-Regular), Size: 14.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 573.02 236.00]
 
@@ -1450,6 +1480,7 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=14.00 (2 runes × 14.00 × 0.5)
 [Tj] Final displacement=14.00 (width=14.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [Q] Restore graphics state - Stack depth: 2
 [Q] Restore graphics state - Stack depth: 1
@@ -1458,6 +1489,7 @@ Operator Execution Log:
 [cm] Concat matrix: [2.08 0.00 0.00 2.08 1177.08 739.58]
      Old CTM: [0.24 0.00 0.00 -0.24 0.00 841.92]
      New CTM: [0.50 0.00 0.00 -0.50 282.50 664.42]
+[gs] Set blend mode: Normal
 [Q] Restore graphics state - Stack depth: 2
 [Q] Restore graphics state - Stack depth: 1
 [q] Save graphics state - Stack depth: 2
@@ -1465,7 +1497,9 @@ Operator Execution Log:
 [cm] Concat matrix: [2.08 0.00 0.00 2.08 120.83 120.83]
      Old CTM: [0.24 0.00 0.00 -0.24 0.00 841.92]
      New CTM: [0.50 0.00 0.00 -0.50 29.00 812.92]
+[gs] Set blend mode: Normal
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F5 (BaseFont: BAAAAA+FreightSansProBook-Regular), Size: 14.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 538.75 314.00]
 
@@ -1485,6 +1519,7 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=7.00 (1 runes × 14.00 × 0.5)
 [Tj] Final displacement=7.00 (width=7.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [Q] Restore graphics state - Stack depth: 2
 [Q] Restore graphics state - Stack depth: 1
@@ -1493,7 +1528,10 @@ Operator Execution Log:
 [cm] Concat matrix: [2177.08 0.00 0.00 -725.00 154.17 1547.92]
      Old CTM: [0.24 0.00 0.00 -0.24 0.00 841.92]
      New CTM: [522.50 0.00 0.00 174.00 37.00 470.42]
+[gs] Set blend mode: Normal
+[BMC/BDC] Push marked content: tag=P, depth=1
 ⚠️  Operator Do failed: failed to decode image: no image stream data
+[EMC] Pop marked content: tag=P, depth=0
 [Q] Restore graphics state - Stack depth: 2
 [Q] Restore graphics state - Stack depth: 1
 [q] Save graphics state - Stack depth: 2
@@ -1501,7 +1539,10 @@ Operator Execution Log:
 [cm] Concat matrix: [2.08 0.00 0.00 2.08 120.83 120.83]
      Old CTM: [0.24 0.00 0.00 -0.24 0.00 841.92]
      New CTM: [0.50 0.00 0.00 -0.50 29.00 812.92]
+[gs] Set blend mode: Normal
+[gs] Set blend mode: Normal
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F4 (BaseFont: AAAAAA+FreightSansProBold-Regular), Size: 60.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 37.23 767.00]
 
@@ -1512,8 +1553,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=30.00 (1 runes × 60.00 × 0.5)
 [Tj] Final displacement=30.00 (width=30.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F5 (BaseFont: BAAAAA+FreightSansProBook-Regular), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 84.00 738.00]
 
@@ -1623,8 +1666,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=54.00 (6 runes × 18.00 × 0.5)
 [Tj] Final displacement=54.00 (width=54.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F5 (BaseFont: BAAAAA+FreightSansProBook-Regular), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 84.00 769.00]
 
@@ -1689,6 +1734,7 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
 [Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [Q] Restore graphics state - Stack depth: 2
 [Q] Restore graphics state - Stack depth: 1
@@ -1697,6 +1743,7 @@ Operator Execution Log:
 [cm] Concat matrix: [2.08 0.00 0.00 2.08 120.83 120.83]
      Old CTM: [0.24 0.00 0.00 -0.24 0.00 841.92]
      New CTM: [0.50 0.00 0.00 -0.50 29.00 812.92]
+[gs] Set blend mode: Normal
 [Q] Restore graphics state - Stack depth: 2
 [Q] Restore graphics state - Stack depth: 1
 [q] Save graphics state - Stack depth: 2
@@ -1704,7 +1751,9 @@ Operator Execution Log:
 [cm] Concat matrix: [2.08 0.00 0.00 2.08 120.83 120.83]
      Old CTM: [0.24 0.00 0.00 -0.24 0.00 841.92]
      New CTM: [0.50 0.00 0.00 -0.50 29.00 812.92]
+[gs] Set blend mode: Normal
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F6 (BaseFont: CAAAAA+MicrosoftYaHei), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 16.00 808.00]
 
@@ -1715,6 +1764,7 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=522.00 (58 runes × 18.00 × 0.5)
 [Tj] Final displacement=522.00 (width=522.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [Q] Restore graphics state - Stack depth: 2
 [Q] Restore graphics state - Stack depth: 1
@@ -1723,6 +1773,7 @@ Operator Execution Log:
 [cm] Concat matrix: [2.08 0.00 0.00 2.08 120.83 120.83]
      Old CTM: [0.24 0.00 0.00 -0.24 0.00 841.92]
      New CTM: [0.50 0.00 0.00 -0.50 29.00 812.92]
+[gs] Set blend mode: Normal
 [Q] Restore graphics state - Stack depth: 2
 [Q] Restore graphics state - Stack depth: 1
 [q] Save graphics state - Stack depth: 2
@@ -1730,7 +1781,9 @@ Operator Execution Log:
 [cm] Concat matrix: [2.08 0.00 0.00 2.08 120.83 120.83]
      Old CTM: [0.24 0.00 0.00 -0.24 0.00 841.92]
      New CTM: [0.50 0.00 0.00 -0.50 29.00 812.92]
+[gs] Set blend mode: Normal
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F6 (BaseFont: CAAAAA+MicrosoftYaHei), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 16.00 838.00]
 
@@ -1741,8 +1794,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=108.00 (12 runes × 18.00 × 0.5)
 [Tj] Final displacement=108.00 (width=108.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F5 (BaseFont: BAAAAA+FreightSansProBook-Regular), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 16.00 877.00]
 
@@ -1771,6 +1826,7 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=90.00 (10 runes × 18.00 × 0.5)
 [Tj] Final displacement=90.00 (width=90.00 × scale=1.00)
+[BMC/BDC] Push marked content: tag=Span, depth=2
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
@@ -1779,6 +1835,7 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
 [Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[EMC] Pop marked content: tag=Span, depth=1
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
@@ -1814,8 +1871,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=189.00 (21 runes × 18.00 × 0.5)
 [Tj] Final displacement=189.00 (width=189.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F6 (BaseFont: CAAAAA+MicrosoftYaHei), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 16.00 915.00]
 
@@ -1826,8 +1885,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=207.00 (23 runes × 18.00 × 0.5)
 [Tj] Final displacement=207.00 (width=207.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F5 (BaseFont: BAAAAA+FreightSansProBook-Regular), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 16.00 976.00]
 
@@ -2027,8 +2088,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=72.00 (8 runes × 18.00 × 0.5)
 [Tj] Final displacement=72.00 (width=72.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F5 (BaseFont: BAAAAA+FreightSansProBook-Regular), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 16.00 1007.00]
 
@@ -2138,6 +2201,7 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=72.00 (8 runes × 18.00 × 0.5)
 [Tj] Final displacement=72.00 (width=72.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [Q] Restore graphics state - Stack depth: 2
 [Q] Restore graphics state - Stack depth: 1
@@ -2146,6 +2210,7 @@ Operator Execution Log:
 [cm] Concat matrix: [2.08 0.00 0.00 2.08 120.83 120.83]
      Old CTM: [0.24 0.00 0.00 -0.24 0.00 841.92]
      New CTM: [0.50 0.00 0.00 -0.50 29.00 812.92]
+[gs] Set blend mode: Normal
 [Q] Restore graphics state - Stack depth: 2
 [Q] Restore graphics state - Stack depth: 1
 [q] Save graphics state - Stack depth: 2
@@ -2153,7 +2218,9 @@ Operator Execution Log:
 [cm] Concat matrix: [2.08 0.00 0.00 2.08 120.83 120.83]
      Old CTM: [0.24 0.00 0.00 -0.24 0.00 841.92]
      New CTM: [0.50 0.00 0.00 -0.50 29.00 812.92]
+[gs] Set blend mode: Normal
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F5 (BaseFont: BAAAAA+FreightSansProBook-Regular), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 16.00 1045.00]
 
@@ -2164,8 +2231,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
 [Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F6 (BaseFont: CAAAAA+MicrosoftYaHei), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 16.00 1045.00]
 [Td] Move text position: tx=6.91, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 22.91 1045.00]
@@ -2177,8 +2246,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=144.00 (16 runes × 18.00 × 0.5)
 [Tj] Final displacement=144.00 (width=144.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F5 (BaseFont: BAAAAA+FreightSansProBook-Regular), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 16.00 1045.00]
 [Td] Move text position: tx=294.91, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 310.91 1045.00]
@@ -2190,8 +2261,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
 [Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F6 (BaseFont: CAAAAA+MicrosoftYaHei), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 16.00 1045.00]
 [Td] Move text position: tx=301.82, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 317.82 1045.00]
@@ -2203,8 +2276,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=342.00 (38 runes × 18.00 × 0.5)
 [Tj] Final displacement=342.00 (width=342.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F5 (BaseFont: BAAAAA+FreightSansProBook-Regular), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 16.00 1045.00]
 [Td] Move text position: tx=985.82, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 1001.82 1045.00]
@@ -2216,8 +2291,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
 [Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F6 (BaseFont: CAAAAA+MicrosoftYaHei), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 16.00 1045.00]
 [Td] Move text position: tx=996.82, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 1012.82 1045.00]
@@ -2229,6 +2306,7 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
 [Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [Q] Restore graphics state - Stack depth: 2
 [Q] Restore graphics state - Stack depth: 1
@@ -2237,6 +2315,7 @@ Operator Execution Log:
 [cm] Concat matrix: [2.08 0.00 0.00 2.08 120.83 120.83]
      Old CTM: [0.24 0.00 0.00 -0.24 0.00 841.92]
      New CTM: [0.50 0.00 0.00 -0.50 29.00 812.92]
+[gs] Set blend mode: Normal
 [Q] Restore graphics state - Stack depth: 2
 [Q] Restore graphics state - Stack depth: 1
 [q] Save graphics state - Stack depth: 2
@@ -2244,7 +2323,9 @@ Operator Execution Log:
 [cm] Concat matrix: [2.08 0.00 0.00 2.08 120.83 120.83]
      Old CTM: [0.24 0.00 0.00 -0.24 0.00 841.92]
      New CTM: [0.50 0.00 0.00 -0.50 29.00 812.92]
+[gs] Set blend mode: Normal
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F6 (BaseFont: CAAAAA+MicrosoftYaHei), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 16.00 1076.00]
 
@@ -2255,8 +2336,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=36.00 (4 runes × 18.00 × 0.5)
 [Tj] Final displacement=36.00 (width=36.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F5 (BaseFont: BAAAAA+FreightSansProBook-Regular), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 16.00 1076.00]
 [Td] Move text position: tx=72.00, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 88.00 1076.00]
@@ -2268,8 +2351,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
 [Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F5 (BaseFont: BAAAAA+FreightSansProBook-Regular), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 16.00 1136.00]
 
@@ -2334,8 +2419,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
 [Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F5 (BaseFont: BAAAAA+FreightSansProBook-Regular), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 16.00 1175.00]
 
@@ -2346,8 +2433,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
 [Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F6 (BaseFont: CAAAAA+MicrosoftYaHei), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 16.00 1175.00]
 [Td] Move text position: tx=6.91, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 22.91 1175.00]
@@ -2359,8 +2448,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=72.00 (8 runes × 18.00 × 0.5)
 [Tj] Final displacement=72.00 (width=72.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F5 (BaseFont: BAAAAA+FreightSansProBook-Regular), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 16.00 1175.00]
 [Td] Move text position: tx=150.91, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 166.91 1175.00]
@@ -2372,8 +2463,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
 [Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F6 (BaseFont: CAAAAA+MicrosoftYaHei), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 16.00 1175.00]
 [Td] Move text position: tx=157.82, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 173.82 1175.00]
@@ -2385,8 +2478,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=36.00 (4 runes × 18.00 × 0.5)
 [Tj] Final displacement=36.00 (width=36.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F5 (BaseFont: BAAAAA+FreightSansProBook-Regular), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 16.00 1236.00]
 
@@ -2397,8 +2492,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=297.00 (33 runes × 18.00 × 0.5)
 [Tj] Final displacement=297.00 (width=297.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F6 (BaseFont: CAAAAA+MicrosoftYaHei), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 16.00 1274.00]
 
@@ -2409,8 +2506,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=63.00 (7 runes × 18.00 × 0.5)
 [Tj] Final displacement=63.00 (width=63.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F5 (BaseFont: BAAAAA+FreightSansProBook-Regular), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 16.00 1313.00]
 
@@ -2592,8 +2691,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=36.00 (4 runes × 18.00 × 0.5)
 [Tj] Final displacement=36.00 (width=36.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F5 (BaseFont: BAAAAA+FreightSansProBook-Regular), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 16.00 1343.00]
 
@@ -2613,6 +2714,7 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=180.00 (20 runes × 18.00 × 0.5)
 [Tj] Final displacement=180.00 (width=180.00 × scale=1.00)
+[BMC/BDC] Push marked content: tag=Span, depth=2
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
@@ -2621,6 +2723,7 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
 [Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[EMC] Pop marked content: tag=Span, depth=1
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
@@ -2719,6 +2822,7 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=18.00 (2 runes × 18.00 × 0.5)
 [Tj] Final displacement=18.00 (width=18.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [Q] Restore graphics state - Stack depth: 2
 [Q] Restore graphics state - Stack depth: 1
@@ -2727,6 +2831,7 @@ Operator Execution Log:
 [cm] Concat matrix: [2.08 0.00 0.00 2.08 120.83 120.83]
      Old CTM: [0.24 0.00 0.00 -0.24 0.00 841.92]
      New CTM: [0.50 0.00 0.00 -0.50 29.00 812.92]
+[gs] Set blend mode: Normal
 [Q] Restore graphics state - Stack depth: 2
 [Q] Restore graphics state - Stack depth: 1
 [q] Save graphics state - Stack depth: 2
@@ -2734,7 +2839,9 @@ Operator Execution Log:
 [cm] Concat matrix: [2.08 0.00 0.00 2.08 120.83 120.83]
      Old CTM: [0.24 0.00 0.00 -0.24 0.00 841.92]
      New CTM: [0.50 0.00 0.00 -0.50 29.00 812.92]
+[gs] Set blend mode: Normal
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F6 (BaseFont: CAAAAA+MicrosoftYaHei), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 16.00 1382.00]
 
@@ -2745,6 +2852,7 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=522.00 (58 runes × 18.00 × 0.5)
 [Tj] Final displacement=522.00 (width=522.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [Q] Restore graphics state - Stack depth: 2
 [Q] Restore graphics state - Stack depth: 1
@@ -2753,6 +2861,7 @@ Operator Execution Log:
 [cm] Concat matrix: [2.08 0.00 0.00 2.08 120.83 120.83]
      Old CTM: [0.24 0.00 0.00 -0.24 0.00 841.92]
      New CTM: [0.50 0.00 0.00 -0.50 29.00 812.92]
+[gs] Set blend mode: Normal
 [Q] Restore graphics state - Stack depth: 2
 [Q] Restore graphics state - Stack depth: 1
 [q] Save graphics state - Stack depth: 2
@@ -2760,7 +2869,9 @@ Operator Execution Log:
 [cm] Concat matrix: [2.08 0.00 0.00 2.08 120.83 120.83]
      Old CTM: [0.24 0.00 0.00 -0.24 0.00 841.92]
      New CTM: [0.50 0.00 0.00 -0.50 29.00 812.92]
+[gs] Set blend mode: Normal
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F6 (BaseFont: CAAAAA+MicrosoftYaHei), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 16.00 1413.00]
 
@@ -2771,8 +2882,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=54.00 (6 runes × 18.00 × 0.5)
 [Tj] Final displacement=54.00 (width=54.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F5 (BaseFont: BAAAAA+FreightSansProBook-Regular), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 16.00 1451.00]
 
@@ -2900,6 +3013,7 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=207.00 (23 runes × 18.00 × 0.5)
 [Tj] Final displacement=207.00 (width=207.00 × scale=1.00)
+[BMC/BDC] Push marked content: tag=Span, depth=2
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
@@ -2908,6 +3022,7 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
 [Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[EMC] Pop marked content: tag=Span, depth=1
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
@@ -2970,8 +3085,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=36.00 (4 runes × 18.00 × 0.5)
 [Tj] Final displacement=36.00 (width=36.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F5 (BaseFont: BAAAAA+FreightSansProBook-Regular), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 16.00 1482.00]
 
@@ -3018,8 +3135,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=9.00 (1 runes × 18.00 × 0.5)
 [Tj] Final displacement=9.00 (width=9.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F6 (BaseFont: CAAAAA+MicrosoftYaHei), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 16.00 1520.00]
 
@@ -3030,8 +3149,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=423.00 (47 runes × 18.00 × 0.5)
 [Tj] Final displacement=423.00 (width=423.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F5 (BaseFont: BAAAAA+FreightSansProBook-Regular), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 16.00 1520.00]
 [Td] Move text position: tx=846.00, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 862.00 1520.00]
@@ -3043,8 +3164,10 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=36.00 (4 runes × 18.00 × 0.5)
 [Tj] Final displacement=36.00 (width=36.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F6 (BaseFont: CAAAAA+MicrosoftYaHei), Size: 18.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 16.00 1520.00]
 [Td] Move text position: tx=873.04, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 889.04 1520.00]
@@ -3056,25 +3179,33 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=72.00 (8 runes × 18.00 × 0.5)
 [Tj] Final displacement=72.00 (width=72.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [Q] Restore graphics state - Stack depth: 2
 [Q] Restore graphics state - Stack depth: 1
 [q] Save graphics state - Stack depth: 2
+[gs] Set blend mode: Normal
+[gs] Set fill alpha: 0.03
 [Q] Restore graphics state - Stack depth: 1
 [q] Save graphics state - Stack depth: 2
 [q] Save graphics state - Stack depth: 3
 [cm] Concat matrix: [2.08 0.00 0.00 2.08 120.83 120.83]
      Old CTM: [0.24 0.00 0.00 -0.24 0.00 841.92]
      New CTM: [0.50 0.00 0.00 -0.50 29.00 812.92]
+[gs] Set blend mode: Normal
 [Q] Restore graphics state - Stack depth: 2
 [Q] Restore graphics state - Stack depth: 1
 [q] Save graphics state - Stack depth: 2
+[gs] Set blend mode: Normal
+[gs] Set fill alpha: 0.03
 [Q] Restore graphics state - Stack depth: 1
 [q] Save graphics state - Stack depth: 2
 [q] Save graphics state - Stack depth: 3
 [cm] Concat matrix: [2.08 0.00 0.00 2.08 120.83 120.83]
      Old CTM: [0.24 0.00 0.00 -0.24 0.00 841.92]
      New CTM: [0.50 0.00 0.00 -0.50 29.00 812.92]
+[gs] Set blend mode: Normal
+[gs] Set blend mode: Normal
 [Q] Restore graphics state - Stack depth: 2
 [Q] Restore graphics state - Stack depth: 1
 [q] Save graphics state - Stack depth: 2
@@ -3082,6 +3213,7 @@ Operator Execution Log:
 [cm] Concat matrix: [1.85 0.00 0.00 1.85 684.65 145.83]
      Old CTM: [0.24 0.00 0.00 -0.24 0.00 841.92]
      New CTM: [0.44 0.00 0.00 -0.44 164.32 806.92]
+[gs] Set blend mode: Normal
 [Q] Restore graphics state - Stack depth: 2
 [Q] Restore graphics state - Stack depth: 1
 [q] Save graphics state - Stack depth: 2
@@ -3089,7 +3221,13 @@ Operator Execution Log:
 [cm] Concat matrix: [2.08 0.00 0.00 2.08 120.83 120.83]
      Old CTM: [0.24 0.00 0.00 -0.24 0.00 841.92]
      New CTM: [0.50 0.00 0.00 -0.50 29.00 812.92]
+[gs] Set blend mode: Normal
+[gs] Set blend mode: Normal
+[gs] Set fill alpha: 0.25
+[gs] Set stroke alpha: 0.25
+[gs] Set blend mode: Normal
 [BT] Begin text object - Reset text matrices
+[BMC/BDC] Push marked content: tag=P, depth=1
 [Tf] Set font: F5 (BaseFont: BAAAAA+FreightSansProBook-Regular), Size: 17.00
 [Tm] Set text matrix: [1.00 0.00 0.00 -1.00 643.89 28.00]
 
@@ -3100,46 +3238,49 @@ Operator Execution Log:
 [Tj] Text rendered
 [Tj] Base width=34.00 (4 runes × 17.00 × 0.5)
 [Tj] Final displacement=34.00 (width=34.00 × scale=1.00)
+[EMC] Pop marked content: tag=P, depth=0
 [ET] End text object
 [Q] Restore graphics state - Stack depth: 2
 [Q] Restore graphics state - Stack depth: 1
 
 📈 Operator Statistics:
-   BT: 51
-   Tf: 51
-   ET: 51
-   Q: 44
-   S: 8
-   cm: 22
-   W*: 22
-   gs: 31
-   Tm: 51
-   Tj: 196
-   l: 51
    q: 44
-   re: 44
-   n: 29
-   RG: 42
+   W*: 22
    rg: 42
-   m: 32
-   Td: 158
-   f: 32
-   c: 387
+   EMC: 54
+   ET: 51
    h: 30
+   n: 29
+   BT: 51
+   BDC: 54
+   Tj: 196
+   f: 32
+   l: 51
    W: 7
    Do: 1
+   cm: 22
+   Tm: 51
+   m: 32
+   Td: 158
+   re: 44
+   RG: 42
+   gs: 31
+   Tf: 51
+   Q: 44
+   c: 387
+   S: 8
 ✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
 ✓ Detected Identity encoding for font F4: Identity-H
 ✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
 ✓ Detected Identity encoding for font F5: Identity-H
 ✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
 ✓ Detected Identity encoding for font F6: Identity-H
-✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
-✓ Detected Identity encoding for font F6: Identity-H
 ✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
 ✓ Detected Identity encoding for font F4: Identity-H
 ✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
 ✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
+✓ Detected Identity encoding for font F6: Identity-H
    Dereferenced to: types.StreamDict
    Decoding StreamDict...
    Raw: 13401 bytes, Content: 0 bytes

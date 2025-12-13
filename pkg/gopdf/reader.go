@@ -984,6 +984,53 @@ func loadXObject(ctx *model.Context, xobjName string, xobjObj types.Object, reso
 			}
 		}
 
+		// 检查是否有 Group 属性（透明度组）
+		if group, found := streamDict.Find("Group"); found {
+			// 解引用 Group 字典
+			if indRef, ok := group.(types.IndirectRef); ok {
+				derefGroup, err := ctx.Dereference(indRef)
+				if err == nil {
+					group = derefGroup
+				}
+			}
+
+			if groupDict, ok := group.(types.Dict); ok {
+				// 检查是否为透明度组
+				if subtype, found := groupDict.Find("S"); found {
+					if name, ok := subtype.(types.Name); ok && name.String() == "/Transparency" {
+						isolated := false
+						knockout := false
+						colorSpace := "DeviceRGB"
+
+						// 读取 I (Isolated) 标志
+						if i, found := groupDict.Find("I"); found {
+							if b, ok := i.(types.Boolean); ok {
+								isolated = bool(b)
+							}
+						}
+
+						// 读取 K (Knockout) 标志
+						if k, found := groupDict.Find("K"); found {
+							if b, ok := k.(types.Boolean); ok {
+								knockout = bool(b)
+							}
+						}
+
+						// 读取 CS (ColorSpace)
+						if cs, found := groupDict.Find("CS"); found {
+							if name, ok := cs.(types.Name); ok {
+								colorSpace = name.String()
+							}
+						}
+
+						xobj.Group = NewTransparencyGroup(isolated, knockout, colorSpace)
+						debugPrintf("[Group] Transparency group detected: Isolated=%v, Knockout=%v, CS=%s\n",
+							isolated, knockout, colorSpace)
+					}
+				}
+			}
+		}
+
 	case "/Image":
 		// 加载图像 XObject 属性
 		if width, found := streamDict.Find("Width"); found {

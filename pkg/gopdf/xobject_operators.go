@@ -36,20 +36,27 @@ func (op *OpDoXObject) Execute(ctx *RenderContext) error {
 
 // XObject 表示 PDF XObject
 type XObject struct {
-	Subtype          string      // "Form" 或 "Image"
-	BBox             []float64   // 边界框 [x1 y1 x2 y2]
-	Matrix           *Matrix     // 变换矩阵
-	Resources        *Resources  // 资源字典（仅用于 Form）
-	Stream           []byte      // 内容流
-	Width            int         // 图像宽度
-	Height           int         // 图像高度
-	ColorSpace       string      // 颜色空间
-	BitsPerComponent int         // 每个颜色分量的位数
-	ImageData        image.Image // 解码后的图像数据
+	Subtype          string             // "Form" 或 "Image"
+	BBox             []float64          // 边界框 [x1 y1 x2 y2]
+	Matrix           *Matrix            // 变换矩阵
+	Resources        *Resources         // 资源字典（仅用于 Form）
+	Stream           []byte             // 内容流
+	Width            int                // 图像宽度
+	Height           int                // 图像高度
+	ColorSpace       string             // 颜色空间
+	BitsPerComponent int                // 每个颜色分量的位数
+	ImageData        image.Image        // 解码后的图像数据
+	Group            *TransparencyGroup // 透明度组（仅用于 Form）
 }
 
 // renderFormXObject 渲染表单 XObject
 func renderFormXObject(ctx *RenderContext, xobj *XObject) error {
+	// 检查是否有透明度组
+	if xobj.Group != nil {
+		return renderTransparencyGroup(ctx, xobj)
+	}
+
+	// 普通表单 XObject 渲染
 	// 保存图形状态
 	ctx.CairoCtx.Save()
 	ctx.GraphicsStack.Push()
@@ -94,6 +101,96 @@ func renderFormXObject(ctx *RenderContext, xobj *XObject) error {
 
 	// 恢复资源
 	ctx.Resources = oldResources
+
+	return nil
+}
+
+// renderTransparencyGroup 渲染透明度组
+func renderTransparencyGroup(ctx *RenderContext, xobj *XObject) error {
+	group := xobj.Group
+
+	debugPrintf("[TransparencyGroup] Rendering group: Isolated=%v, Knockout=%v\n",
+		group.Isolated, group.Knockout)
+
+	// 保存图形状态
+	ctx.CairoCtx.Save()
+	ctx.GraphicsStack.Push()
+	defer func() {
+		ctx.CairoCtx.Restore()
+		ctx.GraphicsStack.Pop()
+	}()
+
+	// 应用 XObject 的变换矩阵
+	if xobj.Matrix != nil {
+		xobj.Matrix.ApplyToCairoContext(ctx.CairoCtx)
+	}
+
+	// 使用 Cairo push_group 创建隔离的合成表面
+	// 这会创建一个临时的 surface 用于渲染组内容
+	ctx.CairoCtx.PushGroup()
+
+	// 应用边界框裁剪
+	if len(xobj.BBox) == 4 {
+		x1, y1, x2, y2 := xobj.BBox[0], xobj.BBox[1], xobj.BBox[2], xobj.BBox[3]
+		ctx.CairoCtx.Rectangle(x1, y1, x2-x1, y2-y1)
+		ctx.CairoCtx.Clip()
+	}
+
+	// 保存当前资源
+	oldResources := ctx.Resources
+	if xobj.Resources != nil {
+		ctx.Resources = xobj.Resources
+	}
+
+	// 如果是 knockout 组，需要特殊处理
+	// knockout 意味着组内对象不相互混合
+	if group.Knockout {
+		debugPrintf("[TransparencyGroup] Knockout mode enabled\n")
+		// 在 knockout 模式下，每个对象都直接绘制到组 surface
+		// 而不与之前的对象混合
+		// 这需要为每个操作符创建单独的 group
+		// 当前简化实现：仍然正常渲染，但记录 knockout 状态
+	}
+
+	// 解析并执行内容流
+	if len(xobj.Stream) > 0 {
+		operators, err := ParseContentStream(xobj.Stream)
+		if err != nil {
+			ctx.CairoCtx.PopGroupToSource() // 清理 group
+			ctx.Resources = oldResources
+			return fmt.Errorf("failed to parse transparency group content: %w", err)
+		}
+
+		for _, op := range operators {
+			if err := op.Execute(ctx); err != nil {
+				debugPrintf("Warning: operator %s failed in transparency group: %v\n", op.Name(), err)
+			}
+		}
+	}
+
+	// 恢复资源
+	ctx.Resources = oldResources
+
+	// 使用 Cairo pop_group_to_source 将组内容作为源
+	ctx.CairoCtx.PopGroupToSource()
+
+	// 应用当前图形状态的混合模式和透明度
+	state := ctx.GetCurrentState()
+	if state != nil {
+		// 应用混合模式
+		state.ApplyBlendMode(ctx.CairoCtx)
+
+		// 应用填充透明度
+		if state.FillAlpha < 1.0 {
+			ctx.CairoCtx.PaintWithAlpha(state.FillAlpha)
+		} else {
+			ctx.CairoCtx.Paint()
+		}
+	} else {
+		ctx.CairoCtx.Paint()
+	}
+
+	debugPrintf("[TransparencyGroup] Group rendered and composited\n")
 
 	return nil
 }

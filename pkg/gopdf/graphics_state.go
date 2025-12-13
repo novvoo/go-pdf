@@ -7,19 +7,20 @@ import (
 // GraphicsState 表示 PDF 图形状态
 // 包含当前变换矩阵 (CTM)、颜色、线宽等
 type GraphicsState struct {
-	CTM            *Matrix              // 当前变换矩阵
-	StrokeColor    *Color               // 描边颜色
-	FillColor      *Color               // 填充颜色
-	LineWidth      float64              // 线宽
-	LineCap        cairo.LineCap        // 线端点样式
-	LineJoin       cairo.LineJoin       // 线连接样式
-	MiterLimit     float64              // 斜接限制
-	DashPattern    []float64            // 虚线模式
-	DashOffset     float64              // 虚线偏移
-	CoordConverter *CoordinateConverter // 坐标转换器
-	BlendMode      string               // 混合模式
-	FillAlpha      float64              // 填充透明度 (ca)
-	StrokeAlpha    float64              // 描边透明度 (CA)
+	CTM               *Matrix              // 当前变换矩阵
+	StrokeColor       *Color               // 描边颜色
+	FillColor         *Color               // 填充颜色
+	LineWidth         float64              // 线宽
+	LineCap           cairo.LineCap        // 线端点样式
+	LineJoin          cairo.LineJoin       // 线连接样式
+	MiterLimit        float64              // 斜接限制
+	DashPattern       []float64            // 虚线模式
+	DashOffset        float64              // 虚线偏移
+	CoordConverter    *CoordinateConverter // 坐标转换器
+	BlendMode         string               // 混合模式
+	FillAlpha         float64              // 填充透明度 (ca)
+	StrokeAlpha       float64              // 描边透明度 (CA)
+	TransparencyGroup *TransparencyGroup   // 当前透明度组（如果有）
 }
 
 // Color 表示颜色
@@ -30,37 +31,39 @@ type Color struct {
 // NewGraphicsState 创建新的图形状态
 func NewGraphicsState(width, height float64) *GraphicsState {
 	return &GraphicsState{
-		CTM:            NewIdentityMatrix(),
-		StrokeColor:    &Color{R: 0, G: 0, B: 0, A: 1}, // 黑色
-		FillColor:      &Color{R: 0, G: 0, B: 0, A: 1}, // 黑色
-		LineWidth:      1.0,
-		LineCap:        cairo.LineCapButt,
-		LineJoin:       cairo.LineJoinMiter,
-		MiterLimit:     10.0,
-		DashPattern:    nil,
-		DashOffset:     0,
-		CoordConverter: NewCoordinateConverter(width, height, CoordSystemPDF),
-		BlendMode:      "Normal",
-		FillAlpha:      1.0,
-		StrokeAlpha:    1.0,
+		CTM:               NewIdentityMatrix(),
+		StrokeColor:       &Color{R: 0, G: 0, B: 0, A: 1}, // 黑色
+		FillColor:         &Color{R: 0, G: 0, B: 0, A: 1}, // 黑色
+		LineWidth:         1.0,
+		LineCap:           cairo.LineCapButt,
+		LineJoin:          cairo.LineJoinMiter,
+		MiterLimit:        10.0,
+		DashPattern:       nil,
+		DashOffset:        0,
+		CoordConverter:    NewCoordinateConverter(width, height, CoordSystemPDF),
+		BlendMode:         "Normal",
+		FillAlpha:         1.0,
+		StrokeAlpha:       1.0,
+		TransparencyGroup: nil,
 	}
 }
 
 // Clone 复制图形状态
 func (gs *GraphicsState) Clone() *GraphicsState {
 	newState := &GraphicsState{
-		CTM:            gs.CTM.Clone(),
-		StrokeColor:    &Color{R: gs.StrokeColor.R, G: gs.StrokeColor.G, B: gs.StrokeColor.B, A: gs.StrokeColor.A},
-		FillColor:      &Color{R: gs.FillColor.R, G: gs.FillColor.G, B: gs.FillColor.B, A: gs.FillColor.A},
-		LineWidth:      gs.LineWidth,
-		LineCap:        gs.LineCap,
-		LineJoin:       gs.LineJoin,
-		MiterLimit:     gs.MiterLimit,
-		DashOffset:     gs.DashOffset,
-		CoordConverter: gs.CoordConverter,
-		BlendMode:      gs.BlendMode,
-		FillAlpha:      gs.FillAlpha,
-		StrokeAlpha:    gs.StrokeAlpha,
+		CTM:               gs.CTM.Clone(),
+		StrokeColor:       &Color{R: gs.StrokeColor.R, G: gs.StrokeColor.G, B: gs.StrokeColor.B, A: gs.StrokeColor.A},
+		FillColor:         &Color{R: gs.FillColor.R, G: gs.FillColor.G, B: gs.FillColor.B, A: gs.FillColor.A},
+		LineWidth:         gs.LineWidth,
+		LineCap:           gs.LineCap,
+		LineJoin:          gs.LineJoin,
+		MiterLimit:        gs.MiterLimit,
+		DashOffset:        gs.DashOffset,
+		CoordConverter:    gs.CoordConverter,
+		BlendMode:         gs.BlendMode,
+		FillAlpha:         gs.FillAlpha,
+		StrokeAlpha:       gs.StrokeAlpha,
+		TransparencyGroup: gs.TransparencyGroup, // 共享透明度组引用
 	}
 
 	if gs.DashPattern != nil {

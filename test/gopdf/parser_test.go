@@ -132,7 +132,7 @@ func TestParseTokens(t *testing.T) {
 			name:    "标记内容",
 			tokens:  []string{"/P", "BMC", "EMC"},
 			wantLen: 2,
-			wantOps: []string{"IGNORE", "IGNORE"},
+			wantOps: []string{"BMC", "EMC"},
 		},
 		{
 			name:    "空tokens",
