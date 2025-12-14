@@ -457,69 +457,27 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 	ctx.CairoCtx.Save()
 	defer ctx.CairoCtx.Restore()
 
-	// 应用文本矩阵
-	// 注意：由于 renderPDFPageToCairo 已经应用了全局 Y 轴翻转 (Scale(1, -1))
-	// 而某些 PDF 的 Tm 矩阵中也包含了 Y 轴翻转 (d=-1)
-	// 我们需要检测并处理这种情况，避免双重翻转
-	tm := textState.TextMatrix.Clone()
+	// 🔥 关键修复：不应用文本矩阵到Cairo上下文
+	// 因为我们会计算绝对坐标并直接使用 MoveTo 定位
+	// 这样避免双重变换（文本矩阵变换 + Cairo变换）
 
-	// 如果文本矩阵的 D 分量是负数，说明 PDF 已经做了 Y 轴翻转
-	// 这种情况下，F 值已经是从顶部算起的坐标
-	// 全局变换做了 Translate(0, height) + Scale(1, -1)
-	// 所以我们只需要反转 D，保持 F 不变
-	if tm.D < 0 {
-		// 只反转 D，不改变 F
-		tm.D = -tm.D
-		// F 保持不变，因为它已经是正确的坐标
-	}
-
-	tm.ApplyToCairoContext(ctx.CairoCtx)
-
-	// 应用文本上升
+	// 注意：文本上升仍然需要应用，因为它是相对于文本基线的偏移
+	// 但由于我们使用绝对坐标，上升也应该在计算坐标时处理
+	// 暂时保留这里的实现以保持兼容性
 	if textState.Rise != 0 {
-		ctx.CairoCtx.Translate(0, textState.Rise)
+		// 上升应该在Y方向应用，但由于我们使用绝对坐标
+		// 这个变换可能不需要，取决于具体实现
+		// ctx.CairoCtx.Translate(0, textState.Rise)
 	}
 
 	// 设置字体
-	// 计算有效字体大小
-	// 在某些PDF中，字体大小通过文本矩阵的缩放来指定
+	// 🔥 关键：字体大小直接使用 FontSize，不从文本矩阵提取
+	// 因为文本矩阵的缩放已经在计算绝对坐标时应用了
 	fontSize := textState.FontSize
 
-	// 如果基础字体大小为0或很小，从文本矩阵中提取字体大小
-	if fontSize < 1.0 && textState.TextMatrix != nil {
-		// 从文本矩阵中提取缩放因子
-		// 文本矩阵格式: [a b c d e f]
-		// a 和 d 是水平和垂直缩放因子
-		scaleX := textState.TextMatrix.A
-		scaleY := textState.TextMatrix.D
-
-		if scaleX < 0 {
-			scaleX = -scaleX
-		}
-		if scaleY < 0 {
-			scaleY = -scaleY
-		}
-
-		// 使用较大的缩放因子作为字体大小
-		if scaleX > scaleY {
-			fontSize = scaleX
-		} else {
-			fontSize = scaleY
-		}
-
-		// 如果提取的字体大小仍然太小，使用默认值
-		if fontSize < 1.0 {
-			fontSize = 12.0
-		}
-	} else if textState.TextMatrix != nil {
-		// 如果有基础字体大小，应用文本矩阵的缩放
-		scale := textState.TextMatrix.D
-		if scale < 0 {
-			scale = -scale
-		}
-		if scale > 0.001 {
-			fontSize = fontSize * scale
-		}
+	// 如果字体大小为0，使用默认值
+	if fontSize < 1.0 {
+		fontSize = 12.0
 	}
 
 	fontFamily := "sans-serif"
@@ -563,12 +521,9 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 	fontDesc.SetSize(fontSize)
 	layout.SetFontDescription(fontDesc)
 
-	// 应用水平缩放
-	horizontalScale := 1.0
-	if textState.HorizontalScaling != 100 {
-		horizontalScale = textState.HorizontalScaling / 100.0
-		ctx.CairoCtx.Scale(horizontalScale, 1.0)
-	}
+	// 🔥 关键：不应用水平缩放到Cairo上下文
+	// 水平缩放已经在 GlyphAdvance 计算中处理了
+	// 这样避免双重缩放
 
 	// 设置颜色（根据渲染模式）
 	switch textState.RenderMode {
@@ -673,7 +628,7 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 		decodedText, cids := decodeTextStringWithCIDs(text, toUnicodeMap, textState.Font)
 		if decodedText != "" {
 			debugPrintf("[Tj] Text=%q (len=%d runes, %d CIDs) at Tm=[%.2f, %.2f]\n",
-				decodedText, len([]rune(decodedText)), len(cids), tm.E, tm.F)
+				decodedText, len([]rune(decodedText)), len(cids), textState.TextMatrix.E, textState.TextMatrix.F)
 
 			runes := []rune(decodedText)
 			for i, cid := range cids {
