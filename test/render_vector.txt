@@ -1,6 +1,6 @@
 PDF Rendering Report
 ====================
-Time: 2025-12-14 10:32:04
+Time: 2025-12-14 10:46:52
 
 ParseTokens Test:
 -----------------
@@ -20,7 +20,7 @@ Rendering Process:
 Output File Info:
 -----------------
 Size: 79812 bytes
-Created: 2025-12-14 10:32:05
+Created: 2025-12-14 10:46:53
 
 Page Information:
 -----------------
@@ -31,23 +31,7 @@ Page Size: 8.26 x 11.69 inches
 Font Information:
 =================
 
-[Font 1] F4
-  BaseFont: AAAAAA+MicrosoftYaHeiUI-Bold
-  Subtype: Type0
-  Encoding: Identity-H
-  Identity Mapping: YES
-  ToUnicode Map: YES (15 mappings, 1 ranges)
-  Embedded Font: NO
-
-[Font 2] F5
-  BaseFont: BAAAAA+Consolas
-  Subtype: Type0
-  Encoding: Identity-H
-  Identity Mapping: YES
-  ToUnicode Map: YES (21 mappings, 6 ranges)
-  Embedded Font: NO
-
-[Font 3] F6
+[Font 1] F6
   BaseFont: CAAAAA+NSimSun
   Subtype: Type0
   Encoding: Identity-H
@@ -55,7 +39,7 @@ Font Information:
   ToUnicode Map: YES (4 mappings, 0 ranges)
   Embedded Font: NO
 
-[Font 4] F7
+[Font 2] F7
   BaseFont: DAAAAA+Consolas-Italic
   Subtype: Type0
   Encoding: Identity-H
@@ -63,12 +47,28 @@ Font Information:
   ToUnicode Map: YES (4 mappings, 0 ranges)
   Embedded Font: NO
 
-[Font 5] F8
+[Font 3] F8
   BaseFont: EAAAAA+NSimSun
   Subtype: Type0
   Encoding: Identity-H
   Identity Mapping: YES
   ToUnicode Map: YES (17 mappings, 0 ranges)
+  Embedded Font: NO
+
+[Font 4] F4
+  BaseFont: AAAAAA+MicrosoftYaHeiUI-Bold
+  Subtype: Type0
+  Encoding: Identity-H
+  Identity Mapping: YES
+  ToUnicode Map: YES (15 mappings, 1 ranges)
+  Embedded Font: NO
+
+[Font 5] F5
+  BaseFont: BAAAAA+Consolas
+  Subtype: Type0
+  Encoding: Identity-H
+  Identity Mapping: YES
+  ToUnicode Map: YES (21 mappings, 6 ranges)
   Embedded Font: NO
 
 
@@ -187,214 +187,6 @@ No form fields found
 Advanced Graphics:
 ------------------
 ✓ Found 1 extended graphics state(s) (blend modes/transparency)
-Text Elements:
---------------
-Total text elements: 724
-
-[1] Position: (136.72, 108.03)
-    Font: F4, Size: 32.00
-    Text: "二十四点游戏的深度搜索算法demo"
-
-[2] Position: (136.72, 129.67)
-    Font: F5, Size: 14.00
-    Text: "def"
-
-[3] Position: (148.34, 129.67)
-    Font: F5, Size: 14.00
-    Text: " "
-
-[4] Position: (152.22, 129.67)
-    Font: F5, Size: 14.00
-    Text: "solve24"
-
-[5] Position: (179.34, 129.67)
-    Font: F5, Size: 14.00
-    Text: "("
-
-[6] Position: (183.22, 129.67)
-    Font: F5, Size: 14.00
-    Text: "nums"
-
-[7] Position: (198.72, 129.67)
-    Font: F5, Size: 14.00
-    Text: "):"
-
-[8] Position: (136.72, 139.23)
-    Font: F5, Size: 14.00
-    Text: " "
-
-[9] Position: (140.24, 139.23)
-    Font: F5, Size: 14.00
-    Text: " "
-
-[10] Position: (143.76, 139.23)
-    Font: F5, Size: 14.00
-    Text: " "
-
-[11] Position: (147.29, 139.23)
-    Font: F5, Size: 14.00
-    Text: " "
-
-[12] Position: (152.22, 139.23)
-    Font: F5, Size: 14.00
-    Text: "def"
-
-[13] Position: (163.84, 139.23)
-    Font: F5, Size: 14.00
-    Text: " "
-
-[14] Position: (167.72, 139.23)
-    Font: F5, Size: 14.00
-    Text: "dfs"
-
-[15] Position: (179.34, 139.23)
-    Font: F5, Size: 14.00
-    Text: "("
-
-[16] Position: (183.22, 139.23)
-    Font: F5, Size: 14.00
-    Text: "nums"
-
-[17] Position: (198.72, 139.23)
-    Font: F5, Size: 14.00
-    Text: ","
-
-[18] Position: (202.60, 139.23)
-    Font: F5, Size: 14.00
-    Text: " "
-
-[19] Position: (206.48, 139.23)
-    Font: F5, Size: 14.00
-    Text: "path"
-
-[20] Position: (221.98, 139.23)
-    Font: F5, Size: 14.00
-    Text: "):"
-
-[21] Position: (136.72, 148.80)
-    Font: F5, Size: 14.00
-    Text: " "
-
-[22] Position: (140.24, 148.80)
-    Font: F5, Size: 14.00
-    Text: " "
-
-[23] Position: (143.76, 148.80)
-    Font: F5, Size: 14.00
-    Text: " "
-
-[24] Position: (147.29, 148.80)
-    Font: F5, Size: 14.00
-    Text: " "
-
-[25] Position: (150.81, 148.80)
-    Font: F5, Size: 14.00
-    Text: " "
-
-[26] Position: (154.33, 148.80)
-    Font: F5, Size: 14.00
-    Text: " "
-
-[27] Position: (157.86, 148.80)
-    Font: F5, Size: 14.00
-    Text: " "
-
-[28] Position: (161.38, 148.80)
-    Font: F5, Size: 14.00
-    Text: " "
-
-[29] Position: (167.71, 148.80)
-    Font: F5, Size: 14.00
-    Text: "if"
-
-[30] Position: (175.47, 148.80)
-    Font: F5, Size: 14.00
-    Text: " "
-
-[31] Position: (179.34, 148.80)
-    Font: F5, Size: 14.00
-    Text: "len"
-
-[32] Position: (190.97, 148.80)
-    Font: F5, Size: 14.00
-    Text: "("
-
-[33] Position: (194.84, 148.80)
-    Font: F5, Size: 14.00
-    Text: "nums"
-
-[34] Position: (210.34, 148.80)
-    Font: F5, Size: 14.00
-    Text: ")"
-
-[35] Position: (214.22, 148.80)
-    Font: F5, Size: 14.00
-    Text: " "
-
-[36] Position: (218.10, 148.80)
-    Font: F5, Size: 14.00
-    Text: "=="
-
-[37] Position: (225.85, 148.80)
-    Font: F5, Size: 14.00
-    Text: " "
-
-[38] Position: (229.73, 148.80)
-    Font: F5, Size: 14.00
-    Text: "1"
-
-[39] Position: (233.61, 148.80)
-    Font: F5, Size: 14.00
-    Text: ":"
-
-[40] Position: (136.72, 158.36)
-    Font: F5, Size: 14.00
-    Text: " "
-
-[41] Position: (140.24, 158.36)
-    Font: F5, Size: 14.00
-    Text: " "
-
-[42] Position: (143.76, 158.36)
-    Font: F5, Size: 14.00
-    Text: " "
-
-[43] Position: (147.29, 158.36)
-    Font: F5, Size: 14.00
-    Text: " "
-
-[44] Position: (150.81, 158.36)
-    Font: F5, Size: 14.00
-    Text: " "
-
-[45] Position: (154.33, 158.36)
-    Font: F5, Size: 14.00
-    Text: " "
-
-[46] Position: (157.86, 158.36)
-    Font: F5, Size: 14.00
-    Text: " "
-
-[47] Position: (161.38, 158.36)
-    Font: F5, Size: 14.00
-    Text: " "
-
-[48] Position: (164.90, 158.36)
-    Font: F5, Size: 14.00
-    Text: " "
-
-[49] Position: (168.43, 158.36)
-    Font: F5, Size: 14.00
-    Text: " "
-
-[50] Position: (171.95, 158.36)
-    Font: F5, Size: 14.00
-    Text: " "
-
-... and 674 more text elements
-
-Image Elements: None found
-
 Debug Information:
 ------------------
 Starting PDF rendering...
@@ -436,6 +228,8 @@ Operator Execution Log:
    Calling Decode()...
    ✓ After decode: 59579 bytes
 [DEBUG] cm operator: Matrix=[0.240 0.000 0.000 -0.240 0.000 841.920], new CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
 [DEBUG] cm operator: Matrix=[2.097 0.000 0.000 2.097 118.750 118.750], new CTM=[0.503 0.000 0.000 -0.503 28.500 813.420]
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F4, Size=32.00
@@ -3518,6 +3312,8 @@ Operator Execution Log:
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
 [DEBUG] Estimated text width: 7.00, new E=329.78
 [DEBUG] ET operator: End text object
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
 ✓ Loaded ToUnicode CMap for font F7 (4 mappings, 0 ranges)
 ✓ Default width for CID font F7: 0
 ✓ Loaded CID widths for font F7: 0 direct mappings, 1 ranges
@@ -11162,24 +10958,24 @@ Operator Execution Log:
 [Q] Restore graphics state - Stack depth: 1
 
 📈 Operator Statistics:
-   ET: 409
-   Td: 5
-   n: 1
-   RG: 404
-   rg: 404
-   BDC: 581
-   EMC: 581
-   W*: 1
-   Tj: 724
-   gs: 1
-   f: 1
-   Tf: 405
-   Tm: 405
-   Q: 2
    cm: 2
    q: 2
+   RG: 404
+   rg: 404
+   Tf: 405
+   Tm: 405
+   Tj: 724
+   ET: 409
    re: 2
    BT: 409
+   BDC: 581
+   Td: 5
+   f: 1
+   EMC: 581
+   W*: 1
+   n: 1
+   gs: 1
+   Q: 2
 ✓ Loaded ToUnicode CMap for font F4 (15 mappings, 1 ranges)
 ✓ Default width for CID font F4: 1000
 ✓ Loaded CID widths for font F4: 6 direct mappings, 0 ranges
@@ -11232,6 +11028,8 @@ Operator Execution Log:
    Calling Decode()...
    ✓ After decode: 59579 bytes
 [DEBUG] cm operator: Matrix=[0.240 0.000 0.000 -0.240 0.000 841.920], new CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
 [DEBUG] cm operator: Matrix=[2.097 0.000 0.000 2.097 118.750 118.750], new CTM=[0.503 0.000 0.000 -0.503 28.500 813.420]
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F4, Size=32.00
@@ -14314,10 +14112,8 @@ Operator Execution Log:
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
 [DEBUG] Estimated text width: 7.00, new E=329.78
 [DEBUG] ET operator: End text object
-✓ Loaded ToUnicode CMap for font F8 (17 mappings, 0 ranges)
-✓ Default width for CID font F8: 1000
-✓ Loaded font widths for F8: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F8: Identity-H
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
 ✓ Loaded ToUnicode CMap for font F4 (15 mappings, 1 ranges)
 ✓ Default width for CID font F4: 1000
 ✓ Loaded CID widths for font F4: 6 direct mappings, 0 ranges
@@ -14337,6 +14133,10 @@ Operator Execution Log:
 ✓ Loaded CID widths for font F7: 0 direct mappings, 1 ranges
 ✓ Loaded font widths for F7: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F7: Identity-H
+✓ Loaded ToUnicode CMap for font F8 (17 mappings, 0 ranges)
+✓ Default width for CID font F8: 1000
+✓ Loaded font widths for F8: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F8: Identity-H
 
 Cairo/Pango Debug Output:
 -------------------------

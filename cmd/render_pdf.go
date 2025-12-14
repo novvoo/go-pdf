@@ -134,52 +134,6 @@ func main() {
 	advancedReport := test.ExtractAdvancedFeaturesForReport(pdfPath, 1)
 	report += advancedReport
 
-	// 添加文本元素信息
-	if len(result.TextElements) > 0 {
-		report += "Text Elements:\n"
-		report += "--------------\n"
-		report += fmt.Sprintf("Total text elements: %d\n\n", len(result.TextElements))
-
-		// 显示前 50 个文本元素
-		maxDisplay := 50
-		if len(result.TextElements) < maxDisplay {
-			maxDisplay = len(result.TextElements)
-		}
-
-		for i := 0; i < maxDisplay; i++ {
-			te := result.TextElements[i]
-			report += fmt.Sprintf("[%d] Position: (%.2f, %.2f)\n", i+1, te.X, te.Y)
-			report += fmt.Sprintf("    Font: %s, Size: %.2f\n", te.FontName, te.FontSize)
-			// 限制文本长度
-			displayText := te.Text
-			if len(displayText) > 100 {
-				displayText = displayText[:100] + "..."
-			}
-			report += fmt.Sprintf("    Text: %q\n\n", displayText)
-		}
-
-		if len(result.TextElements) > maxDisplay {
-			report += fmt.Sprintf("... and %d more text elements\n\n", len(result.TextElements)-maxDisplay)
-		}
-	} else {
-		report += "Text Elements: None found\n\n"
-	}
-
-	// 添加图片元素信息
-	if len(result.Images) > 0 {
-		report += "Image Elements:\n"
-		report += "---------------\n"
-		report += fmt.Sprintf("Total images: %d\n\n", len(result.Images))
-
-		for i, img := range result.Images {
-			report += fmt.Sprintf("[%d] Name: %s\n", i+1, img.Name)
-			report += fmt.Sprintf("    Position: (%.2f, %.2f)\n", img.X, img.Y)
-			report += fmt.Sprintf("    Size: %.2f x %.2f\n\n", img.Width, img.Height)
-		}
-	} else {
-		report += "Image Elements: None found\n\n"
-	}
-
 	// 添加调试信息
 	if result.DebugInfo != "" {
 		report += "Debug Information:\n"

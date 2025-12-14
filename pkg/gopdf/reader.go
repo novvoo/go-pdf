@@ -292,6 +292,12 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 	textLineMatrix := &Matrix{A: 1, D: 1} // 文本行矩阵
 	ctm := NewIdentityMatrix()            // 当前变换矩阵 (Current Transformation Matrix)
 
+	// 图形状态栈，用于保存和恢复 CTM
+	type GraphicsState struct {
+		ctm *Matrix
+	}
+	var graphicsStateStack []*GraphicsState
+
 	for _, op := range operators {
 		// 跳过忽略的操作符
 		if op.Name() == "IGNORE" {
@@ -299,6 +305,25 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 		}
 
 		switch op.Name() {
+		case "q": // 保存图形状态
+			// 将当前 CTM 压入栈
+			graphicsStateStack = append(graphicsStateStack, &GraphicsState{
+				ctm: ctm.Clone(),
+			})
+			debugPrintf("[DEBUG] q operator: Saved graphics state, stack depth=%d\n", len(graphicsStateStack))
+
+		case "Q": // 恢复图形状态
+			// 从栈中弹出并恢复 CTM
+			if len(graphicsStateStack) > 0 {
+				state := graphicsStateStack[len(graphicsStateStack)-1]
+				graphicsStateStack = graphicsStateStack[:len(graphicsStateStack)-1]
+				ctm = state.ctm
+				debugPrintf("[DEBUG] Q operator: Restored graphics state, stack depth=%d, CTM=%s\n",
+					len(graphicsStateStack), ctm.String())
+			} else {
+				debugPrintf("[DEBUG] Q operator: Warning - graphics state stack is empty\n")
+			}
+
 		case "BT": // 开始文本对象
 			// 重置文本矩阵和文本行矩阵为单位矩阵
 			currentMatrix = &Matrix{A: 1, D: 1}

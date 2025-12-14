@@ -1,6 +1,6 @@
 PDF Rendering Report
 ====================
-Time: 2025-12-14 10:32:50
+Time: 2025-12-14 10:47:13
 
 ParseTokens Test:
 -----------------
@@ -20,7 +20,7 @@ Rendering Process:
 Output File Info:
 -----------------
 Size: 139312 bytes
-Created: 2025-12-14 10:32:52
+Created: 2025-12-14 10:47:15
 
 Page Information:
 -----------------
@@ -31,7 +31,15 @@ Page Size: 8.26 x 11.69 inches
 Font Information:
 =================
 
-[Font 1] F5
+[Font 1] F4
+  BaseFont: AAAAAA+FreightSansProBold-Regular
+  Subtype: Type0
+  Encoding: Identity-H
+  Identity Mapping: YES
+  ToUnicode Map: YES (8 mappings, 3 ranges)
+  Embedded Font: NO
+
+[Font 2] F5
   BaseFont: BAAAAA+FreightSansProBook-Regular
   Subtype: Type0
   Encoding: Identity-H
@@ -39,20 +47,12 @@ Font Information:
   ToUnicode Map: YES (8 mappings, 9 ranges)
   Embedded Font: NO
 
-[Font 2] F6
+[Font 3] F6
   BaseFont: CAAAAA+MicrosoftYaHei
   Subtype: Type0
   Encoding: Identity-H
   Identity Mapping: YES
   ToUnicode Map: YES (736 mappings, 91 ranges)
-  Embedded Font: NO
-
-[Font 3] F4
-  BaseFont: AAAAAA+FreightSansProBold-Regular
-  Subtype: Type0
-  Encoding: Identity-H
-  Identity Mapping: YES
-  ToUnicode Map: YES (8 mappings, 3 ranges)
   Embedded Font: NO
 
 
@@ -65,9 +65,9 @@ Page Size: 594.96 x 841.92 points (8.26 x 11.69 inches)
 
 Text Elements: 196
 ----------------
-⚠️  Elements out of page bounds: 155 (79.1%)
-📏 Max X coordinate: 998363870020.43 (page width: 594.96)
-📏 Max Y coordinate: 1206.08 (page height: 841.92)
+⚠️  Elements out of page bounds: 0 (0.0%)
+📏 Max X coordinate: 535.41 (page width: 594.96)
+📏 Max Y coordinate: 789.00 (page height: 841.92)
 
 First 20 elements:
 [1] Position: (272.41, 69.50)
@@ -153,45 +153,7 @@ First 20 elements:
 ... and 176 more text elements
 
 Sample of out-of-bounds elements:
-[42] Position: (1912.57, 1206.08) ⚠️ OUT OF BOUNDS
-    Font: F5, Size: 14.00
-    Text: "Shar"
-
-[43] Position: (1966.65, 1206.08) ⚠️ OUT OF BOUNDS
-    Font: F5, Size: 14.00
-    Text: "e"
-
-[44] Position: (938457.01, -2700311.57) ⚠️ OUT OF BOUNDS
-    Font: F4, Size: 60.00
-    Text: "I"
-
-[45] Position: (1398764.71, -2605254.93) ⚠️ OUT OF BOUNDS
-    Font: F5, Size: 18.00
-    Text: "’"
-
-[46] Position: (1424717.58, -2605254.93) ⚠️ OUT OF BOUNDS
-    Font: F5, Size: 18.00
-    Text: "m lying do"
-
-[47] Position: (2147677.88, -2605254.93) ⚠️ OUT OF BOUNDS
-    Font: F5, Size: 18.00
-    Text: "wn in a whit"
-
-[48] Position: (2980591.83, -2605254.93) ⚠️ OUT OF BOUNDS
-    Font: F5, Size: 18.00
-    Text: "e cylinder bar"
-
-[49] Position: (3929169.04, -2605254.93) ⚠️ OUT OF BOUNDS
-    Font: F5, Size: 18.00
-    Text: "ely wider than my body"
-
-[50] Position: (5547503.19, -2605254.93) ⚠️ OUT OF BOUNDS
-    Font: F5, Size: 18.00
-    Text: ", surr"
-
-[51] Position: (5903057.44, -2605254.93) ⚠️ OUT OF BOUNDS
-    Font: F5, Size: 18.00
-    Text: "ounded on all sides b"
+  (No out-of-bounds elements found)
 
 Image Elements: None found
 
@@ -221,214 +183,6 @@ No form fields found
 Advanced Graphics:
 ------------------
 ✓ Found 9 extended graphics state(s) (blend modes/transparency)
-Text Elements:
---------------
-Total text elements: 196
-
-[1] Position: (272.41, 69.50)
-    Font: F4, Size: 14.00
-    Text: "P"
-
-[2] Position: (277.36, 69.50)
-    Font: F4, Size: 14.00
-    Text: "S"
-
-[3] Position: (282.02, 69.50)
-    Font: F4, Size: 14.00
-    Text: "Y"
-
-[4] Position: (286.82, 69.50)
-    Font: F4, Size: 14.00
-    Text: "C"
-
-[5] Position: (291.91, 69.50)
-    Font: F4, Size: 14.00
-    Text: "H"
-
-[6] Position: (297.60, 69.50)
-    Font: F4, Size: 14.00
-    Text: "O"
-
-[7] Position: (303.53, 69.50)
-    Font: F4, Size: 14.00
-    Text: "L"
-
-[8] Position: (307.68, 69.50)
-    Font: F4, Size: 14.00
-    Text: "O"
-
-[9] Position: (313.61, 69.50)
-    Font: F4, Size: 14.00
-    Text: "G"
-
-[10] Position: (319.01, 69.50)
-    Font: F4, Size: 14.00
-    Text: "Y"
-
-[11] Position: (184.73, 97.50)
-    Font: F5, Size: 36.00
-    Text: "My Br"
-
-[12] Position: (226.36, 97.50)
-    Font: F5, Size: 36.00
-    Text: "ain Doesn’"
-
-[13] Position: (299.56, 97.50)
-    Font: F5, Size: 36.00
-    Text: "t Pictur"
-
-[14] Position: (352.00, 97.50)
-    Font: F5, Size: 36.00
-    Text: "e Things"
-
-[15] Position: (210.83, 115.00)
-    Font: F5, Size: 14.00
-    Text: "I can’"
-
-[16] Position: (224.94, 115.00)
-    Font: F5, Size: 14.00
-    Text: "t imagine sights, smells, or sounds. What’"
-
-[17] Position: (337.52, 115.00)
-    Font: F5, Size: 14.00
-    Text: "s wr"
-
-[18] Position: (348.87, 115.00)
-    Font: F5, Size: 14.00
-    Text: "ong with me?"
-
-[19] Position: (231.75, 126.50)
-    Font: F6, Size: 14.00
-    Text: "我无法想象景象、气味或声音。我怎么了？"
-
-[20] Position: (301.91, 147.00)
-    Font: F5, Size: 14.00
-    Text: " "
-
-[21] Position: (242.85, 162.50)
-    Font: F6, Size: 14.00
-    Text: "作者：马可"
-
-[22] Position: (277.85, 162.50)
-    Font: F5, Size: 14.00
-    Text: "·"
-
-[23] Position: (279.16, 162.50)
-    Font: F6, Size: 14.00
-    Text: "詹科蒂"
-
-[24] Position: (300.16, 162.50)
-    Font: F5, Size: 14.00
-    Text: " 20"
-
-[25] Position: (308.84, 162.50)
-    Font: F5, Size: 14.00
-    Text: "23 "
-
-[26] Position: (316.44, 162.50)
-    Font: F6, Size: 14.00
-    Text: "年"
-
-[27] Position: (323.44, 162.50)
-    Font: F5, Size: 14.00
-    Text: " 10 "
-
-[28] Position: (332.95, 162.50)
-    Font: F6, Size: 14.00
-    Text: "月"
-
-[29] Position: (339.95, 162.50)
-    Font: F5, Size: 14.00
-    Text: " 4 "
-
-[30] Position: (346.65, 162.50)
-    Font: F6, Size: 14.00
-    Text: "日"
-
-[31] Position: (236.37, 147.00)
-    Font: F5, Size: 14.00
-    Text: "B"
-
-[32] Position: (240.15, 147.00)
-    Font: F5, Size: 14.00
-    Text: "Y MAR"
-
-[33] Position: (258.42, 147.00)
-    Font: F5, Size: 14.00
-    Text: "C"
-
-[34] Position: (262.46, 147.00)
-    Font: F5, Size: 14.00
-    Text: "O GIANC"
-
-[35] Position: (287.59, 147.00)
-    Font: F5, Size: 14.00
-    Text: "O"
-
-[36] Position: (292.48, 147.00)
-    Font: F5, Size: 14.00
-    Text: "T"
-
-[37] Position: (296.47, 147.00)
-    Font: F5, Size: 14.00
-    Text: "TI"
-
-[38] Position: (315.51, 147.00)
-    Font: F5, Size: 14.00
-    Text: "Oct"
-
-[39] Position: (325.89, 147.00)
-    Font: F5, Size: 14.00
-    Text: "ober 4"
-
-[40] Position: (344.13, 147.00)
-    Font: F5, Size: 14.00
-    Text: ", 20"
-
-[41] Position: (354.12, 147.00)
-    Font: F5, Size: 14.00
-    Text: "23"
-
-[42] Position: (1912.57, 1206.08)
-    Font: F5, Size: 14.00
-    Text: "Shar"
-
-[43] Position: (1966.65, 1206.08)
-    Font: F5, Size: 14.00
-    Text: "e"
-
-[44] Position: (938457.01, -2700311.57)
-    Font: F4, Size: 60.00
-    Text: "I"
-
-[45] Position: (1398764.71, -2605254.93)
-    Font: F5, Size: 18.00
-    Text: "’"
-
-[46] Position: (1424717.58, -2605254.93)
-    Font: F5, Size: 18.00
-    Text: "m lying do"
-
-[47] Position: (2147677.88, -2605254.93)
-    Font: F5, Size: 18.00
-    Text: "wn in a whit"
-
-[48] Position: (2980591.83, -2605254.93)
-    Font: F5, Size: 18.00
-    Text: "e cylinder bar"
-
-[49] Position: (3929169.04, -2605254.93)
-    Font: F5, Size: 18.00
-    Text: "ely wider than my body"
-
-[50] Position: (5547503.19, -2605254.93)
-    Font: F5, Size: 18.00
-    Text: ", surr"
-
-... and 146 more text elements
-
-Image Elements: None found
-
 Debug Information:
 ------------------
 Starting PDF rendering...
@@ -462,6 +216,8 @@ Operator Execution Log:
    Calling Decode()...
    ✓ After decode: 41520 bytes
 [DEBUG] cm operator: Matrix=[0.240 0.000 0.000 -0.240 0.000 841.920], new CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F4, Size=14.00
@@ -642,8 +398,16 @@ Operator Execution Log:
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
 [DEBUG] Estimated text width: 14.00, new E=664.23
 [DEBUG] ET operator: End text object
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 1177.083 739.582], new CTM=[1.042 0.000 0.000 -1.042 617.542 443.129]
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[2.170 0.000 0.000 -2.170 743.410 317.263]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 1177.083 739.582], new CTM=[0.500 0.000 0.000 -0.500 282.500 664.420]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 538.750 314.000]
@@ -653,8 +417,16 @@ Operator Execution Log:
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
 [DEBUG] Estimated text width: 7.00, new E=570.67
 [DEBUG] ET operator: End text object
-[DEBUG] cm operator: Matrix=[2177.084 0.000 0.000 -725.000 154.167 1547.916], new CTM=[4724.575 0.000 0.000 1573.351 1077.973 -3041.930]
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[9842.864 0.000 0.000 3277.815 571964.109 187069.283]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2177.084 0.000 0.000 -725.000 154.167 1547.916], new CTM=[522.500 0.000 0.000 174.000 37.000 470.420]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F4, Size=60.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 37.234 767.000]
@@ -724,16 +496,32 @@ Operator Execution Log:
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
 [DEBUG] Estimated text width: 18.00, new E=785.21
 [DEBUG] ET operator: End text object
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[20505.969 0.000 0.000 6828.782 1761310.322 583134.343]
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[42720.772 0.000 0.000 14226.630 4239115.130 1408269.949]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 808.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
 [DEBUG] Estimated text width: 522.00, new E=538.00
 [DEBUG] ET operator: End text object
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[89001.616 0.000 0.000 29638.816 9401208.893 3127302.601]
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[185420.048 0.000 0.000 61747.538 20155571.758 6708620.910]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 838.000]
@@ -879,8 +667,16 @@ Operator Execution Log:
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
 [DEBUG] Estimated text width: 72.00, new E=636.08
 [DEBUG] ET operator: End text object
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[386291.797 0.000 0.000 128640.714 42560496.188 14169701.319]
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[804774.642 0.000 0.000 268001.509 89237425.817 29713620.080]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1045.000]
@@ -922,8 +718,16 @@ Operator Execution Log:
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
 [DEBUG] Estimated text width: 18.00, new E=1030.82
 [DEBUG] ET operator: End text object
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[1676613.972 0.000 0.000 558336.522 186481036.991 62096786.757]
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[3492946.054 0.000 0.000 1163201.181 389071909.810 129561722.732]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1076.000]
@@ -1106,16 +910,32 @@ Operator Execution Log:
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
 [DEBUG] Estimated text width: 18.00, new E=793.12
 [DEBUG] ET operator: End text object
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[7276971.528 0.000 0.000 2423335.988 811136261.948 270113683.922]
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[15160358.564 0.000 0.000 5048617.046 1690437065.912 562930293.162]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1382.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
 [DEBUG] Estimated text width: 522.00, new E=538.00
 [DEBUG] ET operator: End text object
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[31584082.868 0.000 0.000 10517953.020 3522313887.389 1172964944.546]
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[65800177.905 0.000 0.000 21912403.878 7338724237.445 2443870569.936]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1413.000]
@@ -1227,21 +1047,38 @@ Operator Execution Log:
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
 [DEBUG] Estimated text width: 72.00, new E=961.04
 [DEBUG] ET operator: End text object
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[137083714.935 0.000 0.000 45650845.065 15289579769.462 5091590834.651]
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[285591095.628 0.000 0.000 95105934.828 31853863452.975 10607675160.758]
-[DEBUG] cm operator: Matrix=[1.846 0.000 0.000 1.852 684.650 145.832], new CTM=[527247999.469 0.000 0.000 176122125.133 227383744244.706 24477166796.860]
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[1098433420.102 0.000 0.000 366921123.382 291092883137.872 45758360880.772]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[1.846 0.000 0.000 1.852 684.650 145.832], new CTM=[0.443 0.000 0.000 -0.444 164.316 806.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=17.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 643.891 28.000]
 [DEBUG] Text element: baseFontSize=17.00, scale=-1.00, effectiveFontSize=17.00
 [DEBUG] Estimated text width: 34.00, new E=677.89
 [DEBUG] ET operator: End text object
-✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
-✓ Default width for CID font F6: 1000
-✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
-✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F6: Identity-H
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
 ✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
 ✓ Default width for CID font F4: 0
 ✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
@@ -1252,6 +1089,11 @@ Operator Execution Log:
 ✓ Loaded CID widths for font F5: 102 direct mappings, 0 ranges
 ✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
+✓ Default width for CID font F6: 1000
+✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
+✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F6: Identity-H
    Dereferenced to: types.StreamDict
    Decoding StreamDict...
    Raw: 13401 bytes, Content: 0 bytes
@@ -4393,31 +4235,31 @@ Operator Execution Log:
 [Q] Restore graphics state - Stack depth: 1
 
 📈 Operator Statistics:
-   RG: 42
-   rg: 42
    EMC: 54
-   W: 7
-   Do: 1
-   BDC: 54
-   Tm: 51
-   Tj: 196
    ET: 51
+   c: 387
+   Do: 1
+   rg: 42
+   BT: 51
+   Tj: 196
+   W: 7
+   W*: 22
+   n: 29
+   Tm: 51
+   Q: 44
    S: 8
    cm: 22
    gs: 31
    Tf: 51
-   Q: 44
-   m: 32
-   c: 387
-   h: 30
-   l: 51
-   re: 44
-   BT: 51
    Td: 158
    f: 32
+   m: 32
+   h: 30
+   l: 51
    q: 44
-   W*: 22
-   n: 29
+   re: 44
+   RG: 42
+   BDC: 54
 
 📌 Rendering 3 annotations...
 [Annotation] Rendering annotation: Link
@@ -4426,6 +4268,11 @@ Operator Execution Log:
 [Annotation] Unsupported annotation type: Link
 [Annotation] Rendering annotation: Link
 [Annotation] Unsupported annotation type: Link
+✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
+✓ Default width for CID font F4: 0
+✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
+✓ Loaded font widths for F4: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F4: Identity-H
 ✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
 ✓ Default width for CID font F5: 500
 ✓ Loaded CID widths for font F5: 102 direct mappings, 0 ranges
@@ -4436,11 +4283,6 @@ Operator Execution Log:
 ✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
 ✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F6: Identity-H
-✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
-✓ Default width for CID font F4: 0
-✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
-✓ Loaded font widths for F4: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F4: Identity-H
 ✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
 ✓ Default width for CID font F4: 0
 ✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
@@ -4462,6 +4304,8 @@ Operator Execution Log:
    Calling Decode()...
    ✓ After decode: 41520 bytes
 [DEBUG] cm operator: Matrix=[0.240 0.000 0.000 -0.240 0.000 841.920], new CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
 [DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F4, Size=14.00
@@ -4642,8 +4486,16 @@ Operator Execution Log:
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
 [DEBUG] Estimated text width: 14.00, new E=664.23
 [DEBUG] ET operator: End text object
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 1177.083 739.582], new CTM=[1.042 0.000 0.000 -1.042 617.542 443.129]
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[2.170 0.000 0.000 -2.170 743.410 317.263]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 1177.083 739.582], new CTM=[0.500 0.000 0.000 -0.500 282.500 664.420]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=14.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 538.750 314.000]
@@ -4653,8 +4505,16 @@ Operator Execution Log:
 [DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
 [DEBUG] Estimated text width: 7.00, new E=570.67
 [DEBUG] ET operator: End text object
-[DEBUG] cm operator: Matrix=[2177.084 0.000 0.000 -725.000 154.167 1547.916], new CTM=[4724.575 0.000 0.000 1573.351 1077.973 -3041.930]
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[9842.864 0.000 0.000 3277.815 571964.109 187069.283]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2177.084 0.000 0.000 -725.000 154.167 1547.916], new CTM=[522.500 0.000 0.000 174.000 37.000 470.420]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F4, Size=60.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 37.234 767.000]
@@ -4724,16 +4584,32 @@ Operator Execution Log:
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
 [DEBUG] Estimated text width: 18.00, new E=785.21
 [DEBUG] ET operator: End text object
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[20505.969 0.000 0.000 6828.782 1761310.322 583134.343]
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[42720.772 0.000 0.000 14226.630 4239115.130 1408269.949]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 808.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
 [DEBUG] Estimated text width: 522.00, new E=538.00
 [DEBUG] ET operator: End text object
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[89001.616 0.000 0.000 29638.816 9401208.893 3127302.601]
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[185420.048 0.000 0.000 61747.538 20155571.758 6708620.910]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 838.000]
@@ -4879,8 +4755,16 @@ Operator Execution Log:
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
 [DEBUG] Estimated text width: 72.00, new E=636.08
 [DEBUG] ET operator: End text object
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[386291.797 0.000 0.000 128640.714 42560496.188 14169701.319]
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[804774.642 0.000 0.000 268001.509 89237425.817 29713620.080]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1045.000]
@@ -4922,8 +4806,16 @@ Operator Execution Log:
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
 [DEBUG] Estimated text width: 18.00, new E=1030.82
 [DEBUG] ET operator: End text object
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[1676613.972 0.000 0.000 558336.522 186481036.991 62096786.757]
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[3492946.054 0.000 0.000 1163201.181 389071909.810 129561722.732]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1076.000]
@@ -5106,16 +4998,32 @@ Operator Execution Log:
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
 [DEBUG] Estimated text width: 18.00, new E=793.12
 [DEBUG] ET operator: End text object
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[7276971.528 0.000 0.000 2423335.988 811136261.948 270113683.922]
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[15160358.564 0.000 0.000 5048617.046 1690437065.912 562930293.162]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1382.000]
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
 [DEBUG] Estimated text width: 522.00, new E=538.00
 [DEBUG] ET operator: End text object
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[31584082.868 0.000 0.000 10517953.020 3522313887.389 1172964944.546]
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[65800177.905 0.000 0.000 21912403.878 7338724237.445 2443870569.936]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F6, Size=18.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1413.000]
@@ -5227,21 +5135,38 @@ Operator Execution Log:
 [DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
 [DEBUG] Estimated text width: 72.00, new E=961.04
 [DEBUG] ET operator: End text object
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[137083714.935 0.000 0.000 45650845.065 15289579769.462 5091590834.651]
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[285591095.628 0.000 0.000 95105934.828 31853863452.975 10607675160.758]
-[DEBUG] cm operator: Matrix=[1.846 0.000 0.000 1.852 684.650 145.832], new CTM=[527247999.469 0.000 0.000 176122125.133 227383744244.706 24477166796.860]
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[1098433420.102 0.000 0.000 366921123.382 291092883137.872 45758360880.772]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[1.846 0.000 0.000 1.852 684.650 145.832], new CTM=[0.443 0.000 0.000 -0.444 164.316 806.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
 [DEBUG] BT operator: Reset text matrices
 [DEBUG] Tf operator: Font=F5, Size=17.00
 [DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 643.891 28.000]
 [DEBUG] Text element: baseFontSize=17.00, scale=-1.00, effectiveFontSize=17.00
 [DEBUG] Estimated text width: 34.00, new E=677.89
 [DEBUG] ET operator: End text object
-✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
-✓ Default width for CID font F4: 0
-✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
-✓ Loaded font widths for F4: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F4: Identity-H
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
 ✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
 ✓ Default width for CID font F5: 500
 ✓ Loaded CID widths for font F5: 102 direct mappings, 0 ranges
@@ -5252,6 +5177,11 @@ Operator Execution Log:
 ✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
 ✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F6: Identity-H
+✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
+✓ Default width for CID font F4: 0
+✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
+✓ Loaded font widths for F4: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F4: Identity-H
 
 Cairo/Pango Debug Output:
 -------------------------
