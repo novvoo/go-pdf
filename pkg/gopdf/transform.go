@@ -26,6 +26,11 @@ func NewIdentityMatrix() *Matrix {
 	}
 }
 
+// Apply 对点进行变换（别名，更符合设计文档）
+func (m *Matrix) Apply(x, y float64) (float64, float64) {
+	return m.Transform(x, y)
+}
+
 // NewTranslationMatrix 创建平移矩阵
 func NewTranslationMatrix(tx, ty float64) *Matrix {
 	return &Matrix{

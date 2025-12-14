@@ -215,12 +215,9 @@ type OpMoveTextPosition struct {
 func (op *OpMoveTextPosition) Name() string { return "Td" }
 
 func (op *OpMoveTextPosition) Execute(ctx *RenderContext) error {
-	// 根据PDF规范：Tm = Tlm = Tlm × [1 0 0 1 tx ty]
-	// 关键修复：直接从 TextLineMatrix 创建新矩阵，避免累积之前的偏移
+	// 根据PDF规范：Tlm = Tlm × [1 0 0 1 tx ty]，然后 Tm = Tlm
 	translation := NewTranslationMatrix(op.Tx, op.Ty)
-	// 使用 TextLineMatrix 的当前值（不是 TextMatrix）
 	ctx.TextState.TextLineMatrix = ctx.TextState.TextLineMatrix.Multiply(translation)
-	// 重置 TextMatrix 为新的 TextLineMatrix，避免双重平移
 	ctx.TextState.TextMatrix = ctx.TextState.TextLineMatrix.Clone()
 
 	debugPrintf("[Td] Move text position: tx=%.2f, ty=%.2f -> New Tm: [%.2f %.2f %.2f %.2f %.2f %.2f]\n",
@@ -250,10 +247,19 @@ type OpMoveToNextLine struct{}
 func (op *OpMoveToNextLine) Name() string { return "T*" }
 
 func (op *OpMoveToNextLine) Execute(ctx *RenderContext) error {
-	return (&OpMoveTextPosition{
-		Tx: 0,
-		Ty: -ctx.TextState.Leading,
-	}).Execute(ctx)
+	// 🔥 关键修复：T* 必须重置 X 坐标到行首
+	// 根据 PDF 规范：Tlm = Tlm × [1 0 0 1 0 -Tl]，然后 Tm = Tlm
+	// 这意味着只移动 Y，X 重置为 TextLineMatrix 的 X
+	ctx.TextState.TextLineMatrix = ctx.TextState.TextLineMatrix.Translate(0, -ctx.TextState.Leading)
+	ctx.TextState.TextMatrix = ctx.TextState.TextLineMatrix.Clone() // ⭐ 重置 X
+
+	debugPrintf("[T*] Next line: Leading=%.2f -> New Tm: [%.2f %.2f %.2f %.2f %.2f %.2f]\n",
+		ctx.TextState.Leading,
+		ctx.TextState.TextMatrix.A, ctx.TextState.TextMatrix.B,
+		ctx.TextState.TextMatrix.C, ctx.TextState.TextMatrix.D,
+		ctx.TextState.TextMatrix.E, ctx.TextState.TextMatrix.F)
+
+	return nil
 }
 
 // ===== 文本状态操作符 =====
@@ -431,6 +437,13 @@ func (op *OpShowTextArray) Execute(ctx *RenderContext) error {
 	return renderText(ctx, "", op.Array)
 }
 
+// GlyphWithPosition 带位置的字形
+type GlyphWithPosition struct {
+	CID  uint16
+	Rune rune
+	X, Y float64
+}
+
 // renderText 渲染文本到 Cairo
 func renderText(ctx *RenderContext, text string, array []interface{}) error {
 	state := ctx.GetCurrentState()
@@ -596,15 +609,14 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 		return nil
 	}
 
-	// 计算文本位移（用于更新文本矩阵）
-	var textDisplacement float64
+	// 🔥 新方法：收集所有字形及其绝对坐标
+	var glyphs []GlyphWithPosition
+	currentX := 0.0 // 文本空间中的相对 X 位置
 
 	// 渲染文本
 	if array != nil {
 		// TJ 操作符：处理文本数组
 		debugPrintf("[TJ_ARRAY] Processing %d items\n", len(array))
-		x := 0.0
-		totalTextWidth := 0.0 // 累计文本宽度用于更新文本矩阵
 
 		for idx, item := range array {
 			switch v := item.(type) {
@@ -612,85 +624,97 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 				// 解码文本并获取 CID 数组
 				decodedText, cids := decodeTextStringWithCIDs(v, toUnicodeMap, textState.Font)
 				if decodedText == "" {
-					// 如果无法解码，跳过
 					debugPrintf("[TJ_ARRAY][%d] Empty string after decode\n", idx)
 					continue
 				}
 
 				debugPrintf("[TJ_ARRAY][%d] Text=%q (len=%d runes, %d CIDs) at x=%.2f\n",
-					idx, decodedText, len([]rune(decodedText)), len(cids), x)
+					idx, decodedText, len([]rune(decodedText)), len(cids), currentX)
 
-				layout.SetText(decodedText)
-				ctx.CairoCtx.MoveTo(x, 0)
-				// 使用 PangoCairo 直接渲染文本（支持基本的字距调整）
-				ctx.CairoCtx.PangoCairoShowText(layout)
+				runes := []rune(decodedText)
+				for i, cid := range cids {
+					// 计算当前字形的绝对坐标（应用文本矩阵）
+					absX, absY := textState.TextMatrix.Transform(currentX, 0)
 
-				// 使用实际的字形宽度计算文本宽度
-				textWidth := calculateTextWidth(cids, textState, decodedText)
-				debugPrintf("[TJ_ARRAY][%d] Calculated width=%.2f\n", idx, textWidth)
+					glyph := GlyphWithPosition{
+						CID:  cid,
+						Rune: runes[i],
+						X:    absX,
+						Y:    absY,
+					}
+					glyphs = append(glyphs, glyph)
 
-				x += textWidth
-				totalTextWidth += textWidth
+					// 计算字形推进距离
+					isSpace := i < len(runes) && runes[i] == ' '
+					adv := textState.GlyphAdvance(cid, isSpace)
+					currentX += adv
+
+					debugPrintf("[TJ_ARRAY][%d][%d] CID=%d Rune=%c absPos=(%.2f, %.2f) adv=%.2f\n",
+						idx, i, cid, runes[i], absX, absY, adv)
+				}
 
 			case float64:
 				// PDF规范：负值表示向右移动，正值表示向左移动
 				// 调整值以千分之一em为单位
-				kerningAdjustment := -v * fontSize / 1000.0
+				kerningAdjustment := -v * fontSize / 1000.0 * textState.HorizontalScaling / 100.0
 				debugPrintf("[TJ_ARRAY][%d] Kerning=%.0f adj=%.2f (x: %.2f -> %.2f)\n",
-					idx, v, kerningAdjustment, x, x+kerningAdjustment)
-				x += kerningAdjustment
-				totalTextWidth += kerningAdjustment
+					idx, v, kerningAdjustment, currentX, currentX+kerningAdjustment)
+				currentX += kerningAdjustment
 
 			case int:
-				kerningAdjustment := -float64(v) * fontSize / 1000.0
+				kerningAdjustment := -float64(v) * fontSize / 1000.0 * textState.HorizontalScaling / 100.0
 				debugPrintf("[TJ_ARRAY][%d] Kerning=%d adj=%.2f (x: %.2f -> %.2f)\n",
-					idx, v, kerningAdjustment, x, x+kerningAdjustment)
-				x += kerningAdjustment
-				totalTextWidth += kerningAdjustment
+					idx, v, kerningAdjustment, currentX, currentX+kerningAdjustment)
+				currentX += kerningAdjustment
 			}
 		}
-
-		// TJ 操作符应该更新文本矩阵位置
-		// 应用水平缩放到总位移
-		textDisplacement = totalTextWidth * horizontalScale
-		debugPrintf("[TJ_ARRAY] Total displacement=%.2f (totalWidth=%.2f × scale=%.2f)\n",
-			textDisplacement, totalTextWidth, horizontalScale)
 	} else {
 		// Tj 操作符：简单文本
-		// 解码文本并获取 CID 数组
 		decodedText, cids := decodeTextStringWithCIDs(text, toUnicodeMap, textState.Font)
 		if decodedText != "" {
-			// 打印文本用于调试
 			debugPrintf("[Tj] Text=%q (len=%d runes, %d CIDs) at Tm=[%.2f, %.2f]\n",
 				decodedText, len([]rune(decodedText)), len(cids), tm.E, tm.F)
-			layout.SetText(decodedText)
-			debugPrintf("[Tj] About to render text at current position\n")
-			ctx.CairoCtx.PangoCairoShowText(layout)
-			debugPrintf("[Tj] Text rendered\n")
 
-			// 使用实际的字形宽度计算文本宽度
-			textWidth := calculateTextWidth(cids, textState, decodedText)
-			debugPrintf("[Tj] Calculated width=%.2f\n", textWidth)
+			runes := []rune(decodedText)
+			for i, cid := range cids {
+				// 计算当前字形的绝对坐标
+				absX, absY := textState.TextMatrix.Transform(currentX, 0)
 
-			// 应用水平缩放到位移
-			textDisplacement = textWidth * horizontalScale
-			debugPrintf("[Tj] Final displacement=%.2f (width=%.2f × scale=%.2f)\n", textDisplacement, textWidth, horizontalScale)
+				glyph := GlyphWithPosition{
+					CID:  cid,
+					Rune: runes[i],
+					X:    absX,
+					Y:    absY,
+				}
+				glyphs = append(glyphs, glyph)
+
+				// 计算字形推进距离
+				isSpace := i < len(runes) && runes[i] == ' '
+				adv := textState.GlyphAdvance(cid, isSpace)
+				currentX += adv
+
+				debugPrintf("[Tj][%d] CID=%d Rune=%c absPos=(%.2f, %.2f) adv=%.2f\n",
+					i, cid, runes[i], absX, absY, adv)
+			}
 		}
 	}
 
-	// 在 Cairo 状态恢复后更新文本矩阵
-	// 注意：文本位移应该在文本空间中进行
-	// 根据 PDF 规范，文本位移是：Tm' = Tm × [1 0 0 1 tx 0]
-	// 关键修复：只有当我们有实际的字形宽度信息时才更新 TextMatrix
-	// 如果使用了 Pango 自动布局（textDisplacement == 0），不更新矩阵
-	if textDisplacement != 0 {
-		// 在文本空间中移动
-		translation := NewTranslationMatrix(textDisplacement, 0)
+	// 🔥 使用绝对坐标渲染每个字形（禁止 Cairo 自动推进）
+	for _, g := range glyphs {
+		// 移动到绝对位置
+		ctx.CairoCtx.MoveTo(g.X, g.Y)
+
+		// 渲染单个字符（让 Pango 处理字形）
+		layout.SetText(string(g.Rune))
+		ctx.CairoCtx.PangoCairoShowText(layout)
+	}
+
+	// 更新文本矩阵：Tm' = Tm × [1 0 0 1 currentX 0]
+	if currentX != 0 {
+		translation := NewTranslationMatrix(currentX, 0)
 		textState.TextMatrix = textState.TextMatrix.Multiply(translation)
 		debugPrintf("[TEXT_MATRIX] Updated after text: displacement=%.2f, new E=%.2f\n",
-			textDisplacement, textState.TextMatrix.E)
-	} else {
-		debugPrintf("[TEXT_MATRIX] No displacement update (using Pango layout)\n")
+			currentX, textState.TextMatrix.E)
 	}
 
 	return nil
@@ -806,8 +830,34 @@ func decodeTextStringWithCIDs(text string, toUnicodeMap *CIDToUnicodeMap, font *
 	return text, cids
 }
 
-// calculateTextWidth 使用字形宽度计算文本宽度
-func calculateTextWidth(cids []uint16, textState *TextState, decodedText string) float64 {
+// GlyphAdvance 计算单个字形的推进距离（核心方法）
+func (ts *TextState) GlyphAdvance(cid uint16, isSpace bool) float64 {
+	if ts.Font == nil {
+		return 0.0
+	}
+
+	// 1. 获取字形宽度（千分之一 em）
+	glyphWidth := ts.Font.GetWidth(cid)
+
+	// 2. 转换为用户空间单位
+	adv := glyphWidth * ts.FontSize / 1000.0
+
+	// 3. 添加字符间距
+	adv += ts.CharSpacing
+
+	// 4. 如果是空格，添加单词间距
+	if isSpace {
+		adv += ts.WordSpacing
+	}
+
+	// 5. 应用水平缩放
+	adv *= ts.HorizontalScaling / 100.0
+
+	return adv
+}
+
+// CalculateTextWidth 使用字形宽度计算文本宽度（导出供测试使用）
+func CalculateTextWidth(cids []uint16, textState *TextState, decodedText string) float64 {
 	if textState.Font == nil || len(cids) == 0 {
 		// 关键修复：当没有字体信息时，返回0而不是过估
 		// 这样可以避免推动后续文本向右偏移
@@ -817,28 +867,16 @@ func calculateTextWidth(cids []uint16, textState *TextState, decodedText string)
 	}
 
 	totalWidth := 0.0
+	runes := []rune(decodedText)
 
 	// 使用字形宽度计算
-	for _, cid := range cids {
-		// 获取字形宽度（以千分之一 em 为单位）
-		glyphWidth := textState.Font.GetWidth(cid)
-		// 转换为用户空间单位：width = glyphWidth * fontSize / 1000
-		width := glyphWidth * textState.FontSize / 1000.0
-		totalWidth += width
+	for i, cid := range cids {
+		// 检查是否是空格
+		isSpace := i < len(runes) && runes[i] == ' '
 
-		// 应用字符间距
-		totalWidth += textState.CharSpacing
-	}
-
-	// 应用单词间距（只对空格字符）
-	if textState.WordSpacing != 0 {
-		spaceCount := 0
-		for _, ch := range decodedText {
-			if ch == ' ' {
-				spaceCount++
-			}
-		}
-		totalWidth += textState.WordSpacing * float64(spaceCount)
+		// 使用统一的 advance 计算
+		adv := textState.GlyphAdvance(cid, isSpace)
+		totalWidth += adv
 	}
 
 	debugPrintf("[WIDTH] Calculated width=%.2f for %d CIDs\n", totalWidth, len(cids))
