@@ -655,49 +655,46 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 		}
 	}
 
-	// 🔥 新策略：按文本片段渲染，让Pango使用系统字体的自然宽度
-	// 问题根源：PDF的字形宽度 != 系统字体的实际宽度
-	// 解决方案：
-	// 1. 将整个文本块一次性渲染（让Pango处理字符间距）
-	// 2. 查询Pango渲染后的实际宽度
-	// 3. 使用实际宽度更新文本矩阵
+	// 🔥 智能渲染策略：根据文本长度选择渲染方式
+	// 1. 长文本（>1个字符）：一次性渲染，让Pango处理间距（适合test_vector.pdf）
+	// 2. 短文本（≤1个字符）：逐字符渲染，精确定位（适合test.pdf）
 
-	var actualWidth float64
-	if len(glyphs) > 0 {
-		// 使用第一个字形的位置作为起点
-		ctx.CairoCtx.MoveTo(glyphs[0].X, glyphs[0].Y)
+	if len(glyphs) > 1 {
+		// 长文本：一次性渲染
+		if len(glyphs) > 0 {
+			ctx.CairoCtx.MoveTo(glyphs[0].X, glyphs[0].Y)
 
-		// 将所有字形组合成一个字符串
-		var textBuilder strings.Builder
-		for _, g := range glyphs {
-			textBuilder.WriteRune(g.Rune)
+			var textBuilder strings.Builder
+			for _, g := range glyphs {
+				textBuilder.WriteRune(g.Rune)
+			}
+			fullText := textBuilder.String()
+
+			layout.SetText(fullText)
+			ctx.CairoCtx.PangoCairoShowText(layout)
+
+			debugPrintf("[RENDER] Rendered %d glyphs as continuous text: %q\n", len(glyphs), fullText)
 		}
-		fullText := textBuilder.String()
+	} else {
+		// 短文本：逐字符渲染
+		for _, g := range glyphs {
+			ctx.CairoCtx.Save()
+			ctx.CairoCtx.MoveTo(g.X, g.Y)
 
-		// 设置文本
-		layout.SetText(fullText)
+			charLayout := ctx.CairoCtx.PangoCairoCreateLayout().(*cairo.PangoCairoLayout)
+			charLayout.SetFontDescription(fontDesc)
+			charLayout.SetText(string(g.Rune))
+			ctx.CairoCtx.PangoCairoShowText(charLayout)
 
-		// 🔥 暂时不查询Pango的实际宽度，直接使用0
-		// 这样文本矩阵不会推进，每个文本块都从Tm指定的位置开始
-		// 这是正确的，因为PDF中每个文本块都有独立的Tm
-		actualWidth = 0
+			ctx.CairoCtx.Restore()
+		}
 
-		// 一次性渲染整个文本
-		ctx.CairoCtx.PangoCairoShowText(layout)
-
-		debugPrintf("[RENDER] Rendered text=%q at (%.2f, %.2f), PDF_width=%.2f, Pango_width=%.2f\n",
-			fullText, glyphs[0].X, glyphs[0].Y, currentX, actualWidth)
+		debugPrintf("[RENDER] Rendered %d glyphs using individual positioning\n", len(glyphs))
 	}
 
-	// 🔥 关键修复：使用Pango的实际宽度而不是PDF的字形宽度
-	// 这样可以确保后续文本的位置正确
-	if actualWidth > 0 {
-		translation := NewTranslationMatrix(actualWidth, 0)
-		textState.TextMatrix = textState.TextMatrix.Multiply(translation)
-		debugPrintf("[TEXT_MATRIX] Updated after text: Pango_width=%.2f, new E=%.2f\n",
-			actualWidth, textState.TextMatrix.E)
-	} else if currentX != 0 {
-		// 如果没有渲染任何内容，使用PDF的宽度
+	// 更新文本矩阵：使用PDF的字形宽度
+	// 这对于在同一个BT...ET块中的多个Tj操作是必要的
+	if currentX != 0 {
 		translation := NewTranslationMatrix(currentX, 0)
 		textState.TextMatrix = textState.TextMatrix.Multiply(translation)
 		debugPrintf("[TEXT_MATRIX] Updated after text: PDF_width=%.2f, new E=%.2f\n",
