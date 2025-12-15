@@ -70,26 +70,13 @@ func (r *PDFRenderer) CreatePDFFromImage(imagePath, outputPath string) error {
 	ctx := cairo.NewContext(pdfSurface)
 	defer ctx.Destroy()
 
-	// 创建临时 image surface 来加载图片
-	imgSurface := cairo.NewImageSurface(cairo.FormatARGB32, bounds.Dx(), bounds.Dy())
-	defer imgSurface.Destroy()
-
-	// 将 Go image 转换为 Cairo surface
-	if imgSurf, ok := imgSurface.(cairo.ImageSurface); ok {
-		data := imgSurf.GetData()
-		for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
-			for x := bounds.Min.X; x < bounds.Max.X; x++ {
-				r, g, b, a := img.At(x, y).RGBA()
-				offset := (y-bounds.Min.Y)*imgSurf.GetStride() + (x-bounds.Min.X)*4
-				// Cairo 使用预乘 alpha 的 BGRA 格式
-				data[offset+0] = uint8(b >> 8)
-				data[offset+1] = uint8(g >> 8)
-				data[offset+2] = uint8(r >> 8)
-				data[offset+3] = uint8(a >> 8)
-			}
-		}
-		imgSurf.MarkDirty()
+	// 使用 CairoImageConverter 转换图片（正确处理 Stride 和预乘 Alpha）
+	converter := NewCairoImageConverter()
+	imgSurface, err := converter.ImageToCairoSurface(img, cairo.FormatARGB32)
+	if err != nil {
+		return fmt.Errorf("failed to convert image to Cairo surface: %w", err)
 	}
+	defer imgSurface.Destroy()
 
 	// 绘制图片到 PDF
 	ctx.SetSourceSurface(imgSurface, 0, 0)

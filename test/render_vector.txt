@@ -1,6 +1,6 @@
 PDF Rendering Report
 ====================
-Time: 2025-12-14 10:46:52
+Time: 2025-12-15 09:57:42
 
 ParseTokens Test:
 -----------------
@@ -20,7 +20,7 @@ Rendering Process:
 Output File Info:
 -----------------
 Size: 79812 bytes
-Created: 2025-12-14 10:46:53
+Created: 2025-12-15 09:57:44
 
 Page Information:
 -----------------
@@ -31,23 +31,7 @@ Page Size: 8.26 x 11.69 inches
 Font Information:
 =================
 
-[Font 1] F6
-  BaseFont: CAAAAA+NSimSun
-  Subtype: Type0
-  Encoding: Identity-H
-  Identity Mapping: YES
-  ToUnicode Map: YES (4 mappings, 0 ranges)
-  Embedded Font: NO
-
-[Font 2] F7
-  BaseFont: DAAAAA+Consolas-Italic
-  Subtype: Type0
-  Encoding: Identity-H
-  Identity Mapping: YES
-  ToUnicode Map: YES (4 mappings, 0 ranges)
-  Embedded Font: NO
-
-[Font 3] F8
+[Font 1] F8
   BaseFont: EAAAAA+NSimSun
   Subtype: Type0
   Encoding: Identity-H
@@ -55,7 +39,7 @@ Font Information:
   ToUnicode Map: YES (17 mappings, 0 ranges)
   Embedded Font: NO
 
-[Font 4] F4
+[Font 2] F4
   BaseFont: AAAAAA+MicrosoftYaHeiUI-Bold
   Subtype: Type0
   Encoding: Identity-H
@@ -63,12 +47,28 @@ Font Information:
   ToUnicode Map: YES (15 mappings, 1 ranges)
   Embedded Font: NO
 
-[Font 5] F5
+[Font 3] F5
   BaseFont: BAAAAA+Consolas
   Subtype: Type0
   Encoding: Identity-H
   Identity Mapping: YES
   ToUnicode Map: YES (21 mappings, 6 ranges)
+  Embedded Font: NO
+
+[Font 4] F6
+  BaseFont: CAAAAA+NSimSun
+  Subtype: Type0
+  Encoding: Identity-H
+  Identity Mapping: YES
+  ToUnicode Map: YES (4 mappings, 0 ranges)
+  Embedded Font: NO
+
+[Font 5] F7
+  BaseFont: DAAAAA+Consolas-Italic
+  Subtype: Type0
+  Encoding: Identity-H
+  Identity Mapping: YES
+  ToUnicode Map: YES (4 mappings, 0 ranges)
   Embedded Font: NO
 
 
@@ -3314,15 +3314,6 @@ Operator Execution Log:
 [DEBUG] ET operator: End text object
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-✓ Loaded ToUnicode CMap for font F7 (4 mappings, 0 ranges)
-✓ Default width for CID font F7: 0
-✓ Loaded CID widths for font F7: 0 direct mappings, 1 ranges
-✓ Loaded font widths for F7: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F7: Identity-H
-✓ Loaded ToUnicode CMap for font F8 (17 mappings, 0 ranges)
-✓ Default width for CID font F8: 1000
-✓ Loaded font widths for F8: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F8: Identity-H
 ✓ Loaded ToUnicode CMap for font F4 (15 mappings, 1 ranges)
 ✓ Default width for CID font F4: 1000
 ✓ Loaded CID widths for font F4: 6 direct mappings, 0 ranges
@@ -3337,6 +3328,15 @@ Operator Execution Log:
 ✓ Default width for CID font F6: 1000
 ✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F6: Identity-H
+✓ Loaded ToUnicode CMap for font F7 (4 mappings, 0 ranges)
+✓ Default width for CID font F7: 0
+✓ Loaded CID widths for font F7: 0 direct mappings, 1 ranges
+✓ Loaded font widths for F7: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F7: Identity-H
+✓ Loaded ToUnicode CMap for font F8 (17 mappings, 0 ranges)
+✓ Default width for CID font F8: 1000
+✓ Loaded font widths for F8: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F8: Identity-H
    Dereferenced to: types.StreamDict
    Decoding StreamDict...
    Raw: 5100 bytes, Content: 0 bytes
@@ -10958,24 +10958,33 @@ Operator Execution Log:
 [Q] Restore graphics state - Stack depth: 1
 
 📈 Operator Statistics:
+   BDC: 581
+   Tj: 724
+   EMC: 581
    cm: 2
-   q: 2
+   W*: 1
    RG: 404
    rg: 404
+   gs: 1
+   BT: 409
+   re: 2
+   n: 1
+   ET: 409
+   Td: 5
+   Q: 2
    Tf: 405
    Tm: 405
-   Tj: 724
-   ET: 409
-   re: 2
-   BT: 409
-   BDC: 581
-   Td: 5
+   q: 2
    f: 1
-   EMC: 581
-   W*: 1
-   n: 1
-   gs: 1
-   Q: 2
+✓ Loaded ToUnicode CMap for font F7 (4 mappings, 0 ranges)
+✓ Default width for CID font F7: 0
+✓ Loaded CID widths for font F7: 0 direct mappings, 1 ranges
+✓ Loaded font widths for F7: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F7: Identity-H
+✓ Loaded ToUnicode CMap for font F8 (17 mappings, 0 ranges)
+✓ Default width for CID font F8: 1000
+✓ Loaded font widths for F8: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F8: Identity-H
 ✓ Loaded ToUnicode CMap for font F4 (15 mappings, 1 ranges)
 ✓ Default width for CID font F4: 1000
 ✓ Loaded CID widths for font F4: 6 direct mappings, 0 ranges
@@ -10990,15 +10999,6 @@ Operator Execution Log:
 ✓ Default width for CID font F6: 1000
 ✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F6: Identity-H
-✓ Loaded ToUnicode CMap for font F7 (4 mappings, 0 ranges)
-✓ Default width for CID font F7: 0
-✓ Loaded CID widths for font F7: 0 direct mappings, 1 ranges
-✓ Loaded font widths for F7: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F7: Identity-H
-✓ Loaded ToUnicode CMap for font F8 (17 mappings, 0 ranges)
-✓ Default width for CID font F8: 1000
-✓ Loaded font widths for F8: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F8: Identity-H
 ✓ Loaded ToUnicode CMap for font F4 (15 mappings, 1 ranges)
 ✓ Default width for CID font F4: 1000
 ✓ Loaded CID widths for font F4: 6 direct mappings, 0 ranges
@@ -14114,6 +14114,15 @@ Operator Execution Log:
 [DEBUG] ET operator: End text object
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+✓ Loaded ToUnicode CMap for font F7 (4 mappings, 0 ranges)
+✓ Default width for CID font F7: 0
+✓ Loaded CID widths for font F7: 0 direct mappings, 1 ranges
+✓ Loaded font widths for F7: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F7: Identity-H
+✓ Loaded ToUnicode CMap for font F8 (17 mappings, 0 ranges)
+✓ Default width for CID font F8: 1000
+✓ Loaded font widths for F8: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F8: Identity-H
 ✓ Loaded ToUnicode CMap for font F4 (15 mappings, 1 ranges)
 ✓ Default width for CID font F4: 1000
 ✓ Loaded CID widths for font F4: 6 direct mappings, 0 ranges
@@ -14128,15 +14137,6 @@ Operator Execution Log:
 ✓ Default width for CID font F6: 1000
 ✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F6: Identity-H
-✓ Loaded ToUnicode CMap for font F7 (4 mappings, 0 ranges)
-✓ Default width for CID font F7: 0
-✓ Loaded CID widths for font F7: 0 direct mappings, 1 ranges
-✓ Loaded font widths for F7: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F7: Identity-H
-✓ Loaded ToUnicode CMap for font F8 (17 mappings, 0 ranges)
-✓ Default width for CID font F8: 1000
-✓ Loaded font widths for F8: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F8: Identity-H
 
 Cairo/Pango Debug Output:
 -------------------------
