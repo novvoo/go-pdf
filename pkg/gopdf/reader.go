@@ -265,7 +265,7 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 		return textElements, imageElements
 	}
 
-	contentStreams, err := extractContentStreams(ctx, contents)
+	contentStreams, err := ExtractContentStreams(ctx, contents)
 	if err != nil {
 		debugPrintf("Failed to extract content streams: %v\n", err)
 		return textElements, imageElements
@@ -398,9 +398,13 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 			}
 
 			// 解码文本（处理CID字体和十六进制字符串）
+			// 同时保存原始 CID 数组用于宽度计算
+			var originalCIDs []uint16
 			if text != "" {
 				font := resources.GetFont(currentFont)
 				if font != nil {
+					// 提取 CID 数组
+					originalCIDs = extractCIDsFromText(text)
 					text = decodeTextStringWithFontAndIdentity(text, font.ToUnicodeMap, font.IsIdentity)
 				} else {
 					text = decodeTextString(text)
@@ -455,23 +459,40 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 						textDisplacement, currentMatrix.E)
 				}
 
-				// 估算文本宽度并更新文本矩阵（用于后续文本定位）
-				// 注意：这是一个粗略估算，实际宽度取决于字体度量
-				runeCount := float64(len([]rune(text)))
-				estimatedWidth := runeCount * effectiveFontSize * 0.5
-				translation := &Matrix{A: 1, D: 1, E: estimatedWidth, F: 0}
+				// 计算文本宽度并更新文本矩阵（用于后续文本定位）
+				// 使用改进的字体宽度计算
+				var textWidth float64
+				font := resources.GetFont(currentFont)
+				if font != nil && len(originalCIDs) > 0 {
+					// 使用 CID 数组进行精确的字体宽度计算
+					for _, cid := range originalCIDs {
+						width := font.GetWidth(cid)
+						textWidth += (width / 1000.0) * effectiveFontSize
+					}
+					debugPrintf("[DEBUG] Calculated text width from CIDs: %.2f (%d CIDs)\n", textWidth, len(originalCIDs))
+				} else if font != nil {
+					// 回退到基于 Unicode 的计算（不太准确）
+					textWidth = CalculateTextWidth(text, font, effectiveFontSize)
+					debugPrintf("[DEBUG] Calculated text width from Unicode: %.2f\n", textWidth)
+				} else {
+					// 回退到估算
+					runeCount := float64(len([]rune(text)))
+					textWidth = runeCount * effectiveFontSize * 0.5
+					debugPrintf("[DEBUG] Estimated text width: %.2f (no font info)\n", textWidth)
+				}
+
+				translation := &Matrix{A: 1, D: 1, E: textWidth, F: 0}
 				currentMatrix = currentMatrix.Multiply(translation)
-				debugPrintf("[DEBUG] Estimated text width: %.2f, new E=%.2f\n",
-					estimatedWidth, currentMatrix.E)
+				debugPrintf("[DEBUG] Text width: %.2f, new E=%.2f\n", textWidth, currentMatrix.E)
 			}
 
 		case "Do": // 绘制 XObject（可能是图片）
 			if doOp, ok := op.(*OpDoXObject); ok {
 				xobj := resources.GetXObject(doOp.XObjectName)
-				if xobj != nil && xobj.Subtype == "/Image" {
+				if xobj != nil && (xobj.Subtype == "/Image" || xobj.Subtype == "Image") {
 					// 获取当前变换矩阵来确定图片位置
-					x := currentMatrix.E
-					y := pageInfo.Height - currentMatrix.F
+					x := ctm.E
+					y := pageInfo.Height - ctm.F
 
 					imageElements = append(imageElements, ImageElementInfo{
 						Name:   doOp.XObjectName,
@@ -563,7 +584,7 @@ func renderPDFPageToCairo(pdfPath string, pageNum int, cairoCtx cairo.Context, w
 	}
 
 	// 解析并渲染内容流
-	contentStreams, err := extractContentStreams(ctx, contents)
+	contentStreams, err := ExtractContentStreams(ctx, contents)
 	if err != nil {
 		return fmt.Errorf("failed to extract content streams: %w", err)
 	}
@@ -697,8 +718,8 @@ func applyPageTransformations(pageDict types.Dict, cairoCtx cairo.Context, width
 	return nil
 }
 
-// extractContentStreams 提取页面的所有内容流
-func extractContentStreams(ctx *model.Context, contents types.Object) ([][]byte, error) {
+// ExtractContentStreams 提取页面的所有内容流（公开函数）
+func ExtractContentStreams(ctx *model.Context, contents types.Object) ([][]byte, error) {
 	var streams [][]byte
 
 	switch obj := contents.(type) {
@@ -709,7 +730,7 @@ func extractContentStreams(ctx *model.Context, contents types.Object) ([][]byte,
 			return nil, fmt.Errorf("failed to dereference contents: %w", err)
 		}
 		debugPrintf("   Dereferenced to: %T\n", derefObj)
-		return extractContentStreams(ctx, derefObj)
+		return ExtractContentStreams(ctx, derefObj)
 
 	case types.StreamDict:
 		// 单个流
@@ -738,7 +759,7 @@ func extractContentStreams(ctx *model.Context, contents types.Object) ([][]byte,
 		debugPrintf("   Processing array with %d items\n", len(obj))
 		for i, item := range obj {
 			debugPrintf("   Array item %d: %T\n", i, item)
-			itemStreams, err := extractContentStreams(ctx, item)
+			itemStreams, err := ExtractContentStreams(ctx, item)
 			if err == nil {
 				streams = append(streams, itemStreams...)
 			} else {
@@ -1035,17 +1056,36 @@ func loadXObject(ctx *model.Context, xobjName string, xobjObj types.Object, reso
 	}
 
 	// 解码流内容
+	debugPrintf("[loadXObject] Decoding stream for %s...\n", xobjName)
+	debugPrintf("[loadXObject] Raw stream length: %d bytes\n", len(streamDict.Raw))
+
+	// 先尝试使用 DereferenceStreamDict
 	decoded, _, err := ctx.DereferenceStreamDict(streamDict)
 	if err != nil {
+		debugPrintf("[loadXObject] ERROR: Failed to decode stream: %v\n", err)
 		return fmt.Errorf("failed to decode XObject stream: %w", err)
 	}
-	if decoded != nil {
+
+	if decoded != nil && len(decoded.Content) > 0 {
 		xobj.Stream = decoded.Content
+		debugPrintf("[loadXObject] Stream decoded via DereferenceStreamDict: %d bytes\n", len(xobj.Stream))
+	} else {
+		// 如果 DereferenceStreamDict 返回空内容，尝试直接解码
+		debugPrintf("[loadXObject] DereferenceStreamDict returned empty, trying direct decode...\n")
+		if len(streamDict.Content) == 0 && len(streamDict.Raw) > 0 {
+			err := streamDict.Decode()
+			if err != nil {
+				debugPrintf("[loadXObject] ERROR: Direct decode failed: %v\n", err)
+				return fmt.Errorf("failed to decode XObject stream: %w", err)
+			}
+		}
+		xobj.Stream = streamDict.Content
+		debugPrintf("[loadXObject] Stream decoded via direct Decode(): %d bytes\n", len(xobj.Stream))
 	}
 
 	// 根据子类型加载特定属性
 	switch xobj.Subtype {
-	case "/Form":
+	case "/Form", "Form":
 		// 加载表单 XObject 属性
 		if bbox, found := streamDict.Find("BBox"); found {
 			if arr, ok := bbox.(types.Array); ok {
@@ -1131,10 +1171,12 @@ func loadXObject(ctx *model.Context, xobjName string, xobjObj types.Object, reso
 			}
 		}
 
-	case "/Image":
+	case "/Image", "Image":
 		// 加载图像 XObject 属性
 		if width, found := streamDict.Find("Width"); found {
 			if num, ok := width.(types.Integer); ok {
+				xobj.Width = int(num)
+			} else if num, ok := width.(types.Float); ok {
 				xobj.Width = int(num)
 			}
 		}
@@ -1142,17 +1184,28 @@ func loadXObject(ctx *model.Context, xobjName string, xobjObj types.Object, reso
 		if height, found := streamDict.Find("Height"); found {
 			if num, ok := height.(types.Integer); ok {
 				xobj.Height = int(num)
+			} else if num, ok := height.(types.Float); ok {
+				xobj.Height = int(num)
 			}
 		}
 
 		if colorSpace, found := streamDict.Find("ColorSpace"); found {
 			if name, ok := colorSpace.(types.Name); ok {
 				xobj.ColorSpace = name.String()
+			} else if arr, ok := colorSpace.(types.Array); ok {
+				// ColorSpace 可能是数组，例如 [/ICCBased ...]
+				if len(arr) > 0 {
+					if name, ok := arr[0].(types.Name); ok {
+						xobj.ColorSpace = name.String()
+					}
+				}
 			}
 		}
 
 		if bpc, found := streamDict.Find("BitsPerComponent"); found {
 			if num, ok := bpc.(types.Integer); ok {
+				xobj.BitsPerComponent = int(num)
+			} else if num, ok := bpc.(types.Float); ok {
 				xobj.BitsPerComponent = int(num)
 			}
 		}
@@ -1791,4 +1844,42 @@ func LoadResourcesPublic(ctx *model.Context, resourcesObj types.Object, resource
 // ReadContextFile 公开的上下文读取函数，供测试使用
 func ReadContextFile(pdfPath string) (*model.Context, error) {
 	return api.ReadContextFile(pdfPath)
+}
+
+// extractCIDsFromText 从文本字符串中提取 CID 数组
+func extractCIDsFromText(text string) []uint16 {
+	// 检查是否是十六进制字符串
+	if len(text) >= 2 && text[0] == '<' && text[len(text)-1] == '>' {
+		hexStr := text[1 : len(text)-1]
+		hexStr = strings.ReplaceAll(hexStr, " ", "")
+
+		// 转换十六进制到字节
+		var result []byte
+		for i := 0; i < len(hexStr); i += 2 {
+			if i+1 < len(hexStr) {
+				var b byte
+				fmt.Sscanf(hexStr[i:i+2], "%02x", &b)
+				result = append(result, b)
+			}
+		}
+
+		if len(result) < 2 || len(result)%2 != 0 {
+			return nil
+		}
+
+		// 提取 CID 数组（2 字节一个 CID）
+		var cids []uint16
+		for i := 0; i < len(result); i += 2 {
+			cid := uint16(result[i])<<8 | uint16(result[i+1])
+			cids = append(cids, cid)
+		}
+		return cids
+	}
+
+	// 普通字符串 - 转换为 CID 数组（字节码）
+	var cids []uint16
+	for i := 0; i < len(text); i++ {
+		cids = append(cids, uint16(text[i]))
+	}
+	return cids
 }

@@ -1,0 +1,208 @@
+package gopdf
+
+import (
+	"fmt"
+
+	"github.com/novvoo/go-cairo/pkg/cairo"
+)
+
+// SoftMask 软遮罩（用于高级透明度效果）
+type SoftMask struct {
+	Type    string        // "Alpha" 或 "Luminosity"
+	G       *XObject      // 遮罩的图形对象（Form XObject）
+	BC      []float64     // 背景颜色
+	TR      interface{}   // 传递函数
+	Surface cairo.Surface // 渲染的遮罩 surface
+	SubType string        // 子类型
+	Matte   []float64     // 遮罩的背景色（用于预乘）
+}
+
+// NewSoftMask 创建新的软遮罩
+func NewSoftMask(maskType string, g *XObject) *SoftMask {
+	return &SoftMask{
+		Type:    maskType,
+		G:       g,
+		BC:      []float64{0, 0, 0}, // 默认黑色背景
+		Surface: nil,
+	}
+}
+
+// RenderSoftMask 渲染软遮罩到 Cairo surface
+func (sm *SoftMask) RenderSoftMask(ctx *RenderContext, width, height int) error {
+	if sm.G == nil {
+		return fmt.Errorf("soft mask has no graphics object")
+	}
+
+	// 创建遮罩 surface
+	// 对于 Alpha 类型，使用 A8 格式（只有 alpha 通道）
+	// 对于 Luminosity 类型，使用 ARGB32 格式
+	var format cairo.Format
+	if sm.Type == "Alpha" {
+		format = cairo.FormatA8
+	} else {
+		format = cairo.FormatARGB32
+	}
+
+	maskSurface := cairo.NewImageSurface(format, width, height)
+	if maskSurface == nil {
+		return fmt.Errorf("failed to create mask surface")
+	}
+
+	maskCtx := cairo.NewContext(maskSurface)
+	if maskCtx == nil {
+		maskSurface.Destroy()
+		return fmt.Errorf("failed to create mask context")
+	}
+	defer maskCtx.Destroy()
+
+	// 设置背景色
+	if len(sm.BC) >= 3 {
+		maskCtx.SetSourceRGB(sm.BC[0], sm.BC[1], sm.BC[2])
+		maskCtx.Paint()
+	}
+
+	// 创建临时渲染上下文
+	tempCtx := &RenderContext{
+		CairoCtx:           maskCtx,
+		GraphicsStack:      NewGraphicsStateStack(float64(width), float64(height)),
+		MarkedContentStack: NewMarkedContentStack(),
+		CurrentPath:        NewPath(),
+		TextState:          NewTextState(),
+		Resources:          ctx.Resources, // 共享资源
+		XObjectCache:       make(map[string]cairo.Surface),
+	}
+
+	// 渲染遮罩内容
+	if err := renderFormXObject(tempCtx, sm.G); err != nil {
+		maskSurface.Destroy()
+		return fmt.Errorf("failed to render soft mask: %w", err)
+	}
+
+	// 如果是 Luminosity 类型，需要转换为 alpha
+	if sm.Type == "Luminosity" {
+		sm.convertLuminosityToAlpha(maskSurface)
+	}
+
+	sm.Surface = maskSurface
+	return nil
+}
+
+// convertLuminosityToAlpha 将亮度转换为 alpha 值
+func (sm *SoftMask) convertLuminosityToAlpha(surface cairo.Surface) {
+	imgSurface, ok := surface.(cairo.ImageSurface)
+	if !ok {
+		return
+	}
+
+	data := imgSurface.GetData()
+	stride := imgSurface.GetStride()
+	width := imgSurface.GetWidth()
+	height := imgSurface.GetHeight()
+
+	// 遍历每个像素，计算亮度并设置为 alpha
+	for y := 0; y < height; y++ {
+		for x := 0; x < width; x++ {
+			offset := y*stride + x*4
+
+			// 获取 RGB 值
+			b := float64(data[offset+0])
+			g := float64(data[offset+1])
+			r := float64(data[offset+2])
+
+			// 计算亮度（使用标准公式）
+			luminosity := 0.299*r + 0.587*g + 0.114*b
+
+			// 设置 alpha 值
+			alpha := uint8(luminosity)
+
+			// 更新像素（保持 RGB，只改变 alpha）
+			data[offset+3] = alpha
+		}
+	}
+
+	imgSurface.MarkDirty()
+}
+
+// ApplySoftMask 应用软遮罩到 Cairo context
+func (sm *SoftMask) ApplySoftMask(ctx cairo.Context) error {
+	if sm.Surface == nil {
+		return fmt.Errorf("soft mask not rendered")
+	}
+
+	// 创建 surface pattern 并应用遮罩
+	pattern := cairo.NewPatternForSurface(sm.Surface)
+	if pattern == nil {
+		return fmt.Errorf("failed to create pattern from mask surface")
+	}
+	defer pattern.Destroy()
+
+	// 使用 Cairo 的 mask 功能应用遮罩
+	ctx.Mask(pattern)
+
+	return nil
+}
+
+// Destroy 销毁软遮罩资源
+func (sm *SoftMask) Destroy() {
+	if sm.Surface != nil {
+		sm.Surface.Destroy()
+		sm.Surface = nil
+	}
+}
+
+// SoftMaskStack 软遮罩栈
+type SoftMaskStack struct {
+	stack []*SoftMask
+}
+
+// NewSoftMaskStack 创建新的软遮罩栈
+func NewSoftMaskStack() *SoftMaskStack {
+	return &SoftMaskStack{
+		stack: make([]*SoftMask, 0),
+	}
+}
+
+// Push 压入软遮罩
+func (s *SoftMaskStack) Push(mask *SoftMask) {
+	s.stack = append(s.stack, mask)
+}
+
+// Pop 弹出软遮罩
+func (s *SoftMaskStack) Pop() *SoftMask {
+	if len(s.stack) == 0 {
+		return nil
+	}
+	mask := s.stack[len(s.stack)-1]
+	s.stack = s.stack[:len(s.stack)-1]
+	return mask
+}
+
+// Current 获取当前软遮罩
+func (s *SoftMaskStack) Current() *SoftMask {
+	if len(s.stack) == 0 {
+		return nil
+	}
+	return s.stack[len(s.stack)-1]
+}
+
+// IsEmpty 检查栈是否为空
+func (s *SoftMaskStack) IsEmpty() bool {
+	return len(s.stack) == 0
+}
+
+// Clear 清空栈
+func (s *SoftMaskStack) Clear() {
+	for _, mask := range s.stack {
+		mask.Destroy()
+	}
+	s.stack = s.stack[:0]
+}
+
+// ApplyCurrentMask 应用当前软遮罩
+func (s *SoftMaskStack) ApplyCurrentMask(ctx cairo.Context) error {
+	mask := s.Current()
+	if mask == nil {
+		return nil
+	}
+	return mask.ApplySoftMask(ctx)
+}

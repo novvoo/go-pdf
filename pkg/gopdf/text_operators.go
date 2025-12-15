@@ -840,8 +840,8 @@ func (ts *TextState) GlyphAdvance(cid uint16, isSpace bool) float64 {
 	return adv
 }
 
-// CalculateTextWidth 使用字形宽度计算文本宽度（导出供测试使用）
-func CalculateTextWidth(cids []uint16, textState *TextState, decodedText string) float64 {
+// CalculateTextWidthFromCIDs 使用字形宽度计算文本宽度（从 CID 数组）
+func CalculateTextWidthFromCIDs(cids []uint16, textState *TextState, decodedText string) float64 {
 	if textState.Font == nil || len(cids) == 0 {
 		// 关键修复：当没有字体信息时，返回0而不是过估
 		// 这样可以避免推动后续文本向右偏移

@@ -18,18 +18,26 @@ type OpDoXObject struct {
 func (op *OpDoXObject) Name() string { return "Do" }
 
 func (op *OpDoXObject) Execute(ctx *RenderContext) error {
+	debugPrintf("[Do] Drawing XObject: %s\n", op.XObjectName)
+
 	// 从资源中获取 XObject
 	xobj := ctx.Resources.GetXObject(op.XObjectName)
 	if xobj == nil {
+		debugPrintf("[Do] ⚠️  XObject %s not found in resources\n", op.XObjectName)
 		return fmt.Errorf("XObject %s not found", op.XObjectName)
 	}
 
+	debugPrintf("[Do] XObject type: %s\n", xobj.Subtype)
+
 	switch xobj.Subtype {
-	case "Form":
+	case "Form", "/Form":
+		debugPrintf("[Do] Rendering Form XObject\n")
 		return renderFormXObject(ctx, xobj)
-	case "Image":
+	case "Image", "/Image":
+		debugPrintf("[Do] Rendering Image XObject (size: %dx%d)\n", xobj.Width, xobj.Height)
 		return renderImageXObject(ctx, xobj)
 	default:
+		debugPrintf("[Do] ⚠️  Unsupported XObject subtype: %s\n", xobj.Subtype)
 		return fmt.Errorf("unsupported XObject subtype: %s", xobj.Subtype)
 	}
 }
@@ -273,13 +281,30 @@ func decodeImageXObject(xobj *XObject) error {
 		bpc = 8 // 默认 8 位
 	}
 
+	debugPrintf("[decodeImageXObject] Decoding image: %dx%d, BPC=%d, ColorSpace=%s, Stream=%d bytes\n",
+		width, height, bpc, xobj.ColorSpace, len(xobj.Stream))
+
 	img := image.NewRGBA(image.Rect(0, 0, width, height))
 
 	switch xobj.ColorSpace {
 	case "DeviceRGB", "/DeviceRGB":
 		// RGB 颜色空间
 		bytesPerPixel := 3
+		expectedBytes := width * height * bytesPerPixel
+		debugPrintf("[decodeImageXObject] DeviceRGB: expected %d bytes, got %d bytes\n", expectedBytes, len(xobj.Stream))
+
 		if bpc == 8 {
+			// 采样前几个像素来检查数据
+			if len(xobj.Stream) >= 30 {
+				debugPrintf("[decodeImageXObject] First 10 pixels (RGB):\n")
+				for i := 0; i < 10 && i*3+2 < len(xobj.Stream); i++ {
+					r := xobj.Stream[i*3]
+					g := xobj.Stream[i*3+1]
+					b := xobj.Stream[i*3+2]
+					debugPrintf("  Pixel %d: R=%d G=%d B=%d\n", i, r, g, b)
+				}
+			}
+
 			for y := 0; y < height; y++ {
 				for x := 0; x < width; x++ {
 					offset := (y*width + x) * bytesPerPixel
@@ -291,6 +316,7 @@ func decodeImageXObject(xobj *XObject) error {
 					}
 				}
 			}
+			debugPrintf("[decodeImageXObject] DeviceRGB decoding completed\n")
 		}
 
 	case "DeviceGray", "/DeviceGray":

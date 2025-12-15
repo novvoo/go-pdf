@@ -21,6 +21,12 @@ type GraphicsState struct {
 	FillAlpha         float64              // 填充透明度 (ca)
 	StrokeAlpha       float64              // 描边透明度 (CA)
 	TransparencyGroup *TransparencyGroup   // 当前透明度组（如果有）
+	SoftMask          *SoftMask            // 软遮罩
+	StrokeColorSpace  ColorSpace           // 描边颜色空间
+	FillColorSpace    ColorSpace           // 填充颜色空间
+	AlphaIsShape      bool                 // Alpha 是否为形状（AIS）
+	TextKnockout      bool                 // 文本敲除（TK）
+	OverprintMode     int                  // 叠印模式（OPM）
 }
 
 // Color 表示颜色
@@ -45,6 +51,12 @@ func NewGraphicsState(width, height float64) *GraphicsState {
 		FillAlpha:         1.0,
 		StrokeAlpha:       1.0,
 		TransparencyGroup: nil,
+		SoftMask:          nil,
+		StrokeColorSpace:  &DeviceRGBColorSpace{},
+		FillColorSpace:    &DeviceRGBColorSpace{},
+		AlphaIsShape:      false,
+		TextKnockout:      true,
+		OverprintMode:     0,
 	}
 }
 
@@ -64,6 +76,12 @@ func (gs *GraphicsState) Clone() *GraphicsState {
 		FillAlpha:         gs.FillAlpha,
 		StrokeAlpha:       gs.StrokeAlpha,
 		TransparencyGroup: gs.TransparencyGroup, // 共享透明度组引用
+		SoftMask:          gs.SoftMask,          // 共享软遮罩引用
+		StrokeColorSpace:  gs.StrokeColorSpace,
+		FillColorSpace:    gs.FillColorSpace,
+		AlphaIsShape:      gs.AlphaIsShape,
+		TextKnockout:      gs.TextKnockout,
+		OverprintMode:     gs.OverprintMode,
 	}
 
 	if gs.DashPattern != nil {

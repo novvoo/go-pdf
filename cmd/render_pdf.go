@@ -134,6 +134,27 @@ func main() {
 	advancedReport := test.ExtractAdvancedFeaturesForReport(pdfPath, 1)
 	report += advancedReport
 
+	// 添加字体宽度计算信息
+	report += "\n"
+	report += "Font Width Calculation:\n"
+	report += "=======================\n"
+	fontWidthReport := test.ExtractFontWidthInfoForReport(pdfPath, 1)
+	report += fontWidthReport
+
+	// 添加颜色空间信息
+	report += "\n"
+	report += "Color Space Analysis:\n"
+	report += "=====================\n"
+	colorSpaceReport := test.ExtractColorSpaceInfoForReport(pdfPath, 1)
+	report += colorSpaceReport
+
+	// 添加详细的文本位置信息
+	report += "\n"
+	report += "Detailed Text Positioning:\n"
+	report += "==========================\n"
+	textPosReport := test.ExtractDetailedTextPositionsForReport(pdfPath, 1)
+	report += textPosReport
+
 	// 添加调试信息
 	if result.DebugInfo != "" {
 		report += "Debug Information:\n"

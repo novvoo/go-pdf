@@ -242,6 +242,52 @@ func (op *OpSetGraphicsState) Execute(ctx *RenderContext) error {
 		debugPrintf("[gs] Set stroke alpha: %.2f\n", CA)
 	}
 
+	// 软遮罩
+	if smask, ok := extGState["SMask"]; ok && smask != nil {
+		// 软遮罩可以是字典或 /None
+		if smaskStr, ok := smask.(string); ok && smaskStr == "/None" {
+			state.SoftMask = nil
+			debugPrintf("[gs] Removed soft mask\n")
+		} else if smaskDict, ok := smask.(map[string]interface{}); ok {
+			// 解析软遮罩字典
+			maskType := "Alpha" // 默认类型
+			if t, ok := smaskDict["S"].(string); ok {
+				maskType = t
+			}
+
+			// 获取遮罩的图形对象
+			if g, ok := smaskDict["G"].(*XObject); ok {
+				softMask := NewSoftMask(maskType, g)
+
+				// 设置背景色
+				if bc, ok := smaskDict["BC"].([]float64); ok {
+					softMask.BC = bc
+				}
+
+				state.SoftMask = softMask
+				debugPrintf("[gs] Set soft mask: type=%s\n", maskType)
+			}
+		}
+	}
+
+	// Alpha 是否为形状
+	if ais, ok := extGState["AIS"].(bool); ok {
+		state.AlphaIsShape = ais
+		debugPrintf("[gs] Set alpha is shape: %v\n", ais)
+	}
+
+	// 文本敲除
+	if tk, ok := extGState["TK"].(bool); ok {
+		state.TextKnockout = tk
+		debugPrintf("[gs] Set text knockout: %v\n", tk)
+	}
+
+	// 叠印模式
+	if opm, ok := extGState["OPM"].(int); ok {
+		state.OverprintMode = opm
+		debugPrintf("[gs] Set overprint mode: %d\n", opm)
+	}
+
 	return nil
 }
 
