@@ -1,14 +1,15 @@
-package gopdf
+package gopdf_test
 
 import (
 	"fmt"
+	"testing"
 
 	"github.com/novvoo/go-pdf/pkg/gopdf"
 )
 
 // 测试文本操作符的修复
-func TestTextOprator() {
-	fmt.Println("=== 测试文本操作符修复 ===\n")
+func TestTextOprator(t *testing.T) {
+	fmt.Println("=== 测试文本操作符修复 ===")
 
 	// 测试1: Td操作符矩阵乘法顺序
 	testTdOperator()

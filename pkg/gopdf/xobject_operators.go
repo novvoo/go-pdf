@@ -216,54 +216,141 @@ func renderImageXObject(ctx *RenderContext, xobj *XObject) error {
 		return fmt.Errorf("no image data available")
 	}
 
-	// 保存图形状态
-	ctx.CairoCtx.Save()
-	defer ctx.CairoCtx.Restore()
+	// 注意：不使用 Save/Restore，因为会撤销绘制操作
+	// Do 操作符外层已经有 q/Q 来保存/恢复状态
 
 	// 创建 Cairo image surface
 	bounds := xobj.ImageData.Bounds()
 	width := bounds.Dx()
 	height := bounds.Dy()
 
-	imgSurface := cairo.NewImageSurface(cairo.FormatARGB32, width, height)
+	debugPrintf("[renderImageXObject] Creating surface: %dx%d pixels\n", width, height)
+
+	// 采样图片数据来验证颜色
+	if width > 0 && height > 0 {
+		r, g, b, a := xobj.ImageData.At(0, 0).RGBA()
+		debugPrintf("[renderImageXObject] Sample pixel (0,0): R=%d G=%d B=%d A=%d\n",
+			uint8(r>>8), uint8(g>>8), uint8(b>>8), uint8(a>>8))
+		if width > 100 && height > 100 {
+			r, g, b, a = xobj.ImageData.At(100, 100).RGBA()
+			debugPrintf("[renderImageXObject] Sample pixel (100,100): R=%d G=%d B=%d A=%d\n",
+				uint8(r>>8), uint8(g>>8), uint8(b>>8), uint8(a>>8))
+		}
+	}
+
+	// 手动创建 Cairo surface，使用 RGB24 格式（不带 alpha），避免预乘问题
+	imgSurface := cairo.NewImageSurface(cairo.FormatRGB24, width, height)
 	defer imgSurface.Destroy()
 
-	// 将 Go image 转换为 Cairo surface
+	// 手动填充数据
 	if cairoImg, ok := imgSurface.(cairo.ImageSurface); ok {
 		data := cairoImg.GetData()
 		stride := cairoImg.GetStride()
 
 		for y := 0; y < height; y++ {
 			for x := 0; x < width; x++ {
-				r, g, b, a := xobj.ImageData.At(x+bounds.Min.X, y+bounds.Min.Y).RGBA()
+				r, g, b, _ := xobj.ImageData.At(x+bounds.Min.X, y+bounds.Min.Y).RGBA()
 				offset := y*stride + x*4
 
-				// Cairo 使用预乘 alpha 的 BGRA 格式
-				alpha := uint8(a >> 8)
-				if alpha > 0 {
-					data[offset+0] = uint8((b >> 8) * uint32(alpha) / 255) // B
-					data[offset+1] = uint8((g >> 8) * uint32(alpha) / 255) // G
-					data[offset+2] = uint8((r >> 8) * uint32(alpha) / 255) // R
-					data[offset+3] = alpha                                 // A
-				} else {
-					data[offset+0] = 0
-					data[offset+1] = 0
-					data[offset+2] = 0
-					data[offset+3] = 0
-				}
+				// Cairo RGB24 格式：BGRX 字节序（X 是未使用的字节）
+				r8 := uint8(r >> 8)
+				g8 := uint8(g >> 8)
+				b8 := uint8(b >> 8)
+
+				data[offset+0] = b8 // B
+				data[offset+1] = g8 // G
+				data[offset+2] = r8 // R
+				data[offset+3] = 0  // 未使用
 			}
 		}
 		cairoImg.MarkDirty()
+
+		// 验证数据
+		debugPrintf("[renderImageXObject] Cairo RGB24 surface pixel (0,0): B=%d G=%d R=%d\n",
+			data[0], data[1], data[2])
+		if width > 100 && height > 100 {
+			offset := 100*stride + 100*4
+			debugPrintf("[renderImageXObject] Cairo RGB24 surface pixel (100,100): B=%d G=%d R=%d\n",
+				data[offset], data[offset+1], data[offset+2])
+		}
 	}
 
-	// 缩放图像以匹配 PDF 单位空间（1x1 单位）
-	ctx.CairoCtx.Scale(1.0/float64(width), 1.0/float64(height))
+	// PDF 规范：图像 XObject 的用户空间是 1x1 单位
+	// Do 操作符之前的 cm 矩阵已经将 1x1 单位空间映射到实际尺寸
 
-	// 绘制图像
+	// 在 PDF 中，图像的坐标系是：
+	// - 原点在左下角
+	// - (0,0) 到 (1,1) 映射到整个图像
+	// - X 轴向右，Y 轴向上
+
+	// 我们需要：
+	// 1. 将图像缩放到 1x1 单位空间
+	// 2. 翻转 Y 轴（因为图像数据是从上到下的）
+	// 3. 让 cm 矩阵将其放大到正确尺寸
+
+	debugPrintf("[renderImageXObject] Applying transformations\n")
+
+	// PDF 图像 XObject 的坐标系：
+	// - 图像占据 (0,0) 到 (1,1) 的单位正方形
+	// - 原点在左下角，Y 轴向上
+	//
+	// Cairo 图像的坐标系：
+	// - 图像数据从 (0,0) 开始，Y 轴向下
+	//
+	// 变换步骤：
+	// 1. 翻转 Y 轴：Scale(1, -1)
+	// 2. 平移到正确位置：Translate(0, -1)
+	// 3. 缩放到图像像素尺寸：Scale(width, height)
+
+	// PDF 规范：图像占据单位正方形 (0,0) 到 (1,1)
+	// 使用 pattern 矩阵来处理图像的缩放和翻转
+
+	// 设置图像为源
 	ctx.CairoCtx.SetSourceSurface(imgSurface, 0, 0)
-	ctx.CairoCtx.Paint()
+
+	// 获取 pattern
+	pattern := ctx.CairoCtx.GetSource()
+	pattern.SetFilter(cairo.FilterBest)
+
+	// 创建 pattern 矩阵
+	// Pattern 矩阵是从用户空间到 pattern 空间的变换
+	// 我们需要将单位正方形 (0,0)-(1,1) 映射到图像像素坐标 (0,0)-(width,height)
+	// 同时处理 Y 轴翻转
+	//
+	// 用户空间点 (u, v) 映射到 pattern 空间点 (x, y):
+	// x = u * width
+	// y = (1 - v) * height  (翻转 Y 轴)
+	//
+	// 矩阵形式: [width, 0, 0, -height, 0, height]
+
+	matrix := cairo.NewMatrix()
+	matrix.XX = float64(width)
+	matrix.YX = 0
+	matrix.XY = 0
+	matrix.YY = -float64(height)
+	matrix.X0 = 0
+	matrix.Y0 = float64(height)
+
+	pattern.SetMatrix(matrix)
+
+	debugPrintf("[renderImageXObject] Pattern matrix set: [%.2f, %.2f, %.2f, %.2f, %.2f, %.2f]\n",
+		matrix.XX, matrix.YX, matrix.XY, matrix.YY, matrix.X0, matrix.Y0)
+
+	// 绘制单位正方形
+	ctx.CairoCtx.Rectangle(0, 0, 1, 1)
+	ctx.CairoCtx.Fill()
+
+	debugPrintf("[renderImageXObject] Image painted\n")
 
 	return nil
+}
+
+// DecodeImageXObjectPublic 公开的图像解码函数，供测试使用
+func DecodeImageXObjectPublic(xobj *XObject) image.Image {
+	if err := decodeImageXObject(xobj); err != nil {
+		return nil
+	}
+	return xobj.ImageData
 }
 
 // decodeImageXObject 解码图像 XObject

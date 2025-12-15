@@ -1,4 +1,4 @@
-package gopdf
+package gopdf_test
 
 import (
 	"fmt"
