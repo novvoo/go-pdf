@@ -1097,6 +1097,82 @@ func loadXObject(ctx *model.Context, xobjName string, xobjObj types.Object, reso
 		debugPrintf("[loadXObject] Stream decoded via direct Decode(): %d bytes\n", len(xobj.Stream))
 	}
 
+	// 🔥 新增:应用额外的图像滤镜(如果需要)
+	// pdfcpu 的 Decode() 已经处理了 Filter 字段中的标准滤镜
+	// 但对于某些特殊情况,我们可能需要额外处理
+	if filterObj, found := streamDict.Find("Filter"); found {
+		var filters []string
+
+		// Filter 可以是单个名称或数组
+		if name, ok := filterObj.(types.Name); ok {
+			filters = append(filters, name.String())
+		} else if arr, ok := filterObj.(types.Array); ok {
+			for _, f := range arr {
+				if name, ok := f.(types.Name); ok {
+					filters = append(filters, name.String())
+				}
+			}
+		}
+
+		debugPrintf("[loadXObject] Filters detected: %v\n", filters)
+
+		// 检查是否需要应用 Predictor
+		if decodeParmsObj, found := streamDict.Find("DecodeParms"); found {
+			var predictor int
+			var columns int
+			var colors int = 1
+			var bitsPerComponent int = 8
+
+			// DecodeParms 可以是字典或数组
+			var decodeParms types.Dict
+			if dict, ok := decodeParmsObj.(types.Dict); ok {
+				decodeParms = dict
+			} else if arr, ok := decodeParmsObj.(types.Array); ok {
+				if len(arr) > 0 {
+					if dict, ok := arr[0].(types.Dict); ok {
+						decodeParms = dict
+					}
+				}
+			}
+
+			if decodeParms != nil {
+				if p, found := decodeParms.Find("Predictor"); found {
+					if num, ok := p.(types.Integer); ok {
+						predictor = int(num)
+					}
+				}
+				if c, found := decodeParms.Find("Columns"); found {
+					if num, ok := c.(types.Integer); ok {
+						columns = int(num)
+					}
+				}
+				if c, found := decodeParms.Find("Colors"); found {
+					if num, ok := c.(types.Integer); ok {
+						colors = int(num)
+					}
+				}
+				if b, found := decodeParms.Find("BitsPerComponent"); found {
+					if num, ok := b.(types.Integer); ok {
+						bitsPerComponent = int(num)
+					}
+				}
+
+				// 应用 Predictor
+				if predictor > 1 && columns > 0 {
+					debugPrintf("[loadXObject] Applying predictor: %d (columns=%d, colors=%d, bpc=%d)\n",
+						predictor, columns, colors, bitsPerComponent)
+					predicted, err := ApplyPredictor(xobj.Stream, predictor, columns, colors, bitsPerComponent)
+					if err == nil {
+						xobj.Stream = predicted
+						debugPrintf("[loadXObject] Predictor applied successfully: %d bytes\n", len(xobj.Stream))
+					} else {
+						debugPrintf("[loadXObject] Warning: Failed to apply predictor: %v\n", err)
+					}
+				}
+			}
+		}
+	}
+
 	// 根据子类型加载特定属性
 	switch xobj.Subtype {
 	case "/Form", "Form":

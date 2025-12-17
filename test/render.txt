@@ -1,6 +1,6 @@
 PDF Rendering Report
 ====================
-Time: 2025-12-17 11:26:07
+Time: 2025-12-17 13:57:05
 
 ParseTokens Test:
 -----------------
@@ -20,7 +20,7 @@ Rendering Process:
 Output File Info:
 -----------------
 Size: 90671 bytes
-Created: 2025-12-17 11:26:10
+Created: 2025-12-17 13:57:08
 
 Page Information:
 -----------------
@@ -31,7 +31,15 @@ Page Size: 8.26 x 11.69 inches
 Font Information:
 =================
 
-[Font 1] F5
+[Font 1] F4
+  BaseFont: AAAAAA+FreightSansProBold-Regular
+  Subtype: Type0
+  Encoding: Identity-H
+  Identity Mapping: YES
+  ToUnicode Map: YES (8 mappings, 3 ranges)
+  Embedded Font: NO
+
+[Font 2] F5
   BaseFont: BAAAAA+FreightSansProBook-Regular
   Subtype: Type0
   Encoding: Identity-H
@@ -39,20 +47,12 @@ Font Information:
   ToUnicode Map: YES (8 mappings, 9 ranges)
   Embedded Font: NO
 
-[Font 2] F6
+[Font 3] F6
   BaseFont: CAAAAA+MicrosoftYaHei
   Subtype: Type0
   Encoding: Identity-H
   Identity Mapping: YES
   ToUnicode Map: YES (736 mappings, 91 ranges)
-  Embedded Font: NO
-
-[Font 3] F4
-  BaseFont: AAAAAA+FreightSansProBold-Regular
-  Subtype: Type0
-  Encoding: Identity-H
-  Identity Mapping: YES
-  ToUnicode Map: YES (8 mappings, 3 ranges)
   Embedded Font: NO
 
 
@@ -193,6 +193,18 @@ Font Width Calculation:
 Font Width Calculation Analysis:
 ---------------------------------
 
+Font: F6
+  Text elements: 20
+  Total estimated width: 2829.00 points
+  Font size range: 14.00 - 18.00 points
+  Average width per element: 141.45 points
+  Sample texts:
+    [1] "我无法想象景象、气味或声音\xe3..."
+    [2] "作者：马可"
+    [3] "詹科蒂"
+    [4] "年"
+    [5] "月"
+
 Font: F4
   Text elements: 11
   Total estimated width: 100.00 points
@@ -216,18 +228,6 @@ Font: F5
     [3] "t Pictur"
     [4] "e Things"
     [5] "I can’"
-
-Font: F6
-  Text elements: 20
-  Total estimated width: 2829.00 points
-  Font size range: 14.00 - 18.00 points
-  Average width per element: 141.45 points
-  Sample texts:
-    [1] "我无法想象景象、气味或声音\xe3..."
-    [2] "作者：马可"
-    [3] "詹科蒂"
-    [4] "年"
-    [5] "月"
 
 Width Calculation Method:
 -------------------------
@@ -275,125 +275,25 @@ Text Elements: 196
 
 Detected 29 text line(s)
 
-Line 1 (Y=754.50):
-  [1] X=37.00 Font=F5 Size=18.0
-      Text: "T"
-  [2] X=41.09 Font=F5 Size=18.0 [gap: 4.09]
-      Text: "o the sensors ar"
-  [3] X=98.00 Font=F5 Size=18.0 [gap: 56.91]
-      Text: "ound me, I’"
-  [4] X=136.82 Font=F5 Size=18.0 [gap: 38.82]
-      Text: "m no"
-  [5] X=155.12 Font=F5 Size=18.0 [gap: 18.30]
-      Text: "w as tr"
-  [6] X=178.72 Font=F5 Size=18.0 [gap: 23.60]
-      Text: "anspar"
-  [7] X=202.39 Font=F5 Size=18.0 [gap: 23.67]
-      Text: "ent as a glas"
-  [8] X=245.18 Font=F5 Size=18.0 [gap: 42.79]
-      Text: "s of w"
-  [9] X=266.19 Font=F5 Size=18.0 [gap: 21.01]
-      Text: "at"
-  [10] X=273.05 Font=F5 Size=18.0 [gap: 6.86]
-      Text: "er"
-  [11] X=279.94 Font=F5 Size=18.0 [gap: 6.89]
-      Text: ". E"
-  [12] X=288.19 Font=F5 Size=18.0 [gap: 8.24]
-      Text: "v"
-  [13] X=291.96 Font=F5 Size=18.0 [gap: 3.77]
-      Text: "er"
-  [14] X=299.52 Font=F5 Size=18.0 [gap: 7.57]
-      Text: "y tiny change of blood "
-  [15] X=380.39 Font=F5 Size=18.0 [gap: 80.86]
-      Text: "ﬂ"
-  [16] X=384.88 Font=F5 Size=18.0 [gap: 4.49]
-      Text: "o"
-  [17] X=389.61 Font=F5 Size=18.0 [gap: 4.73]
-      Text: "w any"
-  [18] X=410.06 Font=F5 Size=18.0 [gap: 20.45]
-      Text: "wher"
-  [19] X=427.90 Font=F5 Size=18.0 [gap: 17.84]
-      Text: "e inside my br"
-  [20] X=477.45 Font=F5 Size=18.0 [gap: 49.55]
-      Text: "ain is being w"
-  [21] X=524.76 Font=F5 Size=18.0 [gap: 47.31]
-      Text: "at"
-  [22] X=531.63 Font=F5 Size=18.0 [gap: 6.86]
-      Text: "ched"
-
-Line 2 (Y=789.00):
+Line 1 (Y=433.00):
   [1] X=37.00 Font=F6 Size=18.0
-      Text: "对于我周围的传感器来..."
-  [2] X=460.00 Font=F5 Size=18.0 [gap: 423.00]
-      Text: " 3D "
-  [3] X=473.52 Font=F6 Size=18.0 [gap: 13.52]
-      Text: "方式观察和记录。"
+      Text: "我躺在一个只比我身体..."
 
-Line 3 (Y=532.50):
-  [1] X=37.00 Font=F5 Size=18.0
-      Text: "T"
-  [2] X=41.09 Font=F5 Size=18.0 [gap: 4.09]
-      Text: "ok"
-  [3] X=49.81 Font=F5 Size=18.0 [gap: 8.72]
-      Text: "y"
-  [4] X=53.58 Font=F5 Size=18.0 [gap: 3.77]
-      Text: "o Univ"
-  [5] X=76.15 Font=F5 Size=18.0 [gap: 22.56]
-      Text: "ersity"
-  [6] X=95.80 Font=F5 Size=18.0 [gap: 19.65]
-      Text: "’"
-  [7] X=97.25 Font=F5 Size=18.0 [gap: 1.45]
-      Text: "s F"
-  [8] X=107.04 Font=F5 Size=18.0 [gap: 9.79]
-      Text: "aculty of Medicine, Hongo Camp..."
-  [9] X=254.29 Font=F5 Size=18.0 [gap: 147.24]
-      Text: "ou feel lik"
-  [10] X=288.23 Font=F5 Size=18.0 [gap: 33.94]
-      Text: "e pr"
-  [11] X=302.25 Font=F5 Size=18.0 [gap: 14.02]
-      Text: "oc"
-  [12] X=311.04 Font=F5 Size=18.0 [gap: 8.79]
-      Text: "eeding?”"
+Line 2 (Y=486.50):
+  [1] X=37.00 Font=F6 Size=18.0
+      Text: "两个小充气垫挤压我的..."
 
-Line 4 (Y=567.00):
+Line 3 (Y=567.00):
   [1] X=37.00 Font=F6 Size=18.0
       Text: "继续吗？"
   [2] X=73.00 Font=F5 Size=18.0 [gap: 36.00]
       Text: "”"
 
-Line 5 (Y=147.00):
-  [1] X=236.37 Font=F5 Size=14.0
-      Text: "B"
-  [2] X=240.15 Font=F5 Size=14.0 [gap: 3.78]
-      Text: "Y MAR"
-  [3] X=258.42 Font=F5 Size=14.0 [gap: 18.28]
-      Text: "C"
-  [4] X=262.46 Font=F5 Size=14.0 [gap: 4.03]
-      Text: "O GIANC"
-  [5] X=287.59 Font=F5 Size=14.0 [gap: 25.13]
-      Text: "O"
-  [6] X=292.48 Font=F5 Size=14.0 [gap: 4.89]
-      Text: "T"
-  [7] X=296.47 Font=F5 Size=14.0 [gap: 3.99]
-      Text: "TI"
-  [8] X=301.91 Font=F5 Size=14.0 [gap: 5.45]
-      Text: " "
-  [9] X=315.51 Font=F5 Size=14.0 [gap: 13.59]
-      Text: "Oct"
-  [10] X=325.89 Font=F5 Size=14.0 [gap: 10.38]
-      Text: "ober 4"
-  [11] X=344.13 Font=F5 Size=14.0 [gap: 18.24]
-      Text: ", 20"
-  [12] X=354.12 Font=F5 Size=14.0 [gap: 9.99]
-      Text: "23"
+Line 4 (Y=666.00):
+  [1] X=37.00 Font=F6 Size=18.0
+      Text: "机器再次启动。"
 
-Line 6 (Y=186.00):
-  [1] X=298.38 Font=F5 Size=14.0
-      Text: "Shar"
-  [2] X=310.83 Font=F5 Size=14.0 [gap: 12.46]
-      Text: "e"
-
-Line 7 (Y=517.00):
+Line 5 (Y=517.00):
   [1] X=37.00 Font=F5 Size=18.0
       Text: "“W"
   [2] X=48.10 Font=F5 Size=18.0 [gap: 11.10]
@@ -439,11 +339,101 @@ Line 7 (Y=517.00):
   [22] X=512.82 Font=F5 Size=18.0 [gap: 6.86]
       Text: "ories of"
 
-Line 8 (Y=43.00):
-  [1] X=350.95 Font=F5 Size=17.0
-      Text: "Join"
+Line 6 (Y=647.00):
+  [1] X=37.00 Font=F5 Size=18.0
+      Text: "The machine sets in motion aga..."
 
-Line 9 (Y=700.50):
+Line 7 (Y=754.50):
+  [1] X=37.00 Font=F5 Size=18.0
+      Text: "T"
+  [2] X=41.09 Font=F5 Size=18.0 [gap: 4.09]
+      Text: "o the sensors ar"
+  [3] X=98.00 Font=F5 Size=18.0 [gap: 56.91]
+      Text: "ound me, I’"
+  [4] X=136.82 Font=F5 Size=18.0 [gap: 38.82]
+      Text: "m no"
+  [5] X=155.12 Font=F5 Size=18.0 [gap: 18.30]
+      Text: "w as tr"
+  [6] X=178.72 Font=F5 Size=18.0 [gap: 23.60]
+      Text: "anspar"
+  [7] X=202.39 Font=F5 Size=18.0 [gap: 23.67]
+      Text: "ent as a glas"
+  [8] X=245.18 Font=F5 Size=18.0 [gap: 42.79]
+      Text: "s of w"
+  [9] X=266.19 Font=F5 Size=18.0 [gap: 21.01]
+      Text: "at"
+  [10] X=273.05 Font=F5 Size=18.0 [gap: 6.86]
+      Text: "er"
+  [11] X=279.94 Font=F5 Size=18.0 [gap: 6.89]
+      Text: ". E"
+  [12] X=288.19 Font=F5 Size=18.0 [gap: 8.24]
+      Text: "v"
+  [13] X=291.96 Font=F5 Size=18.0 [gap: 3.77]
+      Text: "er"
+  [14] X=299.52 Font=F5 Size=18.0 [gap: 7.57]
+      Text: "y tiny change of blood "
+  [15] X=380.39 Font=F5 Size=18.0 [gap: 80.86]
+      Text: "ﬂ"
+  [16] X=384.88 Font=F5 Size=18.0 [gap: 4.49]
+      Text: "o"
+  [17] X=389.61 Font=F5 Size=18.0 [gap: 4.73]
+      Text: "w any"
+  [18] X=410.06 Font=F5 Size=18.0 [gap: 20.45]
+      Text: "wher"
+  [19] X=427.90 Font=F5 Size=18.0 [gap: 17.84]
+      Text: "e inside my br"
+  [20] X=477.45 Font=F5 Size=18.0 [gap: 49.55]
+      Text: "ain is being w"
+  [21] X=524.76 Font=F5 Size=18.0 [gap: 47.31]
+      Text: "at"
+  [22] X=531.63 Font=F5 Size=18.0 [gap: 6.86]
+      Text: "ched"
+
+Line 8 (Y=467.50):
+  [1] X=37.00 Font=F5 Size=18.0
+      Text: "T"
+  [2] X=41.09 Font=F5 Size=18.0 [gap: 4.09]
+      Text: "w"
+  [3] X=47.00 Font=F5 Size=18.0 [gap: 5.91]
+      Text: "o small in"
+  [4] X=80.40 Font=F5 Size=18.0 [gap: 33.40]
+      Text: "ﬂ"
+  [5] X=84.89 Font=F5 Size=18.0 [gap: 4.49]
+      Text: "atable cushions squeez"
+  [6] X=166.39 Font=F5 Size=18.0 [gap: 81.50]
+      Text: "e my t"
+  [7] X=188.42 Font=F5 Size=18.0 [gap: 22.03]
+      Text: "emples, k"
+  [8] X=221.35 Font=F5 Size=18.0 [gap: 32.93]
+      Text: "eeping my head still."
+
+Line 9 (Y=532.50):
+  [1] X=37.00 Font=F5 Size=18.0
+      Text: "T"
+  [2] X=41.09 Font=F5 Size=18.0 [gap: 4.09]
+      Text: "ok"
+  [3] X=49.81 Font=F5 Size=18.0 [gap: 8.72]
+      Text: "y"
+  [4] X=53.58 Font=F5 Size=18.0 [gap: 3.77]
+      Text: "o Univ"
+  [5] X=76.15 Font=F5 Size=18.0 [gap: 22.56]
+      Text: "ersity"
+  [6] X=95.80 Font=F5 Size=18.0 [gap: 19.65]
+      Text: "’"
+  [7] X=97.25 Font=F5 Size=18.0 [gap: 1.45]
+      Text: "s F"
+  [8] X=107.04 Font=F5 Size=18.0 [gap: 9.79]
+      Text: "aculty of Medicine, Hongo Camp..."
+  [9] X=254.29 Font=F5 Size=18.0 [gap: 147.24]
+      Text: "ou feel lik"
+  [10] X=288.23 Font=F5 Size=18.0 [gap: 33.94]
+      Text: "e pr"
+  [11] X=302.25 Font=F5 Size=18.0 [gap: 14.02]
+      Text: "oc"
+  [12] X=311.04 Font=F5 Size=18.0 [gap: 8.79]
+      Text: "eeding?”"
+
+Line 10 (Y=700.50):
   [1] X=37.00 Font=F5 Size=18.0
       Text: "at"
   [2] X=43.86 Font=F5 Size=18.0 [gap: 6.86]
@@ -473,38 +463,34 @@ Line 9 (Y=700.50):
   [14] X=416.56 Font=F5 Size=18.0 [gap: 7.07]
       Text: "d."
 
-Line 10 (Y=720.00):
-  [1] X=37.00 Font=F6 Size=18.0
-      Text: "缠绕在我周围的低温冷..."
-
 ... and 19 more lines
 
 Overlap Detection:
 ------------------
-  ⚠️  Overlap detected at Y=147.00:
-      Text1: "B" at X=236.37 (width≈7.00)
-      Text2: "Y MAR" at X=240.15
-      Overlap: 3.22 points
+  ⚠️  Overlap detected at Y=162.50:
+      Text1: "·" at X=277.85 (width≈7.00)
+      Text2: "詹科蒂" at X=279.16
+      Overlap: 5.69 points
 
-  ⚠️  Overlap detected at Y=147.00:
-      Text1: "Y MAR" at X=240.15 (width≈35.00)
-      Text2: "C" at X=258.42
-      Overlap: 16.72 points
+  ⚠️  Overlap detected at Y=162.50:
+      Text1: " 20" at X=300.16 (width≈21.00)
+      Text2: "23 " at X=308.84
+      Overlap: 12.32 points
 
-  ⚠️  Overlap detected at Y=147.00:
-      Text1: "C" at X=258.42 (width≈7.00)
-      Text2: "O GIANC" at X=262.46
-      Overlap: 2.97 points
+  ⚠️  Overlap detected at Y=162.50:
+      Text1: "23 " at X=308.84 (width≈21.00)
+      Text2: "年" at X=316.44
+      Overlap: 13.40 points
 
-  ⚠️  Overlap detected at Y=147.00:
-      Text1: "O GIANC" at X=262.46 (width≈49.00)
-      Text2: "O" at X=287.59
-      Overlap: 23.87 points
+  ⚠️  Overlap detected at Y=162.50:
+      Text1: " 10 " at X=323.44 (width≈28.00)
+      Text2: "月" at X=332.95
+      Overlap: 18.49 points
 
-  ⚠️  Overlap detected at Y=147.00:
-      Text1: "O" at X=287.59 (width≈7.00)
-      Text2: "T" at X=292.48
-      Overlap: 2.11 points
+  ⚠️  Overlap detected at Y=162.50:
+      Text1: " 4 " at X=339.95 (width≈21.00)
+      Text2: "日" at X=346.65
+      Overlap: 14.31 points
 
   Total overlaps: 157
   (showing first 5, 152 more not shown)
@@ -545,6 +531,11 @@ Rendering completed successfully
 
 Operator Execution Log:
 ------------------------
+✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
+✓ Default width for CID font F5: 500
+✓ Loaded CID widths for font F5: 102 direct mappings, 0 ranges
+✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F5: Identity-H
 ✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
 ✓ Default width for CID font F6: 1000
 ✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
@@ -556,15 +547,11 @@ Operator Execution Log:
 ✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
 ✓ Loaded font widths for F4: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F4: Identity-H
-✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
-✓ Default width for CID font F5: 500
-✓ Loaded CID widths for font F5: 102 direct mappings, 0 ranges
-✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F5: Identity-H
 [loadXObject] Decoding stream for X8...
 [loadXObject] Raw stream length: 207578 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...
 [loadXObject] Stream decoded via direct Decode(): 1440000 bytes
+[loadXObject] Filters detected: [FlateDecode]
    Dereferenced to: types.StreamDict
    Decoding StreamDict...
    Raw: 13401 bytes, Content: 0 bytes
@@ -1651,6 +1638,7 @@ Operator Execution Log:
 [loadXObject] Raw stream length: 207578 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...
 [loadXObject] Stream decoded via direct Decode(): 1440000 bytes
+[loadXObject] Filters detected: [FlateDecode]
    Dereferenced to: types.StreamDict
    Decoding StreamDict...
    Raw: 13401 bytes, Content: 0 bytes
@@ -5015,31 +5003,31 @@ Operator Execution Log:
 [Q] Restore graphics state - Stack depth: 1
 
 📈 Operator Statistics:
-   RG: 42
-   gs: 31
-   h: 30
+   EMC: 54
+   m: 32
    l: 51
+   cm: 22
+   q: 44
+   RG: 42
+   Tm: 51
+   Td: 158
+   ET: 51
+   f: 32
+   Q: 44
+   re: 44
+   n: 29
+   rg: 42
+   gs: 31
+   Tf: 51
+   c: 387
+   h: 30
+   S: 8
+   W*: 22
+   Tj: 196
    W: 7
    Do: 1
    BT: 51
    BDC: 54
-   Q: 44
-   Td: 158
-   cm: 22
-   q: 44
-   re: 44
-   W*: 22
-   n: 29
-   Tf: 51
-   m: 32
-   rg: 42
-   Tm: 51
-   Tj: 196
-   EMC: 54
-   ET: 51
-   f: 32
-   c: 387
-   S: 8
 
 📌 Rendering 3 annotations...
 [Annotation] Rendering annotation: Link
@@ -5048,26 +5036,6 @@ Operator Execution Log:
 [Annotation] Unsupported annotation type: Link
 [Annotation] Rendering annotation: Link
 [Annotation] Unsupported annotation type: Link
-✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
-✓ Default width for CID font F5: 500
-✓ Loaded CID widths for font F5: 102 direct mappings, 0 ranges
-✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
-✓ Default width for CID font F6: 1000
-✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
-✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F6: Identity-H
-✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
-✓ Default width for CID font F4: 0
-✓ Using fallback default width for CID font F4: 1000
-✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
-✓ Loaded font widths for F4: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F4: Identity-H
-[loadXObject] Decoding stream for X8...
-[loadXObject] Raw stream length: 207578 bytes
-[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
-[loadXObject] Stream decoded via direct Decode(): 1440000 bytes
 ✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
 ✓ Default width for CID font F4: 0
 ✓ Using fallback default width for CID font F4: 1000
@@ -5088,6 +5056,28 @@ Operator Execution Log:
 [loadXObject] Raw stream length: 207578 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...
 [loadXObject] Stream decoded via direct Decode(): 1440000 bytes
+[loadXObject] Filters detected: [FlateDecode]
+✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
+✓ Default width for CID font F4: 0
+✓ Using fallback default width for CID font F4: 1000
+✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
+✓ Loaded font widths for F4: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F4: Identity-H
+✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
+✓ Default width for CID font F5: 500
+✓ Loaded CID widths for font F5: 102 direct mappings, 0 ranges
+✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
+✓ Default width for CID font F6: 1000
+✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
+✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F6: Identity-H
+[loadXObject] Decoding stream for X8...
+[loadXObject] Raw stream length: 207578 bytes
+[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
+[loadXObject] Stream decoded via direct Decode(): 1440000 bytes
+[loadXObject] Filters detected: [FlateDecode]
    Dereferenced to: types.StreamDict
    Decoding StreamDict...
    Raw: 13401 bytes, Content: 0 bytes
@@ -6154,26 +6144,6 @@ Operator Execution Log:
 [DEBUG] ET operator: End text object
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
-✓ Default width for CID font F5: 500
-✓ Loaded CID widths for font F5: 102 direct mappings, 0 ranges
-✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
-✓ Default width for CID font F6: 1000
-✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
-✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F6: Identity-H
-✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
-✓ Default width for CID font F4: 0
-✓ Using fallback default width for CID font F4: 1000
-✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
-✓ Loaded font widths for F4: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F4: Identity-H
-[loadXObject] Decoding stream for X8...
-[loadXObject] Raw stream length: 207578 bytes
-[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
-[loadXObject] Stream decoded via direct Decode(): 1440000 bytes
 ✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
 ✓ Default width for CID font F4: 0
 ✓ Using fallback default width for CID font F4: 1000
@@ -6194,6 +6164,28 @@ Operator Execution Log:
 [loadXObject] Raw stream length: 207578 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...
 [loadXObject] Stream decoded via direct Decode(): 1440000 bytes
+[loadXObject] Filters detected: [FlateDecode]
+✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
+✓ Default width for CID font F4: 0
+✓ Using fallback default width for CID font F4: 1000
+✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
+✓ Loaded font widths for F4: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F4: Identity-H
+✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
+✓ Default width for CID font F5: 500
+✓ Loaded CID widths for font F5: 102 direct mappings, 0 ranges
+✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
+✓ Default width for CID font F6: 1000
+✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
+✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F6: Identity-H
+[loadXObject] Decoding stream for X8...
+[loadXObject] Raw stream length: 207578 bytes
+[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
+[loadXObject] Stream decoded via direct Decode(): 1440000 bytes
+[loadXObject] Filters detected: [FlateDecode]
    Dereferenced to: types.StreamDict
    Decoding StreamDict...
    Raw: 13401 bytes, Content: 0 bytes
@@ -7260,11 +7252,6 @@ Operator Execution Log:
 [DEBUG] ET operator: End text object
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
-✓ Default width for CID font F6: 1000
-✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
-✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F6: Identity-H
 ✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
 ✓ Default width for CID font F4: 0
 ✓ Using fallback default width for CID font F4: 1000
@@ -7276,10 +7263,22 @@ Operator Execution Log:
 ✓ Loaded CID widths for font F5: 102 direct mappings, 0 ranges
 ✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
+✓ Default width for CID font F6: 1000
+✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
+✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F6: Identity-H
 [loadXObject] Decoding stream for X8...
 [loadXObject] Raw stream length: 207578 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...
 [loadXObject] Stream decoded via direct Decode(): 1440000 bytes
+[loadXObject] Filters detected: [FlateDecode]
+✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
+✓ Default width for CID font F4: 0
+✓ Using fallback default width for CID font F4: 1000
+✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
+✓ Loaded font widths for F4: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F4: Identity-H
 ✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
 ✓ Default width for CID font F5: 500
 ✓ Loaded CID widths for font F5: 102 direct mappings, 0 ranges
@@ -7290,16 +7289,11 @@ Operator Execution Log:
 ✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
 ✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F6: Identity-H
-✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
-✓ Default width for CID font F4: 0
-✓ Using fallback default width for CID font F4: 1000
-✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
-✓ Loaded font widths for F4: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F4: Identity-H
 [loadXObject] Decoding stream for X8...
 [loadXObject] Raw stream length: 207578 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...
 [loadXObject] Stream decoded via direct Decode(): 1440000 bytes
+[loadXObject] Filters detected: [FlateDecode]
    Dereferenced to: types.StreamDict
    Decoding StreamDict...
    Raw: 13401 bytes, Content: 0 bytes

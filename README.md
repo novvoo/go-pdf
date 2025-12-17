@@ -30,6 +30,9 @@ go-pdf/
 - **Layer Merging**: Merge multiple image layers
 - **Image to PDF**: Convert images to PDF format
 - **High DPI Support**: Configurable DPI for high-quality output
+- **Image Filters**: Support for FlateDecode, DCTDecode, ASCIIHexDecode, RunLengthDecode
+- **Font Loader**: Cross-platform font search and management with CJK support
+- **Rendering Comparison**: Tools to compare rendering quality with Poppler
 
 ## Installation
 
@@ -112,7 +115,50 @@ Renders a PDF page to an image.Image.
 ## Dependencies
 
 - [go-cairo](https://github.com/novvoo/go-cairo) - Cairo graphics bindings for Go
+- [pdfcpu](https://github.com/pdfcpu/pdfcpu) - PDF processing library
 
+## Recent Improvements
+
+### Image Filters
+- ✅ FlateDecode (zlib decompression)
+- ✅ DCTDecode (JPEG decoding)
+- ✅ ASCIIHexDecode
+- ✅ RunLengthDecode
+- ✅ PNG Predictor support
+
+### Font Handling
+- ✅ Cross-platform font search (Windows/macOS/Linux)
+- ✅ Font substitution mechanism
+- ✅ CJK font support
+- ✅ Font fallback chains
+- ✅ Font metrics caching
+
+### Testing Tools
+- ✅ Rendering comparison with Poppler
+- ✅ PSNR/MSE quality metrics
+- ✅ Difference image generation
+- ✅ Batch comparison support
+
+## Documentation
+
+- [USAGE_GUIDE.md](USAGE_GUIDE.md) - Comprehensive usage guide
+- [IMPROVEMENT_PLAN.md](IMPROVEMENT_PLAN.md) - Detailed improvement roadmap
+- [POPPLER_COMPARISON.md](POPPLER_COMPARISON.md) - Comparison with Poppler
+- [IMPROVEMENTS_SUMMARY.md](IMPROVEMENTS_SUMMARY.md) - Summary of recent improvements
+
+## Testing
+
+```bash
+# Run unit tests
+cd test
+go test -v
+
+# Run rendering comparison (requires Poppler tools)
+go run compare_rendering.go ../test.pdf
+
+# Run benchmarks
+go test -bench=. -benchmem
+```
 
 ## License
 
