@@ -3,6 +3,7 @@ package gopdf
 import (
 	"fmt"
 	"image"
+	"image/color"
 	"image/png"
 	"io"
 	"os"
@@ -11,10 +12,17 @@ import (
 )
 
 // PDFRenderer 用于将图片渲染为 PDF 或使用 Cairo 进行图形处理
+// 使用 Pixman backend、Rasterizer 和 Alpha Blend 进行底层渲染
 type PDFRenderer struct {
-	width  float64
-	height float64
-	dpi    float64
+	width         float64
+	height        float64
+	dpi           float64
+	usePixman     bool           // 是否使用 Pixman 后端
+	useRasterizer bool           // 是否使用光栅化器
+	pixmanBackend *PixmanBackend // Pixman 图像后端
+	rasterizer    *Rasterizer    // 光栅化器
+	alphaBlender  *AlphaBlender  // Alpha 混合器
+	blendMode     string         // 当前混合模式
 }
 
 // RenderOptions 渲染选项
@@ -32,11 +40,34 @@ type RGB struct {
 
 // NewPDFRenderer 创建新的 PDF 渲染器
 // width, height 单位为点 (points)，72 points = 1 inch
+// 默认使用 Pixman 后端和光栅化器以获得更好的渲染质量
 func NewPDFRenderer(width, height float64) *PDFRenderer {
 	return &PDFRenderer{
-		width:  width,
-		height: height,
-		dpi:    72,
+		width:         width,
+		height:        height,
+		dpi:           72,
+		usePixman:     true, // 默认启用 Pixman
+		useRasterizer: true, // 默认启用光栅化器
+		blendMode:     "Normal",
+	}
+}
+
+// SetUsePixman 设置是否使用 Pixman 后端
+func (r *PDFRenderer) SetUsePixman(use bool) {
+	r.usePixman = use
+}
+
+// SetUseRasterizer 设置是否使用光栅化器
+func (r *PDFRenderer) SetUseRasterizer(use bool) {
+	r.useRasterizer = use
+}
+
+// SetBlendMode 设置混合模式
+func (r *PDFRenderer) SetBlendMode(mode string) {
+	r.blendMode = mode
+	if r.alphaBlender != nil {
+		op := GetPDFBlendOperator(mode)
+		r.alphaBlender.SetOperator(op)
 	}
 }
 
@@ -46,6 +77,7 @@ func (r *PDFRenderer) SetDPI(dpi float64) {
 }
 
 // CreatePDFFromImage 从图片创建 PDF
+// 使用 Pixman 后端进行图像处理
 func (r *PDFRenderer) CreatePDFFromImage(imagePath, outputPath string) error {
 	// 读取图片
 	imgFile, err := os.Open(imagePath)
@@ -70,11 +102,45 @@ func (r *PDFRenderer) CreatePDFFromImage(imagePath, outputPath string) error {
 	ctx := cairo.NewContext(pdfSurface)
 	defer ctx.Destroy()
 
-	// 使用 CairoImageConverter 转换图片（正确处理 Stride 和预乘 Alpha）
-	converter := NewCairoImageConverter()
-	imgSurface, err := converter.ImageToCairoSurface(img, cairo.FormatARGB32)
-	if err != nil {
-		return fmt.Errorf("failed to convert image to Cairo surface: %w", err)
+	var imgSurface cairo.ImageSurface
+
+	// 如果启用 Pixman，使用 Pixman 处理图像
+	if r.usePixman {
+		rgba, ok := img.(*image.RGBA)
+		if !ok {
+			// 转换为 RGBA
+			rgba = image.NewRGBA(bounds)
+			for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
+				for x := bounds.Min.X; x < bounds.Max.X; x++ {
+					rgba.Set(x, y, img.At(x, y))
+				}
+			}
+		}
+
+		// 使用 Pixman 后端
+		pixmanBackend := NewPixmanBackendFromRGBA(rgba)
+		if pixmanBackend != nil {
+			defer pixmanBackend.Destroy()
+
+			// 转换回 RGBA 并创建 Cairo surface
+			processedRGBA := pixmanBackend.ToRGBA()
+			converter := NewCairoImageConverter()
+			var err error
+			imgSurface, err = converter.ImageToCairoSurface(processedRGBA, cairo.FormatARGB32)
+			if err != nil {
+				return fmt.Errorf("failed to convert image to Cairo surface: %w", err)
+			}
+		}
+	}
+
+	// 回退到标准方法
+	if imgSurface == nil {
+		converter := NewCairoImageConverter()
+		var err error
+		imgSurface, err = converter.ImageToCairoSurface(img, cairo.FormatARGB32)
+		if err != nil {
+			return fmt.Errorf("failed to convert image to Cairo surface: %w", err)
+		}
 	}
 	defer imgSurface.Destroy()
 
@@ -118,8 +184,108 @@ func (r *PDFRenderer) RenderWithOptions(opts *RenderOptions, drawFunc func(ctx c
 	renderWidth := int(r.width * scale)
 	renderHeight := int(r.height * scale)
 
+	// 如果启用 Pixman 后端，使用 Pixman 进行渲染
+	if r.usePixman {
+		return r.renderWithPixman(opts, renderWidth, renderHeight, scale, drawFunc)
+	}
+
+	// 否则使用标准 Cairo 渲染
+	return r.renderWithCairo(opts, renderWidth, renderHeight, scale, drawFunc)
+}
+
+// renderWithPixman 使用 Pixman 后端渲染
+func (r *PDFRenderer) renderWithPixman(opts *RenderOptions, width, height int, scale float64, drawFunc func(ctx cairo.Context)) error {
+	// 创建 Pixman 后端
+	r.pixmanBackend = NewPixmanBackend(width, height, cairo.PixmanFormatARGB32)
+	if r.pixmanBackend == nil {
+		return fmt.Errorf("failed to create pixman backend")
+	}
+	defer func() {
+		r.pixmanBackend.Destroy()
+		r.pixmanBackend = nil
+	}()
+
+	// 设置背景色
+	if opts.Background != nil {
+		bgColor := color.RGBA{
+			R: uint8(opts.Background.R * 255),
+			G: uint8(opts.Background.G * 255),
+			B: uint8(opts.Background.B * 255),
+			A: 255,
+		}
+		r.pixmanBackend.Fill(bgColor)
+	} else {
+		r.pixmanBackend.Clear()
+	}
+
+	// 创建 ImageBackend 用于 Cairo 渲染
+	imageBackend := r.pixmanBackend.GetImageBackend()
+	if imageBackend == nil {
+		return fmt.Errorf("failed to create image backend")
+	}
+
+	// 从 ImageBackend 获取 RGBA 图像并创建 Cairo surface
+	rgba := imageBackend.GetImage()
+	if rgba == nil {
+		return fmt.Errorf("failed to get image from backend")
+	}
+
+	// 使用 CairoImageConverter 创建 surface
+	converter := NewCairoImageConverter()
+	surface, err := converter.ImageToCairoSurface(rgba, cairo.FormatARGB32)
+	if err != nil {
+		return fmt.Errorf("failed to create surface: %w", err)
+	}
+	defer surface.Destroy()
+
+	ctx := cairo.NewContext(surface)
+	defer ctx.Destroy()
+
+	// 初始化 Alpha 混合器
+	r.alphaBlender = NewAlphaBlender(GetPDFBlendOperator(r.blendMode))
+
+	// 如果启用光栅化器，初始化它
+	if r.useRasterizer {
+		r.rasterizer = NewRasterizer(width, height)
+		defer func() {
+			r.rasterizer.Destroy()
+			r.rasterizer = nil
+		}()
+	}
+
+	// 缩放以匹配 DPI
+	ctx.Scale(scale, scale)
+
+	// 执行用户的绘制函数
+	if drawFunc != nil {
+		drawFunc(ctx)
+	}
+
+	// 保存为 PNG
+	if opts.OutputPath != "" {
+		rgba := r.pixmanBackend.ToRGBA()
+		if rgba == nil {
+			return fmt.Errorf("failed to convert to RGBA")
+		}
+
+		outFile, err := os.Create(opts.OutputPath)
+		if err != nil {
+			return fmt.Errorf("failed to create output file: %w", err)
+		}
+		defer outFile.Close()
+
+		if err := png.Encode(outFile, rgba); err != nil {
+			return fmt.Errorf("failed to encode PNG: %w", err)
+		}
+	}
+
+	return nil
+}
+
+// renderWithCairo 使用标准 Cairo 渲染（回退方法）
+func (r *PDFRenderer) renderWithCairo(opts *RenderOptions, width, height int, scale float64, drawFunc func(ctx cairo.Context)) error {
 	// 创建图像 surface
-	imgSurface := cairo.NewImageSurface(opts.Format, renderWidth, renderHeight)
+	imgSurface := cairo.NewImageSurface(opts.Format, width, height)
 	defer imgSurface.Destroy()
 
 	ctx := cairo.NewContext(imgSurface)
@@ -231,4 +397,176 @@ func ConvertImageToPNG(inputPath, outputPath string) error {
 	defer outFile.Close()
 
 	return png.Encode(outFile, img)
+}
+
+// GetPixmanBackend 获取当前的 Pixman 后端（如果有）
+func (r *PDFRenderer) GetPixmanBackend() *PixmanBackend {
+	return r.pixmanBackend
+}
+
+// GetRasterizer 获取当前的光栅化器（如果有）
+func (r *PDFRenderer) GetRasterizer() *Rasterizer {
+	return r.rasterizer
+}
+
+// GetAlphaBlender 获取当前的 Alpha 混合器（如果有）
+func (r *PDFRenderer) GetAlphaBlender() *AlphaBlender {
+	return r.alphaBlender
+}
+
+// RenderWithPixmanBackend 使用 Pixman 后端直接渲染
+// 提供对底层像素操作的完全控制
+func (r *PDFRenderer) RenderWithPixmanBackend(width, height int, renderFunc func(backend *PixmanBackend) error) (*image.RGBA, error) {
+	backend := NewPixmanBackend(width, height, cairo.PixmanFormatARGB32)
+	if backend == nil {
+		return nil, fmt.Errorf("failed to create pixman backend")
+	}
+	defer backend.Destroy()
+
+	// 执行渲染函数
+	if err := renderFunc(backend); err != nil {
+		return nil, err
+	}
+
+	// 转换为 RGBA
+	return backend.ToRGBA(), nil
+}
+
+// RenderWithRasterizer 使用光栅化器直接渲染路径
+func (r *PDFRenderer) RenderWithRasterizer(width, height int, renderFunc func(rasterizer *Rasterizer) error) (*image.RGBA, error) {
+	rasterizer := NewRasterizer(width, height)
+	if rasterizer == nil {
+		return nil, fmt.Errorf("failed to create rasterizer")
+	}
+	defer rasterizer.Destroy()
+
+	// 执行渲染函数
+	if err := renderFunc(rasterizer); err != nil {
+		return nil, err
+	}
+
+	// 转换为图像
+	img := rasterizer.ToImage()
+	if rgba, ok := img.(*image.RGBA); ok {
+		return rgba, nil
+	}
+
+	// 转换为 RGBA
+	bounds := img.Bounds()
+	rgba := image.NewRGBA(bounds)
+	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
+		for x := bounds.Min.X; x < bounds.Max.X; x++ {
+			rgba.Set(x, y, img.At(x, y))
+		}
+	}
+
+	return rgba, nil
+}
+
+// BlendImages 混合多个图像
+func (r *PDFRenderer) BlendImages(images []*image.RGBA, blendModes []string) (*image.RGBA, error) {
+	if len(images) == 0 {
+		return nil, fmt.Errorf("no images to blend")
+	}
+
+	if len(blendModes) == 0 {
+		// 默认使用 Normal 模式
+		blendModes = make([]string, len(images))
+		for i := range blendModes {
+			blendModes[i] = "Normal"
+		}
+	}
+
+	// 确保混合模式数量匹配
+	if len(blendModes) < len(images) {
+		for i := len(blendModes); i < len(images); i++ {
+			blendModes = append(blendModes, "Normal")
+		}
+	}
+
+	// 使用第一个图像作为基础
+	result := images[0]
+	bounds := result.Bounds()
+
+	// 创建 Pixman 后端
+	backend := NewPixmanBackendFromRGBA(result)
+	if backend == nil {
+		return nil, fmt.Errorf("failed to create pixman backend")
+	}
+	defer backend.Destroy()
+
+	// 混合其他图像
+	for i := 1; i < len(images); i++ {
+		srcBackend := NewPixmanBackendFromRGBA(images[i])
+		if srcBackend == nil {
+			continue
+		}
+
+		op := GetPDFBlendOperator(blendModes[i])
+		backend.Composite(srcBackend, 0, 0, 0, 0, bounds.Dx(), bounds.Dy(), op)
+
+		srcBackend.Destroy()
+	}
+
+	return backend.ToRGBA(), nil
+}
+
+// ApplyColorSpaceConversion 应用颜色空间转换
+func (r *PDFRenderer) ApplyColorSpaceConversion(img *image.RGBA, srcCS, dstCS ColorSpace) (*image.RGBA, error) {
+	if srcCS == nil || dstCS == nil {
+		return img, nil
+	}
+
+	bounds := img.Bounds()
+
+	// 使用 Pixman 后端进行高效的像素操作
+	backend := NewPixmanBackendFromRGBA(img)
+	if backend == nil {
+		return img, fmt.Errorf("failed to create pixman backend")
+	}
+	defer backend.Destroy()
+
+	for y := 0; y < bounds.Dy(); y++ {
+		for x := 0; x < bounds.Dx(); x++ {
+			// 获取源颜色
+			pixel := backend.GetImage().GetPixel(x, y)
+
+			r := float64(pixel.R) / 255.0
+			g := float64(pixel.G) / 255.0
+			b := float64(pixel.B) / 255.0
+			a := float64(pixel.A) / 255.0
+
+			// 反预乘
+			if a > 0 && a < 1 {
+				r = r / a
+				g = g / a
+				b = b / a
+			}
+
+			// 转换颜色空间
+			components := []float64{r, g, b}
+			r2, g2, b2, a2, err := dstCS.ConvertToRGBA(components, a)
+			if err != nil {
+				continue
+			}
+
+			// 预乘并写回
+			if a2 > 0 && a2 < 1 {
+				r2 = r2 * a2
+				g2 = g2 * a2
+				b2 = b2 * a2
+			}
+
+			newPixel := color.NRGBA{
+				R: uint8(r2 * 255),
+				G: uint8(g2 * 255),
+				B: uint8(b2 * 255),
+				A: uint8(a2 * 255),
+			}
+
+			backend.GetImage().SetPixel(x, y, newPixel)
+		}
+	}
+
+	return backend.ToRGBA(), nil
 }

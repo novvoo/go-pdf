@@ -2,6 +2,7 @@ package gopdf
 
 import (
 	"fmt"
+	"image"
 
 	"github.com/novvoo/go-cairo/pkg/cairo"
 )
@@ -88,7 +89,67 @@ func (sm *SoftMask) RenderSoftMask(ctx *RenderContext, width, height int) error 
 }
 
 // convertLuminosityToAlpha 将亮度转换为 alpha 值
+// 使用 Pixman 后端进行高效的像素操作
 func (sm *SoftMask) convertLuminosityToAlpha(surface cairo.Surface) {
+	imgSurface, ok := surface.(cairo.ImageSurface)
+	if !ok {
+		return
+	}
+
+	width := imgSurface.GetWidth()
+	height := imgSurface.GetHeight()
+
+	// 创建 Pixman 后端进行像素操作
+	// 从 Cairo surface 获取 RGBA 数据
+	converter := NewCairoImageConverter()
+	img := converter.CairoSurfaceToImage(imgSurface)
+	rgba, ok := img.(*image.RGBA)
+	if !ok {
+		// 回退到原始方法
+		sm.convertLuminosityToAlphaFallback(surface)
+		return
+	}
+
+	backend := NewPixmanBackendFromRGBA(rgba)
+	if backend == nil {
+		sm.convertLuminosityToAlphaFallback(surface)
+		return
+	}
+	defer backend.Destroy()
+
+	// 使用 Pixman 处理像素
+	for y := 0; y < height; y++ {
+		for x := 0; x < width; x++ {
+			// 获取像素
+			pixel := backend.GetImage().GetPixel(x, y)
+
+			// 计算亮度（使用标准公式）
+			r := float64(pixel.R)
+			g := float64(pixel.G)
+			b := float64(pixel.B)
+			luminosity := 0.299*r + 0.587*g + 0.114*b
+
+			// 设置 alpha 值
+			pixel.A = uint8(luminosity)
+			backend.GetImage().SetPixel(x, y, pixel)
+		}
+	}
+
+	// 将处理后的数据写回 Cairo surface
+	resultRGBA := backend.ToRGBA()
+	resultSurface, err := converter.ImageToCairoSurface(resultRGBA, cairo.FormatARGB32)
+	if err == nil {
+		// 复制数据回原 surface
+		srcData := resultSurface.GetData()
+		dstData := imgSurface.GetData()
+		copy(dstData, srcData)
+		imgSurface.MarkDirty()
+		resultSurface.Destroy()
+	}
+}
+
+// convertLuminosityToAlphaFallback 回退方法
+func (sm *SoftMask) convertLuminosityToAlphaFallback(surface cairo.Surface) {
 	imgSurface, ok := surface.(cairo.ImageSurface)
 	if !ok {
 		return
@@ -99,24 +160,14 @@ func (sm *SoftMask) convertLuminosityToAlpha(surface cairo.Surface) {
 	width := imgSurface.GetWidth()
 	height := imgSurface.GetHeight()
 
-	// 遍历每个像素，计算亮度并设置为 alpha
 	for y := 0; y < height; y++ {
 		for x := 0; x < width; x++ {
 			offset := y*stride + x*4
-
-			// 获取 RGB 值
 			b := float64(data[offset+0])
 			g := float64(data[offset+1])
 			r := float64(data[offset+2])
-
-			// 计算亮度（使用标准公式）
 			luminosity := 0.299*r + 0.587*g + 0.114*b
-
-			// 设置 alpha 值
-			alpha := uint8(luminosity)
-
-			// 更新像素（保持 RGB，只改变 alpha）
-			data[offset+3] = alpha
+			data[offset+3] = uint8(luminosity)
 		}
 	}
 

@@ -1,6 +1,7 @@
 package gopdf
 
 import (
+	"image/color"
 	"math"
 
 	"github.com/novvoo/go-cairo/pkg/cairo"
@@ -16,16 +17,35 @@ const (
 
 // PathFiller 路径填充器
 type PathFiller struct {
-	ctx      cairo.Context
-	fillRule FillRule
+	ctx        cairo.Context
+	fillRule   FillRule
+	rasterizer *Rasterizer // 使用光栅化器进行高级路径填充
+	useRaster  bool        // 是否使用光栅化器
 }
 
 // NewPathFiller 创建路径填充器
 func NewPathFiller(ctx cairo.Context) *PathFiller {
 	return &PathFiller{
-		ctx:      ctx,
-		fillRule: FillRuleNonZero,
+		ctx:        ctx,
+		fillRule:   FillRuleNonZero,
+		rasterizer: nil,
+		useRaster:  false,
 	}
+}
+
+// EnableRasterizer 启用光栅化器（用于复杂路径）
+func (pf *PathFiller) EnableRasterizer(width, height int) {
+	pf.rasterizer = NewRasterizer(width, height)
+	pf.useRaster = true
+}
+
+// DisableRasterizer 禁用光栅化器
+func (pf *PathFiller) DisableRasterizer() {
+	if pf.rasterizer != nil {
+		pf.rasterizer.Destroy()
+		pf.rasterizer = nil
+	}
+	pf.useRaster = false
 }
 
 // SetFillRule 设置填充规则
@@ -44,18 +64,55 @@ func (pf *PathFiller) FillPath(path *Path, color *Color) error {
 		return nil
 	}
 
-	// 设置颜色
+	// 如果启用了光栅化器，使用光栅化器填充
+	if pf.useRaster && pf.rasterizer != nil {
+		return pf.fillPathWithRasterizer(path, color)
+	}
+
+	// 否则使用 Cairo 标准填充
 	if color != nil {
 		pf.ctx.SetSourceRGBA(color.R, color.G, color.B, color.A)
 	}
 
-	// 构建 Cairo 路径
 	pf.buildCairoPath(path)
-
-	// 填充
 	pf.ctx.Fill()
 
 	return nil
+}
+
+// fillPathWithRasterizer 使用光栅化器填充路径
+func (pf *PathFiller) fillPathWithRasterizer(path *Path, fillColor *Color) error {
+	if pf.rasterizer == nil {
+		return nil
+	}
+
+	// 清空光栅化器
+	pf.rasterizer.Clear()
+
+	// 添加路径
+	pf.rasterizer.AddPath(path, nil)
+
+	// 确定填充规则
+	var fillRule cairo.FillRule
+	if pf.fillRule == FillRuleEvenOdd {
+		fillRule = cairo.FillRuleEvenOdd
+	} else {
+		fillRule = cairo.FillRuleWinding
+	}
+
+	// 创建颜色
+	var c color.Color = color.Transparent
+	if fillColor != nil {
+		c = &color.RGBA{
+			R: uint8(fillColor.R * 255),
+			G: uint8(fillColor.G * 255),
+			B: uint8(fillColor.B * 255),
+			A: uint8(fillColor.A * 255),
+		}
+	}
+
+	// 填充
+	return pf.rasterizer.Fill(c, fillRule, cairo.OperatorOver)
 }
 
 // FillPathPreserve 填充路径但保留路径

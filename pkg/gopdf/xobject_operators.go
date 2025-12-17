@@ -305,40 +305,43 @@ func renderImageXObject(ctx *RenderContext, xobj *XObject) error {
 	// PDF 规范：图像占据单位正方形 (0,0) 到 (1,1)
 	// 使用 pattern 矩阵来处理图像的缩放和翻转
 
-	// 设置图像为源
+	// PDF 图像 XObject 的坐标系：
+	// - 图像占据 (0,0) 到 (1,1) 的单位正方形
+	// - 原点在左下角，Y 轴向上
+	//
+	// Cairo 图像的坐标系：
+	// - 图像数据从 (0,0) 开始，Y 轴向下
+	//
+	// 按照 Cairo 规范，使用 SetSourceSurface + Paint 绘制图像
+	// 需要先应用变换来处理坐标系差异
+
+	// 保存当前变换
+	ctx.CairoCtx.Save()
+
+	// 变换步骤：
+	// 1. 缩放到单位正方形：Scale(1/width, 1/height)
+	// 2. 翻转 Y 轴：Scale(1, -1)
+	// 3. 平移到正确位置：Translate(0, -height)
+
+	// 先翻转 Y 轴并平移
+	ctx.CairoCtx.Scale(1.0/float64(width), -1.0/float64(height))
+	ctx.CairoCtx.Translate(0, -float64(height))
+
+	// 设置图像为源（在 (0,0) 位置）
 	ctx.CairoCtx.SetSourceSurface(imgSurface, 0, 0)
 
-	// 获取 pattern
+	// 获取 pattern 并设置过滤器
 	pattern := ctx.CairoCtx.GetSource()
 	pattern.SetFilter(cairo.FilterBest)
 
-	// 创建 pattern 矩阵
-	// Pattern 矩阵是从用户空间到 pattern 空间的变换
-	// 我们需要将单位正方形 (0,0)-(1,1) 映射到图像像素坐标 (0,0)-(width,height)
-	// 同时处理 Y 轴翻转
-	//
-	// 用户空间点 (u, v) 映射到 pattern 空间点 (x, y):
-	// x = u * width
-	// y = (1 - v) * height  (翻转 Y 轴)
-	//
-	// 矩阵形式: [width, 0, 0, -height, 0, height]
+	debugPrintf("[renderImageXObject] Transformation applied, painting image\n")
 
-	matrix := cairo.NewMatrix()
-	matrix.XX = float64(width)
-	matrix.YX = 0
-	matrix.XY = 0
-	matrix.YY = -float64(height)
-	matrix.X0 = 0
-	matrix.Y0 = float64(height)
+	// 按照 Cairo 规范：SetSourceSurface + Paint
+	// Paint 会将整个源绘制到当前裁剪区域
+	ctx.CairoCtx.Paint()
 
-	pattern.SetMatrix(matrix)
-
-	debugPrintf("[renderImageXObject] Pattern matrix set: [%.2f, %.2f, %.2f, %.2f, %.2f, %.2f]\n",
-		matrix.XX, matrix.YX, matrix.XY, matrix.YY, matrix.X0, matrix.Y0)
-
-	// 绘制单位正方形
-	ctx.CairoCtx.Rectangle(0, 0, 1, 1)
-	ctx.CairoCtx.Fill()
+	// 恢复变换
+	ctx.CairoCtx.Restore()
 
 	debugPrintf("[renderImageXObject] Image painted\n")
 
