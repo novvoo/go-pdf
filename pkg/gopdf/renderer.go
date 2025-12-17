@@ -195,15 +195,11 @@ func (r *PDFRenderer) RenderWithOptions(opts *RenderOptions, drawFunc func(ctx c
 
 // renderWithPixman 使用 Pixman 后端渲染
 func (r *PDFRenderer) renderWithPixman(opts *RenderOptions, width, height int, scale float64, drawFunc func(ctx cairo.Context)) error {
-	// 创建 Pixman 后端
-	r.pixmanBackend = NewPixmanBackend(width, height, cairo.PixmanFormatARGB32)
-	if r.pixmanBackend == nil {
-		return fmt.Errorf("failed to create pixman backend")
+	// 直接创建 ImageBackend（不使用 PixmanBackend）
+	imageBackend := cairo.NewImageBackend(width, height)
+	if imageBackend == nil {
+		return fmt.Errorf("failed to create image backend")
 	}
-	defer func() {
-		r.pixmanBackend.Destroy()
-		r.pixmanBackend = nil
-	}()
 
 	// 设置背景色
 	if opts.Background != nil {
@@ -213,15 +209,9 @@ func (r *PDFRenderer) renderWithPixman(opts *RenderOptions, width, height int, s
 			B: uint8(opts.Background.B * 255),
 			A: 255,
 		}
-		r.pixmanBackend.Fill(bgColor)
+		imageBackend.Clear(bgColor)
 	} else {
-		r.pixmanBackend.Clear()
-	}
-
-	// 创建 ImageBackend 用于 Cairo 渲染
-	imageBackend := r.pixmanBackend.GetImageBackend()
-	if imageBackend == nil {
-		return fmt.Errorf("failed to create image backend")
+		imageBackend.Clear(color.RGBA{0, 0, 0, 0}) // 透明背景
 	}
 
 	// 从 ImageBackend 获取 RGBA 图像并创建 Cairo surface
@@ -263,9 +253,21 @@ func (r *PDFRenderer) renderWithPixman(opts *RenderOptions, width, height int, s
 
 	// 保存为 PNG
 	if opts.OutputPath != "" {
-		rgba := r.pixmanBackend.ToRGBA()
-		if rgba == nil {
-			return fmt.Errorf("failed to convert to RGBA")
+		// 从 Cairo Surface 获取最终的图像数据
+		finalRGBA := surface.GetGoImage()
+
+		// 转换为 RGBA（如果需要）
+		var outputRGBA *image.RGBA
+		if rgba, ok := finalRGBA.(*image.RGBA); ok {
+			outputRGBA = rgba
+		} else {
+			bounds := finalRGBA.Bounds()
+			outputRGBA = image.NewRGBA(bounds)
+			for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
+				for x := bounds.Min.X; x < bounds.Max.X; x++ {
+					outputRGBA.Set(x, y, finalRGBA.At(x, y))
+				}
+			}
 		}
 
 		outFile, err := os.Create(opts.OutputPath)
@@ -274,7 +276,7 @@ func (r *PDFRenderer) renderWithPixman(opts *RenderOptions, width, height int, s
 		}
 		defer outFile.Close()
 
-		if err := png.Encode(outFile, rgba); err != nil {
+		if err := png.Encode(outFile, outputRGBA); err != nil {
 			return fmt.Errorf("failed to encode PNG: %w", err)
 		}
 	}

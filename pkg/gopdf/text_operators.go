@@ -463,9 +463,126 @@ func (op *OpShowTextArray) Execute(ctx *RenderContext) error {
 
 // GlyphWithPosition 带位置的字形
 type GlyphWithPosition struct {
-	CID  uint16
-	Rune rune
-	X, Y float64
+	CID        uint16
+	Rune       rune
+	X, Y       float64
+	FontFamily string  // 字体族名
+	FontSize   float64 // 字体大小
+}
+
+// renderGlyphsWithPangoBatch 使用 PangoCairo 批量渲染字形
+// 🔥 新策略：让 Pango 完全处理文本布局，按字体样式和位置分块
+// 这样可以避免字体宽度计算不准确导致的重叠问题
+func renderGlyphsWithPangoBatch(ctx *RenderContext, glyphs []GlyphWithPosition, _ *cairo.PangoFontDescription) {
+	if len(glyphs) == 0 {
+		return
+	}
+
+	// 将字形按字体样式和位置分组
+	type textBlock struct {
+		text       string
+		x, y       float64
+		fontFamily string
+		fontSize   float64
+		start      int
+		end        int
+	}
+
+	var blocks []textBlock
+	currentBlock := textBlock{
+		start:      0,
+		x:          glyphs[0].X,
+		y:          glyphs[0].Y,
+		fontFamily: glyphs[0].FontFamily,
+		fontSize:   glyphs[0].FontSize,
+	}
+	var textBuilder strings.Builder
+	textBuilder.WriteRune(glyphs[0].Rune)
+
+	// Y坐标容差：小于2个点认为是同一行
+	const yTolerance = 2.0
+	// X坐标间隔阈值：超过这个值认为是不连续的文本块
+	const xGapThreshold = 100.0
+
+	for i := 1; i < len(glyphs); i++ {
+		prevGlyph := glyphs[i-1]
+		currGlyph := glyphs[i]
+
+		yDiff := currGlyph.Y - prevGlyph.Y
+		if yDiff < 0 {
+			yDiff = -yDiff
+		}
+		xGap := currGlyph.X - prevGlyph.X
+
+		// 判断是否需要开始新块：
+		// 1. 字体样式变化（字体族或大小不同）
+		// 2. Y坐标变化（换行）
+		// 3. X坐标向左移动（回退）
+		// 4. X坐标间隔过大（不连续的文本）
+		fontChanged := currGlyph.FontFamily != prevGlyph.FontFamily || currGlyph.FontSize != prevGlyph.FontSize
+
+		if fontChanged || yDiff > yTolerance || xGap < 0 || xGap > xGapThreshold {
+			// 保存当前块
+			currentBlock.text = textBuilder.String()
+			currentBlock.end = i - 1
+			blocks = append(blocks, currentBlock)
+
+			// 开始新块
+			textBuilder.Reset()
+			textBuilder.WriteRune(currGlyph.Rune)
+			currentBlock = textBlock{
+				start:      i,
+				x:          currGlyph.X,
+				y:          currGlyph.Y,
+				fontFamily: currGlyph.FontFamily,
+				fontSize:   currGlyph.FontSize,
+			}
+		} else {
+			// 同一行、同一字体样式的连续文本
+			// 🔥 关键：直接追加字符，不插入额外的空格
+			// PDF 中的空格字符会被保留（因为它们本身就是字形）
+			// 让 Pango 完全处理字符间距和布局
+			textBuilder.WriteRune(currGlyph.Rune)
+		}
+	}
+
+	// 保存最后一个块
+	currentBlock.text = textBuilder.String()
+	currentBlock.end = len(glyphs) - 1
+	blocks = append(blocks, currentBlock)
+
+	debugPrintf("[RENDER] Grouped %d glyphs into %d text blocks (by font style)\n", len(glyphs), len(blocks))
+
+	// 渲染每个文本块
+	// 🔥 关键：让 Pango 完全处理文本布局和字符间距
+	for idx, block := range blocks {
+		ctx.CairoCtx.Save()
+
+		// 移动到文本块的起始位置
+		ctx.CairoCtx.MoveTo(block.x, block.y)
+
+		// 为每个块创建对应的字体描述符
+		blockFontDesc := cairo.NewPangoFontDescription()
+		blockFontDesc.SetFamily(block.fontFamily)
+		blockFontDesc.SetSize(block.fontSize)
+
+		// 创建 Pango 布局
+		layout := ctx.CairoCtx.PangoCairoCreateLayout().(*cairo.PangoCairoLayout)
+		layout.SetFontDescription(blockFontDesc)
+
+		// 🔥 关键：设置文本，让 Pango 自动计算字符间距和宽度
+		layout.SetText(block.text)
+
+		// 渲染文本
+		ctx.CairoCtx.PangoCairoShowText(layout)
+
+		ctx.CairoCtx.Restore()
+
+		debugPrintf("[RENDER][%d] Block at (%.2f, %.2f) font=%s/%.1f: %q (%d chars)\n",
+			idx, block.x, block.y, block.fontFamily, block.fontSize, block.text, len([]rune(block.text)))
+	}
+
+	debugPrintf("[RENDER] ✓ Rendered %d text blocks using Pango auto-layout\n", len(blocks))
 }
 
 // renderText 渲染文本到 Cairo
@@ -588,7 +705,8 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 		return nil
 	}
 
-	// 🔥 新方法：收集所有字形及其绝对坐标
+	// 🔥 新策略：使用 Pango 自动布局
+	// 只记录文本的起始位置，让 Pango 处理字符间距和宽度
 	var glyphs []GlyphWithPosition
 	currentX := 0.0 // 文本空间中的相对 X 位置
 
@@ -616,14 +734,17 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 					absX, absY := textState.TextMatrix.Transform(currentX, 0)
 
 					glyph := GlyphWithPosition{
-						CID:  cid,
-						Rune: runes[i],
-						X:    absX,
-						Y:    absY,
+						CID:        cid,
+						Rune:       runes[i],
+						X:          absX,
+						Y:          absY,
+						FontFamily: fontFamily,
+						FontSize:   fontSize,
 					}
 					glyphs = append(glyphs, glyph)
 
-					// 计算字形推进距离
+					// 🔥 关键改进：仍然计算字形推进距离用于更新文本矩阵
+					// 但渲染时让 Pango 自动处理布局
 					isSpace := i < len(runes) && runes[i] == ' '
 					adv := textState.GlyphAdvance(cid, isSpace)
 					currentX += adv
@@ -660,14 +781,17 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 				absX, absY := textState.TextMatrix.Transform(currentX, 0)
 
 				glyph := GlyphWithPosition{
-					CID:  cid,
-					Rune: runes[i],
-					X:    absX,
-					Y:    absY,
+					CID:        cid,
+					Rune:       runes[i],
+					X:          absX,
+					Y:          absY,
+					FontFamily: fontFamily,
+					FontSize:   fontSize,
 				}
 				glyphs = append(glyphs, glyph)
 
-				// 计算字形推进距离
+				// 🔥 关键改进：仍然计算字形推进距离用于更新文本矩阵
+				// 但渲染时让 Pango 自动处理布局
 				isSpace := i < len(runes) && runes[i] == ' '
 				adv := textState.GlyphAdvance(cid, isSpace)
 				currentX += adv
@@ -678,21 +802,11 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 		}
 	}
 
-	// 🔥 修复：始终使用逐字符渲染，精确定位每个字形
-	// 这样可以避免文本重叠问题，因为我们使用PDF的精确字形宽度
-	for _, g := range glyphs {
-		ctx.CairoCtx.Save()
-		ctx.CairoCtx.MoveTo(g.X, g.Y)
-
-		charLayout := ctx.CairoCtx.PangoCairoCreateLayout().(*cairo.PangoCairoLayout)
-		charLayout.SetFontDescription(fontDesc)
-		charLayout.SetText(string(g.Rune))
-		ctx.CairoCtx.PangoCairoShowText(charLayout)
-
-		ctx.CairoCtx.Restore()
+	// 🔥 使用 Pango 自动布局渲染文本
+	// Pango 会自动处理字符间距、连字、字距调整等
+	if len(glyphs) > 0 {
+		renderGlyphsWithPangoBatch(ctx, glyphs, fontDesc)
 	}
-
-	debugPrintf("[RENDER] Rendered %d glyphs using individual positioning\n", len(glyphs))
 
 	// 更新文本矩阵：使用PDF的字形宽度
 	// 这对于在同一个BT...ET块中的多个Tj操作是必要的

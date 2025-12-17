@@ -3,3 +3,4 @@ check*.go
 debug*.go
 .kiro
 *.exe
+*.py

@@ -216,9 +216,6 @@ func renderImageXObject(ctx *RenderContext, xobj *XObject) error {
 		return fmt.Errorf("no image data available")
 	}
 
-	// 注意：不使用 Save/Restore，因为会撤销绘制操作
-	// Do 操作符外层已经有 q/Q 来保存/恢复状态
-
 	// 创建 Cairo image surface
 	bounds := xobj.ImageData.Bounds()
 	width := bounds.Dx()
@@ -239,8 +236,8 @@ func renderImageXObject(ctx *RenderContext, xobj *XObject) error {
 		}
 	}
 
-	// 手动创建 Cairo surface，使用 RGB24 格式（不带 alpha），避免预乘问题
-	imgSurface := cairo.NewImageSurface(cairo.FormatRGB24, width, height)
+	// 使用 ARGB32 格式以支持透明度
+	imgSurface := cairo.NewImageSurface(cairo.FormatARGB32, width, height)
 	defer imgSurface.Destroy()
 
 	// 手动填充数据
@@ -250,82 +247,123 @@ func renderImageXObject(ctx *RenderContext, xobj *XObject) error {
 
 		for y := 0; y < height; y++ {
 			for x := 0; x < width; x++ {
-				r, g, b, _ := xobj.ImageData.At(x+bounds.Min.X, y+bounds.Min.Y).RGBA()
+				r, g, b, a := xobj.ImageData.At(x+bounds.Min.X, y+bounds.Min.Y).RGBA()
 				offset := y*stride + x*4
 
-				// Cairo RGB24 格式：BGRX 字节序（X 是未使用的字节）
+				// Cairo ARGB32 格式：预乘 BGRA 字节序
+				// 需要将颜色值预乘 alpha
+				a8 := uint8(a >> 8)
 				r8 := uint8(r >> 8)
 				g8 := uint8(g >> 8)
 				b8 := uint8(b >> 8)
 
+				// 预乘 alpha
+				if a8 < 255 {
+					alpha := float64(a8) / 255.0
+					r8 = uint8(float64(r8) * alpha)
+					g8 = uint8(float64(g8) * alpha)
+					b8 = uint8(float64(b8) * alpha)
+				}
+
 				data[offset+0] = b8 // B
 				data[offset+1] = g8 // G
 				data[offset+2] = r8 // R
-				data[offset+3] = 0  // 未使用
+				data[offset+3] = a8 // A
 			}
 		}
 		cairoImg.MarkDirty()
 
 		// 验证数据
-		debugPrintf("[renderImageXObject] Cairo RGB24 surface pixel (0,0): B=%d G=%d R=%d\n",
-			data[0], data[1], data[2])
+		debugPrintf("[renderImageXObject] Cairo ARGB32 surface pixel (0,0): B=%d G=%d R=%d A=%d\n",
+			data[0], data[1], data[2], data[3])
 		if width > 100 && height > 100 {
 			offset := 100*stride + 100*4
-			debugPrintf("[renderImageXObject] Cairo RGB24 surface pixel (100,100): B=%d G=%d R=%d\n",
-				data[offset], data[offset+1], data[offset+2])
+			debugPrintf("[renderImageXObject] Cairo ARGB32 surface pixel (100,100): B=%d G=%d R=%d A=%d\n",
+				data[offset], data[offset+1], data[offset+2], data[offset+3])
 		}
 	}
 
-	// 🔥 修复：PDF图像XObject占据单位正方形(0,0)到(1,1)
-	// 外层的cm矩阵已经设置了实际尺寸和位置
-	// 我们需要：
-	// 1. 将图像缩放到1x1单位空间
-	// 2. 翻转Y轴（PDF坐标系Y向上，Cairo Y向下）
-	// 3. 确保图像不超出页面边界（如果需要）
-
 	debugPrintf("[renderImageXObject] Applying transformations\n")
+
+	// 获取当前图形状态
+	state := ctx.GetCurrentState()
+	if state != nil && state.CTM != nil {
+		debugPrintf("[renderImageXObject] CTM: [%.3f %.3f %.3f %.3f %.3f %.3f]\n",
+			state.CTM.A, state.CTM.B, state.CTM.C, state.CTM.D, state.CTM.E, state.CTM.F)
+	}
+
+	// PDF 图像 XObject 占据单位正方形 (0,0) 到 (1,1)
+	// 外层的 cm 矩阵已经设置了实际尺寸和位置
+	//
+	// 关键理解：
+	// - PDF 中图像 XObject 定义在单位空间 [0,1]x[0,1]
+	// - 外层 cm 矩阵将这个单位空间映射到页面坐标
+	// - 我们需要将图像像素映射到这个单位空间
+	//
+	// 变换策略：
+	// 1. 翻转 Y 轴（PDF Y 向上，Cairo Y 向下）
+	// 2. 缩放图像使其填充单位正方形
 
 	// 保存当前变换
 	ctx.CairoCtx.Save()
 
-	// 🔥 修复：检查当前CTM，确保图像不会超出页面边界
-	// 获取当前变换矩阵来计算实际渲染尺寸
-	state := ctx.GetCurrentState()
-	if state != nil && state.CTM != nil {
-		// 计算图像在页面上的实际尺寸
-		// CTM已经包含了外层cm操作符设置的缩放
-		actualWidth := state.CTM.A   // 通常cm矩阵的A分量是宽度缩放
-		actualHeight := -state.CTM.D // D分量是高度缩放（负值因为Y轴翻转）
+	// PDF 图像 XObject 的坐标系统：
+	// - 图像占据单位正方形 (0,0) 到 (1,1)
+	// - 图像的 (0,0) 在左下角，(1,1) 在右上角
+	// - Cairo 的 (0,0) 在左上角
+	// - 外层 CTM 已经设置了位置和大小
+	//
+	// 变换步骤：
+	// 1. 缩放图像到单位空间：width 像素 -> 1 单位
+	// 2. 翻转 Y 轴：PDF Y 向上 -> Cairo Y 向下
 
-		debugPrintf("[renderImageXObject] CTM: [%.3f %.3f %.3f %.3f %.3f %.3f]\n",
-			state.CTM.A, state.CTM.B, state.CTM.C, state.CTM.D, state.CTM.E, state.CTM.F)
-		debugPrintf("[renderImageXObject] Calculated actual size: %.2f x %.2f\n", actualWidth, actualHeight)
+	// 检查当前 CTM 的 Y 轴方向
+	// 如果 CTM.D > 0，Y 轴是 PDF 方向（向上），需要翻转
+	// 如果 CTM.D < 0，Y 轴是 Cairo 方向（向下），不需要翻转
+	needFlipY := false
+	if state != nil && state.CTM != nil {
+		if state.CTM.D > 0 {
+			needFlipY = true
+			debugPrintf("[renderImageXObject] CTM.D=%.3f > 0, Y axis is PDF direction (up), need flip\n", state.CTM.D)
+		} else {
+			debugPrintf("[renderImageXObject] CTM.D=%.3f < 0, Y axis is Cairo direction (down), no flip needed\n", state.CTM.D)
+		}
 	}
 
-	// 变换步骤：
-	// 1. 翻转Y轴并平移：Scale(1, -1) + Translate(0, -1)
-	// 2. 缩放图像到1x1单位空间：Scale(1/width, 1/height)
-	ctx.CairoCtx.Scale(1.0, -1.0)
-	ctx.CairoCtx.Translate(0, -1.0)
-	ctx.CairoCtx.Scale(1.0/float64(width), 1.0/float64(height))
+	// 缩放图像到单位空间
+	scaleX := 1.0 / float64(width)
+	scaleY := 1.0 / float64(height)
 
-	// 设置图像为源（在 (0,0) 位置）
+	debugPrintf("[renderImageXObject] Scale factors: X=%.6f, Y=%.6f\n", scaleX, scaleY)
+
+	// 应用变换
+	if needFlipY {
+		// Y 轴是 PDF 方向，需要翻转
+		ctx.CairoCtx.Scale(scaleX, -scaleY)
+		ctx.CairoCtx.Translate(0, -float64(height))
+	} else {
+		// Y 轴已经是 Cairo 方向，只需缩放
+		ctx.CairoCtx.Scale(scaleX, scaleY)
+	}
+
+	debugPrintf("[renderImageXObject] Transformation applied\n")
+
+	// 设置图像为源
 	ctx.CairoCtx.SetSourceSurface(imgSurface, 0, 0)
 
-	// 获取 pattern 并设置过滤器
+	// 设置过滤器
 	pattern := ctx.CairoCtx.GetSource()
 	pattern.SetFilter(cairo.FilterBest)
 
-	debugPrintf("[renderImageXObject] Transformation applied, painting image\n")
+	debugPrintf("[renderImageXObject] Painting image\n")
 
-	// 按照 Cairo 规范：SetSourceSurface + Paint
-	// Paint 会将整个源绘制到当前裁剪区域
+	// 绘制图像
 	ctx.CairoCtx.Paint()
 
 	// 恢复变换
 	ctx.CairoCtx.Restore()
 
-	debugPrintf("[renderImageXObject] Image painted\n")
+	debugPrintf("[renderImageXObject] Image painted successfully\n")
 
 	return nil
 }
