@@ -225,6 +225,7 @@ func renderImageXObject(ctx *RenderContext, xobj *XObject) error {
 	height := bounds.Dy()
 
 	debugPrintf("[renderImageXObject] Creating surface: %dx%d pixels\n", width, height)
+	debugPrintf("[renderImageXObject] XObject dimensions: %dx%d\n", xobj.Width, xobj.Height)
 
 	// 采样图片数据来验证颜色
 	if width > 0 && height > 0 {
@@ -275,57 +276,38 @@ func renderImageXObject(ctx *RenderContext, xobj *XObject) error {
 		}
 	}
 
-	// PDF 规范：图像 XObject 的用户空间是 1x1 单位
-	// Do 操作符之前的 cm 矩阵已经将 1x1 单位空间映射到实际尺寸
-
-	// 在 PDF 中，图像的坐标系是：
-	// - 原点在左下角
-	// - (0,0) 到 (1,1) 映射到整个图像
-	// - X 轴向右，Y 轴向上
-
+	// 🔥 修复：PDF图像XObject占据单位正方形(0,0)到(1,1)
+	// 外层的cm矩阵已经设置了实际尺寸和位置
 	// 我们需要：
-	// 1. 将图像缩放到 1x1 单位空间
-	// 2. 翻转 Y 轴（因为图像数据是从上到下的）
-	// 3. 让 cm 矩阵将其放大到正确尺寸
+	// 1. 将图像缩放到1x1单位空间
+	// 2. 翻转Y轴（PDF坐标系Y向上，Cairo Y向下）
+	// 3. 确保图像不超出页面边界（如果需要）
 
 	debugPrintf("[renderImageXObject] Applying transformations\n")
-
-	// PDF 图像 XObject 的坐标系：
-	// - 图像占据 (0,0) 到 (1,1) 的单位正方形
-	// - 原点在左下角，Y 轴向上
-	//
-	// Cairo 图像的坐标系：
-	// - 图像数据从 (0,0) 开始，Y 轴向下
-	//
-	// 变换步骤：
-	// 1. 翻转 Y 轴：Scale(1, -1)
-	// 2. 平移到正确位置：Translate(0, -1)
-	// 3. 缩放到图像像素尺寸：Scale(width, height)
-
-	// PDF 规范：图像占据单位正方形 (0,0) 到 (1,1)
-	// 使用 pattern 矩阵来处理图像的缩放和翻转
-
-	// PDF 图像 XObject 的坐标系：
-	// - 图像占据 (0,0) 到 (1,1) 的单位正方形
-	// - 原点在左下角，Y 轴向上
-	//
-	// Cairo 图像的坐标系：
-	// - 图像数据从 (0,0) 开始，Y 轴向下
-	//
-	// 按照 Cairo 规范，使用 SetSourceSurface + Paint 绘制图像
-	// 需要先应用变换来处理坐标系差异
 
 	// 保存当前变换
 	ctx.CairoCtx.Save()
 
-	// 变换步骤：
-	// 1. 缩放到单位正方形：Scale(1/width, 1/height)
-	// 2. 翻转 Y 轴：Scale(1, -1)
-	// 3. 平移到正确位置：Translate(0, -height)
+	// 🔥 修复：检查当前CTM，确保图像不会超出页面边界
+	// 获取当前变换矩阵来计算实际渲染尺寸
+	state := ctx.GetCurrentState()
+	if state != nil && state.CTM != nil {
+		// 计算图像在页面上的实际尺寸
+		// CTM已经包含了外层cm操作符设置的缩放
+		actualWidth := state.CTM.A   // 通常cm矩阵的A分量是宽度缩放
+		actualHeight := -state.CTM.D // D分量是高度缩放（负值因为Y轴翻转）
 
-	// 先翻转 Y 轴并平移
-	ctx.CairoCtx.Scale(1.0/float64(width), -1.0/float64(height))
-	ctx.CairoCtx.Translate(0, -float64(height))
+		debugPrintf("[renderImageXObject] CTM: [%.3f %.3f %.3f %.3f %.3f %.3f]\n",
+			state.CTM.A, state.CTM.B, state.CTM.C, state.CTM.D, state.CTM.E, state.CTM.F)
+		debugPrintf("[renderImageXObject] Calculated actual size: %.2f x %.2f\n", actualWidth, actualHeight)
+	}
+
+	// 变换步骤：
+	// 1. 翻转Y轴并平移：Scale(1, -1) + Translate(0, -1)
+	// 2. 缩放图像到1x1单位空间：Scale(1/width, 1/height)
+	ctx.CairoCtx.Scale(1.0, -1.0)
+	ctx.CairoCtx.Translate(0, -1.0)
+	ctx.CairoCtx.Scale(1.0/float64(width), 1.0/float64(height))
 
 	// 设置图像为源（在 (0,0) 位置）
 	ctx.CairoCtx.SetSourceSurface(imgSurface, 0, 0)

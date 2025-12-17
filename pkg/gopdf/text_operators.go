@@ -113,6 +113,13 @@ func (f *Font) GetWidth(cid uint16) float64 {
 	if f.Subtype == "/Type0" || f.Subtype == "Type0" || len(f.Widths.CIDWidths) > 0 || len(f.Widths.CIDRanges) > 0 {
 		// 首先查找直接映射
 		if width, ok := f.Widths.CIDWidths[cid]; ok {
+			// 🔥 修复：如果宽度为0，使用默认宽度
+			if width == 0 {
+				if f.DefaultWidth > 0 {
+					return f.DefaultWidth
+				}
+				return 500.0
+			}
 			return width
 		}
 
@@ -127,7 +134,15 @@ func (f *Font) GetWidth(cid uint16) float64 {
 					// 宽度数组
 					offset := int(cid - r.StartCID)
 					if offset < len(r.Widths) {
-						return r.Widths[offset]
+						width := r.Widths[offset]
+						// 🔥 修复：如果宽度为0，使用默认宽度
+						if width == 0 {
+							if f.DefaultWidth > 0 {
+								return f.DefaultWidth
+							}
+							return 500.0
+						}
+						return width
 					}
 				}
 			}
@@ -149,7 +164,15 @@ func (f *Font) GetWidth(cid uint16) float64 {
 		if charCode >= f.Widths.FirstChar && charCode <= f.Widths.LastChar {
 			offset := charCode - f.Widths.FirstChar
 			if offset < len(f.Widths.Widths) {
-				return f.Widths.Widths[offset]
+				width := f.Widths.Widths[offset]
+				// 🔥 修复：如果宽度为0，使用默认宽度
+				if width == 0 {
+					if f.MissingWidth > 0 {
+						return f.MissingWidth
+					}
+					return 500.0
+				}
+				return width
 			}
 		}
 	}
@@ -655,42 +678,21 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 		}
 	}
 
-	// 🔥 智能渲染策略：根据文本长度选择渲染方式
-	// 1. 长文本（>1个字符）：一次性渲染，让Pango处理间距（适合test_vector.pdf）
-	// 2. 短文本（≤1个字符）：逐字符渲染，精确定位（适合test.pdf）
+	// 🔥 修复：始终使用逐字符渲染，精确定位每个字形
+	// 这样可以避免文本重叠问题，因为我们使用PDF的精确字形宽度
+	for _, g := range glyphs {
+		ctx.CairoCtx.Save()
+		ctx.CairoCtx.MoveTo(g.X, g.Y)
 
-	if len(glyphs) > 1 {
-		// 长文本：一次性渲染
-		if len(glyphs) > 0 {
-			ctx.CairoCtx.MoveTo(glyphs[0].X, glyphs[0].Y)
+		charLayout := ctx.CairoCtx.PangoCairoCreateLayout().(*cairo.PangoCairoLayout)
+		charLayout.SetFontDescription(fontDesc)
+		charLayout.SetText(string(g.Rune))
+		ctx.CairoCtx.PangoCairoShowText(charLayout)
 
-			var textBuilder strings.Builder
-			for _, g := range glyphs {
-				textBuilder.WriteRune(g.Rune)
-			}
-			fullText := textBuilder.String()
-
-			layout.SetText(fullText)
-			ctx.CairoCtx.PangoCairoShowText(layout)
-
-			debugPrintf("[RENDER] Rendered %d glyphs as continuous text: %q\n", len(glyphs), fullText)
-		}
-	} else {
-		// 短文本：逐字符渲染
-		for _, g := range glyphs {
-			ctx.CairoCtx.Save()
-			ctx.CairoCtx.MoveTo(g.X, g.Y)
-
-			charLayout := ctx.CairoCtx.PangoCairoCreateLayout().(*cairo.PangoCairoLayout)
-			charLayout.SetFontDescription(fontDesc)
-			charLayout.SetText(string(g.Rune))
-			ctx.CairoCtx.PangoCairoShowText(charLayout)
-
-			ctx.CairoCtx.Restore()
-		}
-
-		debugPrintf("[RENDER] Rendered %d glyphs using individual positioning\n", len(glyphs))
+		ctx.CairoCtx.Restore()
 	}
+
+	debugPrintf("[RENDER] Rendered %d glyphs using individual positioning\n", len(glyphs))
 
 	// 更新文本矩阵：使用PDF的字形宽度
 	// 这对于在同一个BT...ET块中的多个Tj操作是必要的
@@ -822,6 +824,14 @@ func (ts *TextState) GlyphAdvance(cid uint16, isSpace bool) float64 {
 
 	// 1. 获取字形宽度（千分之一 em）
 	glyphWidth := ts.Font.GetWidth(cid)
+
+	// 🔥 修复：如果字形宽度为0或默认值500，使用更合理的估算
+	// 这可以避免字符重叠问题
+	if glyphWidth == 0 {
+		// 对于宽度为0的字形，使用字体大小的一半作为默认宽度
+		glyphWidth = 500.0
+		debugPrintf("[GlyphAdvance] CID %d has zero width, using default 500\n", cid)
+	}
 
 	// 2. 转换为用户空间单位
 	adv := glyphWidth * ts.FontSize / 1000.0

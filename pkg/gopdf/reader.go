@@ -490,17 +490,31 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 			if doOp, ok := op.(*OpDoXObject); ok {
 				xobj := resources.GetXObject(doOp.XObjectName)
 				if xobj != nil && (xobj.Subtype == "/Image" || xobj.Subtype == "Image") {
-					// 获取当前变换矩阵来确定图片位置
+					// 🔥 修复：获取当前变换矩阵来确定图片位置和实际尺寸
+					// PDF图像XObject占据单位正方形(0,0)到(1,1)
+					// CTM的缩放分量决定了图像的实际尺寸
 					x := ctm.E
 					y := pageInfo.Height - ctm.F
+
+					// 计算实际渲染尺寸：CTM的缩放分量 × 单位正方形
+					// CTM.A 是X方向的缩放，CTM.D 是Y方向的缩放
+					actualWidth := ctm.A
+					actualHeight := -ctm.D // 负号因为PDF Y轴向上，Cairo Y轴向下
+
+					if actualHeight < 0 {
+						actualHeight = -actualHeight
+					}
 
 					imageElements = append(imageElements, ImageElementInfo{
 						Name:   doOp.XObjectName,
 						X:      x,
 						Y:      y,
-						Width:  float64(xobj.Width),
-						Height: float64(xobj.Height),
+						Width:  actualWidth,  // 使用变换后的实际宽度
+						Height: actualHeight, // 使用变换后的实际高度
 					})
+
+					debugPrintf("[DEBUG] Do operator: Image %s at (%.2f, %.2f), actual size: %.2fx%.2f (original: %dx%d)\n",
+						doOp.XObjectName, x, y, actualWidth, actualHeight, xobj.Width, xobj.Height)
 				}
 			}
 		}
@@ -1337,6 +1351,13 @@ func loadCIDFontWidths(ctx *model.Context, fontDict types.Dict, font *Font) erro
 			font.DefaultWidth = float64(num)
 		}
 		debugPrintf("✓ Default width for CID font %s: %.0f\n", font.Name, font.DefaultWidth)
+	}
+
+	// 🔥 修复：如果默认宽度为0或未设置，使用合理的默认值
+	// PDF规范建议CID字体的默认宽度通常是1000（1 em）
+	if font.DefaultWidth == 0 {
+		font.DefaultWidth = 1000.0
+		debugPrintf("✓ Using fallback default width for CID font %s: 1000\n", font.Name)
 	}
 
 	// 读取 W (Widths) 数组
