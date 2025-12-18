@@ -493,28 +493,51 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 					// 🔥 修复：获取当前变换矩阵来确定图片位置和实际尺寸
 					// PDF图像XObject占据单位正方形(0,0)到(1,1)
 					// CTM的缩放分量决定了图像的实际尺寸
-					x := ctm.E
-					y := pageInfo.Height - ctm.F
 
-					// 计算实际渲染尺寸：CTM的缩放分量 × 单位正方形
-					// CTM.A 是X方向的缩放，CTM.D 是Y方向的缩放
+					// 重要：CTM 已经包含了页面级别的坐标转换（PDF -> Cairo）
+					// 因此 CTM.E 和 CTM.F 已经是 Cairo 坐标系中的值
+					// CTM.D 的符号表示 Y 轴方向：
+					// - CTM.D > 0：Y 轴向下（Cairo 方向），CTM.F 是图片顶部
+					// - CTM.D < 0：Y 轴向上（PDF 方向），CTM.F 是图片底部
+
+					// 计算实际渲染尺寸
 					actualWidth := ctm.A
-					actualHeight := -ctm.D // 负号因为PDF Y轴向上，Cairo Y轴向下
+					if actualWidth < 0 {
+						actualWidth = -actualWidth
+					}
 
+					actualHeight := ctm.D
 					if actualHeight < 0 {
 						actualHeight = -actualHeight
+					}
+
+					// CTM.E 和 CTM.F 已经在 Cairo 坐标系中
+					// 但我们需要转换为"从页面顶部开始"的坐标系统
+					x := ctm.E
+					var y float64
+
+					if ctm.D > 0 {
+						// CTM.D > 0：Y 轴向下（Cairo 方向）
+						// CTM.F 是图片顶部在 Cairo 坐标系中的位置
+						// 但 Cairo 坐标原点在左上角，Y 向下
+						// 我们需要的是从页面顶部开始的坐标
+						y = ctm.F
+					} else {
+						// CTM.D < 0：Y 轴向上（PDF 方向）
+						// CTM.F 是图片底部，需要减去高度得到顶部
+						y = ctm.F - actualHeight
 					}
 
 					imageElements = append(imageElements, ImageElementInfo{
 						Name:   doOp.XObjectName,
 						X:      x,
 						Y:      y,
-						Width:  actualWidth,  // 使用变换后的实际宽度
-						Height: actualHeight, // 使用变换后的实际高度
+						Width:  actualWidth,
+						Height: actualHeight,
 					})
 
-					debugPrintf("[DEBUG] Do operator: Image %s at (%.2f, %.2f), actual size: %.2fx%.2f (original: %dx%d)\n",
-						doOp.XObjectName, x, y, actualWidth, actualHeight, xobj.Width, xobj.Height)
+					debugPrintf("[DEBUG] Do operator: Image %s at CTM(%.2f, %.2f), Final(%.2f, %.2f), size: %.2fx%.2f, CTM.D=%.2f (original: %dx%d)\n",
+						doOp.XObjectName, ctm.E, ctm.F, x, y, actualWidth, actualHeight, ctm.D, xobj.Width, xobj.Height)
 				}
 			}
 		}
