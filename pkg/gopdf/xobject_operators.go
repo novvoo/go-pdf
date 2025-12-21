@@ -250,7 +250,7 @@ func renderImageXObject(ctx *RenderContext, xobj *XObject) error {
 				r, g, b, a := xobj.ImageData.At(x+bounds.Min.X, y+bounds.Min.Y).RGBA()
 				offset := y*stride + x*4
 
-				// Cairo ARGB32 格式：预乘 BGRA 字节序
+				// Cairo ARGB32 格式：预乘 BGRA 字节序（小端系统）
 				// 需要将颜色值预乘 alpha
 				a8 := uint8(a >> 8)
 				r8 := uint8(r >> 8)
@@ -265,22 +265,16 @@ func renderImageXObject(ctx *RenderContext, xobj *XObject) error {
 					b8 = uint8(float64(b8) * alpha)
 				}
 
-				data[offset+0] = b8 // B
-				data[offset+1] = g8 // G
-				data[offset+2] = r8 // R
-				data[offset+3] = a8 // A
+				if offset+3 < len(data) {
+					data[offset+0] = b8 // B
+					data[offset+1] = g8 // G
+					data[offset+2] = r8 // R
+					data[offset+3] = a8 // A
+				}
 			}
 		}
-		cairoImg.MarkDirty()
 
-		// 验证数据
-		debugPrintf("[renderImageXObject] Cairo ARGB32 surface pixel (0,0): B=%d G=%d R=%d A=%d\n",
-			data[0], data[1], data[2], data[3])
-		if width > 100 && height > 100 {
-			offset := 100*stride + 100*4
-			debugPrintf("[renderImageXObject] Cairo ARGB32 surface pixel (100,100): B=%d G=%d R=%d A=%d\n",
-				data[offset], data[offset+1], data[offset+2], data[offset+3])
-		}
+		cairoImg.MarkDirty()
 	}
 
 	debugPrintf("[renderImageXObject] Applying transformations\n")
@@ -306,6 +300,10 @@ func renderImageXObject(ctx *RenderContext, xobj *XObject) error {
 
 	// 保存当前变换
 	ctx.CairoCtx.Save()
+	
+	// 🔍 重置操作符和混合模式，确保图像正常绘制
+	ctx.CairoCtx.SetOperator(cairo.OperatorOver)
+	debugPrintf("[renderImageXObject] Set operator to Over\n")
 
 	// PDF 图像 XObject 的坐标系统：
 	// - 图像占据单位正方形 (0,0) 到 (1,1)
@@ -341,24 +339,42 @@ func renderImageXObject(ctx *RenderContext, xobj *XObject) error {
 		// Y 轴是 PDF 方向，需要翻转
 		ctx.CairoCtx.Scale(scaleX, -scaleY)
 		ctx.CairoCtx.Translate(0, -float64(height))
+		debugPrintf("[renderImageXObject] Applied: Scale(%.6f, %.6f) + Translate(0, %.0f)\n", 
+			scaleX, -scaleY, -float64(height))
 	} else {
 		// Y 轴已经是 Cairo 方向，只需缩放
 		ctx.CairoCtx.Scale(scaleX, scaleY)
+		debugPrintf("[renderImageXObject] Applied: Scale(%.6f, %.6f)\n", scaleX, scaleY)
 	}
 
 	debugPrintf("[renderImageXObject] Transformation applied\n")
 
 	// 设置图像为源
 	ctx.CairoCtx.SetSourceSurface(imgSurface, 0, 0)
+	debugPrintf("[renderImageXObject] Set source surface\n")
 
 	// 设置过滤器
 	pattern := ctx.CairoCtx.GetSource()
 	pattern.SetFilter(cairo.FilterBest)
+	
+	// 🔍 调试：检查 pattern 的矩阵
+	debugPrintf("[renderImageXObject] Pattern filter set to Best\n")
 
 	debugPrintf("[renderImageXObject] Painting image\n")
 
-	// 绘制图像
-	ctx.CairoCtx.Paint()
+	// 绘制图像 - 使用 PaintWithAlpha 以确保透明度正确处理
+	// 如果图形状态有 alpha，使用它；否则使用 1.0（完全不透明）
+	alpha := 1.0
+	if state != nil {
+		alpha = state.FillAlpha
+	}
+	if alpha < 1.0 {
+		ctx.CairoCtx.PaintWithAlpha(alpha)
+		debugPrintf("[renderImageXObject] Painted with alpha=%.2f\n", alpha)
+	} else {
+		ctx.CairoCtx.Paint()
+		debugPrintf("[renderImageXObject] Painted with alpha=1.0\n")
+	}
 
 	// 恢复变换
 	ctx.CairoCtx.Restore()
@@ -505,22 +521,143 @@ func decodeImageXObject(xobj *XObject) error {
 		// 在实际应用中，需要解析ICC配置文件并进行颜色转换
 		debugPrintf("⚠️  ICCBased color space detected but using RGB approximation\n")
 
-		// 假设是RGB颜色空间进行处理
-		bytesPerPixel := 3
+		// 计算实际的字节数来推断颜色分量数
+		expectedBytes := width * height
+		bytesPerPixel := 3 // 默认 RGB
+		
+		// 根据实际数据大小推断颜色分量数
+		if len(xobj.Stream) >= expectedBytes*4 {
+			bytesPerPixel = 4 // CMYK
+			debugPrintf("[ICCBased] Detected 4 components (CMYK), stream size: %d bytes\n", len(xobj.Stream))
+		} else if len(xobj.Stream) >= expectedBytes*3 {
+			bytesPerPixel = 3 // RGB
+			debugPrintf("[ICCBased] Detected 3 components (RGB), stream size: %d bytes\n", len(xobj.Stream))
+		} else if len(xobj.Stream) >= expectedBytes {
+			bytesPerPixel = 1 // Gray
+			debugPrintf("[ICCBased] Detected 1 component (Gray), stream size: %d bytes\n", len(xobj.Stream))
+		}
+
+		// 采样前几个像素来检查数据
+		needInvert := false
+		if len(xobj.Stream) >= 30 && bytesPerPixel >= 3 {
+			debugPrintf("[ICCBased] First 5 pixels:\n")
+			blackCount := 0
+			for i := 0; i < 5 && i*bytesPerPixel+2 < len(xobj.Stream); i++ {
+				if bytesPerPixel == 3 {
+					r := xobj.Stream[i*bytesPerPixel]
+					g := xobj.Stream[i*bytesPerPixel+1]
+					b := xobj.Stream[i*bytesPerPixel+2]
+					debugPrintf("  Pixel %d: R=%d G=%d B=%d\n", i, r, g, b)
+					if r < 10 && g < 10 && b < 10 {
+						blackCount++
+					}
+				} else if bytesPerPixel == 4 {
+					c := xobj.Stream[i*bytesPerPixel]
+					m := xobj.Stream[i*bytesPerPixel+1]
+					y := xobj.Stream[i*bytesPerPixel+2]
+					k := xobj.Stream[i*bytesPerPixel+3]
+					debugPrintf("  Pixel %d: C=%d M=%d Y=%d K=%d\n", i, c, m, y, k)
+				}
+			}
+			
+			// 采样中间部分的像素
+			midOffset := len(xobj.Stream) / 2
+			midOffset = (midOffset / bytesPerPixel) * bytesPerPixel // 对齐到像素边界
+			debugPrintf("[ICCBased] Middle 5 pixels (offset %d):\n", midOffset/bytesPerPixel)
+			for i := 0; i < 5 && midOffset+i*bytesPerPixel+2 < len(xobj.Stream); i++ {
+				if bytesPerPixel == 3 {
+					r := xobj.Stream[midOffset+i*bytesPerPixel]
+					g := xobj.Stream[midOffset+i*bytesPerPixel+1]
+					b := xobj.Stream[midOffset+i*bytesPerPixel+2]
+					debugPrintf("  Pixel %d: R=%d G=%d B=%d\n", i, r, g, b)
+					if r < 10 && g < 10 && b < 10 {
+						blackCount++
+					}
+				} else if bytesPerPixel == 4 {
+					c := xobj.Stream[midOffset+i*bytesPerPixel]
+					m := xobj.Stream[midOffset+i*bytesPerPixel+1]
+					y := xobj.Stream[midOffset+i*bytesPerPixel+2]
+					k := xobj.Stream[midOffset+i*bytesPerPixel+3]
+					debugPrintf("  Pixel %d: C=%d M=%d Y=%d K=%d\n", i, c, m, y, k)
+				}
+			}
+			
+			// 如果大部分采样像素都是黑色，可能需要反转颜色
+			// 这通常发生在某些 ICC Profile 中，特别是从 CMYK 转换来的
+			// 暂时禁用自动反转，让用户确认原始图像颜色
+			if blackCount >= 8 {
+				needInvert = false // 暂时禁用
+				debugPrintf("[ICCBased] ⚠️  Detected mostly black pixels (%d/10), but auto-invert is disabled\n", blackCount)
+			}
+		}
+
 		if bpc == 8 {
-			for y := 0; y < height; y++ {
-				for x := 0; x < width; x++ {
-					offset := (y*width + x) * bytesPerPixel
-					if offset+2 < len(xobj.Stream) {
-						r := xobj.Stream[offset]
-						g := xobj.Stream[offset+1]
-						b := xobj.Stream[offset+2]
-						img.Set(x, y, color.RGBA{R: r, G: g, B: b, A: 255})
+			if bytesPerPixel == 3 {
+				// RGB
+				for y := 0; y < height; y++ {
+					for x := 0; x < width; x++ {
+						offset := (y*width + x) * bytesPerPixel
+						if offset+2 < len(xobj.Stream) {
+							r := xobj.Stream[offset]
+							g := xobj.Stream[offset+1]
+							b := xobj.Stream[offset+2]
+							
+							// 如果需要反转颜色
+							if needInvert {
+								r = 255 - r
+								g = 255 - g
+								b = 255 - b
+							}
+							
+							img.Set(x, y, color.RGBA{R: r, G: g, B: b, A: 255})
+						}
+					}
+				}
+			} else if bytesPerPixel == 4 {
+				// CMYK
+				for y := 0; y < height; y++ {
+					for x := 0; x < width; x++ {
+						offset := (y*width + x) * bytesPerPixel
+						if offset+3 < len(xobj.Stream) {
+							c := float64(xobj.Stream[offset]) / 255.0
+							m := float64(xobj.Stream[offset+1]) / 255.0
+							yc := float64(xobj.Stream[offset+2]) / 255.0
+							k := float64(xobj.Stream[offset+3]) / 255.0
+
+							r, g, b := cmykToRGB(c, m, yc, k)
+							img.Set(x, y, color.RGBA{
+								R: uint8(r * 255),
+								G: uint8(g * 255),
+								B: uint8(b * 255),
+								A: 255,
+							})
+						}
+					}
+				}
+			} else if bytesPerPixel == 1 {
+				// Gray
+				for y := 0; y < height; y++ {
+					for x := 0; x < width; x++ {
+						offset := y*width + x
+						if offset < len(xobj.Stream) {
+							gray := xobj.Stream[offset]
+							
+							// 如果需要反转颜色
+							if needInvert {
+								gray = 255 - gray
+							}
+							
+							img.Set(x, y, color.RGBA{R: gray, G: gray, B: gray, A: 255})
+						}
 					}
 				}
 			}
 		}
-		debugPrintf("✓ Processed ICCBased color space image (%dx%d)\n", width, height)
+		if needInvert {
+			debugPrintf("✓ Processed ICCBased color space image (%dx%d, %d components, inverted)\n", width, height, bytesPerPixel)
+		} else {
+			debugPrintf("✓ Processed ICCBased color space image (%dx%d, %d components)\n", width, height, bytesPerPixel)
+		}
 
 	default:
 		// 不支持的颜色空间，创建占位图像

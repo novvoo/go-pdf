@@ -303,6 +303,13 @@ func (op *OpMoveTo) Name() string { return "m" }
 func (op *OpMoveTo) Execute(ctx *RenderContext) error {
 	ctx.CurrentPath.MoveTo(op.X, op.Y)
 	ctx.CairoCtx.MoveTo(op.X, op.Y)
+	state := ctx.GetCurrentState()
+	if state != nil && state.CTM != nil {
+		debugPrintf("[m] MoveTo(%.2f, %.2f) CTM=[%.2f %.2f %.2f %.2f %.2f %.2f]\n", 
+			op.X, op.Y, state.CTM.A, state.CTM.B, state.CTM.C, state.CTM.D, state.CTM.E, state.CTM.F)
+	} else {
+		debugPrintf("[m] MoveTo(%.2f, %.2f)\n", op.X, op.Y)
+	}
 	return nil
 }
 
@@ -316,6 +323,7 @@ func (op *OpLineTo) Name() string { return "l" }
 func (op *OpLineTo) Execute(ctx *RenderContext) error {
 	ctx.CurrentPath.LineTo(op.X, op.Y)
 	ctx.CairoCtx.LineTo(op.X, op.Y)
+	debugPrintf("[l] LineTo(%.2f, %.2f)\n", op.X, op.Y)
 	return nil
 }
 
@@ -329,6 +337,8 @@ func (op *OpCurveTo) Name() string { return "c" }
 func (op *OpCurveTo) Execute(ctx *RenderContext) error {
 	ctx.CurrentPath.CurveTo(op.X1, op.Y1, op.X2, op.Y2, op.X3, op.Y3)
 	ctx.CairoCtx.CurveTo(op.X1, op.Y1, op.X2, op.Y2, op.X3, op.Y3)
+	debugPrintf("[c] CurveTo(%.2f, %.2f, %.2f, %.2f, %.2f, %.2f)\n", 
+		op.X1, op.Y1, op.X2, op.Y2, op.X3, op.Y3)
 	return nil
 }
 

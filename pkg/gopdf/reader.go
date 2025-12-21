@@ -1302,17 +1302,44 @@ func loadXObject(ctx *model.Context, xobjName string, xobjObj types.Object, reso
 			}
 		}
 
+		// 解析颜色空间
+		colorSpaceFound := false
 		if colorSpace, found := streamDict.Find("ColorSpace"); found {
+			colorSpaceFound = true
 			if name, ok := colorSpace.(types.Name); ok {
 				xobj.ColorSpace = name.String()
+				debugPrintf("[loadXObject] ColorSpace (Name): %s\n", xobj.ColorSpace)
 			} else if arr, ok := colorSpace.(types.Array); ok {
-				// ColorSpace 可能是数组，例如 [/ICCBased ...]
+				// ColorSpace 可能是数组，例如 [/ICCBased ...] 或 [/Indexed ...]
 				if len(arr) > 0 {
 					if name, ok := arr[0].(types.Name); ok {
 						xobj.ColorSpace = name.String()
+						debugPrintf("[loadXObject] ColorSpace (Array): %s\n", xobj.ColorSpace)
+					}
+				}
+			} else if indRef, ok := colorSpace.(types.IndirectRef); ok {
+				// ColorSpace 可能是间接引用，需要解引用
+				derefCS, err := ctx.Dereference(indRef)
+				if err == nil {
+					if name, ok := derefCS.(types.Name); ok {
+						xobj.ColorSpace = name.String()
+						debugPrintf("[loadXObject] ColorSpace (IndirectRef->Name): %s\n", xobj.ColorSpace)
+					} else if arr, ok := derefCS.(types.Array); ok {
+						if len(arr) > 0 {
+							if name, ok := arr[0].(types.Name); ok {
+								xobj.ColorSpace = name.String()
+								debugPrintf("[loadXObject] ColorSpace (IndirectRef->Array): %s\n", xobj.ColorSpace)
+							}
+						}
 					}
 				}
 			}
+		}
+
+		// 如果没有找到 ColorSpace，使用默认值 DeviceRGB
+		if !colorSpaceFound || xobj.ColorSpace == "" {
+			xobj.ColorSpace = "DeviceRGB"
+			debugPrintf("[loadXObject] ColorSpace not found, using default: DeviceRGB\n")
 		}
 
 		if bpc, found := streamDict.Find("BitsPerComponent"); found {
@@ -1320,6 +1347,21 @@ func loadXObject(ctx *model.Context, xobjName string, xobjObj types.Object, reso
 				xobj.BitsPerComponent = int(num)
 			} else if num, ok := bpc.(types.Float); ok {
 				xobj.BitsPerComponent = int(num)
+			}
+		}
+
+		// 🔍 处理软遮罩 (SMask)
+		if smaskObj, found := streamDict.Find("SMask"); found {
+			debugPrintf("[loadXObject] Found SMask for image %s\n", xobjName)
+			// SMask 可以是 /None 或者是一个 XObject 引用
+			if name, ok := smaskObj.(types.Name); ok && name.String() == "/None" {
+				debugPrintf("[loadXObject] SMask is /None, ignoring\n")
+			} else if indRef, ok := smaskObj.(types.IndirectRef); ok {
+				// SMask 是一个间接引用，指向另一个 XObject
+				debugPrintf("[loadXObject] SMask is an indirect reference: %v\n", indRef)
+				// 暂时忽略 SMask，因为它可能导致颜色问题
+				// TODO: 正确实现 SMask 的加载和应用
+				debugPrintf("[loadXObject] ⚠️  SMask detected but currently ignored to avoid color issues\n")
 			}
 		}
 	}
