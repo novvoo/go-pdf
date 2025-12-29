@@ -25,10 +25,10 @@ type PDFRenderer struct {
 
 // RenderOptions 渲染选项
 type RenderOptions struct {
-	DPI        float64      // 分辨率，默认 72
-	OutputPath string       // 输出文件路径
-	Format     Format // 图片格式，默认 ARGB32
-	Background *RGB         // 背景色，nil 表示透明
+	DPI        float64 // 分辨率，默认 72
+	OutputPath string  // 输出文件路径
+	Format     Format  // 图片格式，默认 ARGB32
+	Background *RGB    // 背景色，nil 表示透明
 }
 
 // RGB 颜色
@@ -76,6 +76,7 @@ func (r *PDFRenderer) SetDPI(dpi float64) {
 
 // CreatePDFFromImage 从图片创建 PDF
 // 使用 Pixman 后端进行图像处理
+// 优化：使用批量像素复制替代逐像素循环
 func (r *PDFRenderer) CreatePDFFromImage(imagePath, outputPath string) error {
 	// 读取图片
 	imgFile, err := os.Open(imagePath)
@@ -104,16 +105,7 @@ func (r *PDFRenderer) CreatePDFFromImage(imagePath, outputPath string) error {
 
 	// 如果启用 Pixman，使用 Pixman 处理图像
 	if r.usePixman {
-		rgba, ok := img.(*image.RGBA)
-		if !ok {
-			// 转换为 RGBA
-			rgba = image.NewRGBA(bounds)
-			for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
-				for x := bounds.Min.X; x < bounds.Max.X; x++ {
-					rgba.Set(x, y, img.At(x, y))
-				}
-			}
-		}
+		rgba := convertToRGBAOptimized(img)
 
 		// 使用 Pixman 后端
 		pixmanBackend := NewPixmanBackendFromRGBA(rgba)
@@ -150,6 +142,101 @@ func (r *PDFRenderer) CreatePDFFromImage(imagePath, outputPath string) error {
 	pdfSurface.ShowPage()
 
 	return nil
+}
+
+// convertToRGBAOptimized 优化的图像转换函数
+// 使用批量操作和类型断言避免逐像素循环
+func convertToRGBAOptimized(img image.Image) *image.RGBA {
+	// 快速路径：已经是 RGBA
+	if rgba, ok := img.(*image.RGBA); ok {
+		return rgba
+	}
+
+	bounds := img.Bounds()
+	rgba := image.NewRGBA(bounds)
+
+	// 尝试使用类型断言进行批量复制
+	switch src := img.(type) {
+	case *image.NRGBA:
+		// NRGBA 可以直接复制像素数据
+		copy(rgba.Pix, src.Pix)
+		return rgba
+	case *image.YCbCr:
+		// YCbCr 需要转换，但可以批量处理
+		convertYCbCrToRGBA(src, rgba)
+		return rgba
+	case *image.Gray:
+		// 灰度图批量转换
+		convertGrayToRGBA(src, rgba)
+		return rgba
+	default:
+		// 回退到逐像素复制（但使用优化的循环）
+		dx, dy := bounds.Dx(), bounds.Dy()
+		for y := 0; y < dy; y++ {
+			for x := 0; x < dx; x++ {
+				rgba.Set(x, y, img.At(bounds.Min.X+x, bounds.Min.Y+y))
+			}
+		}
+		return rgba
+	}
+}
+
+// convertYCbCrToRGBA 批量转换 YCbCr 到 RGBA
+func convertYCbCrToRGBA(src *image.YCbCr, dst *image.RGBA) {
+	bounds := src.Bounds()
+	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
+		for x := bounds.Min.X; x < bounds.Max.X; x++ {
+			yi := src.YOffset(x, y)
+			ci := src.COffset(x, y)
+
+			yy := int32(src.Y[yi])
+			cb := int32(src.Cb[ci]) - 128
+			cr := int32(src.Cr[ci]) - 128
+
+			// YCbCr 到 RGB 转换
+			r := (yy + 91881*cr) >> 16
+			g := (yy - 22554*cb - 46802*cr) >> 16
+			b := (yy + 116130*cb) >> 16
+
+			// 裁剪到 [0, 255]
+			if r < 0 {
+				r = 0
+			} else if r > 255 {
+				r = 255
+			}
+			if g < 0 {
+				g = 0
+			} else if g > 255 {
+				g = 255
+			}
+			if b < 0 {
+				b = 0
+			} else if b > 255 {
+				b = 255
+			}
+
+			i := dst.PixOffset(x, y)
+			dst.Pix[i+0] = uint8(r)
+			dst.Pix[i+1] = uint8(g)
+			dst.Pix[i+2] = uint8(b)
+			dst.Pix[i+3] = 255
+		}
+	}
+}
+
+// convertGrayToRGBA 批量转换灰度图到 RGBA
+func convertGrayToRGBA(src *image.Gray, dst *image.RGBA) {
+	bounds := src.Bounds()
+	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
+		for x := bounds.Min.X; x < bounds.Max.X; x++ {
+			gray := src.GrayAt(x, y).Y
+			i := dst.PixOffset(x, y)
+			dst.Pix[i+0] = gray
+			dst.Pix[i+1] = gray
+			dst.Pix[i+2] = gray
+			dst.Pix[i+3] = 255
+		}
+	}
 }
 
 // RenderToPNG 使用 Gopdf 渲染图形到 PNG
@@ -286,9 +373,15 @@ func (r *PDFRenderer) renderWithPixman(opts *RenderOptions, width, height int, s
 func (r *PDFRenderer) renderWithGopdf(opts *RenderOptions, width, height int, scale float64, drawFunc func(ctx Context)) error {
 	// 创建图像 surface
 	imgSurface := NewImageSurface(opts.Format, width, height)
+	if imgSurface == nil {
+		return fmt.Errorf("failed to create image surface")
+	}
 	defer imgSurface.Destroy()
 
 	ctx := NewContext(imgSurface)
+	if ctx == nil {
+		return fmt.Errorf("failed to create context")
+	}
 	defer ctx.Destroy()
 
 	// 设置背景色
@@ -310,8 +403,10 @@ func (r *PDFRenderer) renderWithGopdf(opts *RenderOptions, width, height int, sc
 		if imgSurf, ok := imgSurface.(ImageSurface); ok {
 			status := imgSurf.WriteToPNG(opts.OutputPath)
 			if status != StatusSuccess {
-				return fmt.Errorf("failed to write PNG: %v", status)
+				return fmt.Errorf("failed to write PNG: status=%v", status)
 			}
+		} else {
+			return fmt.Errorf("surface is not an ImageSurface")
 		}
 	}
 

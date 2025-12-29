@@ -15,14 +15,28 @@ import (
 
 // PDFReader 用于读取和渲染 PDF 文件
 type PDFReader struct {
-	pdfPath string
+	pdfPath        string
+	resourceCache  map[int]*Resources // 页面资源缓存
+	contextCache   *model.Context     // PDF 上下文缓存
+	pageCountCache int                // 页数缓存
+	pageDimsCache  []PageInfo         // 页面尺寸缓存
 }
 
 // NewPDFReader 创建新的 PDF 读取器
 func NewPDFReader(pdfPath string) *PDFReader {
 	return &PDFReader{
-		pdfPath: pdfPath,
+		pdfPath:        pdfPath,
+		resourceCache:  make(map[int]*Resources),
+		pageCountCache: -1, // -1 表示未缓存
 	}
+}
+
+// Close 关闭 PDF 读取器并清理缓存
+func (r *PDFReader) Close() error {
+	r.resourceCache = nil
+	r.contextCache = nil
+	r.pageDimsCache = nil
+	return nil
 }
 
 // RenderPageToPNG 将 PDF 的指定页面渲染为 PNG 图片
@@ -97,13 +111,14 @@ func (r *PDFReader) RenderPageToPNG(pageNum int, outputPath string, dpi float64)
 }
 
 // RenderPageToImage 将 PDF 页面渲染为 image.Image
+// 优化：避免临时文件，直接从 surface 转换
 func (r *PDFReader) RenderPageToImage(pageNum int, dpi float64) (image.Image, error) {
 	if dpi == 0 {
 		dpi = 150
 	}
 
-	// 获取页面数量
-	pageCount, err := api.PageCountFile(r.pdfPath)
+	// 使用缓存的页面数量
+	pageCount, err := r.GetPageCount()
 	if err != nil {
 		return nil, fmt.Errorf("failed to get page count: %w", err)
 	}
@@ -112,21 +127,14 @@ func (r *PDFReader) RenderPageToImage(pageNum int, dpi float64) (image.Image, er
 		return nil, fmt.Errorf("invalid page number: %d (total pages: %d)", pageNum, pageCount)
 	}
 
-	// 获取页面尺寸
-	pageDims, err := api.PageDimsFile(r.pdfPath)
+	// 使用缓存的页面信息
+	pageInfo, err := r.GetPageInfo(pageNum)
 	if err != nil {
-		return nil, fmt.Errorf("failed to get page dimensions: %w", err)
+		return nil, fmt.Errorf("failed to get page info: %w", err)
 	}
 
-	// 默认页面尺寸（Letter size: 8.5 x 11 inches）
-	widthPoints := 612.0  // 8.5 * 72
-	heightPoints := 792.0 // 11 * 72
-
-	if pageNum <= len(pageDims) {
-		dim := pageDims[pageNum-1]
-		widthPoints = dim.Width
-		heightPoints = dim.Height
-	}
+	widthPoints := pageInfo.Width
+	heightPoints := pageInfo.Height
 
 	// 根据 DPI 计算渲染尺寸
 	scale := dpi / 72.0
@@ -135,9 +143,15 @@ func (r *PDFReader) RenderPageToImage(pageNum int, dpi float64) (image.Image, er
 
 	// 使用 go-pdf 创建渲染表面
 	surface := NewImageSurface(FormatARGB32, width, height)
+	if surface == nil {
+		return nil, fmt.Errorf("failed to create image surface")
+	}
 	defer surface.Destroy()
 
 	gopdfCtx := NewContext(surface)
+	if gopdfCtx == nil {
+		return nil, fmt.Errorf("failed to create context")
+	}
 	defer gopdfCtx.Destroy()
 
 	// 设置白色背景
@@ -152,29 +166,9 @@ func (r *PDFReader) RenderPageToImage(pageNum int, dpi float64) (image.Image, er
 		return nil, fmt.Errorf("failed to render PDF page: %w", err)
 	}
 
-	// 直接保存 Gopdf surface 到 PNG，然后读取回来
-	// 这样避免了颜色格式转换的问题
-	tmpPath := fmt.Sprintf("temp_render_%d.png", pageNum)
-	defer os.Remove(tmpPath)
-
+	// 优化：直接从 surface 转换，避免临时文件
 	if imgSurf, ok := surface.(ImageSurface); ok {
-		status := imgSurf.WriteToPNG(tmpPath)
-		if status != StatusSuccess {
-			return nil, fmt.Errorf("failed to write PNG: %v", status)
-		}
-
-		// 读取回来作为 image.Image
-		file, err := os.Open(tmpPath)
-		if err != nil {
-			return nil, fmt.Errorf("failed to open temp PNG: %w", err)
-		}
-		defer file.Close()
-
-		img, err := png.Decode(file)
-		if err != nil {
-			return nil, fmt.Errorf("failed to decode PNG: %w", err)
-		}
-
+		img := ConvertGopdfSurfaceToImage(imgSurf)
 		return img, nil
 	}
 
@@ -182,8 +176,19 @@ func (r *PDFReader) RenderPageToImage(pageNum int, dpi float64) (image.Image, er
 }
 
 // GetPageCount 获取 PDF 的页数
+// 优化：使用缓存避免重复读取
 func (r *PDFReader) GetPageCount() (int, error) {
-	return api.PageCountFile(r.pdfPath)
+	if r.pageCountCache > 0 {
+		return r.pageCountCache, nil
+	}
+
+	count, err := api.PageCountFile(r.pdfPath)
+	if err != nil {
+		return 0, err
+	}
+
+	r.pageCountCache = count
+	return count, nil
 }
 
 // PageInfo 页面信息
@@ -211,21 +216,34 @@ type ImageElementInfo struct {
 }
 
 // GetPageInfo 获取页面信息
+// 优化：使用缓存避免重复读取
 func (r *PDFReader) GetPageInfo(pageNum int) (PageInfo, error) {
-	pageDims, err := api.PageDimsFile(r.pdfPath)
-	if err != nil {
-		return PageInfo{}, fmt.Errorf("failed to get page dimensions: %w", err)
+	// 检查缓存
+	if r.pageDimsCache != nil && pageNum > 0 && pageNum <= len(r.pageDimsCache) {
+		return r.pageDimsCache[pageNum-1], nil
 	}
 
-	if pageNum < 1 || pageNum > len(pageDims) {
+	// 加载所有页面尺寸到缓存
+	if r.pageDimsCache == nil {
+		pageDims, err := api.PageDimsFile(r.pdfPath)
+		if err != nil {
+			return PageInfo{Width: 612, Height: 792}, fmt.Errorf("failed to get page dimensions: %w", err)
+		}
+
+		r.pageDimsCache = make([]PageInfo, len(pageDims))
+		for i, dim := range pageDims {
+			r.pageDimsCache[i] = PageInfo{
+				Width:  dim.Width,
+				Height: dim.Height,
+			}
+		}
+	}
+
+	if pageNum < 1 || pageNum > len(r.pageDimsCache) {
 		return PageInfo{Width: 612, Height: 792}, nil // 默认 Letter 尺寸
 	}
 
-	dim := pageDims[pageNum-1]
-	return PageInfo{
-		Width:  dim.Width,
-		Height: dim.Height,
-	}, nil
+	return r.pageDimsCache[pageNum-1], nil
 }
 
 // ExtractPageElements 提取页面中的文本和图片元素
