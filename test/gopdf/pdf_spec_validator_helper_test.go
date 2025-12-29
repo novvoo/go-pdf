@@ -145,11 +145,11 @@ func (v *PDFSpecValidator) validateConcatMatrix(index int, op gopdf.PDFOperator)
 		m := cmOp.Matrix
 
 		// 检查矩阵是否可逆（行列式不为0）
-		det := m.A*m.D - m.B*m.C
+		det := m.XX*m.YY - m.YX*m.XY
 
 		// 检查是否有极端的缩放
-		scaleX := math.Sqrt(m.A*m.A + m.B*m.B)
-		scaleY := math.Sqrt(m.C*m.C + m.D*m.D)
+		scaleX := math.Sqrt(m.XX*m.XX + m.YX*m.YX)
+		scaleY := math.Sqrt(m.XY*m.XY + m.YY*m.YY)
 
 		// 如果行列式非常小，检查是否是由于极小缩放导致的
 		if math.Abs(det) < 1e-10 {
@@ -314,7 +314,7 @@ func (v *PDFSpecValidator) validateTextOperator(index int, op gopdf.PDFOperator)
 
 	case *gopdf.OpSetTextMatrix:
 		m := textOp.Matrix
-		det := m.A*m.D - m.B*m.C
+		det := m.XX*m.YY - m.YX*m.XY
 		if math.Abs(det) < 1e-10 {
 			v.addError(index, "Tm", fmt.Sprintf("文本矩阵不可逆（行列式=%.2e）", det))
 		}

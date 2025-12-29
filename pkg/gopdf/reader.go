@@ -8,7 +8,6 @@ import (
 	"os"
 	"strings"
 
-	"github.com/novvoo/go-cairo/pkg/cairo"
 	"github.com/pdfcpu/pdfcpu/pkg/api"
 	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
 	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
@@ -66,29 +65,29 @@ func (r *PDFReader) RenderPageToPNG(pageNum int, outputPath string, dpi float64)
 	width := int(widthPoints * scale)
 	height := int(heightPoints * scale)
 
-	// 使用 go-cairo 创建渲染表面
-	surface := cairo.NewImageSurface(cairo.FormatARGB32, width, height)
+	// 使用 go-pdf 创建渲染表面
+	surface := NewImageSurface(FormatARGB32, width, height)
 	defer surface.Destroy()
 
-	cairoCtx := cairo.NewContext(surface)
-	defer cairoCtx.Destroy()
+	gopdfCtx := NewContext(surface)
+	defer gopdfCtx.Destroy()
 
 	// 设置白色背景
-	cairoCtx.SetSourceRGB(1, 1, 1)
-	cairoCtx.Paint()
+	gopdfCtx.SetSourceRGB(1, 1, 1)
+	gopdfCtx.Paint()
 
 	// 缩放以匹配 DPI
-	cairoCtx.Scale(scale, scale)
+	gopdfCtx.Scale(scale, scale)
 
-	// 渲染 PDF 内容到 Cairo context
-	if err := renderPDFPageToCairo(r.pdfPath, pageNum, cairoCtx, widthPoints, heightPoints); err != nil {
+	// 渲染 PDF 内容到 Gopdf context
+	if err := renderPDFPageToGopdf(r.pdfPath, pageNum, gopdfCtx, widthPoints, heightPoints); err != nil {
 		return fmt.Errorf("failed to render PDF page: %w", err)
 	}
 
-	// 直接使用 Cairo 保存 PNG
-	if imgSurf, ok := surface.(cairo.ImageSurface); ok {
+	// 直接使用 Gopdf 保存 PNG
+	if imgSurf, ok := surface.(ImageSurface); ok {
 		status := imgSurf.WriteToPNG(outputPath)
-		if status != cairo.StatusSuccess {
+		if status != StatusSuccess {
 			return fmt.Errorf("failed to write PNG: %v", status)
 		}
 		return nil
@@ -134,33 +133,33 @@ func (r *PDFReader) RenderPageToImage(pageNum int, dpi float64) (image.Image, er
 	width := int(widthPoints * scale)
 	height := int(heightPoints * scale)
 
-	// 使用 go-cairo 创建渲染表面
-	surface := cairo.NewImageSurface(cairo.FormatARGB32, width, height)
+	// 使用 go-pdf 创建渲染表面
+	surface := NewImageSurface(FormatARGB32, width, height)
 	defer surface.Destroy()
 
-	cairoCtx := cairo.NewContext(surface)
-	defer cairoCtx.Destroy()
+	gopdfCtx := NewContext(surface)
+	defer gopdfCtx.Destroy()
 
 	// 设置白色背景
-	cairoCtx.SetSourceRGB(1, 1, 1)
-	cairoCtx.Paint()
+	gopdfCtx.SetSourceRGB(1, 1, 1)
+	gopdfCtx.Paint()
 
 	// 缩放以匹配 DPI
-	cairoCtx.Scale(scale, scale)
+	gopdfCtx.Scale(scale, scale)
 
-	// 渲染 PDF 内容到 Cairo context
-	if err := renderPDFPageToCairo(r.pdfPath, pageNum, cairoCtx, widthPoints, heightPoints); err != nil {
+	// 渲染 PDF 内容到 Gopdf context
+	if err := renderPDFPageToGopdf(r.pdfPath, pageNum, gopdfCtx, widthPoints, heightPoints); err != nil {
 		return nil, fmt.Errorf("failed to render PDF page: %w", err)
 	}
 
-	// 直接保存 Cairo surface 到 PNG，然后读取回来
+	// 直接保存 Gopdf surface 到 PNG，然后读取回来
 	// 这样避免了颜色格式转换的问题
 	tmpPath := fmt.Sprintf("temp_render_%d.png", pageNum)
 	defer os.Remove(tmpPath)
 
-	if imgSurf, ok := surface.(cairo.ImageSurface); ok {
+	if imgSurf, ok := surface.(ImageSurface); ok {
 		status := imgSurf.WriteToPNG(tmpPath)
-		if status != cairo.StatusSuccess {
+		if status != StatusSuccess {
 			return nil, fmt.Errorf("failed to write PNG: %v", status)
 		}
 
@@ -287,10 +286,10 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 
 	// 分析操作符以提取文本和图片信息
 	currentFont := ""
-	baseFontSize := 0.0                   // Tf 操作符设置的基础字体大小
-	currentMatrix := &Matrix{A: 1, D: 1}  // 单位矩阵
-	textLineMatrix := &Matrix{A: 1, D: 1} // 文本行矩阵
-	ctm := NewIdentityMatrix()            // 当前变换矩阵 (Current Transformation Matrix)
+	baseFontSize := 0.0                     // Tf 操作符设置的基础字体大小
+	currentMatrix := &Matrix{XX: 1, YY: 1}  // 单位矩阵
+	textLineMatrix := &Matrix{XX: 1, YY: 1} // 文本行矩阵
+	ctm := NewIdentityMatrix()              // 当前变换矩阵 (Current Transformation Matrix)
 
 	// 图形状态栈，用于保存和恢复 CTM
 	type GraphicsState struct {
@@ -321,13 +320,14 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 				debugPrintf("[DEBUG] Q operator: Restored graphics state, stack depth=%d, CTM=%s\n",
 					len(graphicsStateStack), ctm.String())
 			} else {
-				debugPrintf("[DEBUG] Q operator: Warning - graphics state stack is empty\n")
+				debugPrintf("[DEBUG] Q operator: Warning - graphics state stack is empty, keeping current CTM\n")
+				// 保持当前 CTM 不变，不进行任何操作
 			}
 
 		case "BT": // 开始文本对象
 			// 重置文本矩阵和文本行矩阵为单位矩阵
-			currentMatrix = &Matrix{A: 1, D: 1}
-			textLineMatrix = &Matrix{A: 1, D: 1}
+			currentMatrix = &Matrix{XX: 1, YY: 1}
+			textLineMatrix = &Matrix{XX: 1, YY: 1}
 			debugPrintf("[DEBUG] BT operator: Reset text matrices\n")
 
 		case "ET": // 结束文本对象
@@ -356,11 +356,11 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 
 		case "Td": // 文本位置偏移
 			if tdOp, ok := op.(*OpMoveTextPosition); ok {
-				translation := &Matrix{A: 1, D: 1, E: tdOp.Tx, F: tdOp.Ty}
+				translation := &Matrix{XX: 1, YY: 1, X0: tdOp.Tx, Y0: tdOp.Ty}
 				textLineMatrix = translation.Multiply(textLineMatrix)
 				currentMatrix = textLineMatrix.Clone()
-				debugPrintf("[DEBUG] Td operator: Tx=%.2f, Ty=%.2f, new E=%.2f, F=%.2f\n",
-					tdOp.Tx, tdOp.Ty, currentMatrix.E, currentMatrix.F)
+				debugPrintf("[DEBUG] Td operator: Tx=%.2f, Ty=%.2f, new X0=%.2f, Y0=%.2f\n",
+					tdOp.Tx, tdOp.Ty, currentMatrix.X0, currentMatrix.Y0)
 			}
 
 		case "Tj", "TJ", "'", "\"": // 显示文本
@@ -419,14 +419,14 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 
 				// PDF 坐标系：左下角为原点，Y 轴向上
 				// 转换为屏幕坐标系：左上角为原点，Y 轴向下
-				x := finalMatrix.E
-				y := pageInfo.Height - finalMatrix.F
+				x := finalMatrix.X0
+				y := pageInfo.Height - finalMatrix.Y0
 
 				// 计算有效字体大小：基础大小 * 文本矩阵的垂直缩放
-				// 文本矩阵的 D 分量表示垂直缩放
+				// 文本矩阵的 YY 分量表示垂直缩放
 				// 特殊情况：如果 Tf 设置的字体大小为 0，则直接使用文本矩阵的缩放作为字体大小
 				effectiveFontSize := baseFontSize
-				scale := currentMatrix.D
+				scale := currentMatrix.YY
 				if scale < 0 {
 					scale = -scale
 				}
@@ -438,7 +438,7 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 				}
 
 				debugPrintf("[DEBUG] Text element: baseFontSize=%.2f, scale=%.2f, effectiveFontSize=%.2f\n",
-					baseFontSize, currentMatrix.D, effectiveFontSize)
+					baseFontSize, currentMatrix.YY, effectiveFontSize)
 
 				textElements = append(textElements, TextElementInfo{
 					Text:     text,
@@ -447,17 +447,6 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 					FontName: currentFont,
 					FontSize: effectiveFontSize,
 				})
-
-				// 更新文本矩阵：显示文本后，文本位置会向右移动
-				// 对于 TJ 操作符，需要考虑字距调整
-				if textDisplacement != 0 {
-					// 应用字距调整到文本矩阵
-					// 在文本空间中水平移动
-					translation := &Matrix{A: 1, D: 1, E: textDisplacement, F: 0}
-					currentMatrix = currentMatrix.Multiply(translation)
-					debugPrintf("[DEBUG] Applied TJ displacement: %.4f, new E=%.2f\n",
-						textDisplacement, currentMatrix.E)
-				}
 
 				// 计算文本宽度并更新文本矩阵（用于后续文本定位）
 				// 使用改进的字体宽度计算
@@ -471,62 +460,78 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 					}
 					debugPrintf("[DEBUG] Calculated text width from CIDs: %.2f (%d CIDs)\n", textWidth, len(originalCIDs))
 				} else if font != nil {
-					// 回退到基于 Unicode 的计算（不太准确）
-					textWidth = CalculateTextWidth(text, font, effectiveFontSize)
-					debugPrintf("[DEBUG] Calculated text width from Unicode: %.2f\n", textWidth)
+					// 回退到基于字符数的估算
+					// 对于CJK字符使用更大的宽度系数
+					runeCount := 0
+					avgWidthFactor := 0.0
+					for _, r := range text {
+						runeCount++
+						// CJK字符范围检测
+						if (r >= 0x4E00 && r <= 0x9FFF) || // CJK统一表意文字
+							(r >= 0x3400 && r <= 0x4DBF) || // CJK扩展A
+							(r >= 0xF900 && r <= 0xFAFF) { // CJK兼容表意文字
+							avgWidthFactor += 1.0 // CJK字符通常是全角
+						} else {
+							avgWidthFactor += 0.5 // 拉丁字符通常是半角
+						}
+					}
+					if runeCount > 0 {
+						avgWidthFactor /= float64(runeCount)
+					} else {
+						avgWidthFactor = 0.5
+					}
+					textWidth = float64(runeCount) * effectiveFontSize * avgWidthFactor
+					debugPrintf("[DEBUG] Estimated text width: %.2f (avgFactor=%.2f)\n", textWidth, avgWidthFactor)
 				} else {
-					// 回退到估算
+					// 最后的回退：简单估算
 					runeCount := float64(len([]rune(text)))
 					textWidth = runeCount * effectiveFontSize * 0.5
-					debugPrintf("[DEBUG] Estimated text width: %.2f (no font info)\n", textWidth)
+					debugPrintf("[DEBUG] Fallback text width: %.2f (no font info)\n", textWidth)
 				}
 
-				translation := &Matrix{A: 1, D: 1, E: textWidth, F: 0}
-				currentMatrix = currentMatrix.Multiply(translation)
-				debugPrintf("[DEBUG] Text width: %.2f, new E=%.2f\n", textWidth, currentMatrix.E)
+				// 先应用字距调整，再应用文本宽度
+				totalDisplacement := textWidth + textDisplacement
+				if totalDisplacement != 0 {
+					translation := &Matrix{XX: 1, YY: 1, X0: totalDisplacement, Y0: 0}
+					currentMatrix = currentMatrix.Multiply(translation)
+					debugPrintf("[DEBUG] Total displacement: %.2f (width=%.2f, kerning=%.2f), new X0=%.2f\n",
+						totalDisplacement, textWidth, textDisplacement, currentMatrix.X0)
+				}
 			}
 
 		case "Do": // 绘制 XObject（可能是图片）
 			if doOp, ok := op.(*OpDoXObject); ok {
 				xobj := resources.GetXObject(doOp.XObjectName)
 				if xobj != nil && (xobj.Subtype == "/Image" || xobj.Subtype == "Image") {
-					// 🔥 修复：获取当前变换矩阵来确定图片位置和实际尺寸
+					// 🔥 修复：使用完整的矩阵变换来计算图片位置和尺寸
 					// PDF图像XObject占据单位正方形(0,0)到(1,1)
-					// CTM的缩放分量决定了图像的实际尺寸
+					// 需要通过CTM变换这四个角点来获取实际位置
 
-					// 重要：CTM 已经包含了页面级别的坐标转换（PDF -> Cairo）
-					// 因此 CTM.E 和 CTM.F 已经是 Cairo 坐标系中的值
-					// CTM.D 的符号表示 Y 轴方向：
-					// - CTM.D > 0：Y 轴向下（Cairo 方向），CTM.F 是图片顶部
-					// - CTM.D < 0：Y 轴向上（PDF 方向），CTM.F 是图片底部
+					// 计算图片的四个角点在用户空间中的位置
+					// 左下角 (0, 0)
+					x0, y0 := ctm.Transform(0, 0)
+					// 右下角 (1, 0)
+					x1, y1 := ctm.Transform(1, 0)
+					// 左上角 (0, 1)
+					x2, y2 := ctm.Transform(0, 1)
+					// 右上角 (1, 1)
+					x3, y3 := ctm.Transform(1, 1)
 
-					// 计算实际渲染尺寸
-					actualWidth := ctm.A
-					if actualWidth < 0 {
-						actualWidth = -actualWidth
-					}
+					// 计算边界框
+					minX := min(min(x0, x1), min(x2, x3))
+					maxX := max(max(x0, x1), max(x2, x3))
+					minY := min(min(y0, y1), min(y2, y3))
+					maxY := max(max(y0, y1), max(y2, y3))
 
-					actualHeight := ctm.D
-					if actualHeight < 0 {
-						actualHeight = -actualHeight
-					}
+					// 计算实际宽度和高度
+					actualWidth := maxX - minX
+					actualHeight := maxY - minY
 
-					// CTM.E 和 CTM.F 已经在 Cairo 坐标系中
-					// 但我们需要转换为"从页面顶部开始"的坐标系统
-					x := ctm.E
-					var y float64
-
-					if ctm.D > 0 {
-						// CTM.D > 0：Y 轴向下（Cairo 方向）
-						// CTM.F 是图片顶部在 Cairo 坐标系中的位置
-						// 但 Cairo 坐标原点在左上角，Y 向下
-						// 我们需要的是从页面顶部开始的坐标
-						y = ctm.F
-					} else {
-						// CTM.D < 0：Y 轴向上（PDF 方向）
-						// CTM.F 是图片底部，需要减去高度得到顶部
-						y = ctm.F - actualHeight
-					}
+					// PDF 坐标系转换为屏幕坐标系
+					// PDF: 左下角为原点，Y轴向上
+					// 屏幕: 左上角为原点，Y轴向下
+					x := minX
+					y := pageInfo.Height - maxY
 
 					imageElements = append(imageElements, ImageElementInfo{
 						Name:   doOp.XObjectName,
@@ -536,8 +541,10 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 						Height: actualHeight,
 					})
 
-					debugPrintf("[DEBUG] Do operator: Image %s at CTM(%.2f, %.2f), Final(%.2f, %.2f), size: %.2fx%.2f, CTM.D=%.2f (original: %dx%d)\n",
-						doOp.XObjectName, ctm.E, ctm.F, x, y, actualWidth, actualHeight, ctm.D, xobj.Width, xobj.Height)
+					debugPrintf("[DEBUG] Do operator: Image %s at (%.2f, %.2f), size: %.2fx%.2f (original: %dx%d)\n",
+						doOp.XObjectName, x, y, actualWidth, actualHeight, xobj.Width, xobj.Height)
+					debugPrintf("[DEBUG]   Corners: (%.2f,%.2f) (%.2f,%.2f) (%.2f,%.2f) (%.2f,%.2f)\n",
+						x0, y0, x1, y1, x2, y2, x3, y3)
 				}
 			}
 		}
@@ -568,8 +575,8 @@ func (r *PDFReader) RenderAllPagesToPNG(outputDir string, dpi float64) error {
 	return nil
 }
 
-// renderPDFPageToCairo 将 PDF 页面内容渲染到 Cairo context
-func renderPDFPageToCairo(pdfPath string, pageNum int, cairoCtx cairo.Context, width, height float64) error {
+// renderPDFPageToGopdf 将 PDF 页面内容渲染到 Gopdf context
+func renderPDFPageToGopdf(pdfPath string, pageNum int, gopdfCtx Context, width, height float64) error {
 	// 打开 PDF 文件并读取上下文
 	ctx, err := api.ReadContextFile(pdfPath)
 	if err != nil {
@@ -582,29 +589,29 @@ func renderPDFPageToCairo(pdfPath string, pageNum int, cairoCtx cairo.Context, w
 		return fmt.Errorf("failed to get page dict: %w", err)
 	}
 
-	// 保存 Cairo 状态
-	cairoCtx.Save()
-	defer cairoCtx.Restore()
+	// 保存 Gopdf 状态
+	gopdfCtx.Save()
+	defer gopdfCtx.Restore()
 
 	// 设置裁剪区域，防止内容超出页面边界
 	// 注意：裁剪应该在所有变换之后应用，否则会裁剪掉变换后的内容
 	// 暂时禁用裁剪以调试渲染问题
-	// cairoCtx.Rectangle(0, 0, width, height)
-	// cairoCtx.Clip()
+	// gopdfCtx.Rectangle(0, 0, width, height)
+	// gopdfCtx.Clip()
 
 	// PDF 坐标系转换：PDF 使用左下角为原点，Y 轴向上
-	// Cairo 使用左上角为原点，Y 轴向下
+	// Gopdf 使用左上角为原点，Y 轴向下
 	// 需要翻转 Y 轴并平移
-	cairoCtx.Translate(0, height)
-	cairoCtx.Scale(1, -1)
+	gopdfCtx.Translate(0, height)
+	gopdfCtx.Scale(1, -1)
 
 	// 处理页面的 MediaBox, CropBox, Rotate 等属性
-	if err := applyPageTransformations(pageDict, cairoCtx, width, height); err != nil {
+	if err := applyPageTransformations(pageDict, gopdfCtx, width, height); err != nil {
 		debugPrintf("Warning: failed to apply page transformations: %v\n", err)
 	}
 
 	// 创建渲染上下文
-	renderCtx := NewRenderContext(cairoCtx, width, height)
+	renderCtx := NewRenderContext(gopdfCtx, width, height)
 
 	// 提取页面资源
 	if resourcesObj, found := pageDict.Find("Resources"); found {
@@ -676,7 +683,7 @@ func renderPDFPageToCairo(pdfPath string, pageNum int, cairoCtx cairo.Context, w
 		debugPrintf("⚠️  Failed to extract annotations: %v\n", err)
 	} else if len(annotations) > 0 {
 		debugPrintf("\n📌 Rendering %d annotations...\n", len(annotations))
-		annotRenderer := NewAnnotationRenderer(cairoCtx)
+		annotRenderer := NewAnnotationRenderer(gopdfCtx)
 		for i, annot := range annotations {
 			if err := annotRenderer.RenderAnnotation(annot); err != nil {
 				debugPrintf("⚠️  Failed to render annotation %d: %v\n", i, err)
@@ -690,7 +697,7 @@ func renderPDFPageToCairo(pdfPath string, pageNum int, cairoCtx cairo.Context, w
 		debugPrintf("⚠️  Failed to extract form fields: %v\n", err)
 	} else if len(formFields) > 0 {
 		debugPrintf("\n📝 Rendering %d form fields...\n", len(formFields))
-		formRenderer := NewFormRenderer(cairoCtx)
+		formRenderer := NewFormRenderer(gopdfCtx)
 		for i, field := range formFields {
 			if err := formRenderer.RenderFormField(field); err != nil {
 				debugPrintf("⚠️  Failed to render form field %d: %v\n", i, err)
@@ -702,7 +709,7 @@ func renderPDFPageToCairo(pdfPath string, pageNum int, cairoCtx cairo.Context, w
 }
 
 // applyPageTransformations 应用页面级别的变换（旋转、裁剪等）
-func applyPageTransformations(pageDict types.Dict, cairoCtx cairo.Context, width, height float64) error {
+func applyPageTransformations(pageDict types.Dict, gopdfCtx Context, width, height float64) error {
 	// 处理页面旋转
 	if rotateObj, found := pageDict.Find("Rotate"); found {
 		var rotation int
@@ -718,14 +725,14 @@ func applyPageTransformations(pageDict types.Dict, cairoCtx cairo.Context, width
 			rotation = rotation % 360
 			switch rotation {
 			case 90:
-				cairoCtx.Translate(width, 0)
-				cairoCtx.Rotate(1.5707963267948966) // π/2
+				gopdfCtx.Translate(width, 0)
+				gopdfCtx.Rotate(1.5707963267948966) // π/2
 			case 180:
-				cairoCtx.Translate(width, height)
-				cairoCtx.Rotate(3.141592653589793) // π
+				gopdfCtx.Translate(width, height)
+				gopdfCtx.Rotate(3.141592653589793) // π
 			case 270:
-				cairoCtx.Translate(0, height)
-				cairoCtx.Rotate(4.71238898038469) // 3π/2
+				gopdfCtx.Translate(0, height)
+				gopdfCtx.Rotate(4.71238898038469) // 3π/2
 			}
 		}
 	}
@@ -747,7 +754,7 @@ func applyPageTransformations(pageDict types.Dict, cairoCtx cairo.Context, width
 
 			// 应用裁剪框的平移
 			if x1 != 0 || y1 != 0 {
-				cairoCtx.Translate(-x1, -y1)
+				gopdfCtx.Translate(-x1, -y1)
 			}
 		}
 	}
@@ -813,6 +820,17 @@ func ExtractContentStreams(ctx *model.Context, contents types.Object) ([][]byte,
 
 // loadResources 加载页面资源
 func loadResources(ctx *model.Context, resourcesObj types.Object, resources *Resources) error {
+	return loadResourcesWithDepth(ctx, resourcesObj, resources, 0)
+}
+
+// loadResourcesWithDepth 加载页面资源（带深度限制以防止循环引用）
+func loadResourcesWithDepth(ctx *model.Context, resourcesObj types.Object, resources *Resources, depth int) error {
+	// 防止无限递归（最大深度限制）
+	const maxDepth = 20
+	if depth > maxDepth {
+		return fmt.Errorf("resource loading depth exceeded (possible circular reference)")
+	}
+
 	// 解引用资源对象
 	if indRef, ok := resourcesObj.(types.IndirectRef); ok {
 		derefObj, err := ctx.Dereference(indRef)
@@ -1217,22 +1235,22 @@ func loadXObject(ctx *model.Context, xobjName string, xobjObj types.Object, reso
 			if arr, ok := matrix.(types.Array); ok && len(arr) == 6 {
 				xobj.Matrix = &Matrix{}
 				if v, ok := arr[0].(types.Float); ok {
-					xobj.Matrix.A = float64(v)
+					xobj.Matrix.XX = float64(v)
 				}
 				if v, ok := arr[1].(types.Float); ok {
-					xobj.Matrix.B = float64(v)
+					xobj.Matrix.YX = float64(v)
 				}
 				if v, ok := arr[2].(types.Float); ok {
-					xobj.Matrix.C = float64(v)
+					xobj.Matrix.XY = float64(v)
 				}
 				if v, ok := arr[3].(types.Float); ok {
-					xobj.Matrix.D = float64(v)
+					xobj.Matrix.YY = float64(v)
 				}
 				if v, ok := arr[4].(types.Float); ok {
-					xobj.Matrix.E = float64(v)
+					xobj.Matrix.X0 = float64(v)
 				}
 				if v, ok := arr[5].(types.Float); ok {
-					xobj.Matrix.F = float64(v)
+					xobj.Matrix.Y0 = float64(v)
 				}
 			}
 		}
@@ -1336,10 +1354,22 @@ func loadXObject(ctx *model.Context, xobjName string, xobjObj types.Object, reso
 			}
 		}
 
-		// 如果没有找到 ColorSpace，使用默认值 DeviceRGB
+		// 如果没有找到 ColorSpace，根据图像属性推断
 		if !colorSpaceFound || xobj.ColorSpace == "" {
-			xobj.ColorSpace = "DeviceRGB"
-			debugPrintf("[loadXObject] ColorSpace not found, using default: DeviceRGB\n")
+			// 根据 BitsPerComponent 推断颜色空间
+			if xobj.BitsPerComponent == 1 {
+				// 1位图像通常是黑白图像
+				xobj.ColorSpace = "DeviceGray"
+				debugPrintf("[loadXObject] ColorSpace not found, inferred DeviceGray (1-bit image)\n")
+			} else if xobj.BitsPerComponent == 8 {
+				// 8位图像可能是灰度或RGB，默认使用RGB
+				xobj.ColorSpace = "DeviceRGB"
+				debugPrintf("[loadXObject] ColorSpace not found, using default: DeviceRGB (8-bit image)\n")
+			} else {
+				// 其他情况默认使用RGB
+				xobj.ColorSpace = "DeviceRGB"
+				debugPrintf("[loadXObject] ColorSpace not found, using default: DeviceRGB (%d-bit image)\n", xobj.BitsPerComponent)
+			}
 		}
 
 		if bpc, found := streamDict.Find("BitsPerComponent"); found {
@@ -1881,8 +1911,8 @@ func ExtractTextFromStream(stream string) string {
 	return text
 }
 
-// ConvertCairoSurfaceToImage 将 Cairo surface 转换为 Go image.Image（导出供外部使用）
-func ConvertCairoSurfaceToImage(imgSurf cairo.ImageSurface) image.Image {
+// ConvertGopdfSurfaceToImage 将 Gopdf surface 转换为 Go image.Image（导出供外部使用）
+func ConvertGopdfSurfaceToImage(imgSurf ImageSurface) image.Image {
 	data := imgSurf.GetData()
 	stride := imgSurf.GetStride()
 	width := imgSurf.GetWidth()
@@ -1893,7 +1923,7 @@ func ConvertCairoSurfaceToImage(imgSurf cairo.ImageSurface) image.Image {
 	for y := 0; y < height; y++ {
 		for x := 0; x < width; x++ {
 			offset := y*stride + x*4
-			// Cairo 使用 BGRA 预乘 alpha 格式
+			// Gopdf 使用 BGRA 预乘 alpha 格式
 			b := data[offset+0]
 			g := data[offset+1]
 			r := data[offset+2]
@@ -1914,7 +1944,7 @@ func ConvertCairoSurfaceToImage(imgSurf cairo.ImageSurface) image.Image {
 	return img
 }
 
-// ConvertPDFPageToImage 使用 Cairo 将 PDF 页面转换为图像的辅助函数
+// ConvertPDFPageToImage 使用 Gopdf 将 PDF 页面转换为图像的辅助函数
 func ConvertPDFPageToImage(pdfPath string, pageNum int, width, height int) (image.Image, error) {
 	reader := NewPDFReader(pdfPath)
 	dpi := float64(width) / 8.5 // 假设 Letter size
@@ -2044,4 +2074,20 @@ func extractCIDsFromText(text string) []uint16 {
 		cids = append(cids, uint16(text[i]))
 	}
 	return cids
+}
+
+// min returns the minimum of two float64 values
+func min(a, b float64) float64 {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+// max returns the maximum of two float64 values
+func max(a, b float64) float64 {
+	if a > b {
+		return a
+	}
+	return b
 }

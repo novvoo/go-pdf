@@ -1,33 +1,31 @@
 package gopdf
 
-import "github.com/novvoo/go-cairo/pkg/cairo"
-
-// cairoBlendModes PDF 混合模式到 Cairo 操作符的映射
-var cairoBlendModes = map[string]cairo.Operator{
-	"Normal":     cairo.OperatorOver,
-	"Multiply":   cairo.OperatorMultiply,
-	"Screen":     cairo.OperatorScreen,
-	"Overlay":    cairo.OperatorOverlay,
-	"Darken":     cairo.OperatorDarken,
-	"Lighten":    cairo.OperatorLighten,
-	"ColorDodge": cairo.OperatorColorDodge,
-	"ColorBurn":  cairo.OperatorColorBurn,
-	"HardLight":  cairo.OperatorHardLight,
-	"SoftLight":  cairo.OperatorSoftLight,
-	"Difference": cairo.OperatorDifference,
-	"Exclusion":  cairo.OperatorExclusion,
+// gopdfBlendModes PDF 混合模式到 Gopdf 操作符的映射
+var gopdfBlendModes = map[string]Operator{
+	"Normal":     OperatorOver,
+	"Multiply":   OperatorMultiply,
+	"Screen":     OperatorScreen,
+	"Overlay":    OperatorOverlay,
+	"Darken":     OperatorDarken,
+	"Lighten":    OperatorLighten,
+	"ColorDodge": OperatorColorDodge,
+	"ColorBurn":  OperatorColorBurn,
+	"HardLight":  OperatorHardLight,
+	"SoftLight":  OperatorSoftLight,
+	"Difference": OperatorDifference,
+	"Exclusion":  OperatorExclusion,
 }
 
-// GetCairoBlendMode 获取 Cairo 混合模式操作符
+// GetGopdfBlendMode 获取 Gopdf 混合模式操作符
 // 如果不支持，返回 Normal 模式并记录警告
-func GetCairoBlendMode(pdfBlendMode string) cairo.Operator {
-	if op, ok := cairoBlendModes[pdfBlendMode]; ok {
+func GetGopdfBlendMode(pdfBlendMode string) Operator {
+	if op, ok := gopdfBlendModes[pdfBlendMode]; ok {
 		return op
 	}
 
 	// 不支持的混合模式，回退到 Normal
 	debugPrintf("Warning: Unsupported blend mode '%s', falling back to Normal\n", pdfBlendMode)
-	return cairo.OperatorOver
+	return OperatorOver
 }
 
 // SetBlendMode 设置图形状态的混合模式
@@ -51,8 +49,8 @@ func (gs *GraphicsState) SetStrokeAlpha(alpha float64) {
 	}
 }
 
-// ApplyBlendMode 将混合模式应用到 Cairo context
-func (gs *GraphicsState) ApplyBlendMode(ctx cairo.Context) {
-	operator := GetCairoBlendMode(gs.BlendMode)
+// ApplyBlendMode 将混合模式应用到 Gopdf context
+func (gs *GraphicsState) ApplyBlendMode(ctx Context) {
+	operator := GetGopdfBlendMode(gs.BlendMode)
 	ctx.SetOperator(operator)
 }

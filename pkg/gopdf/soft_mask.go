@@ -3,19 +3,17 @@ package gopdf
 import (
 	"fmt"
 	"image"
-
-	"github.com/novvoo/go-cairo/pkg/cairo"
 )
 
 // SoftMask 软遮罩（用于高级透明度效果）
 type SoftMask struct {
-	Type    string        // "Alpha" 或 "Luminosity"
-	G       *XObject      // 遮罩的图形对象（Form XObject）
-	BC      []float64     // 背景颜色
-	TR      interface{}   // 传递函数
-	Surface cairo.Surface // 渲染的遮罩 surface
-	SubType string        // 子类型
-	Matte   []float64     // 遮罩的背景色（用于预乘）
+	Type    string      // "Alpha" 或 "Luminosity"
+	G       *XObject    // 遮罩的图形对象（Form XObject）
+	BC      []float64   // 背景颜色
+	TR      interface{} // 传递函数
+	Surface Surface     // 渲染的遮罩 surface
+	SubType string      // 子类型
+	Matte   []float64   // 遮罩的背景色（用于预乘）
 }
 
 // NewSoftMask 创建新的软遮罩
@@ -28,7 +26,7 @@ func NewSoftMask(maskType string, g *XObject) *SoftMask {
 	}
 }
 
-// RenderSoftMask 渲染软遮罩到 Cairo surface
+// RenderSoftMask 渲染软遮罩到 Gopdf surface
 func (sm *SoftMask) RenderSoftMask(ctx *RenderContext, width, height int) error {
 	if sm.G == nil {
 		return fmt.Errorf("soft mask has no graphics object")
@@ -37,20 +35,20 @@ func (sm *SoftMask) RenderSoftMask(ctx *RenderContext, width, height int) error 
 	// 创建遮罩 surface
 	// 对于 Alpha 类型，使用 A8 格式（只有 alpha 通道）
 	// 对于 Luminosity 类型，使用 ARGB32 格式
-	var format cairo.Format
+	var format Format
 	if sm.Type == "Alpha" {
-		format = cairo.FormatA8
+		format = FormatA8
 	} else {
-		format = cairo.FormatARGB32
+		format = FormatARGB32
 	}
 
-	maskSurface := cairo.NewImageSurface(format, width, height)
+	maskSurface := NewImageSurface(format, width, height)
 	if maskSurface == nil {
 		return fmt.Errorf("failed to create mask surface")
 	}
 
-	maskCtx := cairo.NewContext(maskSurface)
-	if maskCtx == nil {
+	maskCtx := NewContext(maskSurface)
+	if maskCtx.Status() != StatusSuccess {
 		maskSurface.Destroy()
 		return fmt.Errorf("failed to create mask context")
 	}
@@ -64,13 +62,13 @@ func (sm *SoftMask) RenderSoftMask(ctx *RenderContext, width, height int) error 
 
 	// 创建临时渲染上下文
 	tempCtx := &RenderContext{
-		CairoCtx:           maskCtx,
+		GopdfCtx:           maskCtx,
 		GraphicsStack:      NewGraphicsStateStack(float64(width), float64(height)),
 		MarkedContentStack: NewMarkedContentStack(),
 		CurrentPath:        NewPath(),
 		TextState:          NewTextState(),
 		Resources:          ctx.Resources, // 共享资源
-		XObjectCache:       make(map[string]cairo.Surface),
+		XObjectCache:       make(map[string]Surface),
 	}
 
 	// 渲染遮罩内容
@@ -90,8 +88,8 @@ func (sm *SoftMask) RenderSoftMask(ctx *RenderContext, width, height int) error 
 
 // convertLuminosityToAlpha 将亮度转换为 alpha 值
 // 使用 Pixman 后端进行高效的像素操作
-func (sm *SoftMask) convertLuminosityToAlpha(surface cairo.Surface) {
-	imgSurface, ok := surface.(cairo.ImageSurface)
+func (sm *SoftMask) convertLuminosityToAlpha(surface Surface) {
+	imgSurface, ok := surface.(ImageSurface)
 	if !ok {
 		return
 	}
@@ -100,9 +98,9 @@ func (sm *SoftMask) convertLuminosityToAlpha(surface cairo.Surface) {
 	height := imgSurface.GetHeight()
 
 	// 创建 Pixman 后端进行像素操作
-	// 从 Cairo surface 获取 RGBA 数据
-	converter := NewCairoImageConverter()
-	img := converter.CairoSurfaceToImage(imgSurface)
+	// 从 Gopdf surface 获取 RGBA 数据
+	converter := NewGopdfImageConverter()
+	img := converter.GopdfSurfaceToImage(imgSurface)
 	rgba, ok := img.(*image.RGBA)
 	if !ok {
 		// 回退到原始方法
@@ -135,9 +133,9 @@ func (sm *SoftMask) convertLuminosityToAlpha(surface cairo.Surface) {
 		}
 	}
 
-	// 将处理后的数据写回 Cairo surface
+	// 将处理后的数据写回 Gopdf surface
 	resultRGBA := backend.ToRGBA()
-	resultSurface, err := converter.ImageToCairoSurface(resultRGBA, cairo.FormatARGB32)
+	resultSurface, err := converter.ImageToGopdfSurface(resultRGBA, FormatARGB32)
 	if err == nil {
 		// 复制数据回原 surface
 		srcData := resultSurface.GetData()
@@ -149,8 +147,8 @@ func (sm *SoftMask) convertLuminosityToAlpha(surface cairo.Surface) {
 }
 
 // convertLuminosityToAlphaFallback 回退方法
-func (sm *SoftMask) convertLuminosityToAlphaFallback(surface cairo.Surface) {
-	imgSurface, ok := surface.(cairo.ImageSurface)
+func (sm *SoftMask) convertLuminosityToAlphaFallback(surface Surface) {
+	imgSurface, ok := surface.(ImageSurface)
 	if !ok {
 		return
 	}
@@ -174,20 +172,20 @@ func (sm *SoftMask) convertLuminosityToAlphaFallback(surface cairo.Surface) {
 	imgSurface.MarkDirty()
 }
 
-// ApplySoftMask 应用软遮罩到 Cairo context
-func (sm *SoftMask) ApplySoftMask(ctx cairo.Context) error {
+// ApplySoftMask 应用软遮罩到 Gopdf context
+func (sm *SoftMask) ApplySoftMask(ctx Context) error {
 	if sm.Surface == nil {
 		return fmt.Errorf("soft mask not rendered")
 	}
 
 	// 创建 surface pattern 并应用遮罩
-	pattern := cairo.NewPatternForSurface(sm.Surface)
+	pattern := NewPatternForSurface(sm.Surface)
 	if pattern == nil {
 		return fmt.Errorf("failed to create pattern from mask surface")
 	}
 	defer pattern.Destroy()
 
-	// 使用 Cairo 的 mask 功能应用遮罩
+	// 使用 Gopdf 的 mask 功能应用遮罩
 	ctx.Mask(pattern)
 
 	return nil
@@ -250,7 +248,7 @@ func (s *SoftMaskStack) Clear() {
 }
 
 // ApplyCurrentMask 应用当前软遮罩
-func (s *SoftMaskStack) ApplyCurrentMask(ctx cairo.Context) error {
+func (s *SoftMaskStack) ApplyCurrentMask(ctx Context) error {
 	mask := s.Current()
 	if mask == nil {
 		return nil

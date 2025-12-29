@@ -3,16 +3,14 @@ package gopdf
 import (
 	"image"
 	"image/color"
-
-	"github.com/novvoo/go-cairo/pkg/cairo"
 )
 
 // Rasterizer 光栅化器
-// 使用 Cairo 的 AdvancedRasterizer 将矢量路径转换为像素
+// 使用 Gopdf 的 AdvancedRasterizer 将矢量路径转换为像素
 type Rasterizer struct {
 	width      int
 	height     int
-	rasterizer *cairo.AdvancedRasterizer
+	rasterizer *AdvancedRasterizer
 	backend    *PixmanBackend
 }
 
@@ -21,8 +19,8 @@ func NewRasterizer(width, height int) *Rasterizer {
 	return &Rasterizer{
 		width:      width,
 		height:     height,
-		rasterizer: cairo.NewAdvancedRasterizer(width, height),
-		backend:    NewPixmanBackend(width, height, cairo.PixmanFormatARGB32),
+		rasterizer: &AdvancedRasterizer{}, // Placeholder - not yet implemented
+		backend:    NewPixmanBackend(width, height, PixmanFormatARGB32),
 	}
 }
 
@@ -52,7 +50,7 @@ func (r *Rasterizer) Clear() {
 }
 
 // AddPath 添加路径到光栅化器
-func (r *Rasterizer) AddPath(path *Path, transform *Matrix) {
+func (r *Rasterizer) AddPath(path *PathImpl, transform *Matrix) {
 	if r.rasterizer == nil || path == nil {
 		return
 	}
@@ -121,7 +119,7 @@ func (r *Rasterizer) AddPath(path *Path, transform *Matrix) {
 }
 
 // Fill 填充路径
-func (r *Rasterizer) Fill(fillColor color.Color, fillRule cairo.FillRule, op cairo.Operator) error {
+func (r *Rasterizer) Fill(fillColor color.Color, fillRule FillRule, op Operator) error {
 	if r.rasterizer == nil || r.backend == nil {
 		return nil
 	}
@@ -147,10 +145,10 @@ func (r *Rasterizer) Fill(fillColor color.Color, fillRule cairo.FillRule, op cai
 }
 
 // Stroke 描边路径（简化实现）
-func (r *Rasterizer) Stroke(strokeColor color.Color, lineWidth float64, op cairo.Operator) error {
+func (r *Rasterizer) Stroke(strokeColor color.Color, lineWidth float64, op Operator) error {
 	// AdvancedRasterizer 不直接支持描边
 	// 这里简化处理，使用填充代替
-	return r.Fill(strokeColor, cairo.FillRuleWinding, op)
+	return r.Fill(strokeColor, FillRuleWinding, op)
 }
 
 // ToImage 转换为图像

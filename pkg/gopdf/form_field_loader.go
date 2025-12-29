@@ -56,7 +56,7 @@ func ExtractFormFields(ctx *model.Context) ([]*FormField, error) {
 	// 解析字段数组
 	fieldsArray, ok := fieldsObj.(types.Array)
 	if !ok {
-		return nil, fmt.Errorf("Fields is not an array")
+		return nil, fmt.Errorf("fields is not an array")
 	}
 
 	// 遍历每个字段

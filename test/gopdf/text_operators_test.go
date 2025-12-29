@@ -28,9 +28,9 @@ func testTdOperator() {
 
 	// 创建一个带缩放的文本行矩阵
 	textLineMatrix := &gopdf.Matrix{
-		A: 2.0, B: 0,
-		C: 0, D: 2.0,
-		E: 10, F: 20,
+		XX: 2.0, YX: 0,
+		XY: 0, YY: 2.0,
+		X0: 10, Y0: 20,
 	}
 
 	// 创建平移矩阵
@@ -40,17 +40,17 @@ func testTdOperator() {
 	wrongResult := translation.Multiply(textLineMatrix)
 	fmt.Printf("错误顺序 (translation × textLineMatrix):\n")
 	fmt.Printf("  结果: %s\n", wrongResult.String())
-	fmt.Printf("  E坐标: %.2f (错误: 平移被缩放了)\n\n", wrongResult.E)
+	fmt.Printf("  X0坐标: %.2f (错误: 平移被缩放了)\n\n", wrongResult.X0)
 
 	// 正确的顺序: textLineMatrix × translation
 	correctResult := textLineMatrix.Multiply(translation)
 	fmt.Printf("正确顺序 (textLineMatrix × translation):\n")
 	fmt.Printf("  结果: %s\n", correctResult.String())
-	fmt.Printf("  E坐标: %.2f (正确: 先缩放再平移)\n\n", correctResult.E)
+	fmt.Printf("  X0坐标: %.2f (正确: 先缩放再平移)\n\n", correctResult.X0)
 
 	// 验证
-	// 正确的计算: E' = A*tx + E = 2.0*5 + 10 = 20
-	// 错误的计算: E' = tx*A + E = 5*2.0 + 10 = 20 (在这个例子中相同)
+	// 正确的计算: X0' = XX*tx + X0 = 2.0*5 + 10 = 20
+	// 错误的计算: X0' = tx*XX + X0 = 5*2.0 + 10 = 20 (在这个例子中相同)
 	// 但当有旋转时差异会很明显
 
 	fmt.Println()

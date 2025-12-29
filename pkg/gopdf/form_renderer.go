@@ -2,19 +2,17 @@ package gopdf
 
 import (
 	"fmt"
-
-	"github.com/novvoo/go-cairo/pkg/cairo"
 )
 
 // FormRenderer 表单字段渲染器
 type FormRenderer struct {
-	cairoCtx cairo.Context
+	gopdfCtx Context
 }
 
 // NewFormRenderer 创建新的表单字段渲染器
-func NewFormRenderer(cairoCtx cairo.Context) *FormRenderer {
+func NewFormRenderer(gopdfCtx Context) *FormRenderer {
 	return &FormRenderer{
-		cairoCtx: cairoCtx,
+		gopdfCtx: gopdfCtx,
 	}
 }
 
@@ -42,8 +40,8 @@ func (r *FormRenderer) RenderTextField(field *FormField) error {
 	x1, y1, x2, y2 := field.GetRect()
 
 	// 保存状态
-	r.cairoCtx.Save()
-	defer r.cairoCtx.Restore()
+	r.gopdfCtx.Save()
+	defer r.gopdfCtx.Restore()
 
 	// 如果有外观流，优先使用外观流
 	if len(field.Appearance) > 0 {
@@ -52,12 +50,12 @@ func (r *FormRenderer) RenderTextField(field *FormField) error {
 	}
 
 	// 绘制文本框边框
-	r.cairoCtx.Rectangle(x1, y1, x2-x1, y2-y1)
-	r.cairoCtx.SetSourceRGB(0.8, 0.8, 0.8) // 浅灰色背景
-	r.cairoCtx.FillPreserve()
-	r.cairoCtx.SetSourceRGB(0.0, 0.0, 0.0) // 黑色边框
-	r.cairoCtx.SetLineWidth(1.0)
-	r.cairoCtx.Stroke()
+	r.gopdfCtx.Rectangle(x1, y1, x2-x1, y2-y1)
+	r.gopdfCtx.SetSourceRGB(0.8, 0.8, 0.8) // 浅灰色背景
+	r.gopdfCtx.FillPreserve()
+	r.gopdfCtx.SetSourceRGB(0.0, 0.0, 0.0) // 黑色边框
+	r.gopdfCtx.SetLineWidth(1.0)
+	r.gopdfCtx.Stroke()
 
 	// 显示字段值或默认值
 	displayValue := field.Value
@@ -80,8 +78,8 @@ func (r *FormRenderer) RenderCheckbox(field *FormField) error {
 	x1, y1, x2, y2 := field.GetRect()
 
 	// 保存状态
-	r.cairoCtx.Save()
-	defer r.cairoCtx.Restore()
+	r.gopdfCtx.Save()
+	defer r.gopdfCtx.Restore()
 
 	// 如果有外观流，优先使用外观流
 	if len(field.Appearance) > 0 {
@@ -90,24 +88,24 @@ func (r *FormRenderer) RenderCheckbox(field *FormField) error {
 	}
 
 	// 绘制复选框边框
-	r.cairoCtx.Rectangle(x1, y1, x2-x1, y2-y1)
-	r.cairoCtx.SetSourceRGB(1.0, 1.0, 1.0) // 白色背景
-	r.cairoCtx.FillPreserve()
-	r.cairoCtx.SetSourceRGB(0.0, 0.0, 0.0) // 黑色边框
-	r.cairoCtx.SetLineWidth(1.0)
-	r.cairoCtx.Stroke()
+	r.gopdfCtx.Rectangle(x1, y1, x2-x1, y2-y1)
+	r.gopdfCtx.SetSourceRGB(1.0, 1.0, 1.0) // 白色背景
+	r.gopdfCtx.FillPreserve()
+	r.gopdfCtx.SetSourceRGB(0.0, 0.0, 0.0) // 黑色边框
+	r.gopdfCtx.SetLineWidth(1.0)
+	r.gopdfCtx.Stroke()
 
 	// 如果选中，绘制勾选标记
 	if field.IsChecked() {
 		// 绘制简单的 X 标记
 		padding := (x2 - x1) * 0.2
-		r.cairoCtx.MoveTo(x1+padding, y1+padding)
-		r.cairoCtx.LineTo(x2-padding, y2-padding)
-		r.cairoCtx.MoveTo(x2-padding, y1+padding)
-		r.cairoCtx.LineTo(x1+padding, y2-padding)
-		r.cairoCtx.SetSourceRGB(0.0, 0.0, 0.0)
-		r.cairoCtx.SetLineWidth(2.0)
-		r.cairoCtx.Stroke()
+		r.gopdfCtx.MoveTo(x1+padding, y1+padding)
+		r.gopdfCtx.LineTo(x2-padding, y2-padding)
+		r.gopdfCtx.MoveTo(x2-padding, y1+padding)
+		r.gopdfCtx.LineTo(x1+padding, y2-padding)
+		r.gopdfCtx.SetSourceRGB(0.0, 0.0, 0.0)
+		r.gopdfCtx.SetLineWidth(2.0)
+		r.gopdfCtx.Stroke()
 		debugPrintf("[FormField] Checkbox is checked\n")
 	} else {
 		debugPrintf("[FormField] Checkbox is unchecked\n")
@@ -122,8 +120,8 @@ func (r *FormRenderer) RenderRadioButton(field *FormField) error {
 	x1, y1, x2, y2 := field.GetRect()
 
 	// 保存状态
-	r.cairoCtx.Save()
-	defer r.cairoCtx.Restore()
+	r.gopdfCtx.Save()
+	defer r.gopdfCtx.Restore()
 
 	// 计算圆心和半径
 	centerX := (x1 + x2) / 2
@@ -134,18 +132,18 @@ func (r *FormRenderer) RenderRadioButton(field *FormField) error {
 	}
 
 	// 绘制圆形边框
-	r.cairoCtx.Arc(centerX, centerY, radius, 0, 6.28318530718) // 2*π
-	r.cairoCtx.SetSourceRGB(1.0, 1.0, 1.0) // 白色背景
-	r.cairoCtx.FillPreserve()
-	r.cairoCtx.SetSourceRGB(0.0, 0.0, 0.0) // 黑色边框
-	r.cairoCtx.SetLineWidth(1.0)
-	r.cairoCtx.Stroke()
+	r.gopdfCtx.Arc(centerX, centerY, radius, 0, 6.28318530718) // 2*π
+	r.gopdfCtx.SetSourceRGB(1.0, 1.0, 1.0)                     // 白色背景
+	r.gopdfCtx.FillPreserve()
+	r.gopdfCtx.SetSourceRGB(0.0, 0.0, 0.0) // 黑色边框
+	r.gopdfCtx.SetLineWidth(1.0)
+	r.gopdfCtx.Stroke()
 
 	// 如果选中，绘制内部圆点
 	if field.IsChecked() {
-		r.cairoCtx.Arc(centerX, centerY, radius*0.5, 0, 6.28318530718)
-		r.cairoCtx.SetSourceRGB(0.0, 0.0, 0.0)
-		r.cairoCtx.Fill()
+		r.gopdfCtx.Arc(centerX, centerY, radius*0.5, 0, 6.28318530718)
+		r.gopdfCtx.SetSourceRGB(0.0, 0.0, 0.0)
+		r.gopdfCtx.Fill()
 		debugPrintf("[FormField] Radio button is selected\n")
 	} else {
 		debugPrintf("[FormField] Radio button is not selected\n")
@@ -160,16 +158,16 @@ func (r *FormRenderer) RenderChoiceField(field *FormField) error {
 	x1, y1, x2, y2 := field.GetRect()
 
 	// 保存状态
-	r.cairoCtx.Save()
-	defer r.cairoCtx.Restore()
+	r.gopdfCtx.Save()
+	defer r.gopdfCtx.Restore()
 
 	// 绘制选择框边框
-	r.cairoCtx.Rectangle(x1, y1, x2-x1, y2-y1)
-	r.cairoCtx.SetSourceRGB(1.0, 1.0, 1.0) // 白色背景
-	r.cairoCtx.FillPreserve()
-	r.cairoCtx.SetSourceRGB(0.0, 0.0, 0.0) // 黑色边框
-	r.cairoCtx.SetLineWidth(1.0)
-	r.cairoCtx.Stroke()
+	r.gopdfCtx.Rectangle(x1, y1, x2-x1, y2-y1)
+	r.gopdfCtx.SetSourceRGB(1.0, 1.0, 1.0) // 白色背景
+	r.gopdfCtx.FillPreserve()
+	r.gopdfCtx.SetSourceRGB(0.0, 0.0, 0.0) // 黑色边框
+	r.gopdfCtx.SetLineWidth(1.0)
+	r.gopdfCtx.Stroke()
 
 	// 显示当前选中的值
 	if field.Value != "" {

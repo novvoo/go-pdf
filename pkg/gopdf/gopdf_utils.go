@@ -4,28 +4,26 @@ import (
 	"fmt"
 	"image"
 	"image/color"
-
-	"github.com/novvoo/go-cairo/pkg/cairo"
 )
 
-// CairoImageConverter 提供 Cairo 图像格式转换工具
-type CairoImageConverter struct{}
+// GopdfImageConverter 提供 Gopdf 图像格式转换工具
+type GopdfImageConverter struct{}
 
-// NewCairoImageConverter 创建新的转换器
-func NewCairoImageConverter() *CairoImageConverter {
-	return &CairoImageConverter{}
+// NewGopdfImageConverter 创建新的转换器
+func NewGopdfImageConverter() *GopdfImageConverter {
+	return &GopdfImageConverter{}
 }
 
-// ImageToCairoSurface 将 Go image.Image 转换为 Cairo ImageSurface
+// ImageToGopdfSurface 将 Go image.Image 转换为 Gopdf ImageSurface
 // 正确处理 Stride 和预乘 Alpha
-func (c *CairoImageConverter) ImageToCairoSurface(img image.Image, format cairo.Format) (cairo.ImageSurface, error) {
+func (c *GopdfImageConverter) ImageToGopdfSurface(img image.Image, format Format) (ImageSurface, error) {
 	bounds := img.Bounds()
 	width := bounds.Dx()
 	height := bounds.Dy()
 
-	// 创建 Cairo surface
-	surface := cairo.NewImageSurface(format, width, height)
-	imgSurf, ok := surface.(cairo.ImageSurface)
+	// 创建 Gopdf surface
+	surface := NewImageSurface(format, width, height)
+	imgSurf, ok := surface.(ImageSurface)
 	if !ok {
 		surface.Destroy()
 		return nil, fmt.Errorf("failed to create image surface")
@@ -37,13 +35,13 @@ func (c *CairoImageConverter) ImageToCairoSurface(img image.Image, format cairo.
 
 	// 根据格式转换
 	switch format {
-	case cairo.FormatARGB32:
+	case FormatARGB32:
 		c.convertToARGB32Premultiplied(img, data, stride, bounds)
-	case cairo.FormatRGB24:
+	case FormatRGB24:
 		c.convertToRGB24(img, data, stride, bounds)
-	case cairo.FormatA8:
+	case FormatA8:
 		c.convertToA8(img, data, stride, bounds)
-	case cairo.FormatA1:
+	case FormatA1:
 		c.convertToA1(img, data, stride, bounds)
 	default:
 		imgSurf.Destroy()
@@ -57,8 +55,8 @@ func (c *CairoImageConverter) ImageToCairoSurface(img image.Image, format cairo.
 }
 
 // convertToARGB32Premultiplied 转换为 ARGB32 格式（预乘 Alpha）
-// Cairo 使用 BGRA 字节序，且需要预乘 Alpha
-func (c *CairoImageConverter) convertToARGB32Premultiplied(img image.Image, data []byte, stride int, bounds image.Rectangle) {
+// Gopdf 使用 BGRA 字节序，且需要预乘 Alpha
+func (c *GopdfImageConverter) convertToARGB32Premultiplied(img image.Image, data []byte, stride int, bounds image.Rectangle) {
 	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
 		for x := bounds.Min.X; x < bounds.Max.X; x++ {
 			r, g, b, a := img.At(x, y).RGBA()
@@ -84,7 +82,7 @@ func (c *CairoImageConverter) convertToARGB32Premultiplied(img image.Image, data
 				r8, g8, b8 = 0, 0, 0
 			}
 
-			// Cairo 使用 BGRA 字节序
+			// Gopdf 使用 BGRA 字节序
 			data[offset+0] = b8 // B
 			data[offset+1] = g8 // G
 			data[offset+2] = r8 // R
@@ -94,7 +92,7 @@ func (c *CairoImageConverter) convertToARGB32Premultiplied(img image.Image, data
 }
 
 // convertToRGB24 转换为 RGB24 格式（无 Alpha）
-func (c *CairoImageConverter) convertToRGB24(img image.Image, data []byte, stride int, bounds image.Rectangle) {
+func (c *GopdfImageConverter) convertToRGB24(img image.Image, data []byte, stride int, bounds image.Rectangle) {
 	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
 		for x := bounds.Min.X; x < bounds.Max.X; x++ {
 			r, g, b, _ := img.At(x, y).RGBA()
@@ -113,7 +111,7 @@ func (c *CairoImageConverter) convertToRGB24(img image.Image, data []byte, strid
 }
 
 // convertToA8 转换为 A8 格式（仅 Alpha 通道）
-func (c *CairoImageConverter) convertToA8(img image.Image, data []byte, stride int, bounds image.Rectangle) {
+func (c *GopdfImageConverter) convertToA8(img image.Image, data []byte, stride int, bounds image.Rectangle) {
 	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
 		for x := bounds.Min.X; x < bounds.Max.X; x++ {
 			_, _, _, a := img.At(x, y).RGBA()
@@ -128,7 +126,7 @@ func (c *CairoImageConverter) convertToA8(img image.Image, data []byte, stride i
 }
 
 // convertToA1 转换为 A1 格式（1 位 Alpha）
-func (c *CairoImageConverter) convertToA1(img image.Image, data []byte, stride int, bounds image.Rectangle) {
+func (c *GopdfImageConverter) convertToA1(img image.Image, data []byte, stride int, bounds image.Rectangle) {
 	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
 		for x := bounds.Min.X; x < bounds.Max.X; x++ {
 			_, _, _, a := img.At(x, y).RGBA()
@@ -147,9 +145,9 @@ func (c *CairoImageConverter) convertToA1(img image.Image, data []byte, stride i
 	}
 }
 
-// CairoSurfaceToImage 将 Cairo ImageSurface 转换为 Go image.Image
+// GopdfSurfaceToImage 将 Gopdf ImageSurface 转换为 Go image.Image
 // 正确处理 Stride 和反预乘 Alpha
-func (c *CairoImageConverter) CairoSurfaceToImage(imgSurf cairo.ImageSurface) image.Image {
+func (c *GopdfImageConverter) GopdfSurfaceToImage(imgSurf ImageSurface) image.Image {
 	data := imgSurf.GetData()
 	stride := imgSurf.GetStride()
 	width := imgSurf.GetWidth()
@@ -160,16 +158,16 @@ func (c *CairoImageConverter) CairoSurfaceToImage(imgSurf cairo.ImageSurface) im
 	img := image.NewRGBA(image.Rect(0, 0, width, height))
 
 	switch format {
-	case cairo.FormatARGB32:
+	case FormatARGB32:
 		c.convertFromARGB32Premultiplied(data, stride, img)
-	case cairo.FormatRGB24:
+	case FormatRGB24:
 		c.convertFromRGB24(data, stride, img)
-	case cairo.FormatA8:
+	case FormatA8:
 		c.convertFromA8(data, stride, img)
-	case cairo.FormatA1:
+	case FormatA1:
 		c.convertFromA1(data, stride, img)
 	default:
-		debugPrintf("Warning: Unsupported Cairo format %v, treating as ARGB32\n", format)
+		debugPrintf("Warning: Unsupported Gopdf format %v, treating as ARGB32\n", format)
 		c.convertFromARGB32Premultiplied(data, stride, img)
 	}
 
@@ -177,7 +175,7 @@ func (c *CairoImageConverter) CairoSurfaceToImage(imgSurf cairo.ImageSurface) im
 }
 
 // convertFromARGB32Premultiplied 从 ARGB32 预乘格式转换
-func (c *CairoImageConverter) convertFromARGB32Premultiplied(data []byte, stride int, img *image.RGBA) {
+func (c *GopdfImageConverter) convertFromARGB32Premultiplied(data []byte, stride int, img *image.RGBA) {
 	bounds := img.Bounds()
 	width := bounds.Dx()
 	height := bounds.Dy()
@@ -185,13 +183,13 @@ func (c *CairoImageConverter) convertFromARGB32Premultiplied(data []byte, stride
 	for y := 0; y < height; y++ {
 		for x := 0; x < width; x++ {
 			// 使用 stride 计算偏移量
-			cairoOffset := y*stride + x*4
+			gopdfOffset := y*stride + x*4
 
-			// Cairo 使用 BGRA 预乘 alpha 格式
-			b := data[cairoOffset+0]
-			g := data[cairoOffset+1]
-			r := data[cairoOffset+2]
-			a := data[cairoOffset+3]
+			// Gopdf 使用 BGRA 预乘 alpha 格式
+			b := data[gopdfOffset+0]
+			g := data[gopdfOffset+1]
+			r := data[gopdfOffset+2]
+			a := data[gopdfOffset+3]
 
 			// 反预乘 Alpha
 			if a > 0 && a < 255 {
@@ -212,18 +210,18 @@ func (c *CairoImageConverter) convertFromARGB32Premultiplied(data []byte, stride
 }
 
 // convertFromRGB24 从 RGB24 格式转换
-func (c *CairoImageConverter) convertFromRGB24(data []byte, stride int, img *image.RGBA) {
+func (c *GopdfImageConverter) convertFromRGB24(data []byte, stride int, img *image.RGBA) {
 	bounds := img.Bounds()
 	width := bounds.Dx()
 	height := bounds.Dy()
 
 	for y := 0; y < height; y++ {
 		for x := 0; x < width; x++ {
-			cairoOffset := y*stride + x*4
+			gopdfOffset := y*stride + x*4
 
-			b := data[cairoOffset+0]
-			g := data[cairoOffset+1]
-			r := data[cairoOffset+2]
+			b := data[gopdfOffset+0]
+			g := data[gopdfOffset+1]
+			r := data[gopdfOffset+2]
 
 			imgOffset := y*img.Stride + x*4
 			img.Pix[imgOffset+0] = r
@@ -235,15 +233,15 @@ func (c *CairoImageConverter) convertFromRGB24(data []byte, stride int, img *ima
 }
 
 // convertFromA8 从 A8 格式转换
-func (c *CairoImageConverter) convertFromA8(data []byte, stride int, img *image.RGBA) {
+func (c *GopdfImageConverter) convertFromA8(data []byte, stride int, img *image.RGBA) {
 	bounds := img.Bounds()
 	width := bounds.Dx()
 	height := bounds.Dy()
 
 	for y := 0; y < height; y++ {
 		for x := 0; x < width; x++ {
-			cairoOffset := y*stride + x
-			a := data[cairoOffset]
+			gopdfOffset := y*stride + x
+			a := data[gopdfOffset]
 
 			imgOffset := y*img.Stride + x*4
 			img.Pix[imgOffset+0] = 255
@@ -255,7 +253,7 @@ func (c *CairoImageConverter) convertFromA8(data []byte, stride int, img *image.
 }
 
 // convertFromA1 从 A1 格式转换
-func (c *CairoImageConverter) convertFromA1(data []byte, stride int, img *image.RGBA) {
+func (c *GopdfImageConverter) convertFromA1(data []byte, stride int, img *image.RGBA) {
 	bounds := img.Bounds()
 	width := bounds.Dx()
 	height := bounds.Dy()
@@ -283,16 +281,16 @@ func (c *CairoImageConverter) convertFromA1(data []byte, stride int, img *image.
 }
 
 // GetStrideForWidth 计算给定宽度和格式的 stride
-// Cairo 要求 stride 必须是 4 字节对齐
-func GetStrideForWidth(width int, format cairo.Format) int {
+// Gopdf 要求 stride 必须是 4 字节对齐
+func GetStrideForWidth(width int, format Format) int {
 	var bytesPerPixel int
 
 	switch format {
-	case cairo.FormatARGB32, cairo.FormatRGB24:
+	case FormatARGB32, FormatRGB24:
 		bytesPerPixel = 4
-	case cairo.FormatA8:
+	case FormatA8:
 		bytesPerPixel = 1
-	case cairo.FormatA1:
+	case FormatA1:
 		// A1 格式每个像素 1 位
 		return ((width + 31) / 32) * 4 // 32 位对齐
 	default:

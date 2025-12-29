@@ -216,9 +216,9 @@ func createOperator(name string, args []interface{}) PDFOperator {
 		if len(args) >= 6 {
 			return &OpConcatMatrix{
 				Matrix: &Matrix{
-					A: toFloat(args[0]), B: toFloat(args[1]),
-					C: toFloat(args[2]), D: toFloat(args[3]),
-					E: toFloat(args[4]), F: toFloat(args[5]),
+					XX: toFloat(args[0]), YX: toFloat(args[1]),
+					XY: toFloat(args[2]), YY: toFloat(args[3]),
+					X0: toFloat(args[4]), Y0: toFloat(args[5]),
 				},
 			}
 		}
@@ -376,9 +376,9 @@ func createOperator(name string, args []interface{}) PDFOperator {
 		if len(args) >= 6 {
 			return &OpSetTextMatrix{
 				Matrix: &Matrix{
-					A: toFloat(args[0]), B: toFloat(args[1]),
-					C: toFloat(args[2]), D: toFloat(args[3]),
-					E: toFloat(args[4]), F: toFloat(args[5]),
+					XX: toFloat(args[0]), YX: toFloat(args[1]),
+					XY: toFloat(args[2]), YY: toFloat(args[3]),
+					X0: toFloat(args[4]), Y0: toFloat(args[5]),
 				},
 			}
 		}

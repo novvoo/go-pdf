@@ -452,7 +452,13 @@ func ExtractFontWidthInfoForReport(pdfPath string, pageNum int) string {
 		report.WriteString(fmt.Sprintf("  Text elements: %d\n", stats.count))
 		report.WriteString(fmt.Sprintf("  Total estimated width: %.2f points\n", stats.totalWidth))
 		report.WriteString(fmt.Sprintf("  Font size range: %.2f - %.2f points\n", stats.minSize, stats.maxSize))
-		report.WriteString(fmt.Sprintf("  Average width per element: %.2f points\n", stats.totalWidth/float64(stats.count)))
+
+		// 防止除零错误
+		if stats.count > 0 {
+			report.WriteString(fmt.Sprintf("  Average width per element: %.2f points\n", stats.totalWidth/float64(stats.count)))
+		} else {
+			report.WriteString("  Average width per element: N/A\n")
+		}
 
 		if len(stats.texts) > 0 {
 			report.WriteString("  Sample texts:\n")
@@ -582,30 +588,44 @@ func ExtractDetailedTextPositionsForReport(pdfPath string, pageNum int) string {
 			elements []gopdf.TextElementInfo
 		}
 
-		lines := make(map[int]*TextLine)
+		linesMap := make(map[int]*TextLine)
 		tolerance := 2.0 // Y 坐标容差
 
 		for _, te := range textElements {
 			yKey := int(te.Y / tolerance)
-			if lines[yKey] == nil {
-				lines[yKey] = &TextLine{y: te.Y, elements: []gopdf.TextElementInfo{}}
+			if linesMap[yKey] == nil {
+				linesMap[yKey] = &TextLine{y: te.Y, elements: []gopdf.TextElementInfo{}}
 			}
-			lines[yKey].elements = append(lines[yKey].elements, te)
+			linesMap[yKey].elements = append(linesMap[yKey].elements, te)
+		}
+
+		// 将map转换为slice并按Y坐标排序
+		lines := make([]*TextLine, 0, len(linesMap))
+		for _, line := range linesMap {
+			lines = append(lines, line)
+		}
+		// 按Y坐标排序行
+		for i := 0; i < len(lines); i++ {
+			for j := i + 1; j < len(lines); j++ {
+				if lines[i].y > lines[j].y {
+					lines[i], lines[j] = lines[j], lines[i]
+				}
+			}
 		}
 
 		report.WriteString(fmt.Sprintf("Detected %d text line(s)\n\n", len(lines)))
 
 		// 显示前 10 行
-		lineCount := 0
-		for _, line := range lines {
-			if lineCount >= 10 {
-				break
-			}
-			lineCount++
+		maxLines := 10
+		if len(lines) < maxLines {
+			maxLines = len(lines)
+		}
 
-			report.WriteString(fmt.Sprintf("Line %d (Y=%.2f):\n", lineCount, line.y))
+		for lineIdx := 0; lineIdx < maxLines; lineIdx++ {
+			line := lines[lineIdx]
+			report.WriteString(fmt.Sprintf("Line %d (Y=%.2f):\n", lineIdx+1, line.y))
 
-			// 按 X 坐标排序
+			// 按 X 坐标排序元素
 			elements := line.elements
 			for i := 0; i < len(elements); i++ {
 				for j := i + 1; j < len(elements); j++ {
@@ -614,6 +634,8 @@ func ExtractDetailedTextPositionsForReport(pdfPath string, pageNum int) string {
 					}
 				}
 			}
+			// 更新排序后的元素
+			line.elements = elements
 
 			for i, te := range elements {
 				displayText := te.Text
@@ -635,8 +657,8 @@ func ExtractDetailedTextPositionsForReport(pdfPath string, pageNum int) string {
 			report.WriteString("\n")
 		}
 
-		if len(lines) > 10 {
-			report.WriteString(fmt.Sprintf("... and %d more lines\n\n", len(lines)-10))
+		if len(lines) > maxLines {
+			report.WriteString(fmt.Sprintf("... and %d more lines\n\n", len(lines)-maxLines))
 		}
 
 		// 文本重叠检测
@@ -644,13 +666,26 @@ func ExtractDetailedTextPositionsForReport(pdfPath string, pageNum int) string {
 		report.WriteString("------------------\n")
 		overlapCount := 0
 		for _, line := range lines {
+			// 使用已排序的元素
 			elements := line.elements
 			for i := 0; i < len(elements)-1; i++ {
 				te1 := elements[i]
 				te2 := elements[i+1]
 
-				// 估算文本宽度
-				width1 := float64(len([]rune(te1.Text))) * te1.FontSize * 0.5
+				// 改进的文本宽度估算：考虑字符类型
+				runeCount := float64(len([]rune(te1.Text)))
+				// 对于CJK字符，使用更大的宽度系数
+				widthFactor := 0.5
+				for _, r := range te1.Text {
+					// CJK字符范围
+					if (r >= 0x4E00 && r <= 0x9FFF) || // CJK统一表意文字
+						(r >= 0x3400 && r <= 0x4DBF) || // CJK扩展A
+						(r >= 0xF900 && r <= 0xFAFF) { // CJK兼容表意文字
+						widthFactor = 0.7 // CJK字符通常更宽
+						break
+					}
+				}
+				width1 := runeCount * te1.FontSize * widthFactor
 
 				// 检查是否重叠
 				if te1.X+width1 > te2.X {
@@ -709,9 +744,14 @@ func ExtractDetailedTextPositionsForReport(pdfPath string, pageNum int) string {
 	report.WriteString("Rendering Quality Assessment:\n")
 	report.WriteString("==============================\n")
 
-	// 计算文本密度
-	textDensity := float64(len(textElements)) / (pageInfo.Width * pageInfo.Height) * 10000
-	report.WriteString(fmt.Sprintf("Text density: %.2f elements per 10000 sq points\n", textDensity))
+	// 计算文本密度（防止除零）
+	pageArea := pageInfo.Width * pageInfo.Height
+	if pageArea > 0 {
+		textDensity := float64(len(textElements)) / pageArea * 10000
+		report.WriteString(fmt.Sprintf("Text density: %.2f elements per 10000 sq points\n", textDensity))
+	} else {
+		report.WriteString("Text density: N/A (invalid page dimensions)\n")
+	}
 
 	// 字体使用统计
 	fontUsage := make(map[string]int)

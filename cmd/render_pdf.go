@@ -186,7 +186,7 @@ func main() {
 
 	// 添加捕获的输出（包括 C 库的 DEBUG 信息）
 	if capturedOutput != "" {
-		report += "Cairo/Pango Debug Output:\n"
+		report += "Gopdf/Pango Debug Output:\n"
 		report += "-------------------------\n"
 		report += capturedOutput + "\n\n"
 	}

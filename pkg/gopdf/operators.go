@@ -2,8 +2,6 @@ package gopdf
 
 import (
 	"fmt"
-
-	"github.com/novvoo/go-cairo/pkg/cairo"
 )
 
 // PDFOperator 表示 PDF 操作符接口
@@ -14,25 +12,25 @@ type PDFOperator interface {
 
 // RenderContext PDF 渲染上下文
 type RenderContext struct {
-	CairoCtx           cairo.Context
+	GopdfCtx           Context
 	GraphicsStack      *GraphicsStateStack
 	MarkedContentStack *MarkedContentStack
-	CurrentPath        *Path
+	CurrentPath        *PathImpl
 	TextState          *TextState
 	Resources          *Resources
-	XObjectCache       map[string]cairo.Surface
+	XObjectCache       map[string]Surface
 }
 
 // NewRenderContext 创建新的渲染上下文
-func NewRenderContext(cairoCtx cairo.Context, width, height float64) *RenderContext {
+func NewRenderContext(gopdfCtx Context, width, height float64) *RenderContext {
 	return &RenderContext{
-		CairoCtx:           cairoCtx,
+		GopdfCtx:           gopdfCtx,
 		GraphicsStack:      NewGraphicsStateStack(width, height),
 		MarkedContentStack: NewMarkedContentStack(),
 		CurrentPath:        NewPath(),
 		TextState:          NewTextState(),
 		Resources:          NewResources(),
-		XObjectCache:       make(map[string]cairo.Surface),
+		XObjectCache:       make(map[string]Surface),
 	}
 }
 
@@ -50,7 +48,7 @@ func (op *OpSaveState) Name() string { return "q" }
 
 func (op *OpSaveState) Execute(ctx *RenderContext) error {
 	ctx.GraphicsStack.Push()
-	ctx.CairoCtx.Save()
+	ctx.GopdfCtx.Save()
 	debugPrintf("[q] Save graphics state - Stack depth: %d\n", ctx.GraphicsStack.Depth())
 	return nil
 }
@@ -62,7 +60,7 @@ func (op *OpRestoreState) Name() string { return "Q" }
 
 func (op *OpRestoreState) Execute(ctx *RenderContext) error {
 	ctx.GraphicsStack.Pop()
-	ctx.CairoCtx.Restore()
+	ctx.GopdfCtx.Restore()
 	debugPrintf("[Q] Restore graphics state - Stack depth: %d\n", ctx.GraphicsStack.Depth())
 	return nil
 }
@@ -78,20 +76,21 @@ func (op *OpConcatMatrix) Execute(ctx *RenderContext) error {
 	state := ctx.GetCurrentState()
 	oldCTM := state.CTM.Clone()
 
-	// PDF 规范: CTM_new = cm × CTM_old (右乘)
-	// 这意味着新的变换矩阵应该是 op.Matrix.Multiply(state.CTM)
-	state.CTM = op.Matrix.Multiply(state.CTM)
+	// PDF 规范: CTM_new = CTM_old × cm (右乘)
+	// 这意味着新的变换先应用旧的CTM，再应用cm矩阵
+	// 在矩阵乘法中: (CTM_old × cm) 意味着 state.CTM.Multiply(op.Matrix)
+	state.CTM = state.CTM.Multiply(op.Matrix)
 
-	// 对于 Cairo，我们只需要应用增量变换（cm 矩阵本身）
-	// Cairo 的 Transform 会自动与当前矩阵组合
-	op.Matrix.ApplyToCairoContext(ctx.CairoCtx)
+	// 对于 Gopdf，我们只需要应用增量变换（cm 矩阵本身）
+	// Gopdf 的 Transform 会自动与当前矩阵组合
+	op.Matrix.ApplyToGopdfContext(ctx.GopdfCtx)
 
 	debugPrintf("[cm] Concat matrix: [%.2f %.2f %.2f %.2f %.2f %.2f]\n",
-		op.Matrix.A, op.Matrix.B, op.Matrix.C, op.Matrix.D, op.Matrix.E, op.Matrix.F)
+		op.Matrix.XX, op.Matrix.YX, op.Matrix.XY, op.Matrix.YY, op.Matrix.X0, op.Matrix.Y0)
 	debugPrintf("     Old CTM: [%.2f %.2f %.2f %.2f %.2f %.2f]\n",
-		oldCTM.A, oldCTM.B, oldCTM.C, oldCTM.D, oldCTM.E, oldCTM.F)
+		oldCTM.XX, oldCTM.YX, oldCTM.XY, oldCTM.YY, oldCTM.X0, oldCTM.Y0)
 	debugPrintf("     New CTM: [%.2f %.2f %.2f %.2f %.2f %.2f]\n",
-		state.CTM.A, state.CTM.B, state.CTM.C, state.CTM.D, state.CTM.E, state.CTM.F)
+		state.CTM.XX, state.CTM.YX, state.CTM.XY, state.CTM.YY, state.CTM.X0, state.CTM.Y0)
 	return nil
 }
 
@@ -105,7 +104,7 @@ func (op *OpSetLineWidth) Name() string { return "w" }
 func (op *OpSetLineWidth) Execute(ctx *RenderContext) error {
 	state := ctx.GetCurrentState()
 	state.LineWidth = op.Width
-	ctx.CairoCtx.SetLineWidth(op.Width)
+	ctx.GopdfCtx.SetLineWidth(op.Width)
 	return nil
 }
 
@@ -118,19 +117,19 @@ func (op *OpSetLineCap) Name() string { return "J" }
 
 func (op *OpSetLineCap) Execute(ctx *RenderContext) error {
 	state := ctx.GetCurrentState()
-	var cap cairo.LineCap
+	var cap LineCap
 	switch op.Cap {
 	case 0:
-		cap = cairo.LineCapButt
+		cap = LineCapButt
 	case 1:
-		cap = cairo.LineCapRound
+		cap = LineCapRound
 	case 2:
-		cap = cairo.LineCapSquare
+		cap = LineCapSquare
 	default:
-		cap = cairo.LineCapButt
+		cap = LineCapButt
 	}
 	state.LineCap = cap
-	ctx.CairoCtx.SetLineCap(cap)
+	ctx.GopdfCtx.SetLineCap(cap)
 	return nil
 }
 
@@ -143,19 +142,19 @@ func (op *OpSetLineJoin) Name() string { return "j" }
 
 func (op *OpSetLineJoin) Execute(ctx *RenderContext) error {
 	state := ctx.GetCurrentState()
-	var join cairo.LineJoin
+	var join LineJoin
 	switch op.Join {
 	case 0:
-		join = cairo.LineJoinMiter
+		join = LineJoinMiter
 	case 1:
-		join = cairo.LineJoinRound
+		join = LineJoinRound
 	case 2:
-		join = cairo.LineJoinBevel
+		join = LineJoinBevel
 	default:
-		join = cairo.LineJoinMiter
+		join = LineJoinMiter
 	}
 	state.LineJoin = join
-	ctx.CairoCtx.SetLineJoin(join)
+	ctx.GopdfCtx.SetLineJoin(join)
 	return nil
 }
 
@@ -169,7 +168,7 @@ func (op *OpSetMiterLimit) Name() string { return "M" }
 func (op *OpSetMiterLimit) Execute(ctx *RenderContext) error {
 	state := ctx.GetCurrentState()
 	state.MiterLimit = op.Limit
-	ctx.CairoCtx.SetMiterLimit(op.Limit)
+	ctx.GopdfCtx.SetMiterLimit(op.Limit)
 	return nil
 }
 
@@ -184,7 +183,7 @@ func (op *OpSetDash) Name() string { return "d" }
 func (op *OpSetDash) Execute(ctx *RenderContext) error {
 	state := ctx.GetCurrentState()
 	state.SetDash(op.Pattern, op.Offset)
-	ctx.CairoCtx.SetDash(op.Pattern, op.Offset)
+	ctx.GopdfCtx.SetDash(op.Pattern, op.Offset)
 	return nil
 }
 
@@ -207,7 +206,7 @@ func (op *OpSetGraphicsState) Execute(ctx *RenderContext) error {
 	// 应用扩展图形状态参数
 	if lw, ok := extGState["LW"].(float64); ok {
 		state.LineWidth = lw
-		ctx.CairoCtx.SetLineWidth(lw)
+		ctx.GopdfCtx.SetLineWidth(lw)
 	}
 
 	if lc, ok := extGState["LC"].(int); ok {
@@ -220,13 +219,13 @@ func (op *OpSetGraphicsState) Execute(ctx *RenderContext) error {
 
 	if ml, ok := extGState["ML"].(float64); ok {
 		state.MiterLimit = ml
-		ctx.CairoCtx.SetMiterLimit(ml)
+		ctx.GopdfCtx.SetMiterLimit(ml)
 	}
 
 	// 混合模式
 	if bm, ok := extGState["BM"].(string); ok {
 		state.SetBlendMode(bm)
-		state.ApplyBlendMode(ctx.CairoCtx)
+		state.ApplyBlendMode(ctx.GopdfCtx)
 		debugPrintf("[gs] Set blend mode: %s\n", bm)
 	}
 
@@ -302,11 +301,11 @@ func (op *OpMoveTo) Name() string { return "m" }
 
 func (op *OpMoveTo) Execute(ctx *RenderContext) error {
 	ctx.CurrentPath.MoveTo(op.X, op.Y)
-	ctx.CairoCtx.MoveTo(op.X, op.Y)
+	ctx.GopdfCtx.MoveTo(op.X, op.Y)
 	state := ctx.GetCurrentState()
 	if state != nil && state.CTM != nil {
-		debugPrintf("[m] MoveTo(%.2f, %.2f) CTM=[%.2f %.2f %.2f %.2f %.2f %.2f]\n", 
-			op.X, op.Y, state.CTM.A, state.CTM.B, state.CTM.C, state.CTM.D, state.CTM.E, state.CTM.F)
+		debugPrintf("[m] MoveTo(%.2f, %.2f) CTM=[%.2f %.2f %.2f %.2f %.2f %.2f]\n",
+			op.X, op.Y, state.CTM.XX, state.CTM.YX, state.CTM.XY, state.CTM.YY, state.CTM.X0, state.CTM.Y0)
 	} else {
 		debugPrintf("[m] MoveTo(%.2f, %.2f)\n", op.X, op.Y)
 	}
@@ -322,7 +321,7 @@ func (op *OpLineTo) Name() string { return "l" }
 
 func (op *OpLineTo) Execute(ctx *RenderContext) error {
 	ctx.CurrentPath.LineTo(op.X, op.Y)
-	ctx.CairoCtx.LineTo(op.X, op.Y)
+	ctx.GopdfCtx.LineTo(op.X, op.Y)
 	debugPrintf("[l] LineTo(%.2f, %.2f)\n", op.X, op.Y)
 	return nil
 }
@@ -336,8 +335,8 @@ func (op *OpCurveTo) Name() string { return "c" }
 
 func (op *OpCurveTo) Execute(ctx *RenderContext) error {
 	ctx.CurrentPath.CurveTo(op.X1, op.Y1, op.X2, op.Y2, op.X3, op.Y3)
-	ctx.CairoCtx.CurveTo(op.X1, op.Y1, op.X2, op.Y2, op.X3, op.Y3)
-	debugPrintf("[c] CurveTo(%.2f, %.2f, %.2f, %.2f, %.2f, %.2f)\n", 
+	ctx.GopdfCtx.CurveTo(op.X1, op.Y1, op.X2, op.Y2, op.X3, op.Y3)
+	debugPrintf("[c] CurveTo(%.2f, %.2f, %.2f, %.2f, %.2f, %.2f)\n",
 		op.X1, op.Y1, op.X2, op.Y2, op.X3, op.Y3)
 	return nil
 }
@@ -351,9 +350,9 @@ func (op *OpCurveToV) Name() string { return "v" }
 
 func (op *OpCurveToV) Execute(ctx *RenderContext) error {
 	// 当前点作为第一个控制点
-	x, y := ctx.CairoCtx.GetCurrentPoint()
+	x, y := ctx.GopdfCtx.GetCurrentPoint()
 	ctx.CurrentPath.CurveTo(x, y, op.X2, op.Y2, op.X3, op.Y3)
-	ctx.CairoCtx.CurveTo(x, y, op.X2, op.Y2, op.X3, op.Y3)
+	ctx.GopdfCtx.CurveTo(x, y, op.X2, op.Y2, op.X3, op.Y3)
 	return nil
 }
 
@@ -367,7 +366,7 @@ func (op *OpCurveToY) Name() string { return "y" }
 func (op *OpCurveToY) Execute(ctx *RenderContext) error {
 	// 终点作为第二个控制点
 	ctx.CurrentPath.CurveTo(op.X1, op.Y1, op.X3, op.Y3, op.X3, op.Y3)
-	ctx.CairoCtx.CurveTo(op.X1, op.Y1, op.X3, op.Y3, op.X3, op.Y3)
+	ctx.GopdfCtx.CurveTo(op.X1, op.Y1, op.X3, op.Y3, op.X3, op.Y3)
 	return nil
 }
 
@@ -380,7 +379,7 @@ func (op *OpRectangle) Name() string { return "re" }
 
 func (op *OpRectangle) Execute(ctx *RenderContext) error {
 	ctx.CurrentPath.Rectangle(op.X, op.Y, op.Width, op.Height)
-	ctx.CairoCtx.Rectangle(op.X, op.Y, op.Width, op.Height)
+	ctx.GopdfCtx.Rectangle(op.X, op.Y, op.Width, op.Height)
 	return nil
 }
 
@@ -391,7 +390,7 @@ func (op *OpClosePath) Name() string { return "h" }
 
 func (op *OpClosePath) Execute(ctx *RenderContext) error {
 	ctx.CurrentPath.ClosePath()
-	ctx.CairoCtx.ClosePath()
+	ctx.GopdfCtx.ClosePath()
 	return nil
 }
 
@@ -404,7 +403,7 @@ func (op *OpStroke) Name() string { return "S" }
 
 func (op *OpStroke) Execute(ctx *RenderContext) error {
 	state := ctx.GetCurrentState()
-	filler := NewPathFiller(ctx.CairoCtx)
+	filler := NewPathFiller(ctx.GopdfCtx)
 
 	if err := filler.StrokePath(ctx.CurrentPath, state.StrokeColor, state.LineWidth); err != nil {
 		return err
@@ -420,7 +419,7 @@ type OpCloseAndStroke struct{}
 func (op *OpCloseAndStroke) Name() string { return "s" }
 
 func (op *OpCloseAndStroke) Execute(ctx *RenderContext) error {
-	ctx.CairoCtx.ClosePath()
+	ctx.GopdfCtx.ClosePath()
 	return (&OpStroke{}).Execute(ctx)
 }
 
@@ -431,8 +430,8 @@ func (op *OpFill) Name() string { return "f" }
 
 func (op *OpFill) Execute(ctx *RenderContext) error {
 	state := ctx.GetCurrentState()
-	filler := NewPathFiller(ctx.CairoCtx)
-	filler.SetFillRule(FillRuleNonZero)
+	filler := NewPathFiller(ctx.GopdfCtx)
+	filler.SetFillRule(FillRuleWinding)
 
 	if err := filler.FillPath(ctx.CurrentPath, state.FillColor); err != nil {
 		return err
@@ -449,7 +448,7 @@ func (op *OpFillEvenOdd) Name() string { return "f*" }
 
 func (op *OpFillEvenOdd) Execute(ctx *RenderContext) error {
 	state := ctx.GetCurrentState()
-	filler := NewPathFiller(ctx.CairoCtx)
+	filler := NewPathFiller(ctx.GopdfCtx)
 	filler.SetFillRule(FillRuleEvenOdd)
 
 	if err := filler.FillPath(ctx.CurrentPath, state.FillColor); err != nil {
@@ -467,8 +466,8 @@ func (op *OpFillAndStroke) Name() string { return "B" }
 
 func (op *OpFillAndStroke) Execute(ctx *RenderContext) error {
 	state := ctx.GetCurrentState()
-	filler := NewPathFiller(ctx.CairoCtx)
-	filler.SetFillRule(FillRuleNonZero)
+	filler := NewPathFiller(ctx.GopdfCtx)
+	filler.SetFillRule(FillRuleWinding)
 
 	if err := filler.FillAndStrokePath(ctx.CurrentPath, state.FillColor, state.StrokeColor, state.LineWidth); err != nil {
 		return err
@@ -484,7 +483,7 @@ type OpCloseAndFillAndStroke struct{}
 func (op *OpCloseAndFillAndStroke) Name() string { return "b" }
 
 func (op *OpCloseAndFillAndStroke) Execute(ctx *RenderContext) error {
-	ctx.CairoCtx.ClosePath()
+	ctx.GopdfCtx.ClosePath()
 	return (&OpFillAndStroke{}).Execute(ctx)
 }
 
@@ -494,7 +493,7 @@ type OpEndPath struct{}
 func (op *OpEndPath) Name() string { return "n" }
 
 func (op *OpEndPath) Execute(ctx *RenderContext) error {
-	ctx.CairoCtx.NewPath()
+	ctx.GopdfCtx.NewPath()
 	ctx.CurrentPath.Clear()
 	return nil
 }
@@ -505,8 +504,8 @@ type OpClip struct{}
 func (op *OpClip) Name() string { return "W" }
 
 func (op *OpClip) Execute(ctx *RenderContext) error {
-	filler := NewPathFiller(ctx.CairoCtx)
-	filler.SetFillRule(FillRuleNonZero)
+	filler := NewPathFiller(ctx.GopdfCtx)
+	filler.SetFillRule(FillRuleWinding)
 	return filler.ClipPath(ctx.CurrentPath)
 }
 
@@ -516,7 +515,7 @@ type OpClipEvenOdd struct{}
 func (op *OpClipEvenOdd) Name() string { return "W*" }
 
 func (op *OpClipEvenOdd) Execute(ctx *RenderContext) error {
-	filler := NewPathFiller(ctx.CairoCtx)
+	filler := NewPathFiller(ctx.GopdfCtx)
 	filler.SetFillRule(FillRuleEvenOdd)
 	return filler.ClipPath(ctx.CurrentPath)
 }
@@ -645,9 +644,9 @@ func (op *OpPaintShading) Execute(ctx *RenderContext) error {
 	}
 
 	// 创建渐变渲染器
-	renderer := NewGradientRenderer(ctx.CairoCtx)
+	renderer := NewGradientRenderer(ctx.GopdfCtx)
 
-	var pattern cairo.Pattern
+	var pattern Pattern
 	var err error
 
 	// 根据 shading 类型渲染
@@ -667,8 +666,8 @@ func (op *OpPaintShading) Execute(ctx *RenderContext) error {
 
 	if pattern != nil {
 		// 应用渐变填充整个裁剪区域
-		ctx.CairoCtx.SetSource(pattern)
-		ctx.CairoCtx.Paint()
+		ctx.GopdfCtx.SetSource(pattern)
+		ctx.GopdfCtx.Paint()
 		pattern.Destroy()
 	}
 
@@ -696,14 +695,14 @@ func (op *OpSetFillPattern) Execute(ctx *RenderContext) error {
 		return nil
 	}
 
-	pattern, ok := patternObj.(*Pattern)
+	pattern, ok := patternObj.(*PatternImpl)
 	if !ok {
 		debugPrintf("Warning: Pattern %s is not a valid Pattern object\n", op.PatternName)
 		return nil
 	}
 
 	// 创建图案渲染器
-	renderer := NewPatternRenderer(ctx.CairoCtx)
+	renderer := NewPatternRenderer(ctx.GopdfCtx)
 
 	// 应用图案填充
 	if err := renderer.ApplyPatternFill(pattern); err != nil {
@@ -730,14 +729,14 @@ func (op *OpSetStrokePattern) Execute(ctx *RenderContext) error {
 		return nil
 	}
 
-	pattern, ok := patternObj.(*Pattern)
+	pattern, ok := patternObj.(*PatternImpl)
 	if !ok {
 		debugPrintf("Warning: Pattern %s is not a valid Pattern object\n", op.PatternName)
 		return nil
 	}
 
 	// 创建图案渲染器
-	renderer := NewPatternRenderer(ctx.CairoCtx)
+	renderer := NewPatternRenderer(ctx.GopdfCtx)
 
 	// 应用图案描边
 	if err := renderer.ApplyPatternStroke(pattern); err != nil {

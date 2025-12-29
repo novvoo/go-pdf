@@ -3,8 +3,6 @@ package gopdf
 import (
 	"fmt"
 	"strings"
-
-	"github.com/novvoo/go-cairo/pkg/cairo"
 )
 
 // TextState 文本状态
@@ -226,7 +224,7 @@ func (op *OpSetTextMatrix) Execute(ctx *RenderContext) error {
 	// 注意：文本矩阵是独立的，不应该影响图形状态的 CTM
 	// 文本渲染时会单独应用文本矩阵
 	debugPrintf("[Tm] Set text matrix: [%.2f %.2f %.2f %.2f %.2f %.2f]\n",
-		op.Matrix.A, op.Matrix.B, op.Matrix.C, op.Matrix.D, op.Matrix.E, op.Matrix.F)
+		op.Matrix.XX, op.Matrix.YX, op.Matrix.XY, op.Matrix.YY, op.Matrix.X0, op.Matrix.Y0)
 
 	return nil
 }
@@ -246,9 +244,9 @@ func (op *OpMoveTextPosition) Execute(ctx *RenderContext) error {
 
 	debugPrintf("[Td] Move text position: tx=%.2f, ty=%.2f -> New Tm: [%.2f %.2f %.2f %.2f %.2f %.2f]\n",
 		op.Tx, op.Ty,
-		ctx.TextState.TextMatrix.A, ctx.TextState.TextMatrix.B,
-		ctx.TextState.TextMatrix.C, ctx.TextState.TextMatrix.D,
-		ctx.TextState.TextMatrix.E, ctx.TextState.TextMatrix.F)
+		ctx.TextState.TextMatrix.XX, ctx.TextState.TextMatrix.YX,
+		ctx.TextState.TextMatrix.XY, ctx.TextState.TextMatrix.YY,
+		ctx.TextState.TextMatrix.X0, ctx.TextState.TextMatrix.Y0)
 
 	return nil
 }
@@ -279,9 +277,9 @@ func (op *OpMoveToNextLine) Execute(ctx *RenderContext) error {
 
 	debugPrintf("[T*] Next line: Leading=%.2f -> New Tm: [%.2f %.2f %.2f %.2f %.2f %.2f]\n",
 		ctx.TextState.Leading,
-		ctx.TextState.TextMatrix.A, ctx.TextState.TextMatrix.B,
-		ctx.TextState.TextMatrix.C, ctx.TextState.TextMatrix.D,
-		ctx.TextState.TextMatrix.E, ctx.TextState.TextMatrix.F)
+		ctx.TextState.TextMatrix.XX, ctx.TextState.TextMatrix.YX,
+		ctx.TextState.TextMatrix.XY, ctx.TextState.TextMatrix.YY,
+		ctx.TextState.TextMatrix.X0, ctx.TextState.TextMatrix.Y0)
 
 	return nil
 }
@@ -470,10 +468,10 @@ type GlyphWithPosition struct {
 	FontSize   float64 // 字体大小
 }
 
-// renderGlyphsWithPangoBatch 使用 PangoCairo 批量渲染字形
+// renderGlyphsWithPangoBatch 使用 PangoGopdf 批量渲染字形
 // 🔥 新策略：让 Pango 完全处理文本布局，按字体样式和位置分块
 // 这样可以避免字体宽度计算不准确导致的重叠问题
-func renderGlyphsWithPangoBatch(ctx *RenderContext, glyphs []GlyphWithPosition, _ *cairo.PangoFontDescription) {
+func renderGlyphsWithPangoBatch(ctx *RenderContext, glyphs []GlyphWithPosition, _ *PangoFontDescription) {
 	if len(glyphs) == 0 {
 		return
 	}
@@ -556,27 +554,29 @@ func renderGlyphsWithPangoBatch(ctx *RenderContext, glyphs []GlyphWithPosition, 
 	// 渲染每个文本块
 	// 🔥 关键：让 Pango 完全处理文本布局和字符间距
 	for idx, block := range blocks {
-		ctx.CairoCtx.Save()
+		ctx.GopdfCtx.Save()
 
 		// 移动到文本块的起始位置
-		ctx.CairoCtx.MoveTo(block.x, block.y)
+		ctx.GopdfCtx.MoveTo(block.x, block.y)
 
+		// TODO: Pango text rendering not yet implemented
+		// For now, use basic text rendering
 		// 为每个块创建对应的字体描述符
-		blockFontDesc := cairo.NewPangoFontDescription()
-		blockFontDesc.SetFamily(block.fontFamily)
-		blockFontDesc.SetSize(block.fontSize)
+		// blockFontDesc := NewPangoFontDescription()
+		// blockFontDesc.SetFamily(block.fontFamily)
+		// blockFontDesc.SetSize(block.fontSize)
 
 		// 创建 Pango 布局
-		layout := ctx.CairoCtx.PangoCairoCreateLayout().(*cairo.PangoCairoLayout)
-		layout.SetFontDescription(blockFontDesc)
+		// layout := ctx.GopdfCtx.PangoGopdfCreateLayout().(*PangoGopdfLayout)
+		// layout.SetFontDescription(blockFontDesc)
 
 		// 🔥 关键：设置文本，让 Pango 自动计算字符间距和宽度
-		layout.SetText(block.text)
+		// layout.SetText(block.text)
 
 		// 渲染文本
-		ctx.CairoCtx.PangoCairoShowText(layout)
+		// ctx.GopdfCtx.PangoGopdfShowText(layout)
 
-		ctx.CairoCtx.Restore()
+		ctx.GopdfCtx.Restore()
 
 		debugPrintf("[RENDER][%d] Block at (%.2f, %.2f) font=%s/%.1f: %q (%d chars)\n",
 			idx, block.x, block.y, block.fontFamily, block.fontSize, block.text, len([]rune(block.text)))
@@ -585,7 +585,7 @@ func renderGlyphsWithPangoBatch(ctx *RenderContext, glyphs []GlyphWithPosition, 
 	debugPrintf("[RENDER] ✓ Rendered %d text blocks using Pango auto-layout\n", len(blocks))
 }
 
-// renderText 渲染文本到 Cairo
+// renderText 渲染文本到 Gopdf
 func renderText(ctx *RenderContext, text string, array []interface{}) error {
 	state := ctx.GetCurrentState()
 	textState := ctx.TextState
@@ -594,13 +594,13 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 	debugPrintf("\n[TEXT_STATE] CharSpacing=%.4f WordSpacing=%.4f HScale=%.2f%% FontSize=%.2f\n",
 		textState.CharSpacing, textState.WordSpacing, textState.HorizontalScaling, textState.FontSize)
 
-	// 保存 Cairo 状态
-	ctx.CairoCtx.Save()
-	defer ctx.CairoCtx.Restore()
+	// 保存 Gopdf 状态
+	ctx.GopdfCtx.Save()
+	defer ctx.GopdfCtx.Restore()
 
-	// 🔥 关键修复：不应用文本矩阵到Cairo上下文
+	// 🔥 关键修复：不应用文本矩阵到Gopdf上下文
 	// 因为我们会计算绝对坐标并直接使用 MoveTo 定位
-	// 这样避免双重变换（文本矩阵变换 + Cairo变换）
+	// 这样避免双重变换（文本矩阵变换 + Gopdf变换）
 
 	// 注意：文本上升仍然需要应用，因为它是相对于文本基线的偏移
 	// 但由于我们使用绝对坐标，上升也应该在计算坐标时处理
@@ -608,7 +608,7 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 	if textState.Rise != 0 {
 		// 上升应该在Y方向应用，但由于我们使用绝对坐标
 		// 这个变换可能不需要，取决于具体实现
-		// ctx.CairoCtx.Translate(0, textState.Rise)
+		// ctx.GopdfCtx.Translate(0, textState.Rise)
 	}
 
 	// 设置字体
@@ -632,37 +632,11 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 		toUnicodeMap = textState.Font.ToUnicodeMap
 	}
 
-	// 使用 PangoCairo 渲染文本
-	layout := ctx.CairoCtx.PangoCairoCreateLayout().(*cairo.PangoCairoLayout)
-	fontDesc := cairo.NewPangoFontDescription()
+	// 🔥 使用 PangoPdf 进行文本渲染
+	// PangoPdf 会处理字体选择和文本布局
+	debugPrintf("[TEXT_RENDER] Using PangoPdf text rendering: font=%s, size=%.2f\n", fontFamily, fontSize)
 
-	// 检查是否有嵌入的字体数据
-	if textState.Font != nil && len(textState.Font.EmbeddedFontData) > 0 {
-		// 使用嵌入的字体数据
-		// 尝试创建自定义字体
-		userFont := cairo.NewUserFontFace()
-		if userFont != nil {
-			// 这里我们暂时使用字体族名称，但在实际应用中，
-			// 我们需要将 EmbeddedFontData 传递给字体渲染系统
-			fontDesc.SetFamily(fontFamily)
-			debugPrintf("✓ Using embedded font data for font %s (%d bytes)\n", fontFamily, len(textState.Font.EmbeddedFontData))
-
-			// TODO: 实际的字体数据加载需要在底层的cairo/pango库中实现
-			// 当前版本的go-cairo可能不直接支持从[]byte加载字体
-		} else {
-			// 回退到系统字体
-			fontDesc.SetFamily(fontFamily)
-			debugPrintf("⚠️  Failed to create user font, falling back to system font: %s\n", fontFamily)
-		}
-	} else {
-		// 使用系统字体
-		fontDesc.SetFamily(fontFamily)
-	}
-
-	fontDesc.SetSize(fontSize)
-	layout.SetFontDescription(fontDesc)
-
-	// 🔥 关键：不应用水平缩放到Cairo上下文
+	// 🔥 关键：不应用水平缩放到Gopdf上下文
 	// 水平缩放已经在 GlyphAdvance 计算中处理了
 	// 这样避免双重缩放
 
@@ -672,7 +646,7 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 		if state.FillColor != nil {
 			debugPrintf("[TEXT_STATE] Using FillColor: RGB(%.3f, %.3f, %.3f, %.3f)\n",
 				state.FillColor.R, state.FillColor.G, state.FillColor.B, state.FillColor.A)
-			ctx.CairoCtx.SetSourceRGBA(
+			ctx.GopdfCtx.SetSourceRGBA(
 				state.FillColor.R,
 				state.FillColor.G,
 				state.FillColor.B,
@@ -681,11 +655,11 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 		} else {
 			// 默认使用黑色
 			debugPrintf("[TEXT_STATE] Using default black color\n")
-			ctx.CairoCtx.SetSourceRGBA(0, 0, 0, 1)
+			ctx.GopdfCtx.SetSourceRGBA(0, 0, 0, 1)
 		}
 	case 1: // 描边
 		if state.StrokeColor != nil {
-			ctx.CairoCtx.SetSourceRGBA(
+			ctx.GopdfCtx.SetSourceRGBA(
 				state.StrokeColor.R,
 				state.StrokeColor.G,
 				state.StrokeColor.B,
@@ -694,7 +668,7 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 		}
 	case 2: // 填充+描边
 		if state.FillColor != nil {
-			ctx.CairoCtx.SetSourceRGBA(
+			ctx.GopdfCtx.SetSourceRGBA(
 				state.FillColor.R,
 				state.FillColor.G,
 				state.FillColor.B,
@@ -773,7 +747,7 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 		decodedText, cids := decodeTextStringWithCIDs(text, toUnicodeMap, textState.Font)
 		if decodedText != "" {
 			debugPrintf("[Tj] Text=%q (len=%d runes, %d CIDs) at Tm=[%.2f, %.2f]\n",
-				decodedText, len([]rune(decodedText)), len(cids), textState.TextMatrix.E, textState.TextMatrix.F)
+				decodedText, len([]rune(decodedText)), len(cids), textState.TextMatrix.X0, textState.TextMatrix.Y0)
 
 			runes := []rune(decodedText)
 			for i, cid := range cids {
@@ -802,10 +776,35 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 		}
 	}
 
-	// 🔥 使用 Pango 自动布局渲染文本
-	// Pango 会自动处理字符间距、连字、字距调整等
+	// 🔥 使用 PangoPdf 渲染文字：逐个字形渲染以精确控制位置
 	if len(glyphs) > 0 {
-		renderGlyphsWithPangoBatch(ctx, glyphs, fontDesc)
+		debugPrintf("[TEXT_RENDER] Rendering %d glyphs individually using PangoPdf\n", len(glyphs))
+
+		// 创建 PangoPdf 布局（在循环外创建以提高性能）
+		layout := ctx.GopdfCtx.PangoPdfCreateLayout().(*PangoPdfLayout)
+		fontDesc := NewPangoFontDescription()
+		fontDesc.SetFamily(fontFamily)
+		fontDesc.SetSize(fontSize)
+		layout.SetFontDescription(fontDesc)
+
+		for i, glyph := range glyphs {
+			// 移动到字形位置
+			ctx.GopdfCtx.MoveTo(glyph.X, glyph.Y)
+
+			// 设置单个字符文本
+			text := string(glyph.Rune)
+			layout.SetText(text)
+
+			// 渲染文本
+			ctx.GopdfCtx.PangoPdfShowText(layout)
+
+			if i < 5 || i >= len(glyphs)-5 {
+				debugPrintf("[TEXT_RENDER][%d] Rendered '%c' at (%.2f, %.2f)\n",
+					i, glyph.Rune, glyph.X, glyph.Y)
+			}
+		}
+
+		debugPrintf("[TEXT_RENDER] ✓ Rendered %d glyphs using PangoPdf\n", len(glyphs))
 	}
 
 	// 更新文本矩阵：使用PDF的字形宽度
@@ -813,49 +812,14 @@ func renderText(ctx *RenderContext, text string, array []interface{}) error {
 	if currentX != 0 {
 		translation := NewTranslationMatrix(currentX, 0)
 		textState.TextMatrix = textState.TextMatrix.Multiply(translation)
-		debugPrintf("[TEXT_MATRIX] Updated after text: PDF_width=%.2f, new E=%.2f\n",
-			currentX, textState.TextMatrix.E)
+		debugPrintf("[TEXT_MATRIX] Updated after text: PDF_width=%.2f, new X0=%.2f\n",
+			currentX, textState.TextMatrix.X0)
 	}
 
 	return nil
 
-	// 注意：由于go-cairo库的限制，无法完全实现高级的kerning功能
+	// 注意：由于go-pdf库的限制，无法完全实现高级的kerning功能
 	// 当前实现已尽可能应用了TJ操作符中的数字偏移到文本位置
-}
-
-// decodeTextStringWithFont 使用字体的 ToUnicode 映射解码文本
-func decodeTextStringWithFont(text string, toUnicodeMap *CIDToUnicodeMap) string {
-	// 检查是否是十六进制字符串
-	if len(text) >= 2 && text[0] == '<' && text[len(text)-1] == '>' {
-		hexStr := text[1 : len(text)-1]
-		hexStr = strings.ReplaceAll(hexStr, " ", "")
-
-		// 转换十六进制到字节
-		var result []byte
-		for i := 0; i < len(hexStr); i += 2 {
-			if i+1 < len(hexStr) {
-				var b byte
-				fmt.Sscanf(hexStr[i:i+2], "%02x", &b)
-				result = append(result, b)
-			}
-		}
-
-		// 如果有 ToUnicode 映射，使用它
-		if toUnicodeMap != nil && len(result) >= 2 && len(result)%2 == 0 {
-			var cids []uint16
-			for i := 0; i < len(result); i += 2 {
-				cid := uint16(result[i])<<8 | uint16(result[i+1])
-				cids = append(cids, cid)
-			}
-			return toUnicodeMap.MapCIDsToUnicode(cids)
-		}
-
-		// 否则尝试标准解码
-		return decodeTextString(text)
-	}
-
-	// 普通字符串
-	return text
 }
 
 // decodeTextStringWithCIDs 解码文本并返回 Unicode 字符串和 CID 数组

@@ -236,22 +236,22 @@ func TestMatrixValidation(t *testing.T) {
 	}{
 		{
 			name:      "单位矩阵",
-			matrix:    &gopdf.Matrix{A: 1, B: 0, C: 0, D: 1, E: 0, F: 0},
+			matrix:    &gopdf.Matrix{XX: 1, YX: 0, XY: 0, YY: 1, X0: 0, Y0: 0},
 			wantError: false,
 		},
 		{
 			name:      "缩放矩阵",
-			matrix:    &gopdf.Matrix{A: 2, B: 0, C: 0, D: 2, E: 0, F: 0},
+			matrix:    &gopdf.Matrix{XX: 2, YX: 0, XY: 0, YY: 2, X0: 0, Y0: 0},
 			wantError: false,
 		},
 		{
 			name:      "不可逆矩阵（行列式为0）",
-			matrix:    &gopdf.Matrix{A: 1, B: 2, C: 2, D: 4, E: 0, F: 0},
+			matrix:    &gopdf.Matrix{XX: 1, YX: 2, XY: 2, YY: 4, X0: 0, Y0: 0},
 			wantError: true,
 		},
 		{
 			name:      "极小缩放",
-			matrix:    &gopdf.Matrix{A: 0.000001, B: 0, C: 0, D: 0.000001, E: 0, F: 0},
+			matrix:    &gopdf.Matrix{XX: 0.000001, YX: 0, XY: 0, YY: 0.000001, X0: 0, Y0: 0},
 			wantError: false, // 警告，不是错误
 		},
 	}

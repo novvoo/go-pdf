@@ -78,9 +78,9 @@ func TestBlendModes(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.pdfMode, func(t *testing.T) {
-			cairoMode := gopdf.GetCairoBlendMode(tc.pdfMode)
-			if cairoMode < 0 {
-				t.Errorf("GetCairoBlendMode(%s) returned invalid mode: %d", tc.pdfMode, cairoMode)
+			gopdfMode := gopdf.GetGopdfBlendMode(tc.pdfMode)
+			if gopdfMode < 0 {
+				t.Errorf("GetGopdfBlendMode(%s) returned invalid mode: %d", tc.pdfMode, gopdfMode)
 			}
 		})
 	}
@@ -232,7 +232,7 @@ func TestShadingStructure(t *testing.T) {
 // TestPatternStructure 测试图案结构
 func TestPatternStructure(t *testing.T) {
 	// 测试创建图案
-	pattern := &gopdf.Pattern{
+	pattern := &gopdf.PatternImpl{
 		PatternType: 1,
 		PaintType:   1,
 		TilingType:  1,

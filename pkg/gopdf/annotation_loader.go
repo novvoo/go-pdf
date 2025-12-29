@@ -29,7 +29,7 @@ func ExtractAnnotations(ctx *model.Context, pageDict types.Dict) ([]*Annotation,
 	// 解析注释数组
 	annotsArray, ok := annotsObj.(types.Array)
 	if !ok {
-		return nil, fmt.Errorf("Annots is not an array")
+		return nil, fmt.Errorf("annots is not an array")
 	}
 
 	// 遍历每个注释

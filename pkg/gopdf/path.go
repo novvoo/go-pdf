@@ -1,7 +1,7 @@
 package gopdf
 
-// Path 表示 PDF 路径
-type Path struct {
+// PathImpl 表示 PDF 路径的具体实现
+type PathImpl struct {
 	subpaths []*Subpath
 	current  *Subpath
 }
@@ -46,14 +46,14 @@ type RectangleSegment struct {
 func (s *RectangleSegment) Type() string { return "Rectangle" }
 
 // NewPath 创建新路径
-func NewPath() *Path {
-	return &Path{
+func NewPath() *PathImpl {
+	return &PathImpl{
 		subpaths: make([]*Subpath, 0),
 	}
 }
 
 // MoveTo 移动到新位置（开始新的子路径）
-func (p *Path) MoveTo(x, y float64) {
+func (p *PathImpl) MoveTo(x, y float64) {
 	p.current = &Subpath{
 		segments: []PathSegment{&MoveToSegment{X: x, Y: y}},
 		closed:   false,
@@ -62,7 +62,7 @@ func (p *Path) MoveTo(x, y float64) {
 }
 
 // LineTo 添加直线段
-func (p *Path) LineTo(x, y float64) {
+func (p *PathImpl) LineTo(x, y float64) {
 	if p.current == nil {
 		p.MoveTo(x, y)
 		return
@@ -71,7 +71,7 @@ func (p *Path) LineTo(x, y float64) {
 }
 
 // CurveTo 添加三次贝塞尔曲线段
-func (p *Path) CurveTo(x1, y1, x2, y2, x3, y3 float64) {
+func (p *PathImpl) CurveTo(x1, y1, x2, y2, x3, y3 float64) {
 	if p.current == nil {
 		p.MoveTo(x1, y1)
 	}
@@ -83,7 +83,7 @@ func (p *Path) CurveTo(x1, y1, x2, y2, x3, y3 float64) {
 }
 
 // Rectangle 添加矩形
-func (p *Path) Rectangle(x, y, width, height float64) {
+func (p *PathImpl) Rectangle(x, y, width, height float64) {
 	p.MoveTo(x, y)
 	p.current.segments = append(p.current.segments, &RectangleSegment{
 		X: x, Y: y, Width: width, Height: height,
@@ -92,25 +92,25 @@ func (p *Path) Rectangle(x, y, width, height float64) {
 }
 
 // ClosePath 闭合当前子路径
-func (p *Path) ClosePath() {
+func (p *PathImpl) ClosePath() {
 	if p.current != nil {
 		p.current.closed = true
 	}
 }
 
 // Clear 清空路径
-func (p *Path) Clear() {
+func (p *PathImpl) Clear() {
 	p.subpaths = make([]*Subpath, 0)
 	p.current = nil
 }
 
 // IsEmpty 检查路径是否为空
-func (p *Path) IsEmpty() bool {
+func (p *PathImpl) IsEmpty() bool {
 	return len(p.subpaths) == 0
 }
 
 // GetSubpaths 获取所有子路径
-func (p *Path) GetSubpaths() []*Subpath {
+func (p *PathImpl) GetSubpaths() []*Subpath {
 	return p.subpaths
 }
 

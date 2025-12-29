@@ -7,11 +7,9 @@ import (
 	"image/png"
 	"io"
 	"os"
-
-	"github.com/novvoo/go-cairo/pkg/cairo"
 )
 
-// PDFRenderer 用于将图片渲染为 PDF 或使用 Cairo 进行图形处理
+// PDFRenderer 用于将图片渲染为 PDF 或使用 Gopdf 进行图形处理
 // 使用 Pixman backend、Rasterizer 和 Alpha Blend 进行底层渲染
 type PDFRenderer struct {
 	width         float64
@@ -29,7 +27,7 @@ type PDFRenderer struct {
 type RenderOptions struct {
 	DPI        float64      // 分辨率，默认 72
 	OutputPath string       // 输出文件路径
-	Format     cairo.Format // 图片格式，默认 ARGB32
+	Format     Format // 图片格式，默认 ARGB32
 	Background *RGB         // 背景色，nil 表示透明
 }
 
@@ -96,13 +94,13 @@ func (r *PDFRenderer) CreatePDFFromImage(imagePath, outputPath string) error {
 	height := float64(bounds.Dy())
 
 	// 创建 PDF surface
-	pdfSurface := cairo.NewPDFSurface(outputPath, width, height)
+	pdfSurface := NewPDFSurface(outputPath, width, height)
 	defer pdfSurface.Destroy()
 
-	ctx := cairo.NewContext(pdfSurface)
+	ctx := NewContext(pdfSurface)
 	defer ctx.Destroy()
 
-	var imgSurface cairo.ImageSurface
+	var imgSurface ImageSurface
 
 	// 如果启用 Pixman，使用 Pixman 处理图像
 	if r.usePixman {
@@ -122,24 +120,24 @@ func (r *PDFRenderer) CreatePDFFromImage(imagePath, outputPath string) error {
 		if pixmanBackend != nil {
 			defer pixmanBackend.Destroy()
 
-			// 转换回 RGBA 并创建 Cairo surface
+			// 转换回 RGBA 并创建 Gopdf surface
 			processedRGBA := pixmanBackend.ToRGBA()
-			converter := NewCairoImageConverter()
+			converter := NewGopdfImageConverter()
 			var err error
-			imgSurface, err = converter.ImageToCairoSurface(processedRGBA, cairo.FormatARGB32)
+			imgSurface, err = converter.ImageToGopdfSurface(processedRGBA, FormatARGB32)
 			if err != nil {
-				return fmt.Errorf("failed to convert image to Cairo surface: %w", err)
+				return fmt.Errorf("failed to convert image to Gopdf surface: %w", err)
 			}
 		}
 	}
 
 	// 回退到标准方法
 	if imgSurface == nil {
-		converter := NewCairoImageConverter()
+		converter := NewGopdfImageConverter()
 		var err error
-		imgSurface, err = converter.ImageToCairoSurface(img, cairo.FormatARGB32)
+		imgSurface, err = converter.ImageToGopdfSurface(img, FormatARGB32)
 		if err != nil {
-			return fmt.Errorf("failed to convert image to Cairo surface: %w", err)
+			return fmt.Errorf("failed to convert image to Gopdf surface: %w", err)
 		}
 	}
 	defer imgSurface.Destroy()
@@ -154,12 +152,12 @@ func (r *PDFRenderer) CreatePDFFromImage(imagePath, outputPath string) error {
 	return nil
 }
 
-// RenderToPNG 使用 Cairo 渲染图形到 PNG
-func (r *PDFRenderer) RenderToPNG(outputPath string, drawFunc func(ctx cairo.Context)) error {
+// RenderToPNG 使用 Gopdf 渲染图形到 PNG
+func (r *PDFRenderer) RenderToPNG(outputPath string, drawFunc func(ctx Context)) error {
 	opts := &RenderOptions{
 		DPI:        r.dpi,
 		OutputPath: outputPath,
-		Format:     cairo.FormatARGB32,
+		Format:     FormatARGB32,
 		Background: &RGB{R: 1, G: 1, B: 1}, // 白色背景
 	}
 
@@ -167,11 +165,11 @@ func (r *PDFRenderer) RenderToPNG(outputPath string, drawFunc func(ctx cairo.Con
 }
 
 // RenderWithOptions 使用自定义选项渲染
-func (r *PDFRenderer) RenderWithOptions(opts *RenderOptions, drawFunc func(ctx cairo.Context)) error {
+func (r *PDFRenderer) RenderWithOptions(opts *RenderOptions, drawFunc func(ctx Context)) error {
 	if opts == nil {
 		opts = &RenderOptions{
 			DPI:    72,
-			Format: cairo.FormatARGB32,
+			Format: FormatARGB32,
 		}
 	}
 
@@ -189,14 +187,14 @@ func (r *PDFRenderer) RenderWithOptions(opts *RenderOptions, drawFunc func(ctx c
 		return r.renderWithPixman(opts, renderWidth, renderHeight, scale, drawFunc)
 	}
 
-	// 否则使用标准 Cairo 渲染
-	return r.renderWithCairo(opts, renderWidth, renderHeight, scale, drawFunc)
+	// 否则使用标准 Gopdf 渲染
+	return r.renderWithGopdf(opts, renderWidth, renderHeight, scale, drawFunc)
 }
 
 // renderWithPixman 使用 Pixman 后端渲染
-func (r *PDFRenderer) renderWithPixman(opts *RenderOptions, width, height int, scale float64, drawFunc func(ctx cairo.Context)) error {
+func (r *PDFRenderer) renderWithPixman(opts *RenderOptions, width, height int, scale float64, drawFunc func(ctx Context)) error {
 	// 直接创建 ImageBackend（不使用 PixmanBackend）
-	imageBackend := cairo.NewImageBackend(width, height)
+	imageBackend := NewImageBackend(width, height)
 	if imageBackend == nil {
 		return fmt.Errorf("failed to create image backend")
 	}
@@ -214,21 +212,21 @@ func (r *PDFRenderer) renderWithPixman(opts *RenderOptions, width, height int, s
 		imageBackend.Clear(color.RGBA{0, 0, 0, 0}) // 透明背景
 	}
 
-	// 从 ImageBackend 获取 RGBA 图像并创建 Cairo surface
+	// 从 ImageBackend 获取 RGBA 图像并创建 Gopdf surface
 	rgba := imageBackend.GetImage()
 	if rgba == nil {
 		return fmt.Errorf("failed to get image from backend")
 	}
 
-	// 使用 CairoImageConverter 创建 surface
-	converter := NewCairoImageConverter()
-	surface, err := converter.ImageToCairoSurface(rgba, cairo.FormatARGB32)
+	// 使用 GopdfImageConverter 创建 surface
+	converter := NewGopdfImageConverter()
+	surface, err := converter.ImageToGopdfSurface(rgba, FormatARGB32)
 	if err != nil {
 		return fmt.Errorf("failed to create surface: %w", err)
 	}
 	defer surface.Destroy()
 
-	ctx := cairo.NewContext(surface)
+	ctx := NewContext(surface)
 	defer ctx.Destroy()
 
 	// 初始化 Alpha 混合器
@@ -253,7 +251,7 @@ func (r *PDFRenderer) renderWithPixman(opts *RenderOptions, width, height int, s
 
 	// 保存为 PNG
 	if opts.OutputPath != "" {
-		// 从 Cairo Surface 获取最终的图像数据
+		// 从 Gopdf Surface 获取最终的图像数据
 		finalRGBA := surface.GetGoImage()
 
 		// 转换为 RGBA（如果需要）
@@ -284,13 +282,13 @@ func (r *PDFRenderer) renderWithPixman(opts *RenderOptions, width, height int, s
 	return nil
 }
 
-// renderWithCairo 使用标准 Cairo 渲染（回退方法）
-func (r *PDFRenderer) renderWithCairo(opts *RenderOptions, width, height int, scale float64, drawFunc func(ctx cairo.Context)) error {
+// renderWithGopdf 使用标准 Gopdf 渲染（回退方法）
+func (r *PDFRenderer) renderWithGopdf(opts *RenderOptions, width, height int, scale float64, drawFunc func(ctx Context)) error {
 	// 创建图像 surface
-	imgSurface := cairo.NewImageSurface(opts.Format, width, height)
+	imgSurface := NewImageSurface(opts.Format, width, height)
 	defer imgSurface.Destroy()
 
-	ctx := cairo.NewContext(imgSurface)
+	ctx := NewContext(imgSurface)
 	defer ctx.Destroy()
 
 	// 设置背景色
@@ -309,9 +307,9 @@ func (r *PDFRenderer) renderWithCairo(opts *RenderOptions, width, height int, sc
 
 	// 保存为 PNG
 	if opts.OutputPath != "" {
-		if imgSurf, ok := imgSurface.(cairo.ImageSurface); ok {
+		if imgSurf, ok := imgSurface.(ImageSurface); ok {
 			status := imgSurf.WriteToPNG(opts.OutputPath)
-			if status != cairo.StatusSuccess {
+			if status != StatusSuccess {
 				return fmt.Errorf("failed to write PNG: %v", status)
 			}
 		}
@@ -321,12 +319,12 @@ func (r *PDFRenderer) renderWithCairo(opts *RenderOptions, width, height int, sc
 }
 
 // RenderToPDF 渲染到 PDF 文件
-func (r *PDFRenderer) RenderToPDF(outputPath string, drawFunc func(ctx cairo.Context)) error {
+func (r *PDFRenderer) RenderToPDF(outputPath string, drawFunc func(ctx Context)) error {
 	// 创建 PDF surface
-	pdfSurface := cairo.NewPDFSurface(outputPath, r.width, r.height)
+	pdfSurface := NewPDFSurface(outputPath, r.width, r.height)
 	defer pdfSurface.Destroy()
 
-	ctx := cairo.NewContext(pdfSurface)
+	ctx := NewContext(pdfSurface)
 	defer ctx.Destroy()
 
 	// 执行用户的绘制函数
@@ -341,16 +339,16 @@ func (r *PDFRenderer) RenderToPDF(outputPath string, drawFunc func(ctx cairo.Con
 }
 
 // RenderToWriter 渲染到 io.Writer (PNG 格式)
-func (r *PDFRenderer) RenderToWriter(w io.Writer, opts *RenderOptions, drawFunc func(ctx cairo.Context)) error {
+func (r *PDFRenderer) RenderToWriter(w io.Writer, opts *RenderOptions, drawFunc func(ctx Context)) error {
 	if opts == nil {
 		opts = &RenderOptions{
 			DPI:    72,
-			Format: cairo.FormatARGB32,
+			Format: FormatARGB32,
 		}
 	}
 
 	// 创建临时文件
-	tmpFile, err := os.CreateTemp("", "cairo_render_*.png")
+	tmpFile, err := os.CreateTemp("", "gopdf_render_*.png")
 	if err != nil {
 		return fmt.Errorf("failed to create temp file: %w", err)
 	}
@@ -377,7 +375,7 @@ func (r *PDFRenderer) RenderToWriter(w io.Writer, opts *RenderOptions, drawFunc 
 	return nil
 }
 
-// ConvertImageToPNG 使用 Cairo 转换图片格式
+// ConvertImageToPNG 使用 Gopdf 转换图片格式
 func ConvertImageToPNG(inputPath, outputPath string) error {
 	// 读取图片
 	imgFile, err := os.Open(inputPath)
@@ -419,7 +417,7 @@ func (r *PDFRenderer) GetAlphaBlender() *AlphaBlender {
 // RenderWithPixmanBackend 使用 Pixman 后端直接渲染
 // 提供对底层像素操作的完全控制
 func (r *PDFRenderer) RenderWithPixmanBackend(width, height int, renderFunc func(backend *PixmanBackend) error) (*image.RGBA, error) {
-	backend := NewPixmanBackend(width, height, cairo.PixmanFormatARGB32)
+	backend := NewPixmanBackend(width, height, PixmanFormatARGB32)
 	if backend == nil {
 		return nil, fmt.Errorf("failed to create pixman backend")
 	}

@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"image"
 	"image/color"
-
-	"github.com/novvoo/go-cairo/pkg/cairo"
 )
 
 // PixmanBackend Pixman 图像后端
@@ -13,13 +11,13 @@ import (
 type PixmanBackend struct {
 	width  int
 	height int
-	format cairo.PixmanFormat
-	image  *cairo.PixmanImage
+	format PixmanFormat
+	image  *PixmanImage
 }
 
 // NewPixmanBackend 创建新的 Pixman 后端
-func NewPixmanBackend(width, height int, format cairo.PixmanFormat) *PixmanBackend {
-	img := cairo.NewPixmanImage(format, width, height)
+func NewPixmanBackend(width, height int, format PixmanFormat) *PixmanBackend {
+	img := NewPixmanImage(format, width, height)
 	if img == nil {
 		return nil
 	}
@@ -34,7 +32,7 @@ func NewPixmanBackend(width, height int, format cairo.PixmanFormat) *PixmanBacke
 
 // NewPixmanBackendFromRGBA 从 RGBA 图像创建 Pixman 后端
 func NewPixmanBackendFromRGBA(rgba *image.RGBA) *PixmanBackend {
-	img := cairo.FromRGBA(rgba)
+	img := FromRGBA(rgba)
 	if img == nil {
 		return nil
 	}
@@ -43,13 +41,13 @@ func NewPixmanBackendFromRGBA(rgba *image.RGBA) *PixmanBackend {
 	return &PixmanBackend{
 		width:  bounds.Dx(),
 		height: bounds.Dy(),
-		format: cairo.PixmanFormatARGB32,
+		format: PixmanFormatARGB32,
 		image:  img,
 	}
 }
 
 // GetImage 获取 Pixman 图像
-func (pb *PixmanBackend) GetImage() *cairo.PixmanImage {
+func (pb *PixmanBackend) GetImage() *PixmanImage {
 	return pb.image
 }
 
@@ -64,7 +62,7 @@ func (pb *PixmanBackend) GetHeight() int {
 }
 
 // GetFormat 获取格式
-func (pb *PixmanBackend) GetFormat() cairo.PixmanFormat {
+func (pb *PixmanBackend) GetFormat() PixmanFormat {
 	return pb.format
 }
 
@@ -107,7 +105,7 @@ func (pb *PixmanBackend) Fill(c color.Color) {
 }
 
 // BlendPixel 混合单个像素
-func (pb *PixmanBackend) BlendPixel(x, y int, c color.Color, op cairo.Operator) error {
+func (pb *PixmanBackend) BlendPixel(x, y int, c color.Color, op Operator) error {
 	if x < 0 || x >= pb.width || y < 0 || y >= pb.height {
 		return fmt.Errorf("pixel coordinates out of bounds: (%d, %d)", x, y)
 	}
@@ -128,8 +126,8 @@ func (pb *PixmanBackend) BlendPixel(x, y int, c color.Color, op cairo.Operator) 
 		A: uint8(a >> 8),
 	}
 
-	// 使用 Cairo 的 Porter-Duff 混合
-	result := cairo.PorterDuffBlend(src, dst, op)
+	// 使用 Gopdf 的 Porter-Duff 混合
+	result := PorterDuffBlend(src, dst, op)
 
 	// 写回像素
 	pb.image.SetPixel(x, y, result)
@@ -138,7 +136,7 @@ func (pb *PixmanBackend) BlendPixel(x, y int, c color.Color, op cairo.Operator) 
 }
 
 // BlendRect 混合矩形区域
-func (pb *PixmanBackend) BlendRect(x, y, width, height int, c color.Color, op cairo.Operator) error {
+func (pb *PixmanBackend) BlendRect(x, y, width, height int, c color.Color, op Operator) error {
 	for dy := 0; dy < height; dy++ {
 		for dx := 0; dx < width; dx++ {
 			if err := pb.BlendPixel(x+dx, y+dy, c, op); err != nil {
@@ -151,7 +149,7 @@ func (pb *PixmanBackend) BlendRect(x, y, width, height int, c color.Color, op ca
 }
 
 // Composite 合成另一个 Pixman 图像
-func (pb *PixmanBackend) Composite(src *PixmanBackend, srcX, srcY, dstX, dstY, width, height int, op cairo.Operator) error {
+func (pb *PixmanBackend) Composite(src *PixmanBackend, srcX, srcY, dstX, dstY, width, height int, op Operator) error {
 	if src == nil || src.image == nil || pb.image == nil {
 		return fmt.Errorf("invalid pixman backend")
 	}
@@ -162,9 +160,9 @@ func (pb *PixmanBackend) Composite(src *PixmanBackend, srcX, srcY, dstX, dstY, w
 	return nil
 }
 
-// GetImageBackend 获取 ImageBackend（用于 Cairo 渲染）
-func (pb *PixmanBackend) GetImageBackend() *cairo.ImageBackend {
-	return cairo.NewImageBackend(pb.width, pb.height)
+// GetImageBackend 获取 ImageBackend（用于 Gopdf 渲染）
+func (pb *PixmanBackend) GetImageBackend() *ImageBackend {
+	return NewImageBackend(pb.width, pb.height)
 }
 
 // Destroy 销毁资源

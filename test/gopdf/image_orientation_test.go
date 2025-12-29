@@ -5,7 +5,6 @@ import (
 	"os"
 	"testing"
 
-	"github.com/novvoo/go-cairo/pkg/cairo"
 	"github.com/novvoo/go-pdf/pkg/gopdf"
 )
 
@@ -16,7 +15,7 @@ func TestImageOrientationNew(t *testing.T) {
 	renderer.SetDPI(150)
 
 	outputPath := "orientation_test_new.png"
-	err := renderer.RenderToPNG(outputPath, func(ctx cairo.Context) {
+	err := renderer.RenderToPNG(outputPath, func(ctx gopdf.Context) {
 		// 设置白色背景
 		ctx.SetSourceRGB(1, 1, 1)
 		ctx.Paint()
@@ -77,7 +76,7 @@ func TestCoordinateSystemNew(t *testing.T) {
 	renderer.SetDPI(150)
 
 	outputPath := "coordinate_system_test_new.png"
-	err := renderer.RenderToPNG(outputPath, func(ctx cairo.Context) {
+	err := renderer.RenderToPNG(outputPath, func(ctx gopdf.Context) {
 		// 设置白色背景
 		ctx.SetSourceRGB(1, 1, 1)
 		ctx.Paint()
@@ -85,7 +84,7 @@ func TestCoordinateSystemNew(t *testing.T) {
 		// 使用坐标转换器
 		converter := gopdf.NewCoordinateConverter(300, 300, gopdf.CoordSystemPDF)
 
-		converter.TransformContext(ctx, func(ctx cairo.Context) {
+		converter.TransformContext(ctx, func(ctx gopdf.Context) {
 			// 在PDF坐标系统中绘制：(0,0)应在左下角
 			ctx.SetSourceRGB(1, 0, 0)
 			ctx.Rectangle(10, 10, 30, 30) // 应该在左下角附近

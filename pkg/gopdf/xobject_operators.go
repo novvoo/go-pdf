@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"image"
 	"image/color"
-
-	"github.com/novvoo/go-cairo/pkg/cairo"
 )
 
 // ===== XObject 操作符 =====
@@ -66,23 +64,23 @@ func renderFormXObject(ctx *RenderContext, xobj *XObject) error {
 
 	// 普通表单 XObject 渲染
 	// 保存图形状态
-	ctx.CairoCtx.Save()
+	ctx.GopdfCtx.Save()
 	ctx.GraphicsStack.Push()
 	defer func() {
-		ctx.CairoCtx.Restore()
+		ctx.GopdfCtx.Restore()
 		ctx.GraphicsStack.Pop()
 	}()
 
 	// 应用 XObject 的变换矩阵
 	if xobj.Matrix != nil {
-		xobj.Matrix.ApplyToCairoContext(ctx.CairoCtx)
+		xobj.Matrix.ApplyToGopdfContext(ctx.GopdfCtx)
 	}
 
 	// 应用边界框裁剪
 	if len(xobj.BBox) == 4 {
 		x1, y1, x2, y2 := xobj.BBox[0], xobj.BBox[1], xobj.BBox[2], xobj.BBox[3]
-		ctx.CairoCtx.Rectangle(x1, y1, x2-x1, y2-y1)
-		ctx.CairoCtx.Clip()
+		ctx.GopdfCtx.Rectangle(x1, y1, x2-x1, y2-y1)
+		ctx.GopdfCtx.Clip()
 	}
 
 	// 保存当前资源
@@ -121,27 +119,27 @@ func renderTransparencyGroup(ctx *RenderContext, xobj *XObject) error {
 		group.Isolated, group.Knockout)
 
 	// 保存图形状态
-	ctx.CairoCtx.Save()
+	ctx.GopdfCtx.Save()
 	ctx.GraphicsStack.Push()
 	defer func() {
-		ctx.CairoCtx.Restore()
+		ctx.GopdfCtx.Restore()
 		ctx.GraphicsStack.Pop()
 	}()
 
 	// 应用 XObject 的变换矩阵
 	if xobj.Matrix != nil {
-		xobj.Matrix.ApplyToCairoContext(ctx.CairoCtx)
+		xobj.Matrix.ApplyToGopdfContext(ctx.GopdfCtx)
 	}
 
-	// 使用 Cairo push_group 创建隔离的合成表面
+	// 使用 Gopdf push_group 创建隔离的合成表面
 	// 这会创建一个临时的 surface 用于渲染组内容
-	ctx.CairoCtx.PushGroup()
+	ctx.GopdfCtx.PushGroup()
 
 	// 应用边界框裁剪
 	if len(xobj.BBox) == 4 {
 		x1, y1, x2, y2 := xobj.BBox[0], xobj.BBox[1], xobj.BBox[2], xobj.BBox[3]
-		ctx.CairoCtx.Rectangle(x1, y1, x2-x1, y2-y1)
-		ctx.CairoCtx.Clip()
+		ctx.GopdfCtx.Rectangle(x1, y1, x2-x1, y2-y1)
+		ctx.GopdfCtx.Clip()
 	}
 
 	// 保存当前资源
@@ -164,7 +162,7 @@ func renderTransparencyGroup(ctx *RenderContext, xobj *XObject) error {
 	if len(xobj.Stream) > 0 {
 		operators, err := ParseContentStream(xobj.Stream)
 		if err != nil {
-			ctx.CairoCtx.PopGroupToSource() // 清理 group
+			ctx.GopdfCtx.PopGroupToSource() // 清理 group
 			ctx.Resources = oldResources
 			return fmt.Errorf("failed to parse transparency group content: %w", err)
 		}
@@ -179,23 +177,23 @@ func renderTransparencyGroup(ctx *RenderContext, xobj *XObject) error {
 	// 恢复资源
 	ctx.Resources = oldResources
 
-	// 使用 Cairo pop_group_to_source 将组内容作为源
-	ctx.CairoCtx.PopGroupToSource()
+	// 使用 Gopdf pop_group_to_source 将组内容作为源
+	ctx.GopdfCtx.PopGroupToSource()
 
 	// 应用当前图形状态的混合模式和透明度
 	state := ctx.GetCurrentState()
 	if state != nil {
 		// 应用混合模式
-		state.ApplyBlendMode(ctx.CairoCtx)
+		state.ApplyBlendMode(ctx.GopdfCtx)
 
 		// 应用填充透明度
 		if state.FillAlpha < 1.0 {
-			ctx.CairoCtx.PaintWithAlpha(state.FillAlpha)
+			ctx.GopdfCtx.PaintWithAlpha(state.FillAlpha)
 		} else {
-			ctx.CairoCtx.Paint()
+			ctx.GopdfCtx.Paint()
 		}
 	} else {
-		ctx.CairoCtx.Paint()
+		ctx.GopdfCtx.Paint()
 	}
 
 	debugPrintf("[TransparencyGroup] Group rendered and composited\n")
@@ -216,7 +214,7 @@ func renderImageXObject(ctx *RenderContext, xobj *XObject) error {
 		return fmt.Errorf("no image data available")
 	}
 
-	// 创建 Cairo image surface
+	// 创建 Gopdf image surface
 	bounds := xobj.ImageData.Bounds()
 	width := bounds.Dx()
 	height := bounds.Dy()
@@ -236,21 +234,26 @@ func renderImageXObject(ctx *RenderContext, xobj *XObject) error {
 		}
 	}
 
+	// 🔥 修复：PDF 图像 XObject 占据单位正方形 (0,0) 到 (1,1)
+	// 我们需要将图像的像素尺寸缩放到单位空间
+	// 使用图像的实际像素尺寸进行缩放
+	debugPrintf("[renderImageXObject] Using pixel dimensions: %dx%d for scaling to unit square\n", width, height)
+
 	// 使用 ARGB32 格式以支持透明度
-	imgSurface := cairo.NewImageSurface(cairo.FormatARGB32, width, height)
+	imgSurface := NewImageSurface(FormatARGB32, width, height)
 	defer imgSurface.Destroy()
 
 	// 手动填充数据
-	if cairoImg, ok := imgSurface.(cairo.ImageSurface); ok {
-		data := cairoImg.GetData()
-		stride := cairoImg.GetStride()
+	if gopdfImg, ok := imgSurface.(ImageSurface); ok {
+		data := gopdfImg.GetData()
+		stride := gopdfImg.GetStride()
 
 		for y := 0; y < height; y++ {
 			for x := 0; x < width; x++ {
 				r, g, b, a := xobj.ImageData.At(x+bounds.Min.X, y+bounds.Min.Y).RGBA()
 				offset := y*stride + x*4
 
-				// Cairo ARGB32 格式：预乘 BGRA 字节序（小端系统）
+				// Gopdf ARGB32 格式：预乘 BGRA 字节序（小端系统）
 				// 需要将颜色值预乘 alpha
 				a8 := uint8(a >> 8)
 				r8 := uint8(r >> 8)
@@ -274,7 +277,7 @@ func renderImageXObject(ctx *RenderContext, xobj *XObject) error {
 			}
 		}
 
-		cairoImg.MarkDirty()
+		gopdfImg.MarkDirty()
 	}
 
 	debugPrintf("[renderImageXObject] Applying transformations\n")
@@ -283,7 +286,7 @@ func renderImageXObject(ctx *RenderContext, xobj *XObject) error {
 	state := ctx.GetCurrentState()
 	if state != nil && state.CTM != nil {
 		debugPrintf("[renderImageXObject] CTM: [%.3f %.3f %.3f %.3f %.3f %.3f]\n",
-			state.CTM.A, state.CTM.B, state.CTM.C, state.CTM.D, state.CTM.E, state.CTM.F)
+			state.CTM.XX, state.CTM.YX, state.CTM.XY, state.CTM.YY, state.CTM.X0, state.CTM.Y0)
 	}
 
 	// PDF 图像 XObject 占据单位正方形 (0,0) 到 (1,1)
@@ -295,68 +298,77 @@ func renderImageXObject(ctx *RenderContext, xobj *XObject) error {
 	// - 我们需要将图像像素映射到这个单位空间
 	//
 	// 变换策略：
-	// 1. 翻转 Y 轴（PDF Y 向上，Cairo Y 向下）
+	// 1. 翻转 Y 轴（PDF Y 向上，Gopdf Y 向下）
 	// 2. 缩放图像使其填充单位正方形
 
 	// 保存当前变换
-	ctx.CairoCtx.Save()
-	
+	ctx.GopdfCtx.Save()
+
 	// 🔍 重置操作符和混合模式，确保图像正常绘制
-	ctx.CairoCtx.SetOperator(cairo.OperatorOver)
+	ctx.GopdfCtx.SetOperator(OperatorOver)
 	debugPrintf("[renderImageXObject] Set operator to Over\n")
 
 	// PDF 图像 XObject 的坐标系统：
 	// - 图像占据单位正方形 (0,0) 到 (1,1)
 	// - 图像的 (0,0) 在左下角，(1,1) 在右上角
-	// - Cairo 的 (0,0) 在左上角
+	// - Gopdf 的 (0,0) 在左上角
 	// - 外层 CTM 已经设置了位置和大小
 	//
 	// 变换步骤：
 	// 1. 缩放图像到单位空间：width 像素 -> 1 单位
-	// 2. 翻转 Y 轴：PDF Y 向上 -> Cairo Y 向下
+	// 2. 翻转 Y 轴：PDF Y 向上 -> Gopdf Y 向下
 
 	// 检查当前 CTM 的 Y 轴方向
-	// 如果 CTM.D > 0，Y 轴是 PDF 方向（向上），需要翻转
-	// 如果 CTM.D < 0，Y 轴是 Cairo 方向（向下），不需要翻转
+	// 如果 CTM.YY > 0，Y 轴是 PDF 方向（向上），需要翻转
+	// 如果 CTM.YY < 0，Y 轴是 Gopdf 方向（向下），不需要翻转
 	needFlipY := false
 	if state != nil && state.CTM != nil {
-		if state.CTM.D > 0 {
+		if state.CTM.YY > 0 {
 			needFlipY = true
-			debugPrintf("[renderImageXObject] CTM.D=%.3f > 0, Y axis is PDF direction (up), need flip\n", state.CTM.D)
+			debugPrintf("[renderImageXObject] CTM.YY=%.3f > 0, Y axis is PDF direction (up), need flip\n", state.CTM.YY)
 		} else {
-			debugPrintf("[renderImageXObject] CTM.D=%.3f < 0, Y axis is Cairo direction (down), no flip needed\n", state.CTM.D)
+			debugPrintf("[renderImageXObject] CTM.YY=%.3f < 0, Y axis is Gopdf direction (down), no flip needed\n", state.CTM.YY)
 		}
 	}
 
-	// 缩放图像到单位空间
+	// 🔥 修复：缩放图像到单位空间
+	// PDF 图像 XObject 占据单位正方形 (0,0) 到 (1,1)
+	// 我们需要将图像像素映射到这个单位空间
+	// scaleX = 1.0 / width 表示将 width 个像素缩放到 1 个单位
+	if width == 0 || height == 0 {
+		debugPrintf("[renderImageXObject] ⚠️  Invalid image dimensions: %dx%d, skipping render\n", width, height)
+		return fmt.Errorf("invalid image dimensions: %dx%d", width, height)
+	}
+
 	scaleX := 1.0 / float64(width)
 	scaleY := 1.0 / float64(height)
 
-	debugPrintf("[renderImageXObject] Scale factors: X=%.6f, Y=%.6f\n", scaleX, scaleY)
+	debugPrintf("[renderImageXObject] Scale factors: X=%.6f (1/%d), Y=%.6f (1/%d)\n",
+		scaleX, width, scaleY, height)
 
 	// 应用变换
 	if needFlipY {
 		// Y 轴是 PDF 方向，需要翻转
-		ctx.CairoCtx.Scale(scaleX, -scaleY)
-		ctx.CairoCtx.Translate(0, -float64(height))
-		debugPrintf("[renderImageXObject] Applied: Scale(%.6f, %.6f) + Translate(0, %.0f)\n", 
+		ctx.GopdfCtx.Scale(scaleX, -scaleY)
+		ctx.GopdfCtx.Translate(0, -float64(height))
+		debugPrintf("[renderImageXObject] Applied: Scale(%.6f, %.6f) + Translate(0, %.0f)\n",
 			scaleX, -scaleY, -float64(height))
 	} else {
-		// Y 轴已经是 Cairo 方向，只需缩放
-		ctx.CairoCtx.Scale(scaleX, scaleY)
+		// Y 轴已经是 Gopdf 方向，只需缩放
+		ctx.GopdfCtx.Scale(scaleX, scaleY)
 		debugPrintf("[renderImageXObject] Applied: Scale(%.6f, %.6f)\n", scaleX, scaleY)
 	}
 
 	debugPrintf("[renderImageXObject] Transformation applied\n")
 
 	// 设置图像为源
-	ctx.CairoCtx.SetSourceSurface(imgSurface, 0, 0)
+	ctx.GopdfCtx.SetSourceSurface(imgSurface, 0, 0)
 	debugPrintf("[renderImageXObject] Set source surface\n")
 
 	// 设置过滤器
-	pattern := ctx.CairoCtx.GetSource()
-	pattern.SetFilter(cairo.FilterBest)
-	
+	pattern := ctx.GopdfCtx.GetSource()
+	pattern.SetFilter(FilterBest)
+
 	// 🔍 调试：检查 pattern 的矩阵
 	debugPrintf("[renderImageXObject] Pattern filter set to Best\n")
 
@@ -369,15 +381,15 @@ func renderImageXObject(ctx *RenderContext, xobj *XObject) error {
 		alpha = state.FillAlpha
 	}
 	if alpha < 1.0 {
-		ctx.CairoCtx.PaintWithAlpha(alpha)
+		ctx.GopdfCtx.PaintWithAlpha(alpha)
 		debugPrintf("[renderImageXObject] Painted with alpha=%.2f\n", alpha)
 	} else {
-		ctx.CairoCtx.Paint()
+		ctx.GopdfCtx.Paint()
 		debugPrintf("[renderImageXObject] Painted with alpha=1.0\n")
 	}
 
 	// 恢复变换
-	ctx.CairoCtx.Restore()
+	ctx.GopdfCtx.Restore()
 
 	debugPrintf("[renderImageXObject] Image painted successfully\n")
 
@@ -524,7 +536,7 @@ func decodeImageXObject(xobj *XObject) error {
 		// 计算实际的字节数来推断颜色分量数
 		expectedBytes := width * height
 		bytesPerPixel := 3 // 默认 RGB
-		
+
 		// 根据实际数据大小推断颜色分量数
 		if len(xobj.Stream) >= expectedBytes*4 {
 			bytesPerPixel = 4 // CMYK
@@ -559,7 +571,7 @@ func decodeImageXObject(xobj *XObject) error {
 					debugPrintf("  Pixel %d: C=%d M=%d Y=%d K=%d\n", i, c, m, y, k)
 				}
 			}
-			
+
 			// 采样中间部分的像素
 			midOffset := len(xobj.Stream) / 2
 			midOffset = (midOffset / bytesPerPixel) * bytesPerPixel // 对齐到像素边界
@@ -581,7 +593,7 @@ func decodeImageXObject(xobj *XObject) error {
 					debugPrintf("  Pixel %d: C=%d M=%d Y=%d K=%d\n", i, c, m, y, k)
 				}
 			}
-			
+
 			// 如果大部分采样像素都是黑色，可能需要反转颜色
 			// 这通常发生在某些 ICC Profile 中，特别是从 CMYK 转换来的
 			// 暂时禁用自动反转，让用户确认原始图像颜色
@@ -601,14 +613,14 @@ func decodeImageXObject(xobj *XObject) error {
 							r := xobj.Stream[offset]
 							g := xobj.Stream[offset+1]
 							b := xobj.Stream[offset+2]
-							
+
 							// 如果需要反转颜色
 							if needInvert {
 								r = 255 - r
 								g = 255 - g
 								b = 255 - b
 							}
-							
+
 							img.Set(x, y, color.RGBA{R: r, G: g, B: b, A: 255})
 						}
 					}
@@ -641,12 +653,12 @@ func decodeImageXObject(xobj *XObject) error {
 						offset := y*width + x
 						if offset < len(xobj.Stream) {
 							gray := xobj.Stream[offset]
-							
+
 							// 如果需要反转颜色
 							if needInvert {
 								gray = 255 - gray
 							}
-							
+
 							img.Set(x, y, color.RGBA{R: gray, G: gray, B: gray, A: 255})
 						}
 					}

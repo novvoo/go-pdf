@@ -4,7 +4,6 @@ import (
 	"os"
 	"testing"
 
-	"github.com/novvoo/go-cairo/pkg/cairo"
 	"github.com/novvoo/go-pdf/pkg/gopdf"
 )
 
@@ -18,7 +17,7 @@ func TestPDFRenderer(t *testing.T) {
 
 	// 测试渲染到PNG文件
 	outputPath := "test_output.png"
-	err := renderer.RenderToPNG(outputPath, func(ctx cairo.Context) {
+	err := renderer.RenderToPNG(outputPath, func(ctx gopdf.Context) {
 		// 简单的绘制操作
 		ctx.SetSourceRGB(0.5, 0.5, 0.5)
 		ctx.Rectangle(50, 50, 100, 100)
@@ -85,15 +84,15 @@ func TestCoordinateConverter(t *testing.T) {
 		t.Error("Failed to create coordinate converter")
 	}
 
-	// 测试坐标转换 (PDF到Cairo)
-	x, y := converter.PDFToCairo(100, 100)
+	// 测试坐标转换 (PDF到Gopdf)
+	x, y := converter.PDFToGopdf(100, 100)
 	expectedY := 700.0 // 800 - 100
 	if x != 100 || y != expectedY {
 		t.Errorf("Coordinate conversion failed: expected (100,%f), got (%f,%f)", expectedY, x, y)
 	}
 
-	// 测试反向转换 (Cairo到PDF)
-	x2, y2 := converter.CairoToPDF(100, expectedY)
+	// 测试反向转换 (Gopdf到PDF)
+	x2, y2 := converter.GopdfToPDF(100, expectedY)
 	if x2 != 100 || y2 != 100 {
 		t.Errorf("Reverse coordinate conversion failed: expected (100,100), got (%f,%f)", x2, y2)
 	}

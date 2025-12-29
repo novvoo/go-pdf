@@ -1,9 +1,5 @@
 package gopdf
 
-import (
-	"github.com/novvoo/go-cairo/pkg/cairo"
-)
-
 // GraphicsState 表示 PDF 图形状态
 // 包含当前变换矩阵 (CTM)、颜色、线宽等
 type GraphicsState struct {
@@ -11,8 +7,8 @@ type GraphicsState struct {
 	StrokeColor       *Color               // 描边颜色
 	FillColor         *Color               // 填充颜色
 	LineWidth         float64              // 线宽
-	LineCap           cairo.LineCap        // 线端点样式
-	LineJoin          cairo.LineJoin       // 线连接样式
+	LineCap           LineCap              // 线端点样式
+	LineJoin          LineJoin             // 线连接样式
 	MiterLimit        float64              // 斜接限制
 	DashPattern       []float64            // 虚线模式
 	DashOffset        float64              // 虚线偏移
@@ -29,11 +25,6 @@ type GraphicsState struct {
 	OverprintMode     int                  // 叠印模式（OPM）
 }
 
-// Color 表示颜色
-type Color struct {
-	R, G, B, A float64
-}
-
 // NewGraphicsState 创建新的图形状态
 func NewGraphicsState(width, height float64) *GraphicsState {
 	return &GraphicsState{
@@ -41,8 +32,8 @@ func NewGraphicsState(width, height float64) *GraphicsState {
 		StrokeColor:       &Color{R: 0, G: 0, B: 0, A: 1}, // 黑色
 		FillColor:         &Color{R: 0, G: 0, B: 0, A: 1}, // 黑色
 		LineWidth:         1.0,
-		LineCap:           cairo.LineCapButt,
-		LineJoin:          cairo.LineJoinMiter,
+		LineCap:           LineCapButt,
+		LineJoin:          LineJoinMiter,
 		MiterLimit:        10.0,
 		DashPattern:       nil,
 		DashOffset:        0,
@@ -92,10 +83,10 @@ func (gs *GraphicsState) Clone() *GraphicsState {
 	return newState
 }
 
-// ApplyToCairoContext 将图形状态应用到 Cairo context
-func (gs *GraphicsState) ApplyToCairoContext(ctx cairo.Context) {
+// ApplyToGopdfContext 将图形状态应用到 Gopdf context
+func (gs *GraphicsState) ApplyToGopdfContext(ctx Context) {
 	// 应用变换矩阵
-	gs.CTM.SetCairoContextMatrix(ctx)
+	gs.CTM.SetGopdfContextMatrix(ctx)
 
 	// 应用描边颜色
 	if gs.StrokeColor != nil {

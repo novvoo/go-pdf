@@ -3,31 +3,21 @@ package gopdf
 import (
 	"image/color"
 	"math"
-
-	"github.com/novvoo/go-cairo/pkg/cairo"
-)
-
-// FillRule 填充规则
-type FillRule int
-
-const (
-	FillRuleNonZero FillRule = iota // 非零缠绕规则
-	FillRuleEvenOdd                 // 奇偶规则
 )
 
 // PathFiller 路径填充器
 type PathFiller struct {
-	ctx        cairo.Context
+	ctx        Context
 	fillRule   FillRule
 	rasterizer *Rasterizer // 使用光栅化器进行高级路径填充
 	useRaster  bool        // 是否使用光栅化器
 }
 
 // NewPathFiller 创建路径填充器
-func NewPathFiller(ctx cairo.Context) *PathFiller {
+func NewPathFiller(ctx Context) *PathFiller {
 	return &PathFiller{
 		ctx:        ctx,
-		fillRule:   FillRuleNonZero,
+		fillRule:   FillRuleWinding,
 		rasterizer: nil,
 		useRaster:  false,
 	}
@@ -51,15 +41,11 @@ func (pf *PathFiller) DisableRasterizer() {
 // SetFillRule 设置填充规则
 func (pf *PathFiller) SetFillRule(rule FillRule) {
 	pf.fillRule = rule
-	if rule == FillRuleEvenOdd {
-		pf.ctx.SetFillRule(cairo.FillRuleEvenOdd)
-	} else {
-		pf.ctx.SetFillRule(cairo.FillRuleWinding)
-	}
+	pf.ctx.SetFillRule(rule)
 }
 
 // FillPath 填充路径
-func (pf *PathFiller) FillPath(path *Path, color *Color) error {
+func (pf *PathFiller) FillPath(path *PathImpl, color *Color) error {
 	if path.IsEmpty() {
 		return nil
 	}
@@ -69,19 +55,19 @@ func (pf *PathFiller) FillPath(path *Path, color *Color) error {
 		return pf.fillPathWithRasterizer(path, color)
 	}
 
-	// 否则使用 Cairo 标准填充
+	// 否则使用 Gopdf 标准填充
 	if color != nil {
 		pf.ctx.SetSourceRGBA(color.R, color.G, color.B, color.A)
 	}
 
-	pf.buildCairoPath(path)
+	pf.buildGopdfPath(path)
 	pf.ctx.Fill()
 
 	return nil
 }
 
 // fillPathWithRasterizer 使用光栅化器填充路径
-func (pf *PathFiller) fillPathWithRasterizer(path *Path, fillColor *Color) error {
+func (pf *PathFiller) fillPathWithRasterizer(path *PathImpl, fillColor *Color) error {
 	if pf.rasterizer == nil {
 		return nil
 	}
@@ -93,11 +79,11 @@ func (pf *PathFiller) fillPathWithRasterizer(path *Path, fillColor *Color) error
 	pf.rasterizer.AddPath(path, nil)
 
 	// 确定填充规则
-	var fillRule cairo.FillRule
+	var fillRule FillRule
 	if pf.fillRule == FillRuleEvenOdd {
-		fillRule = cairo.FillRuleEvenOdd
+		fillRule = FillRuleEvenOdd
 	} else {
-		fillRule = cairo.FillRuleWinding
+		fillRule = FillRuleWinding
 	}
 
 	// 创建颜色
@@ -112,11 +98,11 @@ func (pf *PathFiller) fillPathWithRasterizer(path *Path, fillColor *Color) error
 	}
 
 	// 填充
-	return pf.rasterizer.Fill(c, fillRule, cairo.OperatorOver)
+	return pf.rasterizer.Fill(c, fillRule, OperatorOver)
 }
 
 // FillPathPreserve 填充路径但保留路径
-func (pf *PathFiller) FillPathPreserve(path *Path, color *Color) error {
+func (pf *PathFiller) FillPathPreserve(path *PathImpl, color *Color) error {
 	if path.IsEmpty() {
 		return nil
 	}
@@ -125,14 +111,14 @@ func (pf *PathFiller) FillPathPreserve(path *Path, color *Color) error {
 		pf.ctx.SetSourceRGBA(color.R, color.G, color.B, color.A)
 	}
 
-	pf.buildCairoPath(path)
+	pf.buildGopdfPath(path)
 	pf.ctx.FillPreserve()
 
 	return nil
 }
 
 // StrokePath 描边路径
-func (pf *PathFiller) StrokePath(path *Path, color *Color, lineWidth float64) error {
+func (pf *PathFiller) StrokePath(path *PathImpl, color *Color, lineWidth float64) error {
 	if path.IsEmpty() {
 		return nil
 	}
@@ -145,19 +131,19 @@ func (pf *PathFiller) StrokePath(path *Path, color *Color, lineWidth float64) er
 		pf.ctx.SetLineWidth(lineWidth)
 	}
 
-	pf.buildCairoPath(path)
+	pf.buildGopdfPath(path)
 	pf.ctx.Stroke()
 
 	return nil
 }
 
 // FillAndStrokePath 填充并描边路径
-func (pf *PathFiller) FillAndStrokePath(path *Path, fillColor, strokeColor *Color, lineWidth float64) error {
+func (pf *PathFiller) FillAndStrokePath(path *PathImpl, fillColor, strokeColor *Color, lineWidth float64) error {
 	if path.IsEmpty() {
 		return nil
 	}
 
-	pf.buildCairoPath(path)
+	pf.buildGopdfPath(path)
 
 	// 先填充
 	if fillColor != nil {
@@ -177,8 +163,8 @@ func (pf *PathFiller) FillAndStrokePath(path *Path, fillColor, strokeColor *Colo
 	return nil
 }
 
-// buildCairoPath 构建 Cairo 路径
-func (pf *PathFiller) buildCairoPath(path *Path) {
+// buildGopdfPath 构建 Gopdf 路径
+func (pf *PathFiller) buildGopdfPath(path *PathImpl) {
 	pf.ctx.NewPath()
 
 	for _, subpath := range path.GetSubpaths() {
@@ -205,24 +191,24 @@ func (pf *PathFiller) buildCairoPath(path *Path) {
 }
 
 // ClipPath 使用路径裁剪
-func (pf *PathFiller) ClipPath(path *Path) error {
+func (pf *PathFiller) ClipPath(path *PathImpl) error {
 	if path.IsEmpty() {
 		return nil
 	}
 
-	pf.buildCairoPath(path)
+	pf.buildGopdfPath(path)
 	pf.ctx.Clip()
 
 	return nil
 }
 
 // ClipPathPreserve 使用路径裁剪但保留路径
-func (pf *PathFiller) ClipPathPreserve(path *Path) error {
+func (pf *PathFiller) ClipPathPreserve(path *PathImpl) error {
 	if path.IsEmpty() {
 		return nil
 	}
 
-	pf.buildCairoPath(path)
+	pf.buildGopdfPath(path)
 	pf.ctx.ClipPreserve()
 
 	return nil
@@ -231,7 +217,7 @@ func (pf *PathFiller) ClipPathPreserve(path *Path) error {
 // ===== 复杂路径构建辅助函数 =====
 
 // CreateStarPath 创建星形路径
-func CreateStarPath(centerX, centerY, outerRadius, innerRadius float64, points int) *Path {
+func CreateStarPath(centerX, centerY, outerRadius, innerRadius float64, points int) *PathImpl {
 	path := NewPath()
 
 	angleStep := 2 * math.Pi / float64(points*2)
@@ -260,7 +246,7 @@ func CreateStarPath(centerX, centerY, outerRadius, innerRadius float64, points i
 }
 
 // CreatePolygonPath 创建正多边形路径
-func CreatePolygonPath(centerX, centerY, radius float64, sides int) *Path {
+func CreatePolygonPath(centerX, centerY, radius float64, sides int) *PathImpl {
 	path := NewPath()
 
 	angleStep := 2 * math.Pi / float64(sides)
@@ -282,7 +268,7 @@ func CreatePolygonPath(centerX, centerY, radius float64, sides int) *Path {
 }
 
 // CreateCirclePath 创建圆形路径
-func CreateCirclePath(centerX, centerY, radius float64) *Path {
+func CreateCirclePath(centerX, centerY, radius float64) *PathImpl {
 	path := NewPath()
 
 	// 使用贝塞尔曲线近似圆
@@ -324,7 +310,7 @@ func CreateCirclePath(centerX, centerY, radius float64) *Path {
 }
 
 // CreateRoundedRectPath 创建圆角矩形路径
-func CreateRoundedRectPath(x, y, width, height, radius float64) *Path {
+func CreateRoundedRectPath(x, y, width, height, radius float64) *PathImpl {
 	path := NewPath()
 
 	// 限制圆角半径
@@ -383,7 +369,7 @@ func CreateRoundedRectPath(x, y, width, height, radius float64) *Path {
 }
 
 // CreateEllipsePath 创建椭圆路径
-func CreateEllipsePath(centerX, centerY, radiusX, radiusY float64) *Path {
+func CreateEllipsePath(centerX, centerY, radiusX, radiusY float64) *PathImpl {
 	path := NewPath()
 
 	kappa := 0.5522847498
@@ -423,7 +409,7 @@ func CreateEllipsePath(centerX, centerY, radiusX, radiusY float64) *Path {
 }
 
 // CreateArcPath 创建弧形路径
-func CreateArcPath(centerX, centerY, radius, startAngle, endAngle float64, clockwise bool) *Path {
+func CreateArcPath(centerX, centerY, radius, startAngle, endAngle float64, clockwise bool) *PathImpl {
 	path := NewPath()
 
 	// 起始点
@@ -451,7 +437,7 @@ func CreateArcPath(centerX, centerY, radius, startAngle, endAngle float64, clock
 }
 
 // CreateBezierPath 创建贝塞尔曲线路径
-func CreateBezierPath(points []Point) *Path {
+func CreateBezierPath(points []Point) *PathImpl {
 	path := NewPath()
 
 	if len(points) < 2 {
@@ -479,9 +465,4 @@ func CreateBezierPath(points []Point) *Path {
 	}
 
 	return path
-}
-
-// Point 表示二维点
-type Point struct {
-	X, Y float64
 }

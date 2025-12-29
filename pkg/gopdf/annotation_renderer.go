@@ -2,19 +2,17 @@ package gopdf
 
 import (
 	"fmt"
-
-	"github.com/novvoo/go-cairo/pkg/cairo"
 )
 
 // AnnotationRenderer 注释渲染器
 type AnnotationRenderer struct {
-	cairoCtx cairo.Context
+	gopdfCtx Context
 }
 
 // NewAnnotationRenderer 创建新的注释渲染器
-func NewAnnotationRenderer(cairoCtx cairo.Context) *AnnotationRenderer {
+func NewAnnotationRenderer(gopdfCtx Context) *AnnotationRenderer {
 	return &AnnotationRenderer{
-		cairoCtx: cairoCtx,
+		gopdfCtx: gopdfCtx,
 	}
 }
 
@@ -53,8 +51,8 @@ func (r *AnnotationRenderer) RenderTextAnnotation(annot *Annotation) error {
 	x1, y1, x2, y2 := annot.GetRect()
 
 	// 保存状态
-	r.cairoCtx.Save()
-	defer r.cairoCtx.Restore()
+	r.gopdfCtx.Save()
+	defer r.gopdfCtx.Restore()
 
 	// 如果有外观流，优先使用外观流
 	if len(annot.Appearance) > 0 {
@@ -79,15 +77,15 @@ func (r *AnnotationRenderer) RenderTextAnnotation(annot *Annotation) error {
 	}
 
 	// 填充圆形
-	r.cairoCtx.Arc(centerX, centerY, radius, 0, 6.28318530718) // 2*π
-	r.cairoCtx.SetSourceRGB(red, green, blue)
-	r.cairoCtx.Fill()
+	r.gopdfCtx.Arc(centerX, centerY, radius, 0, 6.28318530718) // 2*π
+	r.gopdfCtx.SetSourceRGB(red, green, blue)
+	r.gopdfCtx.Fill()
 
 	// 绘制边框
-	r.cairoCtx.Arc(centerX, centerY, radius, 0, 6.28318530718)
-	r.cairoCtx.SetSourceRGB(red*0.7, green*0.7, blue*0.7)
-	r.cairoCtx.SetLineWidth(1.0)
-	r.cairoCtx.Stroke()
+	r.gopdfCtx.Arc(centerX, centerY, radius, 0, 6.28318530718)
+	r.gopdfCtx.SetSourceRGB(red*0.7, green*0.7, blue*0.7)
+	r.gopdfCtx.SetLineWidth(1.0)
+	r.gopdfCtx.Stroke()
 
 	debugPrintf("[Annotation] Rendered text annotation at (%.2f, %.2f)\n", centerX, centerY)
 	return nil
@@ -96,8 +94,8 @@ func (r *AnnotationRenderer) RenderTextAnnotation(annot *Annotation) error {
 // RenderHighlightAnnotation 渲染高亮注释
 func (r *AnnotationRenderer) RenderHighlightAnnotation(annot *Annotation) error {
 	// 保存状态
-	r.cairoCtx.Save()
-	defer r.cairoCtx.Restore()
+	r.gopdfCtx.Save()
+	defer r.gopdfCtx.Restore()
 
 	// 如果有外观流，优先使用外观流
 	if len(annot.Appearance) > 0 {
@@ -116,20 +114,20 @@ func (r *AnnotationRenderer) RenderHighlightAnnotation(annot *Annotation) error 
 	if len(annot.QuadPoints) >= 8 {
 		// QuadPoints 定义了高亮区域的四边形
 		// 格式：[x1 y1 x2 y2 x3 y3 x4 y4] 按逆时针顺序
-		r.cairoCtx.MoveTo(annot.QuadPoints[0], annot.QuadPoints[1])
+		r.gopdfCtx.MoveTo(annot.QuadPoints[0], annot.QuadPoints[1])
 		for i := 2; i < len(annot.QuadPoints); i += 2 {
-			r.cairoCtx.LineTo(annot.QuadPoints[i], annot.QuadPoints[i+1])
+			r.gopdfCtx.LineTo(annot.QuadPoints[i], annot.QuadPoints[i+1])
 		}
-		r.cairoCtx.ClosePath()
+		r.gopdfCtx.ClosePath()
 	} else {
 		// 使用矩形
 		x1, y1, x2, y2 := annot.GetRect()
-		r.cairoCtx.Rectangle(x1, y1, x2-x1, y2-y1)
+		r.gopdfCtx.Rectangle(x1, y1, x2-x1, y2-y1)
 	}
 
 	// 使用半透明填充
-	r.cairoCtx.SetSourceRGBA(red, green, blue, 0.3)
-	r.cairoCtx.Fill()
+	r.gopdfCtx.SetSourceRGBA(red, green, blue, 0.3)
+	r.gopdfCtx.Fill()
 
 	debugPrintf("[Annotation] Rendered highlight annotation\n")
 	return nil

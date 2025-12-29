@@ -1,6 +1,6 @@
 # go-pdf
 
-Go PDF rendering library using Cairo graphics.
+Go PDF rendering library using Gopdf graphics.
 
 ## Project Structure
 
@@ -25,7 +25,7 @@ go-pdf/
 
 ## Features
 
-- **PDF Rendering**: Render graphics to PDF using Cairo
+- **PDF Rendering**: Render graphics to PDF using Gopdf
 - **PNG Export**: Export rendered content as PNG images
 - **Layer Merging**: Merge multiple image layers
 - **Image to PDF**: Convert images to PDF format
@@ -49,7 +49,7 @@ package main
 
 import (
     "go-pdf/pkg/gopdf"
-    "github.com/novvoo/go-cairo/pkg/cairo"
+    
 )
 
 func main() {
@@ -58,7 +58,7 @@ func main() {
     renderer.SetDPI(150)
 
     // Render to PDF
-    renderer.RenderToPDF("output.pdf", func(ctx cairo.Context) {
+    renderer.RenderToPDF("output.pdf", func(ctx gopdf.Context) {
         ctx.SetSourceRGB(0.2, 0.4, 0.8)
         ctx.Rectangle(50, 50, 200, 100)
         ctx.Fill()
@@ -92,10 +92,10 @@ Creates a new PDF renderer with specified dimensions (in points).
 #### SetDPI(dpi float64)
 Sets the rendering DPI (default: 72).
 
-#### RenderToPDF(outputPath string, drawFunc func(ctx cairo.Context)) error
+#### RenderToPDF(outputPath string, drawFunc func(ctx gopdf.Context)) error
 Renders graphics to a PDF file.
 
-#### RenderToPNG(outputPath string, drawFunc func(ctx cairo.Context)) error
+#### RenderToPNG(outputPath string, drawFunc func(ctx gopdf.Context)) error
 Renders graphics to a PNG file.
 
 #### CreatePDFFromImage(imagePath, outputPath string) error
@@ -114,7 +114,7 @@ Renders a PDF page to an image.Image.
 
 ## Dependencies
 
-- [go-cairo](https://github.com/novvoo/go-cairo) - Cairo graphics bindings for Go
+- [go-pdf](https://github.com/novvoo/go-pdf) - Gopdf graphics bindings for Go
 - [pdfcpu](https://github.com/pdfcpu/pdfcpu) - PDF processing library
 
 ## Recent Improvements

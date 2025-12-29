@@ -16,12 +16,12 @@ type ColorSpace interface {
 // DeviceRGBColorSpace RGB 设备颜色空间
 type DeviceRGBColorSpace struct{}
 
-func (cs *DeviceRGBColorSpace) GetName() string { return "DeviceRGB" }
+func (cs *DeviceRGBColorSpace) GetName() string       { return "DeviceRGB" }
 func (cs *DeviceRGBColorSpace) GetNumComponents() int { return 3 }
 
 func (cs *DeviceRGBColorSpace) ConvertToRGB(components []float64) (r, g, b float64, err error) {
 	if len(components) < 3 {
-		return 0, 0, 0, fmt.Errorf("RGB requires 3 components, got %d", len(components))
+		return 0, 0, 0, fmt.Errorf("rgb requires 3 components, got %d", len(components))
 	}
 	return clamp01(components[0]), clamp01(components[1]), clamp01(components[2]), nil
 }
@@ -34,12 +34,12 @@ func (cs *DeviceRGBColorSpace) ConvertToRGBA(components []float64, alpha float64
 // DeviceGrayColorSpace 灰度设备颜色空间
 type DeviceGrayColorSpace struct{}
 
-func (cs *DeviceGrayColorSpace) GetName() string { return "DeviceGray" }
+func (cs *DeviceGrayColorSpace) GetName() string       { return "DeviceGray" }
 func (cs *DeviceGrayColorSpace) GetNumComponents() int { return 1 }
 
 func (cs *DeviceGrayColorSpace) ConvertToRGB(components []float64) (r, g, b float64, err error) {
 	if len(components) < 1 {
-		return 0, 0, 0, fmt.Errorf("Gray requires 1 component, got %d", len(components))
+		return 0, 0, 0, fmt.Errorf("gray requires 1 component, got %d", len(components))
 	}
 	gray := clamp01(components[0])
 	return gray, gray, gray, nil
@@ -53,12 +53,12 @@ func (cs *DeviceGrayColorSpace) ConvertToRGBA(components []float64, alpha float6
 // DeviceCMYKColorSpace CMYK 设备颜色空间
 type DeviceCMYKColorSpace struct{}
 
-func (cs *DeviceCMYKColorSpace) GetName() string { return "DeviceCMYK" }
+func (cs *DeviceCMYKColorSpace) GetName() string       { return "DeviceCMYK" }
 func (cs *DeviceCMYKColorSpace) GetNumComponents() int { return 4 }
 
 func (cs *DeviceCMYKColorSpace) ConvertToRGB(components []float64) (r, g, b float64, err error) {
 	if len(components) < 4 {
-		return 0, 0, 0, fmt.Errorf("CMYK requires 4 components, got %d", len(components))
+		return 0, 0, 0, fmt.Errorf("cmyk requires 4 components, got %d", len(components))
 	}
 	c := clamp01(components[0])
 	m := clamp01(components[1])
@@ -86,12 +86,12 @@ type CalRGBColorSpace struct {
 	Matrix     []float64 // 3x3 变换矩阵
 }
 
-func (cs *CalRGBColorSpace) GetName() string { return "CalRGB" }
+func (cs *CalRGBColorSpace) GetName() string       { return "CalRGB" }
 func (cs *CalRGBColorSpace) GetNumComponents() int { return 3 }
 
 func (cs *CalRGBColorSpace) ConvertToRGB(components []float64) (r, g, b float64, err error) {
 	if len(components) < 3 {
-		return 0, 0, 0, fmt.Errorf("CalRGB requires 3 components, got %d", len(components))
+		return 0, 0, 0, fmt.Errorf("calRGB requires 3 components, got %d", len(components))
 	}
 
 	// 应用 gamma 校正
@@ -136,12 +136,12 @@ type CalGrayColorSpace struct {
 	Gamma      float64   // Gamma 值
 }
 
-func (cs *CalGrayColorSpace) GetName() string { return "CalGray" }
+func (cs *CalGrayColorSpace) GetName() string       { return "CalGray" }
 func (cs *CalGrayColorSpace) GetNumComponents() int { return 1 }
 
 func (cs *CalGrayColorSpace) ConvertToRGB(components []float64) (r, g, b float64, err error) {
 	if len(components) < 1 {
-		return 0, 0, 0, fmt.Errorf("CalGray requires 1 component, got %d", len(components))
+		return 0, 0, 0, fmt.Errorf("calGray requires 1 component, got %d", len(components))
 	}
 
 	// 应用 gamma 校正
@@ -161,12 +161,12 @@ type LabColorSpace struct {
 	Range      []float64 // a* 和 b* 的范围 [amin amax bmin bmax]
 }
 
-func (cs *LabColorSpace) GetName() string { return "Lab" }
+func (cs *LabColorSpace) GetName() string       { return "Lab" }
 func (cs *LabColorSpace) GetNumComponents() int { return 3 }
 
 func (cs *LabColorSpace) ConvertToRGB(components []float64) (r, g, b float64, err error) {
 	if len(components) < 3 {
-		return 0, 0, 0, fmt.Errorf("Lab requires 3 components, got %d", len(components))
+		return 0, 0, 0, fmt.Errorf("lab requires 3 components, got %d", len(components))
 	}
 
 	// Lab 到 XYZ 转换
@@ -221,7 +221,7 @@ type ICCBasedColorSpace struct {
 	Metadata      []byte     // ICC 配置文件数据
 }
 
-func (cs *ICCBasedColorSpace) GetName() string { return "ICCBased" }
+func (cs *ICCBasedColorSpace) GetName() string       { return "ICCBased" }
 func (cs *ICCBasedColorSpace) GetNumComponents() int { return cs.NumComponents }
 
 func (cs *ICCBasedColorSpace) ConvertToRGB(components []float64) (r, g, b float64, err error) {
@@ -254,17 +254,17 @@ func (cs *ICCBasedColorSpace) ConvertToRGBA(components []float64, alpha float64)
 
 // IndexedColorSpace 索引颜色空间
 type IndexedColorSpace struct {
-	Base    ColorSpace // 基础颜色空间
-	HiVal   int        // 最大索引值
-	Lookup  []byte     // 查找表
+	Base   ColorSpace // 基础颜色空间
+	HiVal  int        // 最大索引值
+	Lookup []byte     // 查找表
 }
 
-func (cs *IndexedColorSpace) GetName() string { return "Indexed" }
+func (cs *IndexedColorSpace) GetName() string       { return "Indexed" }
 func (cs *IndexedColorSpace) GetNumComponents() int { return 1 }
 
 func (cs *IndexedColorSpace) ConvertToRGB(components []float64) (r, g, b float64, err error) {
 	if len(components) < 1 {
-		return 0, 0, 0, fmt.Errorf("Indexed requires 1 component")
+		return 0, 0, 0, fmt.Errorf("indexed requires 1 component")
 	}
 
 	index := int(components[0])
@@ -345,4 +345,137 @@ func GetColorSpace(name string) ColorSpace {
 		// 默认返回 RGB
 		return &DeviceRGBColorSpace{}
 	}
+}
+
+func RgbToHSL(r, g, b float64) (h, s, l float64) {
+	return rgbToHSL(r, g, b)
+}
+
+// rgb到HSL转换（内部）
+func rgbToHSL(r, g, b float64) (h, s, l float64) {
+	max := math.Max(math.Max(r, g), b)
+	min := math.Min(math.Min(r, g), b)
+	l = (max + min) / 2
+
+	if max == min {
+		h, s = 0, 0 // 灰色
+	} else {
+		d := max - min
+		if l > 0.5 {
+			s = d / (2 - max - min)
+		} else {
+			s = d / (max + min)
+		}
+
+		switch max {
+		case r:
+			h = (g - b) / d
+			if g < b {
+				h += 6
+			}
+		case g:
+			h = (b-r)/d + 2
+		case b:
+			h = (r-g)/d + 4
+		}
+		h /= 6
+	}
+	return
+}
+
+// HslToRGB HSL 到 RGB 转换
+func HslToRGB(h, s, l float64) (r, g, b float64) {
+	return hslToRGB(h, s, l)
+}
+
+// hsl到RGB转换（内部）
+func hslToRGB(h, s, l float64) (r, g, b float64) {
+	if s == 0 {
+		r, g, b = l, l, l // 灰色
+	} else {
+		var q float64
+		if l < 0.5 {
+			q = l * (1 + s)
+		} else {
+			q = l + s - l*s
+		}
+		p := 2*l - q
+		r = hueToRGB(p, q, h+1.0/3.0)
+		g = hueToRGB(p, q, h)
+		b = hueToRGB(p, q, h-1.0/3.0)
+	}
+	return
+}
+
+func hueToRGB(p, q, t float64) float64 {
+	if t < 0 {
+		t += 1
+	}
+	if t > 1 {
+		t -= 1
+	}
+	if t < 1.0/6.0 {
+		return p + (q-p)*6*t
+	}
+	if t < 1.0/2.0 {
+		return q
+	}
+	if t < 2.0/3.0 {
+		return p + (q-p)*(2.0/3.0-t)*6
+	}
+	return p
+}
+
+// ColorDeltaE2000 calculates color difference using Delta E 2000 algorithm
+func ColorDeltaE2000(l1, a1, b1, l2, a2, b2 float64) float64 {
+	// 简化的 Delta E 2000 实现
+	const kL, kC, kH = 1.0, 1.0, 1.0
+
+	c1 := math.Sqrt(a1*a1 + b1*b1)
+	c2 := math.Sqrt(a2*a2 + b2*b2)
+	cBar := (c1 + c2) / 2
+
+	g := 0.5 * (1 - math.Sqrt(math.Pow(cBar, 7)/(math.Pow(cBar, 7)+math.Pow(25, 7))))
+
+	a1p := (1 + g) * a1
+	a2p := (1 + g) * a2
+
+	c1p := math.Sqrt(a1p*a1p + b1*b1)
+	c2p := math.Sqrt(a2p*a2p + b2*b2)
+
+	h1p := math.Atan2(b1, a1p)
+	h2p := math.Atan2(b2, a2p)
+
+	if h1p < 0 {
+		h1p += 2 * math.Pi
+	}
+	if h2p < 0 {
+		h2p += 2 * math.Pi
+	}
+
+	dL := l2 - l1
+	dC := c2p - c1p
+	dH := h2p - h1p
+
+	if dH > math.Pi {
+		dH -= 2 * math.Pi
+	} else if dH < -math.Pi {
+		dH += 2 * math.Pi
+	}
+
+	dH = 2 * math.Sqrt(c1p*c2p) * math.Sin(dH/2)
+
+	lBar := (l1 + l2) / 2
+	cBar = (c1p + c2p) / 2
+
+	sL := 1 + (0.015*(lBar-50)*(lBar-50))/math.Sqrt(20+(lBar-50)*(lBar-50))
+	sC := 1 + 0.045*cBar
+	sH := 1 + 0.015*cBar
+
+	deltaE := math.Sqrt(
+		math.Pow(dL/(kL*sL), 2) +
+			math.Pow(dC/(kC*sC), 2) +
+			math.Pow(dH/(kH*sH), 2))
+
+	return deltaE
 }

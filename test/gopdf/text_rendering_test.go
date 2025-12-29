@@ -7,7 +7,6 @@ import (
 	"os"
 	"testing"
 
-	"github.com/novvoo/go-cairo/pkg/cairo"
 	"github.com/novvoo/go-pdf/pkg/gopdf"
 )
 
@@ -19,24 +18,24 @@ func TestTextRendering(t *testing.T) {
 
 	// 测试渲染包含中英文的文本
 	outputPath := "text_rendering_test.png"
-	err := renderer.RenderToPNG(outputPath, func(ctx cairo.Context) {
+	err := renderer.RenderToPNG(outputPath, func(ctx gopdf.Context) {
 		// 设置白色背景
 		ctx.SetSourceRGB(1, 1, 1)
 		ctx.Paint()
 
 		// 绘制英文文本
 		ctx.SetSourceRGB(0, 0, 0)
-		layout := ctx.PangoCairoCreateLayout().(*cairo.PangoCairoLayout)
+		layout := ctx.PangoPdfCreateLayout().(*gopdf.PangoPdfLayout)
 
 		// 测试英文文本渲染
-		fontDesc := cairo.NewPangoFontDescription()
+		fontDesc := gopdf.NewPangoFontDescription()
 		fontDesc.SetFamily("sans-serif")
 		fontDesc.SetSize(24)
 		layout.SetFontDescription(fontDesc)
 		layout.SetText("Hello World! This is English text.")
 
 		ctx.MoveTo(50, 50)
-		ctx.PangoCairoShowText(layout)
+		ctx.PangoPdfShowText(layout)
 
 		// 测试中文文本渲染
 		fontDesc.SetSize(20)
@@ -44,13 +43,13 @@ func TestTextRendering(t *testing.T) {
 		layout.SetText("你好世界！这是中文文本。")
 
 		ctx.MoveTo(50, 100)
-		ctx.PangoCairoShowText(layout)
+		ctx.PangoPdfShowText(layout)
 
 		// 测试混合文本渲染
 		layout.SetText("Mixed text: 你好World!")
 
 		ctx.MoveTo(50, 150)
-		ctx.PangoCairoShowText(layout)
+		ctx.PangoPdfShowText(layout)
 	})
 
 	if err != nil {
@@ -84,7 +83,7 @@ func TestTextPositioning(t *testing.T) {
 	renderer.SetDPI(150)
 
 	outputPath := "text_positioning_test.png"
-	err := renderer.RenderToPNG(outputPath, func(ctx cairo.Context) {
+	err := renderer.RenderToPNG(outputPath, func(ctx gopdf.Context) {
 		// 设置白色背景
 		ctx.SetSourceRGB(1, 1, 1)
 		ctx.Paint()
@@ -109,8 +108,8 @@ func TestTextPositioning(t *testing.T) {
 
 		// 在特定位置绘制文本
 		ctx.SetSourceRGB(0, 0, 0)
-		layout := ctx.PangoCairoCreateLayout().(*cairo.PangoCairoLayout)
-		fontDesc := cairo.NewPangoFontDescription()
+		layout := ctx.PangoPdfCreateLayout().(*gopdf.PangoPdfLayout)
+		fontDesc := gopdf.NewPangoFontDescription()
 		fontDesc.SetFamily("sans-serif")
 		fontDesc.SetSize(16)
 		layout.SetFontDescription(fontDesc)
@@ -129,7 +128,7 @@ func TestTextPositioning(t *testing.T) {
 		for _, pos := range testPositions {
 			layout.SetText(pos.text)
 			ctx.MoveTo(pos.x, pos.y)
-			ctx.PangoCairoShowText(layout)
+			ctx.PangoPdfShowText(layout)
 		}
 	})
 
@@ -152,20 +151,20 @@ func TestTextScaling(t *testing.T) {
 	renderer.SetDPI(150)
 
 	outputPath := "text_scaling_test.png"
-	err := renderer.RenderToPNG(outputPath, func(ctx cairo.Context) {
+	err := renderer.RenderToPNG(outputPath, func(ctx gopdf.Context) {
 		// 设置白色背景
 		ctx.SetSourceRGB(1, 1, 1)
 		ctx.Paint()
 
 		ctx.SetSourceRGB(0, 0, 0)
-		layout := ctx.PangoCairoCreateLayout().(*cairo.PangoCairoLayout)
+		layout := ctx.PangoPdfCreateLayout().(*gopdf.PangoPdfLayout)
 
 		// 测试不同字体大小
 		sizes := []int{12, 16, 20, 24, 32, 48}
 		yPos := 50.0
 
 		for _, size := range sizes {
-			fontDesc := cairo.NewPangoFontDescription()
+			fontDesc := gopdf.NewPangoFontDescription()
 			fontDesc.SetFamily("sans-serif")
 			fontDesc.SetSize(float64(size))
 			layout.SetFontDescription(fontDesc)
@@ -174,7 +173,7 @@ func TestTextScaling(t *testing.T) {
 			layout.SetText(text)
 
 			ctx.MoveTo(50, yPos)
-			ctx.PangoCairoShowText(layout)
+			ctx.PangoPdfShowText(layout)
 
 			yPos += float64(size) + 10
 		}
@@ -199,16 +198,16 @@ func TestTextOverlap(t *testing.T) {
 	renderer.SetDPI(150)
 
 	outputPath := "text_overlap_test.png"
-	err := renderer.RenderToPNG(outputPath, func(ctx cairo.Context) {
+	err := renderer.RenderToPNG(outputPath, func(ctx gopdf.Context) {
 		// 设置白色背景
 		ctx.SetSourceRGB(1, 1, 1)
 		ctx.Paint()
 
 		ctx.SetSourceRGB(0, 0, 0)
-		layout := ctx.PangoCairoCreateLayout().(*cairo.PangoCairoLayout)
+		layout := ctx.PangoPdfCreateLayout().(*gopdf.PangoPdfLayout)
 
 		// 测试英文单词间距
-		fontDesc := cairo.NewPangoFontDescription()
+		fontDesc := gopdf.NewPangoFontDescription()
 		fontDesc.SetFamily("sans-serif")
 		fontDesc.SetSize(24)
 		layout.SetFontDescription(fontDesc)
@@ -216,17 +215,17 @@ func TestTextOverlap(t *testing.T) {
 		// 正常英文文本
 		layout.SetText("English words should not overlap")
 		ctx.MoveTo(50, 50)
-		ctx.PangoCairoShowText(layout)
+		ctx.PangoPdfShowText(layout)
 
 		// 测试中文字符间距
 		layout.SetText("中文字符也不应该重叠")
 		ctx.MoveTo(50, 100)
-		ctx.PangoCairoShowText(layout)
+		ctx.PangoPdfShowText(layout)
 
 		// 测试长单词换行
 		layout.SetText("Supercalifragilisticexpialidocious")
 		ctx.MoveTo(50, 150)
-		ctx.PangoCairoShowText(layout)
+		ctx.PangoPdfShowText(layout)
 	})
 
 	if err != nil {
@@ -248,14 +247,14 @@ func TestTextVisibility(t *testing.T) {
 	renderer.SetDPI(150)
 
 	outputPath := "text_visibility_test.png"
-	err := renderer.RenderToPNG(outputPath, func(ctx cairo.Context) {
+	err := renderer.RenderToPNG(outputPath, func(ctx gopdf.Context) {
 		// 设置白色背景
 		ctx.SetSourceRGB(1, 1, 1)
 		ctx.Paint()
 
 		ctx.SetSourceRGB(0, 0, 0)
-		layout := ctx.PangoCairoCreateLayout().(*cairo.PangoCairoLayout)
-		fontDesc := cairo.NewPangoFontDescription()
+		layout := ctx.PangoPdfCreateLayout().(*gopdf.PangoPdfLayout)
+		fontDesc := gopdf.NewPangoFontDescription()
 		fontDesc.SetFamily("sans-serif")
 		fontDesc.SetSize(16)
 		layout.SetFontDescription(fontDesc)
@@ -276,7 +275,7 @@ func TestTextVisibility(t *testing.T) {
 		for _, tc := range testCases {
 			layout.SetText(tc.text)
 			ctx.MoveTo(tc.x, tc.y)
-			ctx.PangoCairoShowText(layout)
+			ctx.PangoPdfShowText(layout)
 		}
 	})
 
@@ -314,3 +313,5 @@ func loadAndValidateImage(filename string) (image.Image, error) {
 
 	return img, nil
 }
+
+
