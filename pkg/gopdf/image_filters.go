@@ -2,6 +2,7 @@ package gopdf
 
 import (
 	"bytes"
+	"compress/lzw"
 	"compress/zlib"
 	"fmt"
 	"image"
@@ -115,9 +116,17 @@ type LZWDecodeFilter struct{}
 func (f *LZWDecodeFilter) Name() string { return "LZWDecode" }
 
 func (f *LZWDecodeFilter) Decode(data []byte) ([]byte, error) {
-	// TODO: 实现 LZW 解压
-	// 可以使用 compress/lzw 包
-	return nil, fmt.Errorf("LZW decode not implemented yet")
+	// 使用 compress/lzw 包实现 LZW 解压
+	// PDF 使用 MSB (Most Significant Bit first) 顺序
+	reader := lzw.NewReader(bytes.NewReader(data), lzw.MSB, 8)
+	defer reader.Close()
+
+	var buf bytes.Buffer
+	if _, err := io.Copy(&buf, reader); err != nil {
+		return nil, fmt.Errorf("failed to decompress LZW: %w", err)
+	}
+
+	return buf.Bytes(), nil
 }
 
 // ASCII85DecodeFilter ASCII85 解码滤镜
@@ -126,8 +135,76 @@ type ASCII85DecodeFilter struct{}
 func (f *ASCII85DecodeFilter) Name() string { return "ASCII85Decode" }
 
 func (f *ASCII85DecodeFilter) Decode(data []byte) ([]byte, error) {
-	// TODO: 实现 ASCII85 解码
-	return nil, fmt.Errorf("ASCII85 decode not implemented yet")
+	// 实现 ASCII85 (Base85) 解码
+	// ASCII85 使用 5 个 ASCII 字符编码 4 个字节
+	var result []byte
+	var value uint32
+	var count int
+
+	for i := 0; i < len(data); i++ {
+		b := data[i]
+
+		// 跳过空白字符
+		if b == ' ' || b == '\t' || b == '\n' || b == '\r' {
+			continue
+		}
+
+		// 结束标记 ~>
+		if b == '~' && i+1 < len(data) && data[i+1] == '>' {
+			break
+		}
+
+		// 特殊情况：'z' 表示 4 个零字节
+		if b == 'z' {
+			if count != 0 {
+				return nil, fmt.Errorf("invalid 'z' in ASCII85 stream")
+			}
+			result = append(result, 0, 0, 0, 0)
+			continue
+		}
+
+		// 验证字符范围 (! 到 u, ASCII 33-117)
+		if b < '!' || b > 'u' {
+			return nil, fmt.Errorf("invalid ASCII85 character: %c", b)
+		}
+
+		// 累积值
+		value = value*85 + uint32(b-'!')
+		count++
+
+		// 每 5 个字符解码为 4 个字节
+		if count == 5 {
+			result = append(result,
+				byte(value>>24),
+				byte(value>>16),
+				byte(value>>8),
+				byte(value))
+			value = 0
+			count = 0
+		}
+	}
+
+	// 处理剩余字符
+	if count > 0 {
+		// 填充到 5 个字符
+		for count < 5 {
+			value = value*85 + 84 // 'u' - '!' = 84
+			count++
+		}
+
+		// 解码并只取需要的字节
+		bytes := []byte{
+			byte(value >> 24),
+			byte(value >> 16),
+			byte(value >> 8),
+			byte(value),
+		}
+
+		// count-1 是实际的字节数
+		result = append(result, bytes[:count-1]...)
+	}
+
+	return result, nil
 }
 
 // ASCIIHexDecodeFilter ASCII Hex 解码滤镜
@@ -246,7 +323,7 @@ func ApplyPredictor(data []byte, predictor int, columns int, colors int, bitsPer
 
 // applyPNGPredictor 应用 PNG 预测器
 func applyPNGPredictor(data []byte, predictor int, columns int, colors int, bitsPerComponent int) ([]byte, error) {
-	bytesPerPixel := (colors * bitsPerComponent + 7) / 8
+	bytesPerPixel := (colors*bitsPerComponent + 7) / 8
 	rowBytes := (columns*colors*bitsPerComponent + 7) / 8
 	stride := rowBytes + 1 // +1 for predictor byte
 

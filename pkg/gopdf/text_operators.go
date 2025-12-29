@@ -450,7 +450,7 @@ func (op *OpShowTextWithSpacing) Execute(ctx *RenderContext) error {
 
 // OpShowTextArray TJ - 显示文本数组（带位置调整）
 type OpShowTextArray struct {
-	Array []interface{} // string 或 float64
+	Array []any // string 或 float64
 }
 
 func (op *OpShowTextArray) Name() string { return "TJ" }
@@ -468,125 +468,8 @@ type GlyphWithPosition struct {
 	FontSize   float64 // 字体大小
 }
 
-// renderGlyphsWithPangoBatch 使用 PangoGopdf 批量渲染字形
-// 🔥 新策略：让 Pango 完全处理文本布局，按字体样式和位置分块
-// 这样可以避免字体宽度计算不准确导致的重叠问题
-func renderGlyphsWithPangoBatch(ctx *RenderContext, glyphs []GlyphWithPosition, _ *PangoFontDescription) {
-	if len(glyphs) == 0 {
-		return
-	}
-
-	// 将字形按字体样式和位置分组
-	type textBlock struct {
-		text       string
-		x, y       float64
-		fontFamily string
-		fontSize   float64
-		start      int
-		end        int
-	}
-
-	var blocks []textBlock
-	currentBlock := textBlock{
-		start:      0,
-		x:          glyphs[0].X,
-		y:          glyphs[0].Y,
-		fontFamily: glyphs[0].FontFamily,
-		fontSize:   glyphs[0].FontSize,
-	}
-	var textBuilder strings.Builder
-	textBuilder.WriteRune(glyphs[0].Rune)
-
-	// Y坐标容差：小于2个点认为是同一行
-	const yTolerance = 2.0
-	// X坐标间隔阈值：超过这个值认为是不连续的文本块
-	const xGapThreshold = 100.0
-
-	for i := 1; i < len(glyphs); i++ {
-		prevGlyph := glyphs[i-1]
-		currGlyph := glyphs[i]
-
-		yDiff := currGlyph.Y - prevGlyph.Y
-		if yDiff < 0 {
-			yDiff = -yDiff
-		}
-		xGap := currGlyph.X - prevGlyph.X
-
-		// 判断是否需要开始新块：
-		// 1. 字体样式变化（字体族或大小不同）
-		// 2. Y坐标变化（换行）
-		// 3. X坐标向左移动（回退）
-		// 4. X坐标间隔过大（不连续的文本）
-		fontChanged := currGlyph.FontFamily != prevGlyph.FontFamily || currGlyph.FontSize != prevGlyph.FontSize
-
-		if fontChanged || yDiff > yTolerance || xGap < 0 || xGap > xGapThreshold {
-			// 保存当前块
-			currentBlock.text = textBuilder.String()
-			currentBlock.end = i - 1
-			blocks = append(blocks, currentBlock)
-
-			// 开始新块
-			textBuilder.Reset()
-			textBuilder.WriteRune(currGlyph.Rune)
-			currentBlock = textBlock{
-				start:      i,
-				x:          currGlyph.X,
-				y:          currGlyph.Y,
-				fontFamily: currGlyph.FontFamily,
-				fontSize:   currGlyph.FontSize,
-			}
-		} else {
-			// 同一行、同一字体样式的连续文本
-			// 🔥 关键：直接追加字符，不插入额外的空格
-			// PDF 中的空格字符会被保留（因为它们本身就是字形）
-			// 让 Pango 完全处理字符间距和布局
-			textBuilder.WriteRune(currGlyph.Rune)
-		}
-	}
-
-	// 保存最后一个块
-	currentBlock.text = textBuilder.String()
-	currentBlock.end = len(glyphs) - 1
-	blocks = append(blocks, currentBlock)
-
-	debugPrintf("[RENDER] Grouped %d glyphs into %d text blocks (by font style)\n", len(glyphs), len(blocks))
-
-	// 渲染每个文本块
-	// 🔥 关键：让 Pango 完全处理文本布局和字符间距
-	for idx, block := range blocks {
-		ctx.GopdfCtx.Save()
-
-		// 移动到文本块的起始位置
-		ctx.GopdfCtx.MoveTo(block.x, block.y)
-
-		// TODO: Pango text rendering not yet implemented
-		// For now, use basic text rendering
-		// 为每个块创建对应的字体描述符
-		// blockFontDesc := NewPangoFontDescription()
-		// blockFontDesc.SetFamily(block.fontFamily)
-		// blockFontDesc.SetSize(block.fontSize)
-
-		// 创建 Pango 布局
-		// layout := ctx.GopdfCtx.PangoGopdfCreateLayout().(*PangoGopdfLayout)
-		// layout.SetFontDescription(blockFontDesc)
-
-		// 🔥 关键：设置文本，让 Pango 自动计算字符间距和宽度
-		// layout.SetText(block.text)
-
-		// 渲染文本
-		// ctx.GopdfCtx.PangoGopdfShowText(layout)
-
-		ctx.GopdfCtx.Restore()
-
-		debugPrintf("[RENDER][%d] Block at (%.2f, %.2f) font=%s/%.1f: %q (%d chars)\n",
-			idx, block.x, block.y, block.fontFamily, block.fontSize, block.text, len([]rune(block.text)))
-	}
-
-	debugPrintf("[RENDER] ✓ Rendered %d text blocks using Pango auto-layout\n", len(blocks))
-}
-
 // renderText 渲染文本到 Gopdf
-func renderText(ctx *RenderContext, text string, array []interface{}) error {
+func renderText(ctx *RenderContext, text string, array []any) error {
 	state := ctx.GetCurrentState()
 	textState := ctx.TextState
 

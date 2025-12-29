@@ -149,9 +149,6 @@ func (r *PDFReader) RenderPageToImage(pageNum int, dpi float64) (image.Image, er
 	defer surface.Destroy()
 
 	gopdfCtx := NewContext(surface)
-	if gopdfCtx == nil {
-		return nil, fmt.Errorf("failed to create context")
-	}
 	defer gopdfCtx.Destroy()
 
 	// 设置白色背景
@@ -309,11 +306,33 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 	textLineMatrix := &Matrix{XX: 1, YY: 1} // 文本行矩阵
 	ctm := NewIdentityMatrix()              // 当前变换矩阵 (Current Transformation Matrix)
 
-	// 图形状态栈，用于保存和恢复 CTM
+	// 图形状态栈，用于保存和恢复完整的图形状态
 	type GraphicsState struct {
-		ctm *Matrix
+		ctm            *Matrix
+		currentFont    string
+		baseFontSize   float64
+		currentMatrix  *Matrix
+		textLineMatrix *Matrix
+		fillColor      [3]float64
+		strokeColor    [3]float64
+		lineWidth      float64
+		lineCap        int
+		lineJoin       int
+		miterLimit     float64
+		dashPattern    []float64
+		dashPhase      float64
 	}
 	var graphicsStateStack []*GraphicsState
+
+	// 初始化图形状态
+	fillColor := [3]float64{0, 0, 0}
+	strokeColor := [3]float64{0, 0, 0}
+	lineWidth := 1.0
+	lineCap := 0
+	lineJoin := 0
+	miterLimit := 10.0
+	var dashPattern []float64
+	dashPhase := 0.0
 
 	for _, op := range operators {
 		// 跳过忽略的操作符
@@ -323,23 +342,46 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 
 		switch op.Name() {
 		case "q": // 保存图形状态
-			// 将当前 CTM 压入栈
+			// 保存完整的图形状态到栈
 			graphicsStateStack = append(graphicsStateStack, &GraphicsState{
-				ctm: ctm.Clone(),
+				ctm:            ctm.Clone(),
+				currentFont:    currentFont,
+				baseFontSize:   baseFontSize,
+				currentMatrix:  currentMatrix.Clone(),
+				textLineMatrix: textLineMatrix.Clone(),
+				fillColor:      fillColor,
+				strokeColor:    strokeColor,
+				lineWidth:      lineWidth,
+				lineCap:        lineCap,
+				lineJoin:       lineJoin,
+				miterLimit:     miterLimit,
+				dashPattern:    append([]float64(nil), dashPattern...),
+				dashPhase:      dashPhase,
 			})
 			debugPrintf("[DEBUG] q operator: Saved graphics state, stack depth=%d\n", len(graphicsStateStack))
 
 		case "Q": // 恢复图形状态
-			// 从栈中弹出并恢复 CTM
+			// 从栈中弹出并恢复完整的图形状态
 			if len(graphicsStateStack) > 0 {
 				state := graphicsStateStack[len(graphicsStateStack)-1]
 				graphicsStateStack = graphicsStateStack[:len(graphicsStateStack)-1]
 				ctm = state.ctm
+				currentFont = state.currentFont
+				baseFontSize = state.baseFontSize
+				currentMatrix = state.currentMatrix
+				textLineMatrix = state.textLineMatrix
+				fillColor = state.fillColor
+				strokeColor = state.strokeColor
+				lineWidth = state.lineWidth
+				lineCap = state.lineCap
+				lineJoin = state.lineJoin
+				miterLimit = state.miterLimit
+				dashPattern = state.dashPattern
+				dashPhase = state.dashPhase
 				debugPrintf("[DEBUG] Q operator: Restored graphics state, stack depth=%d, CTM=%s\n",
 					len(graphicsStateStack), ctm.String())
 			} else {
-				debugPrintf("[DEBUG] Q operator: Warning - graphics state stack is empty, keeping current CTM\n")
-				// 保持当前 CTM 不变，不进行任何操作
+				debugPrintf("[DEBUG] Q operator: Warning - graphics state stack is empty, keeping current state\n")
 			}
 
 		case "BT": // 开始文本对象
@@ -564,6 +606,54 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 					debugPrintf("[DEBUG]   Corners: (%.2f,%.2f) (%.2f,%.2f) (%.2f,%.2f) (%.2f,%.2f)\n",
 						x0, y0, x1, y1, x2, y2, x3, y3)
 				}
+			}
+
+		// 图形状态操作符 - 用于提取元素时记录状态
+		case "w": // 设置线宽
+			if wOp, ok := op.(*OpSetLineWidth); ok {
+				lineWidth = wOp.Width
+				debugPrintf("[DEBUG] w operator: LineWidth=%.2f\n", lineWidth)
+			}
+
+		case "J": // 设置线端点样式
+			if jOp, ok := op.(*OpSetLineCap); ok {
+				lineCap = jOp.Cap
+				debugPrintf("[DEBUG] J operator: LineCap=%d\n", lineCap)
+			}
+
+		case "j": // 设置线连接样式
+			if jOp, ok := op.(*OpSetLineJoin); ok {
+				lineJoin = jOp.Join
+				debugPrintf("[DEBUG] j operator: LineJoin=%d\n", lineJoin)
+			}
+
+		case "M": // 设置斜接限制
+			if mOp, ok := op.(*OpSetMiterLimit); ok {
+				miterLimit = mOp.Limit
+				debugPrintf("[DEBUG] M operator: MiterLimit=%.2f\n", miterLimit)
+			}
+
+		case "d": // 设置虚线模式
+			if dOp, ok := op.(*OpSetDash); ok {
+				dashPattern = dOp.Pattern
+				dashPhase = dOp.Offset
+				debugPrintf("[DEBUG] d operator: DashPattern=%v, Phase=%.2f\n", dashPattern, dashPhase)
+			}
+
+		case "rg": // 设置填充颜色 (RGB)
+			if rgOp, ok := op.(*OpSetFillColorRGB); ok {
+				fillColor[0] = rgOp.R
+				fillColor[1] = rgOp.G
+				fillColor[2] = rgOp.B
+				debugPrintf("[DEBUG] rg operator: FillColor=(%.2f, %.2f, %.2f)\n", fillColor[0], fillColor[1], fillColor[2])
+			}
+
+		case "RG": // 设置描边颜色 (RGB)
+			if rgOp, ok := op.(*OpSetStrokeColorRGB); ok {
+				strokeColor[0] = rgOp.R
+				strokeColor[1] = rgOp.G
+				strokeColor[2] = rgOp.B
+				debugPrintf("[DEBUG] RG operator: StrokeColor=(%.2f, %.2f, %.2f)\n", strokeColor[0], strokeColor[1], strokeColor[2])
 			}
 		}
 	}

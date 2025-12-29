@@ -120,10 +120,6 @@ type point struct {
 
 // NewContext creates a new drawing context for the given surface
 func NewContext(target Surface) Context {
-	if target == nil {
-		return newContextInError(StatusNullPointer)
-	}
-
 	ctx := &context{
 		refCount: 1,
 		target:   target.Reference(),
@@ -176,15 +172,6 @@ func NewContext(target Surface) Context {
 		ctx.gstate.matrix.InitIdentity()
 	}
 
-	return ctx
-}
-
-func newContextInError(status Status) Context {
-	ctx := &context{
-		refCount: 1,
-		status:   status,
-		userData: make(map[*UserDataKey]interface{}),
-	}
 	return ctx
 }
 

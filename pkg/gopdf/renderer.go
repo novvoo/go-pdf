@@ -373,15 +373,9 @@ func (r *PDFRenderer) renderWithPixman(opts *RenderOptions, width, height int, s
 func (r *PDFRenderer) renderWithGopdf(opts *RenderOptions, width, height int, scale float64, drawFunc func(ctx Context)) error {
 	// 创建图像 surface
 	imgSurface := NewImageSurface(opts.Format, width, height)
-	if imgSurface == nil {
-		return fmt.Errorf("failed to create image surface")
-	}
 	defer imgSurface.Destroy()
 
 	ctx := NewContext(imgSurface)
-	if ctx == nil {
-		return fmt.Errorf("failed to create context")
-	}
 	defer ctx.Destroy()
 
 	// 设置背景色
