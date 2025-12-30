@@ -46,13 +46,19 @@ type XObject struct {
 	Matrix           *Matrix            // 变换矩阵
 	Resources        *Resources         // 资源字典（仅用于 Form）
 	Stream           []byte             // 内容流
-	Width            int                // 图像宽度
-	Height           int                // 图像高度
+	Width            int                // 图像宽度（PDF 字典中声明的逻辑宽度）
+	Height           int                // 图像高度（PDF 字典中声明的逻辑高度）
 	ColorSpace       string             // 颜色空间
 	ColorSpaceArray  interface{}        // 🔥 新增：颜色空间数组（用于 Indexed 等复杂颜色空间）
 	BitsPerComponent int                // 每个颜色分量的位数
 	ImageData        image.Image        // 解码后的图像数据
 	Group            *TransparencyGroup // 透明度组（仅用于 Form）
+	// 🔥 新增：图像 DPI 相关信息
+	// 注意：PDF 规范中没有直接的 DPI 字段，但可以通过以下方式推断：
+	// 1. 如果 Width/Height 与解码后的像素尺寸不同，说明有缩放
+	// 2. 外层 CTM 矩阵决定了图像在页面上的实际尺寸
+	ActualPixelWidth  int // 解码后的实际像素宽度
+	ActualPixelHeight int // 解码后的实际像素高度
 }
 
 // renderFormXObject 渲染表单 XObject
@@ -224,6 +230,16 @@ func renderImageXObject(ctx *RenderContext, xobj *XObject) error {
 	debugPrintf("[renderImageXObject] Creating surface: %dx%d pixels\n", width, height)
 	debugPrintf("[renderImageXObject] XObject dimensions: %dx%d\n", xobj.Width, xobj.Height)
 
+	// 🔥 修复：检查 XObject 字典中的 Width 和 Height 是否与解码后的图像尺寸不同
+	// 如果不同，说明图像可能有 DPI 信息或需要缩放
+	if xobj.Width > 0 && xobj.Height > 0 && (xobj.Width != width || xobj.Height != height) {
+		debugPrintf("[renderImageXObject] ⚠️  XObject dimensions (%dx%d) differ from decoded image (%dx%d)\n",
+			xobj.Width, xobj.Height, width, height)
+		debugPrintf("[renderImageXObject] This may indicate DPI mismatch or image scaling\n")
+		// 注意：我们仍然使用解码后的实际像素尺寸，因为 XObject 的 Width/Height
+		// 只是 PDF 字典中的声明值，实际渲染应该基于解码后的数据
+	}
+
 	// 采样图片数据来验证颜色
 	if width > 0 && height > 0 {
 		r, g, b, a := xobj.ImageData.At(0, 0).RGBA()
@@ -237,9 +253,48 @@ func renderImageXObject(ctx *RenderContext, xobj *XObject) error {
 	}
 
 	// 🔥 修复：PDF 图像 XObject 占据单位正方形 (0,0) 到 (1,1)
-	// 我们需要将图像的像素尺寸缩放到单位空间
-	// 使用图像的实际像素尺寸进行缩放
-	debugPrintf("[renderImageXObject] Using pixel dimensions: %dx%d for scaling to unit square\n", width, height)
+	// 关键理解：
+	// 1. PDF 字典中的 Width/Height 是图像的"逻辑"尺寸（采样数）
+	// 2. 解码后的实际像素可能与 Width/Height 相同或不同
+	// 3. 外层 CTM 矩阵决定了图像在页面上的物理尺寸（单位：points）
+	// 4. 我们需要将解码后的像素映射到单位空间 [0,1]x[0,1]
+	//
+	// 正确的做法：
+	// - 使用 PDF 字典中的 Width/Height 作为逻辑尺寸
+	// - 如果解码后的像素尺寸不同，说明图像被重采样了
+	// - 但渲染时应该使用解码后的实际像素，以保证质量
+
+	// 使用 PDF 字典中声明的尺寸（如果可用）
+	logicalWidth := xobj.Width
+	logicalHeight := xobj.Height
+
+	// 如果 PDF 字典中没有声明尺寸，或者尺寸为 0，使用实际像素尺寸
+	if logicalWidth == 0 {
+		logicalWidth = width
+	}
+	if logicalHeight == 0 {
+		logicalHeight = height
+	}
+
+	// 保存实际像素尺寸到 XObject（用于调试和分析）
+	xobj.ActualPixelWidth = width
+	xobj.ActualPixelHeight = height
+
+	debugPrintf("[renderImageXObject] Logical dimensions (from PDF): %dx%d\n", logicalWidth, logicalHeight)
+	debugPrintf("[renderImageXObject] Actual pixel dimensions (decoded): %dx%d\n", width, height)
+
+	// 计算 DPI 比率（如果逻辑尺寸与实际像素不同）
+	if logicalWidth != width || logicalHeight != height {
+		dpiRatioX := float64(width) / float64(logicalWidth)
+		dpiRatioY := float64(height) / float64(logicalHeight)
+		debugPrintf("[renderImageXObject] DPI ratio: X=%.2f, Y=%.2f (higher = higher resolution)\n",
+			dpiRatioX, dpiRatioY)
+	}
+
+	// 🔥 关键修复：使用解码后的实际像素尺寸进行渲染
+	// 这样可以保证高分辨率图像的质量
+	// 外层 CTM 已经设置了正确的物理尺寸，我们只需要将像素映射到单位空间
+	debugPrintf("[renderImageXObject] Using actual pixel dimensions for rendering: %dx%d\n", width, height)
 
 	// 使用 ARGB32 格式以支持透明度
 	imgSurface := NewImageSurface(FormatARGB32, width, height)
@@ -289,6 +344,40 @@ func renderImageXObject(ctx *RenderContext, xobj *XObject) error {
 	if state != nil && state.CTM != nil {
 		debugPrintf("[renderImageXObject] CTM: [%.3f %.3f %.3f %.3f %.3f %.3f]\n",
 			state.CTM.XX, state.CTM.YX, state.CTM.XY, state.CTM.YY, state.CTM.X0, state.CTM.Y0)
+
+		// 🔥 新增：计算图像的实际 DPI
+		// CTM 的 XX 和 YY 分量表示图像在页面上的物理尺寸（单位：points）
+		// 1 point = 1/72 inch
+		// DPI = (pixels / points) * 72
+		physicalWidthPoints := state.CTM.XX
+		physicalHeightPoints := state.CTM.YY
+		if physicalHeightPoints < 0 {
+			physicalHeightPoints = -physicalHeightPoints
+		}
+
+		if physicalWidthPoints > 0 && physicalHeightPoints > 0 {
+			dpiX := (float64(width) / physicalWidthPoints) * 72.0
+			dpiY := (float64(height) / physicalHeightPoints) * 72.0
+
+			debugPrintf("[renderImageXObject] 📊 Image DPI Analysis:\n")
+			debugPrintf("[renderImageXObject]    Physical size: %.2f x %.2f points (%.2f x %.2f inches)\n",
+				physicalWidthPoints, physicalHeightPoints,
+				physicalWidthPoints/72.0, physicalHeightPoints/72.0)
+			debugPrintf("[renderImageXObject]    Pixel size: %d x %d pixels\n", width, height)
+			debugPrintf("[renderImageXObject]    Effective DPI: %.1f x %.1f\n", dpiX, dpiY)
+
+			// 警告：如果 DPI 显著高于 72，说明图像被缩小了
+			if dpiX > 100 || dpiY > 100 {
+				debugPrintf("[renderImageXObject]    ⚠️  High DPI detected! Image is being downscaled in PDF.\n")
+				debugPrintf("[renderImageXObject]    This is normal for high-resolution images embedded in PDFs.\n")
+			}
+
+			// 警告：如果 DPI 显著低于 72，说明图像被放大了（可能模糊）
+			if dpiX < 50 || dpiY < 50 {
+				debugPrintf("[renderImageXObject]    ⚠️  Low DPI detected! Image is being upscaled in PDF.\n")
+				debugPrintf("[renderImageXObject]    This may result in blurry or pixelated output.\n")
+			}
+		}
 	}
 
 	// PDF 图像 XObject 占据单位正方形 (0,0) 到 (1,1)
