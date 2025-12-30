@@ -197,18 +197,43 @@ func parseCodeSpaceRange(reader *bufio.Reader) error {
 func (m *CIDToUnicodeMap) MapCIDToUnicode(cid uint16) (rune, bool) {
 	// 首先查找直接映射
 	if uni, ok := m.Mappings[cid]; ok {
-		return uni, true
+		// 验证映射的Unicode字符
+		if isValidUnicodeRuneForCID(uni) {
+			return uni, true
+		}
+		debugPrintf("⚠️ Invalid Unicode in mapping for CID %d: U+%04X\n", cid, uni)
+		return 0, false
 	}
 
 	// 然后查找范围映射
 	for _, r := range m.Ranges {
 		if cid >= r.StartCID && cid <= r.EndCID {
 			offset := cid - r.StartCID
-			return r.StartUni + rune(offset), true
+			uni := r.StartUni + rune(offset)
+
+			// 验证计算出的Unicode字符
+			if isValidUnicodeRuneForCID(uni) {
+				return uni, true
+			}
+			debugPrintf("⚠️ Invalid Unicode in range for CID %d: U+%04X\n", cid, uni)
+			return 0, false
 		}
 	}
 
 	return 0, false
+}
+
+// isValidUnicodeRuneForCID 验证Unicode码点是否有效
+func isValidUnicodeRuneForCID(r rune) bool {
+	// 检查是否是有效的UTF-8 rune
+	if r < 0 || r > 0x10FFFF {
+		return false
+	}
+	// 排除代理对范围(U+D800到U+DFFF)
+	if r >= 0xD800 && r <= 0xDFFF {
+		return false
+	}
+	return true
 }
 
 // MapCIDToUnicodeWithIdentity 将 CID 映射到 Unicode，支持Identity映射

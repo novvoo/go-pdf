@@ -115,12 +115,20 @@ func (fl *FontLoader) findFontWithDepth(normalizedName, originalName string, dep
 		return fallbackPath, nil
 	}
 
+	// 🔥 新增: 如果连后备字体都没有,返回嵌入字体标识
+	embeddedFallback := fl.getEmbeddedFallbackFont()
+	if embeddedFallback != "" {
+		debugPrintf("⚠️ Font '%s' not found, using embedded fallback\n", originalName)
+		fl.fontCache[originalName] = embeddedFallback
+		return embeddedFallback, nil
+	}
+
 	return "", fmt.Errorf("font not found and no fallback available: %s", originalName)
 }
 
 // getFallbackFont 获取系统默认后备字体
 func (fl *FontLoader) getFallbackFont() string {
-	// 尝试常见的后备字体
+	// 优先级1: 尝试常见的后备字体
 	fallbacks := []string{
 		"arial", "helvetica", "sans",
 		"times", "serif",
@@ -131,12 +139,27 @@ func (fl *FontLoader) getFallbackFont() string {
 		for _, dir := range fl.fontDirs {
 			path, err := fl.searchFontInDir(dir, fb)
 			if err == nil {
+				debugPrintf("✓ Found fallback font: %s at %s\n", fb, path)
 				return path
 			}
 		}
 	}
 
+	// 优先级2: 使用嵌入字体
+	if embeddedPath := fl.getEmbeddedFallbackFont(); embeddedPath != "" {
+		debugPrintf("✓ Using embedded fallback font\n")
+		return embeddedPath
+	}
+
+	// 优先级3: 记录错误并返回空(调用方需要处理)
+	debugPrintf("⚠️ WARNING: No fallback font available!\n")
 	return ""
+}
+
+// getEmbeddedFallbackFont 获取嵌入的后备字体
+func (fl *FontLoader) getEmbeddedFallbackFont() string {
+	// 返回嵌入字体的标识符,由font_data.go处理
+	return "Go-Regular" // 使用Go内置字体作为最后后备
 }
 
 // searchFontInDir 在目录中搜索字体
@@ -340,30 +363,81 @@ func (fc *FontFallbackChain) AddFallback(fontName string) {
 	fc.fonts = append(fc.fonts, fontName)
 }
 
+// FontMetricsCacheEntry 字体度量缓存条目
+type FontMetricsCacheEntry struct {
+	Metrics   *FontMetrics
+	Timestamp int64  // 缓存时间
+	FontPath  string // 字体文件路径(用于验证)
+}
+
 // FontMetricsCache 字体度量缓存
 type FontMetricsCache struct {
-	cache map[string]*FontMetrics
+	cache  map[string]*FontMetricsCacheEntry
+	maxAge int64 // 缓存最大年龄(秒)
 }
 
 // NewFontMetricsCache 创建字体度量缓存
 func NewFontMetricsCache() *FontMetricsCache {
 	return &FontMetricsCache{
-		cache: make(map[string]*FontMetrics),
+		cache:  make(map[string]*FontMetricsCacheEntry),
+		maxAge: 3600, // 默认1小时
 	}
 }
 
 // Get 获取字体度量
 func (fmc *FontMetricsCache) Get(fontName string) (*FontMetrics, bool) {
-	metrics, ok := fmc.cache[fontName]
-	return metrics, ok
+	entry, ok := fmc.cache[fontName]
+	if !ok {
+		return nil, false
+	}
+
+	// 验证缓存是否过期
+	// 注意: 为了避免引入time包依赖,这里简化处理
+	// 实际使用中可以根据需要添加时间验证
+	return entry.Metrics, true
+}
+
+// GetWithPath 获取字体度量(带路径验证)
+func (fmc *FontMetricsCache) GetWithPath(fontName string, fontPath string) (*FontMetrics, bool) {
+	entry, ok := fmc.cache[fontName]
+	if !ok {
+		return nil, false
+	}
+
+	// 验证字体路径是否匹配
+	if entry.FontPath != fontPath {
+		debugPrintf("⚠️ Font path mismatch for %s (cached: %s, current: %s)\n",
+			fontName, entry.FontPath, fontPath)
+		return nil, false
+	}
+
+	return entry.Metrics, true
 }
 
 // Set 设置字体度量
 func (fmc *FontMetricsCache) Set(fontName string, metrics *FontMetrics) {
-	fmc.cache[fontName] = metrics
+	fmc.cache[fontName] = &FontMetricsCacheEntry{
+		Metrics:  metrics,
+		FontPath: "",
+	}
+}
+
+// SetWithPath 设置字体度量(带路径)
+func (fmc *FontMetricsCache) SetWithPath(fontName string, fontPath string, metrics *FontMetrics) {
+	fmc.cache[fontName] = &FontMetricsCacheEntry{
+		Metrics:  metrics,
+		FontPath: fontPath,
+	}
+}
+
+// Invalidate 使指定字体的缓存失效
+func (fmc *FontMetricsCache) Invalidate(fontName string) {
+	delete(fmc.cache, fontName)
+	debugPrintf("✓ Invalidated font metrics cache for %s\n", fontName)
 }
 
 // Clear 清空缓存
 func (fmc *FontMetricsCache) Clear() {
-	fmc.cache = make(map[string]*FontMetrics)
+	fmc.cache = make(map[string]*FontMetricsCacheEntry)
+	debugPrintf("✓ Cleared all font metrics cache\n")
 }

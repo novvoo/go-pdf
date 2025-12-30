@@ -762,7 +762,13 @@ func decodeTextStringWithCIDs(text string, toUnicodeMap *CIDToUnicodeMap, font *
 			allMapped := true
 			for _, cid := range cids {
 				if uni, ok := toUnicodeMap.MapCIDToUnicode(cid); ok {
-					decoded.WriteRune(uni)
+					// 验证Unicode字符有效性
+					if isValidUnicodeRune(uni) {
+						decoded.WriteRune(uni)
+					} else {
+						debugPrintf("⚠️ Invalid Unicode from mapping for CID %d: U+%04X\n", cid, uni)
+						decoded.WriteRune('�') // 使用替换字符
+					}
 				} else {
 					allMapped = false
 					break
@@ -779,7 +785,14 @@ func decodeTextStringWithCIDs(text string, toUnicodeMap *CIDToUnicodeMap, font *
 		// 如果ToUnicode映射失败或不存在，且是Identity映射，CID直接等于Unicode码点
 		if isIdentity {
 			for _, cid := range cids {
-				decoded.WriteRune(rune(cid))
+				r := rune(cid)
+				// 验证Unicode码点有效性
+				if isValidUnicodeRune(r) {
+					decoded.WriteRune(r)
+				} else {
+					debugPrintf("⚠️ Invalid Unicode codepoint: U+%04X\n", cid)
+					decoded.WriteRune('�') // 使用替换字符
+				}
 			}
 			return decoded.String(), cids
 		}
@@ -797,6 +810,19 @@ func decodeTextStringWithCIDs(text string, toUnicodeMap *CIDToUnicodeMap, font *
 	return text, cids
 }
 
+// isValidUnicodeRune 验证Unicode码点是否有效
+func isValidUnicodeRune(r rune) bool {
+	// 检查是否是有效的UTF-8 rune
+	if r < 0 || r > 0x10FFFF {
+		return false
+	}
+	// 排除代理对范围(U+D800到U+DFFF)
+	if r >= 0xD800 && r <= 0xDFFF {
+		return false
+	}
+	return true
+}
+
 // GlyphAdvance 计算单个字形的推进距离（核心方法）
 func (ts *TextState) GlyphAdvance(cid uint16, isSpace bool) float64 {
 	if ts.Font == nil {
@@ -806,36 +832,86 @@ func (ts *TextState) GlyphAdvance(cid uint16, isSpace bool) float64 {
 	// 1. 获取字形宽度（千分之一 em）
 	glyphWidth := ts.Font.GetWidth(cid)
 
-	// 🔥 修复：如果字形宽度为0，使用字体的默认宽度或缺失宽度
+	// 2. 检测是否是CJK字符
+	isCJK := isCJKCharacterFromCID(cid)
+
+	// 3. 处理零宽度情况
 	if glyphWidth == 0 {
-		if ts.Font.DefaultWidth > 0 {
+		if isCJK {
+			// CJK字符通常是全角(1 em)
+			glyphWidth = 1000.0
+			debugPrintf("[GlyphAdvance] CID %d is CJK with zero width, using 1em\n", cid)
+		} else if ts.Font.DefaultWidth > 0 {
 			glyphWidth = ts.Font.DefaultWidth
 			debugPrintf("[GlyphAdvance] CID %d has zero width, using DefaultWidth: %.0f\n", cid, glyphWidth)
 		} else if ts.Font.MissingWidth > 0 {
 			glyphWidth = ts.Font.MissingWidth
 			debugPrintf("[GlyphAdvance] CID %d has zero width, using MissingWidth: %.0f\n", cid, glyphWidth)
 		} else {
-			// 最后的回退：使用 1 em (1000 单位)
-			glyphWidth = 1000.0
-			debugPrintf("[GlyphAdvance] CID %d has zero width, using fallback: 1000\n", cid)
+			// 非CJK字符使用较小的默认值
+			glyphWidth = 500.0 // 0.5 em
+			debugPrintf("[GlyphAdvance] CID %d has zero width, using 0.5em\n", cid)
 		}
 	}
 
-	// 2. 转换为用户空间单位
+	// 4. 转换为用户空间单位
 	adv := glyphWidth * ts.FontSize / 1000.0
 
-	// 3. 添加字符间距
-	adv += ts.CharSpacing
+	// 5. 添加字符间距(CJK字符可能需要不同的间距)
+	if isCJK {
+		// CJK字符通常不需要额外的字符间距
+		// 但如果明确设置了,仍然应用(减半)
+		if ts.CharSpacing != 0 {
+			adv += ts.CharSpacing * 0.5
+		}
+	} else {
+		adv += ts.CharSpacing
+	}
 
-	// 4. 如果是空格，添加单词间距
+	// 6. 如果是空格，添加单词间距
 	if isSpace {
 		adv += ts.WordSpacing
 	}
 
-	// 5. 应用水平缩放
+	// 7. 应用水平缩放
 	adv *= ts.HorizontalScaling / 100.0
 
 	return adv
+}
+
+// isCJKCharacterFromCID 从CID判断是否是CJK字符
+func isCJKCharacterFromCID(cid uint16) bool {
+	r := rune(cid)
+	return isCJKCharacterRune(r)
+}
+
+// isCJKCharacterRune 判断rune是否是CJK字符
+func isCJKCharacterRune(r rune) bool {
+	// CJK统一表意文字
+	if r >= 0x4E00 && r <= 0x9FFF {
+		return true
+	}
+	// CJK扩展A
+	if r >= 0x3400 && r <= 0x4DBF {
+		return true
+	}
+	// CJK扩展B-F
+	if r >= 0x20000 && r <= 0x2EBEF {
+		return true
+	}
+	// CJK兼容表意文字
+	if r >= 0xF900 && r <= 0xFAFF {
+		return true
+	}
+	// 日文假名
+	if r >= 0x3040 && r <= 0x30FF {
+		return true
+	}
+	// 韩文音节
+	if r >= 0xAC00 && r <= 0xD7AF {
+		return true
+	}
+	return false
 }
 
 // CalculateTextWidthFromCIDs 使用字形宽度计算文本宽度（从 CID 数组）
