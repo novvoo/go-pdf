@@ -274,56 +274,164 @@ func decodeImageXObject(xobj *XObject) (*image.RGBA, error) {
 		return decodeDeviceCMYK(xobj.Stream, width, height, bpc)
 	case "/ICCBased":
 		// 🔥 修复：ICC 颜色空间，根据组件数判断实际颜色空间
-		// 通过数据大小推断组件数：N = dataSize / (width * height * bytesPerComponent)
-		bytesPerPixel := len(xobj.Stream) / (width * height)
-		debugPrintf("[decodeImageXObject] ICCBased color space, bytes per pixel: %d\n", bytesPerPixel)
+		// 优先使用从 ICC profile 中解析出的 N 值
+		numComponents := 0
+		if xobj.ColorComponents > 0 {
+			numComponents = xobj.ColorComponents
+			debugPrintf("[decodeImageXObject] ICCBased using pre-resolved N=%d\n", numComponents)
+		} else {
+			// 回退：通过数据大小推断
+			if width > 0 && height > 0 {
+				numComponents = len(xobj.Stream) / (width * height)
+			}
+			debugPrintf("[decodeImageXObject] ICCBased estimating components: %d\n", numComponents)
+		}
 
-		if bytesPerPixel == 4 {
-			// 4 个组件，可能是 CMYK
+		if numComponents == 4 {
 			debugPrintf("[decodeImageXObject] ICCBased with 4 components, treating as CMYK\n")
-			return decodeDeviceCMYK(xobj.Stream, width, height, bpc)
-		} else if bytesPerPixel == 3 {
-			// 3 个组件，RGB
+			img, err := decodeDeviceCMYK(xobj.Stream, width, height, bpc)
+			if err != nil {
+				return nil, err
+			}
+			return applySMask(img, xobj)
+		} else if numComponents == 3 {
 			debugPrintf("[decodeImageXObject] ICCBased with 3 components, treating as RGB\n")
-			return decodeDeviceRGB(xobj.Stream, width, height, bpc)
-		} else if bytesPerPixel == 1 {
-			// 1 个组件，灰度
+			img, err := decodeDeviceRGB(xobj.Stream, width, height, bpc)
+			if err != nil {
+				return nil, err
+			}
+			return applySMask(img, xobj)
+		} else if numComponents == 1 {
 			debugPrintf("[decodeImageXObject] ICCBased with 1 component, treating as Gray\n")
-			return decodeDeviceGray(xobj.Stream, width, height, bpc)
+			img, err := decodeDeviceGray(xobj.Stream, width, height, bpc)
+			if err != nil {
+				return nil, err
+			}
+			return applySMask(img, xobj)
 		} else {
 			// 默认尝试 RGB
-			debugPrintf("[decodeImageXObject] ICCBased with unknown components (%d bytes/pixel), trying RGB\n", bytesPerPixel)
-			return decodeDeviceRGB(xobj.Stream, width, height, bpc)
+			debugPrintf("[decodeImageXObject] ICCBased with unknown components (%d), trying RGB\n", numComponents)
+			img, err := decodeDeviceRGB(xobj.Stream, width, height, bpc)
+			if err != nil {
+				return nil, err
+			}
+			return applySMask(img, xobj)
 		}
 	case "/Indexed":
-		// 🔥 修复：索引颜色空间，尝试提取调色板
-		// 注意：完整的 Indexed 支持需要解析 ColorSpace 数组中的调色板数据
-		// 这里提供基本支持，如果无法获取调色板则回退到灰度
+		// 🔥 修复：索引颜色空间，使用提取的调色板
 		debugPrintf("[decodeImageXObject] Indexed color space detected\n")
 
-		// 尝试解码为索引图像（如果有调色板信息）
+		if len(xobj.Palette) > 0 {
+			debugPrintf("[decodeImageXObject] Using pre-loaded palette (%d bytes)\n", len(xobj.Palette))
+			img, err := decodeIndexedColorSpace(xobj.Stream, width, height, bpc, xobj.Palette)
+			if err == nil {
+				return applySMask(img, xobj)
+			}
+			debugPrintf("[decodeImageXObject] Failed to decode Indexed with palette: %v, falling back\n", err)
+		}
+
+		// 尝试旧的通过数组提取（如果 Palette 字段未填充）
 		if xobj.ColorSpaceArray != nil {
-			// 尝试类型断言为数组
-			if arr, ok := xobj.ColorSpaceArray.([]interface{}); ok {
-				if len(arr) >= 4 {
-					// Indexed 颜色空间格式：[/Indexed base hival lookup]
-					debugPrintf("[decodeImageXObject] Attempting to decode Indexed color space with palette (array length: %d)\n", len(arr))
-					img, err := decodeIndexedColorSpace(xobj.Stream, width, height, bpc, xobj.ColorSpaceArray)
+			if arr, ok := xobj.ColorSpaceArray.([]interface{}); ok && len(arr) >= 4 {
+				// 尝试解析 lookup
+				// 这里简单处理字符串 lookup，Stream lookup 应该已经被 loadXObject 处理到 Palette 中了
+				lookup := arr[3]
+				var palette []byte
+				if str, ok := lookup.(types.StringLiteral); ok {
+					palette = []byte(str)
+				} else if str, ok := lookup.(types.HexLiteral); ok {
+					palette = []byte(str)
+				}
+
+				if len(palette) > 0 {
+					img, err := decodeIndexedColorSpace(xobj.Stream, width, height, bpc, palette)
 					if err == nil {
-						return img, nil
+						return applySMask(img, xobj)
 					}
-					debugPrintf("[decodeImageXObject] Failed to decode Indexed with palette: %v, falling back to grayscale\n", err)
 				}
 			}
 		}
 
 		// 回退：将索引值作为灰度处理
 		debugPrintf("[decodeImageXObject] Indexed color space: no palette available, using grayscale fallback\n")
-		return decodeDeviceGray(xobj.Stream, width, height, bpc)
+		img, err := decodeDeviceGray(xobj.Stream, width, height, bpc)
+		if err != nil {
+			return nil, err
+		}
+		return applySMask(img, xobj)
 	default:
 		debugPrintf("[decodeImageXObject] Unknown color space %s, trying RGB\n", colorSpace)
-		return decodeDeviceRGB(xobj.Stream, width, height, bpc)
+		img, err := decodeDeviceRGB(xobj.Stream, width, height, bpc)
+		if err != nil {
+			return nil, err
+		}
+		return applySMask(img, xobj)
 	}
+}
+
+// applySMask 应用软遮罩（如果存在）
+func applySMask(img *image.RGBA, xobj *XObject) (*image.RGBA, error) {
+	if xobj.SMask == nil {
+		return img, nil
+	}
+
+	debugPrintf("[applySMask] Applying SMask to image (%dx%d)\n", xobj.Width, xobj.Height)
+
+	// 解码 SMask 图像
+	// SMask 通常是 DeviceGray
+	maskData, err := decodeImageXObject(xobj.SMask)
+	if err != nil {
+		debugPrintf("[applySMask] Warning: Failed to decode SMask: %v\n", err)
+		return img, nil // 失败时忽略 mask
+	}
+
+	bounds := img.Bounds()
+	width := bounds.Dx()
+	height := bounds.Dy()
+
+	maskBounds := maskData.Bounds()
+	maskWidth := maskBounds.Dx()
+	maskHeight := maskBounds.Dy()
+
+	// 应用 mask 到 alpha 通道
+	for y := 0; y < height; y++ {
+		for x := 0; x < width; x++ {
+			// 计算 mask 坐标 (简单缩放)
+			mx := x * maskWidth / width
+			my := y * maskHeight / height
+
+			if mx >= maskWidth {
+				mx = maskWidth - 1
+			}
+			if my >= maskHeight {
+				my = maskHeight - 1
+			}
+
+			// 获取 mask 像素 (使用其红色通道作为 alpha 值，因为 mask 应该是灰度的)
+			r, _, _, _ := maskData.At(mx, my).RGBA()
+			maskVal := uint8(r >> 8)
+
+			// 获取原图像素
+			offset := img.PixOffset(x, y)
+
+			// 更新 alpha
+			// 注意：如果是预乘 alpha 格式，需要相应调整 RGB 值
+			// image.RGBA 是非预乘的，但 Go 的 image 包处理可能会混淆
+			// 手动设置 Pix 是最安全的
+
+			// 现有 alpha
+			currentAlpha := img.Pix[offset+3]
+
+			// 混合 alpha: result = current * mask
+			// Normalize to 0-1 range then multiply
+			newAlpha := uint8(float64(currentAlpha) * float64(maskVal) / 255.0)
+
+			img.Pix[offset+3] = newAlpha
+		}
+	}
+
+	debugPrintf("[applySMask] SMask applied successfully\n")
+	return img, nil
 }
 
 // decodeDeviceRGB 解码 DeviceRGB 图像
@@ -465,27 +573,117 @@ func decodeDeviceCMYK(data []byte, width, height, bpc int) (*image.RGBA, error) 
 
 // decodeIndexedColorSpace 解码索引颜色空间图像
 // 🔥 新增：支持 Indexed 颜色空间的调色板解码
-// colorSpaceArray: [/Indexed base hival lookup]
-func decodeIndexedColorSpace(data []byte, width, height, bpc int, colorSpaceArray interface{}) (*image.RGBA, error) {
-	// 解析 colorSpaceArray
-	// 格式：[/Indexed base hival lookup]
-	// base: 基础颜色空间（如 /DeviceRGB）
-	// hival: 调色板最大索引（0-255）
-	// lookup: 调色板数据
+func decodeIndexedColorSpace(data []byte, width, height, bpc int, palette []byte) (*image.RGBA, error) {
+	debugPrintf("[decodeIndexedColorSpace] Decoding indexed image: %dx%d, BPC=%d, Palette size=%d\n", width, height, bpc, len(palette))
 
-	debugPrintf("[decodeIndexedColorSpace] Decoding indexed image: %dx%d, BPC=%d\n", width, height, bpc)
+	// 调色板应该是 RGB (3字节/条目)
+	// 虽然 PDF 支持 Base 颜色空间为其他 (如 CMYK)，但 RGB 最常见
+	// 这里假设 Base 是 DeviceRGB (3字节)
+	// 如果 Palette 大小不是 3 的倍数，需要注意
+	bytesPerEntry := 3 // 默认 RGB
 
-	// 这里提供基本实现框架
-	// 完整实现需要解析 PDF 对象结构来提取调色板
-	// 由于当前代码结构限制，这里返回错误，让调用者回退到灰度
+	img := image.NewRGBA(image.Rect(0, 0, width, height))
 
-	// TODO: 实现完整的调色板提取和应用逻辑
-	// 1. 从 colorSpaceArray 中提取 base、hival 和 lookup
-	// 2. 根据 base 确定每个调色板条目的组件数（RGB=3, Gray=1, CMYK=4）
-	// 3. 解析 lookup 数据构建调色板
-	// 4. 对每个像素，使用其索引值查找调色板并转换为 RGB
+	if bpc == 8 {
+		expectedSize := width * height
+		if len(data) < expectedSize {
+			return nil, fmt.Errorf("insufficient data: expected %d bytes, got %d", expectedSize, len(data))
+		}
 
-	return nil, fmt.Errorf("indexed color space palette extraction not yet implemented")
+		for y := 0; y < height; y++ {
+			for x := 0; x < width; x++ {
+				idxVal := data[y*width+x]
+
+				// 查找调色板
+				pIdx := int(idxVal) * bytesPerEntry
+
+				r, g, b := uint8(0), uint8(0), uint8(0)
+
+				if pIdx+2 < len(palette) {
+					r = palette[pIdx]
+					g = palette[pIdx+1]
+					b = palette[pIdx+2]
+				}
+
+				dstIdx := img.PixOffset(x, y)
+				img.Pix[dstIdx+0] = r
+				img.Pix[dstIdx+1] = g
+				img.Pix[dstIdx+2] = b
+				img.Pix[dstIdx+3] = 255
+			}
+		}
+	} else if bpc == 4 {
+		// 4 bpc: 2 pixels per byte
+		for y := 0; y < height; y++ {
+			for x := 0; x < width; x++ {
+				byteIdx := (y*width + x) / 2
+				isHigh := ((y*width + x) % 2) == 0
+
+				if byteIdx >= len(data) {
+					break
+				}
+
+				b := data[byteIdx]
+				var idxVal uint8
+				if isHigh {
+					idxVal = (b >> 4) & 0x0F
+				} else {
+					idxVal = b & 0x0F
+				}
+
+				pIdx := int(idxVal) * bytesPerEntry
+				r, g, b := uint8(0), uint8(0), uint8(0)
+
+				if pIdx+2 < len(palette) {
+					r = palette[pIdx]
+					g = palette[pIdx+1]
+					b = palette[pIdx+2]
+				}
+
+				dstIdx := img.PixOffset(x, y)
+				img.Pix[dstIdx+0] = r
+				img.Pix[dstIdx+1] = g
+				img.Pix[dstIdx+2] = b
+				img.Pix[dstIdx+3] = 255
+			}
+		}
+	} else if bpc == 1 || bpc == 2 {
+		// 支持 1 和 2 bpc 索引
+		for y := 0; y < height; y++ {
+			for x := 0; x < width; x++ {
+				// 获取 bit stream 中的值
+				bitOffset := (y*width + x) * bpc
+				byteIdx := bitOffset / 8
+				bitShift := 8 - bpc - (bitOffset % 8)
+
+				if byteIdx >= len(data) {
+					break
+				}
+
+				mask := byte((1 << bpc) - 1)
+				idxVal := (data[byteIdx] >> bitShift) & mask
+
+				pIdx := int(idxVal) * bytesPerEntry
+				r, g, bl := uint8(0), uint8(0), uint8(0)
+
+				if pIdx+2 < len(palette) {
+					r = palette[pIdx]
+					g = palette[pIdx+1]
+					bl = palette[pIdx+2]
+				}
+
+				dstIdx := img.PixOffset(x, y)
+				img.Pix[dstIdx+0] = r
+				img.Pix[dstIdx+1] = g
+				img.Pix[dstIdx+2] = bl
+				img.Pix[dstIdx+3] = 255
+			}
+		}
+	} else {
+		return nil, fmt.Errorf("unsupported bits per component for Indexed: %d", bpc)
+	}
+
+	return img, nil
 }
 
 // GetPageInfo 获取页面信息
@@ -1746,8 +1944,7 @@ func loadXObject(ctx *model.Context, xobjName string, xobjObj types.Object, reso
 				xobj.ColorSpace = name.String()
 				debugPrintf("[loadXObject] ColorSpace (Name): %s\n", xobj.ColorSpace)
 			} else if arr, ok := colorSpace.(types.Array); ok {
-				// 🔥 修复：ColorSpace 可能是数组，例如 [/ICCBased ...] 或 [/Indexed ...]
-				// 保存完整的数组以便后续处理（特别是 Indexed 颜色空间）
+				// ColorSpace 是数组，例如 [/ICCBased ...] 或 [/Indexed ...]
 				xobj.ColorSpaceArray = arr
 				if len(arr) > 0 {
 					if name, ok := arr[0].(types.Name); ok {
@@ -1756,14 +1953,13 @@ func loadXObject(ctx *model.Context, xobjName string, xobjObj types.Object, reso
 					}
 				}
 			} else if indRef, ok := colorSpace.(types.IndirectRef); ok {
-				// ColorSpace 可能是间接引用，需要解引用
+				// ColorSpace 可能是间接引用
 				derefCS, err := ctx.Dereference(indRef)
 				if err == nil {
 					if name, ok := derefCS.(types.Name); ok {
 						xobj.ColorSpace = name.String()
 						debugPrintf("[loadXObject] ColorSpace (IndirectRef->Name): %s\n", xobj.ColorSpace)
 					} else if arr, ok := derefCS.(types.Array); ok {
-						// 🔥 修复：保存解引用后的数组
 						xobj.ColorSpaceArray = arr
 						if len(arr) > 0 {
 							if name, ok := arr[0].(types.Name); ok {
@@ -1776,19 +1972,69 @@ func loadXObject(ctx *model.Context, xobjName string, xobjObj types.Object, reso
 			}
 		}
 
+		// 🔥 修复：进一步解析 ColorSpace 数组以获取关键信息
+		if xobj.ColorSpace == "/ICCBased" || xobj.ColorSpace == "ICCBased" {
+			// 解析 ICCBased 数组以获取 N (颜色分量数)
+			if arr, ok := xobj.ColorSpaceArray.(types.Array); ok && len(arr) > 1 {
+				if indRef, ok := arr[1].(types.IndirectRef); ok {
+					// 解引用 ICC profile stream
+					obj, err := ctx.Dereference(indRef)
+					if err == nil {
+						if streamDict, ok := obj.(types.StreamDict); ok {
+							if nObj, found := streamDict.Find("N"); found {
+								if n, ok := nObj.(types.Integer); ok {
+									xobj.ColorComponents = int(n)
+									debugPrintf("[loadXObject] ICCBased profile has N=%d components\n", xobj.ColorComponents)
+								}
+							}
+						}
+					}
+				}
+			}
+		} else if xobj.ColorSpace == "/Indexed" || xobj.ColorSpace == "Indexed" {
+			// 解析 Indexed 数组以获取调色板
+			if arr, ok := xobj.ColorSpaceArray.(types.Array); ok && len(arr) >= 4 {
+				// [/Indexed base hival lookup]
+				lookup := arr[3]
+
+				// lookup 可以是 Stream (间接引用) 或 String
+				if indRef, ok := lookup.(types.IndirectRef); ok {
+					obj, err := ctx.Dereference(indRef)
+					if err == nil {
+						if streamDict, ok := obj.(types.StreamDict); ok {
+							// 解码流
+							if err := streamDict.Decode(); err == nil {
+								xobj.Palette = streamDict.Content
+								debugPrintf("[loadXObject] Loaded Indexed palette from stream: %d bytes\n", len(xobj.Palette))
+							}
+						} else if str, ok := obj.(types.StringLiteral); ok {
+							xobj.Palette = []byte(str)
+							debugPrintf("[loadXObject] Loaded Indexed palette from dereferenced string: %d bytes\n", len(xobj.Palette))
+						} else if str, ok := obj.(types.HexLiteral); ok {
+							xobj.Palette = []byte(str) // HexLiteral在pdfcpu中是binary
+							debugPrintf("[loadXObject] Loaded Indexed palette from dereferenced hex string: %d bytes\n", len(xobj.Palette))
+						}
+					}
+				} else if str, ok := lookup.(types.StringLiteral); ok {
+					xobj.Palette = []byte(str)
+					debugPrintf("[loadXObject] Loaded Indexed palette from string: %d bytes\n", len(xobj.Palette))
+				} else if str, ok := lookup.(types.HexLiteral); ok {
+					xobj.Palette = []byte(str)
+					debugPrintf("[loadXObject] Loaded Indexed palette from hex string: %d bytes\n", len(xobj.Palette))
+				}
+			}
+		}
+
 		// 如果没有找到 ColorSpace，根据图像属性推断
 		if !colorSpaceFound || xobj.ColorSpace == "" {
 			// 根据 BitsPerComponent 推断颜色空间
 			if xobj.BitsPerComponent == 1 {
-				// 1位图像通常是黑白图像
 				xobj.ColorSpace = "DeviceGray"
 				debugPrintf("[loadXObject] ColorSpace not found, inferred DeviceGray (1-bit image)\n")
 			} else if xobj.BitsPerComponent == 8 {
-				// 8位图像可能是灰度或RGB，默认使用RGB
 				xobj.ColorSpace = "DeviceRGB"
 				debugPrintf("[loadXObject] ColorSpace not found, using default: DeviceRGB (8-bit image)\n")
 			} else {
-				// 其他情况默认使用RGB
 				xobj.ColorSpace = "DeviceRGB"
 				debugPrintf("[loadXObject] ColorSpace not found, using default: DeviceRGB (%d-bit image)\n", xobj.BitsPerComponent)
 			}
@@ -1809,17 +2055,86 @@ func loadXObject(ctx *model.Context, xobjName string, xobjObj types.Object, reso
 			if name, ok := smaskObj.(types.Name); ok && name.String() == "/None" {
 				debugPrintf("[loadXObject] SMask is /None, ignoring\n")
 			} else if indRef, ok := smaskObj.(types.IndirectRef); ok {
-				// SMask 是一个间接引用，指向另一个 XObject
-				debugPrintf("[loadXObject] SMask is an indirect reference: %v\n", indRef)
-				// 暂时忽略 SMask，因为它可能导致颜色问题
-				// TODO: 正确实现 SMask 的加载和应用
-				debugPrintf("[loadXObject] ⚠️  SMask detected but currently ignored to avoid color issues\n")
+				debugPrintf("[loadXObject] SMask is an indirect reference: %v, attempting load\n", indRef)
+				// 🔥 修复：加载 SMask XObject
+				// 我们需要手动加载这里的引用的 XObject，而不是通过 loadXObject (因为它会添加到 resources)
+				// 这里实现一个简化的加载逻辑
+				smaskXObj, err := loadSMaskXObject(ctx, indRef)
+				if err == nil {
+					xobj.SMask = smaskXObj
+					debugPrintf("[loadXObject] Successfully loaded SMask: %dx%d\n", smaskXObj.Width, smaskXObj.Height)
+				} else {
+					debugPrintf("[loadXObject] Failed to load SMask: %v\n", err)
+				}
 			}
 		}
 	}
 
 	resources.AddXObject(xobjName, xobj)
 	return nil
+}
+
+// loadSMaskXObject 加载软遮罩 XObject (简化版 loadXObject)
+func loadSMaskXObject(ctx *model.Context, indRef types.IndirectRef) (*XObject, error) {
+	// 解引用
+	obj, err := ctx.Dereference(indRef)
+	if err != nil {
+		return nil, err
+	}
+
+	streamDict, ok := obj.(types.StreamDict)
+	if !ok {
+		return nil, fmt.Errorf("SMask XObject is not a stream")
+	}
+
+	xobj := &XObject{
+		Subtype: "Image", // SMask 总是 Image 或 Form (通常 Image)
+	}
+
+	// 读取基础属性
+	if width, found := streamDict.Find("Width"); found {
+		if num, ok := width.(types.Integer); ok {
+			xobj.Width = int(num)
+		}
+	}
+	if height, found := streamDict.Find("Height"); found {
+		if num, ok := height.(types.Integer); ok {
+			xobj.Height = int(num)
+		}
+	}
+	if bpc, found := streamDict.Find("BitsPerComponent"); found {
+		if num, ok := bpc.(types.Integer); ok {
+			xobj.BitsPerComponent = int(num)
+		}
+	}
+
+	// 读取颜色空间 (通常是 DeviceGray)
+	if colorSpace, found := streamDict.Find("ColorSpace"); found {
+		if name, ok := colorSpace.(types.Name); ok {
+			xobj.ColorSpace = name.String()
+		} else if indRef, ok := colorSpace.(types.IndirectRef); ok {
+			derefCS, err := ctx.Dereference(indRef)
+			if err == nil {
+				if name, ok := derefCS.(types.Name); ok {
+					xobj.ColorSpace = name.String()
+				}
+			}
+		}
+	}
+	if xobj.ColorSpace == "" {
+		xobj.ColorSpace = "DeviceGray" // 默认
+	}
+
+	// 解码流
+	if err := streamDict.Decode(); err != nil {
+		return nil, fmt.Errorf("failed to decode SMask stream: %w", err)
+	}
+	xobj.Stream = streamDict.Content
+
+	// 可能需要应用 Filters (简略处理，假设 Decode 已处理)
+	// 如果 pdfcpu 没处理 Filter，这里可能会有问题，但通常 Decode() 会处理
+
+	return xobj, nil
 }
 
 // loadFontWidths 加载字体宽度信息

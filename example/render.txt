@@ -1,6 +1,6 @@
 PDF Rendering Report
 ====================
-Time: 2025-12-30 11:14:09
+Time: 2025-12-30 17:42:57
 
 ParseTokens Test:
 -----------------
@@ -22,7 +22,7 @@ Rendering Process:
 Output File Info:
 -----------------
 Size: 143889 bytes
-Created: 2025-12-30 11:14:14
+Created: 2025-12-30 17:43:02
 
 Page Information:
 -----------------
@@ -493,6 +493,12 @@ Rendering completed successfully
 
 Operator Execution Log:
 ------------------------
+✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
+✓ Default width for CID font F4: 0
+✓ Using fallback default width for CID font F4: 1000
+✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
+✓ Loaded font widths for F4: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F4: Identity-H
 ✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
 ✓ Default width for CID font F5: 500
 ✓ Loaded CID widths for font F5: 102 direct mappings, 0 ranges
@@ -503,12 +509,6 @@ Operator Execution Log:
 ✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
 ✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F6: Identity-H
-✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
-✓ Default width for CID font F4: 0
-✓ Using fallback default width for CID font F4: 1000
-✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
-✓ Loaded font widths for F4: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F4: Identity-H
 [loadXObject] Decoding stream for X8...
 [loadXObject] Raw stream length: 207578 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...
@@ -2580,9 +2580,17 @@ Operator Execution Log:
 [renderImageXObject] XObject dimensions: 1200x400
 [renderImageXObject] Sample pixel (0,0): R=247 G=241 B=217 A=255
 [renderImageXObject] Sample pixel (100,100): R=249 G=246 B=237 A=255
-[renderImageXObject] Using pixel dimensions: 1200x400 for scaling to unit square
+[renderImageXObject] Logical dimensions (from PDF): 1200x400
+[renderImageXObject] Actual pixel dimensions (decoded): 1200x400
+[renderImageXObject] Using actual pixel dimensions for rendering: 1200x400
 [renderImageXObject] Applying transformations
 [renderImageXObject] CTM: [522.500 0.000 0.000 174.000 154.167 -608844.120]
+[renderImageXObject] 📊 Image DPI Analysis:
+[renderImageXObject]    Physical size: 522.50 x 174.00 points (7.26 x 2.42 inches)
+[renderImageXObject]    Pixel size: 1200 x 400 pixels
+[renderImageXObject]    Effective DPI: 165.4 x 165.5
+[renderImageXObject]    ⚠️  High DPI detected! Image is being downscaled in PDF.
+[renderImageXObject]    This is normal for high-resolution images embedded in PDFs.
 [renderImageXObject] Set operator to Over
 [renderImageXObject] CTM.YY=174.000 > 0, Y axis is PDF direction (up), need flip
 [renderImageXObject] Scale factors: X=0.000833 (1/1200), Y=0.002500 (1/400)
@@ -6879,31 +6887,31 @@ Operator Execution Log:
 [Q] Restore graphics state - Stack depth: 1
 
 📈 Operator Statistics:
+   l: 51
    cm: 22
-   RG: 42
-   EMC: 54
+   q: 44
+   rg: 42
+   Tj: 196
+   ET: 51
    Q: 44
    m: 32
    c: 387
-   S: 8
-   q: 44
    re: 44
-   Tj: 196
-   Td: 158
-   ET: 51
-   f: 32
-   l: 51
-   W: 7
-   W*: 22
    n: 29
-   rg: 42
-   BDC: 54
-   Tf: 51
-   h: 30
-   Do: 1
-   gs: 31
    BT: 51
+   BDC: 54
    Tm: 51
+   EMC: 54
+   S: 8
+   W: 7
+   gs: 31
+   Td: 158
+   Do: 1
+   W*: 22
+   RG: 42
+   Tf: 51
+   f: 32
+   h: 30
 
 📌 Rendering 3 annotations...
 [Annotation] Rendering annotation: Link

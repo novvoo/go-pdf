@@ -57,8 +57,11 @@ type XObject struct {
 	// 注意：PDF 规范中没有直接的 DPI 字段，但可以通过以下方式推断：
 	// 1. 如果 Width/Height 与解码后的像素尺寸不同，说明有缩放
 	// 2. 外层 CTM 矩阵决定了图像在页面上的实际尺寸
-	ActualPixelWidth  int // 解码后的实际像素宽度
-	ActualPixelHeight int // 解码后的实际像素高度
+	ActualPixelWidth  int      // 解码后的实际像素宽度
+	ActualPixelHeight int      // 解码后的实际像素高度
+	SMask             *XObject // 🔥 新增：软遮罩（透明度掩码）
+	ColorComponents   int      // 🔥 新增：颜色分量数（来自 ICCBased N 或其他）
+	Palette           []byte   // 🔥 新增：调色板数据（用于 Indexed 颜色空间）
 }
 
 // renderFormXObject 渲染表单 XObject

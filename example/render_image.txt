@@ -1,6 +1,6 @@
 PDF Rendering Report
 ====================
-Time: 2025-12-30 15:08:40
+Time: 2025-12-30 17:40:55
 
 ParseTokens Test:
 -----------------
@@ -22,7 +22,7 @@ Rendering Process:
 Output File Info:
 -----------------
 Size: 108570 bytes
-Created: 2025-12-30 15:08:42
+Created: 2025-12-30 17:40:57
 
 Page Information:
 -----------------
@@ -206,15 +206,17 @@ Operator Execution Log:
 [loadXObject] Stream decoded via direct Decode(): 1247715 bytes
 [loadXObject] Filters detected: [FlateDecode]
 [loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
+[loadXObject] ICCBased profile has N=3 components
 [loadXObject] Found SMask for image Im1
-[loadXObject] SMask is an indirect reference: (10 0 R)
-[loadXObject] ⚠️  SMask detected but currently ignored to avoid color issues
+[loadXObject] SMask is an indirect reference: (10 0 R), attempting load
+[loadXObject] Successfully loaded SMask: 699x595
 [loadXObject] Decoding stream for Im2...
 [loadXObject] Raw stream length: 219410 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...
 [loadXObject] Stream decoded via direct Decode(): 5137560 bytes
 [loadXObject] Filters detected: [FlateDecode]
 [loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
+[loadXObject] ICCBased profile has N=3 components
    Dereferenced to: types.StreamDict
    Decoding StreamDict...
    Raw: 712 bytes, Content: 0 bytes
@@ -267,15 +269,17 @@ Operator Execution Log:
 [loadXObject] Stream decoded via direct Decode(): 1247715 bytes
 [loadXObject] Filters detected: [FlateDecode]
 [loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
+[loadXObject] ICCBased profile has N=3 components
 [loadXObject] Found SMask for image Im1
-[loadXObject] SMask is an indirect reference: (10 0 R)
-[loadXObject] ⚠️  SMask detected but currently ignored to avoid color issues
+[loadXObject] SMask is an indirect reference: (10 0 R), attempting load
+[loadXObject] Successfully loaded SMask: 699x595
 [loadXObject] Decoding stream for Im2...
 [loadXObject] Raw stream length: 219410 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...
 [loadXObject] Stream decoded via direct Decode(): 5137560 bytes
 [loadXObject] Filters detected: [FlateDecode]
 [loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
+[loadXObject] ICCBased profile has N=3 components
    Dereferenced to: types.StreamDict
    Decoding StreamDict...
    Raw: 712 bytes, Content: 0 bytes
@@ -296,9 +300,12 @@ Operator Execution Log:
 [Do] Rendering Image XObject (size: 699x595)
 [decodeImageXObject] Decoding image: 699x595, BPC=8, ColorSpace=ICCBased, Stream=1247715 bytes
 [decodeImageXObject] Unknown color space ICCBased, trying RGB
+[applySMask] Applying SMask to image (699x595)
+[decodeImageXObject] Decoding image: 699x595, BPC=8, ColorSpace=DeviceGray, Stream=415905 bytes
+[applySMask] SMask applied successfully
 [renderImageXObject] Creating surface: 699x595 pixels
 [renderImageXObject] XObject dimensions: 699x595
-[renderImageXObject] Sample pixel (0,0): R=0 G=0 B=0 A=255
+[renderImageXObject] Sample pixel (0,0): R=0 G=0 B=0 A=0
 [renderImageXObject] Sample pixel (100,100): R=0 G=0 B=0 A=255
 [renderImageXObject] Logical dimensions (from PDF): 699x595
 [renderImageXObject] Actual pixel dimensions (decoded): 699x595
@@ -438,49 +445,29 @@ Operator Execution Log:
 [Q] Restore graphics state - Stack depth: 1
 
 📈 Operator Statistics:
+   gs: 1
+   Do: 2
+   m: 6
    c: 12
+   Tf: 1
+   S: 1
+   Q: 9
+   re: 4
+   l: 11
+   h: 3
+   EMC: 4
+   BT: 1
    Tm: 1
    f: 1
-   W: 6
-   cm: 4
-   m: 6
-   BT: 1
-   Tc: 1
-   Tf: 1
-   M: 1
-   S: 1
    q: 9
+   cm: 4
+   Tc: 1
+   M: 1
    BDC: 4
-   re: 4
+   W: 6
    n: 6
-   h: 3
-   gs: 1
-   l: 11
    Tj: 1
    ET: 1
-   EMC: 4
-   Q: 9
-   Do: 2
-✓ Loaded ToUnicode CMap for font C1 (0 mappings, 0 ranges)
-✓ Default width for CID font C1: 1000
-✓ Loaded CID widths for font C1: 0 direct mappings, 0 ranges
-✓ Loaded font widths for C1: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font C1: Identity-H
-[loadXObject] Decoding stream for Im2...
-[loadXObject] Raw stream length: 219410 bytes
-[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
-[loadXObject] Stream decoded via direct Decode(): 5137560 bytes
-[loadXObject] Filters detected: [FlateDecode]
-[loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
-[loadXObject] Decoding stream for Im1...
-[loadXObject] Raw stream length: 5464 bytes
-[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
-[loadXObject] Stream decoded via direct Decode(): 1247715 bytes
-[loadXObject] Filters detected: [FlateDecode]
-[loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
-[loadXObject] Found SMask for image Im1
-[loadXObject] SMask is an indirect reference: (10 0 R)
-[loadXObject] ⚠️  SMask detected but currently ignored to avoid color issues
 ✓ Loaded ToUnicode CMap for font C1 (0 mappings, 0 ranges)
 ✓ Default width for CID font C1: 1000
 ✓ Loaded CID widths for font C1: 0 direct mappings, 0 ranges
@@ -492,15 +479,39 @@ Operator Execution Log:
 [loadXObject] Stream decoded via direct Decode(): 1247715 bytes
 [loadXObject] Filters detected: [FlateDecode]
 [loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
+[loadXObject] ICCBased profile has N=3 components
 [loadXObject] Found SMask for image Im1
-[loadXObject] SMask is an indirect reference: (10 0 R)
-[loadXObject] ⚠️  SMask detected but currently ignored to avoid color issues
+[loadXObject] SMask is an indirect reference: (10 0 R), attempting load
+[loadXObject] Successfully loaded SMask: 699x595
 [loadXObject] Decoding stream for Im2...
 [loadXObject] Raw stream length: 219410 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...
 [loadXObject] Stream decoded via direct Decode(): 5137560 bytes
 [loadXObject] Filters detected: [FlateDecode]
 [loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
+[loadXObject] ICCBased profile has N=3 components
+✓ Loaded ToUnicode CMap for font C1 (0 mappings, 0 ranges)
+✓ Default width for CID font C1: 1000
+✓ Loaded CID widths for font C1: 0 direct mappings, 0 ranges
+✓ Loaded font widths for C1: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font C1: Identity-H
+[loadXObject] Decoding stream for Im1...
+[loadXObject] Raw stream length: 5464 bytes
+[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
+[loadXObject] Stream decoded via direct Decode(): 1247715 bytes
+[loadXObject] Filters detected: [FlateDecode]
+[loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
+[loadXObject] ICCBased profile has N=3 components
+[loadXObject] Found SMask for image Im1
+[loadXObject] SMask is an indirect reference: (10 0 R), attempting load
+[loadXObject] Successfully loaded SMask: 699x595
+[loadXObject] Decoding stream for Im2...
+[loadXObject] Raw stream length: 219410 bytes
+[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
+[loadXObject] Stream decoded via direct Decode(): 5137560 bytes
+[loadXObject] Filters detected: [FlateDecode]
+[loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
+[loadXObject] ICCBased profile has N=3 components
    Dereferenced to: types.StreamDict
    Decoding StreamDict...
    Raw: 712 bytes, Content: 0 bytes
@@ -553,15 +564,17 @@ Operator Execution Log:
 [loadXObject] Stream decoded via direct Decode(): 5137560 bytes
 [loadXObject] Filters detected: [FlateDecode]
 [loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
+[loadXObject] ICCBased profile has N=3 components
 [loadXObject] Decoding stream for Im1...
 [loadXObject] Raw stream length: 5464 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...
 [loadXObject] Stream decoded via direct Decode(): 1247715 bytes
 [loadXObject] Filters detected: [FlateDecode]
 [loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
+[loadXObject] ICCBased profile has N=3 components
 [loadXObject] Found SMask for image Im1
-[loadXObject] SMask is an indirect reference: (10 0 R)
-[loadXObject] ⚠️  SMask detected but currently ignored to avoid color issues
+[loadXObject] SMask is an indirect reference: (10 0 R), attempting load
+[loadXObject] Successfully loaded SMask: 699x595
 ✓ Loaded ToUnicode CMap for font C1 (0 mappings, 0 ranges)
 ✓ Default width for CID font C1: 1000
 ✓ Loaded CID widths for font C1: 0 direct mappings, 0 ranges
@@ -573,15 +586,17 @@ Operator Execution Log:
 [loadXObject] Stream decoded via direct Decode(): 1247715 bytes
 [loadXObject] Filters detected: [FlateDecode]
 [loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
+[loadXObject] ICCBased profile has N=3 components
 [loadXObject] Found SMask for image Im1
-[loadXObject] SMask is an indirect reference: (10 0 R)
-[loadXObject] ⚠️  SMask detected but currently ignored to avoid color issues
+[loadXObject] SMask is an indirect reference: (10 0 R), attempting load
+[loadXObject] Successfully loaded SMask: 699x595
 [loadXObject] Decoding stream for Im2...
 [loadXObject] Raw stream length: 219410 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...
 [loadXObject] Stream decoded via direct Decode(): 5137560 bytes
 [loadXObject] Filters detected: [FlateDecode]
 [loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
+[loadXObject] ICCBased profile has N=3 components
    Dereferenced to: types.StreamDict
    Decoding StreamDict...
    Raw: 712 bytes, Content: 0 bytes
@@ -634,15 +649,17 @@ Operator Execution Log:
 [loadXObject] Stream decoded via direct Decode(): 1247715 bytes
 [loadXObject] Filters detected: [FlateDecode]
 [loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
+[loadXObject] ICCBased profile has N=3 components
 [loadXObject] Found SMask for image Im1
-[loadXObject] SMask is an indirect reference: (10 0 R)
-[loadXObject] ⚠️  SMask detected but currently ignored to avoid color issues
+[loadXObject] SMask is an indirect reference: (10 0 R), attempting load
+[loadXObject] Successfully loaded SMask: 699x595
 [loadXObject] Decoding stream for Im2...
 [loadXObject] Raw stream length: 219410 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...
 [loadXObject] Stream decoded via direct Decode(): 5137560 bytes
 [loadXObject] Filters detected: [FlateDecode]
 [loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
+[loadXObject] ICCBased profile has N=3 components
 ✓ Loaded ToUnicode CMap for font C1 (0 mappings, 0 ranges)
 ✓ Default width for CID font C1: 1000
 ✓ Loaded CID widths for font C1: 0 direct mappings, 0 ranges
@@ -654,15 +671,17 @@ Operator Execution Log:
 [loadXObject] Stream decoded via direct Decode(): 1247715 bytes
 [loadXObject] Filters detected: [FlateDecode]
 [loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
+[loadXObject] ICCBased profile has N=3 components
 [loadXObject] Found SMask for image Im1
-[loadXObject] SMask is an indirect reference: (10 0 R)
-[loadXObject] ⚠️  SMask detected but currently ignored to avoid color issues
+[loadXObject] SMask is an indirect reference: (10 0 R), attempting load
+[loadXObject] Successfully loaded SMask: 699x595
 [loadXObject] Decoding stream for Im2...
 [loadXObject] Raw stream length: 219410 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...
 [loadXObject] Stream decoded via direct Decode(): 5137560 bytes
 [loadXObject] Filters detected: [FlateDecode]
 [loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
+[loadXObject] ICCBased profile has N=3 components
    Dereferenced to: types.StreamDict
    Decoding StreamDict...
    Raw: 712 bytes, Content: 0 bytes
