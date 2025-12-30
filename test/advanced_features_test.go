@@ -1,4 +1,4 @@
-package gopdf_test
+package test
 
 import (
 	"testing"

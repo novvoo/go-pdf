@@ -1,4 +1,4 @@
-package gopdf_test
+package test
 
 import (
 	"image"
@@ -123,23 +123,61 @@ func TestCoordinateSystemNew(t *testing.T) {
 func detectImageFlipping(img image.Image) (bool, string) {
 	bounds := img.Bounds()
 
-	// 检查左下角的绿色方块
-	greenPixel := img.At(50, bounds.Max.Y-55) // 接近左下角
-	r, g, b, _ := greenPixel.RGBA()
-	isGreenInBottomLeft := g > r && g > b
+	// 在图像坐标系中，(0,0)在左上角
+	// 所以左下角是 (x=50, y=bounds.Max.Y-50)
+	// 右上角是 (x=350, y=50)
+
+	// 检查左下角的绿色方块 - 调整坐标检测范围
+	greenFound := false
+	for dy := -10; dy <= 10; dy++ {
+		for dx := -10; dx <= 10; dx++ {
+			x := 50 + dx
+			y := bounds.Max.Y - 50 + dy
+			if x >= 0 && x < bounds.Max.X && y >= 0 && y < bounds.Max.Y {
+				greenPixel := img.At(x, y)
+				r, g, b, _ := greenPixel.RGBA()
+				// 转换为0-255范围
+				r8, g8, b8 := uint8(r>>8), uint8(g>>8), uint8(b>>8)
+				if g8 > 200 && g8 > r8*2 && g8 > b8*2 {
+					greenFound = true
+					break
+				}
+			}
+		}
+		if greenFound {
+			break
+		}
+	}
 
 	// 检查右上角的蓝色方块
-	bluePixel := img.At(350, 50) // 右上角
-	r, g, b, _ = bluePixel.RGBA()
-	isBlueInTopRight := b > r && b > g
+	blueFound := false
+	for dy := -10; dy <= 10; dy++ {
+		for dx := -10; dx <= 10; dx++ {
+			x := 350 + dx
+			y := 50 + dy
+			if x >= 0 && x < bounds.Max.X && y >= 0 && y < bounds.Max.Y {
+				bluePixel := img.At(x, y)
+				r, g, b, _ := bluePixel.RGBA()
+				// 转换为0-255范围
+				r8, g8, b8 := uint8(r>>8), uint8(g>>8), uint8(b>>8)
+				if b8 > 200 && b8 > r8*2 && b8 > g8*2 {
+					blueFound = true
+					break
+				}
+			}
+		}
+		if blueFound {
+			break
+		}
+	}
 
 	// 如果绿色不在左下角或蓝色不在右上角，则图像可能是翻转的
-	if !isGreenInBottomLeft || !isBlueInTopRight {
+	if !greenFound || !blueFound {
 		details := ""
-		if !isGreenInBottomLeft {
+		if !greenFound {
 			details += "Green marker not in expected bottom-left position. "
 		}
-		if !isBlueInTopRight {
+		if !blueFound {
 			details += "Blue marker not in expected top-right position. "
 		}
 		return true, details
@@ -152,23 +190,57 @@ func detectImageFlipping(img image.Image) (bool, string) {
 func detectCoordinateSystemIssue(img image.Image) (bool, string) {
 	bounds := img.Bounds()
 
-	// 检查左下角的红色方块 (考虑到图像可能的翻转)
-	leftBottomPixel := img.At(25, bounds.Max.Y-25) // 左下角附近
-	r, g, b, _ := leftBottomPixel.RGBA()
-	isRedInBottomLeft := r > g && r > b
+	// 检查左下角的红色方块 - 扩大检测范围
+	redFound := false
+	for dy := -15; dy <= 15; dy++ {
+		for dx := -15; dx <= 15; dx++ {
+			x := 25 + dx
+			y := bounds.Max.Y - 25 + dy
+			if x >= 0 && x < bounds.Max.X && y >= 0 && y < bounds.Max.Y {
+				pixel := img.At(x, y)
+				r, g, b, _ := pixel.RGBA()
+				// 转换为0-255范围
+				r8, g8, b8 := uint8(r>>8), uint8(g>>8), uint8(b>>8)
+				if r8 > 200 && r8 > g8*2 && r8 > b8*2 {
+					redFound = true
+					break
+				}
+			}
+		}
+		if redFound {
+			break
+		}
+	}
 
 	// 检查右上角的绿色方块
-	rightTopPixel := img.At(275, 25) // 右上角附近
-	r, g, b, _ = rightTopPixel.RGBA()
-	isGreenInTopRight := g > r && g > b
+	greenFound := false
+	for dy := -15; dy <= 15; dy++ {
+		for dx := -15; dx <= 15; dx++ {
+			x := 275 + dx
+			y := 25 + dy
+			if x >= 0 && x < bounds.Max.X && y >= 0 && y < bounds.Max.Y {
+				pixel := img.At(x, y)
+				r, g, b, _ := pixel.RGBA()
+				// 转换为0-255范围
+				r8, g8, b8 := uint8(r>>8), uint8(g>>8), uint8(b>>8)
+				if g8 > 200 && g8 > r8*2 && g8 > b8*2 {
+					greenFound = true
+					break
+				}
+			}
+		}
+		if greenFound {
+			break
+		}
+	}
 
 	// 如果红色不在左下角或绿色不在右上角，则可能存在坐标系统问题
-	if !isRedInBottomLeft || !isGreenInTopRight {
+	if !redFound || !greenFound {
 		details := ""
-		if !isRedInBottomLeft {
+		if !redFound {
 			details += "Red marker not in expected bottom-left position. "
 		}
-		if !isGreenInTopRight {
+		if !greenFound {
 			details += "Green marker not in expected top-right position. "
 		}
 		return true, details

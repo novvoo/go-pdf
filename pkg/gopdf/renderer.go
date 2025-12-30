@@ -120,6 +120,9 @@ func (r *PDFRenderer) CreatePDFFromImage(imagePath, outputPath string) error {
 			if err != nil {
 				return fmt.Errorf("failed to convert image to Gopdf surface: %w", err)
 			}
+		} else {
+			// 🔥 修复：Pixman 后端创建失败时记录日志并回退
+			debugPrintf("⚠️  Pixman backend creation failed, falling back to standard method\n")
 		}
 	}
 
@@ -182,6 +185,7 @@ func convertToRGBAOptimized(img image.Image) *image.RGBA {
 }
 
 // convertYCbCrToRGBA 批量转换 YCbCr 到 RGBA
+// 🔥 修复：使用 int64 避免溢出，并正确处理 alpha 通道
 func convertYCbCrToRGBA(src *image.YCbCr, dst *image.RGBA) {
 	bounds := src.Bounds()
 	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
@@ -189,14 +193,18 @@ func convertYCbCrToRGBA(src *image.YCbCr, dst *image.RGBA) {
 			yi := src.YOffset(x, y)
 			ci := src.COffset(x, y)
 
-			yy := int32(src.Y[yi])
-			cb := int32(src.Cb[ci]) - 128
-			cr := int32(src.Cr[ci]) - 128
+			// 🔥 修复：使用 int64 避免 int32 溢出
+			yy := int64(src.Y[yi])
+			cb := int64(src.Cb[ci]) - 128
+			cr := int64(src.Cr[ci]) - 128
 
-			// YCbCr 到 RGB 转换
-			r := (yy + 91881*cr) >> 16
-			g := (yy - 22554*cb - 46802*cr) >> 16
-			b := (yy + 116130*cb) >> 16
+			// YCbCr 到 RGB 转换（使用标准系数）
+			// R = Y + 1.402 * Cr
+			// G = Y - 0.344136 * Cb - 0.714136 * Cr
+			// B = Y + 1.772 * Cb
+			r := (yy*65536 + 91881*cr) >> 16
+			g := (yy*65536 - 22554*cb - 46802*cr) >> 16
+			b := (yy*65536 + 116130*cb) >> 16
 
 			// 裁剪到 [0, 255]
 			if r < 0 {
@@ -219,7 +227,7 @@ func convertYCbCrToRGBA(src *image.YCbCr, dst *image.RGBA) {
 			dst.Pix[i+0] = uint8(r)
 			dst.Pix[i+1] = uint8(g)
 			dst.Pix[i+2] = uint8(b)
-			dst.Pix[i+3] = 255
+			dst.Pix[i+3] = 255 // 完全不透明
 		}
 	}
 }
@@ -265,9 +273,10 @@ func (r *PDFRenderer) RenderWithOptions(opts *RenderOptions, drawFunc func(ctx C
 	}
 
 	// 根据 DPI 计算实际渲染尺寸
+	// 🔥 修复：使用四舍五入而不是截断，避免高 DPI 下像素丢失
 	scale := opts.DPI / 72.0
-	renderWidth := int(r.width * scale)
-	renderHeight := int(r.height * scale)
+	renderWidth := int(r.width*scale + 0.5)
+	renderHeight := int(r.height*scale + 0.5)
 
 	// 如果启用 Pixman 后端，使用 Pixman 进行渲染
 	if r.usePixman {
@@ -280,6 +289,14 @@ func (r *PDFRenderer) RenderWithOptions(opts *RenderOptions, drawFunc func(ctx C
 
 // renderWithPixman 使用 Pixman 后端渲染
 func (r *PDFRenderer) renderWithPixman(opts *RenderOptions, width, height int, scale float64, drawFunc func(ctx Context)) error {
+	// 🔥 修复：添加尺寸验证，避免创建过大的图像
+	if width <= 0 || height <= 0 {
+		return fmt.Errorf("invalid image dimensions: %dx%d", width, height)
+	}
+	if width > 32768 || height > 32768 {
+		return fmt.Errorf("image dimensions too large: %dx%d (max 32768x32768)", width, height)
+	}
+
 	// 直接创建 ImageBackend（不使用 PixmanBackend）
 	imageBackend := NewImageBackend(width, height)
 	if imageBackend == nil {
@@ -296,6 +313,8 @@ func (r *PDFRenderer) renderWithPixman(opts *RenderOptions, width, height int, s
 		}
 		imageBackend.Clear(bgColor)
 	} else {
+		// 🔥 修复：透明背景可能在 PDF 中导致问题，添加警告
+		debugPrintf("⚠️  Using transparent background, may cause issues in PDF output\n")
 		imageBackend.Clear(color.RGBA{0, 0, 0, 0}) // 透明背景
 	}
 

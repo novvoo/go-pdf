@@ -1,0 +1,25 @@
+# 测试配置文件
+
+# 测试超时时间（秒）
+TIMEOUT=300
+
+# 测试覆盖率目标（百分比）
+COVERAGE_TARGET=80
+
+# 是否运行慢速测试
+RUN_SLOW_TESTS=false
+
+# 是否运行集成测试
+RUN_INTEGRATION_TESTS=false
+
+# 测试数据目录
+TEST_DATA_DIR=../example
+
+# 临时文件目录
+TEMP_DIR=./tmp
+
+# 是否保留测试输出文件（用于调试）
+KEEP_TEST_OUTPUT=false
+
+# 并发测试数量
+PARALLEL_TESTS=4

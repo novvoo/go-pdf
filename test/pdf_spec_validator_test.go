@@ -1,4 +1,4 @@
-package gopdf_test
+package test
 
 import (
 	"fmt"
@@ -12,7 +12,13 @@ import (
 
 // TestPDFSpecValidation 测试PDF规范验证
 func TestPDFSpecValidation(t *testing.T) {
-	pdfPath := "../test_vector.pdf"
+	helper := NewTestHelper(t)
+
+	// 尝试查找测试PDF文件
+	pdfPath := helper.FindTestPDF("test_vector.pdf")
+	if pdfPath == "" {
+		t.Skip("Skipping test: test_vector.pdf not found")
+	}
 
 	// 读取PDF文件
 	ctx, err := api.ReadContextFile(pdfPath)

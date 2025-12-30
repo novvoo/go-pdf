@@ -726,9 +726,6 @@ func (c *context) applyPathToPango() {
 			opCount++
 		}
 	}
-	if opCount > 0 {
-		fmt.Printf("[DEBUG applyPathToPango] Applied %d path operations\n", opCount)
-	}
 }
 
 // Helper to apply gopdf state to raster context
@@ -899,14 +896,12 @@ func (c *context) Paint() error {
 
 	if c.gstate.clip != nil && c.gstate.clip.path != nil {
 		// Use the clip path
-		fmt.Printf("[Paint] Using clip path, data length: %d\n", len(c.gstate.clip.path.data))
 		savedPath := c.path
 		c.path = c.gstate.clip.path
 		c.applyPathToPango()
 		c.gc.Fill()
 		c.path = savedPath
 	} else {
-		fmt.Println("[Paint] No clip path, filling entire surface")
 		// Fill the entire surface
 		if imgSurface, ok := c.target.(ImageSurface); ok {
 			width := float64(imgSurface.GetWidth())
@@ -1182,7 +1177,6 @@ func (c *context) Rectangle(x, y, width, height float64) {
 	c.LineTo(x+width, y+height)
 	c.LineTo(x, y+height)
 	c.ClosePath()
-	fmt.Printf("[Rectangle] Added rectangle, path.data length: %d\n", len(c.path.data))
 }
 
 // DrawCircle adds a circular path to the current path.

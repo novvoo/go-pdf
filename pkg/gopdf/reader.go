@@ -212,6 +212,195 @@ type ImageElementInfo struct {
 	Height float64
 }
 
+// ExtractImageData 从 PDF 中提取图像数据
+// 🔥 新增：完整的图像提取功能，支持解码和导出
+func (r *PDFReader) ExtractImageData(pageNum int, imageName string) (*image.RGBA, error) {
+	// 打开 PDF 文件并读取上下文
+	ctx, err := api.ReadContextFile(r.pdfPath)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read PDF context: %w", err)
+	}
+
+	// 获取页面字典
+	pageDict, _, _, err := ctx.PageDict(pageNum, false)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get page dict: %w", err)
+	}
+
+	// 提取资源
+	resources := NewResources()
+	if resourcesObj, found := pageDict.Find("Resources"); found {
+		if err := loadResources(ctx, resourcesObj, resources); err != nil {
+			return nil, fmt.Errorf("failed to load resources: %w", err)
+		}
+	}
+
+	// 获取图像 XObject
+	xobj := resources.GetXObject(imageName)
+	if xobj == nil {
+		return nil, fmt.Errorf("image %s not found", imageName)
+	}
+
+	if xobj.Subtype != "/Image" && xobj.Subtype != "Image" {
+		return nil, fmt.Errorf("%s is not an image (subtype: %s)", imageName, xobj.Subtype)
+	}
+
+	// 解码图像数据
+	return decodeImageXObject(xobj)
+}
+
+// decodeImageXObject 解码图像 XObject 为 RGBA 图像
+func decodeImageXObject(xobj *XObject) (*image.RGBA, error) {
+	if len(xobj.Stream) == 0 {
+		return nil, fmt.Errorf("image stream is empty")
+	}
+
+	width := xobj.Width
+	height := xobj.Height
+	bpc := xobj.BitsPerComponent
+	colorSpace := xobj.ColorSpace
+
+	debugPrintf("[decodeImageXObject] Decoding image: %dx%d, BPC=%d, ColorSpace=%s, Stream=%d bytes\n",
+		width, height, bpc, colorSpace, len(xobj.Stream))
+
+	// 根据颜色空间解码
+	switch colorSpace {
+	case "DeviceRGB", "/DeviceRGB":
+		return decodeDeviceRGB(xobj.Stream, width, height, bpc)
+	case "DeviceGray", "/DeviceGray":
+		return decodeDeviceGray(xobj.Stream, width, height, bpc)
+	case "DeviceCMYK", "/DeviceCMYK":
+		return decodeDeviceCMYK(xobj.Stream, width, height, bpc)
+	case "/ICCBased":
+		// ICC 颜色空间，尝试作为 RGB 处理
+		debugPrintf("[decodeImageXObject] ICCBased color space, treating as RGB\n")
+		return decodeDeviceRGB(xobj.Stream, width, height, bpc)
+	case "/Indexed":
+		// 索引颜色空间，需要查找调色板
+		debugPrintf("[decodeImageXObject] Indexed color space not fully supported, using grayscale\n")
+		return decodeDeviceGray(xobj.Stream, width, height, bpc)
+	default:
+		debugPrintf("[decodeImageXObject] Unknown color space %s, trying RGB\n", colorSpace)
+		return decodeDeviceRGB(xobj.Stream, width, height, bpc)
+	}
+}
+
+// decodeDeviceRGB 解码 DeviceRGB 图像
+func decodeDeviceRGB(data []byte, width, height, bpc int) (*image.RGBA, error) {
+	img := image.NewRGBA(image.Rect(0, 0, width, height))
+
+	if bpc == 8 {
+		// 8 位每通道，直接复制
+		expectedSize := width * height * 3
+		if len(data) < expectedSize {
+			return nil, fmt.Errorf("insufficient data: expected %d bytes, got %d", expectedSize, len(data))
+		}
+
+		for y := 0; y < height; y++ {
+			for x := 0; x < width; x++ {
+				srcIdx := (y*width + x) * 3
+				dstIdx := img.PixOffset(x, y)
+				img.Pix[dstIdx+0] = data[srcIdx+0] // R
+				img.Pix[dstIdx+1] = data[srcIdx+1] // G
+				img.Pix[dstIdx+2] = data[srcIdx+2] // B
+				img.Pix[dstIdx+3] = 255            // A
+			}
+		}
+	} else {
+		return nil, fmt.Errorf("unsupported bits per component: %d", bpc)
+	}
+
+	return img, nil
+}
+
+// decodeDeviceGray 解码 DeviceGray 图像
+func decodeDeviceGray(data []byte, width, height, bpc int) (*image.RGBA, error) {
+	img := image.NewRGBA(image.Rect(0, 0, width, height))
+
+	if bpc == 8 {
+		// 8 位灰度
+		expectedSize := width * height
+		if len(data) < expectedSize {
+			return nil, fmt.Errorf("insufficient data: expected %d bytes, got %d", expectedSize, len(data))
+		}
+
+		for y := 0; y < height; y++ {
+			for x := 0; x < width; x++ {
+				srcIdx := y*width + x
+				dstIdx := img.PixOffset(x, y)
+				gray := data[srcIdx]
+				img.Pix[dstIdx+0] = gray
+				img.Pix[dstIdx+1] = gray
+				img.Pix[dstIdx+2] = gray
+				img.Pix[dstIdx+3] = 255
+			}
+		}
+	} else if bpc == 1 {
+		// 1 位黑白
+		for y := 0; y < height; y++ {
+			for x := 0; x < width; x++ {
+				byteIdx := (y*width + x) / 8
+				bitIdx := 7 - ((y*width + x) % 8)
+				if byteIdx >= len(data) {
+					break
+				}
+				bit := (data[byteIdx] >> bitIdx) & 1
+				gray := uint8(0)
+				if bit == 1 {
+					gray = 255
+				}
+				dstIdx := img.PixOffset(x, y)
+				img.Pix[dstIdx+0] = gray
+				img.Pix[dstIdx+1] = gray
+				img.Pix[dstIdx+2] = gray
+				img.Pix[dstIdx+3] = 255
+			}
+		}
+	} else {
+		return nil, fmt.Errorf("unsupported bits per component: %d", bpc)
+	}
+
+	return img, nil
+}
+
+// decodeDeviceCMYK 解码 DeviceCMYK 图像
+func decodeDeviceCMYK(data []byte, width, height, bpc int) (*image.RGBA, error) {
+	img := image.NewRGBA(image.Rect(0, 0, width, height))
+
+	if bpc == 8 {
+		// 8 位每通道
+		expectedSize := width * height * 4
+		if len(data) < expectedSize {
+			return nil, fmt.Errorf("insufficient data: expected %d bytes, got %d", expectedSize, len(data))
+		}
+
+		for y := 0; y < height; y++ {
+			for x := 0; x < width; x++ {
+				srcIdx := (y*width + x) * 4
+				c := float64(data[srcIdx+0]) / 255.0
+				m := float64(data[srcIdx+1]) / 255.0
+				yy := float64(data[srcIdx+2]) / 255.0
+				k := float64(data[srcIdx+3]) / 255.0
+
+				// CMYK 到 RGB 转换
+				r := uint8((1.0 - c) * (1.0 - k) * 255.0)
+				g := uint8((1.0 - m) * (1.0 - k) * 255.0)
+				b := uint8((1.0 - yy) * (1.0 - k) * 255.0)
+
+				dstIdx := img.PixOffset(x, y)
+				img.Pix[dstIdx+0] = r
+				img.Pix[dstIdx+1] = g
+				img.Pix[dstIdx+2] = b
+				img.Pix[dstIdx+3] = 255
+			}
+		}
+	} else {
+		return nil, fmt.Errorf("unsupported bits per component: %d", bpc)
+	}
+
+	return img, nil
+}
+
 // GetPageInfo 获取页面信息
 // 优化：使用缓存避免重复读取
 func (r *PDFReader) GetPageInfo(pageNum int) (PageInfo, error) {
@@ -381,14 +570,18 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 				debugPrintf("[DEBUG] Q operator: Restored graphics state, stack depth=%d, CTM=%s\n",
 					len(graphicsStateStack), ctm.String())
 			} else {
-				debugPrintf("[DEBUG] Q operator: Warning - graphics state stack is empty, keeping current state\n")
+				// 🔥 修复：栈为空时报错，符合 PDF 规范
+				debugPrintf("[DEBUG] Q operator: ERROR - graphics state stack is empty (unmatched Q without q)\n")
+				// 保持当前状态，但记录错误
+				// 在生产环境中，可以考虑返回错误或设置错误标志
 			}
 
 		case "BT": // 开始文本对象
-			// 重置文本矩阵和文本行矩阵为单位矩阵
-			currentMatrix = &Matrix{XX: 1, YY: 1}
-			textLineMatrix = &Matrix{XX: 1, YY: 1}
-			debugPrintf("[DEBUG] BT operator: Reset text matrices\n")
+			// 🔥 修复：重置文本矩阵和文本行矩阵为单位矩阵
+			// 同时重置文本状态（字符间距、单词间距等）
+			currentMatrix = NewIdentityMatrix()
+			textLineMatrix = NewIdentityMatrix()
+			debugPrintf("[DEBUG] BT operator: Reset text matrices and text state\n")
 
 		case "ET": // 结束文本对象
 			debugPrintf("[DEBUG] ET operator: End text object\n")
@@ -397,7 +590,14 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 			if tfOp, ok := op.(*OpSetFont); ok {
 				currentFont = tfOp.FontName
 				baseFontSize = tfOp.FontSize
-				debugPrintf("[DEBUG] Tf operator: Font=%s, Size=%.2f\n", currentFont, baseFontSize)
+				// 🔥 修复：验证字体是否存在
+				font := resources.GetFont(currentFont)
+				if font == nil {
+					debugPrintf("[DEBUG] Tf operator: WARNING - Font %s not found in resources\n", currentFont)
+				} else {
+					debugPrintf("[DEBUG] Tf operator: Font=%s (BaseFont=%s), Size=%.2f\n",
+						currentFont, font.BaseFont, baseFontSize)
+				}
 			}
 
 		case "Tm": // 设置文本矩阵
@@ -508,40 +708,60 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 					FontSize: effectiveFontSize,
 				})
 
-				// 计算文本宽度并更新文本矩阵（用于后续文本定位）
-				// 使用改进的字体宽度计算
+				// 🔥 修复：改进文本宽度计算，考虑字体默认宽度和缺失宽度
 				var textWidth float64
 				font := resources.GetFont(currentFont)
 				if font != nil && len(originalCIDs) > 0 {
 					// 使用 CID 数组进行精确的字体宽度计算
 					for _, cid := range originalCIDs {
 						width := font.GetWidth(cid)
+						// 🔥 修复：确保宽度不为 0
+						if width == 0 {
+							if font.DefaultWidth > 0 {
+								width = font.DefaultWidth
+							} else if font.MissingWidth > 0 {
+								width = font.MissingWidth
+							} else {
+								width = 1000.0 // 使用 1 em 作为默认值
+							}
+						}
 						textWidth += (width / 1000.0) * effectiveFontSize
 					}
 					debugPrintf("[DEBUG] Calculated text width from CIDs: %.2f (%d CIDs)\n", textWidth, len(originalCIDs))
 				} else if font != nil {
 					// 回退到基于字符数的估算
-					// 对于CJK字符使用更大的宽度系数
+					// 🔥 修复：改进 CJK 字符宽度估算
 					runeCount := 0
-					avgWidthFactor := 0.0
+					totalWidthFactor := 0.0
 					for _, r := range text {
 						runeCount++
-						// CJK字符范围检测
+						// 更精确的 CJK 字符范围检测
 						if (r >= 0x4E00 && r <= 0x9FFF) || // CJK统一表意文字
 							(r >= 0x3400 && r <= 0x4DBF) || // CJK扩展A
-							(r >= 0xF900 && r <= 0xFAFF) { // CJK兼容表意文字
-							avgWidthFactor += 1.0 // CJK字符通常是全角
+							(r >= 0x20000 && r <= 0x2A6DF) || // CJK扩展B
+							(r >= 0x2A700 && r <= 0x2B73F) || // CJK扩展C
+							(r >= 0x2B740 && r <= 0x2B81F) || // CJK扩展D
+							(r >= 0x2B820 && r <= 0x2CEAF) || // CJK扩展E
+							(r >= 0xF900 && r <= 0xFAFF) || // CJK兼容表意文字
+							(r >= 0x2F800 && r <= 0x2FA1F) || // CJK兼容表意文字补充
+							(r >= 0x3040 && r <= 0x309F) || // 平假名
+							(r >= 0x30A0 && r <= 0x30FF) || // 片假名
+							(r >= 0xAC00 && r <= 0xD7AF) { // 韩文音节
+							totalWidthFactor += 1.0 // CJK字符通常是全角
+						} else if r >= 0xFF00 && r <= 0xFFEF {
+							// 全角ASCII和半角片假名
+							totalWidthFactor += 1.0
 						} else {
-							avgWidthFactor += 0.5 // 拉丁字符通常是半角
+							totalWidthFactor += 0.5 // 拉丁字符通常是半角
 						}
 					}
 					if runeCount > 0 {
-						avgWidthFactor /= float64(runeCount)
+						textWidth = totalWidthFactor * effectiveFontSize
 					} else {
-						avgWidthFactor = 0.5
+						textWidth = 0
 					}
-					textWidth = float64(runeCount) * effectiveFontSize * avgWidthFactor
-					debugPrintf("[DEBUG] Estimated text width: %.2f (avgFactor=%.2f)\n", textWidth, avgWidthFactor)
+					debugPrintf("[DEBUG] Estimated text width: %.2f (totalFactor=%.2f, runeCount=%d)\n",
+						textWidth, totalWidthFactor, runeCount)
 				} else {
 					// 最后的回退：简单估算
 					runeCount := float64(len([]rune(text)))
@@ -593,6 +813,7 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 					x := minX
 					y := pageInfo.Height - maxY
 
+					// 🔥 修复：添加图像流数据和完整的元数据
 					imageElements = append(imageElements, ImageElementInfo{
 						Name:   doOp.XObjectName,
 						X:      x,
@@ -605,6 +826,8 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 						doOp.XObjectName, x, y, actualWidth, actualHeight, xobj.Width, xobj.Height)
 					debugPrintf("[DEBUG]   Corners: (%.2f,%.2f) (%.2f,%.2f) (%.2f,%.2f) (%.2f,%.2f)\n",
 						x0, y0, x1, y1, x2, y2, x3, y3)
+					debugPrintf("[DEBUG]   ColorSpace: %s, BitsPerComponent: %d, Stream size: %d bytes\n",
+						xobj.ColorSpace, xobj.BitsPerComponent, len(xobj.Stream))
 				}
 			}
 

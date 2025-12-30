@@ -1,6 +1,6 @@
 PDF Rendering Report
 ====================
-Time: 2025-12-29 18:03:49
+Time: 2025-12-30 11:13:04
 
 ParseTokens Test:
 -----------------
@@ -9,20 +9,20 @@ ParseTokens Test:
   [2] cm
   [3] Q
 
-📄 Input PDF: test/test_image.pdf
-📁 Output PNG: test/test_image.png
+📄 Input PDF: example/test_image.pdf
+📁 Output PNG: example/test_image.png
 
 Rendering Process:
 ------------------
 ✅ PDF rendered successfully
-✅ Output saved to: test/test_image.png
+✅ Output saved to: example/test_image.png
 
 ✅ Standard regions added to image
 ✅ Marked 2 image element(s) in the output
 Output File Info:
 -----------------
 Size: 108570 bytes
-Created: 2025-12-29 18:03:51
+Created: 2025-12-30 11:13:06
 
 Page Information:
 -----------------
@@ -186,8 +186,8 @@ Advanced Features Used:
 Debug Information:
 ------------------
 Starting PDF rendering...
-Input: test/test_image.pdf
-Output: test/test_image.png
+Input: example/test_image.pdf
+Output: example/test_image.png
 PDF reader created
 Rendering page 1 at 150 DPI...
 Rendering completed successfully
@@ -227,6 +227,7 @@ Operator Execution Log:
 [DEBUG] cm operator: Matrix=[699.424 0.000 0.000 594.922 36.000 36.000], new CTM=[699.424 0.000 0.000 594.922 36.000 36.000]
 [DEBUG] Do operator: Image Im1 at (36.00, 36.00), size: 699.42x594.92 (original: 699x595)
 [DEBUG]   Corners: (36.00,36.00) (735.42,36.00) (36.00,630.92) (735.42,630.92)
+[DEBUG]   ColorSpace: ICCBased, BitsPerComponent: 8, Stream size: 1247715 bytes
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 [DEBUG] q operator: Saved graphics state, stack depth=1
@@ -234,14 +235,15 @@ Operator Execution Log:
 [DEBUG] cm operator: Matrix=[693.424 0.000 0.000 588.922 39.000 41.000], new CTM=[693.424 0.000 0.000 588.922 39.000 41.000]
 [DEBUG] Do operator: Image Im2 at (39.00, 37.00), size: 693.42x588.92 (original: 1420x1206)
 [DEBUG]   Corners: (39.00,41.00) (732.42,41.00) (39.00,629.92) (732.42,629.92)
+[DEBUG]   ColorSpace: ICCBased, BitsPerComponent: 8, Stream size: 5137560 bytes
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 [DEBUG] q operator: Saved graphics state, stack depth=1
 [DEBUG] q operator: Saved graphics state, stack depth=2
 [DEBUG] cm operator: Matrix=[1.000 0.000 0.000 1.000 351.749 364.135], new CTM=[1.000 0.000 0.000 1.000 351.749 364.135]
-[DEBUG] BT operator: Reset text matrices
+[DEBUG] BT operator: Reset text matrices and text state
 [DEBUG] Tm operator: Matrix=[18.000 0.000 0.000 18.000 0.000 0.000]
-[DEBUG] Tf operator: Font=C1, Size=1.00
+[DEBUG] Tf operator: Font=C1 (BaseFont=AAAAAB+.PingFangSC-Regular), Size=1.00
 [DEBUG] Text element: baseFontSize=1.00, scale=18.00, effectiveFontSize=18.00
 [DEBUG] Calculated text width from CIDs: 144.00 (8 CIDs)
 [DEBUG] Total displacement: 144.00 (width=144.00, kerning=0.00), new X0=144.00
@@ -249,6 +251,7 @@ Operator Execution Log:
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 [DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] M operator: MiterLimit=4.00
 [DEBUG] q operator: Saved graphics state, stack depth=2
 [DEBUG] cm operator: Matrix=[0.986 0.169 0.169 -0.986 494.406 371.938], new CTM=[0.986 0.169 0.169 -0.986 494.406 371.938]
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
@@ -292,22 +295,7 @@ Operator Execution Log:
 [Do] XObject type: Image
 [Do] Rendering Image XObject (size: 699x595)
 [decodeImageXObject] Decoding image: 699x595, BPC=8, ColorSpace=ICCBased, Stream=1247715 bytes
-⚠️  ICCBased color space detected but using RGB approximation
-[ICCBased] Detected 3 components (RGB), stream size: 1247715 bytes
-[ICCBased] First 5 pixels:
-  Pixel 0: R=0 G=0 B=0
-  Pixel 1: R=0 G=0 B=0
-  Pixel 2: R=0 G=0 B=0
-  Pixel 3: R=0 G=0 B=0
-  Pixel 4: R=0 G=0 B=0
-[ICCBased] Middle 5 pixels (offset 207952):
-  Pixel 0: R=0 G=0 B=0
-  Pixel 1: R=0 G=0 B=0
-  Pixel 2: R=0 G=0 B=0
-  Pixel 3: R=0 G=0 B=0
-  Pixel 4: R=0 G=0 B=0
-[ICCBased] ⚠️  Detected mostly black pixels (10/10), but auto-invert is disabled
-✓ Processed ICCBased color space image (699x595, 3 components)
+[decodeImageXObject] Unknown color space ICCBased, trying RGB
 [renderImageXObject] Creating surface: 699x595 pixels
 [renderImageXObject] XObject dimensions: 699x595
 [renderImageXObject] Sample pixel (0,0): R=0 G=0 B=0 A=255
@@ -354,21 +342,7 @@ Operator Execution Log:
 [Do] XObject type: Image
 [Do] Rendering Image XObject (size: 1420x1206)
 [decodeImageXObject] Decoding image: 1420x1206, BPC=8, ColorSpace=ICCBased, Stream=5137560 bytes
-⚠️  ICCBased color space detected but using RGB approximation
-[ICCBased] Detected 3 components (RGB), stream size: 5137560 bytes
-[ICCBased] First 5 pixels:
-  Pixel 0: R=247 G=247 B=247
-  Pixel 1: R=244 G=244 B=244
-  Pixel 2: R=245 G=245 B=245
-  Pixel 3: R=245 G=245 B=245
-  Pixel 4: R=247 G=247 B=247
-[ICCBased] Middle 5 pixels (offset 856260):
-  Pixel 0: R=226 G=226 B=227
-  Pixel 1: R=226 G=226 B=227
-  Pixel 2: R=226 G=226 B=227
-  Pixel 3: R=226 G=226 B=227
-  Pixel 4: R=226 G=226 B=227
-✓ Processed ICCBased color space image (1420x1206, 3 components)
+[decodeImageXObject] Unknown color space ICCBased, trying RGB
 [renderImageXObject] Creating surface: 1420x1206 pixels
 [renderImageXObject] XObject dimensions: 1420x1206
 [renderImageXObject] Sample pixel (0,0): R=247 G=247 B=247 A=255
@@ -450,29 +424,29 @@ Operator Execution Log:
 [Q] Restore graphics state - Stack depth: 1
 
 📈 Operator Statistics:
-   re: 4
+   Q: 9
    W: 6
-   gs: 1
-   cm: 4
-   l: 11
-   BT: 1
-   Tc: 1
-   Tm: 1
    Do: 2
    m: 6
-   Tj: 1
+   BT: 1
+   Tm: 1
    M: 1
    S: 1
-   f: 1
    BDC: 4
-   Q: 9
+   c: 12
    h: 3
    EMC: 4
    Tf: 1
-   ET: 1
-   q: 9
+   Tj: 1
+   re: 4
    n: 6
-   c: 12
+   gs: 1
+   cm: 4
+   l: 11
+   Tc: 1
+   q: 9
+   ET: 1
+   f: 1
 ✓ Loaded ToUnicode CMap for font C1 (0 mappings, 0 ranges)
 ✓ Default width for CID font C1: 1000
 ✓ Loaded CID widths for font C1: 0 direct mappings, 0 ranges
@@ -525,6 +499,7 @@ Operator Execution Log:
 [DEBUG] cm operator: Matrix=[699.424 0.000 0.000 594.922 36.000 36.000], new CTM=[699.424 0.000 0.000 594.922 36.000 36.000]
 [DEBUG] Do operator: Image Im1 at (36.00, 36.00), size: 699.42x594.92 (original: 699x595)
 [DEBUG]   Corners: (36.00,36.00) (735.42,36.00) (36.00,630.92) (735.42,630.92)
+[DEBUG]   ColorSpace: ICCBased, BitsPerComponent: 8, Stream size: 1247715 bytes
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 [DEBUG] q operator: Saved graphics state, stack depth=1
@@ -532,14 +507,15 @@ Operator Execution Log:
 [DEBUG] cm operator: Matrix=[693.424 0.000 0.000 588.922 39.000 41.000], new CTM=[693.424 0.000 0.000 588.922 39.000 41.000]
 [DEBUG] Do operator: Image Im2 at (39.00, 37.00), size: 693.42x588.92 (original: 1420x1206)
 [DEBUG]   Corners: (39.00,41.00) (732.42,41.00) (39.00,629.92) (732.42,629.92)
+[DEBUG]   ColorSpace: ICCBased, BitsPerComponent: 8, Stream size: 5137560 bytes
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 [DEBUG] q operator: Saved graphics state, stack depth=1
 [DEBUG] q operator: Saved graphics state, stack depth=2
 [DEBUG] cm operator: Matrix=[1.000 0.000 0.000 1.000 351.749 364.135], new CTM=[1.000 0.000 0.000 1.000 351.749 364.135]
-[DEBUG] BT operator: Reset text matrices
+[DEBUG] BT operator: Reset text matrices and text state
 [DEBUG] Tm operator: Matrix=[18.000 0.000 0.000 18.000 0.000 0.000]
-[DEBUG] Tf operator: Font=C1, Size=1.00
+[DEBUG] Tf operator: Font=C1 (BaseFont=AAAAAB+.PingFangSC-Regular), Size=1.00
 [DEBUG] Text element: baseFontSize=1.00, scale=18.00, effectiveFontSize=18.00
 [DEBUG] Calculated text width from CIDs: 144.00 (8 CIDs)
 [DEBUG] Total displacement: 144.00 (width=144.00, kerning=0.00), new X0=144.00
@@ -547,6 +523,7 @@ Operator Execution Log:
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 [DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] M operator: MiterLimit=4.00
 [DEBUG] q operator: Saved graphics state, stack depth=2
 [DEBUG] cm operator: Matrix=[0.986 0.169 0.169 -0.986 494.406 371.938], new CTM=[0.986 0.169 0.169 -0.986 494.406 371.938]
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
@@ -603,6 +580,7 @@ Operator Execution Log:
 [DEBUG] cm operator: Matrix=[699.424 0.000 0.000 594.922 36.000 36.000], new CTM=[699.424 0.000 0.000 594.922 36.000 36.000]
 [DEBUG] Do operator: Image Im1 at (36.00, 36.00), size: 699.42x594.92 (original: 699x595)
 [DEBUG]   Corners: (36.00,36.00) (735.42,36.00) (36.00,630.92) (735.42,630.92)
+[DEBUG]   ColorSpace: ICCBased, BitsPerComponent: 8, Stream size: 1247715 bytes
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 [DEBUG] q operator: Saved graphics state, stack depth=1
@@ -610,14 +588,15 @@ Operator Execution Log:
 [DEBUG] cm operator: Matrix=[693.424 0.000 0.000 588.922 39.000 41.000], new CTM=[693.424 0.000 0.000 588.922 39.000 41.000]
 [DEBUG] Do operator: Image Im2 at (39.00, 37.00), size: 693.42x588.92 (original: 1420x1206)
 [DEBUG]   Corners: (39.00,41.00) (732.42,41.00) (39.00,629.92) (732.42,629.92)
+[DEBUG]   ColorSpace: ICCBased, BitsPerComponent: 8, Stream size: 5137560 bytes
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 [DEBUG] q operator: Saved graphics state, stack depth=1
 [DEBUG] q operator: Saved graphics state, stack depth=2
 [DEBUG] cm operator: Matrix=[1.000 0.000 0.000 1.000 351.749 364.135], new CTM=[1.000 0.000 0.000 1.000 351.749 364.135]
-[DEBUG] BT operator: Reset text matrices
+[DEBUG] BT operator: Reset text matrices and text state
 [DEBUG] Tm operator: Matrix=[18.000 0.000 0.000 18.000 0.000 0.000]
-[DEBUG] Tf operator: Font=C1, Size=1.00
+[DEBUG] Tf operator: Font=C1 (BaseFont=AAAAAB+.PingFangSC-Regular), Size=1.00
 [DEBUG] Text element: baseFontSize=1.00, scale=18.00, effectiveFontSize=18.00
 [DEBUG] Calculated text width from CIDs: 144.00 (8 CIDs)
 [DEBUG] Total displacement: 144.00 (width=144.00, kerning=0.00), new X0=144.00
@@ -625,6 +604,7 @@ Operator Execution Log:
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 [DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] M operator: MiterLimit=4.00
 [DEBUG] q operator: Saved graphics state, stack depth=2
 [DEBUG] cm operator: Matrix=[0.986 0.169 0.169 -0.986 494.406 371.938], new CTM=[0.986 0.169 0.169 -0.986 494.406 371.938]
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
@@ -654,12 +634,6 @@ Operator Execution Log:
 ✓ Loaded CID widths for font C1: 0 direct mappings, 0 ranges
 ✓ Loaded font widths for C1: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font C1: Identity-H
-[loadXObject] Decoding stream for Im2...
-[loadXObject] Raw stream length: 219410 bytes
-[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
-[loadXObject] Stream decoded via direct Decode(): 5137560 bytes
-[loadXObject] Filters detected: [FlateDecode]
-[loadXObject] ColorSpace (IndirectRef->Array): ICCBased
 [loadXObject] Decoding stream for Im1...
 [loadXObject] Raw stream length: 5464 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...
@@ -669,6 +643,12 @@ Operator Execution Log:
 [loadXObject] Found SMask for image Im1
 [loadXObject] SMask is an indirect reference: (10 0 R)
 [loadXObject] ⚠️  SMask detected but currently ignored to avoid color issues
+[loadXObject] Decoding stream for Im2...
+[loadXObject] Raw stream length: 219410 bytes
+[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
+[loadXObject] Stream decoded via direct Decode(): 5137560 bytes
+[loadXObject] Filters detected: [FlateDecode]
+[loadXObject] ColorSpace (IndirectRef->Array): ICCBased
    Dereferenced to: types.StreamDict
    Decoding StreamDict...
    Raw: 712 bytes, Content: 0 bytes
@@ -681,6 +661,7 @@ Operator Execution Log:
 [DEBUG] cm operator: Matrix=[699.424 0.000 0.000 594.922 36.000 36.000], new CTM=[699.424 0.000 0.000 594.922 36.000 36.000]
 [DEBUG] Do operator: Image Im1 at (36.00, 36.00), size: 699.42x594.92 (original: 699x595)
 [DEBUG]   Corners: (36.00,36.00) (735.42,36.00) (36.00,630.92) (735.42,630.92)
+[DEBUG]   ColorSpace: ICCBased, BitsPerComponent: 8, Stream size: 1247715 bytes
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 [DEBUG] q operator: Saved graphics state, stack depth=1
@@ -688,14 +669,15 @@ Operator Execution Log:
 [DEBUG] cm operator: Matrix=[693.424 0.000 0.000 588.922 39.000 41.000], new CTM=[693.424 0.000 0.000 588.922 39.000 41.000]
 [DEBUG] Do operator: Image Im2 at (39.00, 37.00), size: 693.42x588.92 (original: 1420x1206)
 [DEBUG]   Corners: (39.00,41.00) (732.42,41.00) (39.00,629.92) (732.42,629.92)
+[DEBUG]   ColorSpace: ICCBased, BitsPerComponent: 8, Stream size: 5137560 bytes
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 [DEBUG] q operator: Saved graphics state, stack depth=1
 [DEBUG] q operator: Saved graphics state, stack depth=2
 [DEBUG] cm operator: Matrix=[1.000 0.000 0.000 1.000 351.749 364.135], new CTM=[1.000 0.000 0.000 1.000 351.749 364.135]
-[DEBUG] BT operator: Reset text matrices
+[DEBUG] BT operator: Reset text matrices and text state
 [DEBUG] Tm operator: Matrix=[18.000 0.000 0.000 18.000 0.000 0.000]
-[DEBUG] Tf operator: Font=C1, Size=1.00
+[DEBUG] Tf operator: Font=C1 (BaseFont=AAAAAB+.PingFangSC-Regular), Size=1.00
 [DEBUG] Text element: baseFontSize=1.00, scale=18.00, effectiveFontSize=18.00
 [DEBUG] Calculated text width from CIDs: 144.00 (8 CIDs)
 [DEBUG] Total displacement: 144.00 (width=144.00, kerning=0.00), new X0=144.00
@@ -703,6 +685,7 @@ Operator Execution Log:
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 [DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] M operator: MiterLimit=4.00
 [DEBUG] q operator: Saved graphics state, stack depth=2
 [DEBUG] cm operator: Matrix=[0.986 0.169 0.169 -0.986 494.406 371.938], new CTM=[0.986 0.169 0.169 -0.986 494.406 371.938]
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
@@ -710,47 +693,18 @@ Operator Execution Log:
 
 Gopdf/Pango Debug Output:
 -------------------------
-[Paint] No clip path, filling entire surface
-[Rectangle] Added rectangle, path.data length: 5
-[Rectangle] Added rectangle, path.data length: 6
 [Clip] Before copy, c.path.data length: 7
 [Clip] After deep copy, clipPath.data length: 7
-[DEBUG applyPathToPango] Applied 7 path operations
-[Paint] Using clip path, data length: 7
-[DEBUG applyPathToPango] Applied 7 path operations
 [Clip] Before copy, c.path.data length: 19
 [Clip] After deep copy, clipPath.data length: 19
-[DEBUG applyPathToPango] Applied 19 path operations
-[Rectangle] Added rectangle, path.data length: 5
-[Rectangle] Added rectangle, path.data length: 6
 [Clip] Before copy, c.path.data length: 7
 [Clip] After deep copy, clipPath.data length: 7
-[DEBUG applyPathToPango] Applied 7 path operations
-[Paint] Using clip path, data length: 7
-[DEBUG applyPathToPango] Applied 7 path operations
-[Rectangle] Added rectangle, path.data length: 5
-[Rectangle] Added rectangle, path.data length: 6
 [Clip] Before copy, c.path.data length: 7
 [Clip] After deep copy, clipPath.data length: 7
-[DEBUG applyPathToPango] Applied 7 path operations
-[DEBUG applyPathToPango] Applied 10 path operations
-[DEBUG applyPathToPango] Applied 10 path operations
-[DEBUG applyPathToPango] Applied 10 path operations
-[DEBUG applyPathToPango] Applied 10 path operations
-[DEBUG applyPathToPango] Applied 10 path operations
-[DEBUG applyPathToPango] Applied 10 path operations
-[DEBUG applyPathToPango] Applied 10 path operations
-[DEBUG applyPathToPango] Applied 10 path operations
 [Clip] Before copy, c.path.data length: 5
 [Clip] After deep copy, clipPath.data length: 5
-[DEBUG applyPathToPango] Applied 5 path operations
-[Rectangle] Added rectangle, path.data length: 5
-[Rectangle] Added rectangle, path.data length: 6
 [Clip] Before copy, c.path.data length: 7
 [Clip] After deep copy, clipPath.data length: 7
-[DEBUG applyPathToPango] Applied 7 path operations
-[DEBUG applyPathToPango] Applied 3 path operations
-[DEBUG applyPathToPango] Applied 5 path operations
 
 
 Status: SUCCESS

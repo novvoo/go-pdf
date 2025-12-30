@@ -1,4 +1,4 @@
-package gopdf_test
+package test
 
 import (
 	"fmt"
@@ -313,5 +313,3 @@ func loadAndValidateImage(filename string) (image.Image, error) {
 
 	return img, nil
 }
-
-

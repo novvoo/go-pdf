@@ -98,12 +98,15 @@ type CIDWidthRange struct {
 // GetWidth 获取字符的宽度（以千分之一 em 为单位）
 func (f *Font) GetWidth(cid uint16) float64 {
 	if f.Widths == nil {
-		// 如果没有宽度信息，返回默认宽度
+		// 🔥 修复：如果没有宽度信息，优先使用字体的默认宽度
 		if f.DefaultWidth > 0 {
 			return f.DefaultWidth
 		}
-		// 使用通用默认值：500（半个 em）
-		return 500.0
+		if f.MissingWidth > 0 {
+			return f.MissingWidth
+		}
+		// 使用 1 em (1000 单位) 作为最后的回退
+		return 1000.0
 	}
 
 	// CID 字体
@@ -116,7 +119,10 @@ func (f *Font) GetWidth(cid uint16) float64 {
 				if f.DefaultWidth > 0 {
 					return f.DefaultWidth
 				}
-				return 500.0
+				if f.MissingWidth > 0 {
+					return f.MissingWidth
+				}
+				return 1000.0
 			}
 			return width
 		}
@@ -138,7 +144,10 @@ func (f *Font) GetWidth(cid uint16) float64 {
 							if f.DefaultWidth > 0 {
 								return f.DefaultWidth
 							}
-							return 500.0
+							if f.MissingWidth > 0 {
+								return f.MissingWidth
+							}
+							return 1000.0
 						}
 						return width
 					}
@@ -153,7 +162,7 @@ func (f *Font) GetWidth(cid uint16) float64 {
 		if f.MissingWidth > 0 {
 			return f.MissingWidth
 		}
-		return 500.0
+		return 1000.0
 	}
 
 	// Type1/TrueType 字体
@@ -168,7 +177,7 @@ func (f *Font) GetWidth(cid uint16) float64 {
 					if f.MissingWidth > 0 {
 						return f.MissingWidth
 					}
-					return 500.0
+					return 1000.0
 				}
 				return width
 			}
@@ -179,7 +188,7 @@ func (f *Font) GetWidth(cid uint16) float64 {
 	if f.MissingWidth > 0 {
 		return f.MissingWidth
 	}
-	return 500.0
+	return 1000.0
 }
 
 // ===== 文本对象操作符 =====
@@ -271,9 +280,20 @@ func (op *OpMoveToNextLine) Name() string { return "T*" }
 func (op *OpMoveToNextLine) Execute(ctx *RenderContext) error {
 	// 🔥 关键修复：T* 必须重置 X 坐标到行首
 	// 根据 PDF 规范：Tlm = Tlm × [1 0 0 1 0 -Tl]，然后 Tm = Tlm
-	// 这意味着只移动 Y，X 重置为 TextLineMatrix 的 X
+	// 这意味着只移动 Y，X 保持为 TextLineMatrix 的初始 X
+
+	// 保存当前行的起始 X 坐标
+	lineStartX := ctx.TextState.TextLineMatrix.X0
+
+	// 移动 Y 坐标
 	ctx.TextState.TextLineMatrix = ctx.TextState.TextLineMatrix.Translate(0, -ctx.TextState.Leading)
-	ctx.TextState.TextMatrix = ctx.TextState.TextLineMatrix.Clone() // ⭐ 重置 X
+
+	// 🔥 修复：确保 X 坐标重置到行首
+	// 如果 TextLineMatrix 的 X 被之前的文本操作修改了，需要重置
+	ctx.TextState.TextLineMatrix.X0 = lineStartX
+
+	// 重置 TextMatrix 为 TextLineMatrix
+	ctx.TextState.TextMatrix = ctx.TextState.TextLineMatrix.Clone()
 
 	debugPrintf("[T*] Next line: Leading=%.2f -> New Tm: [%.2f %.2f %.2f %.2f %.2f %.2f]\n",
 		ctx.TextState.Leading,
@@ -786,12 +806,19 @@ func (ts *TextState) GlyphAdvance(cid uint16, isSpace bool) float64 {
 	// 1. 获取字形宽度（千分之一 em）
 	glyphWidth := ts.Font.GetWidth(cid)
 
-	// 🔥 修复：如果字形宽度为0或默认值500，使用更合理的估算
-	// 这可以避免字符重叠问题
+	// 🔥 修复：如果字形宽度为0，使用字体的默认宽度或缺失宽度
 	if glyphWidth == 0 {
-		// 对于宽度为0的字形，使用字体大小的一半作为默认宽度
-		glyphWidth = 500.0
-		debugPrintf("[GlyphAdvance] CID %d has zero width, using default 500\n", cid)
+		if ts.Font.DefaultWidth > 0 {
+			glyphWidth = ts.Font.DefaultWidth
+			debugPrintf("[GlyphAdvance] CID %d has zero width, using DefaultWidth: %.0f\n", cid, glyphWidth)
+		} else if ts.Font.MissingWidth > 0 {
+			glyphWidth = ts.Font.MissingWidth
+			debugPrintf("[GlyphAdvance] CID %d has zero width, using MissingWidth: %.0f\n", cid, glyphWidth)
+		} else {
+			// 最后的回退：使用 1 em (1000 单位)
+			glyphWidth = 1000.0
+			debugPrintf("[GlyphAdvance] CID %d has zero width, using fallback: 1000\n", cid)
+		}
 	}
 
 	// 2. 转换为用户空间单位

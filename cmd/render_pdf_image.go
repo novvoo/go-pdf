@@ -21,9 +21,9 @@ import (
 
 func main() {
 	// 固定使用 test_vector.pdf
-	pdfPath := "test/test_image.pdf"
-	outputPath := "test/test_image.png"
-	reportPath := "test/render_image.txt"
+	pdfPath := "example/test_image.pdf"
+	outputPath := "example/test_image.png"
+	reportPath := "example/render_image.txt"
 
 	// 立即重定向所有输出到缓冲区，确保终端完全静默
 	oldStdout := os.Stdout
