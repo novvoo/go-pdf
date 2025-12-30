@@ -62,15 +62,27 @@ type FlateDecodeFilter struct{}
 func (f *FlateDecodeFilter) Name() string { return "FlateDecode" }
 
 func (f *FlateDecodeFilter) Decode(data []byte) ([]byte, error) {
+	// 验证输入数据
+	if len(data) == 0 {
+		return nil, fmt.Errorf("empty FlateDecode data")
+	}
+
+	// 验证zlib头部（通常以 0x78 开始）
+	if len(data) < 2 {
+		return nil, fmt.Errorf("FlateDecode data too short: %d bytes", len(data))
+	}
+
 	reader, err := zlib.NewReader(bytes.NewReader(data))
 	if err != nil {
-		return nil, fmt.Errorf("failed to create zlib reader: %w", err)
+		return nil, fmt.Errorf("failed to create zlib reader (possibly corrupted header): %w", err)
 	}
 	defer reader.Close()
 
 	var buf bytes.Buffer
-	if _, err := io.Copy(&buf, reader); err != nil {
-		return nil, fmt.Errorf("failed to decompress: %w", err)
+	// 限制解压后的数据大小，防止zip炸弹攻击
+	limitedReader := io.LimitReader(reader, 100*1024*1024) // 100MB限制
+	if _, err := io.Copy(&buf, limitedReader); err != nil {
+		return nil, fmt.Errorf("failed to decompress (possibly corrupted stream): %w", err)
 	}
 
 	return buf.Bytes(), nil
@@ -82,6 +94,17 @@ type DCTDecodeFilter struct{}
 func (f *DCTDecodeFilter) Name() string { return "DCTDecode" }
 
 func (f *DCTDecodeFilter) Decode(data []byte) ([]byte, error) {
+	// 验证输入数据
+	if len(data) == 0 {
+		return nil, fmt.Errorf("empty JPEG data")
+	}
+
+	// 验证JPEG头部（应该以 0xFF 0xD8 开始）
+	if len(data) < 2 || data[0] != 0xFF || data[1] != 0xD8 {
+		return nil, fmt.Errorf("invalid JPEG header: expected FF D8, got %02X %02X",
+			getByteOrZero(data, 0), getByteOrZero(data, 1))
+	}
+
 	// JPEG 数据通常不需要进一步解码
 	// 可以直接传递给 image.Decode
 	img, err := jpeg.Decode(bytes.NewReader(data))
@@ -93,6 +116,14 @@ func (f *DCTDecodeFilter) Decode(data []byte) ([]byte, error) {
 	bounds := img.Bounds()
 	width := bounds.Dx()
 	height := bounds.Dy()
+
+	// 验证图像尺寸
+	if width <= 0 || height <= 0 {
+		return nil, fmt.Errorf("invalid image dimensions: %dx%d", width, height)
+	}
+	if width > 65535 || height > 65535 {
+		return nil, fmt.Errorf("image dimensions too large: %dx%d", width, height)
+	}
 
 	result := make([]byte, width*height*3)
 	offset := 0
@@ -110,20 +141,35 @@ func (f *DCTDecodeFilter) Decode(data []byte) ([]byte, error) {
 	return result, nil
 }
 
+// getByteOrZero 安全获取字节，越界返回0
+func getByteOrZero(data []byte, index int) byte {
+	if index >= 0 && index < len(data) {
+		return data[index]
+	}
+	return 0
+}
+
 // LZWDecodeFilter LZW 解压滤镜
 type LZWDecodeFilter struct{}
 
 func (f *LZWDecodeFilter) Name() string { return "LZWDecode" }
 
 func (f *LZWDecodeFilter) Decode(data []byte) ([]byte, error) {
+	// 验证输入数据
+	if len(data) == 0 {
+		return nil, fmt.Errorf("empty LZW data")
+	}
+
 	// 使用 compress/lzw 包实现 LZW 解压
 	// PDF 使用 MSB (Most Significant Bit first) 顺序
 	reader := lzw.NewReader(bytes.NewReader(data), lzw.MSB, 8)
 	defer reader.Close()
 
 	var buf bytes.Buffer
-	if _, err := io.Copy(&buf, reader); err != nil {
-		return nil, fmt.Errorf("failed to decompress LZW: %w", err)
+	// 限制解压后的数据大小
+	limitedReader := io.LimitReader(reader, 100*1024*1024) // 100MB限制
+	if _, err := io.Copy(&buf, limitedReader); err != nil {
+		return nil, fmt.Errorf("failed to decompress LZW (possibly corrupted stream): %w", err)
 	}
 
 	return buf.Bytes(), nil
@@ -264,10 +310,20 @@ type RunLengthDecodeFilter struct{}
 func (f *RunLengthDecodeFilter) Name() string { return "RunLengthDecode" }
 
 func (f *RunLengthDecodeFilter) Decode(data []byte) ([]byte, error) {
+	// 验证输入数据
+	if len(data) == 0 {
+		return []byte{}, nil // 空数据返回空结果
+	}
+
 	var result []byte
 	i := 0
+	maxOutputSize := 10 * 1024 * 1024 // 10MB限制
 
 	for i < len(data) {
+		if i >= len(data) {
+			break
+		}
+
 		length := int(data[i])
 		i++
 
@@ -280,7 +336,10 @@ func (f *RunLengthDecodeFilter) Decode(data []byte) ([]byte, error) {
 			// 复制接下来的 length+1 个字节
 			count := length + 1
 			if i+count > len(data) {
-				return nil, fmt.Errorf("unexpected end of data")
+				return nil, fmt.Errorf("unexpected end of data in copy mode: need %d bytes, have %d", count, len(data)-i)
+			}
+			if len(result)+count > maxOutputSize {
+				return nil, fmt.Errorf("output size exceeds limit")
 			}
 			result = append(result, data[i:i+count]...)
 			i += count
@@ -288,7 +347,10 @@ func (f *RunLengthDecodeFilter) Decode(data []byte) ([]byte, error) {
 			// 重复接下来的字节 257-length 次
 			count := 257 - length
 			if i >= len(data) {
-				return nil, fmt.Errorf("unexpected end of data")
+				return nil, fmt.Errorf("unexpected end of data in repeat mode: need 1 byte for repeat value")
+			}
+			if len(result)+count > maxOutputSize {
+				return nil, fmt.Errorf("output size exceeds limit")
 			}
 			b := data[i]
 			i++

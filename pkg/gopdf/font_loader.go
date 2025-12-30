@@ -75,11 +75,28 @@ func (fl *FontLoader) FindFont(fontName string) (string, error) {
 	// 标准化字体名称
 	normalizedName := normalizeFontName(fontName)
 
+	// 使用带深度限制的查找，防止无限递归
+	return fl.findFontWithDepth(normalizedName, fontName, 0, 5)
+}
+
+// findFontWithDepth 带递归深度限制的字体查找
+func (fl *FontLoader) findFontWithDepth(normalizedName, originalName string, depth, maxDepth int) (string, error) {
+	if depth >= maxDepth {
+		// 达到最大递归深度，使用系统默认字体
+		fallbackPath := fl.getFallbackFont()
+		if fallbackPath != "" {
+			debugPrintf("⚠️ Font '%s' search depth exceeded, using fallback\n", originalName)
+			fl.fontCache[originalName] = fallbackPath
+			return fallbackPath, nil
+		}
+		return "", fmt.Errorf("font not found after %d substitutions: %s", maxDepth, originalName)
+	}
+
 	// 在字体目录中搜索
 	for _, dir := range fl.fontDirs {
 		path, err := fl.searchFontInDir(dir, normalizedName)
 		if err == nil {
-			fl.fontCache[fontName] = path
+			fl.fontCache[originalName] = path
 			return path, nil
 		}
 	}
@@ -87,10 +104,39 @@ func (fl *FontLoader) FindFont(fontName string) (string, error) {
 	// 尝试字体替换
 	substituteName := getFontSubstitute(normalizedName)
 	if substituteName != normalizedName {
-		return fl.FindFont(substituteName)
+		return fl.findFontWithDepth(substituteName, originalName, depth+1, maxDepth)
 	}
 
-	return "", fmt.Errorf("font not found: %s", fontName)
+	// 最后的后备：返回系统默认字体而不是错误
+	fallbackPath := fl.getFallbackFont()
+	if fallbackPath != "" {
+		debugPrintf("⚠️ Font '%s' not found, using fallback\n", originalName)
+		fl.fontCache[originalName] = fallbackPath
+		return fallbackPath, nil
+	}
+
+	return "", fmt.Errorf("font not found and no fallback available: %s", originalName)
+}
+
+// getFallbackFont 获取系统默认后备字体
+func (fl *FontLoader) getFallbackFont() string {
+	// 尝试常见的后备字体
+	fallbacks := []string{
+		"arial", "helvetica", "sans",
+		"times", "serif",
+		"courier", "monospace",
+	}
+
+	for _, fb := range fallbacks {
+		for _, dir := range fl.fontDirs {
+			path, err := fl.searchFontInDir(dir, fb)
+			if err == nil {
+				return path
+			}
+		}
+	}
+
+	return ""
 }
 
 // searchFontInDir 在目录中搜索字体
