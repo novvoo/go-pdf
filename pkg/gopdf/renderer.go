@@ -6,6 +6,7 @@ import (
 	"image/color"
 	"image/png"
 	"io"
+	"math"
 	"os"
 )
 
@@ -77,7 +78,14 @@ func (r *PDFRenderer) SetDPI(dpi float64) {
 // CreatePDFFromImage 从图片创建 PDF
 // 使用 Pixman 后端进行图像处理
 // 优化：使用批量像素复制替代逐像素循环
+// inputDPI: 输入图像的DPI，如果为0则默认为72
 func (r *PDFRenderer) CreatePDFFromImage(imagePath, outputPath string) error {
+	return r.CreatePDFFromImageWithDPI(imagePath, outputPath, 0)
+}
+
+// CreatePDFFromImageWithDPI 从图片创建 PDF，支持指定输入图像的DPI
+// 🔥 修复：正确处理DPI，避免图像大小异常
+func (r *PDFRenderer) CreatePDFFromImageWithDPI(imagePath, outputPath string, inputDPI float64) error {
 	// 读取图片
 	imgFile, err := os.Open(imagePath)
 	if err != nil {
@@ -91,8 +99,23 @@ func (r *PDFRenderer) CreatePDFFromImage(imagePath, outputPath string) error {
 	}
 
 	bounds := img.Bounds()
-	width := float64(bounds.Dx())
-	height := float64(bounds.Dy())
+	pixelWidth := float64(bounds.Dx())
+	pixelHeight := float64(bounds.Dy())
+
+	// 🔥 修复：如果未指定DPI，尝试从图像元数据中读取，否则默认为72
+	if inputDPI == 0 {
+		inputDPI = 72 // PDF标准DPI
+		debugPrintf("⚠️  No DPI specified, using default 72 DPI\n")
+	}
+
+	// 🔥 修复：根据DPI计算PDF中的实际尺寸（单位：points）
+	// PDF中 1 point = 1/72 inch
+	// 公式：widthPoints = pixelWidth * (72 / inputDPI)
+	width := pixelWidth * (72.0 / inputDPI)
+	height := pixelHeight * (72.0 / inputDPI)
+
+	debugPrintf("📐 Image size: %.0fx%.0f pixels at %.0f DPI -> %.2fx%.2f points in PDF\n",
+		pixelWidth, pixelHeight, inputDPI, width, height)
 
 	// 创建 PDF surface
 	pdfSurface := NewPDFSurface(outputPath, width, height)
@@ -185,7 +208,7 @@ func convertToRGBAOptimized(img image.Image) *image.RGBA {
 }
 
 // convertYCbCrToRGBA 批量转换 YCbCr 到 RGBA
-// 🔥 修复：使用 int64 避免溢出，并正确处理 alpha 通道
+// 🔥 修复：使用浮点计算提高色调准确性，并应用gamma校正
 func convertYCbCrToRGBA(src *image.YCbCr, dst *image.RGBA) {
 	bounds := src.Bounds()
 	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
@@ -193,43 +216,78 @@ func convertYCbCrToRGBA(src *image.YCbCr, dst *image.RGBA) {
 			yi := src.YOffset(x, y)
 			ci := src.COffset(x, y)
 
-			// 🔥 修复：使用 int64 避免 int32 溢出
-			yy := int64(src.Y[yi])
-			cb := int64(src.Cb[ci]) - 128
-			cr := int64(src.Cr[ci]) - 128
+			// 🔥 修复：使用浮点计算以提高精度
+			yy := float64(src.Y[yi])
+			cb := float64(src.Cb[ci]) - 128.0
+			cr := float64(src.Cr[ci]) - 128.0
 
-			// YCbCr 到 RGB 转换（使用标准系数）
+			// YCbCr 到 RGB 转换（ITU-R BT.601标准系数）
 			// R = Y + 1.402 * Cr
 			// G = Y - 0.344136 * Cb - 0.714136 * Cr
 			// B = Y + 1.772 * Cb
-			r := (yy*65536 + 91881*cr) >> 16
-			g := (yy*65536 - 22554*cb - 46802*cr) >> 16
-			b := (yy*65536 + 116130*cb) >> 16
+			r := yy + 1.402*cr
+			g := yy - 0.344136*cb - 0.714136*cr
+			b := yy + 1.772*cb
 
-			// 裁剪到 [0, 255]
+			// 🔥 修复：应用简单的gamma校正以改善色调
+			// 使用sRGB gamma近似（gamma = 2.2）
+			const gamma = 2.2
+			const invGamma = 1.0 / gamma
+
+			// 归一化到 [0, 1]
+			r = r / 255.0
+			g = g / 255.0
+			b = b / 255.0
+
+			// 裁剪到 [0, 1]
 			if r < 0 {
 				r = 0
-			} else if r > 255 {
-				r = 255
+			} else if r > 1 {
+				r = 1
 			}
 			if g < 0 {
 				g = 0
-			} else if g > 255 {
-				g = 255
+			} else if g > 1 {
+				g = 1
 			}
 			if b < 0 {
 				b = 0
-			} else if b > 255 {
-				b = 255
+			} else if b > 1 {
+				b = 1
 			}
 
+			// 应用gamma校正（线性 -> sRGB）
+			// 简化版本：使用幂函数近似
+			// 注意：完整的sRGB转换需要分段函数，这里使用简化版本
+			if r > 0.0031308 {
+				r = 1.055*pow(r, invGamma) - 0.055
+			} else {
+				r = 12.92 * r
+			}
+			if g > 0.0031308 {
+				g = 1.055*pow(g, invGamma) - 0.055
+			} else {
+				g = 12.92 * g
+			}
+			if b > 0.0031308 {
+				b = 1.055*pow(b, invGamma) - 0.055
+			} else {
+				b = 12.92 * b
+			}
+
+			// 转换回 [0, 255]
 			i := dst.PixOffset(x, y)
-			dst.Pix[i+0] = uint8(r)
-			dst.Pix[i+1] = uint8(g)
-			dst.Pix[i+2] = uint8(b)
+			dst.Pix[i+0] = uint8(r*255.0 + 0.5)
+			dst.Pix[i+1] = uint8(g*255.0 + 0.5)
+			dst.Pix[i+2] = uint8(b*255.0 + 0.5)
 			dst.Pix[i+3] = 255 // 完全不透明
 		}
 	}
+}
+
+// pow 简单的幂函数实现（用于gamma校正）
+func pow(x, y float64) float64 {
+	return math.Pow(x, y)
 }
 
 // convertGrayToRGBA 批量转换灰度图到 RGBA

@@ -139,12 +139,6 @@ Renders a PDF page to an image.Image.
 - ✅ Difference image generation
 - ✅ Batch comparison support
 
-## Documentation
-
-- [USAGE_GUIDE.md](USAGE_GUIDE.md) - Comprehensive usage guide
-- [IMPROVEMENT_PLAN.md](IMPROVEMENT_PLAN.md) - Detailed improvement roadmap
-- [POPPLER_COMPARISON.md](POPPLER_COMPARISON.md) - Comparison with Poppler
-- [IMPROVEMENTS_SUMMARY.md](IMPROVEMENTS_SUMMARY.md) - Summary of recent improvements
 
 ## Testing
 
