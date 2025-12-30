@@ -1,6 +1,6 @@
 PDF Rendering Report
 ====================
-Time: 2025-12-30 11:13:04
+Time: 2025-12-30 14:47:30
 
 ParseTokens Test:
 -----------------
@@ -22,7 +22,7 @@ Rendering Process:
 Output File Info:
 -----------------
 Size: 108570 bytes
-Created: 2025-12-30 11:13:06
+Created: 2025-12-30 14:47:32
 
 Page Information:
 -----------------
@@ -424,34 +424,40 @@ Operator Execution Log:
 [Q] Restore graphics state - Stack depth: 1
 
 📈 Operator Statistics:
-   Q: 9
-   W: 6
-   Do: 2
-   m: 6
-   BT: 1
-   Tm: 1
-   M: 1
-   S: 1
-   BDC: 4
-   c: 12
-   h: 3
-   EMC: 4
-   Tf: 1
-   Tj: 1
-   re: 4
-   n: 6
-   gs: 1
    cm: 4
-   l: 11
-   Tc: 1
+   Do: 2
    q: 9
-   ET: 1
+   gs: 1
+   l: 11
+   h: 3
+   BT: 1
+   Tc: 1
+   S: 1
    f: 1
+   BDC: 4
+   Q: 9
+   re: 4
+   m: 6
+   c: 12
+   Tm: 1
+   Tj: 1
+   n: 6
+   Tf: 1
+   ET: 1
+   M: 1
+   EMC: 4
+   W: 6
 ✓ Loaded ToUnicode CMap for font C1 (0 mappings, 0 ranges)
 ✓ Default width for CID font C1: 1000
 ✓ Loaded CID widths for font C1: 0 direct mappings, 0 ranges
 ✓ Loaded font widths for C1: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font C1: Identity-H
+[loadXObject] Decoding stream for Im2...
+[loadXObject] Raw stream length: 219410 bytes
+[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
+[loadXObject] Stream decoded via direct Decode(): 5137560 bytes
+[loadXObject] Filters detected: [FlateDecode]
+[loadXObject] ColorSpace (IndirectRef->Array): ICCBased
 [loadXObject] Decoding stream for Im1...
 [loadXObject] Raw stream length: 5464 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...
@@ -461,12 +467,6 @@ Operator Execution Log:
 [loadXObject] Found SMask for image Im1
 [loadXObject] SMask is an indirect reference: (10 0 R)
 [loadXObject] ⚠️  SMask detected but currently ignored to avoid color issues
-[loadXObject] Decoding stream for Im2...
-[loadXObject] Raw stream length: 219410 bytes
-[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
-[loadXObject] Stream decoded via direct Decode(): 5137560 bytes
-[loadXObject] Filters detected: [FlateDecode]
-[loadXObject] ColorSpace (IndirectRef->Array): ICCBased
 ✓ Loaded ToUnicode CMap for font C1 (0 mappings, 0 ranges)
 ✓ Default width for CID font C1: 1000
 ✓ Loaded CID widths for font C1: 0 direct mappings, 0 ranges

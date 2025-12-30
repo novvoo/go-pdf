@@ -49,6 +49,7 @@ type XObject struct {
 	Width            int                // 图像宽度
 	Height           int                // 图像高度
 	ColorSpace       string             // 颜色空间
+	ColorSpaceArray  interface{}        // 🔥 新增：颜色空间数组（用于 Indexed 等复杂颜色空间）
 	BitsPerComponent int                // 每个颜色分量的位数
 	ImageData        image.Image        // 解码后的图像数据
 	Group            *TransparencyGroup // 透明度组（仅用于 Form）

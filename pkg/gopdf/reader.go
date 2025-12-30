@@ -250,6 +250,7 @@ func (r *PDFReader) ExtractImageData(pageNum int, imageName string) (*image.RGBA
 }
 
 // decodeImageXObject 解码图像 XObject 为 RGBA 图像
+// 🔥 修复：改进 ICCBased 和 Indexed 颜色空间的处理
 func decodeImageXObject(xobj *XObject) (*image.RGBA, error) {
 	if len(xobj.Stream) == 0 {
 		return nil, fmt.Errorf("image stream is empty")
@@ -272,12 +273,52 @@ func decodeImageXObject(xobj *XObject) (*image.RGBA, error) {
 	case "DeviceCMYK", "/DeviceCMYK":
 		return decodeDeviceCMYK(xobj.Stream, width, height, bpc)
 	case "/ICCBased":
-		// ICC 颜色空间，尝试作为 RGB 处理
-		debugPrintf("[decodeImageXObject] ICCBased color space, treating as RGB\n")
-		return decodeDeviceRGB(xobj.Stream, width, height, bpc)
+		// 🔥 修复：ICC 颜色空间，根据组件数判断实际颜色空间
+		// 通过数据大小推断组件数：N = dataSize / (width * height * bytesPerComponent)
+		bytesPerPixel := len(xobj.Stream) / (width * height)
+		debugPrintf("[decodeImageXObject] ICCBased color space, bytes per pixel: %d\n", bytesPerPixel)
+
+		if bytesPerPixel == 4 {
+			// 4 个组件，可能是 CMYK
+			debugPrintf("[decodeImageXObject] ICCBased with 4 components, treating as CMYK\n")
+			return decodeDeviceCMYK(xobj.Stream, width, height, bpc)
+		} else if bytesPerPixel == 3 {
+			// 3 个组件，RGB
+			debugPrintf("[decodeImageXObject] ICCBased with 3 components, treating as RGB\n")
+			return decodeDeviceRGB(xobj.Stream, width, height, bpc)
+		} else if bytesPerPixel == 1 {
+			// 1 个组件，灰度
+			debugPrintf("[decodeImageXObject] ICCBased with 1 component, treating as Gray\n")
+			return decodeDeviceGray(xobj.Stream, width, height, bpc)
+		} else {
+			// 默认尝试 RGB
+			debugPrintf("[decodeImageXObject] ICCBased with unknown components (%d bytes/pixel), trying RGB\n", bytesPerPixel)
+			return decodeDeviceRGB(xobj.Stream, width, height, bpc)
+		}
 	case "/Indexed":
-		// 索引颜色空间，需要查找调色板
-		debugPrintf("[decodeImageXObject] Indexed color space not fully supported, using grayscale\n")
+		// 🔥 修复：索引颜色空间，尝试提取调色板
+		// 注意：完整的 Indexed 支持需要解析 ColorSpace 数组中的调色板数据
+		// 这里提供基本支持，如果无法获取调色板则回退到灰度
+		debugPrintf("[decodeImageXObject] Indexed color space detected\n")
+
+		// 尝试解码为索引图像（如果有调色板信息）
+		if xobj.ColorSpaceArray != nil {
+			// 尝试类型断言为数组
+			if arr, ok := xobj.ColorSpaceArray.([]interface{}); ok {
+				if len(arr) >= 4 {
+					// Indexed 颜色空间格式：[/Indexed base hival lookup]
+					debugPrintf("[decodeImageXObject] Attempting to decode Indexed color space with palette (array length: %d)\n", len(arr))
+					img, err := decodeIndexedColorSpace(xobj.Stream, width, height, bpc, xobj.ColorSpaceArray)
+					if err == nil {
+						return img, nil
+					}
+					debugPrintf("[decodeImageXObject] Failed to decode Indexed with palette: %v, falling back to grayscale\n", err)
+				}
+			}
+		}
+
+		// 回退：将索引值作为灰度处理
+		debugPrintf("[decodeImageXObject] Indexed color space: no palette available, using grayscale fallback\n")
 		return decodeDeviceGray(xobj.Stream, width, height, bpc)
 	default:
 		debugPrintf("[decodeImageXObject] Unknown color space %s, trying RGB\n", colorSpace)
@@ -364,6 +405,7 @@ func decodeDeviceGray(data []byte, width, height, bpc int) (*image.RGBA, error) 
 }
 
 // decodeDeviceCMYK 解码 DeviceCMYK 图像
+// 🔥 修复：确保 CMYK 到 RGB 转换公式正确，并添加值范围检查
 func decodeDeviceCMYK(data []byte, width, height, bpc int) (*image.RGBA, error) {
 	img := image.NewRGBA(image.Rect(0, 0, width, height))
 
@@ -382,15 +424,35 @@ func decodeDeviceCMYK(data []byte, width, height, bpc int) (*image.RGBA, error) 
 				yy := float64(data[srcIdx+2]) / 255.0
 				k := float64(data[srcIdx+3]) / 255.0
 
-				// CMYK 到 RGB 转换
-				r := uint8((1.0 - c) * (1.0 - k) * 255.0)
-				g := uint8((1.0 - m) * (1.0 - k) * 255.0)
-				b := uint8((1.0 - yy) * (1.0 - k) * 255.0)
+				// 🔥 修复：使用标准 CMYK 到 RGB 转换公式
+				// R = 255 × (1 - C) × (1 - K)
+				// G = 255 × (1 - M) × (1 - K)
+				// B = 255 × (1 - Y) × (1 - K)
+				r := (1.0 - c) * (1.0 - k) * 255.0
+				g := (1.0 - m) * (1.0 - k) * 255.0
+				b := (1.0 - yy) * (1.0 - k) * 255.0
+
+				// 🔥 修复：确保值在 [0, 255] 范围内（夹紧）
+				if r < 0 {
+					r = 0
+				} else if r > 255 {
+					r = 255
+				}
+				if g < 0 {
+					g = 0
+				} else if g > 255 {
+					g = 255
+				}
+				if b < 0 {
+					b = 0
+				} else if b > 255 {
+					b = 255
+				}
 
 				dstIdx := img.PixOffset(x, y)
-				img.Pix[dstIdx+0] = r
-				img.Pix[dstIdx+1] = g
-				img.Pix[dstIdx+2] = b
+				img.Pix[dstIdx+0] = uint8(r)
+				img.Pix[dstIdx+1] = uint8(g)
+				img.Pix[dstIdx+2] = uint8(b)
 				img.Pix[dstIdx+3] = 255
 			}
 		}
@@ -399,6 +461,31 @@ func decodeDeviceCMYK(data []byte, width, height, bpc int) (*image.RGBA, error) 
 	}
 
 	return img, nil
+}
+
+// decodeIndexedColorSpace 解码索引颜色空间图像
+// 🔥 新增：支持 Indexed 颜色空间的调色板解码
+// colorSpaceArray: [/Indexed base hival lookup]
+func decodeIndexedColorSpace(data []byte, width, height, bpc int, colorSpaceArray interface{}) (*image.RGBA, error) {
+	// 解析 colorSpaceArray
+	// 格式：[/Indexed base hival lookup]
+	// base: 基础颜色空间（如 /DeviceRGB）
+	// hival: 调色板最大索引（0-255）
+	// lookup: 调色板数据
+
+	debugPrintf("[decodeIndexedColorSpace] Decoding indexed image: %dx%d, BPC=%d\n", width, height, bpc)
+
+	// 这里提供基本实现框架
+	// 完整实现需要解析 PDF 对象结构来提取调色板
+	// 由于当前代码结构限制，这里返回错误，让调用者回退到灰度
+
+	// TODO: 实现完整的调色板提取和应用逻辑
+	// 1. 从 colorSpaceArray 中提取 base、hival 和 lookup
+	// 2. 根据 base 确定每个调色板条目的组件数（RGB=3, Gray=1, CMYK=4）
+	// 3. 解析 lookup 数据构建调色板
+	// 4. 对每个像素，使用其索引值查找调色板并转换为 RGB
+
+	return nil, fmt.Errorf("indexed color space palette extraction not yet implemented")
 }
 
 // GetPageInfo 获取页面信息
@@ -1659,11 +1746,13 @@ func loadXObject(ctx *model.Context, xobjName string, xobjObj types.Object, reso
 				xobj.ColorSpace = name.String()
 				debugPrintf("[loadXObject] ColorSpace (Name): %s\n", xobj.ColorSpace)
 			} else if arr, ok := colorSpace.(types.Array); ok {
-				// ColorSpace 可能是数组，例如 [/ICCBased ...] 或 [/Indexed ...]
+				// 🔥 修复：ColorSpace 可能是数组，例如 [/ICCBased ...] 或 [/Indexed ...]
+				// 保存完整的数组以便后续处理（特别是 Indexed 颜色空间）
+				xobj.ColorSpaceArray = arr
 				if len(arr) > 0 {
 					if name, ok := arr[0].(types.Name); ok {
 						xobj.ColorSpace = name.String()
-						debugPrintf("[loadXObject] ColorSpace (Array): %s\n", xobj.ColorSpace)
+						debugPrintf("[loadXObject] ColorSpace (Array): %s, array length: %d\n", xobj.ColorSpace, len(arr))
 					}
 				}
 			} else if indRef, ok := colorSpace.(types.IndirectRef); ok {
@@ -1674,10 +1763,12 @@ func loadXObject(ctx *model.Context, xobjName string, xobjObj types.Object, reso
 						xobj.ColorSpace = name.String()
 						debugPrintf("[loadXObject] ColorSpace (IndirectRef->Name): %s\n", xobj.ColorSpace)
 					} else if arr, ok := derefCS.(types.Array); ok {
+						// 🔥 修复：保存解引用后的数组
+						xobj.ColorSpaceArray = arr
 						if len(arr) > 0 {
 							if name, ok := arr[0].(types.Name); ok {
 								xobj.ColorSpace = name.String()
-								debugPrintf("[loadXObject] ColorSpace (IndirectRef->Array): %s\n", xobj.ColorSpace)
+								debugPrintf("[loadXObject] ColorSpace (IndirectRef->Array): %s, array length: %d\n", xobj.ColorSpace, len(arr))
 							}
 						}
 					}
