@@ -180,10 +180,3 @@ func checkPixel(t *testing.T, img *image.RGBA, x, y int, r, g, b, a uint8) {
 			img.Pix[idx+0], img.Pix[idx+1], img.Pix[idx+2], img.Pix[idx+3])
 	}
 }
-
-func absDiff(a, b uint32) uint32 {
-	if a > b {
-		return a - b
-	}
-	return b - a
-}

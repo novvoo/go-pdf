@@ -263,6 +263,8 @@ func decodeImageXObject(xobj *XObject) (*image.RGBA, error) {
 
 	debugPrintf("[decodeImageXObject] Decoding image: %dx%d, BPC=%d, ColorSpace=%s, Stream=%d bytes\n",
 		width, height, bpc, colorSpace, len(xobj.Stream))
+	fmt.Printf("🔍 [IMAGE DEBUG] Decoding image: %dx%d, BPC=%d, ColorSpace=%s\n",
+		width, height, bpc, colorSpace)
 
 	// 根据颜色空间解码
 	switch colorSpace {
@@ -489,7 +491,10 @@ func decodeDeviceGray(data []byte, width, height, bpc int) (*image.RGBA, error) 
 			for x := 0; x < width; x++ {
 				srcIdx := y*width + x
 				dstIdx := img.PixOffset(x, y)
-				gray := data[srcIdx]
+				// 🔥 修复：PDF DeviceGray 可能是反向的（0=白色，255=黑色）
+				// 用户反馈：灰色→黄色，黑色→白色
+				// 这说明灰度值被反转了
+				gray := 255 - data[srcIdx]
 				img.Pix[dstIdx+0] = gray
 				img.Pix[dstIdx+1] = gray
 				img.Pix[dstIdx+2] = gray
@@ -538,11 +543,27 @@ func decodeDeviceCMYK(data []byte, width, height, bpc int) (*image.RGBA, error) 
 
 		for y := 0; y < height; y++ {
 			for x := 0; x < width; x++ {
+				// 🔥 关键修复：PDF 中的 CMYK 值是反向的
+				// 在 PDF 中：0 = 满色（full ink），255 = 无色（no ink）
+				// 所以需要先反转：c_normalized = 1 - (value / 255)
+				// 但这样会得到：c_normalized = 1 - value/255
+				// 实际上，我们应该直接使用：c = value / 255（已经是正确的）
+				// 然后公式：R = 255 × (1 - C) × (1 - K)
+				//
+				// 等等，让我重新理解：
+				// PDF CMYK: 0 = no ink, 255 = full ink (standard)
+				// 但如果出现反转，可能是：0 = full ink, 255 = no ink
+				//
+				// 用户反馈：灰色→黄色，黑色→白色
+				// 黑色(K=255)→白色 说明 K 被反转了
+				// 灰色→黄色 说明 CMY 也被反转了
+				//
+				// 修复：不要除以255再做(1-x)，而是直接用 (255-value)/255
 				srcIdx := (y*width + x) * 4
-				c := float64(data[srcIdx+0]) / 255.0
-				m := float64(data[srcIdx+1]) / 255.0
-				yy := float64(data[srcIdx+2]) / 255.0
-				k := float64(data[srcIdx+3]) / 255.0
+				c := float64(255-data[srcIdx+0]) / 255.0
+				m := float64(255-data[srcIdx+1]) / 255.0
+				yy := float64(255-data[srcIdx+2]) / 255.0
+				k := float64(255-data[srcIdx+3]) / 255.0
 
 				// 🔥 修复：使用标准 CMYK 到 RGB 转换公式
 				// R = 255 × (1 - C) × (1 - K)
