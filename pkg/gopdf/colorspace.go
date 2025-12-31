@@ -225,23 +225,43 @@ func (cs *ICCBasedColorSpace) GetName() string       { return "ICCBased" }
 func (cs *ICCBasedColorSpace) GetNumComponents() int { return cs.NumComponents }
 
 func (cs *ICCBasedColorSpace) ConvertToRGB(components []float64) (r, g, b float64, err error) {
-	// 如果有备用颜色空间，使用它
-	if cs.Alternate != nil {
-		return cs.Alternate.ConvertToRGB(components)
+	if len(components) < cs.NumComponents {
+		return 0, 0, 0, fmt.Errorf("ICCBased requires %d components, got %d", cs.NumComponents, len(components))
 	}
 
-	// 否则根据组件数量猜测
+	// 应用范围限制（如果指定）
+	normalizedComponents := make([]float64, len(components))
+	copy(normalizedComponents, components)
+
+	if len(cs.Range) >= cs.NumComponents*2 {
+		for i := 0; i < cs.NumComponents; i++ {
+			min := cs.Range[i*2]
+			max := cs.Range[i*2+1]
+			// 将组件值从 [min, max] 归一化到 [0, 1]
+			if max > min {
+				normalizedComponents[i] = (components[i] - min) / (max - min)
+			}
+			normalizedComponents[i] = clamp01(normalizedComponents[i])
+		}
+	}
+
+	// 如果有备用颜色空间，使用它
+	if cs.Alternate != nil {
+		return cs.Alternate.ConvertToRGB(normalizedComponents)
+	}
+
+	// 否则根据组件数量使用默认转换
 	switch cs.NumComponents {
 	case 1:
-		// 灰度
-		gray := clamp01(components[0])
+		// 灰度 - ICCBased DeviceGray
+		gray := clamp01(normalizedComponents[0])
 		return gray, gray, gray, nil
 	case 3:
-		// RGB
-		return clamp01(components[0]), clamp01(components[1]), clamp01(components[2]), nil
+		// RGB - ICCBased DeviceRGB
+		return clamp01(normalizedComponents[0]), clamp01(normalizedComponents[1]), clamp01(normalizedComponents[2]), nil
 	case 4:
-		// CMYK
-		return (&DeviceCMYKColorSpace{}).ConvertToRGB(components)
+		// CMYK - ICCBased DeviceCMYK
+		return (&DeviceCMYKColorSpace{}).ConvertToRGB(normalizedComponents)
 	default:
 		return 0, 0, 0, fmt.Errorf("unsupported ICC component count: %d", cs.NumComponents)
 	}

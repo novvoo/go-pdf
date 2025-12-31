@@ -263,8 +263,9 @@ func decodeImageXObject(xobj *XObject) (*image.RGBA, error) {
 
 	debugPrintf("[decodeImageXObject] Decoding image: %dx%d, BPC=%d, ColorSpace=%s, Stream=%d bytes\n",
 		width, height, bpc, colorSpace, len(xobj.Stream))
-	fmt.Printf("🔍 [IMAGE DEBUG] Decoding image: %dx%d, BPC=%d, ColorSpace=%s\n",
-		width, height, bpc, colorSpace)
+	fmt.Printf("🔍 [IMAGE DEBUG] Decoding image: %dx%d, BPC=%d, ColorSpace=%s, Stream=%d bytes\n",
+		width, height, bpc, colorSpace, len(xobj.Stream))
+	fmt.Printf("🔍 [IMAGE DEBUG] ColorComponents=%d\n", xobj.ColorComponents)
 
 	// 根据颜色空间解码
 	switch colorSpace {
@@ -295,11 +296,13 @@ func decodeImageXObject(xobj *XObject) (*image.RGBA, error) {
 			debugPrintf("[decodeImageXObject] ICCBased using pre-resolved N=%d\n", numComponents)
 		} else {
 			// 回退：通过数据大小推断
-			if width > 0 && height > 0 {
+			if width > 0 && height > 0 && bpc == 8 {
 				numComponents = len(xobj.Stream) / (width * height)
 			}
-			debugPrintf("[decodeImageXObject] ICCBased estimating components: %d\n", numComponents)
+			debugPrintf("[decodeImageXObject] ICCBased estimating components from data size: %d\n", numComponents)
 		}
+
+		debugPrintf("[decodeImageXObject] ICCBased final numComponents=%d\n", numComponents)
 
 		if numComponents == 4 {
 			debugPrintf("[decodeImageXObject] ICCBased with 4 components, treating as CMYK\n")
@@ -491,10 +494,8 @@ func decodeDeviceGray(data []byte, width, height, bpc int) (*image.RGBA, error) 
 			for x := 0; x < width; x++ {
 				srcIdx := y*width + x
 				dstIdx := img.PixOffset(x, y)
-				// 🔥 修复：PDF DeviceGray 可能是反向的（0=白色，255=黑色）
-				// 用户反馈：灰色→黄色，黑色→白色
-				// 这说明灰度值被反转了
-				gray := 255 - data[srcIdx]
+				// PDF DeviceGray: 0=黑色，255=白色（标准定义）
+				gray := data[srcIdx]
 				img.Pix[dstIdx+0] = gray
 				img.Pix[dstIdx+1] = gray
 				img.Pix[dstIdx+2] = gray
@@ -530,7 +531,6 @@ func decodeDeviceGray(data []byte, width, height, bpc int) (*image.RGBA, error) 
 }
 
 // decodeDeviceCMYK 解码 DeviceCMYK 图像
-// 🔥 修复：确保 CMYK 到 RGB 转换公式正确，并添加值范围检查
 func decodeDeviceCMYK(data []byte, width, height, bpc int) (*image.RGBA, error) {
 	img := image.NewRGBA(image.Rect(0, 0, width, height))
 
@@ -543,29 +543,15 @@ func decodeDeviceCMYK(data []byte, width, height, bpc int) (*image.RGBA, error) 
 
 		for y := 0; y < height; y++ {
 			for x := 0; x < width; x++ {
-				// 🔥 关键修复：PDF 中的 CMYK 值是反向的
-				// 在 PDF 中：0 = 满色（full ink），255 = 无色（no ink）
-				// 所以需要先反转：c_normalized = 1 - (value / 255)
-				// 但这样会得到：c_normalized = 1 - value/255
-				// 实际上，我们应该直接使用：c = value / 255（已经是正确的）
-				// 然后公式：R = 255 × (1 - C) × (1 - K)
-				//
-				// 等等，让我重新理解：
-				// PDF CMYK: 0 = no ink, 255 = full ink (standard)
-				// 但如果出现反转，可能是：0 = full ink, 255 = no ink
-				//
-				// 用户反馈：灰色→黄色，黑色→白色
-				// 黑色(K=255)→白色 说明 K 被反转了
-				// 灰色→黄色 说明 CMY 也被反转了
-				//
-				// 修复：不要除以255再做(1-x)，而是直接用 (255-value)/255
 				srcIdx := (y*width + x) * 4
-				c := float64(255-data[srcIdx+0]) / 255.0
-				m := float64(255-data[srcIdx+1]) / 255.0
-				yy := float64(255-data[srcIdx+2]) / 255.0
-				k := float64(255-data[srcIdx+3]) / 255.0
+				// PDF CMYK 标准定义：0 = 无墨水（白色），255 = 满墨水（全色）
+				// 归一化到 [0, 1] 范围
+				c := float64(data[srcIdx+0]) / 255.0
+				m := float64(data[srcIdx+1]) / 255.0
+				yy := float64(data[srcIdx+2]) / 255.0
+				k := float64(data[srcIdx+3]) / 255.0
 
-				// 🔥 修复：使用标准 CMYK 到 RGB 转换公式
+				// 标准 CMYK 到 RGB 转换公式
 				// R = 255 × (1 - C) × (1 - K)
 				// G = 255 × (1 - M) × (1 - K)
 				// B = 255 × (1 - Y) × (1 - K)
@@ -573,7 +559,7 @@ func decodeDeviceCMYK(data []byte, width, height, bpc int) (*image.RGBA, error) 
 				g := (1.0 - m) * (1.0 - k) * 255.0
 				b := (1.0 - yy) * (1.0 - k) * 255.0
 
-				// 🔥 修复：确保值在 [0, 255] 范围内（夹紧）
+				// 确保值在 [0, 255] 范围内
 				if r < 0 {
 					r = 0
 				} else if r > 255 {
@@ -2007,17 +1993,28 @@ func loadXObject(ctx *model.Context, xobjName string, xobjObj types.Object, reso
 
 		// 🔥 修复：进一步解析 ColorSpace 数组以获取关键信息
 		if xobj.ColorSpace == "/ICCBased" || xobj.ColorSpace == "ICCBased" {
-			// 解析 ICCBased 数组以获取 N (颜色分量数)
+			// 解析 ICCBased 数组以获取 N (颜色分量数) 和 Alternate (备用颜色空间)
 			if arr, ok := xobj.ColorSpaceArray.(types.Array); ok && len(arr) > 1 {
 				if indRef, ok := arr[1].(types.IndirectRef); ok {
 					// 解引用 ICC profile stream
 					obj, err := ctx.Dereference(indRef)
 					if err == nil {
 						if streamDict, ok := obj.(types.StreamDict); ok {
+							// 获取 N (颜色分量数)
 							if nObj, found := streamDict.Find("N"); found {
 								if n, ok := nObj.(types.Integer); ok {
 									xobj.ColorComponents = int(n)
 									debugPrintf("[loadXObject] ICCBased profile has N=%d components\n", xobj.ColorComponents)
+								}
+							}
+
+							// 🔥 新增：获取 Alternate (备用颜色空间)
+							// Alternate 用于当 ICC profile 无法使用时的回退
+							if altObj, found := streamDict.Find("Alternate"); found {
+								if altName, ok := altObj.(types.Name); ok {
+									debugPrintf("[loadXObject] ICCBased has Alternate colorspace: %s\n", string(altName))
+									// 存储 Alternate 信息，后续可以用于创建 ColorSpace 对象
+									// 这里我们可以在 XObject 中添加一个字段来存储它
 								}
 							}
 						}
