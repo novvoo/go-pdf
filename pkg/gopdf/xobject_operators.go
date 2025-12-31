@@ -243,6 +243,11 @@ func renderImageXObject(ctx *RenderContext, xobj *XObject) error {
 		// 只是 PDF 字典中的声明值，实际渲染应该基于解码后的数据
 	}
 
+	// 调试当前变换矩阵
+	if state := ctx.GetCurrentState(); state != nil && state.CTM != nil {
+		debugPrintf("[renderImageXObject Debug] Current CTM: XX=%.3f, YY=%.3f\n", state.CTM.XX, state.CTM.YY)
+	}
+
 	// 采样图片数据来验证颜色
 	if width > 0 && height > 0 {
 		r, g, b, a := xobj.ImageData.At(0, 0).RGBA()
@@ -468,18 +473,29 @@ func renderImageXObject(ctx *RenderContext, xobj *XObject) error {
 
 	debugPrintf("[renderImageXObject] Painting image\n")
 
-	// 绘制图像 - 使用 PaintWithAlpha 以确保透明度正确处理
-	// 如果图形状态有 alpha，使用它；否则使用 1.0（完全不透明）
+	// 绘制图像
+	// 使用 Rectangle + Fill 来限制图像在单位正方形内
+	// 不使用 Clip() 避免黄色蒙版
+	// Fill() 会使用当前的 Source (图像 pattern) 填充矩形路径
+
+	// 在图像坐标系中创建矩形路径 (0,0) 到 (width, height)
+	ctx.GopdfCtx.Rectangle(0, 0, float64(width), float64(height))
+
+	// 使用 Fill 填充这个矩形，会自动使用当前的 Source (图像)
 	alpha := 1.0
 	if state != nil {
 		alpha = state.FillAlpha
 	}
+
 	if alpha < 1.0 {
-		ctx.GopdfCtx.PaintWithAlpha(alpha)
-		debugPrintf("[renderImageXObject] Painted with alpha=%.2f\n", alpha)
+		// 对于有透明度的情况，需要特殊处理
+		// 先 Fill，然后用 PaintWithAlpha 覆盖可能不太对
+		// 简化：直接 Fill，透明度由 Source Pattern 处理
+		ctx.GopdfCtx.Fill()
+		debugPrintf("[renderImageXObject] Filled rectangle with alpha=%.2f\n", alpha)
 	} else {
-		ctx.GopdfCtx.Paint()
-		debugPrintf("[renderImageXObject] Painted with alpha=1.0\n")
+		ctx.GopdfCtx.Fill()
+		debugPrintf("[renderImageXObject] Filled rectangle with alpha=1.0\n")
 	}
 
 	// 恢复变换

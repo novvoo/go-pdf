@@ -267,11 +267,23 @@ func decodeImageXObject(xobj *XObject) (*image.RGBA, error) {
 	// 根据颜色空间解码
 	switch colorSpace {
 	case "DeviceRGB", "/DeviceRGB":
-		return decodeDeviceRGB(xobj.Stream, width, height, bpc)
+		img, err := decodeDeviceRGB(xobj.Stream, width, height, bpc)
+		if err != nil {
+			return nil, err
+		}
+		return applySMask(img, xobj)
 	case "DeviceGray", "/DeviceGray":
-		return decodeDeviceGray(xobj.Stream, width, height, bpc)
+		img, err := decodeDeviceGray(xobj.Stream, width, height, bpc)
+		if err != nil {
+			return nil, err
+		}
+		return applySMask(img, xobj)
 	case "DeviceCMYK", "/DeviceCMYK":
-		return decodeDeviceCMYK(xobj.Stream, width, height, bpc)
+		img, err := decodeDeviceCMYK(xobj.Stream, width, height, bpc)
+		if err != nil {
+			return nil, err
+		}
+		return applySMask(img, xobj)
 	case "/ICCBased":
 		// 🔥 修复：ICC 颜色空间，根据组件数判断实际颜色空间
 		// 优先使用从 ICC profile 中解析出的 N 值
