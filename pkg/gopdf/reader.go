@@ -287,22 +287,43 @@ func decodeImageXObject(xobj *XObject) (*image.RGBA, error) {
 			return nil, err
 		}
 		return applySMask(img, xobj)
-	case "/ICCBased":
+	case "ICCBased", "/ICCBased": // 🔥 修复：同时支持带斜杠和不带斜杠的格式
 		// 🔥 修复：ICC 颜色空间，根据组件数判断实际颜色空间
 		// 优先使用从 ICC profile 中解析出的 N 值
 		numComponents := 0
 		if xobj.ColorComponents > 0 {
 			numComponents = xobj.ColorComponents
 			debugPrintf("[decodeImageXObject] ICCBased using pre-resolved N=%d\n", numComponents)
+			fmt.Printf("🔍 [IMAGE DEBUG] ICCBased using pre-resolved N=%d\n", numComponents)
 		} else {
 			// 回退：通过数据大小推断
+			// ⚠️ 警告：这种推断方法不可靠！
+			// 问题：如果数据大小恰好是 width*height*4，可能是：
+			// 1. CMYK 图像（4个颜色分量）
+			// 2. RGB + Alpha 图像（3个颜色分量 + 1个alpha通道）
+			// 3. RGB 图像 + padding
 			if width > 0 && height > 0 && bpc == 8 {
-				numComponents = len(xobj.Stream) / (width * height)
+				estimatedComponents := len(xobj.Stream) / (width * height)
+
+				// 🔥 新增：更智能的推断逻辑
+				// 如果推断出4个分量，但没有明确的CMYK标识，优先假设是RGB
+				// 因为现代图像（特别是Mac截图）更常用RGB而非CMYK
+				if estimatedComponents == 4 {
+					debugPrintf("[decodeImageXObject] ⚠️  WARNING: Estimated 4 components, but this is ambiguous!\n")
+					debugPrintf("[decodeImageXObject] Could be CMYK or RGB+Alpha. Defaulting to RGB.\n")
+					fmt.Printf("🔍 [IMAGE DEBUG] ⚠️  Ambiguous: 4 bytes/pixel detected. Defaulting to RGB (not CMYK)\n")
+					// 默认使用RGB，除非有其他证据表明是CMYK
+					numComponents = 3
+				} else {
+					numComponents = estimatedComponents
+				}
 			}
 			debugPrintf("[decodeImageXObject] ICCBased estimating components from data size: %d\n", numComponents)
+			fmt.Printf("🔍 [IMAGE DEBUG] ICCBased estimated components: %d\n", numComponents)
 		}
 
 		debugPrintf("[decodeImageXObject] ICCBased final numComponents=%d\n", numComponents)
+		fmt.Printf("🔍 [IMAGE DEBUG] ICCBased final numComponents=%d\n", numComponents)
 
 		if numComponents == 4 {
 			debugPrintf("[decodeImageXObject] ICCBased with 4 components, treating as CMYK\n")
@@ -334,7 +355,7 @@ func decodeImageXObject(xobj *XObject) (*image.RGBA, error) {
 			}
 			return applySMask(img, xobj)
 		}
-	case "/Indexed":
+	case "Indexed", "/Indexed": // 🔥 修复：同时支持带斜杠和不带斜杠的格式
 		// 🔥 修复：索引颜色空间，使用提取的调色板
 		debugPrintf("[decodeImageXObject] Indexed color space detected\n")
 
@@ -453,23 +474,75 @@ func applySMask(img *image.RGBA, xobj *XObject) (*image.RGBA, error) {
 
 // decodeDeviceRGB 解码 DeviceRGB 图像
 func decodeDeviceRGB(data []byte, width, height, bpc int) (*image.RGBA, error) {
+	return DecodeDeviceRGBPublic(data, width, height, bpc)
+}
+
+// DecodeDeviceRGBPublic 公开的RGB解码函数，供测试使用
+func DecodeDeviceRGBPublic(data []byte, width, height, bpc int) (*image.RGBA, error) {
 	img := image.NewRGBA(image.Rect(0, 0, width, height))
 
 	if bpc == 8 {
-		// 8 位每通道，直接复制
-		expectedSize := width * height * 3
-		if len(data) < expectedSize {
-			return nil, fmt.Errorf("insufficient data: expected %d bytes, got %d", expectedSize, len(data))
+		// 🔥 修复：智能检测字节/像素
+		// 支持3字节/像素（RGB）和4字节/像素（RGB+Alpha或RGB+padding）
+		bytesPerPixel := len(data) / (width * height)
+
+		if bytesPerPixel < 3 {
+			return nil, fmt.Errorf("insufficient data: expected at least %d bytes (3 bpp), got %d", width*height*3, len(data))
 		}
 
-		for y := 0; y < height; y++ {
-			for x := 0; x < width; x++ {
-				srcIdx := (y*width + x) * 3
-				dstIdx := img.PixOffset(x, y)
-				img.Pix[dstIdx+0] = data[srcIdx+0] // R
-				img.Pix[dstIdx+1] = data[srcIdx+1] // G
-				img.Pix[dstIdx+2] = data[srcIdx+2] // B
-				img.Pix[dstIdx+3] = 255            // A
+		debugPrintf("[decodeDeviceRGB] Detected %d bytes per pixel\n", bytesPerPixel)
+		fmt.Printf("🔍 [RGB DECODE] Bytes per pixel: %d (total: %d bytes for %dx%d)\n", bytesPerPixel, len(data), width, height)
+
+		if bytesPerPixel == 3 {
+			// 标准RGB：3字节/像素
+			for y := 0; y < height; y++ {
+				for x := 0; x < width; x++ {
+					srcIdx := (y*width + x) * 3
+					dstIdx := img.PixOffset(x, y)
+					img.Pix[dstIdx+0] = data[srcIdx+0] // R
+					img.Pix[dstIdx+1] = data[srcIdx+1] // G
+					img.Pix[dstIdx+2] = data[srcIdx+2] // B
+					img.Pix[dstIdx+3] = 255            // A
+				}
+			}
+		} else if bytesPerPixel == 4 {
+			// 🔥 关键修复：4字节/像素，可能是RGB+Alpha或RGB+padding
+			// 我们只取前3个字节作为RGB，忽略第4个字节
+			debugPrintf("[decodeDeviceRGB] ⚠️  4 bytes/pixel detected, treating as RGB (ignoring 4th byte)\n")
+			fmt.Printf("🔍 [RGB DECODE] ⚠️  Treating 4-byte data as RGB (not CMYK)\n")
+
+			for y := 0; y < height; y++ {
+				for x := 0; x < width; x++ {
+					srcIdx := (y*width + x) * 4
+					dstIdx := img.PixOffset(x, y)
+					img.Pix[dstIdx+0] = data[srcIdx+0] // R
+					img.Pix[dstIdx+1] = data[srcIdx+1] // G
+					img.Pix[dstIdx+2] = data[srcIdx+2] // B
+					// 第4个字节可能是Alpha或padding，我们可以尝试使用它
+					// 但为了安全起见，先假设是不透明的
+					img.Pix[dstIdx+3] = 255 // A (假设不透明)
+
+					// 🔥 可选：如果第4个字节看起来像alpha值，使用它
+					// 这需要启发式判断，暂时保守处理
+				}
+			}
+		} else {
+			// 其他情况：尝试按3字节/像素处理
+			debugPrintf("[decodeDeviceRGB] Unusual bytes per pixel: %d, attempting 3-byte stride\n", bytesPerPixel)
+			expectedSize := width * height * 3
+			if len(data) < expectedSize {
+				return nil, fmt.Errorf("insufficient data: expected %d bytes, got %d", expectedSize, len(data))
+			}
+
+			for y := 0; y < height; y++ {
+				for x := 0; x < width; x++ {
+					srcIdx := (y*width + x) * 3
+					dstIdx := img.PixOffset(x, y)
+					img.Pix[dstIdx+0] = data[srcIdx+0] // R
+					img.Pix[dstIdx+1] = data[srcIdx+1] // G
+					img.Pix[dstIdx+2] = data[srcIdx+2] // B
+					img.Pix[dstIdx+3] = 255            // A
+				}
 			}
 		}
 	} else {
@@ -532,6 +605,11 @@ func decodeDeviceGray(data []byte, width, height, bpc int) (*image.RGBA, error) 
 
 // decodeDeviceCMYK 解码 DeviceCMYK 图像
 func decodeDeviceCMYK(data []byte, width, height, bpc int) (*image.RGBA, error) {
+	return DecodeDeviceCMYKPublic(data, width, height, bpc)
+}
+
+// DecodeDeviceCMYKPublic 公开的CMYK解码函数，供测试使用
+func DecodeDeviceCMYKPublic(data []byte, width, height, bpc int) (*image.RGBA, error) {
 	img := image.NewRGBA(image.Rect(0, 0, width, height))
 
 	if bpc == 8 {
@@ -2005,6 +2083,7 @@ func loadXObject(ctx *model.Context, xobjName string, xobjObj types.Object, reso
 								if n, ok := nObj.(types.Integer); ok {
 									xobj.ColorComponents = int(n)
 									debugPrintf("[loadXObject] ICCBased profile has N=%d components\n", xobj.ColorComponents)
+									fmt.Printf("🔍 [LOAD DEBUG] ICCBased profile N=%d\n", xobj.ColorComponents)
 								}
 							}
 
@@ -2012,9 +2091,31 @@ func loadXObject(ctx *model.Context, xobjName string, xobjObj types.Object, reso
 							// Alternate 用于当 ICC profile 无法使用时的回退
 							if altObj, found := streamDict.Find("Alternate"); found {
 								if altName, ok := altObj.(types.Name); ok {
-									debugPrintf("[loadXObject] ICCBased has Alternate colorspace: %s\n", string(altName))
-									// 存储 Alternate 信息，后续可以用于创建 ColorSpace 对象
-									// 这里我们可以在 XObject 中添加一个字段来存储它
+									altColorSpace := altName.String()
+									debugPrintf("[loadXObject] ICCBased has Alternate colorspace: %s\n", altColorSpace)
+									fmt.Printf("🔍 [LOAD DEBUG] ICCBased Alternate: %s\n", altColorSpace)
+
+									// 🔥 关键修复：如果Alternate是DeviceRGB，强制使用RGB解码
+									// 这可以避免将RGB图像误判为CMYK
+									if altColorSpace == "/DeviceRGB" || altColorSpace == "DeviceRGB" {
+										if xobj.ColorComponents == 0 {
+											xobj.ColorComponents = 3
+											debugPrintf("[loadXObject] Set ColorComponents=3 based on Alternate DeviceRGB\n")
+											fmt.Printf("🔍 [LOAD DEBUG] Forced N=3 from Alternate DeviceRGB\n")
+										}
+									} else if altColorSpace == "/DeviceGray" || altColorSpace == "DeviceGray" {
+										if xobj.ColorComponents == 0 {
+											xobj.ColorComponents = 1
+											debugPrintf("[loadXObject] Set ColorComponents=1 based on Alternate DeviceGray\n")
+											fmt.Printf("🔍 [LOAD DEBUG] Forced N=1 from Alternate DeviceGray\n")
+										}
+									} else if altColorSpace == "/DeviceCMYK" || altColorSpace == "DeviceCMYK" {
+										if xobj.ColorComponents == 0 {
+											xobj.ColorComponents = 4
+											debugPrintf("[loadXObject] Set ColorComponents=4 based on Alternate DeviceCMYK\n")
+											fmt.Printf("🔍 [LOAD DEBUG] Forced N=4 from Alternate DeviceCMYK\n")
+										}
+									}
 								}
 							}
 						}

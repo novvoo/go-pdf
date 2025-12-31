@@ -1,6 +1,6 @@
 PDF Rendering Report
 ====================
-Time: 2025-12-31 10:55:25
+Time: 2025-12-31 11:13:03
 
 ParseTokens Test:
 -----------------
@@ -22,7 +22,7 @@ Rendering Process:
 Output File Info:
 -----------------
 Size: 230046 bytes
-Created: 2025-12-31 10:55:27
+Created: 2025-12-31 11:13:06
 
 Page Information:
 -----------------
@@ -303,7 +303,10 @@ Operator Execution Log:
 [Do] XObject type: Image
 [Do] Rendering Image XObject (size: 699x595)
 [decodeImageXObject] Decoding image: 699x595, BPC=8, ColorSpace=ICCBased, Stream=1247715 bytes
-[decodeImageXObject] Unknown color space ICCBased, trying RGB
+[decodeImageXObject] ICCBased using pre-resolved N=3
+[decodeImageXObject] ICCBased final numComponents=3
+[decodeImageXObject] ICCBased with 3 components, treating as RGB
+[decodeDeviceRGB] Detected 3 bytes per pixel
 [applySMask] Applying SMask to image (699x595)
 [decodeImageXObject] Decoding image: 699x595, BPC=8, ColorSpace=DeviceGray, Stream=415905 bytes
 [applySMask] SMask applied successfully
@@ -360,7 +363,10 @@ Operator Execution Log:
 [Do] XObject type: Image
 [Do] Rendering Image XObject (size: 1420x1206)
 [decodeImageXObject] Decoding image: 1420x1206, BPC=8, ColorSpace=ICCBased, Stream=5137560 bytes
-[decodeImageXObject] Unknown color space ICCBased, trying RGB
+[decodeImageXObject] ICCBased using pre-resolved N=3
+[decodeImageXObject] ICCBased final numComponents=3
+[decodeImageXObject] ICCBased with 3 components, treating as RGB
+[decodeDeviceRGB] Detected 3 bytes per pixel
 [renderImageXObject] Creating surface: 1420x1206 pixels
 [renderImageXObject] XObject dimensions: 1420x1206
 [renderImageXObject Debug] Current CTM: XX=693.424, YY=588.922
@@ -451,42 +457,34 @@ Operator Execution Log:
 [Q] Restore graphics state - Stack depth: 1
 
 📈 Operator Statistics:
-   M: 1
+   W: 6
+   EMC: 4
+   f: 1
+   l: 11
+   BDC: 4
+   Q: 9
    re: 4
    n: 6
+   gs: 1
    cm: 4
-   l: 11
-   f: 1
-   BDC: 4
    Do: 2
    c: 12
-   EMC: 4
-   Tc: 1
-   Tj: 1
-   q: 9
-   gs: 1
    h: 3
-   S: 1
-   Q: 9
-   W: 6
-   m: 6
    BT: 1
-   Tm: 1
+   Tc: 1
    Tf: 1
+   Tj: 1
+   M: 1
+   S: 1
+   m: 6
+   q: 9
+   Tm: 1
    ET: 1
 ✓ Loaded ToUnicode CMap for font C1 (0 mappings, 0 ranges)
 ✓ Default width for CID font C1: 1000
 ✓ Loaded CID widths for font C1: 0 direct mappings, 0 ranges
 ✓ Loaded font widths for C1: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font C1: Identity-H
-[loadXObject] Decoding stream for Im2...
-[loadXObject] Raw stream length: 219410 bytes
-[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
-[loadXObject] Stream decoded via direct Decode(): 5137560 bytes
-[loadXObject] Filters detected: [FlateDecode]
-[loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
-[loadXObject] ICCBased profile has N=3 components
-[loadXObject] ICCBased has Alternate colorspace: DeviceRGB
 [loadXObject] Decoding stream for Im1...
 [loadXObject] Raw stream length: 5464 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...
@@ -498,6 +496,14 @@ Operator Execution Log:
 [loadXObject] Found SMask for image Im1
 [loadXObject] SMask is an indirect reference: (10 0 R), attempting load
 [loadXObject] Successfully loaded SMask: 699x595
+[loadXObject] Decoding stream for Im2...
+[loadXObject] Raw stream length: 219410 bytes
+[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
+[loadXObject] Stream decoded via direct Decode(): 5137560 bytes
+[loadXObject] Filters detected: [FlateDecode]
+[loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
+[loadXObject] ICCBased profile has N=3 components
+[loadXObject] ICCBased has Alternate colorspace: DeviceRGB
 ✓ Loaded ToUnicode CMap for font C1 (0 mappings, 0 ranges)
 ✓ Default width for CID font C1: 1000
 ✓ Loaded CID widths for font C1: 0 direct mappings, 0 ranges
@@ -568,14 +574,6 @@ Operator Execution Log:
 ✓ Loaded CID widths for font C1: 0 direct mappings, 0 ranges
 ✓ Loaded font widths for C1: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font C1: Identity-H
-[loadXObject] Decoding stream for Im2...
-[loadXObject] Raw stream length: 219410 bytes
-[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
-[loadXObject] Stream decoded via direct Decode(): 5137560 bytes
-[loadXObject] Filters detected: [FlateDecode]
-[loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
-[loadXObject] ICCBased profile has N=3 components
-[loadXObject] ICCBased has Alternate colorspace: DeviceRGB
 [loadXObject] Decoding stream for Im1...
 [loadXObject] Raw stream length: 5464 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...
@@ -587,6 +585,14 @@ Operator Execution Log:
 [loadXObject] Found SMask for image Im1
 [loadXObject] SMask is an indirect reference: (10 0 R), attempting load
 [loadXObject] Successfully loaded SMask: 699x595
+[loadXObject] Decoding stream for Im2...
+[loadXObject] Raw stream length: 219410 bytes
+[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
+[loadXObject] Stream decoded via direct Decode(): 5137560 bytes
+[loadXObject] Filters detected: [FlateDecode]
+[loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
+[loadXObject] ICCBased profile has N=3 components
+[loadXObject] ICCBased has Alternate colorspace: DeviceRGB
 ✓ Loaded ToUnicode CMap for font C1 (0 mappings, 0 ranges)
 ✓ Default width for CID font C1: 1000
 ✓ Loaded CID widths for font C1: 0 direct mappings, 0 ranges
@@ -657,14 +663,6 @@ Operator Execution Log:
 ✓ Loaded CID widths for font C1: 0 direct mappings, 0 ranges
 ✓ Loaded font widths for C1: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font C1: Identity-H
-[loadXObject] Decoding stream for Im2...
-[loadXObject] Raw stream length: 219410 bytes
-[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
-[loadXObject] Stream decoded via direct Decode(): 5137560 bytes
-[loadXObject] Filters detected: [FlateDecode]
-[loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
-[loadXObject] ICCBased profile has N=3 components
-[loadXObject] ICCBased has Alternate colorspace: DeviceRGB
 [loadXObject] Decoding stream for Im1...
 [loadXObject] Raw stream length: 5464 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...
@@ -676,6 +674,14 @@ Operator Execution Log:
 [loadXObject] Found SMask for image Im1
 [loadXObject] SMask is an indirect reference: (10 0 R), attempting load
 [loadXObject] Successfully loaded SMask: 699x595
+[loadXObject] Decoding stream for Im2...
+[loadXObject] Raw stream length: 219410 bytes
+[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
+[loadXObject] Stream decoded via direct Decode(): 5137560 bytes
+[loadXObject] Filters detected: [FlateDecode]
+[loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
+[loadXObject] ICCBased profile has N=3 components
+[loadXObject] ICCBased has Alternate colorspace: DeviceRGB
 ✓ Loaded ToUnicode CMap for font C1 (0 mappings, 0 ranges)
 ✓ Default width for CID font C1: 1000
 ✓ Loaded CID widths for font C1: 0 direct mappings, 0 ranges
@@ -744,10 +750,21 @@ Operator Execution Log:
 
 Gopdf/Pango Debug Output:
 -------------------------
+🔍 [LOAD DEBUG] ICCBased profile N=3
+🔍 [LOAD DEBUG] ICCBased Alternate: DeviceRGB
+🔍 [LOAD DEBUG] ICCBased profile N=3
+🔍 [LOAD DEBUG] ICCBased Alternate: DeviceRGB
+🔍 [LOAD DEBUG] ICCBased profile N=3
+🔍 [LOAD DEBUG] ICCBased Alternate: DeviceRGB
+🔍 [LOAD DEBUG] ICCBased profile N=3
+🔍 [LOAD DEBUG] ICCBased Alternate: DeviceRGB
 [Clip] Before copy, c.path.data length: 7
 [Clip] After deep copy, clipPath.data length: 7
 🔍 [IMAGE DEBUG] Decoding image: 699x595, BPC=8, ColorSpace=ICCBased, Stream=1247715 bytes
 🔍 [IMAGE DEBUG] ColorComponents=3
+🔍 [IMAGE DEBUG] ICCBased using pre-resolved N=3
+🔍 [IMAGE DEBUG] ICCBased final numComponents=3
+🔍 [RGB DECODE] Bytes per pixel: 3 (total: 1247715 bytes for 699x595)
 🔍 [IMAGE DEBUG] Decoding image: 699x595, BPC=8, ColorSpace=DeviceGray, Stream=415905 bytes
 🔍 [IMAGE DEBUG] ColorComponents=0
 [Clip] Before copy, c.path.data length: 19
@@ -756,6 +773,9 @@ Gopdf/Pango Debug Output:
 [Clip] After deep copy, clipPath.data length: 7
 🔍 [IMAGE DEBUG] Decoding image: 1420x1206, BPC=8, ColorSpace=ICCBased, Stream=5137560 bytes
 🔍 [IMAGE DEBUG] ColorComponents=3
+🔍 [IMAGE DEBUG] ICCBased using pre-resolved N=3
+🔍 [IMAGE DEBUG] ICCBased final numComponents=3
+🔍 [RGB DECODE] Bytes per pixel: 3 (total: 5137560 bytes for 1420x1206)
 [Clip] Before copy, c.path.data length: 7
 [Clip] After deep copy, clipPath.data length: 7
 [Clip] Before copy, c.path.data length: 5
