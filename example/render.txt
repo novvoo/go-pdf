@@ -1,6 +1,6 @@
 PDF Rendering Report
 ====================
-Time: 2026-01-26 17:43:52
+Time: 2026-01-26 17:56:16
 
 ParseTokens Test:
 -----------------
@@ -21,8 +21,8 @@ Rendering Process:
 ✅ Marked 1 image element(s) in the output
 Output File Info:
 -----------------
-Size: 304895 bytes
-Created: 2026-01-26 17:43:55
+Size: 304575 bytes
+Created: 2026-01-26 17:56:18
 
 Page Information:
 -----------------
@@ -1837,8 +1837,8 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=sans-serif, size=14.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [Tj] Text="I can’" (len=6 runes, 6 CIDs) at Tm=[363.66, 172.00]
-[Tj] Rendered run at (363.66, 172.00), adv=49.00
-[TEXT_MATRIX] Updated after text: PDF_width=49.00, new X0=412.66
+[Tj] Rendered run at (363.66, 172.00), adv=28.51
+[TEXT_MATRIX] Updated after text: PDF_width=28.51, new X0=392.16
 [Td] Move text position: tx=28.23, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 391.88 172.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=14.00
@@ -3008,8 +3008,8 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=sans-serif, size=18.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [Tj] Text="es, let’" (len=8 runes, 8 CIDs) at Tm=[31.17, 1136.00]
-[Tj] Rendered run at (31.17, 1136.00), adv=81.00
-[TEXT_MATRIX] Updated after text: PDF_width=81.00, new X0=112.17
+[Tj] Rendered run at (31.17, 1136.00), adv=44.30
+[TEXT_MATRIX] Updated after text: PDF_width=44.30, new X0=75.47
 [Td] Move text position: tx=43.85, ty=0.00 -> New Tm: [1.00 0.00 0.00 -1.00 75.02 1136.00]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=18.00
@@ -4227,31 +4227,31 @@ Operator Execution Log:
 [Q] Restore graphics state - Stack depth: 1
 
 📈 Operator Statistics:
-   Do: 1
-   q: 44
-   gs: 31
-   BT: 51
-   Tf: 51
+   W*: 22
+   f: 32
    m: 32
-   cm: 22
-   EMC: 54
    c: 387
-   h: 30
-   l: 51
-   W: 7
    re: 44
    n: 29
-   RG: 42
    rg: 42
+   BT: 51
+   ET: 51
+   Q: 44
+   W: 7
+   Do: 1
+   RG: 42
+   gs: 31
+   BDC: 54
+   Tf: 51
    Tm: 51
+   l: 51
+   q: 44
    Tj: 196
    Td: 158
-   ET: 51
-   W*: 22
-   BDC: 54
-   f: 32
-   Q: 44
+   EMC: 54
+   h: 30
    S: 8
+   cm: 22
 
 📌 Rendering 3 annotations...
 [Annotation] Rendering annotation: Link
@@ -6652,6 +6652,11 @@ Operator Execution Log:
 [DEBUG] ET operator: End text object
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
+✓ Default width for CID font F5: 500
+✓ Loaded CID widths for font F5: 102 direct mappings, 0 ranges
+✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F5: Identity-H
 ✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
 ✓ Default width for CID font F6: 1000
 ✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
@@ -6663,22 +6668,12 @@ Operator Execution Log:
 ✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
 ✓ Loaded font widths for F4: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F4: Identity-H
-✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
-✓ Default width for CID font F5: 500
-✓ Loaded CID widths for font F5: 102 direct mappings, 0 ranges
-✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F5: Identity-H
 [loadXObject] Decoding stream for X8...
 [loadXObject] Raw stream length: 207578 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...
 [loadXObject] Stream decoded via direct Decode(): 1440000 bytes
 [loadXObject] Filters detected: [FlateDecode]
 [loadXObject] ColorSpace (Name): DeviceRGB
-✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
-✓ Default width for CID font F6: 1000
-✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
-✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F6: Identity-H
 ✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
 ✓ Default width for CID font F4: 0
 ✓ Using fallback default width for CID font F4: 1000
@@ -6690,6 +6685,11 @@ Operator Execution Log:
 ✓ Loaded CID widths for font F5: 102 direct mappings, 0 ranges
 ✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
+✓ Default width for CID font F6: 1000
+✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
+✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F6: Identity-H
 [loadXObject] Decoding stream for X8...
 [loadXObject] Raw stream length: 207578 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...

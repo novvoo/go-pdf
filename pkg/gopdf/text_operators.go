@@ -525,8 +525,18 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 	}
 
 	fontFamily := "sans-serif"
-	if textState.Font != nil && textState.Font.BaseFont != "" {
-		fontFamily = mapPDFFont(textState.Font.BaseFont)
+	registeredPDFFont := false
+	if textState.Font != nil {
+		if len(textState.Font.EmbeddedFontData) > 0 {
+			key := "pdf:" + textState.Font.Name
+			if err := RegisterFontData(key, textState.Font.EmbeddedFontData); err == nil {
+				fontFamily = key
+				registeredPDFFont = true
+			}
+		}
+		if !registeredPDFFont && textState.Font.BaseFont != "" {
+			fontFamily = mapPDFFont(textState.Font.BaseFont)
+		}
 	}
 
 	// 获取当前字体的 ToUnicode 映射
@@ -653,10 +663,22 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 			return hScale, 0
 		}
 
+		asciiOnly := true
+		for _, r := range runText {
+			if r > 0x7F {
+				asciiOnly = false
+				break
+			}
+		}
+
 		pangoAdvScaled := pangoAdvUnscaled * hScale
 		if pdfAdv, ok := pdfAdvanceForLayout(runText, cids); ok && pdfAdv > 0 {
 			ratio := pdfAdv / pangoAdvScaled
-			if ratio >= 0.6 && ratio <= 1.6 {
+			minRatio, maxRatio := 0.6, 1.6
+			if !asciiOnly {
+				minRatio, maxRatio = 0.5, 2.0
+			}
+			if ratio >= minRatio && ratio <= maxRatio {
 				return hScale * ratio, pdfAdv
 			}
 		}
@@ -714,12 +736,24 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 				// PDF规范：负值表示向右移动，正值表示向左移动
 				// 调整值以千分之一em为单位
 				kerningAdjustment := -v * fontSize / 1000.0 * textState.HorizontalScaling / 100.0
+				if kerningAdjustment < 0 && !registeredPDFFont {
+					maxBack := fontSize * 0.5
+					if kerningAdjustment < -maxBack {
+						kerningAdjustment = -maxBack
+					}
+				}
 				debugPrintf("[TJ_ARRAY][%d] Kerning=%.0f adj=%.2f (x: %.2f -> %.2f)\n",
 					idx, v, kerningAdjustment, currentX, currentX+kerningAdjustment)
 				currentX += kerningAdjustment
 
 			case int:
 				kerningAdjustment := -float64(v) * fontSize / 1000.0 * textState.HorizontalScaling / 100.0
+				if kerningAdjustment < 0 && !registeredPDFFont {
+					maxBack := fontSize * 0.5
+					if kerningAdjustment < -maxBack {
+						kerningAdjustment = -maxBack
+					}
+				}
 				debugPrintf("[TJ_ARRAY][%d] Kerning=%d adj=%.2f (x: %.2f -> %.2f)\n",
 					idx, v, kerningAdjustment, currentX, currentX+kerningAdjustment)
 				currentX += kerningAdjustment

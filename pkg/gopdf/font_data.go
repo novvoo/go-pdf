@@ -2,6 +2,7 @@ package gopdf
 
 import (
 	"bytes"
+	"fmt"
 	"os"
 	"path/filepath"
 	"sync"
@@ -19,6 +20,31 @@ var (
 	fontDataCache = make(map[string][]byte)
 	fontCacheMu   sync.RWMutex
 )
+
+func RegisterFontData(key string, data []byte) error {
+	if key == "" || len(data) == 0 {
+		return fmt.Errorf("invalid font registration")
+	}
+
+	fontCacheMu.RLock()
+	if _, ok := fontCache[key]; ok {
+		fontCacheMu.RUnlock()
+		return nil
+	}
+	fontCacheMu.RUnlock()
+
+	face, err := font.ParseTTF(bytes.NewReader(data))
+	if err != nil {
+		return err
+	}
+
+	fontCacheMu.Lock()
+	fontCache[key] = face
+	fontDataCache[key] = data
+	fontCacheMu.Unlock()
+
+	return nil
+}
 
 // Internal font data storage
 var embeddedFonts = map[string][]byte{

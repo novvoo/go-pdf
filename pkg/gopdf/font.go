@@ -16,6 +16,10 @@ import (
 
 // getFontKey creates a lookup key for font cache
 func getFontKey(family string, slant FontSlant, weight FontWeight) string {
+	if strings.HasPrefix(family, "pdf:") {
+		return family
+	}
+
 	// Handle specific font families first
 	if family == "Go Regular" || family == "Go-Regular" || family == "Go" {
 		if weight == FontWeightBold && (slant == FontSlantItalic || slant == FontSlantOblique) {
