@@ -601,7 +601,7 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 	scaledFont := NewPangoPdfScaledFont(fontFace, fontMatrix, ctm, nil)
 	defer scaledFont.Destroy()
 
-	textAdvanceForLayout := func(runText string) float64 {
+	pangoAdvanceForLayout := func(runText string) float64 {
 		if runText == "" {
 			return 0
 		}
@@ -628,16 +628,51 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 		return adv
 	}
 
-	renderRun := func(absX, absY float64, runText string) {
+	pdfAdvanceForLayout := func(runText string, cids []uint16) (float64, bool) {
+		if textState.Font == nil || len(cids) == 0 || runText == "" {
+			return 0, false
+		}
+
+		adv := 0.0
+		runes := []rune(runText)
+		for i, cid := range cids {
+			isSpace := i < len(runes) && runes[i] == ' '
+			adv += textState.GlyphAdvance(cid, isSpace)
+		}
+		return adv, true
+	}
+
+	computeRunScaleAndAdvance := func(runText string, cids []uint16) (scaleX float64, adv float64) {
+		hScale := textState.HorizontalScaling / 100.0
+		if hScale <= 0 {
+			hScale = 1
+		}
+
+		pangoAdvUnscaled := scaledFont.TextExtents(runText).XAdvance
+		if pangoAdvUnscaled <= 0 {
+			return hScale, 0
+		}
+
+		pangoAdvScaled := pangoAdvUnscaled * hScale
+		if pdfAdv, ok := pdfAdvanceForLayout(runText, cids); ok && pdfAdv > 0 {
+			ratio := pdfAdv / pangoAdvScaled
+			if ratio >= 0.6 && ratio <= 1.6 {
+				return hScale * ratio, pdfAdv
+			}
+		}
+
+		return hScale, pangoAdvanceForLayout(runText)
+	}
+
+	renderRun := func(absX, absY float64, runText string, scaleX float64) {
 		if runText == "" {
 			return
 		}
 
-		hScale := textState.HorizontalScaling / 100.0
-		if hScale != 1.0 {
+		if scaleX != 1.0 {
 			ctx.GopdfCtx.Save()
 			ctx.GopdfCtx.Translate(absX, absY)
-			ctx.GopdfCtx.Scale(hScale, 1.0)
+			ctx.GopdfCtx.Scale(scaleX, 1.0)
 			ctx.GopdfCtx.MoveTo(0, 0)
 			layout.SetText(runText)
 			ctx.GopdfCtx.PangoPdfShowText(layout)
@@ -669,9 +704,9 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 					idx, decodedText, len([]rune(decodedText)), len(cids), currentX)
 
 				absX, absY := textState.TextMatrix.Transform(currentX, textState.Rise)
-				renderRun(absX, absY, decodedText)
+				scaleX, adv := computeRunScaleAndAdvance(decodedText, cids)
+				renderRun(absX, absY, decodedText, scaleX)
 
-				adv := textAdvanceForLayout(decodedText)
 				currentX += adv
 				debugPrintf("[TJ_ARRAY][%d] Rendered run at (%.2f, %.2f), adv=%.2f\n", idx, absX, absY, adv)
 
@@ -698,9 +733,9 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 				decodedText, len([]rune(decodedText)), len(cids), textState.TextMatrix.X0, textState.TextMatrix.Y0)
 
 			absX, absY := textState.TextMatrix.Transform(currentX, textState.Rise)
-			renderRun(absX, absY, decodedText)
+			scaleX, adv := computeRunScaleAndAdvance(decodedText, cids)
+			renderRun(absX, absY, decodedText, scaleX)
 
-			adv := textAdvanceForLayout(decodedText)
 			currentX += adv
 			debugPrintf("[Tj] Rendered run at (%.2f, %.2f), adv=%.2f\n", absX, absY, adv)
 		}

@@ -275,11 +275,12 @@ func addStandardRegions(imagePath string, pageWidth, pageHeight float64, imageEl
 	if len(imageElements) > 0 {
 		imageColor := color.RGBA{255, 0, 255, 255} // 洋红色（Magenta）
 		for i, imgElem := range imageElements {
-			// PDF 坐标转换为图片坐标
+			// 坐标转换为图片坐标
+			// imageElements 的 X/Y 单位为 points，且原点在左上角（与 ExtractPageElements 报告一致）
 			x1 := int(imgElem.X * scale)
-			y1 := int((pageHeight - imgElem.Y - imgElem.Height) * scale)
+			y1 := int(imgElem.Y * scale)
 			x2 := int((imgElem.X + imgElem.Width) * scale)
-			y2 := int((pageHeight - imgElem.Y) * scale)
+			y2 := int((imgElem.Y + imgElem.Height) * scale)
 
 			// 绘制图片边框（4像素宽，更醒目）
 			drawRect(rgba, x1, y1, x2, y2, imageColor, 4)

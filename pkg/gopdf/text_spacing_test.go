@@ -102,6 +102,59 @@ func TestRenderText_HorizontalScalingAffectsGlyphRendering(t *testing.T) {
 	}
 }
 
+func TestRenderText_UsesPdfMetricsWhenReasonable(t *testing.T) {
+	surface := NewImageSurface(FormatARGB32, 800, 240)
+	defer surface.Destroy()
+
+	ctx := NewContext(surface)
+	defer ctx.Destroy()
+
+	rc := NewRenderContext(ctx, 800, 240)
+	rc.TextState.FontSize = 40
+	rc.TextState.HorizontalScaling = 100
+	rc.TextState.CharSpacing = 0
+	rc.TextState.WordSpacing = 0
+	rc.TextState.TextMatrix = NewIdentityMatrix()
+	rc.TextState.TextLineMatrix = rc.TextState.TextMatrix.Clone()
+
+	fontFamily := mapPDFFont("Helvetica")
+	fontFace := NewPangoPdfFont(fontFamily, FontSlantNormal, FontWeightNormal)
+	defer fontFace.Destroy()
+	fontMatrix := NewMatrix()
+	fontMatrix.InitScale(rc.TextState.FontSize, rc.TextState.FontSize)
+	ctm := NewMatrix()
+	ctm.InitIdentity()
+	scaledFont := NewPangoPdfScaledFont(fontFace, fontMatrix, ctm, nil)
+	defer scaledFont.Destroy()
+
+	runText := "ABCD"
+	pangoAdv := scaledFont.TextExtents(runText).XAdvance
+	if pangoAdv <= 0 {
+		t.Fatalf("expected positive pango advance")
+	}
+
+	targetAdv := pangoAdv * 0.8
+	defaultWidth := targetAdv / (float64(len([]rune(runText))) * rc.TextState.FontSize) * 1000.0
+	if defaultWidth <= 0 {
+		t.Fatalf("expected positive default width")
+	}
+
+	rc.TextState.Font = &Font{
+		BaseFont:     "Helvetica",
+		Subtype:      "/Type0",
+		DefaultWidth: defaultWidth,
+	}
+
+	if err := renderText(rc, runText, nil); err != nil {
+		t.Fatalf("renderText failed: %v", err)
+	}
+
+	got := rc.TextState.TextMatrix.X0
+	if diff := got - targetAdv; diff < -0.5 || diff > 0.5 {
+		t.Fatalf("expected text matrix advance ~= %.2f, got %.2f", targetAdv, got)
+	}
+}
+
 func darkPixelBounds(img image.Image, r image.Rectangle) (minX, maxX int, ok bool) {
 	r = r.Intersect(img.Bounds())
 	if r.Empty() {
