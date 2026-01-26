@@ -342,7 +342,7 @@ func (r *rasterContext) Fill() {
 				// Use surface pattern, gradient, or solid color
 				pixelColor := r.color
 				if r.surfacePattern != nil {
-					pixelColor = r.getSurfacePatternColor(float64(x), float64(y))
+					pixelColor = r.getSurfacePatternColor(float64(x)+0.5, float64(y)+0.5)
 				} else if r.gradientPattern != nil {
 					pixelColor = r.getGradientColor(float64(x), float64(y))
 				}
@@ -895,64 +895,113 @@ func (r *rasterContext) getSurfacePatternColor(x, y float64) color.Color {
 
 	bounds := goImg.Bounds()
 
-	// Convert to integer coordinates
-	ix := int(math.Floor(px))
-	iy := int(math.Floor(py))
-
-	// Handle extend modes
 	extend := surfPattern.GetExtend()
-	switch extend {
-	case ExtendRepeat:
-		// Wrap coordinates
-		if bounds.Dx() > 0 {
-			ix = ((ix % bounds.Dx()) + bounds.Dx()) % bounds.Dx()
-		}
-		if bounds.Dy() > 0 {
-			iy = ((iy % bounds.Dy()) + bounds.Dy()) % bounds.Dy()
-		}
-	case ExtendReflect:
-		// Mirror coordinates
-		if bounds.Dx() > 0 {
-			period := bounds.Dx() * 2
-			ix = ix % period
-			if ix < 0 {
-				ix += period
+	filter := surfPattern.GetFilter()
+	mapCoord := func(i, min, max int) (int, bool) {
+		switch extend {
+		case ExtendRepeat:
+			span := max - min
+			if span <= 0 {
+				return min, false
 			}
-			if ix >= bounds.Dx() {
-				ix = period - ix - 1
+			v := (i - min) % span
+			if v < 0 {
+				v += span
 			}
-		}
-		if bounds.Dy() > 0 {
-			period := bounds.Dy() * 2
-			iy = iy % period
-			if iy < 0 {
-				iy += period
+			return min + v, true
+		case ExtendReflect:
+			span := max - min
+			if span <= 0 {
+				return min, false
 			}
-			if iy >= bounds.Dy() {
-				iy = period - iy - 1
+			period := span * 2
+			v := (i - min) % period
+			if v < 0 {
+				v += period
 			}
-		}
-	case ExtendPad:
-		// Clamp to edges
-		if ix < bounds.Min.X {
-			ix = bounds.Min.X
-		}
-		if ix >= bounds.Max.X {
-			ix = bounds.Max.X - 1
-		}
-		if iy < bounds.Min.Y {
-			iy = bounds.Min.Y
-		}
-		if iy >= bounds.Max.Y {
-			iy = bounds.Max.Y - 1
-		}
-	default: // ExtendNone
-		// Return transparent for out-of-bounds
-		if ix < bounds.Min.X || ix >= bounds.Max.X || iy < bounds.Min.Y || iy >= bounds.Max.Y {
-			return color.NRGBA{R: 0, G: 0, B: 0, A: 0}
+			if v >= span {
+				v = period - v - 1
+			}
+			return min + v, true
+		case ExtendPad:
+			if i < min {
+				return min, true
+			}
+			if i >= max {
+				return max - 1, true
+			}
+			return i, true
+		default: // ExtendNone
+			if i < min || i >= max {
+				return 0, false
+			}
+			return i, true
 		}
 	}
 
-	// Get the color at the calculated position
-	return goImg.At(ix, iy)
+	samplePremultiplied := func(ix, iy int) (rp, gp, bp, a float64) {
+		mx, okx := mapCoord(ix, bounds.Min.X, bounds.Max.X)
+		my, oky := mapCoord(iy, bounds.Min.Y, bounds.Max.Y)
+		if !okx || !oky {
+			return 0, 0, 0, 0
+		}
+		cr, cg, cb, ca := goImg.At(mx, my).RGBA()
+		const inv = 1.0 / 65535.0
+		return float64(cr) * inv, float64(cg) * inv, float64(cb) * inv, float64(ca) * inv
+	}
+
+	if filter == FilterNearest || filter == FilterFast {
+		ix := int(math.Floor(px))
+		iy := int(math.Floor(py))
+		rp, gp, bp, a := samplePremultiplied(ix, iy)
+		if a <= 0 {
+			return color.NRGBA{R: 0, G: 0, B: 0, A: 0}
+		}
+		r8 := uint8(math.Min(math.Max((rp/a)*255.0, 0), 255))
+		g8 := uint8(math.Min(math.Max((gp/a)*255.0, 0), 255))
+		b8 := uint8(math.Min(math.Max((bp/a)*255.0, 0), 255))
+		a8 := uint8(math.Min(math.Max(a*255.0, 0), 255))
+		return color.NRGBA{R: r8, G: g8, B: b8, A: a8}
+	}
+
+	// Bilinear sampling for higher quality scaling.
+	x0 := int(math.Floor(px))
+	y0 := int(math.Floor(py))
+	x1 := x0 + 1
+	y1 := y0 + 1
+	fx := px - float64(x0)
+	fy := py - float64(y0)
+
+	rp00, gp00, bp00, a00 := samplePremultiplied(x0, y0)
+	rp10, gp10, bp10, a10 := samplePremultiplied(x1, y0)
+	rp01, gp01, bp01, a01 := samplePremultiplied(x0, y1)
+	rp11, gp11, bp11, a11 := samplePremultiplied(x1, y1)
+
+	lerp := func(a, b, t float64) float64 {
+		return a + (b-a)*t
+	}
+
+	rp0 := lerp(rp00, rp10, fx)
+	gp0 := lerp(gp00, gp10, fx)
+	bp0 := lerp(bp00, bp10, fx)
+	a0 := lerp(a00, a10, fx)
+
+	rp1 := lerp(rp01, rp11, fx)
+	gp1 := lerp(gp01, gp11, fx)
+	bp1 := lerp(bp01, bp11, fx)
+	a1 := lerp(a01, a11, fx)
+
+	rp := lerp(rp0, rp1, fy)
+	gp := lerp(gp0, gp1, fy)
+	bp := lerp(bp0, bp1, fy)
+	a := lerp(a0, a1, fy)
+
+	if a <= 0 {
+		return color.NRGBA{R: 0, G: 0, B: 0, A: 0}
+	}
+	r8 := uint8(math.Min(math.Max((rp/a)*255.0, 0), 255))
+	g8 := uint8(math.Min(math.Max((gp/a)*255.0, 0), 255))
+	b8 := uint8(math.Min(math.Max((bp/a)*255.0, 0), 255))
+	a8 := uint8(math.Min(math.Max(a*255.0, 0), 255))
+	return color.NRGBA{R: r8, G: g8, B: b8, A: a8}
 }

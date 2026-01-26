@@ -1,6 +1,6 @@
 PDF Rendering Report
 ====================
-Time: 2026-01-26 17:07:16
+Time: 2026-01-26 17:20:09
 
 ParseTokens Test:
 -----------------
@@ -21,8 +21,8 @@ Rendering Process:
 ✅ Marked 1 image element(s) in the output
 Output File Info:
 -----------------
-Size: 309355 bytes
-Created: 2026-01-26 17:07:18
+Size: 314835 bytes
+Created: 2026-01-26 17:20:11
 
 Page Information:
 -----------------
@@ -33,7 +33,15 @@ Page Size: 8.26 x 11.69 inches
 Font Information:
 =================
 
-[Font 1] F4
+[Font 1] F6
+  BaseFont: CAAAAA+MicrosoftYaHei
+  Subtype: Type0
+  Encoding: Identity-H
+  Identity Mapping: YES
+  ToUnicode Map: YES (736 mappings, 91 ranges)
+  Embedded Font: NO
+
+[Font 2] F4
   BaseFont: AAAAAA+FreightSansProBold-Regular
   Subtype: Type0
   Encoding: Identity-H
@@ -41,20 +49,12 @@ Font Information:
   ToUnicode Map: YES (8 mappings, 3 ranges)
   Embedded Font: NO
 
-[Font 2] F5
+[Font 3] F5
   BaseFont: BAAAAA+FreightSansProBook-Regular
   Subtype: Type0
   Encoding: Identity-H
   Identity Mapping: YES
   ToUnicode Map: YES (8 mappings, 9 ranges)
-  Embedded Font: NO
-
-[Font 3] F6
-  BaseFont: CAAAAA+MicrosoftYaHei
-  Subtype: Type0
-  Encoding: Identity-H
-  Identity Mapping: YES
-  ToUnicode Map: YES (736 mappings, 91 ranges)
   Embedded Font: NO
 
 
@@ -197,18 +197,6 @@ Font Width Calculation:
 Font Width Calculation Analysis:
 ---------------------------------
 
-Font: F6
-  Text elements: 20
-  Total estimated width: 2829.00 points
-  Font size range: 14.00 - 18.00 points
-  Average width per element: 141.45 points
-  Sample texts:
-    [1] "我无法想象景象、气味或声音\xe3..."
-    [2] "作者：马可"
-    [3] "詹科蒂"
-    [4] "年"
-    [5] "月"
-
 Font: F4
   Text elements: 11
   Total estimated width: 100.00 points
@@ -232,6 +220,18 @@ Font: F5
     [3] "t Pictur"
     [4] "e Things"
     [5] "I can’"
+
+Font: F6
+  Text elements: 20
+  Total estimated width: 2829.00 points
+  Font size range: 14.00 - 18.00 points
+  Average width per element: 141.45 points
+  Sample texts:
+    [1] "我无法想象景象、气味或声音\xe3..."
+    [2] "作者：马可"
+    [3] "詹科蒂"
+    [4] "年"
+    [5] "月"
 
 Width Calculation Method:
 -------------------------
@@ -4227,31 +4227,31 @@ Operator Execution Log:
 [Q] Restore graphics state - Stack depth: 1
 
 📈 Operator Statistics:
-   Tm: 51
+   ET: 51
    f: 32
+   Q: 44
    m: 32
    l: 51
-   RG: 42
-   Td: 158
+   n: 29
+   BDC: 54
+   Tf: 51
+   c: 387
    h: 30
+   S: 8
    W: 7
    Do: 1
    q: 44
    re: 44
-   BT: 51
-   Tj: 196
-   ET: 51
-   S: 8
    W*: 22
-   gs: 31
-   BDC: 54
-   Tf: 51
-   EMC: 54
-   Q: 44
-   c: 387
-   cm: 22
-   n: 29
+   RG: 42
    rg: 42
+   BT: 51
+   Td: 158
+   EMC: 54
+   cm: 22
+   gs: 31
+   Tm: 51
+   Tj: 196
 
 📌 Rendering 3 annotations...
 [Annotation] Rendering annotation: Link
@@ -4260,6 +4260,11 @@ Operator Execution Log:
 [Annotation] Unsupported annotation type: Link
 [Annotation] Rendering annotation: Link
 [Annotation] Unsupported annotation type: Link
+✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
+✓ Default width for CID font F6: 1000
+✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
+✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F6: Identity-H
 ✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
 ✓ Default width for CID font F4: 0
 ✓ Using fallback default width for CID font F4: 1000
@@ -4271,11 +4276,6 @@ Operator Execution Log:
 ✓ Loaded CID widths for font F5: 102 direct mappings, 0 ranges
 ✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
-✓ Default width for CID font F6: 1000
-✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
-✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F6: Identity-H
 [loadXObject] Decoding stream for X8...
 [loadXObject] Raw stream length: 207578 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...
@@ -6652,11 +6652,6 @@ Operator Execution Log:
 [DEBUG] ET operator: End text object
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
-✓ Default width for CID font F6: 1000
-✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
-✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F6: Identity-H
 ✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
 ✓ Default width for CID font F4: 0
 ✓ Using fallback default width for CID font F4: 1000
@@ -6668,6 +6663,11 @@ Operator Execution Log:
 ✓ Loaded CID widths for font F5: 102 direct mappings, 0 ranges
 ✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
+✓ Default width for CID font F6: 1000
+✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
+✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F6: Identity-H
 [loadXObject] Decoding stream for X8...
 [loadXObject] Raw stream length: 207578 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...
