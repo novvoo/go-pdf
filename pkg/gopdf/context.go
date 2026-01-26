@@ -120,8 +120,21 @@ type point struct {
 
 // NewContext creates a new drawing context for the given surface
 func NewContext(target Surface) Context {
+	if target == nil {
+		ctx := &context{
+			refCount: 1,
+			status:   StatusNullPointer,
+			userData: make(map[*UserDataKey]interface{}),
+			gstate:   newGraphicsState(),
+			path:     &path{data: make([]pathOp, 0)},
+		}
+		runtime.SetFinalizer(ctx, (*context).destroyConcrete)
+		return ctx
+	}
+
 	ctx := &context{
 		refCount: 1,
+		status:   StatusSuccess,
 		target:   target.Reference(),
 		userData: make(map[*UserDataKey]interface{}),
 		gstate:   newGraphicsState(),
@@ -539,7 +552,7 @@ func (c *context) Transform(matrix *Matrix) {
 	}
 
 	// Multiply current matrix with the transformation matrix
-	MatrixMultiply(&c.gstate.matrix, matrix, &c.gstate.matrix)
+	MatrixMultiply(&c.gstate.matrix, &c.gstate.matrix, matrix)
 }
 
 func (c *context) SetMatrix(matrix *Matrix) {
@@ -1380,12 +1393,12 @@ func (c *context) GlyphPath(glyphs []Glyph) {
 
 // MatrixMultiply multiplies two matrices: result = a * b
 func MatrixMultiply(result, a, b *Matrix) {
-	xx := a.XX*b.XX + a.YX*b.XY
-	yx := a.XX*b.YX + a.YX*b.YY
-	xy := a.XY*b.XX + a.YY*b.XY
-	yy := a.XY*b.YX + a.YY*b.YY
-	x0 := a.X0*b.XX + a.Y0*b.XY + b.X0
-	y0 := a.X0*b.YX + a.Y0*b.YY + b.Y0
+	xx := a.XX*b.XX + a.XY*b.YX
+	yx := a.YX*b.XX + a.YY*b.YX
+	xy := a.XX*b.XY + a.XY*b.YY
+	yy := a.YX*b.XY + a.YY*b.YY
+	x0 := a.XX*b.X0 + a.XY*b.Y0 + a.X0
+	y0 := a.YX*b.X0 + a.YY*b.Y0 + a.Y0
 
 	result.XX = xx
 	result.YX = yx

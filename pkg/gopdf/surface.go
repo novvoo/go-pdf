@@ -493,10 +493,10 @@ func (s *imageSurface) unpremultiplyAlphaRect(x, y, width, height int) {
 
 		for col := 0; col < width; col++ {
 			i := col * 4
-			a := argbPtr[i+0]
-			r := argbPtr[i+1]
-			g := argbPtr[i+2]
-			b := argbPtr[i+3]
+			b := argbPtr[i+0]
+			g := argbPtr[i+1]
+			r := argbPtr[i+2]
+			a := argbPtr[i+3]
 
 			// Convert from premultiplied to non-premultiplied alpha
 			if a == 0 {

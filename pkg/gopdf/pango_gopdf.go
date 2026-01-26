@@ -198,6 +198,7 @@ type PangoPdfScaledFont struct {
 	scaleMatrix Matrix
 	options     *FontOptions
 	pangoFont   *PangoPdfFont
+	flipY       bool
 }
 
 // NewPangoPdfFontMap creates a new Pango font map integrated with Gopdf
@@ -666,6 +667,7 @@ func NewPangoPdfScaledFont(fontFace FontFace, fontMatrix, ctm *Matrix, options *
 		fontType: FontTypeUser,
 		fontFace: fontFace.Reference(),
 		options:  options,
+		flipY:    true,
 	}
 
 	if fontMatrix != nil {
@@ -1002,7 +1004,7 @@ func (s *PangoPdfScaledFont) GlyphPath(glyphID uint64) (*Path, error) {
 	// Check if we need to flip the Y axis based on the font matrix
 	// Font glyphs are designed for Y growing upward, but our coordinate system has Y growing downward.
 	// Since we now use positive Y scale in font matrix, we always need to flip.
-	flipY := true
+	flipY := s.flipY
 
 	// Get font units per em and scale factor for coordinate transformation
 	unitsPerEm := float64(realFace.Upem())
@@ -1520,6 +1522,7 @@ func PangoPdfShowText(ctx Context, layout *PangoPdfLayout) {
 
 	sf := NewPangoPdfScaledFont(fontFace, fontMatrix, ctm, nil)
 	defer sf.Destroy()
+	sf.flipY = shouldFlipGlyphY(ctx)
 
 	// Get font metrics for line spacing
 	fontExtents := sf.Extents()
@@ -1573,6 +1576,22 @@ func PangoPdfShowText(ctx Context, layout *PangoPdfLayout) {
 			c.currentPoint.hasPoint = true
 		}
 	}
+}
+
+func shouldFlipGlyphY(ctx Context) bool {
+	_, dy1 := ctx.UserToDeviceDistance(0, 1)
+	_, dy2 := ctx.UserToDeviceDistance(0, -1)
+
+	if math.Abs(dy1) >= math.Abs(dy2) && math.Abs(dy1) > 1e-9 {
+		return dy1 > 0
+	}
+	if math.Abs(dy2) > 1e-9 {
+		return dy2 < 0
+	}
+
+	m := ctx.GetMatrix()
+	det := m.XX*m.YY - m.XY*m.YX
+	return det > 0
 }
 
 // renderLineGlyphs renders glyphs for a single line of text

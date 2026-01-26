@@ -57,12 +57,12 @@ func NewRotationMatrixDegrees(degrees float64) *Matrix {
 // 用于组合多个变换
 func (m *Matrix) Multiply(other *Matrix) *Matrix {
 	return &Matrix{
-		XX: m.XX*other.XX + m.YX*other.XY,
-		YX: m.XX*other.YX + m.YX*other.YY,
-		XY: m.XY*other.XX + m.YY*other.XY,
-		YY: m.XY*other.YX + m.YY*other.YY,
-		X0: m.X0*other.XX + m.Y0*other.XY + other.X0,
-		Y0: m.X0*other.YX + m.Y0*other.YY + other.Y0,
+		XX: m.XX*other.XX + m.XY*other.YX,
+		YX: m.YX*other.XX + m.YY*other.YX,
+		XY: m.XX*other.XY + m.XY*other.YY,
+		YY: m.YX*other.XY + m.YY*other.YY,
+		X0: m.XX*other.X0 + m.XY*other.Y0 + m.X0,
+		Y0: m.YX*other.X0 + m.YY*other.Y0 + m.Y0,
 	}
 }
 

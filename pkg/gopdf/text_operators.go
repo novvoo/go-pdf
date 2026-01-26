@@ -584,8 +584,71 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 
 	// 🔥 新策略：使用 Pango 自动布局
 	// 只记录文本的起始位置，让 Pango 处理字符间距和宽度
-	var glyphs []GlyphWithPosition
 	currentX := 0.0 // 文本空间中的相对 X 位置
+
+	layout := ctx.GopdfCtx.PangoPdfCreateLayout().(*PangoPdfLayout)
+	fontDesc := NewPangoFontDescription()
+	fontDesc.SetFamily(fontFamily)
+	fontDesc.SetSize(fontSize)
+	layout.SetFontDescription(fontDesc)
+
+	fontFace := NewPangoPdfFont(fontFamily, FontSlantNormal, FontWeightNormal)
+	defer fontFace.Destroy()
+	fontMatrix := NewMatrix()
+	fontMatrix.InitScale(fontSize, fontSize)
+	ctm := NewMatrix()
+	ctm.InitIdentity()
+	scaledFont := NewPangoPdfScaledFont(fontFace, fontMatrix, ctm, nil)
+	defer scaledFont.Destroy()
+
+	textAdvanceForLayout := func(runText string) float64 {
+		if runText == "" {
+			return 0
+		}
+
+		ext := scaledFont.TextExtents(runText)
+		adv := ext.XAdvance
+
+		if textState.CharSpacing != 0 || textState.WordSpacing != 0 {
+			for _, r := range []rune(runText) {
+				if isCJKCharacterRune(r) {
+					if textState.CharSpacing != 0 {
+						adv += textState.CharSpacing * 0.5
+					}
+				} else {
+					adv += textState.CharSpacing
+				}
+				if r == ' ' {
+					adv += textState.WordSpacing
+				}
+			}
+		}
+
+		adv *= textState.HorizontalScaling / 100.0
+		return adv
+	}
+
+	renderRun := func(absX, absY float64, runText string) {
+		if runText == "" {
+			return
+		}
+
+		hScale := textState.HorizontalScaling / 100.0
+		if hScale != 1.0 {
+			ctx.GopdfCtx.Save()
+			ctx.GopdfCtx.Translate(absX, absY)
+			ctx.GopdfCtx.Scale(hScale, 1.0)
+			ctx.GopdfCtx.MoveTo(0, 0)
+			layout.SetText(runText)
+			ctx.GopdfCtx.PangoPdfShowText(layout)
+			ctx.GopdfCtx.Restore()
+			return
+		}
+
+		ctx.GopdfCtx.MoveTo(absX, absY)
+		layout.SetText(runText)
+		ctx.GopdfCtx.PangoPdfShowText(layout)
+	}
 
 	// 渲染文本
 	if array != nil {
@@ -605,30 +668,12 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 				debugPrintf("[TJ_ARRAY][%d] Text=%q (len=%d runes, %d CIDs) at x=%.2f\n",
 					idx, decodedText, len([]rune(decodedText)), len(cids), currentX)
 
-				runes := []rune(decodedText)
-				for i, cid := range cids {
-					// 计算当前字形的绝对坐标（应用文本矩阵）
-					absX, absY := textState.TextMatrix.Transform(currentX, 0)
+				absX, absY := textState.TextMatrix.Transform(currentX, textState.Rise)
+				renderRun(absX, absY, decodedText)
 
-					glyph := GlyphWithPosition{
-						CID:        cid,
-						Rune:       runes[i],
-						X:          absX,
-						Y:          absY,
-						FontFamily: fontFamily,
-						FontSize:   fontSize,
-					}
-					glyphs = append(glyphs, glyph)
-
-					// 🔥 关键改进：仍然计算字形推进距离用于更新文本矩阵
-					// 但渲染时让 Pango 自动处理布局
-					isSpace := i < len(runes) && runes[i] == ' '
-					adv := textState.GlyphAdvance(cid, isSpace)
-					currentX += adv
-
-					debugPrintf("[TJ_ARRAY][%d][%d] CID=%d Rune=%c absPos=(%.2f, %.2f) adv=%.2f\n",
-						idx, i, cid, runes[i], absX, absY, adv)
-				}
+				adv := textAdvanceForLayout(decodedText)
+				currentX += adv
+				debugPrintf("[TJ_ARRAY][%d] Rendered run at (%.2f, %.2f), adv=%.2f\n", idx, absX, absY, adv)
 
 			case float64:
 				// PDF规范：负值表示向右移动，正值表示向左移动
@@ -652,62 +697,13 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 			debugPrintf("[Tj] Text=%q (len=%d runes, %d CIDs) at Tm=[%.2f, %.2f]\n",
 				decodedText, len([]rune(decodedText)), len(cids), textState.TextMatrix.X0, textState.TextMatrix.Y0)
 
-			runes := []rune(decodedText)
-			for i, cid := range cids {
-				// 计算当前字形的绝对坐标
-				absX, absY := textState.TextMatrix.Transform(currentX, 0)
+			absX, absY := textState.TextMatrix.Transform(currentX, textState.Rise)
+			renderRun(absX, absY, decodedText)
 
-				glyph := GlyphWithPosition{
-					CID:        cid,
-					Rune:       runes[i],
-					X:          absX,
-					Y:          absY,
-					FontFamily: fontFamily,
-					FontSize:   fontSize,
-				}
-				glyphs = append(glyphs, glyph)
-
-				// 🔥 关键改进：仍然计算字形推进距离用于更新文本矩阵
-				// 但渲染时让 Pango 自动处理布局
-				isSpace := i < len(runes) && runes[i] == ' '
-				adv := textState.GlyphAdvance(cid, isSpace)
-				currentX += adv
-
-				debugPrintf("[Tj][%d] CID=%d Rune=%c absPos=(%.2f, %.2f) adv=%.2f\n",
-					i, cid, runes[i], absX, absY, adv)
-			}
+			adv := textAdvanceForLayout(decodedText)
+			currentX += adv
+			debugPrintf("[Tj] Rendered run at (%.2f, %.2f), adv=%.2f\n", absX, absY, adv)
 		}
-	}
-
-	// 🔥 使用 PangoPdf 渲染文字：逐个字形渲染以精确控制位置
-	if len(glyphs) > 0 {
-		debugPrintf("[TEXT_RENDER] Rendering %d glyphs individually using PangoPdf\n", len(glyphs))
-
-		// 创建 PangoPdf 布局（在循环外创建以提高性能）
-		layout := ctx.GopdfCtx.PangoPdfCreateLayout().(*PangoPdfLayout)
-		fontDesc := NewPangoFontDescription()
-		fontDesc.SetFamily(fontFamily)
-		fontDesc.SetSize(fontSize)
-		layout.SetFontDescription(fontDesc)
-
-		for i, glyph := range glyphs {
-			// 移动到字形位置
-			ctx.GopdfCtx.MoveTo(glyph.X, glyph.Y)
-
-			// 设置单个字符文本
-			text := string(glyph.Rune)
-			layout.SetText(text)
-
-			// 渲染文本
-			ctx.GopdfCtx.PangoPdfShowText(layout)
-
-			if i < 5 || i >= len(glyphs)-5 {
-				debugPrintf("[TEXT_RENDER][%d] Rendered '%c' at (%.2f, %.2f)\n",
-					i, glyph.Rune, glyph.X, glyph.Y)
-			}
-		}
-
-		debugPrintf("[TEXT_RENDER] ✓ Rendered %d glyphs using PangoPdf\n", len(glyphs))
 	}
 
 	// 更新文本矩阵：使用PDF的字形宽度

@@ -991,8 +991,8 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 
 		case "cm": // 连接变换矩阵
 			if cmOp, ok := op.(*OpConcatMatrix); ok {
-				// 更新当前变换矩阵：CTM' = cm × CTM
-				ctm = cmOp.Matrix.Multiply(ctm)
+				// 更新当前变换矩阵：CTM' = CTM × cm
+				ctm = ctm.Multiply(cmOp.Matrix)
 				debugPrintf("[DEBUG] cm operator: Matrix=%s, new CTM=%s\n", cmOp.Matrix.String(), ctm.String())
 			}
 

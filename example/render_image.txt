@@ -1,6 +1,6 @@
 PDF Rendering Report
 ====================
-Time: 2025-12-31 11:13:03
+Time: 2026-01-26 16:51:38
 
 ParseTokens Test:
 -----------------
@@ -21,8 +21,8 @@ Rendering Process:
 ✅ Marked 2 image element(s) in the output
 Output File Info:
 -----------------
-Size: 230046 bytes
-Created: 2025-12-31 11:13:06
+Size: 269310 bytes
+Created: 2026-01-26 16:51:41
 
 Page Information:
 -----------------
@@ -51,12 +51,12 @@ Page Size: 771.42 x 666.92 points (10.71 x 9.26 inches)
 
 Text Elements: 1
 ----------------
-⚠️  Elements out of page bounds: 0 (0.0%)
-📏 Max X coordinate: 351.75 (page width: 771.42)
-📏 Max Y coordinate: 302.79 (page height: 666.92)
+⚠️  Elements out of page bounds: 1 (100.0%)
+📏 Max X coordinate: 6331.49 (page width: 771.42)
+📏 Max Y coordinate: 0.00 (page height: 666.92)
 
 First 20 elements:
-[1] Position: (351.75, 302.79)
+[1] Position: (6331.49, -5887.51) ⚠️ OUT OF BOUNDS
     Font: C1, Size: 18.00
     Text: "\u1976ൾ\u0e83ىᳮ\u07beސአ"
 
@@ -144,8 +144,8 @@ Text Elements: 1
 
 Detected 1 text line(s)
 
-Line 1 (Y=302.79):
-  [1] X=351.75 Font=C1 Size=18.0
+Line 1 (Y=-5887.51):
+  [1] X=6331.49 Font=C1 Size=18.0
       Text: "\u1976ൾ\u0e83ىᳮ\u07beސአ"
 
 Overlap Detection:
@@ -250,7 +250,7 @@ Operator Execution Log:
 [DEBUG] Tf operator: Font=C1 (BaseFont=AAAAAB+.PingFangSC-Regular), Size=1.00
 [DEBUG] Text element: baseFontSize=1.00, scale=18.00, effectiveFontSize=18.00
 [DEBUG] Calculated text width from CIDs: 144.00 (8 CIDs)
-[DEBUG] Total displacement: 144.00 (width=144.00, kerning=0.00), new X0=144.00
+[DEBUG] Total displacement: 144.00 (width=144.00, kerning=0.00), new X0=2592.00
 [DEBUG] ET operator: End text object
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
@@ -265,6 +265,14 @@ Operator Execution Log:
 ✓ Loaded CID widths for font C1: 0 direct mappings, 0 ranges
 ✓ Loaded font widths for C1: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font C1: Identity-H
+[loadXObject] Decoding stream for Im2...
+[loadXObject] Raw stream length: 219410 bytes
+[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
+[loadXObject] Stream decoded via direct Decode(): 5137560 bytes
+[loadXObject] Filters detected: [FlateDecode]
+[loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
+[loadXObject] ICCBased profile has N=3 components
+[loadXObject] ICCBased has Alternate colorspace: DeviceRGB
 [loadXObject] Decoding stream for Im1...
 [loadXObject] Raw stream length: 5464 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...
@@ -276,14 +284,6 @@ Operator Execution Log:
 [loadXObject] Found SMask for image Im1
 [loadXObject] SMask is an indirect reference: (10 0 R), attempting load
 [loadXObject] Successfully loaded SMask: 699x595
-[loadXObject] Decoding stream for Im2...
-[loadXObject] Raw stream length: 219410 bytes
-[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
-[loadXObject] Stream decoded via direct Decode(): 5137560 bytes
-[loadXObject] Filters detected: [FlateDecode]
-[loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
-[loadXObject] ICCBased profile has N=3 components
-[loadXObject] ICCBased has Alternate colorspace: DeviceRGB
    Dereferenced to: types.StreamDict
    Decoding StreamDict...
    Raw: 712 bytes, Content: 0 bytes
@@ -412,25 +412,8 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=sans-serif, size=1.00
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [Tj] Text="\u1976ൾ\u0e83ىᳮ\u07beސአ" (len=8 runes, 8 CIDs) at Tm=[0.00, 0.00]
-[Tj][0] CID=6518 Rune=᥶ absPos=(0.00, 0.00) adv=1.02
-[Tj][1] CID=3454 Rune=ൾ absPos=(18.34, 0.00) adv=1.02
-[Tj][2] CID=3715 Rune=຃ absPos=(36.68, 0.00) adv=1.02
-[Tj][3] CID=1609 Rune=ى absPos=(55.03, 0.00) adv=1.02
-[Tj][4] CID=7406 Rune=ᳮ absPos=(73.37, 0.00) adv=1.02
-[Tj][5] CID=1982 Rune=޾ absPos=(91.71, 0.00) adv=1.02
-[Tj][6] CID=1936 Rune=ސ absPos=(110.05, 0.00) adv=1.02
-[Tj][7] CID=4768 Rune=አ absPos=(128.39, 0.00) adv=1.02
-[TEXT_RENDER] Rendering 8 glyphs individually using PangoPdf
-[TEXT_RENDER][0] Rendered '᥶' at (0.00, 0.00)
-[TEXT_RENDER][1] Rendered 'ൾ' at (18.34, 0.00)
-[TEXT_RENDER][2] Rendered '຃' at (36.68, 0.00)
-[TEXT_RENDER][3] Rendered 'ى' at (55.03, 0.00)
-[TEXT_RENDER][4] Rendered 'ᳮ' at (73.37, 0.00)
-[TEXT_RENDER][5] Rendered '޾' at (91.71, 0.00)
-[TEXT_RENDER][6] Rendered 'ސ' at (110.05, 0.00)
-[TEXT_RENDER][7] Rendered 'አ' at (128.39, 0.00)
-[TEXT_RENDER] ✓ Rendered 8 glyphs using PangoPdf
-[TEXT_MATRIX] Updated after text: PDF_width=8.15, new X0=8.15
+[Tj] Rendered run at (0.00, 0.00), adv=8.15
+[TEXT_MATRIX] Updated after text: PDF_width=8.15, new X0=146.74
 [ET] End text object
 [Q] Restore graphics state - Stack depth: 2
 [EMC] Pop marked content: tag=P, depth=0
@@ -457,29 +440,29 @@ Operator Execution Log:
 [Q] Restore graphics state - Stack depth: 1
 
 📈 Operator Statistics:
-   W: 6
-   EMC: 4
-   f: 1
+   c: 12
+   ET: 1
+   gs: 1
    l: 11
+   h: 3
+   Tj: 1
+   M: 1
+   cm: 4
+   Do: 2
+   BT: 1
+   Tf: 1
+   f: 1
    BDC: 4
    Q: 9
    re: 4
-   n: 6
-   gs: 1
-   cm: 4
-   Do: 2
-   c: 12
-   h: 3
-   BT: 1
+   EMC: 4
    Tc: 1
-   Tf: 1
-   Tj: 1
-   M: 1
-   S: 1
-   m: 6
-   q: 9
    Tm: 1
-   ET: 1
+   S: 1
+   q: 9
+   W: 6
+   n: 6
+   m: 6
 ✓ Loaded ToUnicode CMap for font C1 (0 mappings, 0 ranges)
 ✓ Default width for CID font C1: 1000
 ✓ Loaded CID widths for font C1: 0 direct mappings, 0 ranges
@@ -559,7 +542,7 @@ Operator Execution Log:
 [DEBUG] Tf operator: Font=C1 (BaseFont=AAAAAB+.PingFangSC-Regular), Size=1.00
 [DEBUG] Text element: baseFontSize=1.00, scale=18.00, effectiveFontSize=18.00
 [DEBUG] Calculated text width from CIDs: 144.00 (8 CIDs)
-[DEBUG] Total displacement: 144.00 (width=144.00, kerning=0.00), new X0=144.00
+[DEBUG] Total displacement: 144.00 (width=144.00, kerning=0.00), new X0=2592.00
 [DEBUG] ET operator: End text object
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
@@ -648,7 +631,7 @@ Operator Execution Log:
 [DEBUG] Tf operator: Font=C1 (BaseFont=AAAAAB+.PingFangSC-Regular), Size=1.00
 [DEBUG] Text element: baseFontSize=1.00, scale=18.00, effectiveFontSize=18.00
 [DEBUG] Calculated text width from CIDs: 144.00 (8 CIDs)
-[DEBUG] Total displacement: 144.00 (width=144.00, kerning=0.00), new X0=144.00
+[DEBUG] Total displacement: 144.00 (width=144.00, kerning=0.00), new X0=2592.00
 [DEBUG] ET operator: End text object
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
@@ -737,7 +720,7 @@ Operator Execution Log:
 [DEBUG] Tf operator: Font=C1 (BaseFont=AAAAAB+.PingFangSC-Regular), Size=1.00
 [DEBUG] Text element: baseFontSize=1.00, scale=18.00, effectiveFontSize=18.00
 [DEBUG] Calculated text width from CIDs: 144.00 (8 CIDs)
-[DEBUG] Total displacement: 144.00 (width=144.00, kerning=0.00), new X0=144.00
+[DEBUG] Total displacement: 144.00 (width=144.00, kerning=0.00), new X0=2592.00
 [DEBUG] ET operator: End text object
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
