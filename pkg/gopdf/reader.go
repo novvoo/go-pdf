@@ -836,6 +836,55 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 	// 获取页面尺寸
 	pageInfo, _ := r.GetPageInfo(pageNum)
 
+	pageTransform := NewIdentityMatrix()
+	pageTransform = pageTransform.Translate(0, pageInfo.Height)
+	pageTransform = pageTransform.Scale(1, -1)
+
+	if rotateObj, found := pageDict.Find("Rotate"); found {
+		var rotation int
+		switch v := rotateObj.(type) {
+		case types.Integer:
+			rotation = int(v)
+		case types.Float:
+			rotation = int(v)
+		}
+
+		if rotation != 0 {
+			rotation = rotation % 360
+			switch rotation {
+			case 90:
+				pageTransform = pageTransform.Translate(pageInfo.Width, 0)
+				pageTransform = pageTransform.Rotate(1.5707963267948966)
+			case 180:
+				pageTransform = pageTransform.Translate(pageInfo.Width, pageInfo.Height)
+				pageTransform = pageTransform.Rotate(3.141592653589793)
+			case 270:
+				pageTransform = pageTransform.Translate(0, pageInfo.Height)
+				pageTransform = pageTransform.Rotate(4.71238898038469)
+			}
+		}
+	}
+
+	if cropBoxObj, found := pageDict.Find("CropBox"); found {
+		if arr, ok := cropBoxObj.(types.Array); ok && len(arr) == 4 {
+			var x1, y1 float64
+			if v, ok := arr[0].(types.Float); ok {
+				x1 = float64(v)
+			} else if v, ok := arr[0].(types.Integer); ok {
+				x1 = float64(v)
+			}
+			if v, ok := arr[1].(types.Float); ok {
+				y1 = float64(v)
+			} else if v, ok := arr[1].(types.Integer); ok {
+				y1 = float64(v)
+			}
+
+			if x1 != 0 || y1 != 0 {
+				pageTransform = pageTransform.Translate(-x1, -y1)
+			}
+		}
+	}
+
 	// 提取资源
 	resources := NewResources()
 	if resourcesObj, found := pageDict.Find("Resources"); found {
@@ -1055,14 +1104,10 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 
 			if text != "" && currentMatrix != nil {
 				// 应用当前变换矩阵 (CTM) 到文本矩阵
-				// 根据 PDF 规范：最终坐标 = Tm × CTM
-				// 这里文本位置是 (0, 0)，所以最终位置就是 Tm × CTM 的平移部分
-				finalMatrix := currentMatrix.Multiply(ctm)
+				// 这里文本位置是 (0, 0)，所以最终位置就是 (CTM × Tm) 的平移部分
+				finalMatrix := ctm.Multiply(currentMatrix)
 
-				// PDF 坐标系：左下角为原点，Y 轴向上
-				// 转换为屏幕坐标系：左上角为原点，Y 轴向下
-				x := finalMatrix.X0
-				y := pageInfo.Height - finalMatrix.Y0
+				x, y := pageTransform.Transform(finalMatrix.X0, finalMatrix.Y0)
 
 				// 计算有效字体大小：基础大小 * 文本矩阵的垂直缩放
 				// 文本矩阵的 YY 分量表示垂直缩放
@@ -1179,21 +1224,20 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 					// 右上角 (1, 1)
 					x3, y3 := ctm.Transform(1, 1)
 
-					// 计算边界框
-					minX := min(min(x0, x1), min(x2, x3))
-					maxX := max(max(x0, x1), max(x2, x3))
-					minY := min(min(y0, y1), min(y2, y3))
-					maxY := max(max(y0, y1), max(y2, y3))
+					x0s, y0s := pageTransform.Transform(x0, y0)
+					x1s, y1s := pageTransform.Transform(x1, y1)
+					x2s, y2s := pageTransform.Transform(x2, y2)
+					x3s, y3s := pageTransform.Transform(x3, y3)
 
-					// 计算实际宽度和高度
-					actualWidth := maxX - minX
-					actualHeight := maxY - minY
+					minXs := min(min(x0s, x1s), min(x2s, x3s))
+					maxXs := max(max(x0s, x1s), max(x2s, x3s))
+					minYs := min(min(y0s, y1s), min(y2s, y3s))
+					maxYs := max(max(y0s, y1s), max(y2s, y3s))
 
-					// PDF 坐标系转换为屏幕坐标系
-					// PDF: 左下角为原点，Y轴向上
-					// 屏幕: 左上角为原点，Y轴向下
-					x := minX
-					y := pageInfo.Height - maxY
+					x := minXs
+					y := minYs
+					actualWidth := maxXs - minXs
+					actualHeight := maxYs - minYs
 
 					// 🔥 修复：添加图像流数据和完整的元数据
 					imageElements = append(imageElements, ImageElementInfo{

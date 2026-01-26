@@ -124,6 +124,7 @@ func ExtractPageElementsForReport(pdfPath string, pageNum int) string {
 	report += fmt.Sprintf("Page Size: %.2f x %.2f points (%.2f x %.2f inches)\n\n",
 		pageInfo.Width, pageInfo.Height,
 		pageInfo.Width/72, pageInfo.Height/72)
+	report += "Coordinates: points, origin at top-left after page transform\n\n"
 
 	// 文本元素
 	if len(textElements) > 0 {

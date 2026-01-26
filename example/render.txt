@@ -1,6 +1,6 @@
 PDF Rendering Report
 ====================
-Time: 2026-01-26 16:58:20
+Time: 2026-01-26 17:07:16
 
 ParseTokens Test:
 -----------------
@@ -22,7 +22,7 @@ Rendering Process:
 Output File Info:
 -----------------
 Size: 309355 bytes
-Created: 2026-01-26 16:58:23
+Created: 2026-01-26 17:07:18
 
 Page Information:
 -----------------
@@ -33,7 +33,15 @@ Page Size: 8.26 x 11.69 inches
 Font Information:
 =================
 
-[Font 1] F5
+[Font 1] F4
+  BaseFont: AAAAAA+FreightSansProBold-Regular
+  Subtype: Type0
+  Encoding: Identity-H
+  Identity Mapping: YES
+  ToUnicode Map: YES (8 mappings, 3 ranges)
+  Embedded Font: NO
+
+[Font 2] F5
   BaseFont: BAAAAA+FreightSansProBook-Regular
   Subtype: Type0
   Encoding: Identity-H
@@ -41,20 +49,12 @@ Font Information:
   ToUnicode Map: YES (8 mappings, 9 ranges)
   Embedded Font: NO
 
-[Font 2] F6
+[Font 3] F6
   BaseFont: CAAAAA+MicrosoftYaHei
   Subtype: Type0
   Encoding: Identity-H
   Identity Mapping: YES
   ToUnicode Map: YES (736 mappings, 91 ranges)
-  Embedded Font: NO
-
-[Font 3] F4
-  BaseFont: AAAAAA+FreightSansProBold-Regular
-  Subtype: Type0
-  Encoding: Identity-H
-  Identity Mapping: YES
-  ToUnicode Map: YES (8 mappings, 3 ranges)
   Embedded Font: NO
 
 
@@ -65,135 +65,99 @@ Page 1 Element Extraction:
 
 Page Size: 594.96 x 841.92 points (8.26 x 11.69 inches)
 
+Coordinates: points, origin at top-left after page transform
+
 Text Elements: 196
 ----------------
-⚠️  Elements out of page bounds: 102 (52.0%)
-📏 Max X coordinate: 1041.82 (page width: 594.96)
-📏 Max Y coordinate: 1626.84 (page height: 841.92)
+⚠️  Elements out of page bounds: 0 (0.0%)
+📏 Max X coordinate: 535.41 (page width: 594.96)
+📏 Max Y coordinate: 789.00 (page height: 841.92)
 
 First 20 elements:
-[1] Position: (515.81, 1573.84) ⚠️ OUT OF BOUNDS
+[1] Position: (272.41, 69.50)
     Font: F4, Size: 14.00
     Text: "P"
 
-[2] Position: (525.73, 1573.84) ⚠️ OUT OF BOUNDS
+[2] Position: (277.36, 69.50)
     Font: F4, Size: 14.00
     Text: "S"
 
-[3] Position: (535.04, 1573.84) ⚠️ OUT OF BOUNDS
+[3] Position: (282.02, 69.50)
     Font: F4, Size: 14.00
     Text: "Y"
 
-[4] Position: (544.64, 1573.84) ⚠️ OUT OF BOUNDS
+[4] Position: (286.82, 69.50)
     Font: F4, Size: 14.00
     Text: "C"
 
-[5] Position: (554.82, 1573.84) ⚠️ OUT OF BOUNDS
+[5] Position: (291.91, 69.50)
     Font: F4, Size: 14.00
     Text: "H"
 
-[6] Position: (566.20, 1573.84) ⚠️ OUT OF BOUNDS
+[6] Position: (297.60, 69.50)
     Font: F4, Size: 14.00
     Text: "O"
 
-[7] Position: (578.06, 1573.84) ⚠️ OUT OF BOUNDS
+[7] Position: (303.53, 69.50)
     Font: F4, Size: 14.00
     Text: "L"
 
-[8] Position: (586.36, 1573.84) ⚠️ OUT OF BOUNDS
+[8] Position: (307.68, 69.50)
     Font: F4, Size: 14.00
     Text: "O"
 
-[9] Position: (598.22, 1573.84) ⚠️ OUT OF BOUNDS
+[9] Position: (313.61, 69.50)
     Font: F4, Size: 14.00
     Text: "G"
 
-[10] Position: (609.02, 1573.84) ⚠️ OUT OF BOUNDS
+[10] Position: (319.01, 69.50)
     Font: F4, Size: 14.00
     Text: "Y"
 
-[11] Position: (340.45, 1517.84) ⚠️ OUT OF BOUNDS
+[11] Position: (184.73, 97.50)
     Font: F5, Size: 36.00
     Text: "My Br"
 
-[12] Position: (423.72, 1517.84) ⚠️ OUT OF BOUNDS
+[12] Position: (226.36, 97.50)
     Font: F5, Size: 36.00
     Text: "ain Doesn’"
 
-[13] Position: (570.13, 1517.84) ⚠️ OUT OF BOUNDS
+[13] Position: (299.56, 97.50)
     Font: F5, Size: 36.00
     Text: "t Pictur"
 
-[14] Position: (675.00, 1517.84) ⚠️ OUT OF BOUNDS
+[14] Position: (352.00, 97.50)
     Font: F5, Size: 36.00
     Text: "e Things"
 
-[15] Position: (392.66, 1482.84) ⚠️ OUT OF BOUNDS
+[15] Position: (210.83, 115.00)
     Font: F5, Size: 14.00
     Text: "I can’"
 
-[16] Position: (420.88, 1482.84) ⚠️ OUT OF BOUNDS
+[16] Position: (224.94, 115.00)
     Font: F5, Size: 14.00
     Text: "t imagine sights, smells, or sounds. What’"
 
-[17] Position: (646.04, 1482.84) ⚠️ OUT OF BOUNDS
+[17] Position: (337.52, 115.00)
     Font: F5, Size: 14.00
     Text: "s wr"
 
-[18] Position: (668.75, 1482.84) ⚠️ OUT OF BOUNDS
+[18] Position: (348.87, 115.00)
     Font: F5, Size: 14.00
     Text: "ong with me?"
 
-[19] Position: (434.50, 1459.84) ⚠️ OUT OF BOUNDS
+[19] Position: (231.75, 126.50)
     Font: F6, Size: 14.00
     Text: "我无法想象景象、气味或声音。我怎么了？"
 
-[20] Position: (574.83, 1418.84) ⚠️ OUT OF BOUNDS
+[20] Position: (301.91, 147.00)
     Font: F5, Size: 14.00
     Text: " "
 
 ... and 176 more text elements
 
 Sample of out-of-bounds elements:
-[1] Position: (515.81, 1573.84) ⚠️ OUT OF BOUNDS
-    Font: F4, Size: 14.00
-    Text: "P"
-
-[2] Position: (525.73, 1573.84) ⚠️ OUT OF BOUNDS
-    Font: F4, Size: 14.00
-    Text: "S"
-
-[3] Position: (535.04, 1573.84) ⚠️ OUT OF BOUNDS
-    Font: F4, Size: 14.00
-    Text: "Y"
-
-[4] Position: (544.64, 1573.84) ⚠️ OUT OF BOUNDS
-    Font: F4, Size: 14.00
-    Text: "C"
-
-[5] Position: (554.82, 1573.84) ⚠️ OUT OF BOUNDS
-    Font: F4, Size: 14.00
-    Text: "H"
-
-[6] Position: (566.20, 1573.84) ⚠️ OUT OF BOUNDS
-    Font: F4, Size: 14.00
-    Text: "O"
-
-[7] Position: (578.06, 1573.84) ⚠️ OUT OF BOUNDS
-    Font: F4, Size: 14.00
-    Text: "L"
-
-[8] Position: (586.36, 1573.84) ⚠️ OUT OF BOUNDS
-    Font: F4, Size: 14.00
-    Text: "O"
-
-[9] Position: (598.22, 1573.84) ⚠️ OUT OF BOUNDS
-    Font: F4, Size: 14.00
-    Text: "G"
-
-[10] Position: (609.02, 1573.84) ⚠️ OUT OF BOUNDS
-    Font: F4, Size: 14.00
-    Text: "Y"
+  (No out-of-bounds elements found)
 
 Image Elements: 1
 -----------------
@@ -233,6 +197,18 @@ Font Width Calculation:
 Font Width Calculation Analysis:
 ---------------------------------
 
+Font: F6
+  Text elements: 20
+  Total estimated width: 2829.00 points
+  Font size range: 14.00 - 18.00 points
+  Average width per element: 141.45 points
+  Sample texts:
+    [1] "我无法想象景象、气味或声音\xe3..."
+    [2] "作者：马可"
+    [3] "詹科蒂"
+    [4] "年"
+    [5] "月"
+
 Font: F4
   Text elements: 11
   Total estimated width: 100.00 points
@@ -256,18 +232,6 @@ Font: F5
     [3] "t Pictur"
     [4] "e Things"
     [5] "I can’"
-
-Font: F6
-  Text elements: 20
-  Total estimated width: 2829.00 points
-  Font size range: 14.00 - 18.00 points
-  Average width per element: 141.45 points
-  Sample texts:
-    [1] "我无法想象景象、气味或声音\xe3..."
-    [2] "作者：马可"
-    [3] "詹科蒂"
-    [4] "年"
-    [5] "月"
 
 Width Calculation Method:
 -------------------------
@@ -313,203 +277,187 @@ Page 1 Detailed Analysis:
 Text Elements: 196
 ================
 
-Detected 30 text line(s)
+Detected 29 text line(s)
 
-Line 1 (Y=134.84):
-  [1] X=45.00 Font=F6 Size=18.0
-      Text: "对于我周围的传感器来..."
-  [2] X=891.00 Font=F5 Size=18.0 [gap: 846.00]
-      Text: " 3D "
-  [3] X=918.04 Font=F6 Size=18.0 [gap: 27.04]
-      Text: "方式观察和记录。"
+Line 1 (Y=43.00):
+  [1] X=350.95 Font=F5 Size=17.0
+      Text: "Join"
 
-Line 2 (Y=172.84):
-  [1] X=45.00 Font=F5 Size=18.0
-      Text: "and r"
-  [2] X=81.56 Font=F5 Size=18.0 [gap: 36.56]
-      Text: "ec"
-  [3] X=98.04 Font=F5 Size=18.0 [gap: 16.48]
-      Text: "or"
-  [4] X=113.83 Font=F5 Size=18.0 [gap: 15.79]
-      Text: "ded in 3-D"
-  [5] X=185.47 Font=F5 Size=18.0 [gap: 71.64]
-      Text: "."
+Line 2 (Y=69.50):
+  [1] X=272.41 Font=F4 Size=14.0
+      Text: "P"
+  [2] X=277.36 Font=F4 Size=14.0 [gap: 4.96]
+      Text: "S"
+  [3] X=282.02 Font=F4 Size=14.0 [gap: 4.66]
+      Text: "Y"
+  [4] X=286.82 Font=F4 Size=14.0 [gap: 4.80]
+      Text: "C"
+  [5] X=291.91 Font=F4 Size=14.0 [gap: 5.09]
+      Text: "H"
+  [6] X=297.60 Font=F4 Size=14.0 [gap: 5.69]
+      Text: "O"
+  [7] X=303.53 Font=F4 Size=14.0 [gap: 5.93]
+      Text: "L"
+  [8] X=307.68 Font=F4 Size=14.0 [gap: 4.15]
+      Text: "O"
+  [9] X=313.61 Font=F4 Size=14.0 [gap: 5.93]
+      Text: "G"
+  [10] X=319.01 Font=F4 Size=14.0 [gap: 5.40]
+      Text: "Y"
 
-Line 3 (Y=203.84):
-  [1] X=45.00 Font=F5 Size=18.0
+Line 3 (Y=97.50):
+  [1] X=184.73 Font=F5 Size=36.0
+      Text: "My Br"
+  [2] X=226.36 Font=F5 Size=36.0 [gap: 41.63]
+      Text: "ain Doesn’"
+  [3] X=299.56 Font=F5 Size=36.0 [gap: 73.20]
+      Text: "t Pictur"
+  [4] X=352.00 Font=F5 Size=36.0 [gap: 52.44]
+      Text: "e Things"
+
+Line 4 (Y=115.00):
+  [1] X=210.83 Font=F5 Size=14.0
+      Text: "I can’"
+  [2] X=224.94 Font=F5 Size=14.0 [gap: 14.11]
+      Text: "t imagine sights, smells, or s..."
+  [3] X=337.52 Font=F5 Size=14.0 [gap: 112.58]
+      Text: "s wr"
+  [4] X=348.87 Font=F5 Size=14.0 [gap: 11.35]
+      Text: "ong with me?"
+
+Line 5 (Y=126.50):
+  [1] X=231.75 Font=F6 Size=14.0
+      Text: "我无法想象景象、气味..."
+
+Line 6 (Y=147.00):
+  [1] X=236.37 Font=F5 Size=14.0
+      Text: "B"
+  [2] X=240.15 Font=F5 Size=14.0 [gap: 3.78]
+      Text: "Y MAR"
+  [3] X=258.42 Font=F5 Size=14.0 [gap: 18.28]
+      Text: "C"
+  [4] X=262.46 Font=F5 Size=14.0 [gap: 4.03]
+      Text: "O GIANC"
+  [5] X=287.59 Font=F5 Size=14.0 [gap: 25.13]
+      Text: "O"
+  [6] X=292.48 Font=F5 Size=14.0 [gap: 4.89]
       Text: "T"
-  [2] X=53.18 Font=F5 Size=18.0 [gap: 8.18]
-      Text: "o the sensors ar"
-  [3] X=167.00 Font=F5 Size=18.0 [gap: 113.82]
-      Text: "ound me, I’"
-  [4] X=244.64 Font=F5 Size=18.0 [gap: 77.64]
-      Text: "m no"
-  [5] X=281.24 Font=F5 Size=18.0 [gap: 36.60]
-      Text: "w as tr"
-  [6] X=328.44 Font=F5 Size=18.0 [gap: 47.20]
-      Text: "anspar"
-  [7] X=375.79 Font=F5 Size=18.0 [gap: 47.35]
-      Text: "ent as a glas"
-  [8] X=461.36 Font=F5 Size=18.0 [gap: 85.58]
-      Text: "s of w"
-  [9] X=503.38 Font=F5 Size=18.0 [gap: 42.01]
-      Text: "at"
-  [10] X=517.10 Font=F5 Size=18.0 [gap: 13.73]
-      Text: "er"
-  [11] X=530.89 Font=F5 Size=18.0 [gap: 13.78]
-      Text: ". E"
-  [12] X=547.37 Font=F5 Size=18.0 [gap: 16.49]
+  [7] X=296.47 Font=F5 Size=14.0 [gap: 3.99]
+      Text: "TI"
+  [8] X=301.91 Font=F5 Size=14.0 [gap: 5.45]
+      Text: " "
+  [9] X=315.51 Font=F5 Size=14.0 [gap: 13.59]
+      Text: "Oct"
+  [10] X=325.89 Font=F5 Size=14.0 [gap: 10.38]
+      Text: "ober 4"
+  [11] X=344.13 Font=F5 Size=14.0 [gap: 18.24]
+      Text: ", 20"
+  [12] X=354.12 Font=F5 Size=14.0 [gap: 9.99]
+      Text: "23"
+
+Line 7 (Y=162.50):
+  [1] X=242.85 Font=F6 Size=14.0
+      Text: "作者：马可"
+  [2] X=277.85 Font=F5 Size=14.0 [gap: 35.00]
+      Text: "·"
+  [3] X=279.16 Font=F6 Size=14.0 [gap: 1.31]
+      Text: "詹科蒂"
+  [4] X=300.16 Font=F5 Size=14.0 [gap: 21.00]
+      Text: " 20"
+  [5] X=308.84 Font=F5 Size=14.0 [gap: 8.68]
+      Text: "23 "
+  [6] X=316.44 Font=F6 Size=14.0 [gap: 7.60]
+      Text: "年"
+  [7] X=323.44 Font=F5 Size=14.0 [gap: 7.00]
+      Text: " 10 "
+  [8] X=332.95 Font=F6 Size=14.0 [gap: 9.51]
+      Text: "月"
+  [9] X=339.95 Font=F5 Size=14.0 [gap: 7.00]
+      Text: " 4 "
+  [10] X=346.65 Font=F6 Size=14.0 [gap: 6.69]
+      Text: "日"
+
+Line 8 (Y=186.00):
+  [1] X=298.38 Font=F5 Size=14.0
+      Text: "Shar"
+  [2] X=310.83 Font=F5 Size=14.0 [gap: 12.46]
+      Text: "e"
+
+Line 9 (Y=398.00):
+  [1] X=71.00 Font=F5 Size=18.0
+      Text: "’"
+  [2] X=72.32 Font=F5 Size=18.0 [gap: 1.32]
+      Text: "m lying do"
+  [3] X=109.04 Font=F5 Size=18.0 [gap: 36.73]
+      Text: "wn in a whit"
+  [4] X=151.35 Font=F5 Size=18.0 [gap: 42.31]
+      Text: "e cylinder bar"
+  [5] X=199.54 Font=F5 Size=18.0 [gap: 48.19]
+      Text: "ely wider than my body"
+  [6] X=281.75 Font=F5 Size=18.0 [gap: 82.21]
+      Text: ", surr"
+  [7] X=299.81 Font=F5 Size=18.0 [gap: 18.06]
+      Text: "ounded on all sides b"
+  [8] X=374.55 Font=F5 Size=18.0 [gap: 74.74]
+      Text: "y a mas"
+  [9] X=400.86 Font=F5 Size=18.0 [gap: 26.31]
+      Text: "s of sophisticat"
+  [10] X=454.44 Font=F5 Size=18.0 [gap: 53.59]
+      Text: "ed machiner"
+  [11] X=498.86 Font=F5 Size=18.0 [gap: 44.42]
+      Text: "y the siz"
+  [12] X=527.34 Font=F5 Size=18.0 [gap: 28.48]
+      Text: "e of a"
+
+Line 10 (Y=412.50):
+  [1] X=47.62 Font=F4 Size=60.0
+      Text: "I"
+  [2] X=71.00 Font=F5 Size=18.0 [gap: 23.38]
+      Text: "small camper van. It’"
+  [3] X=142.74 Font=F5 Size=18.0 [gap: 71.74]
+      Text: "s an fMRI machine, one of the ..."
+  [4] X=252.89 Font=F5 Size=18.0 [gap: 110.15]
+      Text: "echnological mar"
+  [5] X=313.93 Font=F5 Size=18.0 [gap: 61.04]
       Text: "v"
-  [13] X=554.92 Font=F5 Size=18.0 [gap: 7.54]
-      Text: "er"
-  [14] X=570.05 Font=F5 Size=18.0 [gap: 15.13]
-      Text: "y tiny change of blood "
-  [15] X=731.78 Font=F5 Size=18.0 [gap: 161.73]
-      Text: "ﬂ"
-  [16] X=740.75 Font=F5 Size=18.0 [gap: 8.97]
-      Text: "o"
-  [17] X=750.22 Font=F5 Size=18.0 [gap: 9.47]
-      Text: "w any"
-  [18] X=791.11 Font=F5 Size=18.0 [gap: 40.90]
-      Text: "wher"
-  [19] X=826.80 Font=F5 Size=18.0 [gap: 35.68]
-      Text: "e inside my br"
-  [20] X=925.90 Font=F5 Size=18.0 [gap: 99.11]
-      Text: "ain is being w"
-  [21] X=1020.52 Font=F5 Size=18.0 [gap: 94.62]
-      Text: "at"
-  [22] X=1034.25 Font=F5 Size=18.0 [gap: 13.73]
-      Text: "ched"
+  [6] X=317.70 Font=F5 Size=18.0 [gap: 3.77]
+      Text: "els of modern neur"
+  [7] X=385.63 Font=F5 Size=18.0 [gap: 67.93]
+      Text: "oscienc"
+  [8] X=412.60 Font=F5 Size=18.0 [gap: 26.98]
+      Text: "e."
 
-Line 4 (Y=241.84):
-  [1] X=45.00 Font=F6 Size=18.0
-      Text: "恢复的速度。"
-
-Line 5 (Y=272.84):
-  [1] X=45.00 Font=F6 Size=18.0
-      Text: "缠绕在我周围的低温冷..."
-
-Line 6 (Y=311.84):
-  [1] X=45.00 Font=F5 Size=18.0
-      Text: "at"
-  [2] X=58.73 Font=F5 Size=18.0 [gap: 13.73]
-      Text: "oms inside my head o"
-  [3] X=212.67 Font=F5 Size=18.0 [gap: 153.94]
-      Text: "ﬀ"
-  [4] X=223.48 Font=F5 Size=18.0 [gap: 10.81]
-      Text: " their original spin axis, and..."
-  [5] X=530.63 Font=F5 Size=18.0 [gap: 307.15]
-      Text: "at"
-  [6] X=544.36 Font=F5 Size=18.0 [gap: 13.73]
-      Text: "e at which the axis r"
-  [7] X=684.47 Font=F5 Size=18.0 [gap: 140.11]
-      Text: "ec"
-  [8] X=700.95 Font=F5 Size=18.0 [gap: 16.48]
-      Text: "o"
-  [9] X=710.41 Font=F5 Size=18.0 [gap: 9.47]
-      Text: "v"
-  [10] X=717.95 Font=F5 Size=18.0 [gap: 7.54]
-      Text: "ers aft"
-  [11] X=762.96 Font=F5 Size=18.0 [gap: 45.01]
-      Text: "er"
-  [12] X=778.04 Font=F5 Size=18.0 [gap: 15.08]
-      Text: "w"
-  [13] X=789.99 Font=F5 Size=18.0 [gap: 11.94]
-      Text: "ar"
-  [14] X=804.12 Font=F5 Size=18.0 [gap: 14.13]
-      Text: "d."
-
-Line 7 (Y=341.84):
-  [1] X=45.00 Font=F5 Size=18.0
-      Text: "A po"
-  [2] X=78.17 Font=F5 Size=18.0 [gap: 33.17]
-      Text: "w"
-  [3] X=89.99 Font=F5 Size=18.0 [gap: 11.82]
-      Text: "er"
-  [4] X=105.03 Font=F5 Size=18.0 [gap: 15.04]
-      Text: "ful curr"
-  [5] X=157.08 Font=F5 Size=18.0 [gap: 52.05]
-      Text: "ent gr"
-  [6] X=199.28 Font=F5 Size=18.0 [gap: 42.21]
-      Text: "o"
-  [7] X=208.75 Font=F5 Size=18.0 [gap: 9.47]
-      Text: "ws inside the cr"
-  [8] X=319.43 Font=F5 Size=18.0 [gap: 110.68]
-      Text: "y"
-  [9] X=326.97 Font=F5 Size=18.0 [gap: 7.54]
-      Text: "ogenically c"
-  [10] X=409.41 Font=F5 Size=18.0 [gap: 82.44]
-      Text: "ooled wir"
-  [11] X=475.92 Font=F5 Size=18.0 [gap: 66.51]
-      Text: "es that c"
-  [12] X=536.37 Font=F5 Size=18.0 [gap: 60.45]
-      Text: "oil ar"
-  [13] X=571.61 Font=F5 Size=18.0 [gap: 35.24]
-      Text: "ound me, sho"
-  [14] X=668.04 Font=F5 Size=18.0 [gap: 96.42]
-      Text: "w"
-  [15] X=679.86 Font=F5 Size=18.0 [gap: 11.82]
-      Text: "ering my head with r"
-  [16] X=825.64 Font=F5 Size=18.0 [gap: 145.78]
-      Text: "adio w"
-  [17] X=872.14 Font=F5 Size=18.0 [gap: 46.50]
-      Text: "av"
-  [18] X=887.58 Font=F5 Size=18.0 [gap: 15.44]
-      Text: "es, knocking the hy"
-  [19] X=1022.36 Font=F5 Size=18.0 [gap: 134.78]
-      Text: "dr"
-  [20] X=1037.84 Font=F5 Size=18.0 [gap: 15.48]
-      Text: "ogen"
-
-Line 8 (Y=380.84):
-  [1] X=45.00 Font=F6 Size=18.0
-      Text: "机器再次启动。"
-
-Line 9 (Y=418.84):
-  [1] X=45.00 Font=F5 Size=18.0
-      Text: "The machine sets in motion aga..."
-
-Line 10 (Y=479.84):
-  [1] X=45.00 Font=F5 Size=18.0
-      Text: "“"
-  [2] X=51.91 Font=F6 Size=18.0 [gap: 6.91]
-      Text: "是的，我们走吧，"
-  [3] X=195.91 Font=F5 Size=18.0 [gap: 144.00]
-      Text: "”"
-  [4] X=202.82 Font=F6 Size=18.0 [gap: 6.91]
-      Text: "我回答。"
-
-... and 20 more lines
+... and 19 more lines
 
 Overlap Detection:
 ------------------
-  ⚠️  Overlap detected at Y=134.84:
-      Text1: " 3D " at X=891.00 (width≈36.00)
-      Text2: "方式观察和记录。" at X=918.04
-      Overlap: 8.96 points
+  ⚠️  Overlap detected at Y=69.50:
+      Text1: "P" at X=272.41 (width≈7.00)
+      Text2: "S" at X=277.36
+      Overlap: 2.04 points
 
-  ⚠️  Overlap detected at Y=172.84:
-      Text1: "and r" at X=45.00 (width≈45.00)
-      Text2: "ec" at X=81.56
-      Overlap: 8.44 points
+  ⚠️  Overlap detected at Y=69.50:
+      Text1: "S" at X=277.36 (width≈7.00)
+      Text2: "Y" at X=282.02
+      Overlap: 2.34 points
 
-  ⚠️  Overlap detected at Y=172.84:
-      Text1: "ec" at X=81.56 (width≈18.00)
-      Text2: "or" at X=98.04
-      Overlap: 1.52 points
+  ⚠️  Overlap detected at Y=69.50:
+      Text1: "Y" at X=282.02 (width≈7.00)
+      Text2: "C" at X=286.82
+      Overlap: 2.20 points
 
-  ⚠️  Overlap detected at Y=172.84:
-      Text1: "or" at X=98.04 (width≈18.00)
-      Text2: "ded in 3-D" at X=113.83
-      Overlap: 2.21 points
+  ⚠️  Overlap detected at Y=69.50:
+      Text1: "C" at X=286.82 (width≈7.00)
+      Text2: "H" at X=291.91
+      Overlap: 1.91 points
 
-  ⚠️  Overlap detected at Y=172.84:
-      Text1: "ded in 3-D" at X=113.83 (width≈90.00)
-      Text2: "." at X=185.47
-      Overlap: 18.36 points
+  ⚠️  Overlap detected at Y=69.50:
+      Text1: "H" at X=291.91 (width≈7.00)
+      Text2: "O" at X=297.60
+      Overlap: 1.31 points
 
-  Total overlaps: 131
-  (showing first 5, 126 more not shown)
+  Total overlaps: 166
+  (showing first 5, 161 more not shown)
 
 Image Elements: 1
 ================
@@ -547,6 +495,12 @@ Rendering completed successfully
 
 Operator Execution Log:
 ------------------------
+✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
+✓ Default width for CID font F4: 0
+✓ Using fallback default width for CID font F4: 1000
+✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
+✓ Loaded font widths for F4: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F4: Identity-H
 ✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
 ✓ Default width for CID font F5: 500
 ✓ Loaded CID widths for font F5: 102 direct mappings, 0 ranges
@@ -557,12 +511,6 @@ Operator Execution Log:
 ✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
 ✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F6: Identity-H
-✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
-✓ Default width for CID font F4: 0
-✓ Using fallback default width for CID font F4: 1000
-✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
-✓ Loaded font widths for F4: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F4: Identity-H
 [loadXObject] Decoding stream for X8...
 [loadXObject] Raw stream length: 207578 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...
@@ -4279,31 +4227,31 @@ Operator Execution Log:
 [Q] Restore graphics state - Stack depth: 1
 
 📈 Operator Statistics:
-   Tf: 51
-   Td: 158
-   W: 7
-   cm: 22
-   q: 44
-   re: 44
-   rg: 42
-   ET: 51
+   Tm: 51
    f: 32
    m: 32
+   l: 51
+   RG: 42
+   Td: 158
+   h: 30
+   W: 7
    Do: 1
-   n: 29
+   q: 44
+   re: 44
    BT: 51
    Tj: 196
+   ET: 51
+   S: 8
+   W*: 22
+   gs: 31
+   BDC: 54
+   Tf: 51
    EMC: 54
    Q: 44
    c: 387
-   h: 30
-   l: 51
-   Tm: 51
-   W*: 22
-   RG: 42
-   gs: 31
-   BDC: 54
-   S: 8
+   cm: 22
+   n: 29
+   rg: 42
 
 📌 Rendering 3 annotations...
 [Annotation] Rendering annotation: Link
@@ -6704,6 +6652,11 @@ Operator Execution Log:
 [DEBUG] ET operator: End text object
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
+✓ Default width for CID font F6: 1000
+✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
+✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F6: Identity-H
 ✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
 ✓ Default width for CID font F4: 0
 ✓ Using fallback default width for CID font F4: 1000
@@ -6715,11 +6668,6 @@ Operator Execution Log:
 ✓ Loaded CID widths for font F5: 102 direct mappings, 0 ranges
 ✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
-✓ Default width for CID font F6: 1000
-✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
-✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F6: Identity-H
 [loadXObject] Decoding stream for X8...
 [loadXObject] Raw stream length: 207578 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...
