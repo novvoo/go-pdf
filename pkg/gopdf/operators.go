@@ -2,6 +2,7 @@ package gopdf
 
 import (
 	"fmt"
+	"strings"
 )
 
 // PDFOperator 表示 PDF 操作符接口
@@ -545,6 +546,112 @@ func (op *OpSetFillColorRGB) Name() string { return "rg" }
 func (op *OpSetFillColorRGB) Execute(ctx *RenderContext) error {
 	state := ctx.GetCurrentState()
 	state.SetFillColor(op.R, op.G, op.B, 1.0)
+	return nil
+}
+
+type OpSetStrokeColorSpace struct {
+	ColorSpaceName string
+}
+
+func (op *OpSetStrokeColorSpace) Name() string { return "CS" }
+
+func (op *OpSetStrokeColorSpace) Execute(ctx *RenderContext) error {
+	state := ctx.GetCurrentState()
+	csName := strings.TrimPrefix(op.ColorSpaceName, "/")
+	if csName == "" {
+		return nil
+	}
+
+	if ctx.Resources != nil {
+		if v := ctx.Resources.GetColorSpace(csName); v != nil {
+			if cs, ok := v.(ColorSpace); ok {
+				state.StrokeColorSpace = cs
+				return nil
+			}
+		}
+	}
+
+	state.StrokeColorSpace = GetColorSpace(csName)
+	return nil
+}
+
+type OpSetFillColorSpace struct {
+	ColorSpaceName string
+}
+
+func (op *OpSetFillColorSpace) Name() string { return "cs" }
+
+func (op *OpSetFillColorSpace) Execute(ctx *RenderContext) error {
+	state := ctx.GetCurrentState()
+	csName := strings.TrimPrefix(op.ColorSpaceName, "/")
+	if csName == "" {
+		return nil
+	}
+
+	if ctx.Resources != nil {
+		if v := ctx.Resources.GetColorSpace(csName); v != nil {
+			if cs, ok := v.(ColorSpace); ok {
+				state.FillColorSpace = cs
+				return nil
+			}
+		}
+	}
+
+	state.FillColorSpace = GetColorSpace(csName)
+	return nil
+}
+
+type OpSetStrokeColorN struct {
+	Components  []float64
+	PatternName string
+}
+
+func (op *OpSetStrokeColorN) Name() string { return "SCN" }
+
+func (op *OpSetStrokeColorN) Execute(ctx *RenderContext) error {
+	state := ctx.GetCurrentState()
+	cs := state.StrokeColorSpace
+	if cs == nil {
+		cs = &DeviceRGBColorSpace{}
+	}
+
+	r, g, b, err := cs.ConvertToRGB(op.Components)
+	if err != nil {
+		return nil
+	}
+
+	a := state.StrokeAlpha
+	if a == 0 {
+		a = 1.0
+	}
+	state.SetStrokeColor(r, g, b, a)
+	return nil
+}
+
+type OpSetFillColorN struct {
+	Components  []float64
+	PatternName string
+}
+
+func (op *OpSetFillColorN) Name() string { return "scn" }
+
+func (op *OpSetFillColorN) Execute(ctx *RenderContext) error {
+	state := ctx.GetCurrentState()
+	cs := state.FillColorSpace
+	if cs == nil {
+		cs = &DeviceRGBColorSpace{}
+	}
+
+	r, g, b, err := cs.ConvertToRGB(op.Components)
+	if err != nil {
+		return nil
+	}
+
+	a := state.FillAlpha
+	if a == 0 {
+		a = 1.0
+	}
+	state.SetFillColor(r, g, b, a)
 	return nil
 }
 

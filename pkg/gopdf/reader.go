@@ -1619,6 +1619,26 @@ func loadResourcesWithDepth(ctx *model.Context, resourcesObj types.Object, resou
 		}
 	}
 
+	if csObj, found := resourcesDict.Find("ColorSpace"); found {
+		if indRef, ok := csObj.(types.IndirectRef); ok {
+			derefObj, err := ctx.Dereference(indRef)
+			if err == nil {
+				csObj = derefObj
+			}
+		}
+		if csDict, ok := csObj.(types.Dict); ok {
+			for csName, csVal := range csDict {
+				cs, err := parseColorSpaceObject(ctx, csVal)
+				if err != nil {
+					continue
+				}
+				if cs != nil {
+					resources.SetColorSpace(csName, cs)
+				}
+			}
+		}
+	}
+
 	// 加载 XObjects
 	if xobjectsObj, found := resourcesDict.Find("XObject"); found {
 		if xobjectsDict, ok := xobjectsObj.(types.Dict); ok {
@@ -1653,6 +1673,125 @@ func loadResourcesWithDepth(ctx *model.Context, resourcesObj types.Object, resou
 	}
 
 	return nil
+}
+
+func parseColorSpaceObject(ctx *model.Context, obj types.Object) (ColorSpace, error) {
+	if indRef, ok := obj.(types.IndirectRef); ok {
+		derefObj, err := ctx.Dereference(indRef)
+		if err != nil {
+			return nil, err
+		}
+		obj = derefObj
+	}
+
+	switch v := obj.(type) {
+	case types.Name:
+		return GetColorSpace(v.String()), nil
+	case types.Array:
+		if len(v) == 0 {
+			return nil, fmt.Errorf("empty colorspace array")
+		}
+		head, ok := v[0].(types.Name)
+		if !ok {
+			return nil, fmt.Errorf("invalid colorspace head")
+		}
+		switch head.String() {
+		case "/ICCBased", "ICCBased":
+			if len(v) < 2 {
+				return nil, fmt.Errorf("invalid ICCBased colorspace")
+			}
+			ref := v[1]
+			if indRef, ok := ref.(types.IndirectRef); ok {
+				derefObj, err := ctx.Dereference(indRef)
+				if err != nil {
+					return nil, err
+				}
+				ref = derefObj
+			}
+			streamDict, ok := ref.(types.StreamDict)
+			if !ok {
+				return nil, fmt.Errorf("ICCBased not stream")
+			}
+			if len(streamDict.Content) == 0 && len(streamDict.Raw) > 0 {
+				_ = streamDict.Decode()
+			}
+
+			n := 3
+			if nObj, found := streamDict.Find("N"); found {
+				if iv, ok := nObj.(types.Integer); ok {
+					n = int(iv)
+				}
+			}
+			var alternate ColorSpace
+			if altObj, found := streamDict.Find("Alternate"); found {
+				if name, ok := altObj.(types.Name); ok {
+					alternate = GetColorSpace(name.String())
+				}
+			}
+			rangeVals := []float64(nil)
+			if rObj, found := streamDict.Find("Range"); found {
+				if arr, ok := rObj.(types.Array); ok {
+					rangeVals = make([]float64, 0, len(arr))
+					for _, it := range arr {
+						if fv, ok := it.(types.Float); ok {
+							rangeVals = append(rangeVals, float64(fv))
+						} else if iv, ok := it.(types.Integer); ok {
+							rangeVals = append(rangeVals, float64(iv))
+						}
+					}
+				}
+			}
+			return &ICCBasedColorSpace{
+				NumComponents: n,
+				Alternate:     alternate,
+				Range:         rangeVals,
+				Metadata:      nil,
+			}, nil
+
+		case "/Indexed", "Indexed":
+			if len(v) < 4 {
+				return nil, fmt.Errorf("invalid Indexed colorspace")
+			}
+			base, err := parseColorSpaceObject(ctx, v[1])
+			if err != nil {
+				return nil, err
+			}
+			hi := 0
+			if iv, ok := v[2].(types.Integer); ok {
+				hi = int(iv)
+			} else if fv, ok := v[2].(types.Float); ok {
+				hi = int(fv)
+			}
+			lookupBytes := []byte(nil)
+			lookupObj := v[3]
+			if indRef, ok := lookupObj.(types.IndirectRef); ok {
+				derefObj, err := ctx.Dereference(indRef)
+				if err == nil {
+					lookupObj = derefObj
+				}
+			}
+			if sd, ok := lookupObj.(types.StreamDict); ok {
+				if len(sd.Content) == 0 && len(sd.Raw) > 0 {
+					_ = sd.Decode()
+				}
+				lookupBytes = sd.Content
+			} else if hl, ok := lookupObj.(types.HexLiteral); ok {
+				lookupBytes = []byte(hl)
+			} else if sl, ok := lookupObj.(types.StringLiteral); ok {
+				lookupBytes = []byte(sl)
+			}
+			return &IndexedColorSpace{
+				Base:   base,
+				HiVal:  hi,
+				Lookup: lookupBytes,
+			}, nil
+
+		default:
+			return GetColorSpace(head.String()), nil
+		}
+	default:
+		return nil, fmt.Errorf("unsupported colorspace object %T", obj)
+	}
 }
 
 // loadFont 加载字体资源
@@ -1695,6 +1834,38 @@ func loadFont(ctx *model.Context, fontName string, fontObj types.Object, resourc
 
 	if font.Subtype == "/Type0" || font.Subtype == "Type0" {
 		if descendantFontDict, err := getType0DescendantFontDict(ctx, fontDict); err == nil && descendantFontDict != nil {
+			if csiObj, found := descendantFontDict.Find("CIDSystemInfo"); found {
+				if indRef, ok := csiObj.(types.IndirectRef); ok {
+					derefObj, err := ctx.Dereference(indRef)
+					if err == nil {
+						csiObj = derefObj
+					}
+				}
+				if csiDict, ok := csiObj.(types.Dict); ok {
+					registry := ""
+					ordering := ""
+					if rObj, found := csiDict.Find("Registry"); found {
+						switch v := rObj.(type) {
+						case types.StringLiteral:
+							registry = string(v)
+						case types.HexLiteral:
+							registry = string(v)
+						}
+					}
+					if oObj, found := csiDict.Find("Ordering"); found {
+						switch v := oObj.(type) {
+						case types.StringLiteral:
+							ordering = string(v)
+						case types.HexLiteral:
+							ordering = string(v)
+						}
+					}
+					if registry != "" && ordering != "" {
+						font.CIDSystemInfo = registry + "-" + ordering
+					}
+				}
+			}
+
 			if fontDescriptorObj, found := descendantFontDict.Find("FontDescriptor"); found {
 				if indRef, ok := fontDescriptorObj.(types.IndirectRef); ok {
 					derefObj, err := ctx.Dereference(indRef)
@@ -1823,38 +1994,32 @@ func loadFont(ctx *model.Context, fontName string, fontObj types.Object, resourc
 	}
 
 	// 检查是否使用 Identity-H 或 Identity-V 编码
-	isIdentity := false
 	if font.Encoding == "/Identity-H" || font.Encoding == "Identity-H" ||
 		font.Encoding == "/Identity-V" || font.Encoding == "Identity-V" {
-		isIdentity = true
 		font.IsIdentity = true
 		debugPrintf("✓ Detected Identity encoding for font %s: %s\n", fontName, font.Encoding)
 	}
 
 	// 如果没有 ToUnicode，尝试从 poppler-data 加载
 	if font.ToUnicodeMap == nil && font.Subtype == "/Type0" {
-		// 尝试从字体名称推断 CID 系统信息
-		// 例如: MicrosoftYaHeiUI-Bold 可能是中文字体
-		registry := guessCIDRegistry(font.BaseFont)
+		registry := ""
+		if font.CIDSystemInfo != "" {
+			registry = font.CIDSystemInfo
+		} else {
+			registry = guessCIDRegistry(font.BaseFont)
+		}
 		if registry != "" {
 			debugPrintf("→ Trying to load CID map from poppler-data: %s for font %s\n", registry, fontName)
 			cidMap, err := LoadCIDToUnicodeFromRegistry(registry)
 			if err == nil {
 				font.ToUnicodeMap = cidMap
-				font.CIDSystemInfo = registry
+				if font.CIDSystemInfo == "" {
+					font.CIDSystemInfo = registry
+				}
 				debugPrintf("✓ Loaded CID map from poppler-data: %s (%d mappings)\n", registry, len(cidMap.Mappings))
 			} else {
 				debugPrintf("Warning: failed to load CID map for %s: %v\n", registry, err)
-				// 如果加载失败，尝试使用Identity映射作为后备
-				if !isIdentity {
-					debugPrintf("→ Falling back to Identity mapping for font %s\n", fontName)
-					font.IsIdentity = true
-				}
 			}
-		} else if !isIdentity {
-			// 如果无法推断注册表，使用Identity映射作为后备
-			debugPrintf("→ Cannot guess CID registry, using Identity mapping for font %s\n", fontName)
-			font.IsIdentity = true
 		}
 	}
 

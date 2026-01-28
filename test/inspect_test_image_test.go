@@ -1,6 +1,9 @@
 package test
 
 import (
+	"image"
+	"image/png"
+	"math"
 	"os"
 	"path/filepath"
 	"testing"
@@ -121,6 +124,63 @@ func TestDumpTestImageFontDict(t *testing.T) {
 	}
 }
 
+func TestDumpTestImageDecodedContent(t *testing.T) {
+	pdfPath := filepath.Join("..", "example", "test_image.pdf")
+
+	ctx, err := api.ReadContextFile(pdfPath)
+	if err != nil {
+		t.Fatalf("ReadContextFile: %v", err)
+	}
+
+	pageDict, _, _, err := ctx.PageDict(1, false)
+	if err != nil {
+		t.Fatalf("PageDict: %v", err)
+	}
+
+	contents, found := pageDict.Find("Contents")
+	if !found {
+		t.Fatalf("Contents not found")
+	}
+
+	contentStreams, err := gopdf.ExtractContentStreams(ctx, contents)
+	if err != nil {
+		t.Fatalf("ExtractContentStreams: %v", err)
+	}
+
+	for i, s := range contentStreams {
+		if len(s) > 4000 {
+			s = s[:4000]
+		}
+		t.Logf("content[%d] (%d bytes):\n%s", i, len(s), string(s))
+	}
+}
+
+func TestParseColorSpaceOperators(t *testing.T) {
+	ops, err := gopdf.ParseContentStream([]byte("/Cs1 cs 0.9372549 0.5490196 0 sc /Cs1 CS 0 0 0 SC"))
+	if err != nil {
+		t.Fatalf("ParseContentStream: %v", err)
+	}
+	foundCS := false
+	foundcs := false
+	foundSC := false
+	foundsc := false
+	for _, op := range ops {
+		switch op.(type) {
+		case *gopdf.OpSetStrokeColorSpace:
+			foundCS = true
+		case *gopdf.OpSetFillColorSpace:
+			foundcs = true
+		case *gopdf.OpSetStrokeColorN:
+			foundSC = true
+		case *gopdf.OpSetFillColorN:
+			foundsc = true
+		}
+	}
+	if !foundCS || !foundcs || !foundSC || !foundsc {
+		t.Fatalf("expected CS/cs/SC/sc operators parsed; got CS=%v cs=%v SC=%v sc=%v", foundCS, foundcs, foundSC, foundsc)
+	}
+}
+
 func keysOfDict(d types.Dict) []string {
 	keys := make([]string, 0, len(d))
 	for k := range d {
@@ -162,6 +222,107 @@ func TestRenderTestImagePNG(t *testing.T) {
 	if fi.Size() <= 0 {
 		t.Fatalf("empty output")
 	}
+}
+
+func TestRenderTestImageNotFlippedVertically(t *testing.T) {
+	pdfPath := filepath.Join("..", "example", "test_image.pdf")
+	refPath := filepath.Join("..", "example", "test_image.png")
+
+	refFile, err := os.Open(refPath)
+	if err != nil {
+		t.Fatalf("open ref: %v", err)
+	}
+	refImg, err := png.Decode(refFile)
+	_ = refFile.Close()
+	if err != nil {
+		t.Fatalf("decode ref: %v", err)
+	}
+
+	reader := gopdf.NewPDFReader(pdfPath)
+	out := filepath.Join(t.TempDir(), "test_image.png")
+	if err := reader.RenderPageToPNG(1, out, 150); err != nil {
+		t.Fatalf("RenderPageToPNG: %v", err)
+	}
+
+	outFile, err := os.Open(out)
+	if err != nil {
+		t.Fatalf("open out: %v", err)
+	}
+	outImg, err := png.Decode(outFile)
+	_ = outFile.Close()
+	if err != nil {
+		t.Fatalf("decode out: %v", err)
+	}
+
+	if refImg.Bounds().Dx() != outImg.Bounds().Dx() || refImg.Bounds().Dy() != outImg.Bounds().Dy() {
+		t.Fatalf("dimension mismatch ref=%v out=%v", refImg.Bounds(), outImg.Bounds())
+	}
+
+	w := refImg.Bounds().Dx()
+	h := refImg.Bounds().Dy()
+	crop := image.Rect(w/10, h/10, w*9/10, h*9/10)
+	maeSame := meanAbsDiffRGB(refImg, outImg, crop, 7)
+	maeFlip := meanAbsDiffRGBFlipY(refImg, outImg, crop, 7)
+
+	if maeFlip+1e-6 < maeSame {
+		t.Fatalf("render likely vertically flipped (maeSame=%.2f maeFlip=%.2f)", maeSame, maeFlip)
+	}
+}
+
+func meanAbsDiffRGB(a, b image.Image, crop image.Rectangle, step int) float64 {
+	if step <= 0 {
+		step = 1
+	}
+	bounds := a.Bounds().Intersect(b.Bounds()).Intersect(crop)
+	if bounds.Empty() {
+		return 0
+	}
+
+	var sum float64
+	var n float64
+	for y := bounds.Min.Y; y < bounds.Max.Y; y += step {
+		for x := bounds.Min.X; x < bounds.Max.X; x += step {
+			ar, ag, ab, _ := a.At(x, y).RGBA()
+			br, bg, bb, _ := b.At(x, y).RGBA()
+			sum += math.Abs(float64(int(ar>>8)-int(br>>8))) +
+				math.Abs(float64(int(ag>>8)-int(bg>>8))) +
+				math.Abs(float64(int(ab>>8)-int(bb>>8)))
+			n += 3
+		}
+	}
+	if n == 0 {
+		return 0
+	}
+	return sum / n
+}
+
+func meanAbsDiffRGBFlipY(ref, out image.Image, crop image.Rectangle, step int) float64 {
+	if step <= 0 {
+		step = 1
+	}
+	bounds := ref.Bounds().Intersect(out.Bounds()).Intersect(crop)
+	if bounds.Empty() {
+		return 0
+	}
+
+	h := ref.Bounds().Dy()
+	var sum float64
+	var n float64
+	for y := bounds.Min.Y; y < bounds.Max.Y; y += step {
+		ry := h - 1 - y
+		for x := bounds.Min.X; x < bounds.Max.X; x += step {
+			ar, ag, ab, _ := ref.At(x, ry).RGBA()
+			br, bg, bb, _ := out.At(x, y).RGBA()
+			sum += math.Abs(float64(int(ar>>8)-int(br>>8))) +
+				math.Abs(float64(int(ag>>8)-int(bg>>8))) +
+				math.Abs(float64(int(ab>>8)-int(bb>>8)))
+			n += 3
+		}
+	}
+	if n == 0 {
+		return 0
+	}
+	return sum / n
 }
 
 func TestDumpTestImageContentOps(t *testing.T) {

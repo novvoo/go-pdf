@@ -560,7 +560,7 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 	if textState.Font != nil &&
 		(textState.Font.Subtype == "/Type0" || textState.Font.Subtype == "Type0") &&
 		textState.Font.IsIdentity &&
-		len(textState.Font.EmbeddedFontData) > 0 {
+		registeredPDFFont {
 		useGlyphIndices = true
 	}
 
@@ -729,14 +729,15 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 
 	renderGlyphs := func(cids []uint16) {
 		glyphs := make([]Glyph, 0, len(cids))
+		baseX := currentX
 		x := 0.0
 		for _, cid := range cids {
 			gid := textState.Font.CIDToGID(cid)
-			glyphs = append(glyphs, Glyph{Index: uint64(gid), X: x, Y: 0})
+			glyphs = append(glyphs, Glyph{Index: uint64(gid), X: baseX + x, Y: 0})
 			x += textState.GlyphAdvance(cid, cid == 32)
 		}
 		renderGlyphRun(ctx.GopdfCtx, scaledFont, glyphs, textState.RenderMode)
-		currentX += x
+		currentX = baseX + x
 	}
 
 	// 渲染文本

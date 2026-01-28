@@ -248,6 +248,22 @@ func createOperator(name string, args []interface{}) PDFOperator {
 		if len(args) >= 1 {
 			return &OpSetGraphicsState{DictName: toString(args[0])}
 		}
+	case "CS":
+		if len(args) >= 1 {
+			return &OpSetStrokeColorSpace{ColorSpaceName: toString(args[0])}
+		}
+	case "cs":
+		if len(args) >= 1 {
+			return &OpSetFillColorSpace{ColorSpaceName: toString(args[0])}
+		}
+	case "SC":
+		return newOpSetStrokeColorN(args)
+	case "SCN":
+		return newOpSetStrokeColorN(args)
+	case "sc":
+		return newOpSetFillColorN(args)
+	case "scn":
+		return newOpSetFillColorN(args)
 	case "m":
 		if len(args) >= 2 {
 			return &OpMoveTo{X: toFloat(args[0]), Y: toFloat(args[1])}
@@ -463,6 +479,44 @@ func createOperator(name string, args []interface{}) PDFOperator {
 	}
 
 	return nil
+}
+
+func newOpSetFillColorN(args []interface{}) PDFOperator {
+	components := make([]float64, 0, len(args))
+	patternName := ""
+	for _, a := range args {
+		switch v := a.(type) {
+		case float64:
+			components = append(components, v)
+		case string:
+			if strings.HasPrefix(v, "/") {
+				patternName = v
+			}
+		}
+	}
+	return &OpSetFillColorN{
+		Components:  components,
+		PatternName: patternName,
+	}
+}
+
+func newOpSetStrokeColorN(args []interface{}) PDFOperator {
+	components := make([]float64, 0, len(args))
+	patternName := ""
+	for _, a := range args {
+		switch v := a.(type) {
+		case float64:
+			components = append(components, v)
+		case string:
+			if strings.HasPrefix(v, "/") {
+				patternName = v
+			}
+		}
+	}
+	return &OpSetStrokeColorN{
+		Components:  components,
+		PatternName: patternName,
+	}
 }
 
 func toFloat(v interface{}) float64 {

@@ -417,18 +417,7 @@ func renderImageXObject(ctx *RenderContext, xobj *XObject) error {
 	// 1. 缩放图像到单位空间：width 像素 -> 1 单位
 	// 2. 翻转 Y 轴：PDF Y 向上 -> Gopdf Y 向下
 
-	// 检查当前 CTM 的 Y 轴方向
-	// 如果 CTM.YY > 0，Y 轴是 PDF 方向（向上），需要翻转
-	// 如果 CTM.YY < 0，Y 轴是 Gopdf 方向（向下），不需要翻转
-	needFlipY := false
-	if state != nil && state.CTM != nil {
-		if state.CTM.YY > 0 {
-			needFlipY = true
-			debugPrintf("[renderImageXObject] CTM.YY=%.3f > 0, Y axis is PDF direction (up), need flip\n", state.CTM.YY)
-		} else {
-			debugPrintf("[renderImageXObject] CTM.YY=%.3f < 0, Y axis is Gopdf direction (down), no flip needed\n", state.CTM.YY)
-		}
-	}
+	needFlipY := !shouldFlipGlyphY(ctx.GopdfCtx)
 
 	// 🔥 修复：缩放图像到单位空间
 	// PDF 图像 XObject 占据单位正方形 (0,0) 到 (1,1)
