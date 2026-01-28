@@ -33,7 +33,7 @@ func TestSurfacePatternBilinearSampling(t *testing.T) {
 		surfacePattern: pattern,
 	}
 
-	c := rc.getSurfacePatternColor(0.5, 0.5)
+	c := rc.getSurfacePatternColor(1.0, 1.0)
 	r16, g16, b16, a16 := c.RGBA()
 	if a16 == 0 {
 		t.Fatalf("expected non-transparent sample")
@@ -46,4 +46,3 @@ func TestSurfacePatternBilinearSampling(t *testing.T) {
 		t.Fatalf("unexpected bilinear color: got rgb=(%d,%d,%d), want around 128", r8, g8, b8)
 	}
 }
-

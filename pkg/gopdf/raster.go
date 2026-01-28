@@ -964,6 +964,12 @@ func (r *rasterContext) getSurfacePatternColor(x, y float64) color.Color {
 		return color.NRGBA{R: r8, G: g8, B: b8, A: a8}
 	}
 
+	// For interpolated sampling, treat pixel centers as (i+0.5, j+0.5).
+	// Our pattern coordinates are in pixel-space with pixel edges on integers,
+	// so shift by -0.5 to sample correctly at device pixel centers.
+	px -= 0.5
+	py -= 0.5
+
 	// Bilinear sampling for higher quality scaling.
 	x0 := int(math.Floor(px))
 	y0 := int(math.Floor(py))

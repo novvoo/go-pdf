@@ -1,6 +1,7 @@
 package gopdf
 
 import (
+	"encoding/binary"
 	"fmt"
 	"image"
 	"image/color"
@@ -1367,6 +1368,11 @@ func renderPDFPageToGopdf(pdfPath string, pageNum int, gopdfCtx Context, width, 
 		debugPrintf("Warning: failed to apply page transformations: %v\n", err)
 	}
 
+	gopdfCtx.SetLineWidth(1.0)
+	gopdfCtx.SetLineCap(LineCapButt)
+	gopdfCtx.SetLineJoin(LineJoinMiter)
+	gopdfCtx.SetMiterLimit(10.0)
+
 	// 创建渲染上下文
 	renderCtx := NewRenderContext(gopdfCtx, width, height)
 
@@ -1687,6 +1693,53 @@ func loadFont(ctx *model.Context, fontName string, fontObj types.Object, resourc
 		}
 	}
 
+	if font.Subtype == "/Type0" || font.Subtype == "Type0" {
+		if descendantFontDict, err := getType0DescendantFontDict(ctx, fontDict); err == nil && descendantFontDict != nil {
+			if fontDescriptorObj, found := descendantFontDict.Find("FontDescriptor"); found {
+				if indRef, ok := fontDescriptorObj.(types.IndirectRef); ok {
+					derefObj, err := ctx.Dereference(indRef)
+					if err == nil {
+						if fontDescriptorDict, ok := derefObj.(types.Dict); ok {
+							if fontFileObj, found := fontDescriptorDict.Find("FontFile2"); found {
+								if fontFileRef, ok := fontFileObj.(types.IndirectRef); ok {
+									fontFileData, err := loadFontFileData(ctx, fontFileRef)
+									if err == nil {
+										font.EmbeddedFontData = fontFileData
+										debugPrintf("✓ Loaded embedded TTF font data for font %s (%d bytes)\n", fontName, len(fontFileData))
+									}
+								}
+							} else if fontFileObj, found := fontDescriptorDict.Find("FontFile3"); found {
+								if fontFileRef, ok := fontFileObj.(types.IndirectRef); ok {
+									fontFileData, err := loadFontFileData(ctx, fontFileRef)
+									if err == nil {
+										font.EmbeddedFontData = fontFileData
+										debugPrintf("✓ Loaded embedded CFF font data for font %s (%d bytes)\n", fontName, len(fontFileData))
+									}
+								}
+							}
+
+							if missingWidthObj, found := fontDescriptorDict.Find("MissingWidth"); found {
+								if num, ok := missingWidthObj.(types.Integer); ok {
+									font.MissingWidth = float64(num)
+								} else if num, ok := missingWidthObj.(types.Float); ok {
+									font.MissingWidth = float64(num)
+								}
+							}
+						}
+					}
+				}
+			}
+
+			if cidToGidObj, found := descendantFontDict.Find("CIDToGIDMap"); found {
+				mapping, identity, err := loadCIDToGIDMap(ctx, cidToGidObj)
+				if err == nil {
+					font.CIDToGIDMap = mapping
+					font.CIDToGIDMapIdentity = identity
+				}
+			}
+		}
+	}
+
 	// 加载字体文件数据（用于嵌入字体）
 	if fontDescriptorObj, found := fontDict.Find("FontDescriptor"); found {
 		if indRef, ok := fontDescriptorObj.(types.IndirectRef); ok {
@@ -1807,6 +1860,79 @@ func loadFont(ctx *model.Context, fontName string, fontObj types.Object, resourc
 
 	resources.AddFont(fontName, font)
 	return nil
+}
+
+func getType0DescendantFontDict(ctx *model.Context, fontDict types.Dict) (types.Dict, error) {
+	descendantFontsObj, found := fontDict.Find("DescendantFonts")
+	if !found {
+		return nil, fmt.Errorf("no DescendantFonts")
+	}
+
+	if indRef, ok := descendantFontsObj.(types.IndirectRef); ok {
+		derefObj, err := ctx.Dereference(indRef)
+		if err != nil {
+			return nil, err
+		}
+		descendantFontsObj = derefObj
+	}
+
+	arr, ok := descendantFontsObj.(types.Array)
+	if !ok || len(arr) == 0 {
+		return nil, fmt.Errorf("DescendantFonts is empty")
+	}
+
+	df0 := arr[0]
+	if indRef, ok := df0.(types.IndirectRef); ok {
+		derefObj, err := ctx.Dereference(indRef)
+		if err != nil {
+			return nil, err
+		}
+		df0 = derefObj
+	}
+
+	dfDict, ok := df0.(types.Dict)
+	if !ok {
+		return nil, fmt.Errorf("descendant font is not dict")
+	}
+
+	return dfDict, nil
+}
+
+func loadCIDToGIDMap(ctx *model.Context, obj types.Object) ([]uint16, bool, error) {
+	if indRef, ok := obj.(types.IndirectRef); ok {
+		derefObj, err := ctx.Dereference(indRef)
+		if err != nil {
+			return nil, false, err
+		}
+		obj = derefObj
+	}
+
+	if name, ok := obj.(types.Name); ok {
+		s := name.String()
+		if strings.Contains(s, "Identity") {
+			return nil, true, nil
+		}
+	}
+
+	streamDict, ok := obj.(types.StreamDict)
+	if !ok {
+		return nil, false, fmt.Errorf("CIDToGIDMap is not stream")
+	}
+	if len(streamDict.Content) == 0 && len(streamDict.Raw) > 0 {
+		if err := streamDict.Decode(); err != nil {
+			return nil, false, err
+		}
+	}
+	b := streamDict.Content
+	if len(b) < 2 {
+		return nil, false, nil
+	}
+
+	m := make([]uint16, 0, len(b)/2)
+	for i := 0; i+1 < len(b); i += 2 {
+		m = append(m, binary.BigEndian.Uint16(b[i:i+2]))
+	}
+	return m, false, nil
 }
 
 // guessCIDRegistry 从字体名称推断 CID 注册表

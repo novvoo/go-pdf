@@ -61,17 +61,35 @@ func (ts *TextState) Clone() *TextState {
 
 // Font 字体信息
 type Font struct {
-	Name             string
-	BaseFont         string
-	Subtype          string
-	Encoding         string
-	ToUnicodeMap     *CIDToUnicodeMap // CID 字体的 Unicode 映射
-	CIDSystemInfo    string           // CID 字体的系统信息 (Registry-Ordering)
-	EmbeddedFontData []byte           // 嵌入的字体数据 (TTF/CFF)
-	IsIdentity       bool             // 是否使用 Identity 映射 (CID = Unicode)
-	Widths           *FontWidths      // 字形宽度信息
-	DefaultWidth     float64          // 默认字形宽度（用于 CID 字体）
-	MissingWidth     float64          // 缺失字形的宽度
+	Name                string
+	BaseFont            string
+	Subtype             string
+	Encoding            string
+	ToUnicodeMap        *CIDToUnicodeMap // CID 字体的 Unicode 映射
+	CIDSystemInfo       string           // CID 字体的系统信息 (Registry-Ordering)
+	EmbeddedFontData    []byte           // 嵌入的字体数据 (TTF/CFF)
+	IsIdentity          bool             // 是否使用 Identity 映射 (CID = Unicode)
+	Widths              *FontWidths      // 字形宽度信息
+	DefaultWidth        float64          // 默认字形宽度（用于 CID 字体）
+	MissingWidth        float64          // 缺失字形的宽度
+	CIDToGIDMap         []uint16
+	CIDToGIDMapIdentity bool
+}
+
+func (f *Font) CIDToGID(cid uint16) uint16 {
+	if f == nil {
+		return cid
+	}
+	if f.CIDToGIDMapIdentity {
+		return cid
+	}
+	if len(f.CIDToGIDMap) > 0 && int(cid) < len(f.CIDToGIDMap) {
+		gid := f.CIDToGIDMap[cid]
+		if gid != 0 {
+			return gid
+		}
+	}
+	return cid
 }
 
 // FontWidths 字形宽度信息
@@ -501,18 +519,11 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 	ctx.GopdfCtx.Save()
 	defer ctx.GopdfCtx.Restore()
 
-	// 🔥 关键修复：不应用文本矩阵到Gopdf上下文
-	// 因为我们会计算绝对坐标并直接使用 MoveTo 定位
-	// 这样避免双重变换（文本矩阵变换 + Gopdf变换）
-
-	// 注意：文本上升仍然需要应用，因为它是相对于文本基线的偏移
-	// 但由于我们使用绝对坐标，上升也应该在计算坐标时处理
-	// 暂时保留这里的实现以保持兼容性
+	textMatrix := textState.TextMatrix.Clone()
 	if textState.Rise != 0 {
-		// 上升应该在Y方向应用，但由于我们使用绝对坐标
-		// 这个变换可能不需要，取决于具体实现
-		// ctx.GopdfCtx.Translate(0, textState.Rise)
+		textMatrix = textMatrix.Multiply(NewTranslationMatrix(0, textState.Rise))
 	}
+	ctx.GopdfCtx.Transform(textMatrix)
 
 	// 设置字体
 	// 🔥 关键：字体大小直接使用 FontSize，不从文本矩阵提取
@@ -543,6 +554,14 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 	var toUnicodeMap *CIDToUnicodeMap
 	if textState.Font != nil {
 		toUnicodeMap = textState.Font.ToUnicodeMap
+	}
+
+	useGlyphIndices := false
+	if textState.Font != nil &&
+		(textState.Font.Subtype == "/Type0" || textState.Font.Subtype == "Type0") &&
+		textState.Font.IsIdentity &&
+		len(textState.Font.EmbeddedFontData) > 0 {
+		useGlyphIndices = true
 	}
 
 	// 🔥 使用 PangoPdf 进行文本渲染
@@ -610,6 +629,7 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 	ctm.InitIdentity()
 	scaledFont := NewPangoPdfScaledFont(fontFace, fontMatrix, ctm, nil)
 	defer scaledFont.Destroy()
+	scaledFont.flipY = shouldFlipGlyphY(ctx.GopdfCtx)
 
 	pangoAdvanceForLayout := func(runText string) float64 {
 		if runText == "" {
@@ -686,14 +706,14 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 		return hScale, pangoAdvanceForLayout(runText)
 	}
 
-	renderRun := func(absX, absY float64, runText string, scaleX float64) {
+	renderRun := func(runText string, scaleX float64) {
 		if runText == "" {
 			return
 		}
 
 		if scaleX != 1.0 {
 			ctx.GopdfCtx.Save()
-			ctx.GopdfCtx.Translate(absX, absY)
+			ctx.GopdfCtx.Translate(currentX, 0)
 			ctx.GopdfCtx.Scale(scaleX, 1.0)
 			ctx.GopdfCtx.MoveTo(0, 0)
 			layout.SetText(runText)
@@ -702,9 +722,21 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 			return
 		}
 
-		ctx.GopdfCtx.MoveTo(absX, absY)
+		ctx.GopdfCtx.MoveTo(currentX, 0)
 		layout.SetText(runText)
 		ctx.GopdfCtx.PangoPdfShowText(layout)
+	}
+
+	renderGlyphs := func(cids []uint16) {
+		glyphs := make([]Glyph, 0, len(cids))
+		x := 0.0
+		for _, cid := range cids {
+			gid := textState.Font.CIDToGID(cid)
+			glyphs = append(glyphs, Glyph{Index: uint64(gid), X: x, Y: 0})
+			x += textState.GlyphAdvance(cid, cid == 32)
+		}
+		renderGlyphRun(ctx.GopdfCtx, scaledFont, glyphs, textState.RenderMode)
+		currentX += x
 	}
 
 	// 渲染文本
@@ -717,7 +749,7 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 			case string:
 				// 解码文本并获取 CID 数组
 				decodedText, cids := decodeTextStringWithCIDs(v, toUnicodeMap, textState.Font)
-				if decodedText == "" {
+				if decodedText == "" && !useGlyphIndices {
 					debugPrintf("[TJ_ARRAY][%d] Empty string after decode\n", idx)
 					continue
 				}
@@ -725,12 +757,16 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 				debugPrintf("[TJ_ARRAY][%d] Text=%q (len=%d runes, %d CIDs) at x=%.2f\n",
 					idx, decodedText, len([]rune(decodedText)), len(cids), currentX)
 
-				absX, absY := textState.TextMatrix.Transform(currentX, textState.Rise)
-				scaleX, adv := computeRunScaleAndAdvance(decodedText, cids)
-				renderRun(absX, absY, decodedText, scaleX)
+				if useGlyphIndices {
+					renderGlyphs(cids)
+					debugPrintf("[TJ_ARRAY][%d] Rendered glyph run\n", idx)
+				} else {
+					scaleX, adv := computeRunScaleAndAdvance(decodedText, cids)
+					renderRun(decodedText, scaleX)
 
-				currentX += adv
-				debugPrintf("[TJ_ARRAY][%d] Rendered run at (%.2f, %.2f), adv=%.2f\n", idx, absX, absY, adv)
+					currentX += adv
+					debugPrintf("[TJ_ARRAY][%d] Rendered run, adv=%.2f\n", idx, adv)
+				}
 
 			case float64:
 				// PDF规范：负值表示向右移动，正值表示向左移动
@@ -762,16 +798,20 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 	} else {
 		// Tj 操作符：简单文本
 		decodedText, cids := decodeTextStringWithCIDs(text, toUnicodeMap, textState.Font)
-		if decodedText != "" {
+		if (decodedText != "" && !useGlyphIndices) || (useGlyphIndices && len(cids) > 0) {
 			debugPrintf("[Tj] Text=%q (len=%d runes, %d CIDs) at Tm=[%.2f, %.2f]\n",
 				decodedText, len([]rune(decodedText)), len(cids), textState.TextMatrix.X0, textState.TextMatrix.Y0)
 
-			absX, absY := textState.TextMatrix.Transform(currentX, textState.Rise)
-			scaleX, adv := computeRunScaleAndAdvance(decodedText, cids)
-			renderRun(absX, absY, decodedText, scaleX)
+			if useGlyphIndices {
+				renderGlyphs(cids)
+				debugPrintf("[Tj] Rendered glyph run\n")
+			} else {
+				scaleX, adv := computeRunScaleAndAdvance(decodedText, cids)
+				renderRun(decodedText, scaleX)
 
-			currentX += adv
-			debugPrintf("[Tj] Rendered run at (%.2f, %.2f), adv=%.2f\n", absX, absY, adv)
+				currentX += adv
+				debugPrintf("[Tj] Rendered run, adv=%.2f\n", adv)
+			}
 		}
 	}
 
@@ -788,6 +828,54 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 
 	// 注意：由于go-pdf库的限制，无法完全实现高级的kerning功能
 	// 当前实现已尽可能应用了TJ操作符中的数字偏移到文本位置
+}
+
+func renderGlyphRun(ctx Context, sf *PangoPdfScaledFont, glyphs []Glyph, renderMode int) {
+	for _, glyph := range glyphs {
+		ctx.Save()
+
+		glyphPath, err := sf.GlyphPath(glyph.Index)
+		if err != nil || glyphPath == nil || len(glyphPath.Data) == 0 {
+			ctx.Restore()
+			continue
+		}
+
+		ctx.NewPath()
+		for _, pathData := range glyphPath.Data {
+			switch pathData.Type {
+			case PathMoveTo:
+				if len(pathData.Points) > 0 {
+					ctx.MoveTo(pathData.Points[0].X+glyph.X, pathData.Points[0].Y+glyph.Y)
+				}
+			case PathLineTo:
+				if len(pathData.Points) > 0 {
+					ctx.LineTo(pathData.Points[0].X+glyph.X, pathData.Points[0].Y+glyph.Y)
+				}
+			case PathCurveTo:
+				if len(pathData.Points) >= 3 {
+					ctx.CurveTo(
+						pathData.Points[0].X+glyph.X, pathData.Points[0].Y+glyph.Y,
+						pathData.Points[1].X+glyph.X, pathData.Points[1].Y+glyph.Y,
+						pathData.Points[2].X+glyph.X, pathData.Points[2].Y+glyph.Y,
+					)
+				}
+			case PathClosePath:
+				ctx.ClosePath()
+			}
+		}
+
+		switch renderMode {
+		case 1:
+			ctx.Stroke()
+		case 2:
+			ctx.FillPreserve()
+			ctx.Stroke()
+		default:
+			ctx.Fill()
+		}
+
+		ctx.Restore()
+	}
 }
 
 // decodeTextStringWithCIDs 解码文本并返回 Unicode 字符串和 CID 数组
