@@ -33,7 +33,7 @@ func RegisterFontData(key string, data []byte) error {
 	}
 	fontCacheMu.RUnlock()
 
-	face, err := font.ParseTTF(bytes.NewReader(data))
+	face, err := parseFontData(data)
 	if err != nil {
 		return err
 	}
@@ -111,7 +111,7 @@ func LoadFontFromFile(path string) (font.Face, []byte, error) {
 	}
 
 	// Parse font
-	face, err := font.ParseTTF(bytes.NewReader(data))
+	face, err := parseFontData(data)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -125,6 +125,20 @@ func LoadFontFromFile(path string) (font.Face, []byte, error) {
 	return face, data, nil
 }
 
+func parseFontData(data []byte) (font.Face, error) {
+	if len(data) >= 4 && string(data[:4]) == "ttcf" {
+		faces, err := font.ParseTTC(bytes.NewReader(data))
+		if err != nil {
+			return nil, err
+		}
+		if len(faces) == 0 {
+			return nil, fmt.Errorf("ttc has no faces")
+		}
+		return faces[0], nil
+	}
+	return font.ParseTTF(bytes.NewReader(data))
+}
+
 // LoadEmbeddedFont loads an embedded font by name
 func LoadEmbeddedFont(name string) (font.Face, []byte, error) {
 	fontCacheMu.RLock()
@@ -135,9 +149,7 @@ func LoadEmbeddedFont(name string) (font.Face, []byte, error) {
 	}
 	fontCacheMu.RUnlock()
 
-	// For sans fonts, try fallback fonts first (better Unicode support)
-	// Check if name starts with "sans" (covers sans-regular, sans-bold, sans-italic, etc.)
-	if name == "sans" || (len(name) >= 4 && name[:4] == "sans") {
+	if name == "cjk" || (len(name) >= 3 && name[:3] == "cjk") {
 		for _, fallbackPath := range fallbackFontPaths {
 			face, fontData, err := LoadFontFromFile(fallbackPath)
 			if err == nil {

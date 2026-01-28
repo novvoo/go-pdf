@@ -2,6 +2,7 @@ package gopdf
 
 import (
 	"fmt"
+	"math"
 	"strings"
 )
 
@@ -564,6 +565,22 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 		useGlyphIndices = true
 	}
 
+	sampleText := text
+	if array != nil {
+		for _, it := range array {
+			if s, ok := it.(string); ok {
+				sampleText = s
+				break
+			}
+		}
+	}
+	if !registeredPDFFont && (fontFamily == "sans-serif" || fontFamily == "sans") {
+		decodedSample, _ := decodeTextStringWithCIDs(sampleText, toUnicodeMap, textState.Font)
+		if shouldUseCJKFallback(textState.Font, decodedSample) {
+			fontFamily = "sans-cjk"
+		}
+	}
+
 	// 🔥 使用 PangoPdf 进行文本渲染
 	// PangoPdf 会处理字体选择和文本布局
 	debugPrintf("[TEXT_RENDER] Using PangoPdf text rendering: font=%s, size=%.2f\n", fontFamily, fontSize)
@@ -661,6 +678,16 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 	pdfAdvanceForLayout := func(runText string, cids []uint16) (float64, bool) {
 		if textState.Font == nil || len(cids) == 0 || runText == "" {
 			return 0, false
+		}
+		hasWidths := textState.Font.Widths != nil &&
+			(len(textState.Font.Widths.Widths) > 0 || len(textState.Font.Widths.CIDWidths) > 0 || len(textState.Font.Widths.CIDRanges) > 0)
+		if !hasWidths {
+			if textState.Font.DefaultWidth <= 0 {
+				return 0, false
+			}
+			if math.Abs(textState.Font.DefaultWidth-1000.0) < 1e-3 {
+				return 0, false
+			}
 		}
 
 		adv := 0.0
@@ -1063,6 +1090,33 @@ func isCJKCharacterRune(r rune) bool {
 	}
 	// 韩文音节
 	if r >= 0xAC00 && r <= 0xD7AF {
+		return true
+	}
+	return false
+}
+
+func shouldUseCJKFallback(font *Font, decodedText string) bool {
+	for _, r := range decodedText {
+		if isCJKCharacterRune(r) {
+			return true
+		}
+	}
+	if font == nil {
+		return false
+	}
+	if strings.Contains(font.CIDSystemInfo, "GB1") ||
+		strings.Contains(font.CIDSystemInfo, "CNS1") ||
+		strings.Contains(font.CIDSystemInfo, "Japan1") ||
+		strings.Contains(font.CIDSystemInfo, "Korea1") {
+		return true
+	}
+	bf := strings.ToLower(font.BaseFont)
+	if strings.Contains(bf, "yahei") ||
+		strings.Contains(bf, "msyh") ||
+		strings.Contains(bf, "simsun") ||
+		strings.Contains(bf, "song") ||
+		strings.Contains(bf, "hei") ||
+		strings.Contains(bf, "pingfang") {
 		return true
 	}
 	return false

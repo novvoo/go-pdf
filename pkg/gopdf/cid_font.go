@@ -7,6 +7,7 @@ import (
 	"io"
 	"strconv"
 	"strings"
+	"unicode/utf16"
 
 	popplerdata "github.com/novvoo/go-pdf/poppler-data"
 )
@@ -35,15 +36,19 @@ func NewCIDToUnicodeMap() *CIDToUnicodeMap {
 func ParseToUnicodeCMap(cmapData []byte) (*CIDToUnicodeMap, error) {
 	cidMap := NewCIDToUnicodeMap()
 
+	cmapData = bytes.ReplaceAll(cmapData, []byte{'\r'}, []byte{'\n'})
 	reader := bufio.NewReader(bytes.NewReader(cmapData))
 
 	for {
 		line, err := reader.ReadString('\n')
-		if err == io.EOF {
-			break
-		}
 		if err != nil {
-			return nil, err
+			if err == io.EOF {
+				if len(line) == 0 {
+					break
+				}
+			} else {
+				return nil, err
+			}
 		}
 
 		line = strings.TrimSpace(line)
@@ -78,6 +83,10 @@ func ParseToUnicodeCMap(cmapData []byte) (*CIDToUnicodeMap, error) {
 			// 在这种情况下，我们不需要额外的映射表，因为CID直接就是Unicode码点
 			debugPrintf("✓ Detected Identity CMap: %s\n", line)
 		}
+
+		if err == io.EOF {
+			break
+		}
 	}
 
 	return cidMap, nil
@@ -97,19 +106,19 @@ func parseBfChar(reader *bufio.Reader, cidMap *CIDToUnicodeMap) error {
 			break
 		}
 
-		// 解析行: <0001> <4E00>
-		parts := strings.Fields(line)
-		if len(parts) < 2 {
+		toks := extractAllAngleHexTokens(line)
+		if len(toks) < 2 {
 			continue
 		}
 
-		cid := parseHexString(parts[0])
-		uni := parseHexString(parts[1])
+		cid := parseHexString(toks[0])
+		uni := parseHexString(toks[1])
 
 		if len(cid) >= 2 && len(uni) >= 2 {
 			cidVal := uint16(cid[0])<<8 | uint16(cid[1])
-			uniVal := rune(uni[0])<<8 | rune(uni[1])
-			cidMap.Mappings[cidVal] = uniVal
+			if runes := decodeUTF16BERunes(uni); len(runes) > 0 {
+				cidMap.Mappings[cidVal] = runes[0]
+			}
 		}
 	}
 
@@ -130,30 +139,123 @@ func parseBfRange(reader *bufio.Reader, cidMap *CIDToUnicodeMap) error {
 			break
 		}
 
-		// 解析行: <0001> <0010> <4E00>
-		parts := strings.Fields(line)
-		if len(parts) < 3 {
+		toks := extractAllAngleHexTokens(line)
+		if len(toks) < 3 {
 			continue
 		}
 
-		startCID := parseHexString(parts[0])
-		endCID := parseHexString(parts[1])
-		startUni := parseHexString(parts[2])
-
-		if len(startCID) >= 2 && len(endCID) >= 2 && len(startUni) >= 2 {
-			startCIDVal := uint16(startCID[0])<<8 | uint16(startCID[1])
-			endCIDVal := uint16(endCID[0])<<8 | uint16(endCID[1])
-			startUniVal := rune(startUni[0])<<8 | rune(startUni[1])
-
-			cidMap.Ranges = append(cidMap.Ranges, cidRange{
-				StartCID: startCIDVal,
-				EndCID:   endCIDVal,
-				StartUni: startUniVal,
-			})
+		startCID := parseHexString(toks[0])
+		endCID := parseHexString(toks[1])
+		if len(startCID) < 2 || len(endCID) < 2 {
+			continue
 		}
+
+		startCIDVal := uint16(startCID[0])<<8 | uint16(startCID[1])
+		endCIDVal := uint16(endCID[0])<<8 | uint16(endCID[1])
+		if endCIDVal < startCIDVal {
+			continue
+		}
+
+		if strings.Contains(line, "[") {
+			uniTokens := append([]string(nil), toks[2:]...)
+			for {
+				if strings.Contains(line, "]") {
+					break
+				}
+				next, err := reader.ReadString('\n')
+				if err != nil {
+					return err
+				}
+				line = strings.TrimSpace(next)
+				uniTokens = append(uniTokens, extractAllAngleHexTokens(line)...)
+			}
+
+			expected := int(endCIDVal-startCIDVal) + 1
+			if len(uniTokens) < expected {
+				expected = len(uniTokens)
+			}
+			for i := 0; i < expected; i++ {
+				uniBytes := parseHexString(uniTokens[i])
+				if runes := decodeUTF16BERunes(uniBytes); len(runes) > 0 {
+					cidMap.Mappings[startCIDVal+uint16(i)] = runes[0]
+				}
+			}
+			continue
+		}
+
+		startUni := parseHexString(toks[2])
+		if len(startUni) < 2 {
+			continue
+		}
+		startRunes := decodeUTF16BERunes(startUni)
+		if len(startRunes) == 0 {
+			continue
+		}
+
+		cidMap.Ranges = append(cidMap.Ranges, cidRange{
+			StartCID: startCIDVal,
+			EndCID:   endCIDVal,
+			StartUni: startRunes[0],
+		})
 	}
 
 	return nil
+}
+
+func extractAllAngleHexTokens(s string) []string {
+	out := []string(nil)
+	for {
+		i := strings.IndexByte(s, '<')
+		if i < 0 {
+			break
+		}
+		j := strings.IndexByte(s[i:], '>')
+		if j < 0 {
+			break
+		}
+		j += i
+		hex := strings.ReplaceAll(s[i+1:j], " ", "")
+		if hex != "" {
+			out = append(out, "<"+hex+">")
+		}
+		s = s[j+1:]
+	}
+	return out
+}
+
+func decodeUTF16BERunes(b []byte) []rune {
+	if len(b) == 0 {
+		return nil
+	}
+	if len(b)%2 != 0 {
+		b = b[:len(b)-1]
+	}
+	if len(b) >= 2 && b[0] == 0xFE && b[1] == 0xFF {
+		b = b[2:]
+	}
+	if len(b) == 0 {
+		return nil
+	}
+
+	u16s := make([]uint16, 0, len(b)/2)
+	for i := 0; i+1 < len(b); i += 2 {
+		u16s = append(u16s, uint16(b[i])<<8|uint16(b[i+1]))
+	}
+
+	runes := make([]rune, 0, len(u16s))
+	for i := 0; i < len(u16s); i++ {
+		u := u16s[i]
+		if u >= 0xD800 && u <= 0xDBFF && i+1 < len(u16s) {
+			lo := u16s[i+1]
+			if lo >= 0xDC00 && lo <= 0xDFFF {
+				runes = append(runes, utf16.DecodeRune(rune(u), rune(lo)))
+				i++
+				continue
+			}
+		}
+		runes = append(runes, rune(u))
+	}
+	return runes
 }
 
 // parseHexString 解析十六进制字符串 <ABCD> -> []byte{0xAB, 0xCD}

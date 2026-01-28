@@ -1,6 +1,7 @@
 package test
 
 import (
+	"bytes"
 	"image"
 	"image/png"
 	"math"
@@ -96,6 +97,47 @@ func TestDumpTestImageFontDict(t *testing.T) {
 	}
 
 	t.Logf("C1 keys: %v", keysOfDict(fontDict))
+	if tuObj, found := fontDict.Find("ToUnicode"); found {
+		t.Logf("ToUnicode type: %T", tuObj)
+		if indRef, ok := tuObj.(types.IndirectRef); ok {
+			derefObj, err := ctx.Dereference(indRef)
+			if err == nil {
+				tuObj = derefObj
+			}
+		}
+		if sd, ok := tuObj.(types.StreamDict); ok {
+			t.Logf("ToUnicode stream raw=%d content=%d", len(sd.Raw), len(sd.Content))
+			if len(sd.Content) == 0 && len(sd.Raw) > 0 {
+				_ = sd.Decode()
+				t.Logf("ToUnicode after decode raw=%d content=%d", len(sd.Raw), len(sd.Content))
+			}
+			if len(sd.Content) > 0 {
+				preview := sd.Content
+				if len(preview) > 120 {
+					preview = preview[:120]
+				}
+				t.Logf("ToUnicode preview bytes: % x", preview)
+				t.Logf("ToUnicode contains beginbfchar=%v beginbfrange=%v", bytes.Contains(sd.Content, []byte("beginbfchar")), bytes.Contains(sd.Content, []byte("beginbfrange")))
+				if idx := bytes.Index(sd.Content, []byte("beginbfrange")); idx >= 0 {
+					start := idx - 80
+					if start < 0 {
+						start = 0
+					}
+					end := idx + 240
+					if end > len(sd.Content) {
+						end = len(sd.Content)
+					}
+					t.Logf("ToUnicode bfrange snippet:\n%s", string(sd.Content[start:end]))
+				}
+				m, err := gopdf.ParseToUnicodeCMap(sd.Content)
+				if err != nil {
+					t.Logf("ToUnicode parse error: %v", err)
+				} else {
+					t.Logf("ToUnicode parsed: mappings=%d ranges=%d", len(m.Mappings), len(m.Ranges))
+				}
+			}
+		}
+	}
 	if dfObj, found := fontDict.Find("DescendantFonts"); found {
 		if indRef, ok := dfObj.(types.IndirectRef); ok {
 			derefObj, err := ctx.Dereference(indRef)
@@ -118,6 +160,21 @@ func TestDumpTestImageFontDict(t *testing.T) {
 				}
 				if fdObj, found := dfDict.Find("FontDescriptor"); found {
 					t.Logf("FontDescriptor type: %T", fdObj)
+					if indRef, ok := fdObj.(types.IndirectRef); ok {
+						derefObj, err := ctx.Dereference(indRef)
+						if err == nil {
+							fdObj = derefObj
+						}
+					}
+					if fdDict, ok := fdObj.(types.Dict); ok {
+						t.Logf("FontDescriptor keys: %v", keysOfDict(fdDict))
+						if ff2, found := fdDict.Find("FontFile2"); found {
+							t.Logf("FontFile2 type: %T", ff2)
+						}
+						if ff3, found := fdDict.Find("FontFile3"); found {
+							t.Logf("FontFile3 type: %T", ff3)
+						}
+					}
 				}
 			}
 		}
