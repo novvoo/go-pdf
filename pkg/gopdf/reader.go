@@ -1802,6 +1802,47 @@ func parseColorSpaceObject(ctx *model.Context, obj types.Object) (ColorSpace, er
 	}
 }
 
+func parseEncodingDict(encDict types.Dict, font *Font) {
+	if font == nil {
+		return
+	}
+
+	if baseEnc, found := encDict.Find("BaseEncoding"); found {
+		if name, ok := baseEnc.(types.Name); ok {
+			font.BaseEncoding = name.String()
+			if font.Encoding == "" {
+				font.Encoding = name.String()
+			}
+		}
+	}
+
+	diffsObj, found := encDict.Find("Differences")
+	if !found {
+		return
+	}
+	diffs, ok := diffsObj.(types.Array)
+	if !ok {
+		return
+	}
+
+	if font.CodeToGlyphName == nil {
+		font.CodeToGlyphName = make(map[byte]string, 256)
+	}
+
+	code := -1
+	for _, o := range diffs {
+		switch v := o.(type) {
+		case types.Integer:
+			code = int(v.Value())
+		case types.Name:
+			if code >= 0 && code <= 255 {
+				font.CodeToGlyphName[byte(code)] = v.String()
+				code++
+			}
+		}
+	}
+}
+
 // loadFont 加载字体资源
 func loadFont(ctx *model.Context, fontName string, fontObj types.Object, resources *Resources) error {
 	// 解引用
@@ -1835,8 +1876,19 @@ func loadFont(ctx *model.Context, fontName string, fontObj types.Object, resourc
 	}
 
 	if encoding, found := fontDict.Find("Encoding"); found {
-		if name, ok := encoding.(types.Name); ok {
-			font.Encoding = name.String()
+		switch v := encoding.(type) {
+		case types.Name:
+			font.Encoding = v.String()
+		case types.IndirectRef:
+			if derefObj, err := ctx.Dereference(v); err == nil {
+				if encDict, ok := derefObj.(types.Dict); ok {
+					parseEncodingDict(encDict, font)
+				} else if name, ok := derefObj.(types.Name); ok {
+					font.Encoding = name.String()
+				}
+			}
+		case types.Dict:
+			parseEncodingDict(v, font)
 		}
 	}
 
@@ -1949,6 +2001,15 @@ func loadFont(ctx *model.Context, fontName string, fontObj types.Object, resourc
 					}
 				}
 			}
+		}
+	}
+
+	if (font.Subtype == "/Type1" || font.Subtype == "Type1" || font.Subtype == "/MMType1" || font.Subtype == "MMType1") &&
+		font.ToUnicodeMap == nil &&
+		len(font.CodeToGlyphName) == 0 &&
+		len(font.EmbeddedFontData) > 0 {
+		if enc, err := parseCFFEncoding(font.EmbeddedFontData); err == nil && len(enc) > 0 {
+			font.CodeToGlyphName = enc
 		}
 	}
 

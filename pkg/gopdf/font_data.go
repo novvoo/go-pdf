@@ -5,13 +5,17 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 	"sync"
 
+	"github.com/go-text/typesetting/di"
 	"github.com/go-text/typesetting/font"
+	"github.com/go-text/typesetting/shaping"
 	"golang.org/x/image/font/gofont/gobold"
 	"golang.org/x/image/font/gofont/gobolditalic"
 	"golang.org/x/image/font/gofont/goitalic"
 	"golang.org/x/image/font/gofont/goregular"
+	"golang.org/x/image/math/fixed"
 )
 
 // Font cache to avoid re-parsing fonts
@@ -93,6 +97,12 @@ var fallbackFontPaths = []string{
 	"../resource/font/luxisr.ttf",
 }
 
+var mathFallbackFontPaths = []string{
+	"C:/Windows/Fonts/cambria.ttc",
+	"C:/Windows/Fonts/seguisym.ttf",
+	"C:/Windows/Fonts/symbol.ttf",
+}
+
 // LoadFontFromFile loads a font from a file path
 func LoadFontFromFile(path string) (font.Face, []byte, error) {
 	// Check cache first
@@ -134,9 +144,49 @@ func parseFontData(data []byte) (font.Face, error) {
 		if len(faces) == 0 {
 			return nil, fmt.Errorf("ttc has no faces")
 		}
+		if len(faces) == 1 {
+			return faces[0], nil
+		}
+
+		mathSamples := []rune{'∑', '∫', '≤', '≥', 'α', 'β', 'ℝ', 'ℤ', '∞'}
+		best := faces[0]
+		bestScore := 0
+		for _, face := range faces {
+			score := scoreFaceCoverage(face, mathSamples)
+			if score > bestScore {
+				bestScore = score
+				best = face
+			}
+		}
+		if bestScore > 0 {
+			return best, nil
+		}
 		return faces[0], nil
 	}
 	return font.ParseTTF(bytes.NewReader(data))
+}
+
+func scoreFaceCoverage(face font.Face, samples []rune) int {
+	if face == nil || len(samples) == 0 {
+		return 0
+	}
+	score := 0
+	shaper := &shaping.HarfbuzzShaper{}
+	for _, r := range samples {
+		in := shaping.Input{
+			Text:      []rune{r},
+			RunStart:  0,
+			RunEnd:    1,
+			Direction: di.DirectionLTR,
+			Face:      face,
+			Size:      fixed.I(12),
+		}
+		out := shaper.Shape(in)
+		if len(out.Glyphs) > 0 && out.Glyphs[0].GlyphID != 0 {
+			score++
+		}
+	}
+	return score
 }
 
 // LoadEmbeddedFont loads an embedded font by name
@@ -148,6 +198,19 @@ func LoadEmbeddedFont(name string) (font.Face, []byte, error) {
 		return face, data, nil
 	}
 	fontCacheMu.RUnlock()
+
+	if name == "math" || strings.HasPrefix(name, "math-") {
+		for _, fallbackPath := range mathFallbackFontPaths {
+			face, fontData, err := LoadFontFromFile(fallbackPath)
+			if err == nil {
+				fontCacheMu.Lock()
+				fontCache[name] = face
+				fontDataCache[name] = fontData
+				fontCacheMu.Unlock()
+				return face, fontData, nil
+			}
+		}
+	}
 
 	if name == "cjk" || (len(name) >= 3 && name[:3] == "cjk") {
 		for _, fallbackPath := range fallbackFontPaths {

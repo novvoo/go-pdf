@@ -66,6 +66,8 @@ type Font struct {
 	BaseFont            string
 	Subtype             string
 	Encoding            string
+	BaseEncoding        string
+	CodeToGlyphName     map[byte]string
 	ToUnicodeMap        *CIDToUnicodeMap // CID 字体的 Unicode 映射
 	CIDSystemInfo       string           // CID 字体的系统信息 (Registry-Ordering)
 	EmbeddedFontData    []byte           // 嵌入的字体数据 (TTF/CFF)
@@ -547,7 +549,11 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 			}
 		}
 		if !registeredPDFFont && textState.Font.BaseFont != "" {
-			fontFamily = mapPDFFont(textState.Font.BaseFont)
+			if isTeXMathFont(textState.Font.BaseFont) {
+				fontFamily = "math"
+			} else {
+				fontFamily = mapPDFFont(textState.Font.BaseFont)
+			}
 		}
 	}
 
@@ -943,12 +949,10 @@ func decodeTextStringWithCIDs(text string, toUnicodeMap *CIDToUnicodeMap, font *
 			allMapped := true
 			for _, cid := range cids {
 				if uni, ok := toUnicodeMap.MapCIDToUnicode(cid); ok {
-					// 验证Unicode字符有效性
 					if isValidUnicodeRune(uni) {
 						decoded.WriteRune(uni)
 					} else {
-						debugPrintf("⚠️ Invalid Unicode from mapping for CID %d: U+%04X\n", cid, uni)
-						decoded.WriteRune('�') // 使用替换字符
+						decoded.WriteRune('�')
 					}
 				} else {
 					allMapped = false
@@ -956,11 +960,26 @@ func decodeTextStringWithCIDs(text string, toUnicodeMap *CIDToUnicodeMap, font *
 				}
 			}
 
-			// 如果所有CID都成功映射，返回结果
 			if allMapped {
-				return decoded.String(), cids
+				return ensureValidUTF8(decoded.String()), cids
 			}
 			decoded.Reset()
+		}
+
+		if font != nil && len(font.CodeToGlyphName) > 0 {
+			for _, cid := range cids {
+				name, ok := font.CodeToGlyphName[byte(cid&0xFF)]
+				if !ok {
+					decoded.WriteRune('�')
+					continue
+				}
+				if r, ok := glyphNameToRuneForFont(name, font); ok {
+					decoded.WriteRune(r)
+				} else {
+					decoded.WriteRune('�')
+				}
+			}
+			return ensureValidUTF8(decoded.String()), cids
 		}
 
 		// 如果ToUnicode映射失败或不存在，且是Identity映射，CID直接等于Unicode码点
@@ -980,15 +999,82 @@ func decodeTextStringWithCIDs(text string, toUnicodeMap *CIDToUnicodeMap, font *
 
 		// 否则尝试标准解码
 		decodedStr := decodeTextString(text)
-		return decodedStr, cids
+		return ensureValidUTF8(decodedStr), cids
 	}
 
-	// 普通字符串 - 转换为 CID 数组（字节码）
+	// 普通字符串 - 处理反斜杠转义并转换为 CID 数组（字节码）
+	rawBytes := decodePDFLiteralStringBytes(text)
 	var cids []uint16
-	for i := 0; i < len(text); i++ {
-		cids = append(cids, uint16(text[i]))
+	for _, b := range rawBytes {
+		cids = append(cids, uint16(b))
 	}
-	return text, cids
+
+	if toUnicodeMap != nil {
+		var decoded strings.Builder
+		allMapped := true
+		for _, cid := range cids {
+			if uni, ok := toUnicodeMap.MapCIDToUnicode(cid); ok {
+				if isValidUnicodeRune(uni) {
+					decoded.WriteRune(uni)
+				} else {
+					decoded.WriteRune('�')
+				}
+			} else {
+				allMapped = false
+				break
+			}
+		}
+		if allMapped {
+			return ensureValidUTF8(decoded.String()), cids
+		}
+	}
+
+	if font != nil && len(font.CodeToGlyphName) > 0 {
+		var decoded strings.Builder
+		for _, cid := range cids {
+			name, ok := font.CodeToGlyphName[byte(cid&0xFF)]
+			if !ok {
+				decoded.WriteRune(rune(cid))
+				continue
+			}
+			if r, ok := glyphNameToRuneForFont(name, font); ok {
+				decoded.WriteRune(r)
+			} else {
+				decoded.WriteRune(rune(cid))
+			}
+		}
+		return ensureValidUTF8(decoded.String()), cids
+	}
+
+	if font != nil {
+		base := strings.ToUpper(stripSubsetPrefix(font.BaseFont))
+		if strings.HasPrefix(base, "MSBM") {
+			var decoded strings.Builder
+			for _, cid := range cids {
+				if r, ok := msbmRuneFromCID(cid); ok {
+					decoded.WriteRune(r)
+				} else {
+					decoded.WriteRune(rune(cid))
+				}
+			}
+			return ensureValidUTF8(decoded.String()), cids
+		}
+	}
+
+	if font != nil && font.IsIdentity {
+		var decoded strings.Builder
+		for _, cid := range cids {
+			r := rune(cid)
+			if isValidUnicodeRune(r) {
+				decoded.WriteRune(r)
+			} else {
+				decoded.WriteRune('�')
+			}
+		}
+		return ensureValidUTF8(decoded.String()), cids
+	}
+
+	return latin1StringFromBytes(rawBytes), cids
 }
 
 // isValidUnicodeRune 验证Unicode码点是否有效

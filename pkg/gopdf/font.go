@@ -37,6 +37,8 @@ func getFontKey(family string, slant FontSlant, weight FontWeight) string {
 		familyKey = "sans"
 	} else if family == "sans-cjk" || family == "cjk" {
 		familyKey = "cjk"
+	} else if family == "math" {
+		familyKey = "math"
 	} else if family == "serif" {
 		familyKey = "serif"
 	} else if family == "monospace" || family == "mono" {
