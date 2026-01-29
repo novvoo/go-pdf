@@ -739,15 +739,42 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 		return hScale, pangoAdvanceForLayout(runText)
 	}
 
-	renderRun := func(runText string, scaleX float64) {
+	delimiterAdjust := func(glyphName string) (dyFactor float64, scaleY float64, ok bool) {
+		glyphName = strings.TrimPrefix(glyphName, "/")
+		switch glyphName {
+		case "parenleftbig", "parenrightbig", "bracketleftbig", "bracketrightbig":
+			return -0.95, 1.70, true
+		case "parenleftBig", "parenrightBig", "bracketleftBig", "bracketrightBig":
+			return -1.10, 2.00, true
+		case "parenleftBigg", "parenrightBigg", "bracketleftBigg", "bracketrightBigg":
+			return -1.25, 2.35, true
+		case "parenleftBiggg", "parenrightBiggg", "bracketleftBiggg", "bracketrightBiggg":
+			return -1.40, 2.70, true
+		default:
+			return 0, 1.0, false
+		}
+	}
+
+	renderRun := func(runText string, cids []uint16, scaleX float64) {
 		if runText == "" {
 			return
 		}
 
-		if scaleX != 1.0 {
+		dy := 0.0
+		scaleY := 1.0
+		if textState.Font != nil && len(cids) == 1 && len(textState.Font.CodeToGlyphName) > 0 {
+			if name, ok := textState.Font.CodeToGlyphName[byte(cids[0]&0xFF)]; ok {
+				if dyFactor, sy, ok := delimiterAdjust(name); ok {
+					dy = dyFactor * fontSize
+					scaleY = sy
+				}
+			}
+		}
+
+		if scaleX != 1.0 || dy != 0.0 || scaleY != 1.0 {
 			ctx.GopdfCtx.Save()
-			ctx.GopdfCtx.Translate(currentX, 0)
-			ctx.GopdfCtx.Scale(scaleX, 1.0)
+			ctx.GopdfCtx.Translate(currentX, dy)
+			ctx.GopdfCtx.Scale(scaleX, scaleY)
 			ctx.GopdfCtx.MoveTo(0, 0)
 			layout.SetText(runText)
 			ctx.GopdfCtx.PangoPdfShowText(layout)
@@ -796,7 +823,7 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 					debugPrintf("[TJ_ARRAY][%d] Rendered glyph run\n", idx)
 				} else {
 					scaleX, adv := computeRunScaleAndAdvance(decodedText, cids)
-					renderRun(decodedText, scaleX)
+					renderRun(decodedText, cids, scaleX)
 
 					currentX += adv
 					debugPrintf("[TJ_ARRAY][%d] Rendered run, adv=%.2f\n", idx, adv)
@@ -841,7 +868,7 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 				debugPrintf("[Tj] Rendered glyph run\n")
 			} else {
 				scaleX, adv := computeRunScaleAndAdvance(decodedText, cids)
-				renderRun(decodedText, scaleX)
+				renderRun(decodedText, cids, scaleX)
 
 				currentX += adv
 				debugPrintf("[Tj] Rendered run, adv=%.2f\n", adv)
