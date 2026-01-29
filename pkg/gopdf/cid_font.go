@@ -47,7 +47,7 @@ func ParseToUnicodeCMap(cmapData []byte) (*CIDToUnicodeMap, error) {
 					break
 				}
 			} else {
-				return nil, err
+			return nil, err
 			}
 		}
 

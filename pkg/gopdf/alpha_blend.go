@@ -167,7 +167,6 @@ func BlendInColorSpace(src, dst color.Color, cs ColorSpace, op Operator) (color.
 
 // ===== 透明度组混合 =====
 
-// BlendTransparencyGroup 混合透明度组
 type TransparencyGroupBlender struct {
 	isolated bool
 	knockout bool

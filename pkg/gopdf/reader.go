@@ -200,6 +200,8 @@ type TextElementInfo struct {
 	Text     string
 	X        float64
 	Y        float64
+	Width    float64
+	Height   float64
 	FontName string
 	FontSize float64
 }
@@ -1195,6 +1197,12 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 					runeCount := float64(len([]rune(text)))
 					textWidth = runeCount * effectiveFontSize * 0.5
 					debugPrintf("[DEBUG] Fallback text width: %.2f (no font info)\n", textWidth)
+				}
+
+				if len(textElements) > 0 {
+					last := &textElements[len(textElements)-1]
+					last.Width = textWidth
+					last.Height = effectiveFontSize
 				}
 
 				// 先应用字距调整，再应用文本宽度
