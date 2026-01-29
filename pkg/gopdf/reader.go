@@ -2004,8 +2004,9 @@ func loadFont(ctx *model.Context, fontName string, fontObj types.Object, resourc
 		}
 	}
 
+	hasUsefulToUnicode := font.ToUnicodeMap != nil && (len(font.ToUnicodeMap.Mappings) > 0 || len(font.ToUnicodeMap.Ranges) > 0)
 	if (font.Subtype == "/Type1" || font.Subtype == "Type1" || font.Subtype == "/MMType1" || font.Subtype == "MMType1") &&
-		font.ToUnicodeMap == nil &&
+		!hasUsefulToUnicode &&
 		len(font.CodeToGlyphName) == 0 &&
 		len(font.EmbeddedFontData) > 0 {
 		if enc, err := parseCFFEncoding(font.EmbeddedFontData); err == nil && len(enc) > 0 {

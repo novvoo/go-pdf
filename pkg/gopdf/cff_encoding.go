@@ -344,8 +344,8 @@ func parseCFFEncodingMap(data []byte, off int, gidToSID []uint16) (map[byte]int,
 }
 
 func cffSIDToString(sid int, stringsIndex [][]byte) string {
-	if sid < 391 {
-		return ""
+	if sid >= 0 && sid < len(cffStandardStrings) {
+		return cffStandardStrings[sid]
 	}
 	i := sid - 391
 	if i < 0 || i >= len(stringsIndex) {
@@ -353,4 +353,3 @@ func cffSIDToString(sid int, stringsIndex [][]byte) string {
 	}
 	return string(stringsIndex[i])
 }
-

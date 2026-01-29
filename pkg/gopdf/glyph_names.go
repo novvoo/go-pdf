@@ -25,6 +25,8 @@ func glyphNameToRune(name string) (rune, bool) {
 		return ',', true
 	case "period", "dot":
 		return '.', true
+	case "periodcentered":
+		return '⋅', true
 	case "colon":
 		return ':', true
 	case "semicolon":
@@ -33,9 +35,17 @@ func glyphNameToRune(name string) (rune, bool) {
 		return '(', true
 	case "parenright":
 		return ')', true
+	case "parenleftbig", "parenleftBig", "parenleftBigg", "parenleftBiggg":
+		return '(', true
+	case "parenrightbig", "parenrightBig", "parenrightBigg", "parenrightBiggg":
+		return ')', true
 	case "bracketleft":
 		return '[', true
 	case "bracketright":
+		return ']', true
+	case "bracketleftbig", "bracketleftBig", "bracketleftBigg", "bracketleftBiggg":
+		return '[', true
+	case "bracketrightbig", "bracketrightBig", "bracketrightBigg", "bracketrightBiggg":
 		return ']', true
 	case "braceleft":
 		return '{', true
@@ -63,6 +73,10 @@ func glyphNameToRune(name string) (rune, bool) {
 		return '"', true
 	case "quotesingle":
 		return '\'', true
+	case "epsilon1":
+		return 'ϵ', true
+	case "similar":
+		return '∼', true
 	}
 
 	switch name {

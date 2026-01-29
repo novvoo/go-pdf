@@ -1,6 +1,6 @@
 PDF Rendering Report
 ====================
-Time: 2026-01-29 17:05:39
+Time: 2026-01-29 17:31:21
 
 ParseTokens Test:
 -----------------
@@ -20,8 +20,8 @@ Rendering Process:
 ✅ Standard regions added to image
 Output File Info:
 -----------------
-Size: 174456 bytes
-Created: 2026-01-29 17:05:41
+Size: 173441 bytes
+Created: 2026-01-29 17:31:23
 
 Page Information:
 -----------------
@@ -32,7 +32,31 @@ Page Size: 8.27 x 11.69 inches
 Font Information:
 =================
 
-[Font 1] F5
+[Font 1] F19
+  BaseFont: QJDQHI+CMMI12
+  Subtype: Type1
+  Encoding: 
+  Identity Mapping: NO
+  ToUnicode Map: YES (0 mappings, 0 ranges)
+  Embedded Font: YES (839 bytes)
+
+[Font 2] F13
+  BaseFont: CAFZKO+CMEX10
+  Subtype: Type1
+  Encoding: 
+  Identity Mapping: NO
+  ToUnicode Map: NO
+  Embedded Font: YES (1665 bytes)
+
+[Font 3] F15
+  BaseFont: WIEJAH+CMMI5
+  Subtype: Type1
+  Encoding: 
+  Identity Mapping: NO
+  ToUnicode Map: YES (0 mappings, 0 ranges)
+  Embedded Font: YES (756 bytes)
+
+[Font 4] F5
   BaseFont: YPJGAH+LMRoman10-Bold-Identity-H
   Subtype: Type0
   Encoding: Identity-H
@@ -40,31 +64,6 @@ Font Information:
   ToUnicode Map: YES (44 mappings, 0 ranges)
   CID System Info: Adobe-Identity
   Embedded Font: YES (5588 bytes)
-
-[Font 2] F8
-  BaseFont: PMEZGD+CMR10
-  Subtype: Type1
-  Encoding: 
-  Identity Mapping: NO
-  ToUnicode Map: YES (0 mappings, 0 ranges)
-  Embedded Font: YES (3309 bytes)
-
-[Font 3] F1
-  BaseFont: ZDRRSR+LMRoman12-Bold-Identity-H
-  Subtype: Type0
-  Encoding: Identity-H
-  Identity Mapping: YES
-  ToUnicode Map: YES (37 mappings, 0 ranges)
-  CID System Info: Adobe-Identity
-  Embedded Font: YES (5085 bytes)
-
-[Font 4] F6
-  BaseFont: WXQHEC+CMMI10
-  Subtype: Type1
-  Encoding: 
-  Identity Mapping: NO
-  ToUnicode Map: YES (0 mappings, 0 ranges)
-  Embedded Font: YES (4423 bytes)
 
 [Font 5] F11
   BaseFont: WFCGZP+LMRoman7-Regular-Identity-H
@@ -83,32 +82,15 @@ Font Information:
   ToUnicode Map: YES (0 mappings, 0 ranges)
   Embedded Font: YES (2273 bytes)
 
-[Font 7] F18
-  BaseFont: UDODLB+LMRoman10-Italic-Identity-H
-  Subtype: Type0
-  Encoding: Identity-H
-  Identity Mapping: YES
-  ToUnicode Map: YES (11 mappings, 0 ranges)
-  CID System Info: Adobe-Identity
-  Embedded Font: YES (2286 bytes)
-
-[Font 8] F7
-  BaseFont: FXCERL+CMMI7
+[Font 7] F8
+  BaseFont: PMEZGD+CMR10
   Subtype: Type1
   Encoding: 
   Identity Mapping: NO
   ToUnicode Map: YES (0 mappings, 0 ranges)
-  Embedded Font: YES (2394 bytes)
+  Embedded Font: YES (3309 bytes)
 
-[Font 9] F13
-  BaseFont: CAFZKO+CMEX10
-  Subtype: Type1
-  Encoding: 
-  Identity Mapping: NO
-  ToUnicode Map: NO
-  Embedded Font: YES (1665 bytes)
-
-[Font 10] F16
+[Font 8] F16
   BaseFont: DKJWQF+CMSY7
   Subtype: Type1
   Encoding: 
@@ -116,21 +98,39 @@ Font Information:
   ToUnicode Map: YES (0 mappings, 0 ranges)
   Embedded Font: YES (956 bytes)
 
-[Font 11] F14
-  BaseFont: DBKKCI+MSBM10
+[Font 9] F9
+  BaseFont: NPXZEU+CMSY10
   Subtype: Type1
   Encoding: 
   Identity Mapping: NO
   ToUnicode Map: YES (0 mappings, 0 ranges)
-  Embedded Font: YES (549 bytes)
+  Embedded Font: YES (1399 bytes)
 
-[Font 12] F15
-  BaseFont: WIEJAH+CMMI5
+[Font 10] F1
+  BaseFont: ZDRRSR+LMRoman12-Bold-Identity-H
+  Subtype: Type0
+  Encoding: Identity-H
+  Identity Mapping: YES
+  ToUnicode Map: YES (37 mappings, 0 ranges)
+  CID System Info: Adobe-Identity
+  Embedded Font: YES (5085 bytes)
+
+[Font 11] F7
+  BaseFont: FXCERL+CMMI7
   Subtype: Type1
   Encoding: 
   Identity Mapping: NO
   ToUnicode Map: YES (0 mappings, 0 ranges)
-  Embedded Font: YES (756 bytes)
+  Embedded Font: YES (2394 bytes)
+
+[Font 12] F18
+  BaseFont: UDODLB+LMRoman10-Italic-Identity-H
+  Subtype: Type0
+  Encoding: Identity-H
+  Identity Mapping: YES
+  ToUnicode Map: YES (11 mappings, 0 ranges)
+  CID System Info: Adobe-Identity
+  Embedded Font: YES (2286 bytes)
 
 [Font 13] F3
   BaseFont: ALYRVT+LMRoman10-Regular-Identity-H
@@ -141,21 +141,21 @@ Font Information:
   CID System Info: Adobe-Identity
   Embedded Font: YES (8459 bytes)
 
-[Font 14] F9
-  BaseFont: NPXZEU+CMSY10
+[Font 14] F6
+  BaseFont: WXQHEC+CMMI10
   Subtype: Type1
   Encoding: 
   Identity Mapping: NO
   ToUnicode Map: YES (0 mappings, 0 ranges)
-  Embedded Font: YES (1399 bytes)
+  Embedded Font: YES (4423 bytes)
 
-[Font 15] F19
-  BaseFont: QJDQHI+CMMI12
+[Font 15] F14
+  BaseFont: DBKKCI+MSBM10
   Subtype: Type1
   Encoding: 
   Identity Mapping: NO
   ToUnicode Map: YES (0 mappings, 0 ranges)
-  Embedded Font: YES (839 bytes)
+  Embedded Font: YES (549 bytes)
 
 
 ExtractPageElements Test:
@@ -281,6 +281,41 @@ Font Width Calculation:
 Font Width Calculation Analysis:
 ---------------------------------
 
+Font: F15
+  Text elements: 4
+  Total estimated width: 14.94 points
+  Font size range: 4.98 - 4.98 points
+  Average width per element: 3.74 points
+  Sample texts:
+    [1] "i"
+    [2] "i"
+    [3] "i"
+    [4] "i;k"
+
+Font: F9
+  Text elements: 20
+  Total estimated width: 204.23 points
+  Font size range: 9.96 - 9.96 points
+  Average width per element: 10.21 points
+  Sample texts:
+    [1] "j"
+    [2] "j"
+    [3] "j"
+    [4] "j"
+    [5] "j"
+
+Font: F16
+  Text elements: 5
+  Total estimated width: 69.74 points
+  Font size range: 6.97 - 6.97 points
+  Average width per element: 13.95 points
+  Sample texts:
+    [1] "\\030D"
+    [2] "\\030D"
+    [3] "f"
+    [4] "g\\030"
+    [5] "\\000"
+
 Font: F1
   Text elements: 2
   Total estimated width: 200.85 points
@@ -289,6 +324,69 @@ Font: F1
   Sample texts:
     [1] "P#\x00䐀㈀⬀椀䈀瀀2"
     [2] "*QM\x00椀怀ᰀ戀椀䈀瀀2\x00䠀Qbb,"
+
+Font: F18
+  Text elements: 3
+  Total estimated width: 119.55 points
+  Font size range: 9.96 - 9.96 points
+  Average width per element: 39.85 points
+  Sample texts:
+    [1] "maximize"
+    [2] "minimize"
+    [3] "maximize"
+
+Font: F3
+  Text elements: 36
+  Total estimated width: 3128.26 points
+  Font size range: 9.96 - 9.96 points
+  Average width per element: 86.90 points
+  Sample texts:
+    [1] "MQi\x1ciBQM-\x00欀嘀K\x1cF\x00㈀+HBTTBM;fSSP\x00䬀\xe3..."
+    [2] "•"
+    [3] ",\x00吀QHB+v\x00吀ᰀ怀ᰀ䬀㈀椀㈀怀\xe6\x88..."
+    [4] "."
+    [5] "•"
+
+Font: F5
+  Text elements: 2
+  Total estimated width: 94.64 points
+  Font size range: 9.96 - 9.96 points
+  Average width per element: 47.32 points
+  Sample texts:
+    [1] "LQi\x1ciBQM\x00唀洀䴀䈀紀㈀/VX"
+    [2] "?"
+
+Font: F8
+  Text elements: 73
+  Total estimated width: 816.93 points
+  Font size range: 9.96 - 9.96 points
+  Average width per element: 11.19 points
+  Sample texts:
+    [1] "\\("
+    [2] "\\)"
+    [3] "\\("
+    [4] "\\)="
+    [5] "\\("
+
+Font: F13
+  Text elements: 25
+  Total estimated width: 343.71 points
+  Font size range: 9.96 - 9.96 points
+  Average width per element: 13.75 points
+  Sample texts:
+    [1] "P"
+    [2] "\""
+    [3] "\\020"
+    [4] "\\021"
+    [5] "|"
+
+Font: F19
+  Text elements: 1
+  Total estimated width: 7.17 points
+  Font size range: 14.35 - 14.35 points
+  Average width per element: 7.17 points
+  Sample texts:
+    [1] "L"
 
 Font: F6
   Text elements: 96
@@ -314,62 +412,17 @@ Font: F7
     [4] "i"
     [5] "i"
 
-Font: F8
-  Text elements: 73
-  Total estimated width: 816.93 points
-  Font size range: 9.96 - 9.96 points
-  Average width per element: 11.19 points
+Font: F11
+  Text elements: 7
+  Total estimated width: 73.22 points
+  Font size range: 6.97 - 6.97 points
+  Average width per element: 10.46 points
   Sample texts:
-    [1] "\\("
-    [2] "\\)"
-    [3] "\\("
-    [4] "\\)="
-    [5] "\\("
-
-Font: F9
-  Text elements: 20
-  Total estimated width: 204.23 points
-  Font size range: 9.96 - 9.96 points
-  Average width per element: 10.21 points
-  Sample texts:
-    [1] "j"
-    [2] "j"
-    [3] "j"
-    [4] "j"
-    [5] "j"
-
-Font: F13
-  Text elements: 25
-  Total estimated width: 343.71 points
-  Font size range: 9.96 - 9.96 points
-  Average width per element: 13.75 points
-  Sample texts:
-    [1] "P"
-    [2] "\""
-    [3] "\\020"
-    [4] "\\021"
-    [5] "|"
-
-Font: F14
-  Text elements: 2
-  Total estimated width: 9.96 points
-  Font size range: 9.96 - 9.96 points
-  Average width per element: 4.98 points
-  Sample texts:
-    [1] "E"
-    [2] "E"
-
-Font: F3
-  Text elements: 36
-  Total estimated width: 3128.26 points
-  Font size range: 9.96 - 9.96 points
-  Average width per element: 86.90 points
-  Sample texts:
-    [1] "MQi\x1ciBQM-\x00欀嘀K\x1cF\x00㈀+HBTTBM;fSSP\x00䬀\xe3..."
-    [2] "•"
-    [3] ",\x00吀QHB+v\x00吀ᰀ怀ᰀ䬀㈀椀㈀怀\xe6\x88..."
-    [4] "."
-    [5] "•"
+    [1] "ref"
+    [2] "ref"
+    [3] "ref"
+    [4] "ref"
+    [5] "ref"
 
 Font: F12
   Text elements: 29
@@ -383,67 +436,14 @@ Font: F12
     [4] "KL"
     [5] "HACPO"
 
-Font: F15
-  Text elements: 4
-  Total estimated width: 14.94 points
-  Font size range: 4.98 - 4.98 points
-  Average width per element: 3.74 points
-  Sample texts:
-    [1] "i"
-    [2] "i"
-    [3] "i"
-    [4] "i;k"
-
-Font: F18
-  Text elements: 3
-  Total estimated width: 119.55 points
-  Font size range: 9.96 - 9.96 points
-  Average width per element: 39.85 points
-  Sample texts:
-    [1] "maximize"
-    [2] "minimize"
-    [3] "maximize"
-
-Font: F5
+Font: F14
   Text elements: 2
-  Total estimated width: 94.64 points
+  Total estimated width: 9.96 points
   Font size range: 9.96 - 9.96 points
-  Average width per element: 47.32 points
+  Average width per element: 4.98 points
   Sample texts:
-    [1] "LQi\x1ciBQM\x00唀洀䴀䈀紀㈀/VX"
-    [2] "?"
-
-Font: F11
-  Text elements: 7
-  Total estimated width: 73.22 points
-  Font size range: 6.97 - 6.97 points
-  Average width per element: 10.46 points
-  Sample texts:
-    [1] "ref"
-    [2] "ref"
-    [3] "ref"
-    [4] "ref"
-    [5] "ref"
-
-Font: F16
-  Text elements: 5
-  Total estimated width: 69.74 points
-  Font size range: 6.97 - 6.97 points
-  Average width per element: 13.95 points
-  Sample texts:
-    [1] "\\030D"
-    [2] "\\030D"
-    [3] "f"
-    [4] "g\\030"
-    [5] "\\000"
-
-Font: F19
-  Text elements: 1
-  Total estimated width: 7.17 points
-  Font size range: 14.35 - 14.35 points
-  Average width per element: 7.17 points
-  Sample texts:
-    [1] "L"
+    [1] "E"
+    [2] "E"
 
 Width Calculation Method:
 -------------------------
@@ -683,75 +683,75 @@ Rendering completed successfully
 
 Operator Execution Log:
 ------------------------
-✓ Loaded embedded CFF font data for font F19 (839 bytes)
-✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
-✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
-✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
-✓ Loaded embedded CFF font data for font F6 (4423 bytes)
-✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
-✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
-✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
-✓ Loaded embedded CFF font data for font F7 (2394 bytes)
-✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
-✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
-✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
-✓ Loaded embedded CFF font data for font F8 (3309 bytes)
-✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F11 (2689 bytes)
-✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
-✓ Default width for CID font F11: 280
-✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
-✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F11: Identity-H
-✓ Loaded embedded CFF font data for font F9 (1399 bytes)
-✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
-✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
-✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
-✓ Loaded embedded CFF font data for font F13 (1665 bytes)
-✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
-✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
 ✓ Loaded embedded CFF font data for font F15 (756 bytes)
 ✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
 ✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
 ✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
+✓ Loaded embedded CFF font data for font F16 (956 bytes)
+✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
+✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
+✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
 ✓ Loaded embedded CFF font data for font F1 (5085 bytes)
 ✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
 ✓ Default width for CID font F1: 280
 ✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
 ✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F1: Identity-H
-✓ Loaded embedded CFF font data for font F5 (5588 bytes)
-✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
-✓ Default width for CID font F5: 280
-✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
-✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded embedded CFF font data for font F12 (2273 bytes)
-✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F14 (549 bytes)
-✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
-✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
-✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
 ✓ Loaded embedded CFF font data for font F3 (8459 bytes)
 ✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
 ✓ Default width for CID font F3: 280
 ✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
 ✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F3: Identity-H
-✓ Loaded embedded CFF font data for font F16 (956 bytes)
-✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
-✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
-✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
+✓ Loaded embedded CFF font data for font F8 (3309 bytes)
+✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
+✓ Loaded embedded CFF font data for font F12 (2273 bytes)
+✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
+✓ Loaded embedded CFF font data for font F13 (1665 bytes)
+✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
+✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
+✓ Loaded embedded CFF font data for font F7 (2394 bytes)
+✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
+✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
+✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
+✓ Loaded embedded CFF font data for font F19 (839 bytes)
+✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
+✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
+✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
+✓ Loaded embedded CFF font data for font F5 (5588 bytes)
+✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
+✓ Default width for CID font F5: 280
+✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
+✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded embedded CFF font data for font F6 (4423 bytes)
+✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
+✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
+✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
+✓ Loaded embedded CFF font data for font F11 (2689 bytes)
+✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
+✓ Default width for CID font F11: 280
+✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
+✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F11: Identity-H
+✓ Loaded embedded CFF font data for font F14 (549 bytes)
+✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
+✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
+✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
 ✓ Loaded embedded CFF font data for font F18 (2286 bytes)
 ✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
 ✓ Default width for CID font F18: 280
 ✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
 ✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F18: Identity-H
+✓ Loaded embedded CFF font data for font F9 (1399 bytes)
+✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
+✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
+✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
    Processing array with 1 items
    Array item 0: types.IndirectRef
    Dereferenced to: types.StreamDict
@@ -3016,10 +3016,22 @@ Operator Execution Log:
 [DEBUG] Total displacement: 4.98 (width=4.98, kerning=0.00), new X0=228.13
 [DEBUG] ET operator: End text object
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
-✓ Loaded embedded CFF font data for font F7 (2394 bytes)
-✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
-✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
-✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
+✓ Loaded embedded CFF font data for font F5 (5588 bytes)
+✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
+✓ Default width for CID font F5: 280
+✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
+✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded embedded CFF font data for font F8 (3309 bytes)
+✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
+✓ Loaded embedded CFF font data for font F11 (2689 bytes)
+✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
+✓ Default width for CID font F11: 280
+✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
+✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F11: Identity-H
 ✓ Loaded embedded CFF font data for font F12 (2273 bytes)
 ✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
 ✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
@@ -3032,49 +3044,14 @@ Operator Execution Log:
 ✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
 ✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
 ✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
-✓ Loaded embedded CFF font data for font F1 (5085 bytes)
-✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
-✓ Default width for CID font F1: 280
-✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
-✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F1: Identity-H
-✓ Loaded embedded CFF font data for font F8 (3309 bytes)
-✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F5 (5588 bytes)
-✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
-✓ Default width for CID font F5: 280
-✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
-✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded embedded CFF font data for font F6 (4423 bytes)
-✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
-✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
-✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
-✓ Loaded embedded CFF font data for font F11 (2689 bytes)
-✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
-✓ Default width for CID font F11: 280
-✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
-✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F11: Identity-H
 ✓ Loaded embedded CFF font data for font F19 (839 bytes)
 ✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
 ✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
 ✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
-✓ Loaded embedded CFF font data for font F3 (8459 bytes)
-✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
-✓ Default width for CID font F3: 280
-✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
-✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F3: Identity-H
-✓ Loaded embedded CFF font data for font F9 (1399 bytes)
-✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
-✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
-✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
-✓ Loaded embedded CFF font data for font F13 (1665 bytes)
-✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
-✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
+✓ Loaded embedded CFF font data for font F7 (2394 bytes)
+✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
+✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
+✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
 ✓ Loaded embedded CFF font data for font F14 (549 bytes)
 ✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
 ✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
@@ -3085,6 +3062,29 @@ Operator Execution Log:
 ✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
 ✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F18: Identity-H
+✓ Loaded embedded CFF font data for font F1 (5085 bytes)
+✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
+✓ Default width for CID font F1: 280
+✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
+✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F1: Identity-H
+✓ Loaded embedded CFF font data for font F6 (4423 bytes)
+✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
+✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
+✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
+✓ Loaded embedded CFF font data for font F9 (1399 bytes)
+✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
+✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
+✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
+✓ Loaded embedded CFF font data for font F13 (1665 bytes)
+✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
+✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
+✓ Loaded embedded CFF font data for font F3 (8459 bytes)
+✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
+✓ Default width for CID font F3: 280
+✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
+✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F3: Identity-H
    Processing array with 1 items
    Array item 0: types.IndirectRef
    Dereferenced to: types.StreamDict
@@ -3436,7 +3436,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="j" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="|" (len=1 runes, 1 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=2.76
 [TEXT_MATRIX] Updated after text: PDF_width=2.76, new X0=142.75
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
@@ -3663,7 +3663,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="j" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="|" (len=1 runes, 1 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=2.76
 [TEXT_MATRIX] Updated after text: PDF_width=2.76, new X0=74.94
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
@@ -3759,7 +3759,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="j" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="|" (len=1 runes, 1 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=2.76
 [TEXT_MATRIX] Updated after text: PDF_width=2.76, new X0=77.49
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
@@ -3869,7 +3869,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 3 items
-[TJ_ARRAY][0] Text=";" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="," (len=1 runes, 1 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=2.76
 [TJ_ARRAY][1] Kerning=-166 adj=1.65 (x: 2.76 -> 4.41)
 [TJ_ARRAY][2] Text="y" (len=1 runes, 1 CIDs) at x=4.41
@@ -4047,7 +4047,7 @@ Operator Execution Log:
 [TJ_ARRAY][0] Text="j" (len=1 runes, 1 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=1.59
 [TJ_ARRAY][1] Kerning=3 adj=-0.02 (x: 1.59 -> 1.57)
-[TJ_ARRAY][2] Text=";k" (len=2 runes, 2 CIDs) at x=1.57
+[TJ_ARRAY][2] Text=",k" (len=2 runes, 2 CIDs) at x=1.57
 [TJ_ARRAY][2] Rendered run, adv=6.60
 [TEXT_MATRIX] Updated after text: PDF_width=8.17, new X0=82.35
 [Tf] Set font: F9 (BaseFont: NPXZEU+CMSY10), Size: 9.96
@@ -4057,7 +4057,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="j" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="|" (len=1 runes, 1 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=2.76
 [TEXT_MATRIX] Updated after text: PDF_width=2.76, new X0=90.25
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
@@ -4146,7 +4146,7 @@ Operator Execution Log:
 [TJ_ARRAY][0] Text="j" (len=1 runes, 1 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=1.59
 [TJ_ARRAY][1] Kerning=3 adj=-0.02 (x: 1.59 -> 1.57)
-[TJ_ARRAY][2] Text=";k" (len=2 runes, 2 CIDs) at x=1.57
+[TJ_ARRAY][2] Text=",k" (len=2 runes, 2 CIDs) at x=1.57
 [TJ_ARRAY][2] Rendered run, adv=6.60
 [TEXT_MATRIX] Updated after text: PDF_width=8.17, new X0=84.91
 [Tf] Set font: F9 (BaseFont: NPXZEU+CMSY10), Size: 9.96
@@ -4156,7 +4156,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="j" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="|" (len=1 runes, 1 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=2.76
 [TEXT_MATRIX] Updated after text: PDF_width=2.76, new X0=92.80
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
@@ -4464,7 +4464,7 @@ Operator Execution Log:
 [TJ_ARRAY][0] Text="j" (len=1 runes, 1 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=1.59
 [TJ_ARRAY][1] Kerning=3 adj=-0.02 (x: 1.59 -> 1.57)
-[TJ_ARRAY][2] Text=";k" (len=2 runes, 2 CIDs) at x=1.57
+[TJ_ARRAY][2] Text=",k" (len=2 runes, 2 CIDs) at x=1.57
 [TJ_ARRAY][2] Rendered run, adv=6.60
 [TEXT_MATRIX] Updated after text: PDF_width=8.17, new X0=24.90
 [Tf] Set font: F9 (BaseFont: NPXZEU+CMSY10), Size: 9.96
@@ -4541,7 +4541,7 @@ Operator Execution Log:
 [TJ_ARRAY][0] Text="j" (len=1 runes, 1 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=1.59
 [TJ_ARRAY][1] Kerning=3 adj=-0.02 (x: 1.59 -> 1.57)
-[TJ_ARRAY][2] Text=";k" (len=2 runes, 2 CIDs) at x=1.57
+[TJ_ARRAY][2] Text=",k" (len=2 runes, 2 CIDs) at x=1.57
 [TJ_ARRAY][2] Rendered run, adv=6.60
 [TEXT_MATRIX] Updated after text: PDF_width=8.17, new X0=196.55
 [Tf] Set font: F3 (BaseFont: ALYRVT+LMRoman10-Regular-Identity-H), Size: 9.96
@@ -4603,7 +4603,7 @@ Operator Execution Log:
 [TJ_ARRAY][0] Text="j" (len=1 runes, 1 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=1.59
 [TJ_ARRAY][1] Kerning=3 adj=-0.02 (x: 1.59 -> 1.57)
-[TJ_ARRAY][2] Text=";k" (len=2 runes, 2 CIDs) at x=1.57
+[TJ_ARRAY][2] Text=",k" (len=2 runes, 2 CIDs) at x=1.57
 [TJ_ARRAY][2] Rendered run, adv=6.60
 [TEXT_MATRIX] Updated after text: PDF_width=8.17, new X0=285.59
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
@@ -4692,7 +4692,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 3 items
-[TJ_ARRAY][0] Text="\x0f" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="ϵ" (len=1 runes, 1 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=4.03
 [TJ_ARRAY][1] Kerning=-277 adj=2.76 (x: 4.03 -> 6.79)
 [TJ_ARRAY][2] Text=">" (len=1 runes, 1 CIDs) at x=6.79
@@ -4738,7 +4738,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=6.97
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="\x0f" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="ϵ" (len=1 runes, 1 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=3.32
 [TEXT_MATRIX] Updated after text: PDF_width=3.32, new X0=190.84
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
@@ -4787,7 +4787,7 @@ Operator Execution Log:
 [TJ_ARRAY][0] Text="r" (len=1 runes, 1 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=4.49
 [TJ_ARRAY][1] Kerning=27 adj=-0.27 (x: 4.49 -> 4.22)
-[TJ_ARRAY][2] Text=";" (len=1 runes, 1 CIDs) at x=4.22
+[TJ_ARRAY][2] Text="," (len=1 runes, 1 CIDs) at x=4.22
 [TJ_ARRAY][2] Rendered run, adv=2.76
 [TEXT_MATRIX] Updated after text: PDF_width=6.98, new X0=243.50
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
@@ -4807,8 +4807,9 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="\x00" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=0.00
+[TJ_ARRAY][0] Text="−" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Rendered run, adv=7.74
+[TEXT_MATRIX] Updated after text: PDF_width=7.74, new X0=261.76
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=9.96, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 263.98 -258.48]
 
@@ -4816,7 +4817,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="\x0f;" (len=2 runes, 2 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="ϵ," (len=2 runes, 2 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=6.79
 [TEXT_MATRIX] Updated after text: PDF_width=6.79, new X0=270.77
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
@@ -4839,7 +4840,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="\x0f" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="ϵ" (len=1 runes, 1 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=4.03
 [TEXT_MATRIX] Updated after text: PDF_width=4.03, new X0=295.30
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
@@ -5310,7 +5311,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=6.97
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text=";y" (len=2 runes, 2 CIDs) at x=0.00
+[TJ_ARRAY][0] Text=",y" (len=2 runes, 2 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=6.40
 [TEXT_MATRIX] Updated after text: PDF_width=6.40, new X0=129.76
 [Tf] Set font: F15 (BaseFont: WIEJAH+CMMI5), Size: 4.98
@@ -5340,7 +5341,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=6.97
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="\x18D" (len=2 runes, 2 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="∼D" (len=2 runes, 2 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=12.42
 [TEXT_MATRIX] Updated after text: PDF_width=12.42, new X0=148.45
 [Tf] Set font: F13 (BaseFont: CAFZKO+CMEX10), Size: 9.96
@@ -5350,9 +5351,9 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="\"" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=3.53
-[TEXT_MATRIX] Updated after text: PDF_width=3.53, new X0=152.71
+[TJ_ARRAY][0] Text="[" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Rendered run, adv=3.16
+[TEXT_MATRIX] Updated after text: PDF_width=3.16, new X0=152.33
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=5.81, ty=-17.04 -> New Tm: [1.00 0.00 0.00 1.00 154.99 -395.46]
 
@@ -5380,9 +5381,9 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="\x01" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.92
-[TEXT_MATRIX] Updated after text: PDF_width=5.92, new X0=172.81
+[TJ_ARRAY][0] Text="⋅" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Rendered run, adv=2.76
+[TEXT_MATRIX] Updated after text: PDF_width=2.76, new X0=169.65
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=4.98, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 171.87 -395.46]
 
@@ -5400,9 +5401,9 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="\x10" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.95
-[TEXT_MATRIX] Updated after text: PDF_width=5.95, new X0=196.08
+[TJ_ARRAY][0] Text="(" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Rendered run, adv=3.44
+[TEXT_MATRIX] Updated after text: PDF_width=3.44, new X0=193.57
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=5.95, ty=-11.06 -> New Tm: [1.00 0.00 0.00 1.00 196.09 -395.46]
 
@@ -5489,7 +5490,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text=";" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="," (len=1 runes, 1 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=2.76
 [TEXT_MATRIX] Updated after text: PDF_width=2.76, new X0=231.81
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
@@ -5509,7 +5510,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=6.97
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="\x0f" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="ϵ" (len=1 runes, 1 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=3.32
 [TEXT_MATRIX] Updated after text: PDF_width=3.32, new X0=255.06
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
@@ -5608,9 +5609,9 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="\x11" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.95
-[TEXT_MATRIX] Updated after text: PDF_width=5.95, new X0=302.22
+[TJ_ARRAY][0] Text=")" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Rendered run, adv=3.44
+[TEXT_MATRIX] Updated after text: PDF_width=3.44, new X0=299.71
 [Td] Move text position: tx=-124.40, ty=-21.72 -> New Tm: [1.00 0.00 0.00 1.00 171.87 -406.12]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=9.96
@@ -5691,8 +5692,9 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="\x00" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=0.00
+[TJ_ARRAY][0] Text="−" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Rendered run, adv=7.74
+[TEXT_MATRIX] Updated after text: PDF_width=7.74, new X0=179.53
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=9.96, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 181.76 -440.94]
 
@@ -5730,9 +5732,9 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="\x01" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.92
-[TEXT_MATRIX] Updated after text: PDF_width=5.92, new X0=203.45
+[TJ_ARRAY][0] Text="⋅" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Rendered run, adv=2.76
+[TEXT_MATRIX] Updated after text: PDF_width=2.76, new X0=200.29
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=8.63, ty=12.45 -> New Tm: [1.00 0.00 0.00 1.00 206.17 -428.49]
 
@@ -5790,7 +5792,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=6.97
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="i;k" (len=3 runes, 3 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="i,k" (len=3 runes, 3 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=9.41
 [TEXT_MATRIX] Updated after text: PDF_width=9.41, new X0=235.21
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
@@ -5810,9 +5812,9 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="\x10" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.95
-[TEXT_MATRIX] Updated after text: PDF_width=5.95, new X0=263.42
+[TJ_ARRAY][0] Text="(" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Rendered run, adv=3.44
+[TEXT_MATRIX] Updated after text: PDF_width=3.44, new X0=260.91
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=5.95, ty=-11.06 -> New Tm: [1.00 0.00 0.00 1.00 263.42 -440.94]
 
@@ -5959,7 +5961,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text=";" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="," (len=1 runes, 1 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=2.76
 [TEXT_MATRIX] Updated after text: PDF_width=2.76, new X0=315.04
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
@@ -5979,7 +5981,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=6.97
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="\x0f" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="ϵ" (len=1 runes, 1 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=3.32
 [TEXT_MATRIX] Updated after text: PDF_width=3.32, new X0=338.30
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
@@ -6138,9 +6140,9 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="\x11" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.95
-[TEXT_MATRIX] Updated after text: PDF_width=5.95, new X0=401.35
+[TJ_ARRAY][0] Text=")" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Rendered run, adv=3.44
+[TEXT_MATRIX] Updated after text: PDF_width=3.44, new X0=398.84
 [Td] Move text position: tx=-192.89, ty=-28.22 -> New Tm: [1.00 0.00 0.00 1.00 202.51 -458.10]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=9.96
@@ -6214,9 +6216,9 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="#" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.81
-[TEXT_MATRIX] Updated after text: PDF_width=5.81, new X0=408.83
+[TJ_ARRAY][0] Text="]" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Rendered run, adv=3.16
+[TEXT_MATRIX] Updated after text: PDF_width=3.16, new X0=406.17
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=-292.11, ty=-58.55 -> New Tm: [1.00 0.00 0.00 1.00 110.91 -482.46]
 
@@ -6274,7 +6276,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=6.97
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="\x18D" (len=2 runes, 2 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="∼D" (len=2 runes, 2 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=12.42
 [TEXT_MATRIX] Updated after text: PDF_width=12.42, new X0=157.75
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
@@ -6284,9 +6286,9 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=6.97
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text=";" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=2.36
-[TEXT_MATRIX] Updated after text: PDF_width=2.36, new X0=160.34
+[TJ_ARRAY][0] Text="," (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Rendered run, adv=1.23
+[TEXT_MATRIX] Updated after text: PDF_width=1.23, new X0=159.21
 [Tf] Set font: F16 (BaseFont: DKJWQF+CMSY7), Size: 6.97
 [Td] Move text position: tx=3.73, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 161.70 -484.26]
 
@@ -6294,9 +6296,9 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=6.97
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="f" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.81
-[TEXT_MATRIX] Updated after text: PDF_width=1.81, new X0=163.51
+[TJ_ARRAY][0] Text="{" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Rendered run, adv=2.33
+[TEXT_MATRIX] Updated after text: PDF_width=2.33, new X0=164.03
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=4.08, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 165.78 -484.26]
 
@@ -6314,9 +6316,9 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=4.98
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="i;k" (len=3 runes, 3 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.27
-[TEXT_MATRIX] Updated after text: PDF_width=4.27, new X0=174.09
+[TJ_ARRAY][0] Text="i,k" (len=3 runes, 3 CIDs) at x=0.00
+[TJ_ARRAY][0] Rendered run, adv=4.03
+[TEXT_MATRIX] Updated after text: PDF_width=4.03, new X0=173.85
 [Tf] Set font: F16 (BaseFont: DKJWQF+CMSY7), Size: 6.97
 [Td] Move text position: tx=9.30, ty=1.06 -> New Tm: [1.00 0.00 0.00 1.00 179.12 -484.26]
 
@@ -6324,7 +6326,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=6.97
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="g\x18" (len=2 runes, 2 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="}∼" (len=2 runes, 2 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=10.30
 [TEXT_MATRIX] Updated after text: PDF_width=10.30, new X0=189.42
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
@@ -6344,7 +6346,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="\x02" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="[" (len=1 runes, 1 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=4.14
 [TEXT_MATRIX] Updated after text: PDF_width=4.14, new X0=200.06
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
@@ -6424,7 +6426,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text=";" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="," (len=1 runes, 1 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=2.76
 [TEXT_MATRIX] Updated after text: PDF_width=2.76, new X0=252.85
 [Tf] Set font: F9 (BaseFont: NPXZEU+CMSY10), Size: 9.96
@@ -6434,9 +6436,9 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="f" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=2.72
-[TEXT_MATRIX] Updated after text: PDF_width=2.72, new X0=257.24
+[TJ_ARRAY][0] Text="{" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Rendered run, adv=4.98
+[TEXT_MATRIX] Updated after text: PDF_width=4.98, new X0=259.50
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=4.98, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 259.50 -482.46]
 
@@ -6454,7 +6456,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=6.97
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="i;k" (len=3 runes, 3 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="i,k" (len=3 runes, 3 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=9.41
 [TEXT_MATRIX] Updated after text: PDF_width=9.41, new X0=273.80
 [Tf] Set font: F9 (BaseFont: NPXZEU+CMSY10), Size: 9.96
@@ -6464,7 +6466,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="g" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="}" (len=1 runes, 1 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=4.98
 [TEXT_MATRIX] Updated after text: PDF_width=4.98, new X0=279.45
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
@@ -6484,7 +6486,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="\x03" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="]" (len=1 runes, 1 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=4.14
 [TEXT_MATRIX] Updated after text: PDF_width=4.14, new X0=289.13
 [Tf] Set font: F9 (BaseFont: NPXZEU+CMSY10), Size: 9.96
@@ -6494,8 +6496,9 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="\x00" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=0.00
+[TJ_ARRAY][0] Text="−" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Rendered run, adv=7.74
+[TEXT_MATRIX] Updated after text: PDF_width=7.74, new X0=118.65
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=12.73, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 123.64 -498.73]
 
@@ -6543,8 +6546,9 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="\x00" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=0.00
+[TJ_ARRAY][0] Text="(" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Rendered run, adv=4.56
+[TEXT_MATRIX] Updated after text: PDF_width=4.56, new X0=166.78
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=4.57, ty=-8.07 -> New Tm: [1.00 0.00 0.00 1.00 166.79 -498.73]
 
@@ -6602,7 +6606,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="\x01" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Text=")" (len=1 runes, 1 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=4.56
 [TEXT_MATRIX] Updated after text: PDF_width=4.56, new X0=207.35
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
@@ -6612,7 +6616,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text=":" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="." (len=1 runes, 1 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=2.76
 [TEXT_MATRIX] Updated after text: PDF_width=2.76, new X0=210.11
 [Tf] Set font: F3 (BaseFont: ALYRVT+LMRoman10-Regular-Identity-H), Size: 9.96
@@ -7482,7 +7486,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="x;" (len=2 runes, 2 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="x," (len=2 runes, 2 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=8.45
 [TEXT_MATRIX] Updated after text: PDF_width=8.45, new X0=111.30
 [Tf] Set font: F9 (BaseFont: NPXZEU+CMSY10), Size: 9.96
@@ -7492,9 +7496,9 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="f" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=2.72
-[TEXT_MATRIX] Updated after text: PDF_width=2.72, new X0=115.69
+[TJ_ARRAY][0] Text="{" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Rendered run, adv=4.98
+[TEXT_MATRIX] Updated after text: PDF_width=4.98, new X0=117.95
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=4.98, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 117.95 -648.17]
 
@@ -7522,7 +7526,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="g" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="}" (len=1 runes, 1 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=4.98
 [TEXT_MATRIX] Updated after text: PDF_width=4.98, new X0=132.72
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
@@ -7545,8 +7549,9 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="\x00" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=0.00
+[TJ_ARRAY][0] Text="−" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Rendered run, adv=7.74
+[TEXT_MATRIX] Updated after text: PDF_width=7.74, new X0=163.15
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=9.41, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 164.82 -648.17]
 
@@ -7573,8 +7578,9 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="\x00" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=0.00
+[TJ_ARRAY][0] Text="(" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Rendered run, adv=4.56
+[TEXT_MATRIX] Updated after text: PDF_width=4.56, new X0=263.64
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=4.57, ty=-8.07 -> New Tm: [1.00 0.00 0.00 1.00 263.64 -640.80]
 
@@ -7612,7 +7618,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 3 items
-[TJ_ARRAY][0] Text="x;" (len=2 runes, 2 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="x," (len=2 runes, 2 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=8.45
 [TJ_ARRAY][1] Kerning=-166 adj=1.65 (x: 8.45 -> 10.10)
 [TJ_ARRAY][2] Text="y" (len=1 runes, 1 CIDs) at x=10.10
@@ -7645,7 +7651,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="=τ" (len=2 runes, 2 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="/τ" (len=2 runes, 2 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=9.33
 [TEXT_MATRIX] Updated after text: PDF_width=9.33, new X0=311.88
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
@@ -7665,7 +7671,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="\x01" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Text=")" (len=1 runes, 1 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=4.56
 [TEXT_MATRIX] Updated after text: PDF_width=4.56, new X0=320.50
 [ET] End text object
@@ -7691,8 +7697,9 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="\x00" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=0.00
+[TJ_ARRAY][0] Text="(" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Rendered run, adv=4.56
+[TEXT_MATRIX] Updated after text: PDF_width=4.56, new X0=201.99
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=4.57, ty=-8.07 -> New Tm: [1.00 0.00 0.00 1.00 201.99 -656.85]
 
@@ -7730,7 +7737,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 3 items
-[TJ_ARRAY][0] Text="x;" (len=2 runes, 2 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="x," (len=2 runes, 2 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=8.45
 [TJ_ARRAY][1] Kerning=-166 adj=1.65 (x: 8.45 -> 10.10)
 [TJ_ARRAY][2] Text="y" (len=1 runes, 1 CIDs) at x=10.10
@@ -7763,7 +7770,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="=τ" (len=2 runes, 2 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="/τ" (len=2 runes, 2 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=9.33
 [TEXT_MATRIX] Updated after text: PDF_width=9.33, new X0=250.23
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
@@ -7783,7 +7790,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="\x01" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Text=")" (len=1 runes, 1 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=4.56
 [TEXT_MATRIX] Updated after text: PDF_width=4.56, new X0=258.85
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
@@ -7852,8 +7859,9 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="\x00" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=0.00
+[TJ_ARRAY][0] Text="(" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Rendered run, adv=4.56
+[TEXT_MATRIX] Updated after text: PDF_width=4.56, new X0=325.18
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=4.57, ty=-8.07 -> New Tm: [1.00 0.00 0.00 1.00 325.18 -656.85]
 
@@ -7891,7 +7899,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 3 items
-[TJ_ARRAY][0] Text="x;" (len=2 runes, 2 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="x," (len=2 runes, 2 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=8.45
 [TJ_ARRAY][1] Kerning=-166 adj=1.65 (x: 8.45 -> 10.10)
 [TJ_ARRAY][2] Text="y" (len=1 runes, 1 CIDs) at x=10.10
@@ -7904,8 +7912,9 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=6.97
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="\x00" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=0.00
+[TJ_ARRAY][0] Text="−" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Rendered run, adv=6.22
+[TEXT_MATRIX] Updated after text: PDF_width=6.22, new X0=359.82
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=-0.36, ty=-7.27 -> New Tm: [1.00 0.00 0.00 1.00 353.24 -659.86]
 
@@ -7933,7 +7942,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="=τ" (len=2 runes, 2 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="/τ" (len=2 runes, 2 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=9.33
 [TEXT_MATRIX] Updated after text: PDF_width=9.33, new X0=373.53
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
@@ -7953,7 +7962,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text="\x01" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Text=")" (len=1 runes, 1 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=4.56
 [TEXT_MATRIX] Updated after text: PDF_width=4.56, new X0=382.15
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
@@ -7963,7 +7972,7 @@ Operator Execution Log:
 [TEXT_RENDER] Using PangoPdf text rendering: font=math, size=9.96
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
-[TJ_ARRAY][0] Text=";" (len=1 runes, 1 CIDs) at x=0.00
+[TJ_ARRAY][0] Text="," (len=1 runes, 1 CIDs) at x=0.00
 [TJ_ARRAY][0] Rendered run, adv=2.76
 [TEXT_MATRIX] Updated after text: PDF_width=2.76, new X0=386.11
 [Tf] Set font: F3 (BaseFont: ALYRVT+LMRoman10-Regular-Identity-H), Size: 9.96
@@ -8084,55 +8093,28 @@ Operator Execution Log:
 [Q] Restore graphics state - Stack depth: 1
 
 📈 Operator Statistics:
+   cm: 1
+   g: 1
+   BT: 8
    Tf: 368
    Td: 394
-   TJ: 394
-   w: 7
-   l: 7
-   Q: 8
-   cm: 1
-   G: 1
-   g: 1
    ET: 8
+   w: 7
+   G: 1
+   TJ: 394
    m: 7
+   l: 7
    S: 7
+   Q: 8
    q: 8
-   BT: 8
-✓ Loaded embedded CFF font data for font F15 (756 bytes)
-✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
-✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
-✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
-✓ Loaded embedded CFF font data for font F3 (8459 bytes)
-✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
-✓ Default width for CID font F3: 280
-✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
-✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F3: Identity-H
-✓ Loaded embedded CFF font data for font F9 (1399 bytes)
-✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
-✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
-✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
-✓ Loaded embedded CFF font data for font F13 (1665 bytes)
-✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
-✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
-✓ Loaded embedded CFF font data for font F16 (956 bytes)
-✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
-✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
-✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
-✓ Loaded embedded CFF font data for font F19 (839 bytes)
-✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
-✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
-✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
-✓ Loaded embedded CFF font data for font F11 (2689 bytes)
-✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
-✓ Default width for CID font F11: 280
-✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
-✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F11: Identity-H
-✓ Loaded embedded CFF font data for font F12 (2273 bytes)
-✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
+✓ Loaded embedded CFF font data for font F7 (2394 bytes)
+✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
+✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
+✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
+✓ Loaded embedded CFF font data for font F8 (3309 bytes)
+✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
 ✓ Loaded embedded CFF font data for font F14 (549 bytes)
 ✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
 ✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
@@ -8143,44 +8125,17 @@ Operator Execution Log:
 ✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
 ✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F18: Identity-H
-✓ Loaded embedded CFF font data for font F5 (5588 bytes)
-✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
-✓ Default width for CID font F5: 280
-✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
-✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded embedded CFF font data for font F7 (2394 bytes)
-✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
-✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
-✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
-✓ Loaded embedded CFF font data for font F8 (3309 bytes)
-✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F1 (5085 bytes)
-✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
-✓ Default width for CID font F1: 280
-✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
-✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F1: Identity-H
-✓ Loaded embedded CFF font data for font F6 (4423 bytes)
-✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
-✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
-✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
-✓ Loaded embedded CFF font data for font F12 (2273 bytes)
-✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F16 (956 bytes)
-✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
-✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
-✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
-✓ Loaded embedded CFF font data for font F18 (2286 bytes)
-✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
-✓ Default width for CID font F18: 280
-✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
-✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F18: Identity-H
+✓ Loaded embedded CFF font data for font F19 (839 bytes)
+✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
+✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
+✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
+✓ Loaded embedded CFF font data for font F13 (1665 bytes)
+✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
+✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
+✓ Loaded embedded CFF font data for font F15 (756 bytes)
+✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
+✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
+✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
 ✓ Loaded embedded CFF font data for font F3 (8459 bytes)
 ✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
 ✓ Default width for CID font F3: 280
@@ -8193,6 +8148,75 @@ Operator Execution Log:
 ✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
 ✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded embedded CFF font data for font F11 (2689 bytes)
+✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
+✓ Default width for CID font F11: 280
+✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
+✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F11: Identity-H
+✓ Loaded embedded CFF font data for font F16 (956 bytes)
+✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
+✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
+✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
+✓ Loaded embedded CFF font data for font F6 (4423 bytes)
+✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
+✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
+✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
+✓ Loaded embedded CFF font data for font F9 (1399 bytes)
+✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
+✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
+✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
+✓ Loaded embedded CFF font data for font F12 (2273 bytes)
+✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
+✓ Loaded embedded CFF font data for font F1 (5085 bytes)
+✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
+✓ Default width for CID font F1: 280
+✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
+✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F1: Identity-H
+✓ Loaded embedded CFF font data for font F15 (756 bytes)
+✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
+✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
+✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
+✓ Loaded embedded CFF font data for font F16 (956 bytes)
+✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
+✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
+✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
+✓ Loaded embedded CFF font data for font F19 (839 bytes)
+✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
+✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
+✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
+✓ Loaded embedded CFF font data for font F5 (5588 bytes)
+✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
+✓ Default width for CID font F5: 280
+✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
+✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded embedded CFF font data for font F9 (1399 bytes)
+✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
+✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
+✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
+✓ Loaded embedded CFF font data for font F11 (2689 bytes)
+✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
+✓ Default width for CID font F11: 280
+✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
+✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F11: Identity-H
+✓ Loaded embedded CFF font data for font F12 (2273 bytes)
+✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
+✓ Loaded embedded CFF font data for font F13 (1665 bytes)
+✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
+✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
+✓ Loaded embedded CFF font data for font F1 (5085 bytes)
+✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
+✓ Default width for CID font F1: 280
+✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
+✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F1: Identity-H
 ✓ Loaded embedded CFF font data for font F7 (2394 bytes)
 ✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
 ✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
@@ -8201,41 +8225,26 @@ Operator Execution Log:
 ✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
 ✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
 ✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F13 (1665 bytes)
-✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
-✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
-✓ Loaded embedded CFF font data for font F19 (839 bytes)
-✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
-✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
-✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
-✓ Loaded embedded CFF font data for font F1 (5085 bytes)
-✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
-✓ Default width for CID font F1: 280
-✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
-✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F1: Identity-H
-✓ Loaded embedded CFF font data for font F9 (1399 bytes)
-✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
-✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
-✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
 ✓ Loaded embedded CFF font data for font F14 (549 bytes)
 ✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
 ✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
 ✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
-✓ Loaded embedded CFF font data for font F15 (756 bytes)
-✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
-✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
-✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
+✓ Loaded embedded CFF font data for font F18 (2286 bytes)
+✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
+✓ Default width for CID font F18: 280
+✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
+✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F18: Identity-H
+✓ Loaded embedded CFF font data for font F3 (8459 bytes)
+✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
+✓ Default width for CID font F3: 280
+✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
+✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F3: Identity-H
 ✓ Loaded embedded CFF font data for font F6 (4423 bytes)
 ✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
 ✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
 ✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
-✓ Loaded embedded CFF font data for font F11 (2689 bytes)
-✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
-✓ Default width for CID font F11: 280
-✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
-✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F11: Identity-H
    Processing array with 1 items
    Array item 0: types.IndirectRef
    Dereferenced to: types.StreamDict
@@ -10500,14 +10509,88 @@ Operator Execution Log:
 [DEBUG] Total displacement: 4.98 (width=4.98, kerning=0.00), new X0=228.13
 [DEBUG] ET operator: End text object
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
+✓ Loaded embedded CFF font data for font F6 (4423 bytes)
+✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
+✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
+✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
+✓ Loaded embedded CFF font data for font F16 (956 bytes)
+✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
+✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
+✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
+✓ Loaded embedded CFF font data for font F1 (5085 bytes)
+✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
+✓ Default width for CID font F1: 280
+✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
+✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F1: Identity-H
+✓ Loaded embedded CFF font data for font F5 (5588 bytes)
+✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
+✓ Default width for CID font F5: 280
+✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
+✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded embedded CFF font data for font F8 (3309 bytes)
+✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
+✓ Loaded embedded CFF font data for font F11 (2689 bytes)
+✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
+✓ Default width for CID font F11: 280
+✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
+✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F11: Identity-H
+✓ Loaded embedded CFF font data for font F9 (1399 bytes)
+✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
+✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
+✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
 ✓ Loaded embedded CFF font data for font F12 (2273 bytes)
 ✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
 ✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
 ✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
+✓ Loaded embedded CFF font data for font F18 (2286 bytes)
+✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
+✓ Default width for CID font F18: 280
+✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
+✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F18: Identity-H
+✓ Loaded embedded CFF font data for font F3 (8459 bytes)
+✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
+✓ Default width for CID font F3: 280
+✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
+✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F3: Identity-H
+✓ Loaded embedded CFF font data for font F7 (2394 bytes)
+✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
+✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
+✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
+✓ Loaded embedded CFF font data for font F13 (1665 bytes)
+✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
+✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
+✓ Loaded embedded CFF font data for font F14 (549 bytes)
+✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
+✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
+✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
+✓ Loaded embedded CFF font data for font F15 (756 bytes)
+✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
+✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
+✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
 ✓ Loaded embedded CFF font data for font F19 (839 bytes)
 ✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
 ✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
 ✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
+✓ Loaded embedded CFF font data for font F11 (2689 bytes)
+✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
+✓ Default width for CID font F11: 280
+✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
+✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F11: Identity-H
+✓ Loaded embedded CFF font data for font F13 (1665 bytes)
+✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
+✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
+✓ Loaded embedded CFF font data for font F15 (756 bytes)
+✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
+✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
+✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
 ✓ Loaded embedded CFF font data for font F1 (5085 bytes)
 ✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
 ✓ Default width for CID font F1: 280
@@ -10520,23 +10603,6 @@ Operator Execution Log:
 ✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
 ✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F3: Identity-H
-✓ Loaded embedded CFF font data for font F9 (1399 bytes)
-✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
-✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
-✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
-✓ Loaded embedded CFF font data for font F16 (956 bytes)
-✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
-✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
-✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
-✓ Loaded embedded CFF font data for font F5 (5588 bytes)
-✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
-✓ Default width for CID font F5: 280
-✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
-✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded embedded CFF font data for font F13 (1665 bytes)
-✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
-✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
 ✓ Loaded embedded CFF font data for font F6 (4423 bytes)
 ✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
 ✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
@@ -10545,38 +10611,6 @@ Operator Execution Log:
 ✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
 ✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
 ✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
-✓ Loaded embedded CFF font data for font F8 (3309 bytes)
-✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F11 (2689 bytes)
-✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
-✓ Default width for CID font F11: 280
-✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
-✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F11: Identity-H
-✓ Loaded embedded CFF font data for font F14 (549 bytes)
-✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
-✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
-✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
-✓ Loaded embedded CFF font data for font F15 (756 bytes)
-✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
-✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
-✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
-✓ Loaded embedded CFF font data for font F18 (2286 bytes)
-✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
-✓ Default width for CID font F18: 280
-✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
-✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F18: Identity-H
-✓ Loaded embedded CFF font data for font F6 (4423 bytes)
-✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
-✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
-✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
-✓ Loaded embedded CFF font data for font F8 (3309 bytes)
-✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
 ✓ Loaded embedded CFF font data for font F9 (1399 bytes)
 ✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
 ✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
@@ -10585,26 +10619,26 @@ Operator Execution Log:
 ✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
 ✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
 ✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
-✓ Loaded embedded CFF font data for font F5 (5588 bytes)
-✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
-✓ Default width for CID font F5: 280
-✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
-✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded embedded CFF font data for font F7 (2394 bytes)
-✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
-✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
-✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
 ✓ Loaded embedded CFF font data for font F18 (2286 bytes)
 ✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
 ✓ Default width for CID font F18: 280
 ✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
 ✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F18: Identity-H
-✓ Loaded embedded CFF font data for font F15 (756 bytes)
-✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
-✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
-✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
+✓ Loaded embedded CFF font data for font F5 (5588 bytes)
+✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
+✓ Default width for CID font F5: 280
+✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
+✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded embedded CFF font data for font F8 (3309 bytes)
+✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
+✓ Loaded embedded CFF font data for font F12 (2273 bytes)
+✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
 ✓ Loaded embedded CFF font data for font F16 (956 bytes)
 ✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
 ✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
@@ -10613,31 +10647,6 @@ Operator Execution Log:
 ✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
 ✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
 ✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
-✓ Loaded embedded CFF font data for font F11 (2689 bytes)
-✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
-✓ Default width for CID font F11: 280
-✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
-✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F11: Identity-H
-✓ Loaded embedded CFF font data for font F12 (2273 bytes)
-✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F13 (1665 bytes)
-✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
-✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
-✓ Loaded embedded CFF font data for font F1 (5085 bytes)
-✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
-✓ Default width for CID font F1: 280
-✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
-✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F1: Identity-H
-✓ Loaded embedded CFF font data for font F3 (8459 bytes)
-✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
-✓ Default width for CID font F3: 280
-✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
-✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F3: Identity-H
    Processing array with 1 items
    Array item 0: types.IndirectRef
    Dereferenced to: types.StreamDict
@@ -12902,35 +12911,44 @@ Operator Execution Log:
 [DEBUG] Total displacement: 4.98 (width=4.98, kerning=0.00), new X0=228.13
 [DEBUG] ET operator: End text object
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
-✓ Loaded embedded CFF font data for font F1 (5085 bytes)
-✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
-✓ Default width for CID font F1: 280
-✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
-✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F1: Identity-H
-✓ Loaded embedded CFF font data for font F6 (4423 bytes)
-✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
-✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
-✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
-✓ Loaded embedded CFF font data for font F11 (2689 bytes)
-✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
-✓ Default width for CID font F11: 280
-✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
-✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F11: Identity-H
+✓ Loaded embedded CFF font data for font F16 (956 bytes)
+✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
+✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
+✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
 ✓ Loaded embedded CFF font data for font F3 (8459 bytes)
 ✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
 ✓ Default width for CID font F3: 280
 ✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
 ✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F3: Identity-H
+✓ Loaded embedded CFF font data for font F6 (4423 bytes)
+✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
+✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
+✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
 ✓ Loaded embedded CFF font data for font F7 (2394 bytes)
 ✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
 ✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
 ✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
-✓ Loaded embedded CFF font data for font F13 (1665 bytes)
-✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
-✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
+✓ Loaded embedded CFF font data for font F11 (2689 bytes)
+✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
+✓ Default width for CID font F11: 280
+✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
+✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F11: Identity-H
+✓ Loaded embedded CFF font data for font F9 (1399 bytes)
+✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
+✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
+✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
+✓ Loaded embedded CFF font data for font F18 (2286 bytes)
+✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
+✓ Default width for CID font F18: 280
+✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
+✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F18: Identity-H
+✓ Loaded embedded CFF font data for font F19 (839 bytes)
+✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
+✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
+✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
 ✓ Loaded embedded CFF font data for font F14 (549 bytes)
 ✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
 ✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
@@ -12945,18 +12963,33 @@ Operator Execution Log:
 ✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
 ✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
 ✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F9 (1399 bytes)
-✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
-✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
-✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
 ✓ Loaded embedded CFF font data for font F12 (2273 bytes)
 ✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
 ✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
 ✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
+✓ Loaded embedded CFF font data for font F13 (1665 bytes)
+✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
+✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
+✓ Loaded embedded CFF font data for font F1 (5085 bytes)
+✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
+✓ Default width for CID font F1: 280
+✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
+✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F1: Identity-H
 ✓ Loaded embedded CFF font data for font F15 (756 bytes)
 ✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
 ✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
 ✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
+✓ Loaded embedded CFF font data for font F5 (5588 bytes)
+✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
+✓ Default width for CID font F5: 280
+✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
+✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded embedded CFF font data for font F16 (956 bytes)
+✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
+✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
+✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
 ✓ Loaded embedded CFF font data for font F18 (2286 bytes)
 ✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
 ✓ Default width for CID font F18: 280
@@ -12967,14 +13000,47 @@ Operator Execution Log:
 ✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
 ✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
 ✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
-✓ Loaded embedded CFF font data for font F16 (956 bytes)
-✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
-✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
-✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
+✓ Loaded embedded CFF font data for font F6 (4423 bytes)
+✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
+✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
+✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
+✓ Loaded embedded CFF font data for font F8 (3309 bytes)
+✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
+✓ Loaded embedded CFF font data for font F9 (1399 bytes)
+✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
+✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
+✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
+✓ Loaded embedded CFF font data for font F11 (2689 bytes)
+✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
+✓ Default width for CID font F11: 280
+✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
+✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F11: Identity-H
+✓ Loaded embedded CFF font data for font F3 (8459 bytes)
+✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
+✓ Default width for CID font F3: 280
+✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
+✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F3: Identity-H
+✓ Loaded embedded CFF font data for font F12 (2273 bytes)
+✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
+✓ Loaded embedded CFF font data for font F13 (1665 bytes)
+✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
+✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
 ✓ Loaded embedded CFF font data for font F14 (549 bytes)
 ✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
 ✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
 ✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
+✓ Loaded embedded CFF font data for font F1 (5085 bytes)
+✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
+✓ Default width for CID font F1: 280
+✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
+✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F1: Identity-H
 ✓ Loaded embedded CFF font data for font F7 (2394 bytes)
 ✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
 ✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
@@ -12983,63 +13049,6 @@ Operator Execution Log:
 ✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
 ✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
 ✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
-✓ Loaded embedded CFF font data for font F16 (956 bytes)
-✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
-✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
-✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
-✓ Loaded embedded CFF font data for font F18 (2286 bytes)
-✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
-✓ Default width for CID font F18: 280
-✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
-✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F18: Identity-H
-✓ Loaded embedded CFF font data for font F3 (8459 bytes)
-✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
-✓ Default width for CID font F3: 280
-✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
-✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F3: Identity-H
-✓ Loaded embedded CFF font data for font F9 (1399 bytes)
-✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
-✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
-✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
-✓ Loaded embedded CFF font data for font F12 (2273 bytes)
-✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F19 (839 bytes)
-✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
-✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
-✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
-✓ Loaded embedded CFF font data for font F1 (5085 bytes)
-✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
-✓ Default width for CID font F1: 280
-✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
-✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F1: Identity-H
-✓ Loaded embedded CFF font data for font F8 (3309 bytes)
-✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F5 (5588 bytes)
-✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
-✓ Default width for CID font F5: 280
-✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
-✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded embedded CFF font data for font F6 (4423 bytes)
-✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
-✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
-✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
-✓ Loaded embedded CFF font data for font F11 (2689 bytes)
-✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
-✓ Default width for CID font F11: 280
-✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
-✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F11: Identity-H
-✓ Loaded embedded CFF font data for font F13 (1665 bytes)
-✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
-✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
    Processing array with 1 items
    Array item 0: types.IndirectRef
    Dereferenced to: types.StreamDict
