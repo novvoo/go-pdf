@@ -93,6 +93,83 @@ func parseCFFEncoding(data []byte) (map[byte]string, map[byte]uint16, [6]float64
 	return encoding, codeToGIDU16, fontMatrix, hasFontMatrix, nil
 }
 
+func parseCFFCIDToGIDMap(data []byte) ([]uint16, [6]float64, bool, error) {
+	var fontMatrix [6]float64
+	if len(data) < 4 {
+		return nil, fontMatrix, false, errors.New("cff: too short")
+	}
+	major := data[0]
+	hdrSize := int(data[2])
+	if major != 1 || hdrSize < 4 || hdrSize > len(data) {
+		return nil, fontMatrix, false, errors.New("cff: bad header")
+	}
+
+	off := hdrSize
+	_, next, err := parseCFFIndex(data, off)
+	if err != nil {
+		return nil, fontMatrix, false, err
+	}
+	off = next
+
+	top, next, err := parseCFFIndex(data, off)
+	if err != nil {
+		return nil, fontMatrix, false, err
+	}
+	if len(top) == 0 {
+		return nil, fontMatrix, false, errors.New("cff: missing top dict")
+	}
+	topDict := top[0]
+	off = next
+
+	_, next, err = parseCFFIndex(data, off)
+	if err != nil {
+		return nil, fontMatrix, false, err
+	}
+	off = next
+
+	_, next, err = parseCFFIndex(data, off)
+	if err != nil {
+		return nil, fontMatrix, false, err
+	}
+	_ = next
+
+	charsetOff, _, charStringsOff, fontMatrix, hasFontMatrix := parseCFFTopDictOffsets(topDict)
+	if charStringsOff <= 0 || charStringsOff >= len(data) {
+		return nil, fontMatrix, hasFontMatrix, errors.New("cff: missing charstrings offset")
+	}
+
+	nGlyphs, err := countCFFIndexObjectsAt(data, charStringsOff)
+	if err != nil {
+		return nil, fontMatrix, hasFontMatrix, err
+	}
+	if nGlyphs <= 0 {
+		return nil, fontMatrix, hasFontMatrix, errors.New("cff: empty charstrings")
+	}
+
+	gidToCID, err := parseCFFCharset(data, charsetOff, nGlyphs)
+	if err != nil {
+		return nil, fontMatrix, hasFontMatrix, err
+	}
+
+	maxCID := 0
+	for _, cid := range gidToCID {
+		if int(cid) > maxCID {
+			maxCID = int(cid)
+		}
+	}
+	if maxCID <= 0 {
+		return nil, fontMatrix, hasFontMatrix, errors.New("cff: empty charset")
+	}
+
+	cidToGID := make([]uint16, maxCID+1)
+	for gid, cid := range gidToCID {
+		if int(cid) < len(cidToGID) {
+			cidToGID[cid] = uint16(gid)
+		}
+	}
+	return cidToGID, fontMatrix, hasFontMatrix, nil
+}
+
 func parseCFFIndex(data []byte, off int) (objects [][]byte, next int, err error) {
 	if off+2 > len(data) {
 		return nil, off, errors.New("cff: index truncated")

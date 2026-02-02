@@ -818,6 +818,128 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 		currentX = baseX + x
 	}
 
+	renderType0CFFGlyphs := func(decodedText string, cids []uint16) (adv float64, ok bool) {
+		if textState.Font == nil || textState.Font.CFF == nil {
+			return 0, false
+		}
+		if textState.Font.Subtype != "/Type0" && textState.Font.Subtype != "Type0" {
+			return 0, false
+		}
+		if len(cids) == 0 {
+			return 0, false
+		}
+
+		runes := []rune(decodedText)
+		x := currentX
+		for i, cid := range cids {
+			gid := textState.Font.CIDToGID(cid)
+			segments, _, err := textState.Font.CFF.LoadGlyph(tables.GlyphID(gid))
+			if err != nil || len(segments) == 0 {
+				return 0, false
+			}
+
+			ctx.GopdfCtx.Save()
+			ctx.GopdfCtx.Translate(x, 0)
+
+			fontMatrix := [6]float64{0.001, 0, 0, 0.001, 0, 0}
+			if textState.Font.HasFontMatrix {
+				fontMatrix = textState.Font.FontMatrix
+			}
+			hScale := textState.HorizontalScaling / 100.0
+			m := &Matrix{
+				XX: fontMatrix[0] * textState.FontSize * hScale,
+				YX: fontMatrix[1] * textState.FontSize,
+				XY: fontMatrix[2] * textState.FontSize * hScale,
+				YY: fontMatrix[3] * textState.FontSize,
+				X0: fontMatrix[4] * textState.FontSize * hScale,
+				Y0: fontMatrix[5] * textState.FontSize,
+			}
+			ctx.GopdfCtx.Transform(m)
+
+			ctx.GopdfCtx.NewPath()
+			for _, seg := range segments {
+				switch seg.Op {
+				case otapi.SegmentOpMoveTo:
+					p := seg.Args[0]
+					ctx.GopdfCtx.MoveTo(float64(p.X), float64(p.Y))
+				case otapi.SegmentOpLineTo:
+					p := seg.Args[0]
+					ctx.GopdfCtx.LineTo(float64(p.X), float64(p.Y))
+				case otapi.SegmentOpQuadTo:
+					p1 := seg.Args[0]
+					p2 := seg.Args[1]
+					ctx.GopdfCtx.CurveTo(
+						float64(p1.X), float64(p1.Y),
+						float64(p1.X), float64(p1.Y),
+						float64(p2.X), float64(p2.Y),
+					)
+				case otapi.SegmentOpCubeTo:
+					p1 := seg.Args[0]
+					p2 := seg.Args[1]
+					p3 := seg.Args[2]
+					ctx.GopdfCtx.CurveTo(
+						float64(p1.X), float64(p1.Y),
+						float64(p2.X), float64(p2.Y),
+						float64(p3.X), float64(p3.Y),
+					)
+				}
+			}
+
+			switch textState.RenderMode {
+			case 1:
+				if state != nil && state.StrokeColor != nil {
+					ctx.GopdfCtx.SetSourceRGBA(
+						state.StrokeColor.R,
+						state.StrokeColor.G,
+						state.StrokeColor.B,
+						state.StrokeColor.A*state.StrokeAlpha,
+					)
+				}
+				ctx.GopdfCtx.Stroke()
+			case 2:
+				if state != nil && state.FillColor != nil {
+					ctx.GopdfCtx.SetSourceRGBA(
+						state.FillColor.R,
+						state.FillColor.G,
+						state.FillColor.B,
+						state.FillColor.A*state.FillAlpha,
+					)
+				}
+				ctx.GopdfCtx.FillPreserve()
+				if state != nil && state.StrokeColor != nil {
+					ctx.GopdfCtx.SetSourceRGBA(
+						state.StrokeColor.R,
+						state.StrokeColor.G,
+						state.StrokeColor.B,
+						state.StrokeColor.A*state.StrokeAlpha,
+					)
+				}
+				ctx.GopdfCtx.Stroke()
+			default:
+				if state != nil && state.FillColor != nil {
+					ctx.GopdfCtx.SetSourceRGBA(
+						state.FillColor.R,
+						state.FillColor.G,
+						state.FillColor.B,
+						state.FillColor.A*state.FillAlpha,
+					)
+				}
+				ctx.GopdfCtx.Fill()
+			}
+
+			ctx.GopdfCtx.Restore()
+
+			isSpace := cid == 32
+			if i < len(runes) && runes[i] == ' ' {
+				isSpace = true
+			}
+			advStep := textState.GlyphAdvance(cid, isSpace)
+			x += advStep
+			adv += advStep
+		}
+		return adv, true
+	}
+
 	isTeXMathBaseFont := func(baseFont string) bool {
 		base := strings.ToUpper(stripSubsetPrefix(baseFont))
 		return strings.HasPrefix(base, "CMMI") ||
@@ -1033,6 +1155,11 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 					renderGlyphs(cids)
 					debugPrintf("[TJ_ARRAY][%d] Rendered glyph run\n", idx)
 				} else {
+					if adv, ok := renderType0CFFGlyphs(decodedText, cids); ok {
+						currentX += adv
+						debugPrintf("[TJ_ARRAY][%d] Rendered Type0 CFF glyphs, adv=%.2f\n", idx, adv)
+						continue
+					}
 					if isTeXMathBaseFont(textState.Font.BaseFont) {
 						if adv, ok := renderTeXMathFallbackGlyphs(decodedText, cids); ok {
 							debugPrintf("[TJ_ARRAY][%d] Rendered TeX glyphs, adv=%.2f\n", idx, adv)
@@ -1084,6 +1211,11 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 				renderGlyphs(cids)
 				debugPrintf("[Tj] Rendered glyph run\n")
 			} else {
+				if adv, ok := renderType0CFFGlyphs(decodedText, cids); ok {
+					currentX += adv
+					debugPrintf("[Tj] Rendered Type0 CFF glyphs, adv=%.2f\n", adv)
+					goto updateMatrix
+				}
 				if isTeXMathBaseFont(textState.Font.BaseFont) {
 					if adv, ok := renderTeXMathFallbackGlyphs(decodedText, cids); ok {
 						debugPrintf("[Tj] Rendered TeX glyphs, adv=%.2f\n", adv)

@@ -1946,6 +1946,21 @@ func loadFont(ctx *model.Context, fontName string, fontObj types.Object, resourc
 									if err == nil {
 										font.EmbeddedFontData = fontFileData
 										debugPrintf("✓ Loaded embedded CFF font data for font %s (%d bytes)\n", fontName, len(fontFileData))
+										if cff, err := otcff.Parse(font.EmbeddedFontData); err == nil {
+											font.CFF = cff
+										}
+										if len(font.CIDToGIDMap) == 0 && !font.CIDToGIDMapIdentity {
+											if mapping, fontMatrix, hasFontMatrix, err := parseCFFCIDToGIDMap(font.EmbeddedFontData); err == nil && len(mapping) > 0 {
+												font.CIDToGIDMap = mapping
+												font.FontMatrix = fontMatrix
+												font.HasFontMatrix = hasFontMatrix
+											}
+										} else {
+											if _, fontMatrix, hasFontMatrix, err := parseCFFCIDToGIDMap(font.EmbeddedFontData); err == nil {
+												font.FontMatrix = fontMatrix
+												font.HasFontMatrix = hasFontMatrix
+											}
+										}
 									}
 								}
 							}
