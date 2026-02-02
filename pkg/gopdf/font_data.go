@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"sync"
 
@@ -95,6 +96,207 @@ var fallbackFontPaths = []string{
 	"../assets/DejaVuSans.ttf",
 	"resource/font/luxisr.ttf",
 	"../resource/font/luxisr.ttf",
+}
+
+var latinSansRegularFontPaths = []string{
+	"C:/Windows/Fonts/arial.ttf",
+	"C:/Windows/Fonts/segoeui.ttf",
+	"C:/Windows/Fonts/calibri.ttf",
+}
+
+var latinSansBoldFontPaths = []string{
+	"C:/Windows/Fonts/arialbd.ttf",
+	"C:/Windows/Fonts/segoeuib.ttf",
+	"C:/Windows/Fonts/calibrib.ttf",
+}
+
+var latinSansItalicFontPaths = []string{
+	"C:/Windows/Fonts/ariali.ttf",
+	"C:/Windows/Fonts/segoeuii.ttf",
+	"C:/Windows/Fonts/calibrii.ttf",
+}
+
+var latinSansBoldItalicFontPaths = []string{
+	"C:/Windows/Fonts/arialbi.ttf",
+	"C:/Windows/Fonts/segoeuiz.ttf",
+	"C:/Windows/Fonts/calibriz.ttf",
+}
+
+var latinSerifRegularFontPaths = []string{
+	"C:/Windows/Fonts/times.ttf",
+	"C:/Windows/Fonts/georgia.ttf",
+}
+
+var latinSerifBoldFontPaths = []string{
+	"C:/Windows/Fonts/timesbd.ttf",
+	"C:/Windows/Fonts/georgiab.ttf",
+}
+
+var latinSerifItalicFontPaths = []string{
+	"C:/Windows/Fonts/timesi.ttf",
+	"C:/Windows/Fonts/georgiai.ttf",
+}
+
+var latinSerifBoldItalicFontPaths = []string{
+	"C:/Windows/Fonts/timesbi.ttf",
+	"C:/Windows/Fonts/georgiaz.ttf",
+}
+
+var latinMonoRegularFontPaths = []string{
+	"C:/Windows/Fonts/consola.ttf",
+	"C:/Windows/Fonts/cour.ttf",
+}
+
+var latinMonoBoldFontPaths = []string{
+	"C:/Windows/Fonts/consolab.ttf",
+	"C:/Windows/Fonts/courbd.ttf",
+}
+
+var latinMonoItalicFontPaths = []string{
+	"C:/Windows/Fonts/consolai.ttf",
+	"C:/Windows/Fonts/couri.ttf",
+}
+
+var latinMonoBoldItalicFontPaths = []string{
+	"C:/Windows/Fonts/consolaz.ttf",
+	"C:/Windows/Fonts/courbi.ttf",
+}
+
+var latinSansRegularFontPathsDarwin = []string{
+	"/System/Library/Fonts/Supplemental/Arial.ttf",
+	"/System/Library/Fonts/Supplemental/Helvetica.ttf",
+	"/System/Library/Fonts/Supplemental/Verdana.ttf",
+}
+
+var latinSansBoldFontPathsDarwin = []string{
+	"/System/Library/Fonts/Supplemental/Arial Bold.ttf",
+	"/System/Library/Fonts/Supplemental/Helvetica Bold.ttf",
+	"/System/Library/Fonts/Supplemental/Verdana Bold.ttf",
+}
+
+var latinSansItalicFontPathsDarwin = []string{
+	"/System/Library/Fonts/Supplemental/Arial Italic.ttf",
+	"/System/Library/Fonts/Supplemental/Helvetica Oblique.ttf",
+	"/System/Library/Fonts/Supplemental/Verdana Italic.ttf",
+}
+
+var latinSansBoldItalicFontPathsDarwin = []string{
+	"/System/Library/Fonts/Supplemental/Arial Bold Italic.ttf",
+	"/System/Library/Fonts/Supplemental/Helvetica Bold Oblique.ttf",
+	"/System/Library/Fonts/Supplemental/Verdana Bold Italic.ttf",
+}
+
+var latinSerifRegularFontPathsDarwin = []string{
+	"/System/Library/Fonts/Supplemental/Times New Roman.ttf",
+	"/System/Library/Fonts/Supplemental/Georgia.ttf",
+}
+
+var latinSerifBoldFontPathsDarwin = []string{
+	"/System/Library/Fonts/Supplemental/Times New Roman Bold.ttf",
+	"/System/Library/Fonts/Supplemental/Georgia Bold.ttf",
+}
+
+var latinSerifItalicFontPathsDarwin = []string{
+	"/System/Library/Fonts/Supplemental/Times New Roman Italic.ttf",
+	"/System/Library/Fonts/Supplemental/Georgia Italic.ttf",
+}
+
+var latinSerifBoldItalicFontPathsDarwin = []string{
+	"/System/Library/Fonts/Supplemental/Times New Roman Bold Italic.ttf",
+	"/System/Library/Fonts/Supplemental/Georgia Bold Italic.ttf",
+}
+
+var latinMonoRegularFontPathsDarwin = []string{
+	"/System/Library/Fonts/Supplemental/Courier New.ttf",
+	"/System/Library/Fonts/Supplemental/Menlo.ttc",
+}
+
+var latinMonoBoldFontPathsDarwin = []string{
+	"/System/Library/Fonts/Supplemental/Courier New Bold.ttf",
+}
+
+var latinMonoItalicFontPathsDarwin = []string{
+	"/System/Library/Fonts/Supplemental/Courier New Italic.ttf",
+}
+
+var latinMonoBoldItalicFontPathsDarwin = []string{
+	"/System/Library/Fonts/Supplemental/Courier New Bold Italic.ttf",
+}
+
+var latinSansRegularFontPathsLinux = []string{
+	"/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+	"/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
+	"/usr/share/fonts/truetype/ubuntu/Ubuntu-R.ttf",
+	"/usr/share/fonts/truetype/freefont/FreeSans.ttf",
+}
+
+var latinSansBoldFontPathsLinux = []string{
+	"/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+	"/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
+	"/usr/share/fonts/truetype/ubuntu/Ubuntu-B.ttf",
+	"/usr/share/fonts/truetype/freefont/FreeSansBold.ttf",
+}
+
+var latinSansItalicFontPathsLinux = []string{
+	"/usr/share/fonts/truetype/dejavu/DejaVuSans-Oblique.ttf",
+	"/usr/share/fonts/truetype/liberation/LiberationSans-Italic.ttf",
+	"/usr/share/fonts/truetype/ubuntu/Ubuntu-RI.ttf",
+	"/usr/share/fonts/truetype/freefont/FreeSansOblique.ttf",
+}
+
+var latinSansBoldItalicFontPathsLinux = []string{
+	"/usr/share/fonts/truetype/dejavu/DejaVuSans-BoldOblique.ttf",
+	"/usr/share/fonts/truetype/liberation/LiberationSans-BoldItalic.ttf",
+	"/usr/share/fonts/truetype/ubuntu/Ubuntu-BI.ttf",
+	"/usr/share/fonts/truetype/freefont/FreeSansBoldOblique.ttf",
+}
+
+var latinSerifRegularFontPathsLinux = []string{
+	"/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf",
+	"/usr/share/fonts/truetype/liberation/LiberationSerif-Regular.ttf",
+	"/usr/share/fonts/truetype/freefont/FreeSerif.ttf",
+}
+
+var latinSerifBoldFontPathsLinux = []string{
+	"/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf",
+	"/usr/share/fonts/truetype/liberation/LiberationSerif-Bold.ttf",
+	"/usr/share/fonts/truetype/freefont/FreeSerifBold.ttf",
+}
+
+var latinSerifItalicFontPathsLinux = []string{
+	"/usr/share/fonts/truetype/dejavu/DejaVuSerif-Italic.ttf",
+	"/usr/share/fonts/truetype/liberation/LiberationSerif-Italic.ttf",
+	"/usr/share/fonts/truetype/freefont/FreeSerifItalic.ttf",
+}
+
+var latinSerifBoldItalicFontPathsLinux = []string{
+	"/usr/share/fonts/truetype/dejavu/DejaVuSerif-BoldItalic.ttf",
+	"/usr/share/fonts/truetype/liberation/LiberationSerif-BoldItalic.ttf",
+	"/usr/share/fonts/truetype/freefont/FreeSerifBoldItalic.ttf",
+}
+
+var latinMonoRegularFontPathsLinux = []string{
+	"/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf",
+	"/usr/share/fonts/truetype/liberation/LiberationMono-Regular.ttf",
+	"/usr/share/fonts/truetype/freefont/FreeMono.ttf",
+}
+
+var latinMonoBoldFontPathsLinux = []string{
+	"/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf",
+	"/usr/share/fonts/truetype/liberation/LiberationMono-Bold.ttf",
+	"/usr/share/fonts/truetype/freefont/FreeMonoBold.ttf",
+}
+
+var latinMonoItalicFontPathsLinux = []string{
+	"/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Oblique.ttf",
+	"/usr/share/fonts/truetype/liberation/LiberationMono-Italic.ttf",
+	"/usr/share/fonts/truetype/freefont/FreeMonoOblique.ttf",
+}
+
+var latinMonoBoldItalicFontPathsLinux = []string{
+	"/usr/share/fonts/truetype/dejavu/DejaVuSansMono-BoldOblique.ttf",
+	"/usr/share/fonts/truetype/liberation/LiberationMono-BoldItalic.ttf",
+	"/usr/share/fonts/truetype/freefont/FreeMonoBoldOblique.ttf",
 }
 
 var mathFallbackFontPaths = []string{
@@ -202,6 +404,118 @@ func LoadEmbeddedFont(name string) (font.Face, []byte, error) {
 	if name == "math" || strings.HasPrefix(name, "math-") {
 		for _, fallbackPath := range mathFallbackFontPaths {
 			face, fontData, err := LoadFontFromFile(fallbackPath)
+			if err == nil {
+				fontCacheMu.Lock()
+				fontCache[name] = face
+				fontDataCache[name] = fontData
+				fontCacheMu.Unlock()
+				return face, fontData, nil
+			}
+		}
+	}
+
+	if runtime.GOOS == "windows" || runtime.GOOS == "darwin" || runtime.GOOS == "linux" {
+		var candidates []string
+		switch name {
+		case "sans-regular":
+			if runtime.GOOS == "darwin" {
+				candidates = latinSansRegularFontPathsDarwin
+			} else if runtime.GOOS == "linux" {
+				candidates = latinSansRegularFontPathsLinux
+			} else {
+				candidates = latinSansRegularFontPaths
+			}
+		case "sans-bold":
+			if runtime.GOOS == "darwin" {
+				candidates = latinSansBoldFontPathsDarwin
+			} else if runtime.GOOS == "linux" {
+				candidates = latinSansBoldFontPathsLinux
+			} else {
+				candidates = latinSansBoldFontPaths
+			}
+		case "sans-italic":
+			if runtime.GOOS == "darwin" {
+				candidates = latinSansItalicFontPathsDarwin
+			} else if runtime.GOOS == "linux" {
+				candidates = latinSansItalicFontPathsLinux
+			} else {
+				candidates = latinSansItalicFontPaths
+			}
+		case "sans-bolditalic":
+			if runtime.GOOS == "darwin" {
+				candidates = latinSansBoldItalicFontPathsDarwin
+			} else if runtime.GOOS == "linux" {
+				candidates = latinSansBoldItalicFontPathsLinux
+			} else {
+				candidates = latinSansBoldItalicFontPaths
+			}
+		case "serif-regular":
+			if runtime.GOOS == "darwin" {
+				candidates = latinSerifRegularFontPathsDarwin
+			} else if runtime.GOOS == "linux" {
+				candidates = latinSerifRegularFontPathsLinux
+			} else {
+				candidates = latinSerifRegularFontPaths
+			}
+		case "serif-bold":
+			if runtime.GOOS == "darwin" {
+				candidates = latinSerifBoldFontPathsDarwin
+			} else if runtime.GOOS == "linux" {
+				candidates = latinSerifBoldFontPathsLinux
+			} else {
+				candidates = latinSerifBoldFontPaths
+			}
+		case "serif-italic":
+			if runtime.GOOS == "darwin" {
+				candidates = latinSerifItalicFontPathsDarwin
+			} else if runtime.GOOS == "linux" {
+				candidates = latinSerifItalicFontPathsLinux
+			} else {
+				candidates = latinSerifItalicFontPaths
+			}
+		case "serif-bolditalic":
+			if runtime.GOOS == "darwin" {
+				candidates = latinSerifBoldItalicFontPathsDarwin
+			} else if runtime.GOOS == "linux" {
+				candidates = latinSerifBoldItalicFontPathsLinux
+			} else {
+				candidates = latinSerifBoldItalicFontPaths
+			}
+		case "mono-regular":
+			if runtime.GOOS == "darwin" {
+				candidates = latinMonoRegularFontPathsDarwin
+			} else if runtime.GOOS == "linux" {
+				candidates = latinMonoRegularFontPathsLinux
+			} else {
+				candidates = latinMonoRegularFontPaths
+			}
+		case "mono-bold":
+			if runtime.GOOS == "darwin" {
+				candidates = latinMonoBoldFontPathsDarwin
+			} else if runtime.GOOS == "linux" {
+				candidates = latinMonoBoldFontPathsLinux
+			} else {
+				candidates = latinMonoBoldFontPaths
+			}
+		case "mono-italic":
+			if runtime.GOOS == "darwin" {
+				candidates = latinMonoItalicFontPathsDarwin
+			} else if runtime.GOOS == "linux" {
+				candidates = latinMonoItalicFontPathsLinux
+			} else {
+				candidates = latinMonoItalicFontPaths
+			}
+		case "mono-bolditalic":
+			if runtime.GOOS == "darwin" {
+				candidates = latinMonoBoldItalicFontPathsDarwin
+			} else if runtime.GOOS == "linux" {
+				candidates = latinMonoBoldItalicFontPathsLinux
+			} else {
+				candidates = latinMonoBoldItalicFontPaths
+			}
+		}
+		for _, p := range candidates {
+			face, fontData, err := LoadFontFromFile(p)
 			if err == nil {
 				fontCacheMu.Lock()
 				fontCache[name] = face

@@ -3,60 +3,64 @@ package gopdf
 import (
 	"encoding/binary"
 	"errors"
+	"strconv"
+	"strings"
 )
 
-func parseCFFEncoding(data []byte) (map[byte]string, error) {
+func parseCFFEncoding(data []byte) (map[byte]string, map[byte]uint16, [6]float64, bool, error) {
+	var fontMatrix [6]float64
 	if len(data) < 4 {
-		return nil, errors.New("cff: too short")
+		return nil, nil, fontMatrix, false, errors.New("cff: too short")
 	}
 	major := data[0]
 	hdrSize := int(data[2])
 	if major != 1 || hdrSize < 4 || hdrSize > len(data) {
-		return nil, errors.New("cff: bad header")
+		return nil, nil, fontMatrix, false, errors.New("cff: bad header")
 	}
 
 	off := hdrSize
 	_, next, err := parseCFFIndex(data, off)
 	if err != nil {
-		return nil, err
+		return nil, nil, fontMatrix, false, err
 	}
 	off = next
 
 	top, next, err := parseCFFIndex(data, off)
 	if err != nil {
-		return nil, err
+		return nil, nil, fontMatrix, false, err
 	}
 	if len(top) == 0 {
-		return nil, errors.New("cff: missing top dict")
+		return nil, nil, fontMatrix, false, errors.New("cff: missing top dict")
 	}
 	topDict := top[0]
 	off = next
 
 	stringsIndex, next, err := parseCFFIndex(data, off)
 	if err != nil {
-		return nil, err
+		return nil, nil, fontMatrix, false, err
 	}
 	off = next
 
 	_, next, err = parseCFFIndex(data, off)
 	if err != nil {
-		return nil, err
+		return nil, nil, fontMatrix, false, err
 	}
 
-	charsetOff, encodingOff, charStringsOff := parseCFFTopDictOffsets(topDict)
+	charsetOff, encodingOff, charStringsOff, fontMatrix, hasFontMatrix := parseCFFTopDictOffsets(topDict)
 	if charStringsOff <= 0 || charStringsOff >= len(data) {
-		return nil, errors.New("cff: missing charstrings offset")
+		return nil, nil, fontMatrix, false, errors.New("cff: missing charstrings offset")
 	}
 
 	nGlyphs, err := countCFFIndexObjectsAt(data, charStringsOff)
 	if err != nil {
-		return nil, err
+		return nil, nil, fontMatrix, false, err
 	}
 	if nGlyphs <= 0 {
-		return nil, errors.New("cff: empty charstrings")
+		return nil, nil, fontMatrix, false, errors.New("cff: empty charstrings")
 	}
 
 	encoding := make(map[byte]string, 256)
+	codeToGIDU16 := make(map[byte]uint16, 256)
 
 	var gidToSID []uint16
 	if charsetOff > 2 && charsetOff < len(data) {
@@ -65,10 +69,13 @@ func parseCFFEncoding(data []byte) (map[byte]string, error) {
 
 	codeToGID, err := parseCFFEncodingMap(data, encodingOff, gidToSID)
 	if err != nil || len(codeToGID) == 0 {
-		return nil, err
+		return nil, nil, fontMatrix, hasFontMatrix, err
 	}
 
 	for code, gid := range codeToGID {
+		if gid >= 0 && gid <= 0xFFFF {
+			codeToGIDU16[code] = uint16(gid)
+		}
 		if gid < 0 || gid >= len(gidToSID) {
 			continue
 		}
@@ -81,9 +88,9 @@ func parseCFFEncoding(data []byte) (map[byte]string, error) {
 	}
 
 	if len(encoding) == 0 {
-		return nil, errors.New("cff: empty encoding")
+		return nil, nil, fontMatrix, hasFontMatrix, errors.New("cff: empty encoding")
 	}
-	return encoding, nil
+	return encoding, codeToGIDU16, fontMatrix, hasFontMatrix, nil
 }
 
 func parseCFFIndex(data []byte, off int) (objects [][]byte, next int, err error) {
@@ -147,8 +154,8 @@ func countCFFIndexObjectsAt(data []byte, off int) (int, error) {
 	return int(binary.BigEndian.Uint16(data[off : off+2])), nil
 }
 
-func parseCFFTopDictOffsets(dict []byte) (charsetOff, encodingOff, charStringsOff int) {
-	var stack []int
+func parseCFFTopDictOffsets(dict []byte) (charsetOff, encodingOff, charStringsOff int, fontMatrix [6]float64, hasFontMatrix bool) {
+	var stack []float64
 	i := 0
 	for i < len(dict) {
 		b := dict[i]
@@ -159,57 +166,125 @@ func parseCFFTopDictOffsets(dict []byte) (charsetOff, encodingOff, charStringsOf
 				op = 1200 + int(dict[i])
 				i++
 			}
-			if len(stack) > 0 {
-				val := stack[len(stack)-1]
-				switch op {
-				case 15:
-					charsetOff = val
-				case 16:
-					encodingOff = val
-				case 17:
-					charStringsOff = val
+			switch op {
+			case 15:
+				if len(stack) > 0 {
+					charsetOff = int(stack[len(stack)-1])
+				}
+			case 16:
+				if len(stack) > 0 {
+					encodingOff = int(stack[len(stack)-1])
+				}
+			case 17:
+				if len(stack) > 0 {
+					charStringsOff = int(stack[len(stack)-1])
+				}
+			case 1207:
+				if len(stack) >= 6 {
+					copy(fontMatrix[:], stack[len(stack)-6:])
+					hasFontMatrix = true
 				}
 			}
 			stack = stack[:0]
 			continue
 		}
-		num, n := readCFFDictNumber(dict[i:])
+		num, n := readCFFDictNumberFloat(dict[i:])
 		stack = append(stack, num)
 		i += n
 	}
-	return charsetOff, encodingOff, charStringsOff
+	return charsetOff, encodingOff, charStringsOff, fontMatrix, hasFontMatrix
 }
 
-func readCFFDictNumber(b []byte) (int, int) {
+func readCFFDictNumberFloat(b []byte) (float64, int) {
 	if len(b) == 0 {
 		return 0, 0
 	}
 	x := b[0]
 	switch {
 	case x >= 32 && x <= 246:
-		return int(x) - 139, 1
+		return float64(int(x) - 139), 1
 	case x >= 247 && x <= 250:
 		if len(b) < 2 {
 			return 0, 1
 		}
-		return (int(x)-247)*256 + int(b[1]) + 108, 2
+		return float64((int(x)-247)*256 + int(b[1]) + 108), 2
 	case x >= 251 && x <= 254:
 		if len(b) < 2 {
 			return 0, 1
 		}
-		return -(int(x)-251)*256 - int(b[1]) - 108, 2
+		return float64(-(int(x)-251)*256 - int(b[1]) - 108), 2
 	case x == 28:
 		if len(b) < 3 {
 			return 0, 1
 		}
-		return int(int16(binary.BigEndian.Uint16(b[1:3]))), 3
+		return float64(int(int16(binary.BigEndian.Uint16(b[1:3])))), 3
 	case x == 29:
 		if len(b) < 5 {
 			return 0, 1
 		}
-		return int(int32(binary.BigEndian.Uint32(b[1:5]))), 5
+		return float64(int(int32(binary.BigEndian.Uint32(b[1:5])))), 5
+	case x == 30:
+		s, n := readCFFRealNumberString(b)
+		if n <= 0 {
+			return 0, 1
+		}
+		f, err := strconv.ParseFloat(s, 64)
+		if err != nil {
+			return 0, n
+		}
+		return f, n
+	case x == 255:
+		if len(b) < 5 {
+			return 0, 1
+		}
+		v := int32(binary.BigEndian.Uint32(b[1:5]))
+		return float64(v) / 65536.0, 5
 	default:
 		return 0, 1
+	}
+}
+
+func readCFFRealNumberString(b []byte) (string, int) {
+	if len(b) == 0 || b[0] != 30 {
+		return "", 0
+	}
+	var sb strings.Builder
+	i := 1
+	for i < len(b) {
+		hi := b[i] >> 4
+		lo := b[i] & 0x0F
+		i++
+		if !appendCFFRealNibble(&sb, hi) {
+			break
+		}
+		if !appendCFFRealNibble(&sb, lo) {
+			break
+		}
+	}
+	return sb.String(), i
+}
+
+func appendCFFRealNibble(sb *strings.Builder, n byte) bool {
+	switch n {
+	case 0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9:
+		sb.WriteByte('0' + n)
+		return true
+	case 0xA:
+		sb.WriteByte('.')
+		return true
+	case 0xB:
+		sb.WriteByte('E')
+		return true
+	case 0xC:
+		sb.WriteString("E-")
+		return true
+	case 0xE:
+		sb.WriteByte('-')
+		return true
+	case 0xF:
+		return false
+	default:
+		return true
 	}
 }
 

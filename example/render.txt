@@ -1,6 +1,6 @@
 PDF Rendering Report
 ====================
-Time: 2026-01-29 17:05:46
+Time: 2026-02-02 11:18:00
 
 ParseTokens Test:
 -----------------
@@ -21,8 +21,8 @@ Rendering Process:
 ✅ Marked 1 image element(s) in the output
 Output File Info:
 -----------------
-Size: 308526 bytes
-Created: 2026-01-29 17:05:49
+Size: 308528 bytes
+Created: 2026-02-02 11:18:02
 
 Page Information:
 -----------------
@@ -33,7 +33,16 @@ Page Size: 8.26 x 11.69 inches
 Font Information:
 =================
 
-[Font 1] F5
+[Font 1] F4
+  BaseFont: AAAAAA+FreightSansProBold-Regular
+  Subtype: Type0
+  Encoding: Identity-H
+  Identity Mapping: YES
+  ToUnicode Map: YES (8 mappings, 3 ranges)
+  CID System Info: Adobe-Identity
+  Embedded Font: YES (9328 bytes)
+
+[Font 2] F5
   BaseFont: BAAAAA+FreightSansProBook-Regular
   Subtype: Type0
   Encoding: Identity-H
@@ -42,7 +51,7 @@ Font Information:
   CID System Info: Adobe-Identity
   Embedded Font: YES (14728 bytes)
 
-[Font 2] F6
+[Font 3] F6
   BaseFont: CAAAAA+MicrosoftYaHei
   Subtype: Type0
   Encoding: Identity-H
@@ -50,15 +59,6 @@ Font Information:
   ToUnicode Map: YES (736 mappings, 91 ranges)
   CID System Info: Adobe-Identity
   Embedded Font: YES (1415312 bytes)
-
-[Font 3] F4
-  BaseFont: AAAAAA+FreightSansProBold-Regular
-  Subtype: Type0
-  Encoding: Identity-H
-  Identity Mapping: YES
-  ToUnicode Map: YES (8 mappings, 3 ranges)
-  CID System Info: Adobe-Identity
-  Embedded Font: YES (9328 bytes)
 
 
 ExtractPageElements Test:
@@ -1675,13 +1675,6 @@ Operator Execution Log:
 [DEBUG] ET operator: End text object
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-✓ Loaded embedded TTF font data for font F4 (9328 bytes)
-✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
-✓ Default width for CID font F4: 0
-✓ Using fallback default width for CID font F4: 1000
-✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
-✓ Loaded font widths for F4: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F4: Identity-H
 ✓ Loaded embedded TTF font data for font F5 (14728 bytes)
 ✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
 ✓ Default width for CID font F5: 500
@@ -1694,6 +1687,13 @@ Operator Execution Log:
 ✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
 ✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F6: Identity-H
+✓ Loaded embedded TTF font data for font F4 (9328 bytes)
+✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
+✓ Default width for CID font F4: 0
+✓ Using fallback default width for CID font F4: 1000
+✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
+✓ Loaded font widths for F4: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F4: Identity-H
 [loadXObject] Decoding stream for X8...
 [loadXObject] Raw stream length: 207578 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...
@@ -4235,31 +4235,31 @@ Operator Execution Log:
 [Q] Restore graphics state - Stack depth: 1
 
 📈 Operator Statistics:
-   Q: 44
-   h: 30
-   RG: 42
-   Tj: 196
-   f: 32
-   W: 7
-   ET: 51
-   m: 32
-   S: 8
-   l: 51
-   Do: 1
-   q: 44
    re: 44
    W*: 22
    n: 29
+   RG: 42
+   gs: 31
+   m: 32
+   BDC: 54
+   h: 30
+   l: 51
+   W: 7
    rg: 42
    BT: 51
-   BDC: 54
-   c: 387
-   cm: 22
-   gs: 31
    Tf: 51
-   Tm: 51
    Td: 158
+   Do: 1
+   Tm: 51
+   Tj: 196
    EMC: 54
+   ET: 51
+   f: 32
+   Q: 44
+   c: 387
+   S: 8
+   cm: 22
+   q: 44
 
 📌 Rendering 3 annotations...
 [Annotation] Rendering annotation: Link
@@ -4293,1208 +4293,6 @@ Operator Execution Log:
 [loadXObject] Stream decoded via direct Decode(): 1440000 bytes
 [loadXObject] Filters detected: [FlateDecode]
 [loadXObject] ColorSpace (Name): DeviceRGB
-✓ Loaded embedded TTF font data for font F4 (9328 bytes)
-✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
-✓ Default width for CID font F4: 0
-✓ Using fallback default width for CID font F4: 1000
-✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
-✓ Loaded font widths for F4: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F4: Identity-H
-✓ Loaded embedded TTF font data for font F5 (14728 bytes)
-✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
-✓ Default width for CID font F5: 500
-✓ Loaded CID widths for font F5: 102 direct mappings, 0 ranges
-✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded embedded TTF font data for font F6 (1415312 bytes)
-✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
-✓ Default width for CID font F6: 1000
-✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
-✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F6: Identity-H
-[loadXObject] Decoding stream for X8...
-[loadXObject] Raw stream length: 207578 bytes
-[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
-[loadXObject] Stream decoded via direct Decode(): 1440000 bytes
-[loadXObject] Filters detected: [FlateDecode]
-[loadXObject] ColorSpace (Name): DeviceRGB
-   Dereferenced to: types.StreamDict
-   Decoding StreamDict...
-   Raw: 13401 bytes, Content: 0 bytes
-   Calling Decode()...
-   ✓ After decode: 41520 bytes
-[DEBUG] cm operator: Matrix=[0.240 0.000 0.000 -0.240 0.000 841.920], new CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] q operator: Saved graphics state, stack depth=1
-[DEBUG] q operator: Saved graphics state, stack depth=2
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
-[DEBUG] RG operator: StrokeColor=(0.03, 0.53, 0.24)
-[DEBUG] rg operator: FillColor=(0.03, 0.53, 0.24)
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F4 (BaseFont=AAAAAA+FreightSansProBold-Regular), Size=14.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 486.812 81.000]
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 8.31 (1 CIDs)
-[DEBUG] Total displacement: 8.31 (width=8.31, kerning=0.00), new X0=495.12
-[DEBUG] Td operator: Tx=9.91, Ty=0.00, new X0=496.73, Y0=81.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 7.90 (1 CIDs)
-[DEBUG] Total displacement: 7.90 (width=7.90, kerning=0.00), new X0=504.62
-[DEBUG] Td operator: Tx=9.31, Ty=0.00, new X0=506.04, Y0=81.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 8.55 (1 CIDs)
-[DEBUG] Total displacement: 8.55 (width=8.55, kerning=0.00), new X0=514.59
-[DEBUG] Td operator: Tx=9.60, Ty=0.00, new X0=515.64, Y0=81.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 8.58 (1 CIDs)
-[DEBUG] Total displacement: 8.58 (width=8.58, kerning=0.00), new X0=524.22
-[DEBUG] Td operator: Tx=10.18, Ty=0.00, new X0=525.82, Y0=81.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 9.78 (1 CIDs)
-[DEBUG] Total displacement: 9.78 (width=9.78, kerning=0.00), new X0=535.60
-[DEBUG] Td operator: Tx=11.38, Ty=0.00, new X0=537.20, Y0=81.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 10.26 (1 CIDs)
-[DEBUG] Total displacement: 10.26 (width=10.26, kerning=0.00), new X0=547.46
-[DEBUG] Td operator: Tx=11.86, Ty=0.00, new X0=549.06, Y0=81.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 7.27 (1 CIDs)
-[DEBUG] Total displacement: 7.27 (width=7.27, kerning=0.00), new X0=556.34
-[DEBUG] Td operator: Tx=8.30, Ty=0.00, new X0=557.36, Y0=81.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 10.26 (1 CIDs)
-[DEBUG] Total displacement: 10.26 (width=10.26, kerning=0.00), new X0=567.62
-[DEBUG] Td operator: Tx=11.86, Ty=0.00, new X0=569.22, Y0=81.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 9.42 (1 CIDs)
-[DEBUG] Total displacement: 9.42 (width=9.42, kerning=0.00), new X0=578.64
-[DEBUG] Td operator: Tx=10.79, Ty=0.00, new X0=580.02, Y0=81.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 8.55 (1 CIDs)
-[DEBUG] Total displacement: 8.55 (width=8.55, kerning=0.00), new X0=588.57
-[DEBUG] ET operator: End text object
-[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
-[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=36.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 311.453 137.000]
-[DEBUG] Text element: baseFontSize=36.00, scale=-1.00, effectiveFontSize=36.00
-[DEBUG] Calculated text width from CIDs: 83.44 (5 CIDs)
-[DEBUG] Total displacement: 83.44 (width=83.44, kerning=0.00), new X0=394.90
-[DEBUG] Td operator: Tx=83.27, Ty=0.00, new X0=394.72, Y0=137.00
-[DEBUG] Text element: baseFontSize=36.00, scale=-1.00, effectiveFontSize=36.00
-[DEBUG] Calculated text width from CIDs: 147.13 (10 CIDs)
-[DEBUG] Total displacement: 147.13 (width=147.13, kerning=0.00), new X0=541.85
-[DEBUG] Td operator: Tx=146.41, Ty=0.00, new X0=541.13, Y0=137.00
-[DEBUG] Text element: baseFontSize=36.00, scale=-1.00, effectiveFontSize=36.00
-[DEBUG] Calculated text width from CIDs: 105.22 (8 CIDs)
-[DEBUG] Total displacement: 105.22 (width=105.22, kerning=0.00), new X0=646.35
-[DEBUG] Td operator: Tx=104.87, Ty=0.00, new X0=646.00, Y0=137.00
-[DEBUG] Text element: baseFontSize=36.00, scale=-1.00, effectiveFontSize=36.00
-[DEBUG] Calculated text width from CIDs: 119.53 (8 CIDs)
-[DEBUG] Total displacement: 119.53 (width=119.53, kerning=0.00), new X0=765.53
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=14.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 363.656 172.000]
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 28.51 (6 CIDs)
-[DEBUG] Total displacement: 28.51 (width=28.51, kerning=0.00), new X0=392.16
-[DEBUG] Td operator: Tx=28.23, Ty=0.00, new X0=391.88, Y0=172.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 225.50 (42 CIDs)
-[DEBUG] Total displacement: 225.50 (width=225.50, kerning=0.00), new X0=617.39
-[DEBUG] Td operator: Tx=225.16, Ty=0.00, new X0=617.04, Y0=172.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 22.85 (4 CIDs)
-[DEBUG] Total displacement: 22.85 (width=22.85, kerning=0.00), new X0=639.88
-[DEBUG] Td operator: Tx=22.71, Ty=0.00, new X0=639.75, Y0=172.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 73.58 (12 CIDs)
-[DEBUG] Total displacement: 73.58 (width=73.58, kerning=0.00), new X0=713.33
-[DEBUG] ET operator: End text object
-[DEBUG] RG operator: StrokeColor=(1.00, 1.00, 1.00)
-[DEBUG] rg operator: FillColor=(1.00, 1.00, 1.00)
-[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
-[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=14.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 405.500 195.000]
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 266.00 (19 CIDs)
-[DEBUG] Total displacement: 266.00 (width=266.00, kerning=0.00), new X0=671.50
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=14.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 545.828 236.000]
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 3.19 (1 CIDs)
-[DEBUG] Total displacement: 3.19 (width=3.19, kerning=0.00), new X0=549.01
-[DEBUG] ET operator: End text object
-[DEBUG] RG operator: StrokeColor=(1.00, 1.00, 1.00)
-[DEBUG] rg operator: FillColor=(1.00, 1.00, 1.00)
-[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
-[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=14.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 70.00 (5 CIDs)
-[DEBUG] Total displacement: 70.00 (width=70.00, kerning=0.00), new X0=497.70
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=14.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
-[DEBUG] Td operator: Tx=70.00, Ty=0.00, new X0=497.70, Y0=267.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 2.61 (1 CIDs)
-[DEBUG] Total displacement: 2.61 (width=2.61, kerning=0.00), new X0=500.31
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=14.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
-[DEBUG] Td operator: Tx=72.61, Ty=0.00, new X0=500.31, Y0=267.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 42.00 (3 CIDs)
-[DEBUG] Total displacement: 42.00 (width=42.00, kerning=0.00), new X0=542.31
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=14.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
-[DEBUG] Td operator: Tx=114.61, Ty=0.00, new X0=542.31, Y0=267.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 17.43 (3 CIDs)
-[DEBUG] Total displacement: 17.43 (width=17.43, kerning=0.00), new X0=559.75
-[DEBUG] Td operator: Tx=17.36, Ty=0.00, new X0=559.68, Y0=267.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 15.21 (3 CIDs)
-[DEBUG] Total displacement: 15.21 (width=15.21, kerning=0.00), new X0=574.89
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=14.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
-[DEBUG] Td operator: Tx=147.18, Ty=0.00, new X0=574.89, Y0=267.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 14.00 (1 CIDs)
-[DEBUG] Total displacement: 14.00 (width=14.00, kerning=0.00), new X0=588.89
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=14.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
-[DEBUG] Td operator: Tx=161.18, Ty=0.00, new X0=588.89, Y0=267.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 19.02 (4 CIDs)
-[DEBUG] Total displacement: 19.02 (width=19.02, kerning=0.00), new X0=607.91
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=14.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
-[DEBUG] Td operator: Tx=180.20, Ty=0.00, new X0=607.91, Y0=267.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 14.00 (1 CIDs)
-[DEBUG] Total displacement: 14.00 (width=14.00, kerning=0.00), new X0=621.91
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=14.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
-[DEBUG] Td operator: Tx=194.20, Ty=0.00, new X0=621.91, Y0=267.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 13.38 (3 CIDs)
-[DEBUG] Total displacement: 13.38 (width=13.38, kerning=0.00), new X0=635.29
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=14.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
-[DEBUG] Td operator: Tx=207.59, Ty=0.00, new X0=635.29, Y0=267.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 14.00 (1 CIDs)
-[DEBUG] Total displacement: 14.00 (width=14.00, kerning=0.00), new X0=649.29
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=14.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 414.734 236.000]
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 7.70 (1 CIDs)
-[DEBUG] Total displacement: 7.70 (width=7.70, kerning=0.00), new X0=422.43
-[DEBUG] Td operator: Tx=7.56, Ty=0.00, new X0=422.29, Y0=236.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 36.62 (5 CIDs)
-[DEBUG] Total displacement: 36.62 (width=36.62, kerning=0.00), new X0=458.92
-[DEBUG] Td operator: Tx=36.55, Ty=0.00, new X0=458.85, Y0=236.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 8.20 (1 CIDs)
-[DEBUG] Total displacement: 8.20 (width=8.20, kerning=0.00), new X0=467.05
-[DEBUG] Td operator: Tx=8.07, Ty=0.00, new X0=466.91, Y0=236.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 50.39 (7 CIDs)
-[DEBUG] Total displacement: 50.39 (width=50.39, kerning=0.00), new X0=517.31
-[DEBUG] Td operator: Tx=50.26, Ty=0.00, new X0=517.17, Y0=236.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 9.93 (1 CIDs)
-[DEBUG] Total displacement: 9.93 (width=9.93, kerning=0.00), new X0=527.10
-[DEBUG] Td operator: Tx=9.79, Ty=0.00, new X0=526.96, Y0=236.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 7.70 (1 CIDs)
-[DEBUG] Total displacement: 7.70 (width=7.70, kerning=0.00), new X0=534.66
-[DEBUG] Td operator: Tx=7.98, Ty=0.00, new X0=534.94, Y0=236.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 10.88 (2 CIDs)
-[DEBUG] Total displacement: 10.88 (width=10.88, kerning=0.00), new X0=545.82
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=14.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 573.016 236.000]
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 20.84 (3 CIDs)
-[DEBUG] Total displacement: 20.84 (width=20.84, kerning=0.00), new X0=593.85
-[DEBUG] Td operator: Tx=20.77, Ty=0.00, new X0=593.78, Y0=236.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 36.34 (6 CIDs)
-[DEBUG] Total displacement: 36.34 (width=36.34, kerning=0.00), new X0=630.12
-[DEBUG] Td operator: Tx=36.48, Ty=0.00, new X0=630.26, Y0=236.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 20.04 (4 CIDs)
-[DEBUG] Total displacement: 20.04 (width=20.04, kerning=0.00), new X0=650.30
-[DEBUG] Td operator: Tx=19.97, Ty=0.00, new X0=650.23, Y0=236.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 12.02 (2 CIDs)
-[DEBUG] Total displacement: 12.02 (width=12.02, kerning=0.00), new X0=662.26
-[DEBUG] ET operator: End text object
-[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] q operator: Saved graphics state, stack depth=1
-[DEBUG] q operator: Saved graphics state, stack depth=2
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 1177.083 739.582], new CTM=[0.500 0.000 0.000 -0.500 282.500 664.420]
-[DEBUG] RG operator: StrokeColor=(0.37, 0.38, 0.39)
-[DEBUG] rg operator: FillColor=(0.37, 0.38, 0.39)
-[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] q operator: Saved graphics state, stack depth=1
-[DEBUG] q operator: Saved graphics state, stack depth=2
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
-[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
-[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=14.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 538.750 314.000]
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 25.05 (4 CIDs)
-[DEBUG] Total displacement: 25.05 (width=25.05, kerning=0.00), new X0=563.80
-[DEBUG] Td operator: Tx=24.92, Ty=0.00, new X0=563.67, Y0=314.00
-[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
-[DEBUG] Calculated text width from CIDs: 6.58 (1 CIDs)
-[DEBUG] Total displacement: 6.58 (width=6.58, kerning=0.00), new X0=570.24
-[DEBUG] ET operator: End text object
-[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] q operator: Saved graphics state, stack depth=1
-[DEBUG] q operator: Saved graphics state, stack depth=2
-[DEBUG] cm operator: Matrix=[2177.084 0.000 0.000 -725.000 154.167 1547.916], new CTM=[522.500 0.000 0.000 174.000 37.000 470.420]
-[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
-[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
-[DEBUG] Do operator: Image X8 at (37.00, 197.50), size: 522.50x174.00 (original: 1200x400)
-[DEBUG]   Corners: (37.00,470.42) (559.50,470.42) (37.00,644.42) (559.50,644.42)
-[DEBUG]   ColorSpace: DeviceRGB, BitsPerComponent: 8, Stream size: 1440000 bytes
-[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] q operator: Saved graphics state, stack depth=1
-[DEBUG] q operator: Saved graphics state, stack depth=2
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
-[DEBUG] RG operator: StrokeColor=(0.13, 0.13, 0.13)
-[DEBUG] rg operator: FillColor=(0.13, 0.13, 0.13)
-[DEBUG] RG operator: StrokeColor=(0.67, 0.48, 0.06)
-[DEBUG] rg operator: FillColor=(0.67, 0.48, 0.06)
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F4 (BaseFont=AAAAAA+FreightSansProBold-Regular), Size=60.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 37.234 767.000]
-[DEBUG] Text element: baseFontSize=60.00, scale=-1.00, effectiveFontSize=60.00
-[DEBUG] Calculated text width from CIDs: 17.52 (1 CIDs)
-[DEBUG] Total displacement: 17.52 (width=17.52, kerning=0.00), new X0=54.75
-[DEBUG] ET operator: End text object
-[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
-[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 84.000 738.000]
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 3.36 (1 CIDs)
-[DEBUG] Total displacement: 3.36 (width=3.36, kerning=0.00), new X0=87.36
-[DEBUG] Td operator: Tx=2.64, Ty=0.00, new X0=86.64, Y0=738.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 73.54 (10 CIDs)
-[DEBUG] Total displacement: 73.54 (width=73.54, kerning=0.00), new X0=160.17
-[DEBUG] Td operator: Tx=73.45, Ty=0.00, new X0=160.09, Y0=738.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 84.71 (12 CIDs)
-[DEBUG] Total displacement: 84.71 (width=84.71, kerning=0.00), new X0=244.80
-[DEBUG] Td operator: Tx=84.62, Ty=0.00, new X0=244.71, Y0=738.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 96.55 (14 CIDs)
-[DEBUG] Total displacement: 96.55 (width=96.55, kerning=0.00), new X0=341.26
-[DEBUG] Td operator: Tx=96.37, Ty=0.00, new X0=341.08, Y0=738.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 165.14 (22 CIDs)
-[DEBUG] Total displacement: 165.14 (width=165.14, kerning=0.00), new X0=506.22
-[DEBUG] Td operator: Tx=164.42, Ty=0.00, new X0=505.50, Y0=738.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 36.30 (6 CIDs)
-[DEBUG] Total displacement: 36.30 (width=36.30, kerning=0.00), new X0=541.80
-[DEBUG] Td operator: Tx=36.12, Ty=0.00, new X0=541.62, Y0=738.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 149.56 (21 CIDs)
-[DEBUG] Total displacement: 149.56 (width=149.56, kerning=0.00), new X0=691.18
-[DEBUG] Td operator: Tx=149.48, Ty=0.00, new X0=691.10, Y0=738.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 52.53 (7 CIDs)
-[DEBUG] Total displacement: 52.53 (width=52.53, kerning=0.00), new X0=743.63
-[DEBUG] Td operator: Tx=52.62, Ty=0.00, new X0=743.72, Y0=738.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 107.26 (16 CIDs)
-[DEBUG] Total displacement: 107.26 (width=107.26, kerning=0.00), new X0=850.98
-[DEBUG] Td operator: Tx=107.17, Ty=0.00, new X0=850.89, Y0=738.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 88.56 (11 CIDs)
-[DEBUG] Total displacement: 88.56 (width=88.56, kerning=0.00), new X0=939.45
-[DEBUG] Td operator: Tx=88.83, Ty=0.00, new X0=939.72, Y0=738.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 57.05 (9 CIDs)
-[DEBUG] Total displacement: 57.05 (width=57.05, kerning=0.00), new X0=996.77
-[DEBUG] Td operator: Tx=56.96, Ty=0.00, new X0=996.68, Y0=738.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 39.46 (6 CIDs)
-[DEBUG] Total displacement: 39.46 (width=39.46, kerning=0.00), new X0=1036.15
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 84.000 769.000]
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 143.93 (21 CIDs)
-[DEBUG] Total displacement: 143.93 (width=143.93, kerning=0.00), new X0=227.93
-[DEBUG] Td operator: Tx=143.48, Ty=0.00, new X0=227.48, Y0=769.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 220.39 (31 CIDs)
-[DEBUG] Total displacement: 220.39 (width=220.39, kerning=0.00), new X0=447.87
-[DEBUG] Td operator: Tx=220.30, Ty=0.00, new X0=447.78, Y0=769.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 121.80 (16 CIDs)
-[DEBUG] Total displacement: 121.80 (width=121.80, kerning=0.00), new X0=569.58
-[DEBUG] Td operator: Tx=122.07, Ty=0.00, new X0=569.85, Y0=769.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 7.63 (1 CIDs)
-[DEBUG] Total displacement: 7.63 (width=7.63, kerning=0.00), new X0=577.48
-[DEBUG] Td operator: Tx=7.54, Ty=0.00, new X0=577.39, Y0=769.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 136.04 (18 CIDs)
-[DEBUG] Total displacement: 136.04 (width=136.04, kerning=0.00), new X0=713.43
-[DEBUG] Td operator: Tx=135.86, Ty=0.00, new X0=713.25, Y0=769.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 54.04 (7 CIDs)
-[DEBUG] Total displacement: 54.04 (width=54.04, kerning=0.00), new X0=767.30
-[DEBUG] Td operator: Tx=53.96, Ty=0.00, new X0=767.21, Y0=769.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 11.81 (2 CIDs)
-[DEBUG] Total displacement: 11.81 (width=11.81, kerning=0.00), new X0=779.02
-[DEBUG] ET operator: End text object
-[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] q operator: Saved graphics state, stack depth=1
-[DEBUG] q operator: Saved graphics state, stack depth=2
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
-[DEBUG] RG operator: StrokeColor=(1.00, 1.00, 1.00)
-[DEBUG] rg operator: FillColor=(1.00, 1.00, 1.00)
-[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] q operator: Saved graphics state, stack depth=1
-[DEBUG] q operator: Saved graphics state, stack depth=2
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
-[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
-[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 808.000]
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 1044.00 (58 CIDs)
-[DEBUG] Total displacement: 1044.00 (width=1044.00, kerning=0.00), new X0=1060.00
-[DEBUG] ET operator: End text object
-[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] q operator: Saved graphics state, stack depth=1
-[DEBUG] q operator: Saved graphics state, stack depth=2
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
-[DEBUG] RG operator: StrokeColor=(1.00, 1.00, 1.00)
-[DEBUG] rg operator: FillColor=(1.00, 1.00, 1.00)
-[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] q operator: Saved graphics state, stack depth=1
-[DEBUG] q operator: Saved graphics state, stack depth=2
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
-[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
-[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 838.000]
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 216.00 (12 CIDs)
-[DEBUG] Total displacement: 216.00 (width=216.00, kerning=0.00), new X0=232.00
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 877.000]
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 9.90 (1 CIDs)
-[DEBUG] Total displacement: 9.90 (width=9.90, kerning=0.00), new X0=25.90
-[DEBUG] Td operator: Tx=8.18, Ty=0.00, new X0=24.18, Y0=877.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 11.91 (1 CIDs)
-[DEBUG] Total displacement: 11.91 (width=11.91, kerning=0.00), new X0=36.09
-[DEBUG] Td operator: Tx=11.82, Ty=0.00, new X0=36.00, Y0=877.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 66.81 (10 CIDs)
-[DEBUG] Total displacement: 66.81 (width=66.81, kerning=0.00), new X0=102.81
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 8.97 (1 CIDs)
-[DEBUG] Total displacement: 8.97 (width=8.97, kerning=0.00), new X0=111.78
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 163.09 (22 CIDs)
-[DEBUG] Total displacement: 163.09 (width=163.09, kerning=0.00), new X0=274.87
-[DEBUG] Td operator: Tx=238.78, Ty=0.00, new X0=274.79, Y0=877.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 44.14 (6 CIDs)
-[DEBUG] Total displacement: 44.14 (width=44.14, kerning=0.00), new X0=318.92
-[DEBUG] Td operator: Tx=44.05, Ty=0.00, new X0=318.84, Y0=877.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 66.04 (9 CIDs)
-[DEBUG] Total displacement: 66.04 (width=66.04, kerning=0.00), new X0=384.88
-[DEBUG] Td operator: Tx=65.87, Ty=0.00, new X0=384.70, Y0=877.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 143.39 (21 CIDs)
-[DEBUG] Total displacement: 143.39 (width=143.39, kerning=0.00), new X0=528.09
-[DEBUG] ET operator: End text object
-[DEBUG] RG operator: StrokeColor=(1.00, 1.00, 1.00)
-[DEBUG] rg operator: FillColor=(1.00, 1.00, 1.00)
-[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
-[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 915.000]
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 414.00 (23 CIDs)
-[DEBUG] Total displacement: 414.00 (width=414.00, kerning=0.00), new X0=430.00
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 976.000]
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 23.01 (2 CIDs)
-[DEBUG] Total displacement: 23.01 (width=23.01, kerning=0.00), new X0=39.01
-[DEBUG] Td operator: Tx=22.20, Ty=0.00, new X0=38.20, Y0=976.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 26.86 (4 CIDs)
-[DEBUG] Total displacement: 26.86 (width=26.86, kerning=0.00), new X0=65.06
-[DEBUG] Td operator: Tx=26.68, Ty=0.00, new X0=64.88, Y0=976.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 18.96 (3 CIDs)
-[DEBUG] Total displacement: 18.96 (width=18.96, kerning=0.00), new X0=83.84
-[DEBUG] Td operator: Tx=18.78, Ty=0.00, new X0=83.67, Y0=976.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 43.24 (6 CIDs)
-[DEBUG] Total displacement: 43.24 (width=43.24, kerning=0.00), new X0=126.91
-[DEBUG] Td operator: Tx=43.15, Ty=0.00, new X0=126.82, Y0=976.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 141.86 (20 CIDs)
-[DEBUG] Total displacement: 141.86 (width=141.86, kerning=0.00), new X0=268.69
-[DEBUG] Td operator: Tx=141.78, Ty=0.00, new X0=268.60, Y0=976.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 55.85 (8 CIDs)
-[DEBUG] Total displacement: 55.85 (width=55.85, kerning=0.00), new X0=324.44
-[DEBUG] Td operator: Tx=55.76, Ty=0.00, new X0=324.36, Y0=976.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 14.86 (2 CIDs)
-[DEBUG] Total displacement: 14.86 (width=14.86, kerning=0.00), new X0=339.22
-[DEBUG] Td operator: Tx=14.69, Ty=0.00, new X0=339.04, Y0=976.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 37.61 (6 CIDs)
-[DEBUG] Total displacement: 37.61 (width=37.61, kerning=0.00), new X0=376.65
-[DEBUG] Td operator: Tx=36.71, Ty=0.00, new X0=375.75, Y0=976.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 72.85 (11 CIDs)
-[DEBUG] Total displacement: 72.85 (width=72.85, kerning=0.00), new X0=448.61
-[DEBUG] Td operator: Tx=71.77, Ty=0.00, new X0=447.53, Y0=976.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 66.56 (9 CIDs)
-[DEBUG] Total displacement: 66.56 (width=66.56, kerning=0.00), new X0=514.08
-[DEBUG] Td operator: Tx=66.59, Ty=0.00, new X0=514.12, Y0=976.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 11.26 (2 CIDs)
-[DEBUG] Total displacement: 11.26 (width=11.26, kerning=0.00), new X0=525.38
-[DEBUG] Td operator: Tx=10.81, Ty=0.00, new X0=524.93, Y0=976.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 66.81 (10 CIDs)
-[DEBUG] Total displacement: 66.81 (width=66.81, kerning=0.00), new X0=591.75
-[DEBUG] Td operator: Tx=66.73, Ty=0.00, new X0=591.66, Y0=976.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 21.43 (3 CIDs)
-[DEBUG] Total displacement: 21.43 (width=21.43, kerning=0.00), new X0=613.08
-[DEBUG] Td operator: Tx=21.34, Ty=0.00, new X0=613.00, Y0=976.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 56.31 (8 CIDs)
-[DEBUG] Total displacement: 56.31 (width=56.31, kerning=0.00), new X0=669.31
-[DEBUG] Td operator: Tx=55.95, Ty=0.00, new X0=668.95, Y0=976.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 23.55 (3 CIDs)
-[DEBUG] Total displacement: 23.55 (width=23.55, kerning=0.00), new X0=692.50
-[DEBUG] Td operator: Tx=22.75, Ty=0.00, new X0=691.69, Y0=976.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 11.81 (2 CIDs)
-[DEBUG] Total displacement: 11.81 (width=11.81, kerning=0.00), new X0=703.51
-[DEBUG] Td operator: Tx=10.92, Ty=0.00, new X0=702.61, Y0=976.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 6.41 (1 CIDs)
-[DEBUG] Total displacement: 6.41 (width=6.41, kerning=0.00), new X0=709.02
-[DEBUG] Td operator: Tx=6.23, Ty=0.00, new X0=708.84, Y0=976.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 54.82 (7 CIDs)
-[DEBUG] Total displacement: 54.82 (width=54.82, kerning=0.00), new X0=763.66
-[DEBUG] Td operator: Tx=54.64, Ty=0.00, new X0=763.48, Y0=976.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 14.83 (2 CIDs)
-[DEBUG] Total displacement: 14.83 (width=14.83, kerning=0.00), new X0=778.31
-[DEBUG] Td operator: Tx=14.65, Ty=0.00, new X0=778.13, Y0=976.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 175.87 (25 CIDs)
-[DEBUG] Total displacement: 175.87 (width=175.87, kerning=0.00), new X0=954.00
-[DEBUG] Td operator: Tx=175.78, Ty=0.00, new X0=953.92, Y0=976.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 13.82 (2 CIDs)
-[DEBUG] Total displacement: 13.82 (width=13.82, kerning=0.00), new X0=967.73
-[DEBUG] Td operator: Tx=13.73, Ty=0.00, new X0=967.64, Y0=976.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 54.15 (8 CIDs)
-[DEBUG] Total displacement: 54.15 (width=54.15, kerning=0.00), new X0=1021.79
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1007.000]
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 9.90 (1 CIDs)
-[DEBUG] Total displacement: 9.90 (width=9.90, kerning=0.00), new X0=25.90
-[DEBUG] Td operator: Tx=8.18, Ty=0.00, new X0=24.18, Y0=1007.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 17.36 (2 CIDs)
-[DEBUG] Total displacement: 17.36 (width=17.36, kerning=0.00), new X0=41.54
-[DEBUG] Td operator: Tx=17.45, Ty=0.00, new X0=41.63, Y0=1007.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 7.63 (1 CIDs)
-[DEBUG] Total displacement: 7.63 (width=7.63, kerning=0.00), new X0=49.26
-[DEBUG] Td operator: Tx=7.54, Ty=0.00, new X0=49.17, Y0=1007.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 45.21 (6 CIDs)
-[DEBUG] Total displacement: 45.21 (width=45.21, kerning=0.00), new X0=94.38
-[DEBUG] Td operator: Tx=45.12, Ty=0.00, new X0=94.29, Y0=1007.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 39.13 (6 CIDs)
-[DEBUG] Total displacement: 39.13 (width=39.13, kerning=0.00), new X0=133.42
-[DEBUG] Td operator: Tx=39.30, Ty=0.00, new X0=133.60, Y0=1007.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 3.36 (1 CIDs)
-[DEBUG] Total displacement: 3.36 (width=3.36, kerning=0.00), new X0=136.96
-[DEBUG] Td operator: Tx=2.91, Ty=0.00, new X0=136.51, Y0=1007.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 19.67 (3 CIDs)
-[DEBUG] Total displacement: 19.67 (width=19.67, kerning=0.00), new X0=156.18
-[DEBUG] Td operator: Tx=19.58, Ty=0.00, new X0=156.09, Y0=1007.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 294.57 (39 CIDs)
-[DEBUG] Total displacement: 294.57 (width=294.57, kerning=0.00), new X0=450.66
-[DEBUG] Td operator: Tx=294.49, Ty=0.00, new X0=450.58, Y0=1007.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 68.05 (11 CIDs)
-[DEBUG] Total displacement: 68.05 (width=68.05, kerning=0.00), new X0=518.63
-[DEBUG] Td operator: Tx=67.88, Ty=0.00, new X0=518.45, Y0=1007.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 28.22 (4 CIDs)
-[DEBUG] Total displacement: 28.22 (width=28.22, kerning=0.00), new X0=546.67
-[DEBUG] Td operator: Tx=28.05, Ty=0.00, new X0=546.50, Y0=1007.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 17.67 (2 CIDs)
-[DEBUG] Total displacement: 17.67 (width=17.67, kerning=0.00), new X0=564.17
-[DEBUG] Td operator: Tx=17.58, Ty=0.00, new X0=564.08, Y0=1007.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 60.61 (8 CIDs)
-[DEBUG] Total displacement: 60.61 (width=60.61, kerning=0.00), new X0=624.69
-[DEBUG] ET operator: End text object
-[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] q operator: Saved graphics state, stack depth=1
-[DEBUG] q operator: Saved graphics state, stack depth=2
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
-[DEBUG] RG operator: StrokeColor=(1.00, 1.00, 1.00)
-[DEBUG] rg operator: FillColor=(1.00, 1.00, 1.00)
-[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] q operator: Saved graphics state, stack depth=1
-[DEBUG] q operator: Saved graphics state, stack depth=2
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
-[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
-[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1045.000]
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 6.91 (1 CIDs)
-[DEBUG] Total displacement: 6.91 (width=6.91, kerning=0.00), new X0=22.91
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1045.000]
-[DEBUG] Td operator: Tx=6.91, Ty=0.00, new X0=22.91, Y0=1045.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 288.00 (16 CIDs)
-[DEBUG] Total displacement: 288.00 (width=288.00, kerning=0.00), new X0=310.91
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1045.000]
-[DEBUG] Td operator: Tx=294.91, Ty=0.00, new X0=310.91, Y0=1045.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 6.91 (1 CIDs)
-[DEBUG] Total displacement: 6.91 (width=6.91, kerning=0.00), new X0=317.82
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1045.000]
-[DEBUG] Td operator: Tx=301.82, Ty=0.00, new X0=317.82, Y0=1045.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 684.00 (38 CIDs)
-[DEBUG] Total displacement: 684.00 (width=684.00, kerning=0.00), new X0=1001.82
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1045.000]
-[DEBUG] Td operator: Tx=985.82, Ty=0.00, new X0=1001.82, Y0=1045.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 11.00 (2 CIDs)
-[DEBUG] Total displacement: 11.00 (width=11.00, kerning=0.00), new X0=1012.82
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1045.000]
-[DEBUG] Td operator: Tx=996.82, Ty=0.00, new X0=1012.82, Y0=1045.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 36.00 (2 CIDs)
-[DEBUG] Total displacement: 36.00 (width=36.00, kerning=0.00), new X0=1048.82
-[DEBUG] ET operator: End text object
-[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] q operator: Saved graphics state, stack depth=1
-[DEBUG] q operator: Saved graphics state, stack depth=2
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
-[DEBUG] RG operator: StrokeColor=(1.00, 1.00, 1.00)
-[DEBUG] rg operator: FillColor=(1.00, 1.00, 1.00)
-[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] q operator: Saved graphics state, stack depth=1
-[DEBUG] q operator: Saved graphics state, stack depth=2
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
-[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
-[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1076.000]
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 72.00 (4 CIDs)
-[DEBUG] Total displacement: 72.00 (width=72.00, kerning=0.00), new X0=88.00
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1076.000]
-[DEBUG] Td operator: Tx=72.00, Ty=0.00, new X0=88.00, Y0=1076.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 6.91 (1 CIDs)
-[DEBUG] Total displacement: 6.91 (width=6.91, kerning=0.00), new X0=94.91
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1136.000]
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 16.34 (2 CIDs)
-[DEBUG] Total displacement: 16.34 (width=16.34, kerning=0.00), new X0=32.34
-[DEBUG] Td operator: Tx=15.17, Ty=0.00, new X0=31.17, Y0=1136.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 44.30 (8 CIDs)
-[DEBUG] Total displacement: 44.30 (width=44.30, kerning=0.00), new X0=75.47
-[DEBUG] Td operator: Tx=43.85, Ty=0.00, new X0=75.02, Y0=1136.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 29.03 (4 CIDs)
-[DEBUG] Total displacement: 29.03 (width=29.03, kerning=0.00), new X0=104.05
-[DEBUG] Td operator: Tx=28.67, Ty=0.00, new X0=103.69, Y0=1136.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 3.36 (1 CIDs)
-[DEBUG] Total displacement: 3.36 (width=3.36, kerning=0.00), new X0=107.05
-[DEBUG] Td operator: Tx=2.46, Ty=0.00, new X0=106.15, Y0=1136.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 55.05 (8 CIDs)
-[DEBUG] Total displacement: 55.05 (width=55.05, kerning=0.00), new X0=161.20
-[DEBUG] Td operator: Tx=54.97, Ty=0.00, new X0=161.12, Y0=1136.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 14.86 (2 CIDs)
-[DEBUG] Total displacement: 14.86 (width=14.86, kerning=0.00), new X0=175.98
-[DEBUG] Td operator: Tx=13.78, Ty=0.00, new X0=174.90, Y0=1136.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 3.36 (1 CIDs)
-[DEBUG] Total displacement: 3.36 (width=3.36, kerning=0.00), new X0=178.25
-[DEBUG] ET operator: End text object
-[DEBUG] RG operator: StrokeColor=(1.00, 1.00, 1.00)
-[DEBUG] rg operator: FillColor=(1.00, 1.00, 1.00)
-[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
-[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1175.000]
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 6.91 (1 CIDs)
-[DEBUG] Total displacement: 6.91 (width=6.91, kerning=0.00), new X0=22.91
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1175.000]
-[DEBUG] Td operator: Tx=6.91, Ty=0.00, new X0=22.91, Y0=1175.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 144.00 (8 CIDs)
-[DEBUG] Total displacement: 144.00 (width=144.00, kerning=0.00), new X0=166.91
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1175.000]
-[DEBUG] Td operator: Tx=150.91, Ty=0.00, new X0=166.91, Y0=1175.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 6.91 (1 CIDs)
-[DEBUG] Total displacement: 6.91 (width=6.91, kerning=0.00), new X0=173.82
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1175.000]
-[DEBUG] Td operator: Tx=157.82, Ty=0.00, new X0=173.82, Y0=1175.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 72.00 (4 CIDs)
-[DEBUG] Total displacement: 72.00 (width=72.00, kerning=0.00), new X0=245.82
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1236.000]
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 241.66 (33 CIDs)
-[DEBUG] Total displacement: 241.66 (width=241.66, kerning=0.00), new X0=257.66
-[DEBUG] ET operator: End text object
-[DEBUG] RG operator: StrokeColor=(1.00, 1.00, 1.00)
-[DEBUG] rg operator: FillColor=(1.00, 1.00, 1.00)
-[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
-[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1274.000]
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 126.00 (7 CIDs)
-[DEBUG] Total displacement: 126.00 (width=126.00, kerning=0.00), new X0=142.00
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1313.000]
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 33.26 (4 CIDs)
-[DEBUG] Total displacement: 33.26 (width=33.26, kerning=0.00), new X0=49.26
-[DEBUG] Td operator: Tx=33.17, Ty=0.00, new X0=49.17, Y0=1313.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 11.91 (1 CIDs)
-[DEBUG] Total displacement: 11.91 (width=11.91, kerning=0.00), new X0=61.08
-[DEBUG] Td operator: Tx=11.82, Ty=0.00, new X0=60.99, Y0=1313.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 14.86 (2 CIDs)
-[DEBUG] Total displacement: 14.86 (width=14.86, kerning=0.00), new X0=75.85
-[DEBUG] Td operator: Tx=15.04, Ty=0.00, new X0=76.03, Y0=1313.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 52.22 (8 CIDs)
-[DEBUG] Total displacement: 52.22 (width=52.22, kerning=0.00), new X0=128.25
-[DEBUG] Td operator: Tx=52.05, Ty=0.00, new X0=128.08, Y0=1313.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 42.38 (6 CIDs)
-[DEBUG] Total displacement: 42.38 (width=42.38, kerning=0.00), new X0=170.46
-[DEBUG] Td operator: Tx=42.21, Ty=0.00, new X0=170.28, Y0=1313.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 9.55 (1 CIDs)
-[DEBUG] Total displacement: 9.55 (width=9.55, kerning=0.00), new X0=179.84
-[DEBUG] Td operator: Tx=9.47, Ty=0.00, new X0=179.75, Y0=1313.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 110.41 (16 CIDs)
-[DEBUG] Total displacement: 110.41 (width=110.41, kerning=0.00), new X0=290.16
-[DEBUG] Td operator: Tx=110.68, Ty=0.00, new X0=290.43, Y0=1313.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 7.63 (1 CIDs)
-[DEBUG] Total displacement: 7.63 (width=7.63, kerning=0.00), new X0=298.06
-[DEBUG] Td operator: Tx=7.54, Ty=0.00, new X0=297.97, Y0=1313.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 82.53 (12 CIDs)
-[DEBUG] Total displacement: 82.53 (width=82.53, kerning=0.00), new X0=380.50
-[DEBUG] Td operator: Tx=82.44, Ty=0.00, new X0=380.41, Y0=1313.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 66.68 (9 CIDs)
-[DEBUG] Total displacement: 66.68 (width=66.68, kerning=0.00), new X0=447.09
-[DEBUG] Td operator: Tx=66.51, Ty=0.00, new X0=446.92, Y0=1313.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 60.54 (9 CIDs)
-[DEBUG] Total displacement: 60.54 (width=60.54, kerning=0.00), new X0=507.46
-[DEBUG] Td operator: Tx=60.45, Ty=0.00, new X0=507.37, Y0=1313.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 35.42 (6 CIDs)
-[DEBUG] Total displacement: 35.42 (width=35.42, kerning=0.00), new X0=542.79
-[DEBUG] Td operator: Tx=35.24, Ty=0.00, new X0=542.61, Y0=1313.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 96.51 (12 CIDs)
-[DEBUG] Total displacement: 96.51 (width=96.51, kerning=0.00), new X0=639.13
-[DEBUG] Td operator: Tx=96.42, Ty=0.00, new X0=639.04, Y0=1313.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 11.91 (1 CIDs)
-[DEBUG] Total displacement: 11.91 (width=11.91, kerning=0.00), new X0=650.95
-[DEBUG] Td operator: Tx=11.82, Ty=0.00, new X0=650.86, Y0=1313.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 145.86 (20 CIDs)
-[DEBUG] Total displacement: 145.86 (width=145.86, kerning=0.00), new X0=796.72
-[DEBUG] Td operator: Tx=145.78, Ty=0.00, new X0=796.64, Y0=1313.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 46.47 (6 CIDs)
-[DEBUG] Total displacement: 46.47 (width=46.47, kerning=0.00), new X0=843.10
-[DEBUG] Td operator: Tx=46.50, Ty=0.00, new X0=843.14, Y0=1313.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 15.53 (2 CIDs)
-[DEBUG] Total displacement: 15.53 (width=15.53, kerning=0.00), new X0=858.67
-[DEBUG] Td operator: Tx=15.44, Ty=0.00, new X0=858.58, Y0=1313.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 134.87 (19 CIDs)
-[DEBUG] Total displacement: 134.87 (width=134.87, kerning=0.00), new X0=993.45
-[DEBUG] Td operator: Tx=134.78, Ty=0.00, new X0=993.36, Y0=1313.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 15.65 (2 CIDs)
-[DEBUG] Total displacement: 15.65 (width=15.65, kerning=0.00), new X0=1009.01
-[DEBUG] Td operator: Tx=15.48, Ty=0.00, new X0=1008.84, Y0=1313.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 35.52 (4 CIDs)
-[DEBUG] Total displacement: 35.52 (width=35.52, kerning=0.00), new X0=1044.36
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1343.000]
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 13.82 (2 CIDs)
-[DEBUG] Total displacement: 13.82 (width=13.82, kerning=0.00), new X0=29.82
-[DEBUG] Td operator: Tx=13.73, Ty=0.00, new X0=29.73, Y0=1343.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 153.94 (20 CIDs)
-[DEBUG] Total displacement: 153.94 (width=153.94, kerning=0.00), new X0=183.67
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 10.81 (1 CIDs)
-[DEBUG] Total displacement: 10.81 (width=10.81, kerning=0.00), new X0=194.48
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 307.24 (46 CIDs)
-[DEBUG] Total displacement: 307.24 (width=307.24, kerning=0.00), new X0=501.72
-[DEBUG] Td operator: Tx=471.90, Ty=0.00, new X0=501.63, Y0=1343.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 13.82 (2 CIDs)
-[DEBUG] Total displacement: 13.82 (width=13.82, kerning=0.00), new X0=515.45
-[DEBUG] Td operator: Tx=13.73, Ty=0.00, new X0=515.36, Y0=1343.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 140.28 (21 CIDs)
-[DEBUG] Total displacement: 140.28 (width=140.28, kerning=0.00), new X0=655.64
-[DEBUG] Td operator: Tx=140.11, Ty=0.00, new X0=655.47, Y0=1343.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 16.57 (2 CIDs)
-[DEBUG] Total displacement: 16.57 (width=16.57, kerning=0.00), new X0=672.03
-[DEBUG] Td operator: Tx=16.48, Ty=0.00, new X0=671.95, Y0=1343.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 9.55 (1 CIDs)
-[DEBUG] Total displacement: 9.55 (width=9.55, kerning=0.00), new X0=681.50
-[DEBUG] Td operator: Tx=9.47, Ty=0.00, new X0=681.41, Y0=1343.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 7.63 (1 CIDs)
-[DEBUG] Total displacement: 7.63 (width=7.63, kerning=0.00), new X0=689.04
-[DEBUG] Td operator: Tx=7.54, Ty=0.00, new X0=688.95, Y0=1343.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 45.10 (7 CIDs)
-[DEBUG] Total displacement: 45.10 (width=45.10, kerning=0.00), new X0=734.05
-[DEBUG] Td operator: Tx=45.01, Ty=0.00, new X0=733.96, Y0=1343.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 14.86 (2 CIDs)
-[DEBUG] Total displacement: 14.86 (width=14.86, kerning=0.00), new X0=748.82
-[DEBUG] Td operator: Tx=15.08, Ty=0.00, new X0=749.04, Y0=1343.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 11.91 (1 CIDs)
-[DEBUG] Total displacement: 11.91 (width=11.91, kerning=0.00), new X0=760.95
-[DEBUG] Td operator: Tx=11.94, Ty=0.00, new X0=760.99, Y0=1343.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 14.31 (2 CIDs)
-[DEBUG] Total displacement: 14.31 (width=14.31, kerning=0.00), new X0=775.30
-[DEBUG] Td operator: Tx=14.13, Ty=0.00, new X0=775.12, Y0=1343.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 12.60 (2 CIDs)
-[DEBUG] Total displacement: 12.60 (width=12.60, kerning=0.00), new X0=787.72
-[DEBUG] ET operator: End text object
-[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] q operator: Saved graphics state, stack depth=1
-[DEBUG] q operator: Saved graphics state, stack depth=2
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
-[DEBUG] RG operator: StrokeColor=(1.00, 1.00, 1.00)
-[DEBUG] rg operator: FillColor=(1.00, 1.00, 1.00)
-[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] q operator: Saved graphics state, stack depth=1
-[DEBUG] q operator: Saved graphics state, stack depth=2
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
-[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
-[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1382.000]
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 1044.00 (58 CIDs)
-[DEBUG] Total displacement: 1044.00 (width=1044.00, kerning=0.00), new X0=1060.00
-[DEBUG] ET operator: End text object
-[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] q operator: Saved graphics state, stack depth=1
-[DEBUG] q operator: Saved graphics state, stack depth=2
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
-[DEBUG] RG operator: StrokeColor=(1.00, 1.00, 1.00)
-[DEBUG] rg operator: FillColor=(1.00, 1.00, 1.00)
-[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] q operator: Saved graphics state, stack depth=1
-[DEBUG] q operator: Saved graphics state, stack depth=2
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
-[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
-[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1413.000]
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 108.00 (6 CIDs)
-[DEBUG] Total displacement: 108.00 (width=108.00, kerning=0.00), new X0=124.00
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1451.000]
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 9.90 (1 CIDs)
-[DEBUG] Total displacement: 9.90 (width=9.90, kerning=0.00), new X0=25.90
-[DEBUG] Td operator: Tx=8.18, Ty=0.00, new X0=24.18, Y0=1451.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 113.99 (16 CIDs)
-[DEBUG] Total displacement: 113.99 (width=113.99, kerning=0.00), new X0=138.18
-[DEBUG] Td operator: Tx=113.82, Ty=0.00, new X0=138.00, Y0=1451.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 78.36 (11 CIDs)
-[DEBUG] Total displacement: 78.36 (width=78.36, kerning=0.00), new X0=216.36
-[DEBUG] Td operator: Tx=77.64, Ty=0.00, new X0=215.64, Y0=1451.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 36.69 (4 CIDs)
-[DEBUG] Total displacement: 36.69 (width=36.69, kerning=0.00), new X0=252.33
-[DEBUG] Td operator: Tx=36.60, Ty=0.00, new X0=252.24, Y0=1451.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 47.29 (7 CIDs)
-[DEBUG] Total displacement: 47.29 (width=47.29, kerning=0.00), new X0=299.53
-[DEBUG] Td operator: Tx=47.20, Ty=0.00, new X0=299.44, Y0=1451.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 47.52 (6 CIDs)
-[DEBUG] Total displacement: 47.52 (width=47.52, kerning=0.00), new X0=346.96
-[DEBUG] Td operator: Tx=47.35, Ty=0.00, new X0=346.79, Y0=1451.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 85.49 (13 CIDs)
-[DEBUG] Total displacement: 85.49 (width=85.49, kerning=0.00), new X0=432.28
-[DEBUG] Td operator: Tx=85.58, Ty=0.00, new X0=432.36, Y0=1451.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 41.98 (6 CIDs)
-[DEBUG] Total displacement: 41.98 (width=41.98, kerning=0.00), new X0=474.34
-[DEBUG] Td operator: Tx=42.01, Ty=0.00, new X0=474.38, Y0=1451.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 13.82 (2 CIDs)
-[DEBUG] Total displacement: 13.82 (width=13.82, kerning=0.00), new X0=488.19
-[DEBUG] Td operator: Tx=13.73, Ty=0.00, new X0=488.10, Y0=1451.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 14.86 (2 CIDs)
-[DEBUG] Total displacement: 14.86 (width=14.86, kerning=0.00), new X0=502.97
-[DEBUG] Td operator: Tx=13.78, Ty=0.00, new X0=501.89, Y0=1451.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 16.58 (3 CIDs)
-[DEBUG] Total displacement: 16.58 (width=16.58, kerning=0.00), new X0=518.46
-[DEBUG] Td operator: Tx=16.49, Ty=0.00, new X0=518.37, Y0=1451.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 7.63 (1 CIDs)
-[DEBUG] Total displacement: 7.63 (width=7.63, kerning=0.00), new X0=526.00
-[DEBUG] Td operator: Tx=7.54, Ty=0.00, new X0=525.92, Y0=1451.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 14.86 (2 CIDs)
-[DEBUG] Total displacement: 14.86 (width=14.86, kerning=0.00), new X0=540.78
-[DEBUG] Td operator: Tx=15.13, Ty=0.00, new X0=541.05, Y0=1451.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 161.73 (23 CIDs)
-[DEBUG] Total displacement: 161.73 (width=161.73, kerning=0.00), new X0=702.78
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 8.97 (1 CIDs)
-[DEBUG] Total displacement: 8.97 (width=8.97, kerning=0.00), new X0=711.75
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 9.55 (1 CIDs)
-[DEBUG] Total displacement: 9.55 (width=9.55, kerning=0.00), new X0=721.30
-[DEBUG] Td operator: Tx=180.17, Ty=0.00, new X0=721.22, Y0=1451.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 40.62 (5 CIDs)
-[DEBUG] Total displacement: 40.62 (width=40.62, kerning=0.00), new X0=761.84
-[DEBUG] Td operator: Tx=40.90, Ty=0.00, new X0=762.11, Y0=1451.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 35.86 (4 CIDs)
-[DEBUG] Total displacement: 35.86 (width=35.86, kerning=0.00), new X0=797.97
-[DEBUG] Td operator: Tx=35.68, Ty=0.00, new X0=797.80, Y0=1451.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 99.19 (14 CIDs)
-[DEBUG] Total displacement: 99.19 (width=99.19, kerning=0.00), new X0=896.99
-[DEBUG] Td operator: Tx=99.11, Ty=0.00, new X0=896.90, Y0=1451.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 94.59 (14 CIDs)
-[DEBUG] Total displacement: 94.59 (width=94.59, kerning=0.00), new X0=991.49
-[DEBUG] Td operator: Tx=94.62, Ty=0.00, new X0=991.52, Y0=1451.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 13.82 (2 CIDs)
-[DEBUG] Total displacement: 13.82 (width=13.82, kerning=0.00), new X0=1005.34
-[DEBUG] Td operator: Tx=13.73, Ty=0.00, new X0=1005.25, Y0=1451.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 34.90 (4 CIDs)
-[DEBUG] Total displacement: 34.90 (width=34.90, kerning=0.00), new X0=1040.15
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1482.000]
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 36.74 (5 CIDs)
-[DEBUG] Total displacement: 36.74 (width=36.74, kerning=0.00), new X0=52.74
-[DEBUG] Td operator: Tx=36.56, Ty=0.00, new X0=52.56, Y0=1482.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 16.57 (2 CIDs)
-[DEBUG] Total displacement: 16.57 (width=16.57, kerning=0.00), new X0=69.13
-[DEBUG] Td operator: Tx=16.48, Ty=0.00, new X0=69.04, Y0=1482.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 15.96 (2 CIDs)
-[DEBUG] Total displacement: 15.96 (width=15.96, kerning=0.00), new X0=85.00
-[DEBUG] Td operator: Tx=15.79, Ty=0.00, new X0=84.83, Y0=1482.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 72.09 (10 CIDs)
-[DEBUG] Total displacement: 72.09 (width=72.09, kerning=0.00), new X0=156.92
-[DEBUG] Td operator: Tx=71.64, Ty=0.00, new X0=156.47, Y0=1482.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 3.36 (1 CIDs)
-[DEBUG] Total displacement: 3.36 (width=3.36, kerning=0.00), new X0=159.82
-[DEBUG] ET operator: End text object
-[DEBUG] RG operator: StrokeColor=(1.00, 1.00, 1.00)
-[DEBUG] rg operator: FillColor=(1.00, 1.00, 1.00)
-[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
-[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1520.000]
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 846.00 (47 CIDs)
-[DEBUG] Total displacement: 846.00 (width=846.00, kerning=0.00), new X0=862.00
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1520.000]
-[DEBUG] Td operator: Tx=846.00, Ty=0.00, new X0=862.00, Y0=1520.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 27.04 (4 CIDs)
-[DEBUG] Total displacement: 27.04 (width=27.04, kerning=0.00), new X0=889.04
-[DEBUG] ET operator: End text object
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=18.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1520.000]
-[DEBUG] Td operator: Tx=873.04, Ty=0.00, new X0=889.04, Y0=1520.00
-[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 144.00 (8 CIDs)
-[DEBUG] Total displacement: 144.00 (width=144.00, kerning=0.00), new X0=1033.04
-[DEBUG] ET operator: End text object
-[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] q operator: Saved graphics state, stack depth=1
-[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
-[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
-[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] q operator: Saved graphics state, stack depth=1
-[DEBUG] q operator: Saved graphics state, stack depth=2
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
-[DEBUG] RG operator: StrokeColor=(1.00, 1.00, 1.00)
-[DEBUG] rg operator: FillColor=(1.00, 1.00, 1.00)
-[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] q operator: Saved graphics state, stack depth=1
-[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
-[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
-[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] q operator: Saved graphics state, stack depth=1
-[DEBUG] q operator: Saved graphics state, stack depth=2
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
-[DEBUG] RG operator: StrokeColor=(0.80, 0.80, 0.80)
-[DEBUG] rg operator: FillColor=(0.80, 0.80, 0.80)
-[DEBUG] RG operator: StrokeColor=(1.00, 1.00, 1.00)
-[DEBUG] rg operator: FillColor=(1.00, 1.00, 1.00)
-[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] q operator: Saved graphics state, stack depth=1
-[DEBUG] q operator: Saved graphics state, stack depth=2
-[DEBUG] cm operator: Matrix=[1.846 0.000 0.000 1.852 684.650 145.832], new CTM=[0.443 0.000 0.000 -0.444 164.316 806.920]
-[DEBUG] RG operator: StrokeColor=(1.00, 0.81, 0.00)
-[DEBUG] rg operator: FillColor=(1.00, 0.81, 0.00)
-[DEBUG] RG operator: StrokeColor=(0.00, 0.01, 0.13)
-[DEBUG] rg operator: FillColor=(0.00, 0.01, 0.13)
-[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] q operator: Saved graphics state, stack depth=1
-[DEBUG] q operator: Saved graphics state, stack depth=2
-[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
-[DEBUG] RG operator: StrokeColor=(1.00, 1.00, 1.00)
-[DEBUG] rg operator: FillColor=(1.00, 1.00, 1.00)
-[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
-[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
-[DEBUG] RG operator: StrokeColor=(0.67, 0.67, 0.67)
-[DEBUG] rg operator: FillColor=(0.67, 0.67, 0.67)
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=17.00
-[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 643.891 28.000]
-[DEBUG] Text element: baseFontSize=17.00, scale=-1.00, effectiveFontSize=17.00
-[DEBUG] Calculated text width from CIDs: 28.19 (4 CIDs)
-[DEBUG] Total displacement: 28.19 (width=28.19, kerning=0.00), new X0=672.08
-[DEBUG] ET operator: End text object
-[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
-✓ Loaded embedded TTF font data for font F4 (9328 bytes)
-✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
-✓ Default width for CID font F4: 0
-✓ Using fallback default width for CID font F4: 1000
-✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
-✓ Loaded font widths for F4: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F4: Identity-H
-✓ Loaded embedded TTF font data for font F5 (14728 bytes)
-✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
-✓ Default width for CID font F5: 500
-✓ Loaded CID widths for font F5: 102 direct mappings, 0 ranges
-✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded embedded TTF font data for font F6 (1415312 bytes)
-✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
-✓ Default width for CID font F6: 1000
-✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
-✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F6: Identity-H
-[loadXObject] Decoding stream for X8...
-[loadXObject] Raw stream length: 207578 bytes
-[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
-[loadXObject] Stream decoded via direct Decode(): 1440000 bytes
-[loadXObject] Filters detected: [FlateDecode]
-[loadXObject] ColorSpace (Name): DeviceRGB
 ✓ Loaded embedded TTF font data for font F5 (14728 bytes)
 ✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
 ✓ Default width for CID font F5: 500
@@ -6697,12 +5495,6 @@ Operator Execution Log:
 [loadXObject] Stream decoded via direct Decode(): 1440000 bytes
 [loadXObject] Filters detected: [FlateDecode]
 [loadXObject] ColorSpace (Name): DeviceRGB
-✓ Loaded embedded TTF font data for font F6 (1415312 bytes)
-✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
-✓ Default width for CID font F6: 1000
-✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
-✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F6: Identity-H
 ✓ Loaded embedded TTF font data for font F4 (9328 bytes)
 ✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
 ✓ Default width for CID font F4: 0
@@ -6716,6 +5508,1214 @@ Operator Execution Log:
 ✓ Loaded CID widths for font F5: 102 direct mappings, 0 ranges
 ✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded embedded TTF font data for font F6 (1415312 bytes)
+✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
+✓ Default width for CID font F6: 1000
+✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
+✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F6: Identity-H
+[loadXObject] Decoding stream for X8...
+[loadXObject] Raw stream length: 207578 bytes
+[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
+[loadXObject] Stream decoded via direct Decode(): 1440000 bytes
+[loadXObject] Filters detected: [FlateDecode]
+[loadXObject] ColorSpace (Name): DeviceRGB
+   Dereferenced to: types.StreamDict
+   Decoding StreamDict...
+   Raw: 13401 bytes, Content: 0 bytes
+   Calling Decode()...
+   ✓ After decode: 41520 bytes
+[DEBUG] cm operator: Matrix=[0.240 0.000 0.000 -0.240 0.000 841.920], new CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] RG operator: StrokeColor=(0.03, 0.53, 0.24)
+[DEBUG] rg operator: FillColor=(0.03, 0.53, 0.24)
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F4 (BaseFont=AAAAAA+FreightSansProBold-Regular), Size=14.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 486.812 81.000]
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 8.31 (1 CIDs)
+[DEBUG] Total displacement: 8.31 (width=8.31, kerning=0.00), new X0=495.12
+[DEBUG] Td operator: Tx=9.91, Ty=0.00, new X0=496.73, Y0=81.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 7.90 (1 CIDs)
+[DEBUG] Total displacement: 7.90 (width=7.90, kerning=0.00), new X0=504.62
+[DEBUG] Td operator: Tx=9.31, Ty=0.00, new X0=506.04, Y0=81.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 8.55 (1 CIDs)
+[DEBUG] Total displacement: 8.55 (width=8.55, kerning=0.00), new X0=514.59
+[DEBUG] Td operator: Tx=9.60, Ty=0.00, new X0=515.64, Y0=81.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 8.58 (1 CIDs)
+[DEBUG] Total displacement: 8.58 (width=8.58, kerning=0.00), new X0=524.22
+[DEBUG] Td operator: Tx=10.18, Ty=0.00, new X0=525.82, Y0=81.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 9.78 (1 CIDs)
+[DEBUG] Total displacement: 9.78 (width=9.78, kerning=0.00), new X0=535.60
+[DEBUG] Td operator: Tx=11.38, Ty=0.00, new X0=537.20, Y0=81.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 10.26 (1 CIDs)
+[DEBUG] Total displacement: 10.26 (width=10.26, kerning=0.00), new X0=547.46
+[DEBUG] Td operator: Tx=11.86, Ty=0.00, new X0=549.06, Y0=81.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 7.27 (1 CIDs)
+[DEBUG] Total displacement: 7.27 (width=7.27, kerning=0.00), new X0=556.34
+[DEBUG] Td operator: Tx=8.30, Ty=0.00, new X0=557.36, Y0=81.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 10.26 (1 CIDs)
+[DEBUG] Total displacement: 10.26 (width=10.26, kerning=0.00), new X0=567.62
+[DEBUG] Td operator: Tx=11.86, Ty=0.00, new X0=569.22, Y0=81.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 9.42 (1 CIDs)
+[DEBUG] Total displacement: 9.42 (width=9.42, kerning=0.00), new X0=578.64
+[DEBUG] Td operator: Tx=10.79, Ty=0.00, new X0=580.02, Y0=81.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 8.55 (1 CIDs)
+[DEBUG] Total displacement: 8.55 (width=8.55, kerning=0.00), new X0=588.57
+[DEBUG] ET operator: End text object
+[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
+[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=36.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 311.453 137.000]
+[DEBUG] Text element: baseFontSize=36.00, scale=-1.00, effectiveFontSize=36.00
+[DEBUG] Calculated text width from CIDs: 83.44 (5 CIDs)
+[DEBUG] Total displacement: 83.44 (width=83.44, kerning=0.00), new X0=394.90
+[DEBUG] Td operator: Tx=83.27, Ty=0.00, new X0=394.72, Y0=137.00
+[DEBUG] Text element: baseFontSize=36.00, scale=-1.00, effectiveFontSize=36.00
+[DEBUG] Calculated text width from CIDs: 147.13 (10 CIDs)
+[DEBUG] Total displacement: 147.13 (width=147.13, kerning=0.00), new X0=541.85
+[DEBUG] Td operator: Tx=146.41, Ty=0.00, new X0=541.13, Y0=137.00
+[DEBUG] Text element: baseFontSize=36.00, scale=-1.00, effectiveFontSize=36.00
+[DEBUG] Calculated text width from CIDs: 105.22 (8 CIDs)
+[DEBUG] Total displacement: 105.22 (width=105.22, kerning=0.00), new X0=646.35
+[DEBUG] Td operator: Tx=104.87, Ty=0.00, new X0=646.00, Y0=137.00
+[DEBUG] Text element: baseFontSize=36.00, scale=-1.00, effectiveFontSize=36.00
+[DEBUG] Calculated text width from CIDs: 119.53 (8 CIDs)
+[DEBUG] Total displacement: 119.53 (width=119.53, kerning=0.00), new X0=765.53
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=14.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 363.656 172.000]
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 28.51 (6 CIDs)
+[DEBUG] Total displacement: 28.51 (width=28.51, kerning=0.00), new X0=392.16
+[DEBUG] Td operator: Tx=28.23, Ty=0.00, new X0=391.88, Y0=172.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 225.50 (42 CIDs)
+[DEBUG] Total displacement: 225.50 (width=225.50, kerning=0.00), new X0=617.39
+[DEBUG] Td operator: Tx=225.16, Ty=0.00, new X0=617.04, Y0=172.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 22.85 (4 CIDs)
+[DEBUG] Total displacement: 22.85 (width=22.85, kerning=0.00), new X0=639.88
+[DEBUG] Td operator: Tx=22.71, Ty=0.00, new X0=639.75, Y0=172.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 73.58 (12 CIDs)
+[DEBUG] Total displacement: 73.58 (width=73.58, kerning=0.00), new X0=713.33
+[DEBUG] ET operator: End text object
+[DEBUG] RG operator: StrokeColor=(1.00, 1.00, 1.00)
+[DEBUG] rg operator: FillColor=(1.00, 1.00, 1.00)
+[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
+[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=14.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 405.500 195.000]
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 266.00 (19 CIDs)
+[DEBUG] Total displacement: 266.00 (width=266.00, kerning=0.00), new X0=671.50
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=14.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 545.828 236.000]
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 3.19 (1 CIDs)
+[DEBUG] Total displacement: 3.19 (width=3.19, kerning=0.00), new X0=549.01
+[DEBUG] ET operator: End text object
+[DEBUG] RG operator: StrokeColor=(1.00, 1.00, 1.00)
+[DEBUG] rg operator: FillColor=(1.00, 1.00, 1.00)
+[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
+[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=14.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 70.00 (5 CIDs)
+[DEBUG] Total displacement: 70.00 (width=70.00, kerning=0.00), new X0=497.70
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=14.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
+[DEBUG] Td operator: Tx=70.00, Ty=0.00, new X0=497.70, Y0=267.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 2.61 (1 CIDs)
+[DEBUG] Total displacement: 2.61 (width=2.61, kerning=0.00), new X0=500.31
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=14.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
+[DEBUG] Td operator: Tx=72.61, Ty=0.00, new X0=500.31, Y0=267.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 42.00 (3 CIDs)
+[DEBUG] Total displacement: 42.00 (width=42.00, kerning=0.00), new X0=542.31
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=14.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
+[DEBUG] Td operator: Tx=114.61, Ty=0.00, new X0=542.31, Y0=267.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 17.43 (3 CIDs)
+[DEBUG] Total displacement: 17.43 (width=17.43, kerning=0.00), new X0=559.75
+[DEBUG] Td operator: Tx=17.36, Ty=0.00, new X0=559.68, Y0=267.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 15.21 (3 CIDs)
+[DEBUG] Total displacement: 15.21 (width=15.21, kerning=0.00), new X0=574.89
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=14.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
+[DEBUG] Td operator: Tx=147.18, Ty=0.00, new X0=574.89, Y0=267.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 14.00 (1 CIDs)
+[DEBUG] Total displacement: 14.00 (width=14.00, kerning=0.00), new X0=588.89
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=14.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
+[DEBUG] Td operator: Tx=161.18, Ty=0.00, new X0=588.89, Y0=267.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 19.02 (4 CIDs)
+[DEBUG] Total displacement: 19.02 (width=19.02, kerning=0.00), new X0=607.91
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=14.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
+[DEBUG] Td operator: Tx=180.20, Ty=0.00, new X0=607.91, Y0=267.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 14.00 (1 CIDs)
+[DEBUG] Total displacement: 14.00 (width=14.00, kerning=0.00), new X0=621.91
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=14.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
+[DEBUG] Td operator: Tx=194.20, Ty=0.00, new X0=621.91, Y0=267.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 13.38 (3 CIDs)
+[DEBUG] Total displacement: 13.38 (width=13.38, kerning=0.00), new X0=635.29
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=14.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 427.703 267.000]
+[DEBUG] Td operator: Tx=207.59, Ty=0.00, new X0=635.29, Y0=267.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 14.00 (1 CIDs)
+[DEBUG] Total displacement: 14.00 (width=14.00, kerning=0.00), new X0=649.29
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=14.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 414.734 236.000]
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 7.70 (1 CIDs)
+[DEBUG] Total displacement: 7.70 (width=7.70, kerning=0.00), new X0=422.43
+[DEBUG] Td operator: Tx=7.56, Ty=0.00, new X0=422.29, Y0=236.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 36.62 (5 CIDs)
+[DEBUG] Total displacement: 36.62 (width=36.62, kerning=0.00), new X0=458.92
+[DEBUG] Td operator: Tx=36.55, Ty=0.00, new X0=458.85, Y0=236.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 8.20 (1 CIDs)
+[DEBUG] Total displacement: 8.20 (width=8.20, kerning=0.00), new X0=467.05
+[DEBUG] Td operator: Tx=8.07, Ty=0.00, new X0=466.91, Y0=236.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 50.39 (7 CIDs)
+[DEBUG] Total displacement: 50.39 (width=50.39, kerning=0.00), new X0=517.31
+[DEBUG] Td operator: Tx=50.26, Ty=0.00, new X0=517.17, Y0=236.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 9.93 (1 CIDs)
+[DEBUG] Total displacement: 9.93 (width=9.93, kerning=0.00), new X0=527.10
+[DEBUG] Td operator: Tx=9.79, Ty=0.00, new X0=526.96, Y0=236.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 7.70 (1 CIDs)
+[DEBUG] Total displacement: 7.70 (width=7.70, kerning=0.00), new X0=534.66
+[DEBUG] Td operator: Tx=7.98, Ty=0.00, new X0=534.94, Y0=236.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 10.88 (2 CIDs)
+[DEBUG] Total displacement: 10.88 (width=10.88, kerning=0.00), new X0=545.82
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=14.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 573.016 236.000]
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 20.84 (3 CIDs)
+[DEBUG] Total displacement: 20.84 (width=20.84, kerning=0.00), new X0=593.85
+[DEBUG] Td operator: Tx=20.77, Ty=0.00, new X0=593.78, Y0=236.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 36.34 (6 CIDs)
+[DEBUG] Total displacement: 36.34 (width=36.34, kerning=0.00), new X0=630.12
+[DEBUG] Td operator: Tx=36.48, Ty=0.00, new X0=630.26, Y0=236.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 20.04 (4 CIDs)
+[DEBUG] Total displacement: 20.04 (width=20.04, kerning=0.00), new X0=650.30
+[DEBUG] Td operator: Tx=19.97, Ty=0.00, new X0=650.23, Y0=236.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 12.02 (2 CIDs)
+[DEBUG] Total displacement: 12.02 (width=12.02, kerning=0.00), new X0=662.26
+[DEBUG] ET operator: End text object
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 1177.083 739.582], new CTM=[0.500 0.000 0.000 -0.500 282.500 664.420]
+[DEBUG] RG operator: StrokeColor=(0.37, 0.38, 0.39)
+[DEBUG] rg operator: FillColor=(0.37, 0.38, 0.39)
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
+[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=14.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 538.750 314.000]
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 25.05 (4 CIDs)
+[DEBUG] Total displacement: 25.05 (width=25.05, kerning=0.00), new X0=563.80
+[DEBUG] Td operator: Tx=24.92, Ty=0.00, new X0=563.67, Y0=314.00
+[DEBUG] Text element: baseFontSize=14.00, scale=-1.00, effectiveFontSize=14.00
+[DEBUG] Calculated text width from CIDs: 6.58 (1 CIDs)
+[DEBUG] Total displacement: 6.58 (width=6.58, kerning=0.00), new X0=570.24
+[DEBUG] ET operator: End text object
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2177.084 0.000 0.000 -725.000 154.167 1547.916], new CTM=[522.500 0.000 0.000 174.000 37.000 470.420]
+[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
+[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
+[DEBUG] Do operator: Image X8 at (37.00, 197.50), size: 522.50x174.00 (original: 1200x400)
+[DEBUG]   Corners: (37.00,470.42) (559.50,470.42) (37.00,644.42) (559.50,644.42)
+[DEBUG]   ColorSpace: DeviceRGB, BitsPerComponent: 8, Stream size: 1440000 bytes
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] RG operator: StrokeColor=(0.13, 0.13, 0.13)
+[DEBUG] rg operator: FillColor=(0.13, 0.13, 0.13)
+[DEBUG] RG operator: StrokeColor=(0.67, 0.48, 0.06)
+[DEBUG] rg operator: FillColor=(0.67, 0.48, 0.06)
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F4 (BaseFont=AAAAAA+FreightSansProBold-Regular), Size=60.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 37.234 767.000]
+[DEBUG] Text element: baseFontSize=60.00, scale=-1.00, effectiveFontSize=60.00
+[DEBUG] Calculated text width from CIDs: 17.52 (1 CIDs)
+[DEBUG] Total displacement: 17.52 (width=17.52, kerning=0.00), new X0=54.75
+[DEBUG] ET operator: End text object
+[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
+[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 84.000 738.000]
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 3.36 (1 CIDs)
+[DEBUG] Total displacement: 3.36 (width=3.36, kerning=0.00), new X0=87.36
+[DEBUG] Td operator: Tx=2.64, Ty=0.00, new X0=86.64, Y0=738.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 73.54 (10 CIDs)
+[DEBUG] Total displacement: 73.54 (width=73.54, kerning=0.00), new X0=160.17
+[DEBUG] Td operator: Tx=73.45, Ty=0.00, new X0=160.09, Y0=738.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 84.71 (12 CIDs)
+[DEBUG] Total displacement: 84.71 (width=84.71, kerning=0.00), new X0=244.80
+[DEBUG] Td operator: Tx=84.62, Ty=0.00, new X0=244.71, Y0=738.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 96.55 (14 CIDs)
+[DEBUG] Total displacement: 96.55 (width=96.55, kerning=0.00), new X0=341.26
+[DEBUG] Td operator: Tx=96.37, Ty=0.00, new X0=341.08, Y0=738.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 165.14 (22 CIDs)
+[DEBUG] Total displacement: 165.14 (width=165.14, kerning=0.00), new X0=506.22
+[DEBUG] Td operator: Tx=164.42, Ty=0.00, new X0=505.50, Y0=738.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 36.30 (6 CIDs)
+[DEBUG] Total displacement: 36.30 (width=36.30, kerning=0.00), new X0=541.80
+[DEBUG] Td operator: Tx=36.12, Ty=0.00, new X0=541.62, Y0=738.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 149.56 (21 CIDs)
+[DEBUG] Total displacement: 149.56 (width=149.56, kerning=0.00), new X0=691.18
+[DEBUG] Td operator: Tx=149.48, Ty=0.00, new X0=691.10, Y0=738.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 52.53 (7 CIDs)
+[DEBUG] Total displacement: 52.53 (width=52.53, kerning=0.00), new X0=743.63
+[DEBUG] Td operator: Tx=52.62, Ty=0.00, new X0=743.72, Y0=738.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 107.26 (16 CIDs)
+[DEBUG] Total displacement: 107.26 (width=107.26, kerning=0.00), new X0=850.98
+[DEBUG] Td operator: Tx=107.17, Ty=0.00, new X0=850.89, Y0=738.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 88.56 (11 CIDs)
+[DEBUG] Total displacement: 88.56 (width=88.56, kerning=0.00), new X0=939.45
+[DEBUG] Td operator: Tx=88.83, Ty=0.00, new X0=939.72, Y0=738.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 57.05 (9 CIDs)
+[DEBUG] Total displacement: 57.05 (width=57.05, kerning=0.00), new X0=996.77
+[DEBUG] Td operator: Tx=56.96, Ty=0.00, new X0=996.68, Y0=738.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 39.46 (6 CIDs)
+[DEBUG] Total displacement: 39.46 (width=39.46, kerning=0.00), new X0=1036.15
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 84.000 769.000]
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 143.93 (21 CIDs)
+[DEBUG] Total displacement: 143.93 (width=143.93, kerning=0.00), new X0=227.93
+[DEBUG] Td operator: Tx=143.48, Ty=0.00, new X0=227.48, Y0=769.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 220.39 (31 CIDs)
+[DEBUG] Total displacement: 220.39 (width=220.39, kerning=0.00), new X0=447.87
+[DEBUG] Td operator: Tx=220.30, Ty=0.00, new X0=447.78, Y0=769.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 121.80 (16 CIDs)
+[DEBUG] Total displacement: 121.80 (width=121.80, kerning=0.00), new X0=569.58
+[DEBUG] Td operator: Tx=122.07, Ty=0.00, new X0=569.85, Y0=769.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 7.63 (1 CIDs)
+[DEBUG] Total displacement: 7.63 (width=7.63, kerning=0.00), new X0=577.48
+[DEBUG] Td operator: Tx=7.54, Ty=0.00, new X0=577.39, Y0=769.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 136.04 (18 CIDs)
+[DEBUG] Total displacement: 136.04 (width=136.04, kerning=0.00), new X0=713.43
+[DEBUG] Td operator: Tx=135.86, Ty=0.00, new X0=713.25, Y0=769.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 54.04 (7 CIDs)
+[DEBUG] Total displacement: 54.04 (width=54.04, kerning=0.00), new X0=767.30
+[DEBUG] Td operator: Tx=53.96, Ty=0.00, new X0=767.21, Y0=769.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 11.81 (2 CIDs)
+[DEBUG] Total displacement: 11.81 (width=11.81, kerning=0.00), new X0=779.02
+[DEBUG] ET operator: End text object
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] RG operator: StrokeColor=(1.00, 1.00, 1.00)
+[DEBUG] rg operator: FillColor=(1.00, 1.00, 1.00)
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
+[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 808.000]
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 1044.00 (58 CIDs)
+[DEBUG] Total displacement: 1044.00 (width=1044.00, kerning=0.00), new X0=1060.00
+[DEBUG] ET operator: End text object
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] RG operator: StrokeColor=(1.00, 1.00, 1.00)
+[DEBUG] rg operator: FillColor=(1.00, 1.00, 1.00)
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
+[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 838.000]
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 216.00 (12 CIDs)
+[DEBUG] Total displacement: 216.00 (width=216.00, kerning=0.00), new X0=232.00
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 877.000]
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 9.90 (1 CIDs)
+[DEBUG] Total displacement: 9.90 (width=9.90, kerning=0.00), new X0=25.90
+[DEBUG] Td operator: Tx=8.18, Ty=0.00, new X0=24.18, Y0=877.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 11.91 (1 CIDs)
+[DEBUG] Total displacement: 11.91 (width=11.91, kerning=0.00), new X0=36.09
+[DEBUG] Td operator: Tx=11.82, Ty=0.00, new X0=36.00, Y0=877.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 66.81 (10 CIDs)
+[DEBUG] Total displacement: 66.81 (width=66.81, kerning=0.00), new X0=102.81
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 8.97 (1 CIDs)
+[DEBUG] Total displacement: 8.97 (width=8.97, kerning=0.00), new X0=111.78
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 163.09 (22 CIDs)
+[DEBUG] Total displacement: 163.09 (width=163.09, kerning=0.00), new X0=274.87
+[DEBUG] Td operator: Tx=238.78, Ty=0.00, new X0=274.79, Y0=877.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 44.14 (6 CIDs)
+[DEBUG] Total displacement: 44.14 (width=44.14, kerning=0.00), new X0=318.92
+[DEBUG] Td operator: Tx=44.05, Ty=0.00, new X0=318.84, Y0=877.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 66.04 (9 CIDs)
+[DEBUG] Total displacement: 66.04 (width=66.04, kerning=0.00), new X0=384.88
+[DEBUG] Td operator: Tx=65.87, Ty=0.00, new X0=384.70, Y0=877.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 143.39 (21 CIDs)
+[DEBUG] Total displacement: 143.39 (width=143.39, kerning=0.00), new X0=528.09
+[DEBUG] ET operator: End text object
+[DEBUG] RG operator: StrokeColor=(1.00, 1.00, 1.00)
+[DEBUG] rg operator: FillColor=(1.00, 1.00, 1.00)
+[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
+[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 915.000]
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 414.00 (23 CIDs)
+[DEBUG] Total displacement: 414.00 (width=414.00, kerning=0.00), new X0=430.00
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 976.000]
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 23.01 (2 CIDs)
+[DEBUG] Total displacement: 23.01 (width=23.01, kerning=0.00), new X0=39.01
+[DEBUG] Td operator: Tx=22.20, Ty=0.00, new X0=38.20, Y0=976.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 26.86 (4 CIDs)
+[DEBUG] Total displacement: 26.86 (width=26.86, kerning=0.00), new X0=65.06
+[DEBUG] Td operator: Tx=26.68, Ty=0.00, new X0=64.88, Y0=976.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 18.96 (3 CIDs)
+[DEBUG] Total displacement: 18.96 (width=18.96, kerning=0.00), new X0=83.84
+[DEBUG] Td operator: Tx=18.78, Ty=0.00, new X0=83.67, Y0=976.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 43.24 (6 CIDs)
+[DEBUG] Total displacement: 43.24 (width=43.24, kerning=0.00), new X0=126.91
+[DEBUG] Td operator: Tx=43.15, Ty=0.00, new X0=126.82, Y0=976.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 141.86 (20 CIDs)
+[DEBUG] Total displacement: 141.86 (width=141.86, kerning=0.00), new X0=268.69
+[DEBUG] Td operator: Tx=141.78, Ty=0.00, new X0=268.60, Y0=976.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 55.85 (8 CIDs)
+[DEBUG] Total displacement: 55.85 (width=55.85, kerning=0.00), new X0=324.44
+[DEBUG] Td operator: Tx=55.76, Ty=0.00, new X0=324.36, Y0=976.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 14.86 (2 CIDs)
+[DEBUG] Total displacement: 14.86 (width=14.86, kerning=0.00), new X0=339.22
+[DEBUG] Td operator: Tx=14.69, Ty=0.00, new X0=339.04, Y0=976.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 37.61 (6 CIDs)
+[DEBUG] Total displacement: 37.61 (width=37.61, kerning=0.00), new X0=376.65
+[DEBUG] Td operator: Tx=36.71, Ty=0.00, new X0=375.75, Y0=976.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 72.85 (11 CIDs)
+[DEBUG] Total displacement: 72.85 (width=72.85, kerning=0.00), new X0=448.61
+[DEBUG] Td operator: Tx=71.77, Ty=0.00, new X0=447.53, Y0=976.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 66.56 (9 CIDs)
+[DEBUG] Total displacement: 66.56 (width=66.56, kerning=0.00), new X0=514.08
+[DEBUG] Td operator: Tx=66.59, Ty=0.00, new X0=514.12, Y0=976.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 11.26 (2 CIDs)
+[DEBUG] Total displacement: 11.26 (width=11.26, kerning=0.00), new X0=525.38
+[DEBUG] Td operator: Tx=10.81, Ty=0.00, new X0=524.93, Y0=976.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 66.81 (10 CIDs)
+[DEBUG] Total displacement: 66.81 (width=66.81, kerning=0.00), new X0=591.75
+[DEBUG] Td operator: Tx=66.73, Ty=0.00, new X0=591.66, Y0=976.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 21.43 (3 CIDs)
+[DEBUG] Total displacement: 21.43 (width=21.43, kerning=0.00), new X0=613.08
+[DEBUG] Td operator: Tx=21.34, Ty=0.00, new X0=613.00, Y0=976.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 56.31 (8 CIDs)
+[DEBUG] Total displacement: 56.31 (width=56.31, kerning=0.00), new X0=669.31
+[DEBUG] Td operator: Tx=55.95, Ty=0.00, new X0=668.95, Y0=976.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 23.55 (3 CIDs)
+[DEBUG] Total displacement: 23.55 (width=23.55, kerning=0.00), new X0=692.50
+[DEBUG] Td operator: Tx=22.75, Ty=0.00, new X0=691.69, Y0=976.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 11.81 (2 CIDs)
+[DEBUG] Total displacement: 11.81 (width=11.81, kerning=0.00), new X0=703.51
+[DEBUG] Td operator: Tx=10.92, Ty=0.00, new X0=702.61, Y0=976.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 6.41 (1 CIDs)
+[DEBUG] Total displacement: 6.41 (width=6.41, kerning=0.00), new X0=709.02
+[DEBUG] Td operator: Tx=6.23, Ty=0.00, new X0=708.84, Y0=976.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 54.82 (7 CIDs)
+[DEBUG] Total displacement: 54.82 (width=54.82, kerning=0.00), new X0=763.66
+[DEBUG] Td operator: Tx=54.64, Ty=0.00, new X0=763.48, Y0=976.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 14.83 (2 CIDs)
+[DEBUG] Total displacement: 14.83 (width=14.83, kerning=0.00), new X0=778.31
+[DEBUG] Td operator: Tx=14.65, Ty=0.00, new X0=778.13, Y0=976.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 175.87 (25 CIDs)
+[DEBUG] Total displacement: 175.87 (width=175.87, kerning=0.00), new X0=954.00
+[DEBUG] Td operator: Tx=175.78, Ty=0.00, new X0=953.92, Y0=976.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 13.82 (2 CIDs)
+[DEBUG] Total displacement: 13.82 (width=13.82, kerning=0.00), new X0=967.73
+[DEBUG] Td operator: Tx=13.73, Ty=0.00, new X0=967.64, Y0=976.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 54.15 (8 CIDs)
+[DEBUG] Total displacement: 54.15 (width=54.15, kerning=0.00), new X0=1021.79
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1007.000]
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 9.90 (1 CIDs)
+[DEBUG] Total displacement: 9.90 (width=9.90, kerning=0.00), new X0=25.90
+[DEBUG] Td operator: Tx=8.18, Ty=0.00, new X0=24.18, Y0=1007.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 17.36 (2 CIDs)
+[DEBUG] Total displacement: 17.36 (width=17.36, kerning=0.00), new X0=41.54
+[DEBUG] Td operator: Tx=17.45, Ty=0.00, new X0=41.63, Y0=1007.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 7.63 (1 CIDs)
+[DEBUG] Total displacement: 7.63 (width=7.63, kerning=0.00), new X0=49.26
+[DEBUG] Td operator: Tx=7.54, Ty=0.00, new X0=49.17, Y0=1007.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 45.21 (6 CIDs)
+[DEBUG] Total displacement: 45.21 (width=45.21, kerning=0.00), new X0=94.38
+[DEBUG] Td operator: Tx=45.12, Ty=0.00, new X0=94.29, Y0=1007.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 39.13 (6 CIDs)
+[DEBUG] Total displacement: 39.13 (width=39.13, kerning=0.00), new X0=133.42
+[DEBUG] Td operator: Tx=39.30, Ty=0.00, new X0=133.60, Y0=1007.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 3.36 (1 CIDs)
+[DEBUG] Total displacement: 3.36 (width=3.36, kerning=0.00), new X0=136.96
+[DEBUG] Td operator: Tx=2.91, Ty=0.00, new X0=136.51, Y0=1007.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 19.67 (3 CIDs)
+[DEBUG] Total displacement: 19.67 (width=19.67, kerning=0.00), new X0=156.18
+[DEBUG] Td operator: Tx=19.58, Ty=0.00, new X0=156.09, Y0=1007.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 294.57 (39 CIDs)
+[DEBUG] Total displacement: 294.57 (width=294.57, kerning=0.00), new X0=450.66
+[DEBUG] Td operator: Tx=294.49, Ty=0.00, new X0=450.58, Y0=1007.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 68.05 (11 CIDs)
+[DEBUG] Total displacement: 68.05 (width=68.05, kerning=0.00), new X0=518.63
+[DEBUG] Td operator: Tx=67.88, Ty=0.00, new X0=518.45, Y0=1007.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 28.22 (4 CIDs)
+[DEBUG] Total displacement: 28.22 (width=28.22, kerning=0.00), new X0=546.67
+[DEBUG] Td operator: Tx=28.05, Ty=0.00, new X0=546.50, Y0=1007.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 17.67 (2 CIDs)
+[DEBUG] Total displacement: 17.67 (width=17.67, kerning=0.00), new X0=564.17
+[DEBUG] Td operator: Tx=17.58, Ty=0.00, new X0=564.08, Y0=1007.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 60.61 (8 CIDs)
+[DEBUG] Total displacement: 60.61 (width=60.61, kerning=0.00), new X0=624.69
+[DEBUG] ET operator: End text object
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] RG operator: StrokeColor=(1.00, 1.00, 1.00)
+[DEBUG] rg operator: FillColor=(1.00, 1.00, 1.00)
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
+[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1045.000]
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 6.91 (1 CIDs)
+[DEBUG] Total displacement: 6.91 (width=6.91, kerning=0.00), new X0=22.91
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1045.000]
+[DEBUG] Td operator: Tx=6.91, Ty=0.00, new X0=22.91, Y0=1045.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 288.00 (16 CIDs)
+[DEBUG] Total displacement: 288.00 (width=288.00, kerning=0.00), new X0=310.91
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1045.000]
+[DEBUG] Td operator: Tx=294.91, Ty=0.00, new X0=310.91, Y0=1045.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 6.91 (1 CIDs)
+[DEBUG] Total displacement: 6.91 (width=6.91, kerning=0.00), new X0=317.82
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1045.000]
+[DEBUG] Td operator: Tx=301.82, Ty=0.00, new X0=317.82, Y0=1045.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 684.00 (38 CIDs)
+[DEBUG] Total displacement: 684.00 (width=684.00, kerning=0.00), new X0=1001.82
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1045.000]
+[DEBUG] Td operator: Tx=985.82, Ty=0.00, new X0=1001.82, Y0=1045.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 11.00 (2 CIDs)
+[DEBUG] Total displacement: 11.00 (width=11.00, kerning=0.00), new X0=1012.82
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1045.000]
+[DEBUG] Td operator: Tx=996.82, Ty=0.00, new X0=1012.82, Y0=1045.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 36.00 (2 CIDs)
+[DEBUG] Total displacement: 36.00 (width=36.00, kerning=0.00), new X0=1048.82
+[DEBUG] ET operator: End text object
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] RG operator: StrokeColor=(1.00, 1.00, 1.00)
+[DEBUG] rg operator: FillColor=(1.00, 1.00, 1.00)
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
+[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1076.000]
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 72.00 (4 CIDs)
+[DEBUG] Total displacement: 72.00 (width=72.00, kerning=0.00), new X0=88.00
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1076.000]
+[DEBUG] Td operator: Tx=72.00, Ty=0.00, new X0=88.00, Y0=1076.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 6.91 (1 CIDs)
+[DEBUG] Total displacement: 6.91 (width=6.91, kerning=0.00), new X0=94.91
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1136.000]
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 16.34 (2 CIDs)
+[DEBUG] Total displacement: 16.34 (width=16.34, kerning=0.00), new X0=32.34
+[DEBUG] Td operator: Tx=15.17, Ty=0.00, new X0=31.17, Y0=1136.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 44.30 (8 CIDs)
+[DEBUG] Total displacement: 44.30 (width=44.30, kerning=0.00), new X0=75.47
+[DEBUG] Td operator: Tx=43.85, Ty=0.00, new X0=75.02, Y0=1136.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 29.03 (4 CIDs)
+[DEBUG] Total displacement: 29.03 (width=29.03, kerning=0.00), new X0=104.05
+[DEBUG] Td operator: Tx=28.67, Ty=0.00, new X0=103.69, Y0=1136.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 3.36 (1 CIDs)
+[DEBUG] Total displacement: 3.36 (width=3.36, kerning=0.00), new X0=107.05
+[DEBUG] Td operator: Tx=2.46, Ty=0.00, new X0=106.15, Y0=1136.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 55.05 (8 CIDs)
+[DEBUG] Total displacement: 55.05 (width=55.05, kerning=0.00), new X0=161.20
+[DEBUG] Td operator: Tx=54.97, Ty=0.00, new X0=161.12, Y0=1136.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 14.86 (2 CIDs)
+[DEBUG] Total displacement: 14.86 (width=14.86, kerning=0.00), new X0=175.98
+[DEBUG] Td operator: Tx=13.78, Ty=0.00, new X0=174.90, Y0=1136.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 3.36 (1 CIDs)
+[DEBUG] Total displacement: 3.36 (width=3.36, kerning=0.00), new X0=178.25
+[DEBUG] ET operator: End text object
+[DEBUG] RG operator: StrokeColor=(1.00, 1.00, 1.00)
+[DEBUG] rg operator: FillColor=(1.00, 1.00, 1.00)
+[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
+[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1175.000]
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 6.91 (1 CIDs)
+[DEBUG] Total displacement: 6.91 (width=6.91, kerning=0.00), new X0=22.91
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1175.000]
+[DEBUG] Td operator: Tx=6.91, Ty=0.00, new X0=22.91, Y0=1175.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 144.00 (8 CIDs)
+[DEBUG] Total displacement: 144.00 (width=144.00, kerning=0.00), new X0=166.91
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1175.000]
+[DEBUG] Td operator: Tx=150.91, Ty=0.00, new X0=166.91, Y0=1175.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 6.91 (1 CIDs)
+[DEBUG] Total displacement: 6.91 (width=6.91, kerning=0.00), new X0=173.82
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1175.000]
+[DEBUG] Td operator: Tx=157.82, Ty=0.00, new X0=173.82, Y0=1175.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 72.00 (4 CIDs)
+[DEBUG] Total displacement: 72.00 (width=72.00, kerning=0.00), new X0=245.82
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1236.000]
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 241.66 (33 CIDs)
+[DEBUG] Total displacement: 241.66 (width=241.66, kerning=0.00), new X0=257.66
+[DEBUG] ET operator: End text object
+[DEBUG] RG operator: StrokeColor=(1.00, 1.00, 1.00)
+[DEBUG] rg operator: FillColor=(1.00, 1.00, 1.00)
+[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
+[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1274.000]
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 126.00 (7 CIDs)
+[DEBUG] Total displacement: 126.00 (width=126.00, kerning=0.00), new X0=142.00
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1313.000]
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 33.26 (4 CIDs)
+[DEBUG] Total displacement: 33.26 (width=33.26, kerning=0.00), new X0=49.26
+[DEBUG] Td operator: Tx=33.17, Ty=0.00, new X0=49.17, Y0=1313.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 11.91 (1 CIDs)
+[DEBUG] Total displacement: 11.91 (width=11.91, kerning=0.00), new X0=61.08
+[DEBUG] Td operator: Tx=11.82, Ty=0.00, new X0=60.99, Y0=1313.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 14.86 (2 CIDs)
+[DEBUG] Total displacement: 14.86 (width=14.86, kerning=0.00), new X0=75.85
+[DEBUG] Td operator: Tx=15.04, Ty=0.00, new X0=76.03, Y0=1313.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 52.22 (8 CIDs)
+[DEBUG] Total displacement: 52.22 (width=52.22, kerning=0.00), new X0=128.25
+[DEBUG] Td operator: Tx=52.05, Ty=0.00, new X0=128.08, Y0=1313.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 42.38 (6 CIDs)
+[DEBUG] Total displacement: 42.38 (width=42.38, kerning=0.00), new X0=170.46
+[DEBUG] Td operator: Tx=42.21, Ty=0.00, new X0=170.28, Y0=1313.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 9.55 (1 CIDs)
+[DEBUG] Total displacement: 9.55 (width=9.55, kerning=0.00), new X0=179.84
+[DEBUG] Td operator: Tx=9.47, Ty=0.00, new X0=179.75, Y0=1313.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 110.41 (16 CIDs)
+[DEBUG] Total displacement: 110.41 (width=110.41, kerning=0.00), new X0=290.16
+[DEBUG] Td operator: Tx=110.68, Ty=0.00, new X0=290.43, Y0=1313.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 7.63 (1 CIDs)
+[DEBUG] Total displacement: 7.63 (width=7.63, kerning=0.00), new X0=298.06
+[DEBUG] Td operator: Tx=7.54, Ty=0.00, new X0=297.97, Y0=1313.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 82.53 (12 CIDs)
+[DEBUG] Total displacement: 82.53 (width=82.53, kerning=0.00), new X0=380.50
+[DEBUG] Td operator: Tx=82.44, Ty=0.00, new X0=380.41, Y0=1313.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 66.68 (9 CIDs)
+[DEBUG] Total displacement: 66.68 (width=66.68, kerning=0.00), new X0=447.09
+[DEBUG] Td operator: Tx=66.51, Ty=0.00, new X0=446.92, Y0=1313.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 60.54 (9 CIDs)
+[DEBUG] Total displacement: 60.54 (width=60.54, kerning=0.00), new X0=507.46
+[DEBUG] Td operator: Tx=60.45, Ty=0.00, new X0=507.37, Y0=1313.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 35.42 (6 CIDs)
+[DEBUG] Total displacement: 35.42 (width=35.42, kerning=0.00), new X0=542.79
+[DEBUG] Td operator: Tx=35.24, Ty=0.00, new X0=542.61, Y0=1313.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 96.51 (12 CIDs)
+[DEBUG] Total displacement: 96.51 (width=96.51, kerning=0.00), new X0=639.13
+[DEBUG] Td operator: Tx=96.42, Ty=0.00, new X0=639.04, Y0=1313.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 11.91 (1 CIDs)
+[DEBUG] Total displacement: 11.91 (width=11.91, kerning=0.00), new X0=650.95
+[DEBUG] Td operator: Tx=11.82, Ty=0.00, new X0=650.86, Y0=1313.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 145.86 (20 CIDs)
+[DEBUG] Total displacement: 145.86 (width=145.86, kerning=0.00), new X0=796.72
+[DEBUG] Td operator: Tx=145.78, Ty=0.00, new X0=796.64, Y0=1313.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 46.47 (6 CIDs)
+[DEBUG] Total displacement: 46.47 (width=46.47, kerning=0.00), new X0=843.10
+[DEBUG] Td operator: Tx=46.50, Ty=0.00, new X0=843.14, Y0=1313.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 15.53 (2 CIDs)
+[DEBUG] Total displacement: 15.53 (width=15.53, kerning=0.00), new X0=858.67
+[DEBUG] Td operator: Tx=15.44, Ty=0.00, new X0=858.58, Y0=1313.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 134.87 (19 CIDs)
+[DEBUG] Total displacement: 134.87 (width=134.87, kerning=0.00), new X0=993.45
+[DEBUG] Td operator: Tx=134.78, Ty=0.00, new X0=993.36, Y0=1313.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 15.65 (2 CIDs)
+[DEBUG] Total displacement: 15.65 (width=15.65, kerning=0.00), new X0=1009.01
+[DEBUG] Td operator: Tx=15.48, Ty=0.00, new X0=1008.84, Y0=1313.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 35.52 (4 CIDs)
+[DEBUG] Total displacement: 35.52 (width=35.52, kerning=0.00), new X0=1044.36
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1343.000]
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 13.82 (2 CIDs)
+[DEBUG] Total displacement: 13.82 (width=13.82, kerning=0.00), new X0=29.82
+[DEBUG] Td operator: Tx=13.73, Ty=0.00, new X0=29.73, Y0=1343.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 153.94 (20 CIDs)
+[DEBUG] Total displacement: 153.94 (width=153.94, kerning=0.00), new X0=183.67
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 10.81 (1 CIDs)
+[DEBUG] Total displacement: 10.81 (width=10.81, kerning=0.00), new X0=194.48
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 307.24 (46 CIDs)
+[DEBUG] Total displacement: 307.24 (width=307.24, kerning=0.00), new X0=501.72
+[DEBUG] Td operator: Tx=471.90, Ty=0.00, new X0=501.63, Y0=1343.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 13.82 (2 CIDs)
+[DEBUG] Total displacement: 13.82 (width=13.82, kerning=0.00), new X0=515.45
+[DEBUG] Td operator: Tx=13.73, Ty=0.00, new X0=515.36, Y0=1343.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 140.28 (21 CIDs)
+[DEBUG] Total displacement: 140.28 (width=140.28, kerning=0.00), new X0=655.64
+[DEBUG] Td operator: Tx=140.11, Ty=0.00, new X0=655.47, Y0=1343.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 16.57 (2 CIDs)
+[DEBUG] Total displacement: 16.57 (width=16.57, kerning=0.00), new X0=672.03
+[DEBUG] Td operator: Tx=16.48, Ty=0.00, new X0=671.95, Y0=1343.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 9.55 (1 CIDs)
+[DEBUG] Total displacement: 9.55 (width=9.55, kerning=0.00), new X0=681.50
+[DEBUG] Td operator: Tx=9.47, Ty=0.00, new X0=681.41, Y0=1343.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 7.63 (1 CIDs)
+[DEBUG] Total displacement: 7.63 (width=7.63, kerning=0.00), new X0=689.04
+[DEBUG] Td operator: Tx=7.54, Ty=0.00, new X0=688.95, Y0=1343.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 45.10 (7 CIDs)
+[DEBUG] Total displacement: 45.10 (width=45.10, kerning=0.00), new X0=734.05
+[DEBUG] Td operator: Tx=45.01, Ty=0.00, new X0=733.96, Y0=1343.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 14.86 (2 CIDs)
+[DEBUG] Total displacement: 14.86 (width=14.86, kerning=0.00), new X0=748.82
+[DEBUG] Td operator: Tx=15.08, Ty=0.00, new X0=749.04, Y0=1343.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 11.91 (1 CIDs)
+[DEBUG] Total displacement: 11.91 (width=11.91, kerning=0.00), new X0=760.95
+[DEBUG] Td operator: Tx=11.94, Ty=0.00, new X0=760.99, Y0=1343.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 14.31 (2 CIDs)
+[DEBUG] Total displacement: 14.31 (width=14.31, kerning=0.00), new X0=775.30
+[DEBUG] Td operator: Tx=14.13, Ty=0.00, new X0=775.12, Y0=1343.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 12.60 (2 CIDs)
+[DEBUG] Total displacement: 12.60 (width=12.60, kerning=0.00), new X0=787.72
+[DEBUG] ET operator: End text object
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] RG operator: StrokeColor=(1.00, 1.00, 1.00)
+[DEBUG] rg operator: FillColor=(1.00, 1.00, 1.00)
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
+[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1382.000]
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 1044.00 (58 CIDs)
+[DEBUG] Total displacement: 1044.00 (width=1044.00, kerning=0.00), new X0=1060.00
+[DEBUG] ET operator: End text object
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] RG operator: StrokeColor=(1.00, 1.00, 1.00)
+[DEBUG] rg operator: FillColor=(1.00, 1.00, 1.00)
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
+[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1413.000]
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 108.00 (6 CIDs)
+[DEBUG] Total displacement: 108.00 (width=108.00, kerning=0.00), new X0=124.00
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1451.000]
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 9.90 (1 CIDs)
+[DEBUG] Total displacement: 9.90 (width=9.90, kerning=0.00), new X0=25.90
+[DEBUG] Td operator: Tx=8.18, Ty=0.00, new X0=24.18, Y0=1451.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 113.99 (16 CIDs)
+[DEBUG] Total displacement: 113.99 (width=113.99, kerning=0.00), new X0=138.18
+[DEBUG] Td operator: Tx=113.82, Ty=0.00, new X0=138.00, Y0=1451.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 78.36 (11 CIDs)
+[DEBUG] Total displacement: 78.36 (width=78.36, kerning=0.00), new X0=216.36
+[DEBUG] Td operator: Tx=77.64, Ty=0.00, new X0=215.64, Y0=1451.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 36.69 (4 CIDs)
+[DEBUG] Total displacement: 36.69 (width=36.69, kerning=0.00), new X0=252.33
+[DEBUG] Td operator: Tx=36.60, Ty=0.00, new X0=252.24, Y0=1451.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 47.29 (7 CIDs)
+[DEBUG] Total displacement: 47.29 (width=47.29, kerning=0.00), new X0=299.53
+[DEBUG] Td operator: Tx=47.20, Ty=0.00, new X0=299.44, Y0=1451.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 47.52 (6 CIDs)
+[DEBUG] Total displacement: 47.52 (width=47.52, kerning=0.00), new X0=346.96
+[DEBUG] Td operator: Tx=47.35, Ty=0.00, new X0=346.79, Y0=1451.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 85.49 (13 CIDs)
+[DEBUG] Total displacement: 85.49 (width=85.49, kerning=0.00), new X0=432.28
+[DEBUG] Td operator: Tx=85.58, Ty=0.00, new X0=432.36, Y0=1451.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 41.98 (6 CIDs)
+[DEBUG] Total displacement: 41.98 (width=41.98, kerning=0.00), new X0=474.34
+[DEBUG] Td operator: Tx=42.01, Ty=0.00, new X0=474.38, Y0=1451.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 13.82 (2 CIDs)
+[DEBUG] Total displacement: 13.82 (width=13.82, kerning=0.00), new X0=488.19
+[DEBUG] Td operator: Tx=13.73, Ty=0.00, new X0=488.10, Y0=1451.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 14.86 (2 CIDs)
+[DEBUG] Total displacement: 14.86 (width=14.86, kerning=0.00), new X0=502.97
+[DEBUG] Td operator: Tx=13.78, Ty=0.00, new X0=501.89, Y0=1451.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 16.58 (3 CIDs)
+[DEBUG] Total displacement: 16.58 (width=16.58, kerning=0.00), new X0=518.46
+[DEBUG] Td operator: Tx=16.49, Ty=0.00, new X0=518.37, Y0=1451.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 7.63 (1 CIDs)
+[DEBUG] Total displacement: 7.63 (width=7.63, kerning=0.00), new X0=526.00
+[DEBUG] Td operator: Tx=7.54, Ty=0.00, new X0=525.92, Y0=1451.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 14.86 (2 CIDs)
+[DEBUG] Total displacement: 14.86 (width=14.86, kerning=0.00), new X0=540.78
+[DEBUG] Td operator: Tx=15.13, Ty=0.00, new X0=541.05, Y0=1451.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 161.73 (23 CIDs)
+[DEBUG] Total displacement: 161.73 (width=161.73, kerning=0.00), new X0=702.78
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 8.97 (1 CIDs)
+[DEBUG] Total displacement: 8.97 (width=8.97, kerning=0.00), new X0=711.75
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 9.55 (1 CIDs)
+[DEBUG] Total displacement: 9.55 (width=9.55, kerning=0.00), new X0=721.30
+[DEBUG] Td operator: Tx=180.17, Ty=0.00, new X0=721.22, Y0=1451.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 40.62 (5 CIDs)
+[DEBUG] Total displacement: 40.62 (width=40.62, kerning=0.00), new X0=761.84
+[DEBUG] Td operator: Tx=40.90, Ty=0.00, new X0=762.11, Y0=1451.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 35.86 (4 CIDs)
+[DEBUG] Total displacement: 35.86 (width=35.86, kerning=0.00), new X0=797.97
+[DEBUG] Td operator: Tx=35.68, Ty=0.00, new X0=797.80, Y0=1451.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 99.19 (14 CIDs)
+[DEBUG] Total displacement: 99.19 (width=99.19, kerning=0.00), new X0=896.99
+[DEBUG] Td operator: Tx=99.11, Ty=0.00, new X0=896.90, Y0=1451.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 94.59 (14 CIDs)
+[DEBUG] Total displacement: 94.59 (width=94.59, kerning=0.00), new X0=991.49
+[DEBUG] Td operator: Tx=94.62, Ty=0.00, new X0=991.52, Y0=1451.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 13.82 (2 CIDs)
+[DEBUG] Total displacement: 13.82 (width=13.82, kerning=0.00), new X0=1005.34
+[DEBUG] Td operator: Tx=13.73, Ty=0.00, new X0=1005.25, Y0=1451.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 34.90 (4 CIDs)
+[DEBUG] Total displacement: 34.90 (width=34.90, kerning=0.00), new X0=1040.15
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1482.000]
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 36.74 (5 CIDs)
+[DEBUG] Total displacement: 36.74 (width=36.74, kerning=0.00), new X0=52.74
+[DEBUG] Td operator: Tx=36.56, Ty=0.00, new X0=52.56, Y0=1482.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 16.57 (2 CIDs)
+[DEBUG] Total displacement: 16.57 (width=16.57, kerning=0.00), new X0=69.13
+[DEBUG] Td operator: Tx=16.48, Ty=0.00, new X0=69.04, Y0=1482.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 15.96 (2 CIDs)
+[DEBUG] Total displacement: 15.96 (width=15.96, kerning=0.00), new X0=85.00
+[DEBUG] Td operator: Tx=15.79, Ty=0.00, new X0=84.83, Y0=1482.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 72.09 (10 CIDs)
+[DEBUG] Total displacement: 72.09 (width=72.09, kerning=0.00), new X0=156.92
+[DEBUG] Td operator: Tx=71.64, Ty=0.00, new X0=156.47, Y0=1482.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 3.36 (1 CIDs)
+[DEBUG] Total displacement: 3.36 (width=3.36, kerning=0.00), new X0=159.82
+[DEBUG] ET operator: End text object
+[DEBUG] RG operator: StrokeColor=(1.00, 1.00, 1.00)
+[DEBUG] rg operator: FillColor=(1.00, 1.00, 1.00)
+[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
+[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1520.000]
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 846.00 (47 CIDs)
+[DEBUG] Total displacement: 846.00 (width=846.00, kerning=0.00), new X0=862.00
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1520.000]
+[DEBUG] Td operator: Tx=846.00, Ty=0.00, new X0=862.00, Y0=1520.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 27.04 (4 CIDs)
+[DEBUG] Total displacement: 27.04 (width=27.04, kerning=0.00), new X0=889.04
+[DEBUG] ET operator: End text object
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F6 (BaseFont=CAAAAA+MicrosoftYaHei), Size=18.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 16.000 1520.000]
+[DEBUG] Td operator: Tx=873.04, Ty=0.00, new X0=889.04, Y0=1520.00
+[DEBUG] Text element: baseFontSize=18.00, scale=-1.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 144.00 (8 CIDs)
+[DEBUG] Total displacement: 144.00 (width=144.00, kerning=0.00), new X0=1033.04
+[DEBUG] ET operator: End text object
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
+[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] RG operator: StrokeColor=(1.00, 1.00, 1.00)
+[DEBUG] rg operator: FillColor=(1.00, 1.00, 1.00)
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
+[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] RG operator: StrokeColor=(0.80, 0.80, 0.80)
+[DEBUG] rg operator: FillColor=(0.80, 0.80, 0.80)
+[DEBUG] RG operator: StrokeColor=(1.00, 1.00, 1.00)
+[DEBUG] rg operator: FillColor=(1.00, 1.00, 1.00)
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[1.846 0.000 0.000 1.852 684.650 145.832], new CTM=[0.443 0.000 0.000 -0.444 164.316 806.920]
+[DEBUG] RG operator: StrokeColor=(1.00, 0.81, 0.00)
+[DEBUG] rg operator: FillColor=(1.00, 0.81, 0.00)
+[DEBUG] RG operator: StrokeColor=(0.00, 0.01, 0.13)
+[DEBUG] rg operator: FillColor=(0.00, 0.01, 0.13)
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[2.083 0.000 0.000 2.083 120.833 120.832], new CTM=[0.500 0.000 0.000 -0.500 29.000 812.920]
+[DEBUG] RG operator: StrokeColor=(1.00, 1.00, 1.00)
+[DEBUG] rg operator: FillColor=(1.00, 1.00, 1.00)
+[DEBUG] RG operator: StrokeColor=(0.00, 0.00, 0.00)
+[DEBUG] rg operator: FillColor=(0.00, 0.00, 0.00)
+[DEBUG] RG operator: StrokeColor=(0.67, 0.67, 0.67)
+[DEBUG] rg operator: FillColor=(0.67, 0.67, 0.67)
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tf operator: Font=F5 (BaseFont=BAAAAA+FreightSansProBook-Regular), Size=17.00
+[DEBUG] Tm operator: Matrix=[1.000 0.000 0.000 -1.000 643.891 28.000]
+[DEBUG] Text element: baseFontSize=17.00, scale=-1.00, effectiveFontSize=17.00
+[DEBUG] Calculated text width from CIDs: 28.19 (4 CIDs)
+[DEBUG] Total displacement: 28.19 (width=28.19, kerning=0.00), new X0=672.08
+[DEBUG] ET operator: End text object
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+✓ Loaded embedded TTF font data for font F4 (9328 bytes)
+✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
+✓ Default width for CID font F4: 0
+✓ Using fallback default width for CID font F4: 1000
+✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
+✓ Loaded font widths for F4: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F4: Identity-H
+✓ Loaded embedded TTF font data for font F5 (14728 bytes)
+✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
+✓ Default width for CID font F5: 500
+✓ Loaded CID widths for font F5: 102 direct mappings, 0 ranges
+✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded embedded TTF font data for font F6 (1415312 bytes)
+✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
+✓ Default width for CID font F6: 1000
+✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
+✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F6: Identity-H
+[loadXObject] Decoding stream for X8...
+[loadXObject] Raw stream length: 207578 bytes
+[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
+[loadXObject] Stream decoded via direct Decode(): 1440000 bytes
+[loadXObject] Filters detected: [FlateDecode]
+[loadXObject] ColorSpace (Name): DeviceRGB
+✓ Loaded embedded TTF font data for font F4 (9328 bytes)
+✓ Loaded ToUnicode CMap for font F4 (8 mappings, 3 ranges)
+✓ Default width for CID font F4: 0
+✓ Using fallback default width for CID font F4: 1000
+✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
+✓ Loaded font widths for F4: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F4: Identity-H
+✓ Loaded embedded TTF font data for font F5 (14728 bytes)
+✓ Loaded ToUnicode CMap for font F5 (8 mappings, 9 ranges)
+✓ Default width for CID font F5: 500
+✓ Loaded CID widths for font F5: 102 direct mappings, 0 ranges
+✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded embedded TTF font data for font F6 (1415312 bytes)
+✓ Loaded ToUnicode CMap for font F6 (736 mappings, 91 ranges)
+✓ Default width for CID font F6: 1000
+✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
+✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F6: Identity-H
 [loadXObject] Decoding stream for X8...
 [loadXObject] Raw stream length: 207578 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...

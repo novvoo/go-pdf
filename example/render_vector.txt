@@ -1,6 +1,6 @@
 PDF Rendering Report
 ====================
-Time: 2026-01-29 17:42:00
+Time: 2026-02-02 11:20:59
 
 ParseTokens Test:
 -----------------
@@ -20,8 +20,8 @@ Rendering Process:
 ✅ Standard regions added to image
 Output File Info:
 -----------------
-Size: 174479 bytes
-Created: 2026-01-29 17:42:02
+Size: 181632 bytes
+Created: 2026-02-02 11:21:01
 
 Page Information:
 -----------------
@@ -41,89 +41,15 @@ Font Information:
   CID System Info: Adobe-Identity
   Embedded Font: YES (5588 bytes)
 
-[Font 2] F13
-  BaseFont: CAFZKO+CMEX10
-  Subtype: Type1
-  Encoding: 
-  Identity Mapping: NO
-  ToUnicode Map: NO
-  Embedded Font: YES (1665 bytes)
-
-[Font 3] F19
-  BaseFont: QJDQHI+CMMI12
+[Font 2] F8
+  BaseFont: PMEZGD+CMR10
   Subtype: Type1
   Encoding: 
   Identity Mapping: NO
   ToUnicode Map: YES (0 mappings, 0 ranges)
-  Embedded Font: YES (839 bytes)
+  Embedded Font: YES (3309 bytes)
 
-[Font 4] F18
-  BaseFont: UDODLB+LMRoman10-Italic-Identity-H
-  Subtype: Type0
-  Encoding: Identity-H
-  Identity Mapping: YES
-  ToUnicode Map: YES (11 mappings, 0 ranges)
-  CID System Info: Adobe-Identity
-  Embedded Font: YES (2286 bytes)
-
-[Font 5] F3
-  BaseFont: ALYRVT+LMRoman10-Regular-Identity-H
-  Subtype: Type0
-  Encoding: Identity-H
-  Identity Mapping: YES
-  ToUnicode Map: YES (67 mappings, 0 ranges)
-  CID System Info: Adobe-Identity
-  Embedded Font: YES (8459 bytes)
-
-[Font 6] F7
-  BaseFont: FXCERL+CMMI7
-  Subtype: Type1
-  Encoding: 
-  Identity Mapping: NO
-  ToUnicode Map: YES (0 mappings, 0 ranges)
-  Embedded Font: YES (2394 bytes)
-
-[Font 7] F9
-  BaseFont: NPXZEU+CMSY10
-  Subtype: Type1
-  Encoding: 
-  Identity Mapping: NO
-  ToUnicode Map: YES (0 mappings, 0 ranges)
-  Embedded Font: YES (1399 bytes)
-
-[Font 8] F14
-  BaseFont: DBKKCI+MSBM10
-  Subtype: Type1
-  Encoding: 
-  Identity Mapping: NO
-  ToUnicode Map: YES (0 mappings, 0 ranges)
-  Embedded Font: YES (549 bytes)
-
-[Font 9] F15
-  BaseFont: WIEJAH+CMMI5
-  Subtype: Type1
-  Encoding: 
-  Identity Mapping: NO
-  ToUnicode Map: YES (0 mappings, 0 ranges)
-  Embedded Font: YES (756 bytes)
-
-[Font 10] F16
-  BaseFont: DKJWQF+CMSY7
-  Subtype: Type1
-  Encoding: 
-  Identity Mapping: NO
-  ToUnicode Map: YES (0 mappings, 0 ranges)
-  Embedded Font: YES (956 bytes)
-
-[Font 11] F6
-  BaseFont: WXQHEC+CMMI10
-  Subtype: Type1
-  Encoding: 
-  Identity Mapping: NO
-  ToUnicode Map: YES (0 mappings, 0 ranges)
-  Embedded Font: YES (4423 bytes)
-
-[Font 12] F11
+[Font 3] F11
   BaseFont: WFCGZP+LMRoman7-Regular-Identity-H
   Subtype: Type0
   Encoding: Identity-H
@@ -132,7 +58,97 @@ Font Information:
   CID System Info: Adobe-Identity
   Embedded Font: YES (2689 bytes)
 
-[Font 13] F1
+[Font 4] F12
+  BaseFont: SXWWSM+CMR7
+  Subtype: Type1
+  Encoding: 
+  Identity Mapping: NO
+  ToUnicode Map: YES (0 mappings, 0 ranges)
+  Embedded Font: YES (2273 bytes)
+
+[Font 5] F16
+  BaseFont: DKJWQF+CMSY7
+  Subtype: Type1
+  Encoding: 
+  Identity Mapping: NO
+  ToUnicode Map: YES (0 mappings, 0 ranges)
+  Embedded Font: YES (956 bytes)
+
+[Font 6] F9
+  BaseFont: NPXZEU+CMSY10
+  Subtype: Type1
+  Encoding: 
+  Identity Mapping: NO
+  ToUnicode Map: YES (0 mappings, 0 ranges)
+  Embedded Font: YES (1399 bytes)
+
+[Font 7] F14
+  BaseFont: DBKKCI+MSBM10
+  Subtype: Type1
+  Encoding: 
+  Identity Mapping: NO
+  ToUnicode Map: YES (0 mappings, 0 ranges)
+  Embedded Font: YES (549 bytes)
+
+[Font 8] F6
+  BaseFont: WXQHEC+CMMI10
+  Subtype: Type1
+  Encoding: 
+  Identity Mapping: NO
+  ToUnicode Map: YES (0 mappings, 0 ranges)
+  Embedded Font: YES (4423 bytes)
+
+[Font 9] F19
+  BaseFont: QJDQHI+CMMI12
+  Subtype: Type1
+  Encoding: 
+  Identity Mapping: NO
+  ToUnicode Map: YES (0 mappings, 0 ranges)
+  Embedded Font: YES (839 bytes)
+
+[Font 10] F13
+  BaseFont: CAFZKO+CMEX10
+  Subtype: Type1
+  Encoding: 
+  Identity Mapping: NO
+  ToUnicode Map: NO
+  Embedded Font: YES (1665 bytes)
+
+[Font 11] F15
+  BaseFont: WIEJAH+CMMI5
+  Subtype: Type1
+  Encoding: 
+  Identity Mapping: NO
+  ToUnicode Map: YES (0 mappings, 0 ranges)
+  Embedded Font: YES (756 bytes)
+
+[Font 12] F3
+  BaseFont: ALYRVT+LMRoman10-Regular-Identity-H
+  Subtype: Type0
+  Encoding: Identity-H
+  Identity Mapping: YES
+  ToUnicode Map: YES (67 mappings, 0 ranges)
+  CID System Info: Adobe-Identity
+  Embedded Font: YES (8459 bytes)
+
+[Font 13] F18
+  BaseFont: UDODLB+LMRoman10-Italic-Identity-H
+  Subtype: Type0
+  Encoding: Identity-H
+  Identity Mapping: YES
+  ToUnicode Map: YES (11 mappings, 0 ranges)
+  CID System Info: Adobe-Identity
+  Embedded Font: YES (2286 bytes)
+
+[Font 14] F7
+  BaseFont: FXCERL+CMMI7
+  Subtype: Type1
+  Encoding: 
+  Identity Mapping: NO
+  ToUnicode Map: YES (0 mappings, 0 ranges)
+  Embedded Font: YES (2394 bytes)
+
+[Font 15] F1
   BaseFont: ZDRRSR+LMRoman12-Bold-Identity-H
   Subtype: Type0
   Encoding: Identity-H
@@ -140,22 +156,6 @@ Font Information:
   ToUnicode Map: YES (37 mappings, 0 ranges)
   CID System Info: Adobe-Identity
   Embedded Font: YES (5085 bytes)
-
-[Font 14] F8
-  BaseFont: PMEZGD+CMR10
-  Subtype: Type1
-  Encoding: 
-  Identity Mapping: NO
-  ToUnicode Map: YES (0 mappings, 0 ranges)
-  Embedded Font: YES (3309 bytes)
-
-[Font 15] F12
-  BaseFont: SXWWSM+CMR7
-  Subtype: Type1
-  Encoding: 
-  Identity Mapping: NO
-  ToUnicode Map: YES (0 mappings, 0 ranges)
-  Embedded Font: YES (2273 bytes)
 
 
 ExtractPageElements Test:
@@ -281,15 +281,6 @@ Font Width Calculation:
 Font Width Calculation Analysis:
 ---------------------------------
 
-Font: F1
-  Text elements: 2
-  Total estimated width: 200.85 points
-  Font size range: 14.35 - 14.35 points
-  Average width per element: 100.42 points
-  Sample texts:
-    [1] "P#\x00䐀㈀⬀椀䈀瀀2"
-    [2] "*QM\x00椀怀ᰀ戀椀䈀瀀2\x00䠀Qbb,"
-
 Font: F6
   Text elements: 96
   Total estimated width: 1085.92 points
@@ -313,6 +304,56 @@ Font: F8
     [3] "\\("
     [4] "\\)="
     [5] "\\("
+
+Font: F19
+  Text elements: 1
+  Total estimated width: 7.17 points
+  Font size range: 14.35 - 14.35 points
+  Average width per element: 7.17 points
+  Sample texts:
+    [1] "L"
+
+Font: F5
+  Text elements: 2
+  Total estimated width: 94.64 points
+  Font size range: 9.96 - 9.96 points
+  Average width per element: 47.32 points
+  Sample texts:
+    [1] "LQi\x1ciBQM\x00唀洀䴀䈀紀㈀/VX"
+    [2] "?"
+
+Font: F9
+  Text elements: 20
+  Total estimated width: 204.23 points
+  Font size range: 9.96 - 9.96 points
+  Average width per element: 10.21 points
+  Sample texts:
+    [1] "j"
+    [2] "j"
+    [3] "j"
+    [4] "j"
+    [5] "j"
+
+Font: F1
+  Text elements: 2
+  Total estimated width: 200.85 points
+  Font size range: 14.35 - 14.35 points
+  Average width per element: 100.42 points
+  Sample texts:
+    [1] "P#\x00䐀㈀⬀椀䈀瀀2"
+    [2] "*QM\x00椀怀ᰀ戀椀䈀瀀2\x00䠀Qbb,"
+
+Font: F16
+  Text elements: 5
+  Total estimated width: 69.74 points
+  Font size range: 6.97 - 6.97 points
+  Average width per element: 13.95 points
+  Sample texts:
+    [1] "\\030D"
+    [2] "\\030D"
+    [3] "f"
+    [4] "g\\030"
+    [5] "\\000"
 
 Font: F11
   Text elements: 7
@@ -338,17 +379,14 @@ Font: F12
     [4] "KL"
     [5] "HACPO"
 
-Font: F13
-  Text elements: 25
-  Total estimated width: 343.71 points
+Font: F14
+  Text elements: 2
+  Total estimated width: 9.96 points
   Font size range: 9.96 - 9.96 points
-  Average width per element: 13.75 points
+  Average width per element: 4.98 points
   Sample texts:
-    [1] "P"
-    [2] "\""
-    [3] "\\020"
-    [4] "\\021"
-    [5] "|"
+    [1] "E"
+    [2] "E"
 
 Font: F15
   Text elements: 4
@@ -361,13 +399,15 @@ Font: F15
     [3] "i"
     [4] "i;k"
 
-Font: F19
-  Text elements: 1
-  Total estimated width: 7.17 points
-  Font size range: 14.35 - 14.35 points
-  Average width per element: 7.17 points
+Font: F18
+  Text elements: 3
+  Total estimated width: 119.55 points
+  Font size range: 9.96 - 9.96 points
+  Average width per element: 39.85 points
   Sample texts:
-    [1] "L"
+    [1] "maximize"
+    [2] "minimize"
+    [3] "maximize"
 
 Font: F3
   Text elements: 36
@@ -381,48 +421,6 @@ Font: F3
     [4] "."
     [5] "•"
 
-Font: F5
-  Text elements: 2
-  Total estimated width: 94.64 points
-  Font size range: 9.96 - 9.96 points
-  Average width per element: 47.32 points
-  Sample texts:
-    [1] "LQi\x1ciBQM\x00唀洀䴀䈀紀㈀/VX"
-    [2] "?"
-
-Font: F9
-  Text elements: 20
-  Total estimated width: 204.23 points
-  Font size range: 9.96 - 9.96 points
-  Average width per element: 10.21 points
-  Sample texts:
-    [1] "j"
-    [2] "j"
-    [3] "j"
-    [4] "j"
-    [5] "j"
-
-Font: F14
-  Text elements: 2
-  Total estimated width: 9.96 points
-  Font size range: 9.96 - 9.96 points
-  Average width per element: 4.98 points
-  Sample texts:
-    [1] "E"
-    [2] "E"
-
-Font: F16
-  Text elements: 5
-  Total estimated width: 69.74 points
-  Font size range: 6.97 - 6.97 points
-  Average width per element: 13.95 points
-  Sample texts:
-    [1] "\\030D"
-    [2] "\\030D"
-    [3] "f"
-    [4] "g\\030"
-    [5] "\\000"
-
 Font: F7
   Text elements: 65
   Total estimated width: 425.40 points
@@ -435,15 +433,17 @@ Font: F7
     [4] "i"
     [5] "i"
 
-Font: F18
-  Text elements: 3
-  Total estimated width: 119.55 points
+Font: F13
+  Text elements: 25
+  Total estimated width: 343.71 points
   Font size range: 9.96 - 9.96 points
-  Average width per element: 39.85 points
+  Average width per element: 13.75 points
   Sample texts:
-    [1] "maximize"
-    [2] "minimize"
-    [3] "maximize"
+    [1] "P"
+    [2] "\""
+    [3] "\\020"
+    [4] "\\021"
+    [5] "|"
 
 Width Calculation Method:
 -------------------------
@@ -683,48 +683,29 @@ Rendering completed successfully
 
 Operator Execution Log:
 ------------------------
-✓ Loaded embedded CFF font data for font F8 (3309 bytes)
-✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F14 (549 bytes)
-✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
-✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
-✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
-✓ Loaded embedded CFF font data for font F18 (2286 bytes)
-✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
-✓ Default width for CID font F18: 280
-✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
-✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F18: Identity-H
-✓ Loaded embedded CFF font data for font F3 (8459 bytes)
-✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
-✓ Default width for CID font F3: 280
-✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
-✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F3: Identity-H
-✓ Loaded embedded CFF font data for font F7 (2394 bytes)
-✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
-✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
-✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
-✓ Loaded embedded CFF font data for font F11 (2689 bytes)
-✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
-✓ Default width for CID font F11: 280
-✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
-✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F11: Identity-H
-✓ Loaded embedded CFF font data for font F15 (756 bytes)
-✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
-✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
-✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
-✓ Loaded embedded CFF font data for font F9 (1399 bytes)
-✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
-✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
-✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
 ✓ Loaded embedded CFF font data for font F19 (839 bytes)
 ✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
 ✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
 ✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
+✓ Loaded embedded CFF font data for font F6 (4423 bytes)
+✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
+✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
+✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
+✓ Loaded embedded CFF font data for font F9 (1399 bytes)
+✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
+✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
+✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
+✓ Loaded embedded CFF font data for font F13 (1665 bytes)
+✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
+✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
+✓ Loaded embedded CFF font data for font F14 (549 bytes)
+✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
+✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
+✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
+✓ Loaded embedded CFF font data for font F15 (756 bytes)
+✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
+✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
+✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
 ✓ Loaded embedded CFF font data for font F1 (5085 bytes)
 ✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
 ✓ Default width for CID font F1: 280
@@ -737,21 +718,40 @@ Operator Execution Log:
 ✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
 ✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded embedded CFF font data for font F6 (4423 bytes)
-✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
-✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
-✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
+✓ Loaded embedded CFF font data for font F11 (2689 bytes)
+✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
+✓ Default width for CID font F11: 280
+✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
+✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F11: Identity-H
 ✓ Loaded embedded CFF font data for font F12 (2273 bytes)
 ✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
 ✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
 ✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F13 (1665 bytes)
-✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
-✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
+✓ Loaded embedded CFF font data for font F3 (8459 bytes)
+✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
+✓ Default width for CID font F3: 280
+✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
+✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F3: Identity-H
+✓ Loaded embedded CFF font data for font F7 (2394 bytes)
+✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
+✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
+✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
+✓ Loaded embedded CFF font data for font F8 (3309 bytes)
+✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
 ✓ Loaded embedded CFF font data for font F16 (956 bytes)
 ✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
 ✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
 ✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
+✓ Loaded embedded CFF font data for font F18 (2286 bytes)
+✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
+✓ Default width for CID font F18: 280
+✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
+✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F18: Identity-H
    Processing array with 1 items
    Array item 0: types.IndirectRef
    Dereferenced to: types.StreamDict
@@ -3016,61 +3016,12 @@ Operator Execution Log:
 [DEBUG] Total displacement: 4.98 (width=4.98, kerning=0.00), new X0=228.13
 [DEBUG] ET operator: End text object
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
-✓ Loaded embedded CFF font data for font F1 (5085 bytes)
-✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
-✓ Default width for CID font F1: 280
-✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
-✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F1: Identity-H
-✓ Loaded embedded CFF font data for font F3 (8459 bytes)
-✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
-✓ Default width for CID font F3: 280
-✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
-✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F3: Identity-H
 ✓ Loaded embedded CFF font data for font F11 (2689 bytes)
 ✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
 ✓ Default width for CID font F11: 280
 ✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
 ✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F11: Identity-H
-✓ Loaded embedded CFF font data for font F12 (2273 bytes)
-✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F8 (3309 bytes)
-✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F9 (1399 bytes)
-✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
-✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
-✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
-✓ Loaded embedded CFF font data for font F16 (956 bytes)
-✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
-✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
-✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
-✓ Loaded embedded CFF font data for font F19 (839 bytes)
-✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
-✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
-✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
-✓ Loaded embedded CFF font data for font F5 (5588 bytes)
-✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
-✓ Default width for CID font F5: 280
-✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
-✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded embedded CFF font data for font F6 (4423 bytes)
-✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
-✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
-✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
-✓ Loaded embedded CFF font data for font F13 (1665 bytes)
-✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
-✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
-✓ Loaded embedded CFF font data for font F7 (2394 bytes)
-✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
-✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
-✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
 ✓ Loaded embedded CFF font data for font F14 (549 bytes)
 ✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
 ✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
@@ -3079,12 +3030,61 @@ Operator Execution Log:
 ✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
 ✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
 ✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
+✓ Loaded embedded CFF font data for font F1 (5085 bytes)
+✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
+✓ Default width for CID font F1: 280
+✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
+✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F1: Identity-H
+✓ Loaded embedded CFF font data for font F7 (2394 bytes)
+✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
+✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
+✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
+✓ Loaded embedded CFF font data for font F13 (1665 bytes)
+✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
+✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
+✓ Loaded embedded CFF font data for font F19 (839 bytes)
+✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
+✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
+✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
+✓ Loaded embedded CFF font data for font F6 (4423 bytes)
+✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
+✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
+✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
 ✓ Loaded embedded CFF font data for font F18 (2286 bytes)
 ✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
 ✓ Default width for CID font F18: 280
 ✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
 ✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F18: Identity-H
+✓ Loaded embedded CFF font data for font F3 (8459 bytes)
+✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
+✓ Default width for CID font F3: 280
+✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
+✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F3: Identity-H
+✓ Loaded embedded CFF font data for font F5 (5588 bytes)
+✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
+✓ Default width for CID font F5: 280
+✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
+✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded embedded CFF font data for font F8 (3309 bytes)
+✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
+✓ Loaded embedded CFF font data for font F12 (2273 bytes)
+✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
+✓ Loaded embedded CFF font data for font F16 (956 bytes)
+✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
+✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
+✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
+✓ Loaded embedded CFF font data for font F9 (1399 bytes)
+✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
+✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
+✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
    Processing array with 1 items
    Array item 0: types.IndirectRef
    Dereferenced to: types.StreamDict
@@ -3365,7 +3365,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="θ" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.67
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.67
 [TEXT_MATRIX] Updated after text: PDF_width=4.67, new X0=14.27
 [Tf] Set font: F3 (BaseFont: ALYRVT+LMRoman10-Regular-Identity-H), Size: 9.96
 [Td] Move text position: tx=4.95, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 14.55 -100.49]
@@ -3397,7 +3397,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="π" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.68
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.68
 [TEXT_MATRIX] Updated after text: PDF_width=5.68, new X0=123.59
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=5.68, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 123.59 -101.98]
@@ -3407,7 +3407,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="θ" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=3.79
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=3.79
 [TEXT_MATRIX] Updated after text: PDF_width=3.79, new X0=127.39
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=4.51, ty=1.49 -> New Tm: [1.00 0.00 0.00 1.00 128.10 -100.49]
@@ -3427,7 +3427,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="y" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.88
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.88
 [TEXT_MATRIX] Updated after text: PDF_width=4.88, new X0=136.86
 [Tf] Set font: F9 (BaseFont: NPXZEU+CMSY10), Size: 9.96
 [Td] Move text position: tx=8.01, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 139.99 -100.49]
@@ -3437,7 +3437,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="|" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=2.76
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.76
 [TEXT_MATRIX] Updated after text: PDF_width=2.76, new X0=142.75
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=5.53, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 145.52 -100.49]
@@ -3447,7 +3447,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="x" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.69
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.69
 [TEXT_MATRIX] Updated after text: PDF_width=5.69, new X0=151.21
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=5.69, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 151.21 -100.49]
@@ -3486,7 +3486,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="π" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.68
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.68
 [TEXT_MATRIX] Updated after text: PDF_width=5.68, new X0=15.28
 [Tf] Set font: F11 (BaseFont: WFCGZP+LMRoman7-Regular-Identity-H), Size: 6.97
 [Td] Move text position: tx=5.68, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 15.28 -121.91]
@@ -3561,7 +3561,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="r" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.49
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.49
 [TEXT_MATRIX] Updated after text: PDF_width=4.49, new X0=14.09
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=4.49, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 14.09 -147.57]
@@ -3571,8 +3571,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="i" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.67
-[TEXT_MATRIX] Updated after text: PDF_width=1.67, new X0=15.77
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.82
+[TEXT_MATRIX] Updated after text: PDF_width=2.82, new X0=16.91
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=3.32, ty=1.49 -> New Tm: [1.00 0.00 0.00 1.00 17.41 -146.08]
 
@@ -3591,7 +3591,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="θ" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.67
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.67
 [TEXT_MATRIX] Updated after text: PDF_width=4.67, new X0=25.96
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=4.95, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 26.24 -146.08]
@@ -3614,7 +3614,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="π" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.68
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.68
 [TEXT_MATRIX] Updated after text: PDF_width=5.68, new X0=52.83
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=5.68, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 52.83 -140.83]
@@ -3624,7 +3624,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="θ" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=3.79
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=3.79
 [TEXT_MATRIX] Updated after text: PDF_width=3.79, new X0=56.62
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=4.51, ty=1.49 -> New Tm: [1.00 0.00 0.00 1.00 57.33 -139.34]
@@ -3644,7 +3644,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="y" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.88
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.88
 [TEXT_MATRIX] Updated after text: PDF_width=4.88, new X0=66.09
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=4.88, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 66.09 -140.83]
@@ -3654,8 +3654,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="i" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.67
-[TEXT_MATRIX] Updated after text: PDF_width=1.67, new X0=67.77
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.82
+[TEXT_MATRIX] Updated after text: PDF_width=2.82, new X0=68.91
 [Tf] Set font: F9 (BaseFont: NPXZEU+CMSY10), Size: 9.96
 [Td] Move text position: tx=6.08, ty=1.49 -> New Tm: [1.00 0.00 0.00 1.00 72.18 -139.34]
 
@@ -3664,7 +3664,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="|" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=2.76
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.76
 [TEXT_MATRIX] Updated after text: PDF_width=2.76, new X0=74.94
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=5.54, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 77.71 -139.34]
@@ -3674,7 +3674,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="x" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.69
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.69
 [TEXT_MATRIX] Updated after text: PDF_width=5.69, new X0=83.40
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=5.69, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 83.41 -140.83]
@@ -3684,8 +3684,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="i" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.67
-[TEXT_MATRIX] Updated after text: PDF_width=1.67, new X0=85.08
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.82
+[TEXT_MATRIX] Updated after text: PDF_width=2.82, new X0=86.22
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=3.32, ty=1.49 -> New Tm: [1.00 0.00 0.00 1.00 86.72 -139.34]
 
@@ -3710,7 +3710,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="π" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.68
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.68
 [TEXT_MATRIX] Updated after text: PDF_width=5.68, new X0=50.27
 [Tf] Set font: F11 (BaseFont: WFCGZP+LMRoman7-Regular-Identity-H), Size: 6.97
 [Td] Move text position: tx=5.68, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 50.27 -154.41]
@@ -3740,7 +3740,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="y" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.88
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.88
 [TEXT_MATRIX] Updated after text: PDF_width=4.88, new X0=68.65
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=4.88, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 68.65 -154.41]
@@ -3750,8 +3750,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="i" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.67
-[TEXT_MATRIX] Updated after text: PDF_width=1.67, new X0=70.32
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.82
+[TEXT_MATRIX] Updated after text: PDF_width=2.82, new X0=71.47
 [Tf] Set font: F9 (BaseFont: NPXZEU+CMSY10), Size: 9.96
 [Td] Move text position: tx=6.08, ty=1.49 -> New Tm: [1.00 0.00 0.00 1.00 74.73 -152.91]
 
@@ -3760,7 +3760,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="|" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=2.76
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.76
 [TEXT_MATRIX] Updated after text: PDF_width=2.76, new X0=77.49
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=5.54, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 80.27 -152.91]
@@ -3770,7 +3770,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="x" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.69
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.69
 [TEXT_MATRIX] Updated after text: PDF_width=5.69, new X0=85.96
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=5.69, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 85.96 -154.41]
@@ -3780,8 +3780,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="i" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.67
-[TEXT_MATRIX] Updated after text: PDF_width=1.67, new X0=87.63
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.82
+[TEXT_MATRIX] Updated after text: PDF_width=2.82, new X0=88.78
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=3.32, ty=1.49 -> New Tm: [1.00 0.00 0.00 1.00 89.28 -152.91]
 
@@ -3850,7 +3850,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="x" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.69
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.69
 [TEXT_MATRIX] Updated after text: PDF_width=5.69, new X0=325.58
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=5.69, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 325.59 -147.57]
@@ -3860,8 +3860,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="i" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.67
-[TEXT_MATRIX] Updated after text: PDF_width=1.67, new X0=327.26
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.82
+[TEXT_MATRIX] Updated after text: PDF_width=2.82, new X0=328.40
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=3.32, ty=1.49 -> New Tm: [1.00 0.00 0.00 1.00 328.90 -146.08]
 
@@ -3870,10 +3870,10 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 3 items
 [TJ_ARRAY][0] Text="," (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=2.76
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.76
 [TJ_ARRAY][1] Kerning=-166 adj=1.65 (x: 2.76 -> 4.41)
 [TJ_ARRAY][2] Text="y" (len=1 runes, 1 CIDs) at x=4.41
-[TJ_ARRAY][2] Rendered run, adv=4.88
+[TJ_ARRAY][2] Rendered TeX glyphs, adv=4.88
 [TEXT_MATRIX] Updated after text: PDF_width=9.30, new X0=338.20
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=9.31, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 338.22 -147.57]
@@ -3883,8 +3883,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="i" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.67
-[TEXT_MATRIX] Updated after text: PDF_width=1.67, new X0=339.89
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.82
+[TEXT_MATRIX] Updated after text: PDF_width=2.82, new X0=341.03
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=3.32, ty=1.49 -> New Tm: [1.00 0.00 0.00 1.00 341.53 -146.08]
 
@@ -3922,7 +3922,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="r" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.49
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.49
 [TEXT_MATRIX] Updated after text: PDF_width=4.49, new X0=14.09
 [Tf] Set font: F12 (BaseFont: SXWWSM+CMR7), Size: 6.97
 [Td] Move text position: tx=4.77, ty=5.17 -> New Tm: [1.00 0.00 0.00 1.00 14.37 -173.41]
@@ -3942,7 +3942,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="k" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.23
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.23
 [TEXT_MATRIX] Updated after text: PDF_width=4.23, new X0=21.72
 [Tf] Set font: F12 (BaseFont: SXWWSM+CMR7), Size: 6.97
 [Td] Move text position: tx=4.40, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 21.89 -173.41]
@@ -3962,8 +3962,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="j" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.59
-[TEXT_MATRIX] Updated after text: PDF_width=1.59, new X0=15.69
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=3.29
+[TEXT_MATRIX] Updated after text: PDF_width=3.29, new X0=17.39
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=11.40, ty=2.78 -> New Tm: [1.00 0.00 0.00 1.00 25.50 -178.58]
 
@@ -3982,7 +3982,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="θ" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.67
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.67
 [TEXT_MATRIX] Updated after text: PDF_width=4.67, new X0=34.05
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=4.95, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 34.33 -178.58]
@@ -4005,7 +4005,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="π" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.68
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.68
 [TEXT_MATRIX] Updated after text: PDF_width=5.68, new X0=60.92
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=5.68, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 60.92 -173.34]
@@ -4015,7 +4015,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="θ" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=3.79
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=3.79
 [TEXT_MATRIX] Updated after text: PDF_width=3.79, new X0=64.71
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=4.51, ty=1.49 -> New Tm: [1.00 0.00 0.00 1.00 65.42 -171.84]
@@ -4035,7 +4035,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="y" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.88
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.88
 [TEXT_MATRIX] Updated after text: PDF_width=4.88, new X0=74.18
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=4.88, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 74.18 -173.34]
@@ -4045,11 +4045,11 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 3 items
 [TJ_ARRAY][0] Text="j" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.59
-[TJ_ARRAY][1] Kerning=3 adj=-0.02 (x: 1.59 -> 1.57)
-[TJ_ARRAY][2] Text=",k" (len=2 runes, 2 CIDs) at x=1.57
-[TJ_ARRAY][2] Rendered run, adv=6.60
-[TEXT_MATRIX] Updated after text: PDF_width=8.17, new X0=82.35
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=3.29
+[TJ_ARRAY][1] Kerning=3 adj=-0.02 (x: 3.29 -> 3.27)
+[TJ_ARRAY][2] Text=",k" (len=2 runes, 2 CIDs) at x=3.27
+[TJ_ARRAY][2] Rendered TeX glyphs, adv=6.60
+[TEXT_MATRIX] Updated after text: PDF_width=9.87, new X0=84.05
 [Tf] Set font: F9 (BaseFont: NPXZEU+CMSY10), Size: 9.96
 [Td] Move text position: tx=13.31, ty=1.49 -> New Tm: [1.00 0.00 0.00 1.00 87.49 -171.84]
 
@@ -4058,7 +4058,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="|" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=2.76
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.76
 [TEXT_MATRIX] Updated after text: PDF_width=2.76, new X0=90.25
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=5.54, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 93.02 -171.84]
@@ -4068,7 +4068,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="x" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.69
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.69
 [TEXT_MATRIX] Updated after text: PDF_width=5.69, new X0=98.71
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=5.69, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 98.72 -173.34]
@@ -4078,8 +4078,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="j" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.59
-[TEXT_MATRIX] Updated after text: PDF_width=1.59, new X0=100.31
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=3.29
+[TEXT_MATRIX] Updated after text: PDF_width=3.29, new X0=102.01
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=4.20, ty=1.49 -> New Tm: [1.00 0.00 0.00 1.00 102.92 -171.84]
 
@@ -4104,7 +4104,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="π" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.68
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.68
 [TEXT_MATRIX] Updated after text: PDF_width=5.68, new X0=58.36
 [Tf] Set font: F11 (BaseFont: WFCGZP+LMRoman7-Regular-Identity-H), Size: 6.97
 [Td] Move text position: tx=5.68, ty=-1.50 -> New Tm: [1.00 0.00 0.00 1.00 58.36 -186.91]
@@ -4134,7 +4134,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="y" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.88
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.88
 [TEXT_MATRIX] Updated after text: PDF_width=4.88, new X0=76.74
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=4.88, ty=-1.50 -> New Tm: [1.00 0.00 0.00 1.00 76.74 -186.91]
@@ -4144,11 +4144,11 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 3 items
 [TJ_ARRAY][0] Text="j" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.59
-[TJ_ARRAY][1] Kerning=3 adj=-0.02 (x: 1.59 -> 1.57)
-[TJ_ARRAY][2] Text=",k" (len=2 runes, 2 CIDs) at x=1.57
-[TJ_ARRAY][2] Rendered run, adv=6.60
-[TEXT_MATRIX] Updated after text: PDF_width=8.17, new X0=84.91
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=3.29
+[TJ_ARRAY][1] Kerning=3 adj=-0.02 (x: 3.29 -> 3.27)
+[TJ_ARRAY][2] Text=",k" (len=2 runes, 2 CIDs) at x=3.27
+[TJ_ARRAY][2] Rendered TeX glyphs, adv=6.60
+[TEXT_MATRIX] Updated after text: PDF_width=9.87, new X0=86.61
 [Tf] Set font: F9 (BaseFont: NPXZEU+CMSY10), Size: 9.96
 [Td] Move text position: tx=13.31, ty=1.50 -> New Tm: [1.00 0.00 0.00 1.00 90.05 -185.42]
 
@@ -4157,7 +4157,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="|" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=2.76
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.76
 [TEXT_MATRIX] Updated after text: PDF_width=2.76, new X0=92.80
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=5.53, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 95.58 -185.42]
@@ -4167,7 +4167,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="x" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.69
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.69
 [TEXT_MATRIX] Updated after text: PDF_width=5.69, new X0=101.27
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=5.69, ty=-1.50 -> New Tm: [1.00 0.00 0.00 1.00 101.27 -186.91]
@@ -4177,8 +4177,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="j" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.59
-[TEXT_MATRIX] Updated after text: PDF_width=1.59, new X0=102.87
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=3.29
+[TEXT_MATRIX] Updated after text: PDF_width=3.29, new X0=104.56
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=4.20, ty=1.50 -> New Tm: [1.00 0.00 0.00 1.00 105.47 -185.42]
 
@@ -4216,7 +4216,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="k" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.18
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.18
 [TEXT_MATRIX] Updated after text: PDF_width=5.18, new X0=182.47
 [Tf] Set font: F3 (BaseFont: ALYRVT+LMRoman10-Regular-Identity-H), Size: 9.96
 [Td] Move text position: tx=5.50, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 182.79 -178.58]
@@ -4272,7 +4272,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="x" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.69
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.69
 [TEXT_MATRIX] Updated after text: PDF_width=5.69, new X0=441.08
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=5.69, ty=-1.50 -> New Tm: [1.00 0.00 0.00 1.00 441.09 -180.08]
@@ -4282,8 +4282,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="j" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.59
-[TEXT_MATRIX] Updated after text: PDF_width=1.59, new X0=442.68
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=3.29
+[TEXT_MATRIX] Updated after text: PDF_width=3.29, new X0=444.38
 [Tf] Set font: F3 (BaseFont: ALYRVT+LMRoman10-Regular-Identity-H), Size: 9.96
 [Td] Move text position: tx=4.20, ty=1.50 -> New Tm: [1.00 0.00 0.00 1.00 445.28 -178.58]
 
@@ -4321,7 +4321,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="A" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=7.47
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=7.47
 [TEXT_MATRIX] Updated after text: PDF_width=7.47, new X0=17.07
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=7.47, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 17.07 -208.16]
@@ -4331,8 +4331,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="i" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.67
-[TEXT_MATRIX] Updated after text: PDF_width=1.67, new X0=18.74
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.82
+[TEXT_MATRIX] Updated after text: PDF_width=2.82, new X0=19.89
 [Tf] Set font: F3 (BaseFont: ALYRVT+LMRoman10-Regular-Identity-H), Size: 9.96
 [Td] Move text position: tx=3.32, ty=1.49 -> New Tm: [1.00 0.00 0.00 1.00 20.39 -206.67]
 
@@ -4378,7 +4378,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="i" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=3.43
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=3.43
 [TEXT_MATRIX] Updated after text: PDF_width=3.43, new X0=268.01
 [Tf] Set font: F3 (BaseFont: ALYRVT+LMRoman10-Regular-Identity-H), Size: 9.96
 [Td] Move text position: tx=3.43, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 268.02 -206.67]
@@ -4452,7 +4452,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="w" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=7.12
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=7.12
 [TEXT_MATRIX] Updated after text: PDF_width=7.12, new X0=16.72
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=7.13, ty=-1.50 -> New Tm: [1.00 0.00 0.00 1.00 16.73 -240.05]
@@ -4462,11 +4462,11 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 3 items
 [TJ_ARRAY][0] Text="j" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.59
-[TJ_ARRAY][1] Kerning=3 adj=-0.02 (x: 1.59 -> 1.57)
-[TJ_ARRAY][2] Text=",k" (len=2 runes, 2 CIDs) at x=1.57
-[TJ_ARRAY][2] Rendered run, adv=6.60
-[TEXT_MATRIX] Updated after text: PDF_width=8.17, new X0=24.90
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=3.29
+[TJ_ARRAY][1] Kerning=3 adj=-0.02 (x: 3.29 -> 3.27)
+[TJ_ARRAY][2] Text=",k" (len=2 runes, 2 CIDs) at x=3.27
+[TJ_ARRAY][2] Rendered TeX glyphs, adv=6.60
+[TEXT_MATRIX] Updated after text: PDF_width=9.87, new X0=26.60
 [Tf] Set font: F9 (BaseFont: NPXZEU+CMSY10), Size: 9.96
 [Td] Move text position: tx=13.31, ty=1.50 -> New Tm: [1.00 0.00 0.00 1.00 30.04 -238.55]
 
@@ -4475,7 +4475,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="≥" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=7.74
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=7.74
 [TEXT_MATRIX] Updated after text: PDF_width=7.74, new X0=37.78
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=10.52, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 40.55 -238.55]
@@ -4529,7 +4529,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="y" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.88
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.88
 [TEXT_MATRIX] Updated after text: PDF_width=4.88, new X0=188.38
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=4.88, ty=-1.50 -> New Tm: [1.00 0.00 0.00 1.00 188.38 -240.05]
@@ -4539,11 +4539,11 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 3 items
 [TJ_ARRAY][0] Text="j" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.59
-[TJ_ARRAY][1] Kerning=3 adj=-0.02 (x: 1.59 -> 1.57)
-[TJ_ARRAY][2] Text=",k" (len=2 runes, 2 CIDs) at x=1.57
-[TJ_ARRAY][2] Rendered run, adv=6.60
-[TEXT_MATRIX] Updated after text: PDF_width=8.17, new X0=196.55
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=3.29
+[TJ_ARRAY][1] Kerning=3 adj=-0.02 (x: 3.29 -> 3.27)
+[TJ_ARRAY][2] Text=",k" (len=2 runes, 2 CIDs) at x=3.27
+[TJ_ARRAY][2] Rendered TeX glyphs, adv=6.60
+[TEXT_MATRIX] Updated after text: PDF_width=9.87, new X0=198.25
 [Tf] Set font: F3 (BaseFont: ALYRVT+LMRoman10-Regular-Identity-H), Size: 9.96
 [Td] Move text position: tx=10.54, ty=1.50 -> New Tm: [1.00 0.00 0.00 1.00 198.92 -238.55]
 
@@ -4571,8 +4571,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="P" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.11
-[TEXT_MATRIX] Updated after text: PDF_width=5.11, new X0=258.32
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=10.51
+[TEXT_MATRIX] Updated after text: PDF_width=10.51, new X0=263.72
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=10.52, ty=-10.46 -> New Tm: [1.00 0.00 0.00 1.00 263.72 -241.54]
 
@@ -4581,7 +4581,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="k" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.23
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.23
 [TEXT_MATRIX] Updated after text: PDF_width=4.23, new X0=267.96
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=6.56, ty=2.99 -> New Tm: [1.00 0.00 0.00 1.00 270.29 -238.55]
@@ -4591,7 +4591,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="w" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=7.12
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=7.12
 [TEXT_MATRIX] Updated after text: PDF_width=7.12, new X0=277.41
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=7.13, ty=-1.50 -> New Tm: [1.00 0.00 0.00 1.00 277.42 -240.05]
@@ -4601,11 +4601,11 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 3 items
 [TJ_ARRAY][0] Text="j" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.59
-[TJ_ARRAY][1] Kerning=3 adj=-0.02 (x: 1.59 -> 1.57)
-[TJ_ARRAY][2] Text=",k" (len=2 runes, 2 CIDs) at x=1.57
-[TJ_ARRAY][2] Rendered run, adv=6.60
-[TEXT_MATRIX] Updated after text: PDF_width=8.17, new X0=285.59
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=3.29
+[TJ_ARRAY][1] Kerning=3 adj=-0.02 (x: 3.29 -> 3.27)
+[TJ_ARRAY][2] Text=",k" (len=2 runes, 2 CIDs) at x=3.27
+[TJ_ARRAY][2] Rendered TeX glyphs, adv=6.60
+[TEXT_MATRIX] Updated after text: PDF_width=9.87, new X0=287.29
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=13.31, ty=1.50 -> New Tm: [1.00 0.00 0.00 1.00 290.72 -238.55]
 
@@ -4649,8 +4649,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="j" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=2.39
-[TEXT_MATRIX] Updated after text: PDF_width=2.39, new X0=385.01
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.09
+[TEXT_MATRIX] Updated after text: PDF_width=4.09, new X0=386.71
 [Tf] Set font: F3 (BaseFont: ALYRVT+LMRoman10-Regular-Identity-H), Size: 9.96
 [Td] Move text position: tx=4.67, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 387.29 -238.55]
 
@@ -4693,10 +4693,10 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 3 items
 [TJ_ARRAY][0] Text="ϵ" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.03
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.03
 [TJ_ARRAY][1] Kerning=-277 adj=2.76 (x: 4.03 -> 6.79)
 [TJ_ARRAY][2] Text=">" (len=1 runes, 1 CIDs) at x=6.79
-[TJ_ARRAY][2] Rendered run, adv=7.74
+[TJ_ARRAY][2] Rendered TeX glyphs, adv=7.74
 [TEXT_MATRIX] Updated after text: PDF_width=14.54, new X0=129.38
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=17.33, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 132.17 -258.48]
@@ -4739,7 +4739,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="ϵ" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=3.32
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=3.32
 [TEXT_MATRIX] Updated after text: PDF_width=3.32, new X0=190.84
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=3.82, ty=2.44 -> New Tm: [1.00 0.00 0.00 1.00 191.34 -258.48]
@@ -4759,7 +4759,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="r" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.49
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.49
 [TEXT_MATRIX] Updated after text: PDF_width=4.49, new X0=199.71
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=4.77, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 199.99 -258.48]
@@ -4785,10 +4785,10 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 3 items
 [TJ_ARRAY][0] Text="r" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.49
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.49
 [TJ_ARRAY][1] Kerning=27 adj=-0.27 (x: 4.49 -> 4.22)
 [TJ_ARRAY][2] Text="," (len=1 runes, 1 CIDs) at x=4.22
-[TJ_ARRAY][2] Rendered run, adv=2.76
+[TJ_ARRAY][2] Rendered TeX glyphs, adv=2.76
 [TEXT_MATRIX] Updated after text: PDF_width=6.98, new X0=243.50
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=10.31, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 246.82 -258.48]
@@ -4808,7 +4808,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="−" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=7.74
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=7.74
 [TEXT_MATRIX] Updated after text: PDF_width=7.74, new X0=261.76
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=9.96, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 263.98 -258.48]
@@ -4818,7 +4818,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="ϵ," (len=2 runes, 2 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=6.79
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=6.79
 [TEXT_MATRIX] Updated after text: PDF_width=6.79, new X0=270.77
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=10.13, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 274.11 -258.48]
@@ -4841,7 +4841,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="ϵ" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.03
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.03
 [TEXT_MATRIX] Updated after text: PDF_width=4.03, new X0=295.30
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=4.04, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 295.31 -258.48]
@@ -4880,7 +4880,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="L" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=6.77
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=6.77
 [TEXT_MATRIX] Updated after text: PDF_width=6.77, new X0=16.37
 [Tf] Set font: F12 (BaseFont: SXWWSM+CMR7), Size: 6.97
 [Td] Move text position: tx=6.78, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 16.38 -279.90]
@@ -4952,7 +4952,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="D" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=8.24
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=8.24
 [TEXT_MATRIX] Updated after text: PDF_width=8.24, new X0=17.84
 [Tf] Set font: F12 (BaseFont: SXWWSM+CMR7), Size: 6.97
 [Td] Move text position: tx=8.25, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 17.85 -299.82]
@@ -4982,7 +4982,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="π" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.68
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.68
 [TEXT_MATRIX] Updated after text: PDF_width=5.68, new X0=38.92
 [Tf] Set font: F11 (BaseFont: WFCGZP+LMRoman7-Regular-Identity-H), Size: 6.97
 [Td] Move text position: tx=5.68, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 38.92 -299.82]
@@ -5002,7 +5002,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="k" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.98
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.98
 [TEXT_MATRIX] Updated after text: PDF_width=4.98, new X0=53.52
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=4.98, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 53.52 -298.33]
@@ -5012,7 +5012,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="π" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.68
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.68
 [TEXT_MATRIX] Updated after text: PDF_width=5.68, new X0=59.20
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=5.68, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 59.20 -299.82]
@@ -5022,7 +5022,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="θ" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=3.79
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=3.79
 [TEXT_MATRIX] Updated after text: PDF_width=3.79, new X0=62.99
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=4.51, ty=1.49 -> New Tm: [1.00 0.00 0.00 1.00 63.71 -298.33]
@@ -5216,8 +5216,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="J" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=2.77
-[TEXT_MATRIX] Updated after text: PDF_width=2.77, new X0=45.21
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.52
+[TEXT_MATRIX] Updated after text: PDF_width=5.52, new X0=47.97
 [Tf] Set font: F12 (BaseFont: SXWWSM+CMR7), Size: 6.97
 [Td] Move text position: tx=5.53, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 47.97 -396.95]
 
@@ -5249,7 +5249,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="θ" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.67
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.67
 [TEXT_MATRIX] Updated after text: PDF_width=4.67, new X0=85.72
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=4.95, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 86.00 -395.46]
@@ -5272,7 +5272,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="𝔼" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=6.64
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=6.64
 [TEXT_MATRIX] Updated after text: PDF_width=6.64, new X0=112.56
 [Tf] Set font: F12 (BaseFont: SXWWSM+CMR7), Size: 6.97
 [Td] Move text position: tx=6.64, ty=-1.80 -> New Tm: [1.00 0.00 0.00 1.00 112.57 -397.26]
@@ -5292,7 +5292,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="x" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.51
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.51
 [TEXT_MATRIX] Updated after text: PDF_width=4.51, new X0=120.20
 [Tf] Set font: F15 (BaseFont: WIEJAH+CMMI5), Size: 4.98
 [Td] Move text position: tx=4.52, ty=-1.00 -> New Tm: [1.00 0.00 0.00 1.00 120.20 -398.25]
@@ -5302,8 +5302,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="i" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.11
-[TEXT_MATRIX] Updated after text: PDF_width=1.11, new X0=121.31
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.66
+[TEXT_MATRIX] Updated after text: PDF_width=2.66, new X0=122.86
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=3.16, ty=1.00 -> New Tm: [1.00 0.00 0.00 1.00 123.36 -397.26]
 
@@ -5312,7 +5312,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text=",y" (len=2 runes, 2 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=6.40
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=6.40
 [TEXT_MATRIX] Updated after text: PDF_width=6.40, new X0=129.76
 [Tf] Set font: F15 (BaseFont: WIEJAH+CMMI5), Size: 4.98
 [Td] Move text position: tx=6.41, ty=-1.00 -> New Tm: [1.00 0.00 0.00 1.00 129.76 -398.25]
@@ -5322,8 +5322,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="i" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.11
-[TEXT_MATRIX] Updated after text: PDF_width=1.11, new X0=130.87
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.66
+[TEXT_MATRIX] Updated after text: PDF_width=2.66, new X0=132.42
 [Tf] Set font: F12 (BaseFont: SXWWSM+CMR7), Size: 6.97
 [Td] Move text position: tx=3.16, ty=1.00 -> New Tm: [1.00 0.00 0.00 1.00 132.92 -397.26]
 
@@ -5342,7 +5342,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="∼D" (len=2 runes, 2 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=12.42
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=12.42
 [TEXT_MATRIX] Updated after text: PDF_width=12.42, new X0=148.45
 [Tf] Set font: F13 (BaseFont: CAFZKO+CMEX10), Size: 9.96
 [Td] Move text position: tx=13.14, ty=18.84 -> New Tm: [1.00 0.00 0.00 1.00 149.18 -378.42]
@@ -5352,8 +5352,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="[" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=3.16
-[TEXT_MATRIX] Updated after text: PDF_width=3.16, new X0=152.33
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.81
+[TEXT_MATRIX] Updated after text: PDF_width=5.81, new X0=154.98
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=5.81, ty=-17.04 -> New Tm: [1.00 0.00 0.00 1.00 154.99 -395.46]
 
@@ -5362,7 +5362,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="α" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=6.37
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=6.37
 [TEXT_MATRIX] Updated after text: PDF_width=6.37, new X0=161.35
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=6.37, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 161.36 -396.95]
@@ -5372,8 +5372,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="i" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.67
-[TEXT_MATRIX] Updated after text: PDF_width=1.67, new X0=163.03
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.82
+[TEXT_MATRIX] Updated after text: PDF_width=2.82, new X0=164.18
 [Tf] Set font: F9 (BaseFont: NPXZEU+CMSY10), Size: 9.96
 [Td] Move text position: tx=5.53, ty=1.49 -> New Tm: [1.00 0.00 0.00 1.00 166.89 -395.46]
 
@@ -5382,7 +5382,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="⋅" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=2.76
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.76
 [TEXT_MATRIX] Updated after text: PDF_width=2.76, new X0=169.65
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=4.98, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 171.87 -395.46]
@@ -5402,8 +5402,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="(" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=3.44
-[TEXT_MATRIX] Updated after text: PDF_width=3.44, new X0=193.57
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.95
+[TEXT_MATRIX] Updated after text: PDF_width=5.95, new X0=196.08
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=5.95, ty=-11.06 -> New Tm: [1.00 0.00 0.00 1.00 196.09 -395.46]
 
@@ -5412,7 +5412,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="r" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.49
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.49
 [TEXT_MATRIX] Updated after text: PDF_width=4.49, new X0=200.58
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=4.50, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 200.58 -396.95]
@@ -5422,8 +5422,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="i" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.67
-[TEXT_MATRIX] Updated after text: PDF_width=1.67, new X0=202.25
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.82
+[TEXT_MATRIX] Updated after text: PDF_width=2.82, new X0=203.40
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=3.32, ty=1.49 -> New Tm: [1.00 0.00 0.00 1.00 203.90 -395.46]
 
@@ -5442,7 +5442,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="θ" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.67
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.67
 [TEXT_MATRIX] Updated after text: PDF_width=4.67, new X0=212.44
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=4.95, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 212.73 -395.46]
@@ -5471,7 +5471,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="A" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=7.47
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=7.47
 [TEXT_MATRIX] Updated after text: PDF_width=7.47, new X0=225.73
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=7.47, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 225.73 -396.95]
@@ -5481,8 +5481,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="i" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.67
-[TEXT_MATRIX] Updated after text: PDF_width=1.67, new X0=227.40
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.82
+[TEXT_MATRIX] Updated after text: PDF_width=2.82, new X0=228.55
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=3.32, ty=1.49 -> New Tm: [1.00 0.00 0.00 1.00 229.05 -395.46]
 
@@ -5491,7 +5491,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="," (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=2.76
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.76
 [TEXT_MATRIX] Updated after text: PDF_width=2.76, new X0=231.81
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=7.20, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 236.25 -395.46]
@@ -5511,7 +5511,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="ϵ" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=3.32
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=3.32
 [TEXT_MATRIX] Updated after text: PDF_width=3.32, new X0=255.06
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=3.82, ty=2.44 -> New Tm: [1.00 0.00 0.00 1.00 255.56 -395.46]
@@ -5531,7 +5531,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="r" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.49
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.49
 [TEXT_MATRIX] Updated after text: PDF_width=4.49, new X0=263.93
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=4.50, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 263.93 -396.95]
@@ -5541,8 +5541,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="i" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.67
-[TEXT_MATRIX] Updated after text: PDF_width=1.67, new X0=265.60
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.82
+[TEXT_MATRIX] Updated after text: PDF_width=2.82, new X0=266.75
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=3.32, ty=1.49 -> New Tm: [1.00 0.00 0.00 1.00 267.25 -395.46]
 
@@ -5561,7 +5561,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="θ" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.67
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.67
 [TEXT_MATRIX] Updated after text: PDF_width=4.67, new X0=275.79
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=4.95, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 276.08 -395.46]
@@ -5590,7 +5590,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="A" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=7.47
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=7.47
 [TEXT_MATRIX] Updated after text: PDF_width=7.47, new X0=292.96
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=7.47, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 292.96 -396.95]
@@ -5600,8 +5600,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="i" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.67
-[TEXT_MATRIX] Updated after text: PDF_width=1.67, new X0=294.63
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.82
+[TEXT_MATRIX] Updated after text: PDF_width=2.82, new X0=295.77
 [Tf] Set font: F13 (BaseFont: CAFZKO+CMEX10), Size: 9.96
 [Td] Move text position: tx=3.32, ty=12.55 -> New Tm: [1.00 0.00 0.00 1.00 296.27 -384.40]
 
@@ -5610,8 +5610,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text=")" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=3.44
-[TEXT_MATRIX] Updated after text: PDF_width=3.44, new X0=299.71
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.95
+[TEXT_MATRIX] Updated after text: PDF_width=5.95, new X0=302.22
 [Td] Move text position: tx=-124.40, ty=-21.72 -> New Tm: [1.00 0.00 0.00 1.00 171.87 -406.12]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=9.96
@@ -5619,7 +5619,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="|" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.48
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.48
 [TEXT_MATRIX] Updated after text: PDF_width=4.48, new X0=176.36
 [ET] End text object
 [q] Save graphics state - Stack depth: 3
@@ -5635,7 +5635,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="{z" (len=2 runes, 2 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=8.97
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=8.97
 [TEXT_MATRIX] Updated after text: PDF_width=8.97, new X0=241.53
 [ET] End text object
 [q] Save graphics state - Stack depth: 3
@@ -5651,7 +5651,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="}" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.48
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.48
 [TEXT_MATRIX] Updated after text: PDF_width=4.48, new X0=302.22
 [Tf] Set font: F11 (BaseFont: WFCGZP+LMRoman7-Regular-Identity-H), Size: 6.97
 [Td] Move text position: tx=-106.34, ty=-9.88 -> New Tm: [1.00 0.00 0.00 1.00 191.40 -416.00]
@@ -5693,7 +5693,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="−" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=7.74
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=7.74
 [TEXT_MATRIX] Updated after text: PDF_width=7.74, new X0=179.53
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=9.96, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 181.76 -440.94]
@@ -5703,7 +5703,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="α" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=6.37
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=6.37
 [TEXT_MATRIX] Updated after text: PDF_width=6.37, new X0=188.12
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=6.37, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 188.13 -442.43]
@@ -5713,8 +5713,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="i" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.67
-[TEXT_MATRIX] Updated after text: PDF_width=1.67, new X0=189.80
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.82
+[TEXT_MATRIX] Updated after text: PDF_width=2.82, new X0=190.95
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=3.32, ty=1.49 -> New Tm: [1.00 0.00 0.00 1.00 191.45 -440.94]
 
@@ -5733,7 +5733,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="⋅" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=2.76
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.76
 [TEXT_MATRIX] Updated after text: PDF_width=2.76, new X0=200.29
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=8.63, ty=12.45 -> New Tm: [1.00 0.00 0.00 1.00 206.17 -428.49]
@@ -5743,8 +5743,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="K" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=3.78
-[TEXT_MATRIX] Updated after text: PDF_width=3.78, new X0=209.95
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=6.69
+[TEXT_MATRIX] Updated after text: PDF_width=6.69, new X0=212.86
 [Tf] Set font: F13 (BaseFont: CAFZKO+CMEX10), Size: 9.96
 [Td] Move text position: tx=-3.60, ty=-2.99 -> New Tm: [1.00 0.00 0.00 1.00 202.56 -431.47]
 
@@ -5753,8 +5753,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="X" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.14
-[TEXT_MATRIX] Updated after text: PDF_width=5.14, new X0=207.70
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=14.39
+[TEXT_MATRIX] Updated after text: PDF_width=14.39, new X0=216.95
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=-0.05, ty=-21.45 -> New Tm: [1.00 0.00 0.00 1.00 202.51 -452.92]
 
@@ -5763,7 +5763,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="k" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.23
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.23
 [TEXT_MATRIX] Updated after text: PDF_width=4.23, new X0=206.75
 [Tf] Set font: F12 (BaseFont: SXWWSM+CMR7), Size: 6.97
 [Td] Move text position: tx=4.40, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 206.92 -452.92]
@@ -5783,7 +5783,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="w" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=7.12
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=7.12
 [TEXT_MATRIX] Updated after text: PDF_width=7.12, new X0=225.79
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=7.13, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 225.80 -442.43]
@@ -5793,7 +5793,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="i,k" (len=3 runes, 3 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=9.41
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=9.41
 [TEXT_MATRIX] Updated after text: PDF_width=9.41, new X0=235.21
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=13.41, ty=1.49 -> New Tm: [1.00 0.00 0.00 1.00 239.20 -440.94]
@@ -5813,8 +5813,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="(" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=3.44
-[TEXT_MATRIX] Updated after text: PDF_width=3.44, new X0=260.91
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.95
+[TEXT_MATRIX] Updated after text: PDF_width=5.95, new X0=263.42
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=5.95, ty=-11.06 -> New Tm: [1.00 0.00 0.00 1.00 263.42 -440.94]
 
@@ -5823,7 +5823,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="r" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.49
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.49
 [TEXT_MATRIX] Updated after text: PDF_width=4.49, new X0=267.91
 [Tf] Set font: F12 (BaseFont: SXWWSM+CMR7), Size: 6.97
 [Td] Move text position: tx=4.77, ty=5.17 -> New Tm: [1.00 0.00 0.00 1.00 268.19 -435.76]
@@ -5843,7 +5843,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="k" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.23
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.23
 [TEXT_MATRIX] Updated after text: PDF_width=4.23, new X0=275.54
 [Tf] Set font: F12 (BaseFont: SXWWSM+CMR7), Size: 6.97
 [Td] Move text position: tx=4.40, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 275.71 -435.76]
@@ -5863,8 +5863,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="i" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.67
-[TEXT_MATRIX] Updated after text: PDF_width=1.67, new X0=269.59
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.82
+[TEXT_MATRIX] Updated after text: PDF_width=2.82, new X0=270.73
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=11.40, ty=2.78 -> New Tm: [1.00 0.00 0.00 1.00 279.32 -440.94]
 
@@ -5883,7 +5883,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="θ" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.67
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.67
 [TEXT_MATRIX] Updated after text: PDF_width=4.67, new X0=287.87
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=4.95, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 288.15 -440.94]
@@ -5912,7 +5912,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="A" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=7.47
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=7.47
 [TEXT_MATRIX] Updated after text: PDF_width=7.47, new X0=301.15
 [Tf] Set font: F12 (BaseFont: SXWWSM+CMR7), Size: 6.97
 [Td] Move text position: tx=7.47, ty=5.17 -> New Tm: [1.00 0.00 0.00 1.00 301.15 -435.76]
@@ -5932,7 +5932,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="k" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.23
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.23
 [TEXT_MATRIX] Updated after text: PDF_width=4.23, new X0=308.50
 [Tf] Set font: F12 (BaseFont: SXWWSM+CMR7), Size: 6.97
 [Td] Move text position: tx=4.40, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 308.67 -435.76]
@@ -5952,8 +5952,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="i" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.67
-[TEXT_MATRIX] Updated after text: PDF_width=1.67, new X0=302.83
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.82
+[TEXT_MATRIX] Updated after text: PDF_width=2.82, new X0=303.97
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=11.13, ty=2.78 -> New Tm: [1.00 0.00 0.00 1.00 312.28 -440.94]
 
@@ -5962,7 +5962,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="," (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=2.76
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.76
 [TEXT_MATRIX] Updated after text: PDF_width=2.76, new X0=315.04
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=7.20, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 319.48 -440.94]
@@ -5982,7 +5982,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="ϵ" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=3.32
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=3.32
 [TEXT_MATRIX] Updated after text: PDF_width=3.32, new X0=338.30
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=3.82, ty=2.44 -> New Tm: [1.00 0.00 0.00 1.00 338.79 -440.94]
@@ -6002,7 +6002,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="r" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.49
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.49
 [TEXT_MATRIX] Updated after text: PDF_width=4.49, new X0=347.16
 [Tf] Set font: F12 (BaseFont: SXWWSM+CMR7), Size: 6.97
 [Td] Move text position: tx=4.77, ty=5.17 -> New Tm: [1.00 0.00 0.00 1.00 347.44 -435.76]
@@ -6022,7 +6022,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="k" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.23
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.23
 [TEXT_MATRIX] Updated after text: PDF_width=4.23, new X0=354.79
 [Tf] Set font: F12 (BaseFont: SXWWSM+CMR7), Size: 6.97
 [Td] Move text position: tx=4.40, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 354.96 -435.76]
@@ -6042,8 +6042,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="i" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.67
-[TEXT_MATRIX] Updated after text: PDF_width=1.67, new X0=348.84
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.82
+[TEXT_MATRIX] Updated after text: PDF_width=2.82, new X0=349.98
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=11.40, ty=2.78 -> New Tm: [1.00 0.00 0.00 1.00 358.57 -440.94]
 
@@ -6062,7 +6062,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="θ" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.67
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.67
 [TEXT_MATRIX] Updated after text: PDF_width=4.67, new X0=367.12
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=4.95, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 367.40 -440.94]
@@ -6091,7 +6091,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="A" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=7.47
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=7.47
 [TEXT_MATRIX] Updated after text: PDF_width=7.47, new X0=384.28
 [Tf] Set font: F12 (BaseFont: SXWWSM+CMR7), Size: 6.97
 [Td] Move text position: tx=7.47, ty=5.17 -> New Tm: [1.00 0.00 0.00 1.00 384.28 -435.76]
@@ -6111,7 +6111,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="k" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.23
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.23
 [TEXT_MATRIX] Updated after text: PDF_width=4.23, new X0=391.62
 [Tf] Set font: F12 (BaseFont: SXWWSM+CMR7), Size: 6.97
 [Td] Move text position: tx=4.40, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 391.79 -435.76]
@@ -6131,8 +6131,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="i" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.67
-[TEXT_MATRIX] Updated after text: PDF_width=1.67, new X0=385.95
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.82
+[TEXT_MATRIX] Updated after text: PDF_width=2.82, new X0=387.10
 [Tf] Set font: F13 (BaseFont: CAFZKO+CMEX10), Size: 9.96
 [Td] Move text position: tx=11.13, ty=13.84 -> New Tm: [1.00 0.00 0.00 1.00 395.41 -429.88]
 
@@ -6141,8 +6141,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text=")" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=3.44
-[TEXT_MATRIX] Updated after text: PDF_width=3.44, new X0=398.84
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.95
+[TEXT_MATRIX] Updated after text: PDF_width=5.95, new X0=401.35
 [Td] Move text position: tx=-192.89, ty=-28.22 -> New Tm: [1.00 0.00 0.00 1.00 202.51 -458.10]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=9.96
@@ -6150,7 +6150,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="|" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.48
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.48
 [TEXT_MATRIX] Updated after text: PDF_width=4.48, new X0=207.00
 [ET] End text object
 [q] Save graphics state - Stack depth: 3
@@ -6166,7 +6166,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="{z" (len=2 runes, 2 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=8.97
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=8.97
 [TEXT_MATRIX] Updated after text: PDF_width=8.97, new X0=306.42
 [ET] End text object
 [q] Save graphics state - Stack depth: 3
@@ -6182,7 +6182,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="}" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.48
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.48
 [TEXT_MATRIX] Updated after text: PDF_width=4.48, new X0=401.36
 [Tf] Set font: F11 (BaseFont: WFCGZP+LMRoman7-Regular-Identity-H), Size: 6.97
 [Td] Move text position: tx=-167.57, ty=-9.55 -> New Tm: [1.00 0.00 0.00 1.00 229.30 -467.66]
@@ -6217,8 +6217,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="]" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=3.16
-[TEXT_MATRIX] Updated after text: PDF_width=3.16, new X0=406.17
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.81
+[TEXT_MATRIX] Updated after text: PDF_width=5.81, new X0=408.83
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=-292.11, ty=-58.55 -> New Tm: [1.00 0.00 0.00 1.00 110.91 -482.46]
 
@@ -6237,7 +6237,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="γ" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.15
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.15
 [TEXT_MATRIX] Updated after text: PDF_width=5.15, new X0=128.79
 [Tf] Set font: F14 (BaseFont: DBKKCI+MSBM10), Size: 9.96
 [Td] Move text position: tx=7.37, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 131.01 -482.46]
@@ -6247,7 +6247,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="𝔼" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=6.64
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=6.64
 [TEXT_MATRIX] Updated after text: PDF_width=6.64, new X0=137.65
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=6.64, ty=-1.80 -> New Tm: [1.00 0.00 0.00 1.00 137.65 -484.26]
@@ -6257,7 +6257,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="x" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.51
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.51
 [TEXT_MATRIX] Updated after text: PDF_width=4.51, new X0=142.17
 [Tf] Set font: F15 (BaseFont: WIEJAH+CMMI5), Size: 4.98
 [Td] Move text position: tx=4.52, ty=-1.00 -> New Tm: [1.00 0.00 0.00 1.00 142.17 -485.25]
@@ -6267,8 +6267,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="i" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.11
-[TEXT_MATRIX] Updated after text: PDF_width=1.11, new X0=143.28
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.66
+[TEXT_MATRIX] Updated after text: PDF_width=2.66, new X0=144.83
 [Tf] Set font: F16 (BaseFont: DKJWQF+CMSY7), Size: 6.97
 [Td] Move text position: tx=3.16, ty=1.00 -> New Tm: [1.00 0.00 0.00 1.00 145.33 -484.26]
 
@@ -6277,7 +6277,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="∼D" (len=2 runes, 2 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=12.42
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=12.42
 [TEXT_MATRIX] Updated after text: PDF_width=12.42, new X0=157.75
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=12.64, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 157.97 -484.26]
@@ -6287,8 +6287,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="," (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.23
-[TEXT_MATRIX] Updated after text: PDF_width=1.23, new X0=159.21
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.36
+[TEXT_MATRIX] Updated after text: PDF_width=2.36, new X0=160.34
 [Tf] Set font: F16 (BaseFont: DKJWQF+CMSY7), Size: 6.97
 [Td] Move text position: tx=3.73, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 161.70 -484.26]
 
@@ -6297,8 +6297,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="{" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=2.33
-[TEXT_MATRIX] Updated after text: PDF_width=2.33, new X0=164.03
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.08
+[TEXT_MATRIX] Updated after text: PDF_width=4.08, new X0=165.78
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=4.08, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 165.78 -484.26]
 
@@ -6307,7 +6307,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="y" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.04
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.04
 [TEXT_MATRIX] Updated after text: PDF_width=4.04, new X0=169.82
 [Tf] Set font: F15 (BaseFont: WIEJAH+CMMI5), Size: 4.98
 [Td] Move text position: tx=4.04, ty=-1.06 -> New Tm: [1.00 0.00 0.00 1.00 169.82 -485.31]
@@ -6317,8 +6317,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="i,k" (len=3 runes, 3 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.03
-[TEXT_MATRIX] Updated after text: PDF_width=4.03, new X0=173.85
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=8.71
+[TEXT_MATRIX] Updated after text: PDF_width=8.71, new X0=178.53
 [Tf] Set font: F16 (BaseFont: DKJWQF+CMSY7), Size: 6.97
 [Td] Move text position: tx=9.30, ty=1.06 -> New Tm: [1.00 0.00 0.00 1.00 179.12 -484.26]
 
@@ -6327,7 +6327,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="}∼" (len=2 runes, 2 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=10.30
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=10.30
 [TEXT_MATRIX] Updated after text: PDF_width=10.30, new X0=189.42
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=10.31, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 189.42 -484.26]
@@ -6337,8 +6337,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="A" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=3.73
-[TEXT_MATRIX] Updated after text: PDF_width=3.73, new X0=193.16
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.99
+[TEXT_MATRIX] Updated after text: PDF_width=5.99, new X0=195.42
 [Tf] Set font: F13 (BaseFont: CAFZKO+CMEX10), Size: 9.96
 [Td] Move text position: tx=6.49, ty=9.87 -> New Tm: [1.00 0.00 0.00 1.00 195.91 -474.39]
 
@@ -6347,7 +6347,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="[" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.14
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.14
 [TEXT_MATRIX] Updated after text: PDF_width=4.14, new X0=200.06
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=5.81, ty=-8.07 -> New Tm: [1.00 0.00 0.00 1.00 201.73 -482.46]
@@ -6357,7 +6357,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="L" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=6.77
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=6.77
 [TEXT_MATRIX] Updated after text: PDF_width=6.77, new X0=208.50
 [Tf] Set font: F12 (BaseFont: SXWWSM+CMR7), Size: 6.97
 [Td] Move text position: tx=6.78, ty=-1.50 -> New Tm: [1.00 0.00 0.00 1.00 208.51 -483.95]
@@ -6387,7 +6387,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="θ" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.67
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.67
 [TEXT_MATRIX] Updated after text: PDF_width=4.67, new X0=234.71
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=4.95, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 234.99 -482.46]
@@ -6407,7 +6407,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="x" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.69
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.69
 [TEXT_MATRIX] Updated after text: PDF_width=5.69, new X0=246.77
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=5.69, ty=-1.50 -> New Tm: [1.00 0.00 0.00 1.00 246.77 -483.95]
@@ -6417,8 +6417,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="i" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=1.67
-[TEXT_MATRIX] Updated after text: PDF_width=1.67, new X0=248.44
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.82
+[TEXT_MATRIX] Updated after text: PDF_width=2.82, new X0=249.59
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=3.32, ty=1.50 -> New Tm: [1.00 0.00 0.00 1.00 250.09 -482.46]
 
@@ -6427,7 +6427,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="," (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=2.76
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.76
 [TEXT_MATRIX] Updated after text: PDF_width=2.76, new X0=252.85
 [Tf] Set font: F9 (BaseFont: NPXZEU+CMSY10), Size: 9.96
 [Td] Move text position: tx=4.43, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 254.52 -482.46]
@@ -6437,7 +6437,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="{" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.98
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.98
 [TEXT_MATRIX] Updated after text: PDF_width=4.98, new X0=259.50
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=4.98, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 259.50 -482.46]
@@ -6447,7 +6447,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="y" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.88
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.88
 [TEXT_MATRIX] Updated after text: PDF_width=4.88, new X0=264.38
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=4.88, ty=-1.50 -> New Tm: [1.00 0.00 0.00 1.00 264.38 -483.95]
@@ -6457,7 +6457,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="i,k" (len=3 runes, 3 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=9.41
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=9.41
 [TEXT_MATRIX] Updated after text: PDF_width=9.41, new X0=273.80
 [Tf] Set font: F9 (BaseFont: NPXZEU+CMSY10), Size: 9.96
 [Td] Move text position: tx=10.09, ty=1.50 -> New Tm: [1.00 0.00 0.00 1.00 274.47 -482.46]
@@ -6467,7 +6467,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="}" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.98
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.98
 [TEXT_MATRIX] Updated after text: PDF_width=4.98, new X0=279.45
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=4.98, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 279.45 -482.46]
@@ -6487,7 +6487,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="]" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.14
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.14
 [TEXT_MATRIX] Updated after text: PDF_width=4.14, new X0=289.13
 [Tf] Set font: F9 (BaseFont: NPXZEU+CMSY10), Size: 9.96
 [Td] Move text position: tx=-174.08, ty=-24.35 -> New Tm: [1.00 0.00 0.00 1.00 110.91 -498.73]
@@ -6497,7 +6497,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="−" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=7.74
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=7.74
 [TEXT_MATRIX] Updated after text: PDF_width=7.74, new X0=118.65
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=12.73, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 123.64 -498.73]
@@ -6507,7 +6507,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="β" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.63
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.63
 [TEXT_MATRIX] Updated after text: PDF_width=5.63, new X0=129.27
 [Tf] Set font: F12 (BaseFont: SXWWSM+CMR7), Size: 6.97
 [Td] Move text position: tx=5.63, ty=-1.50 -> New Tm: [1.00 0.00 0.00 1.00 129.27 -500.23]
@@ -6527,7 +6527,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="D" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=8.24
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=8.24
 [TEXT_MATRIX] Updated after text: PDF_width=8.24, new X0=150.69
 [Tf] Set font: F12 (BaseFont: SXWWSM+CMR7), Size: 6.97
 [Td] Move text position: tx=8.25, ty=-1.50 -> New Tm: [1.00 0.00 0.00 1.00 150.70 -500.23]
@@ -6547,7 +6547,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="(" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.56
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.56
 [TEXT_MATRIX] Updated after text: PDF_width=4.56, new X0=166.78
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=4.57, ty=-8.07 -> New Tm: [1.00 0.00 0.00 1.00 166.79 -498.73]
@@ -6557,7 +6557,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="π" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.68
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.68
 [TEXT_MATRIX] Updated after text: PDF_width=5.68, new X0=172.47
 [Tf] Set font: F11 (BaseFont: WFCGZP+LMRoman7-Regular-Identity-H), Size: 6.97
 [Td] Move text position: tx=5.68, ty=-1.50 -> New Tm: [1.00 0.00 0.00 1.00 172.47 -500.23]
@@ -6577,7 +6577,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="k" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.98
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.98
 [TEXT_MATRIX] Updated after text: PDF_width=4.98, new X0=189.84
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=7.75, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 192.60 -498.73]
@@ -6587,7 +6587,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="π" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.68
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.68
 [TEXT_MATRIX] Updated after text: PDF_width=5.68, new X0=198.28
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=5.68, ty=-1.50 -> New Tm: [1.00 0.00 0.00 1.00 198.28 -500.23]
@@ -6597,7 +6597,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="θ" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=3.79
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=3.79
 [TEXT_MATRIX] Updated after text: PDF_width=3.79, new X0=202.08
 [Tf] Set font: F13 (BaseFont: CAFZKO+CMEX10), Size: 9.96
 [Td] Move text position: tx=4.51, ty=9.56 -> New Tm: [1.00 0.00 0.00 1.00 202.79 -490.66]
@@ -6607,7 +6607,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text=")" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.56
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.56
 [TEXT_MATRIX] Updated after text: PDF_width=4.56, new X0=207.35
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=4.57, ty=-8.07 -> New Tm: [1.00 0.00 0.00 1.00 207.36 -498.73]
@@ -6617,7 +6617,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="." (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=2.76
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.76
 [TEXT_MATRIX] Updated after text: PDF_width=2.76, new X0=210.11
 [Tf] Set font: F3 (BaseFont: ALYRVT+LMRoman10-Regular-Identity-H), Size: 9.96
 [Td] Move text position: tx=246.50, ty=56.07 -> New Tm: [1.00 0.00 0.00 1.00 453.85 -442.66]
@@ -6766,8 +6766,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="J" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=2.77
-[TEXT_MATRIX] Updated after text: PDF_width=2.77, new X0=133.64
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.52
+[TEXT_MATRIX] Updated after text: PDF_width=5.52, new X0=136.40
 [Tf] Set font: F12 (BaseFont: SXWWSM+CMR7), Size: 6.97
 [Td] Move text position: tx=5.53, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 136.40 -530.22]
 
@@ -6890,7 +6890,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="β" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.63
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.63
 [TEXT_MATRIX] Updated after text: PDF_width=5.63, new X0=43.25
 [Tf] Set font: F12 (BaseFont: SXWWSM+CMR7), Size: 6.97
 [Td] Move text position: tx=5.63, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 43.25 -542.17]
@@ -6910,7 +6910,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="D" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=8.24
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=8.24
 [TEXT_MATRIX] Updated after text: PDF_width=8.24, new X0=63.01
 [Tf] Set font: F12 (BaseFont: SXWWSM+CMR7), Size: 6.97
 [Td] Move text position: tx=8.25, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 63.02 -542.17]
@@ -6940,7 +6940,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="π" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.68
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.68
 [TEXT_MATRIX] Updated after text: PDF_width=5.68, new X0=84.10
 [Tf] Set font: F11 (BaseFont: WFCGZP+LMRoman7-Regular-Identity-H), Size: 6.97
 [Td] Move text position: tx=5.68, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 84.10 -542.17]
@@ -6960,7 +6960,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="k" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.98
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.98
 [TEXT_MATRIX] Updated after text: PDF_width=4.98, new X0=98.70
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=4.98, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 98.70 -540.68]
@@ -6970,7 +6970,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="π" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.68
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.68
 [TEXT_MATRIX] Updated after text: PDF_width=5.68, new X0=104.38
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=5.68, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 104.38 -542.17]
@@ -6980,7 +6980,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="θ" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=3.79
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=3.79
 [TEXT_MATRIX] Updated after text: PDF_width=3.79, new X0=108.17
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=4.51, ty=1.49 -> New Tm: [1.00 0.00 0.00 1.00 108.88 -540.68]
@@ -7052,8 +7052,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="J" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=2.77
-[TEXT_MATRIX] Updated after text: PDF_width=2.77, new X0=379.53
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.52
+[TEXT_MATRIX] Updated after text: PDF_width=5.52, new X0=382.29
 [Tf] Set font: F12 (BaseFont: SXWWSM+CMR7), Size: 6.97
 [Td] Move text position: tx=5.52, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 382.29 -542.17]
 
@@ -7103,7 +7103,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="D" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=8.24
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=8.24
 [TEXT_MATRIX] Updated after text: PDF_width=8.24, new X0=27.29
 [Tf] Set font: F12 (BaseFont: SXWWSM+CMR7), Size: 6.97
 [Td] Move text position: tx=8.25, ty=-1.50 -> New Tm: [1.00 0.00 0.00 1.00 27.30 -554.13]
@@ -7133,7 +7133,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="π" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.68
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.68
 [TEXT_MATRIX] Updated after text: PDF_width=5.68, new X0=48.37
 [Tf] Set font: F11 (BaseFont: WFCGZP+LMRoman7-Regular-Identity-H), Size: 6.97
 [Td] Move text position: tx=5.68, ty=-1.50 -> New Tm: [1.00 0.00 0.00 1.00 48.37 -554.13]
@@ -7153,7 +7153,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="k" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.98
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.98
 [TEXT_MATRIX] Updated after text: PDF_width=4.98, new X0=62.98
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=4.98, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 62.98 -552.63]
@@ -7163,7 +7163,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="π" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.68
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.68
 [TEXT_MATRIX] Updated after text: PDF_width=5.68, new X0=68.65
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=5.68, ty=-1.50 -> New Tm: [1.00 0.00 0.00 1.00 68.65 -554.13]
@@ -7173,7 +7173,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="θ" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=3.79
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=3.79
 [TEXT_MATRIX] Updated after text: PDF_width=3.79, new X0=72.45
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=4.51, ty=1.50 -> New Tm: [1.00 0.00 0.00 1.00 73.16 -552.63]
@@ -7221,7 +7221,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="π" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.68
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=5.68
 [TEXT_MATRIX] Updated after text: PDF_width=5.68, new X0=223.15
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=5.68, ty=-1.50 -> New Tm: [1.00 0.00 0.00 1.00 223.15 -554.13]
@@ -7231,7 +7231,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="θ" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=3.79
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=3.79
 [TEXT_MATRIX] Updated after text: PDF_width=3.79, new X0=226.94
 [Tf] Set font: F3 (BaseFont: ALYRVT+LMRoman10-Regular-Identity-H), Size: 9.96
 [Td] Move text position: tx=7.83, ty=1.50 -> New Tm: [1.00 0.00 0.00 1.00 230.97 -552.63]
@@ -7320,7 +7320,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="L" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=9.55
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=9.55
 [TEXT_MATRIX] Updated after text: PDF_width=9.55, new X0=118.17
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=9.56, ty=-2.15 -> New Tm: [1.00 0.00 0.00 1.00 118.17 -587.75]
@@ -7437,7 +7437,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="L" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=6.77
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=6.77
 [TEXT_MATRIX] Updated after text: PDF_width=6.77, new X0=71.93
 [Tf] Set font: F12 (BaseFont: SXWWSM+CMR7), Size: 6.97
 [Td] Move text position: tx=6.78, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 71.94 -649.67]
@@ -7467,7 +7467,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="θ" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.67
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.67
 [TEXT_MATRIX] Updated after text: PDF_width=4.67, new X0=98.14
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=4.95, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 98.42 -648.17]
@@ -7487,7 +7487,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="x," (len=2 runes, 2 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=8.45
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=8.45
 [TEXT_MATRIX] Updated after text: PDF_width=8.45, new X0=111.30
 [Tf] Set font: F9 (BaseFont: NPXZEU+CMSY10), Size: 9.96
 [Td] Move text position: tx=10.12, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 112.97 -648.17]
@@ -7497,7 +7497,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="{" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.98
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.98
 [TEXT_MATRIX] Updated after text: PDF_width=4.98, new X0=117.95
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=4.98, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 117.95 -648.17]
@@ -7507,7 +7507,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="y" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.88
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.88
 [TEXT_MATRIX] Updated after text: PDF_width=4.88, new X0=122.83
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=4.88, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 122.83 -649.67]
@@ -7517,7 +7517,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="k" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.23
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.23
 [TEXT_MATRIX] Updated after text: PDF_width=4.23, new X0=127.07
 [Tf] Set font: F9 (BaseFont: NPXZEU+CMSY10), Size: 9.96
 [Td] Move text position: tx=4.90, ty=1.49 -> New Tm: [1.00 0.00 0.00 1.00 127.74 -648.17]
@@ -7527,7 +7527,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="}" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.98
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.98
 [TEXT_MATRIX] Updated after text: PDF_width=4.98, new X0=132.72
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=4.98, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 132.72 -648.17]
@@ -7550,7 +7550,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="−" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=7.74
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=7.74
 [TEXT_MATRIX] Updated after text: PDF_width=7.74, new X0=163.15
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=9.41, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 164.82 -648.17]
@@ -7579,7 +7579,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="(" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.56
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.56
 [TEXT_MATRIX] Updated after text: PDF_width=4.56, new X0=263.64
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=4.57, ty=-8.07 -> New Tm: [1.00 0.00 0.00 1.00 263.64 -640.80]
@@ -7589,7 +7589,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="s" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.66
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.66
 [TEXT_MATRIX] Updated after text: PDF_width=4.66, new X0=268.30
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=4.67, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 268.31 -642.30]
@@ -7599,7 +7599,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="θ" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=3.79
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=3.79
 [TEXT_MATRIX] Updated after text: PDF_width=3.79, new X0=272.11
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=4.51, ty=1.49 -> New Tm: [1.00 0.00 0.00 1.00 272.82 -640.80]
@@ -7619,10 +7619,10 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 3 items
 [TJ_ARRAY][0] Text="x," (len=2 runes, 2 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=8.45
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=8.45
 [TJ_ARRAY][1] Kerning=-166 adj=1.65 (x: 8.45 -> 10.10)
 [TJ_ARRAY][2] Text="y" (len=1 runes, 1 CIDs) at x=10.10
-[TJ_ARRAY][2] Rendered run, adv=4.88
+[TJ_ARRAY][2] Rendered TeX glyphs, adv=4.88
 [TEXT_MATRIX] Updated after text: PDF_width=14.98, new X0=291.68
 [Tf] Set font: F12 (BaseFont: SXWWSM+CMR7), Size: 6.97
 [Td] Move text position: tx=15.36, ty=3.62 -> New Tm: [1.00 0.00 0.00 1.00 292.06 -637.19]
@@ -7652,7 +7652,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="/τ" (len=2 runes, 2 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=9.33
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=9.33
 [TEXT_MATRIX] Updated after text: PDF_width=9.33, new X0=311.88
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=9.34, ty=-1.49 -> New Tm: [1.00 0.00 0.00 1.00 311.88 -642.30]
@@ -7662,7 +7662,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="c" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=3.56
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=3.56
 [TEXT_MATRIX] Updated after text: PDF_width=3.56, new X0=315.44
 [Tf] Set font: F13 (BaseFont: CAFZKO+CMEX10), Size: 9.96
 [Td] Move text position: tx=4.06, ty=9.56 -> New Tm: [1.00 0.00 0.00 1.00 315.94 -632.73]
@@ -7672,7 +7672,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text=")" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.56
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.56
 [TEXT_MATRIX] Updated after text: PDF_width=4.56, new X0=320.50
 [ET] End text object
 [q] Save graphics state - Stack depth: 3
@@ -7698,7 +7698,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="(" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.56
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.56
 [TEXT_MATRIX] Updated after text: PDF_width=4.56, new X0=201.99
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=4.57, ty=-8.07 -> New Tm: [1.00 0.00 0.00 1.00 201.99 -656.85]
@@ -7708,7 +7708,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="s" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.66
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.66
 [TEXT_MATRIX] Updated after text: PDF_width=4.66, new X0=206.65
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=4.67, ty=-1.50 -> New Tm: [1.00 0.00 0.00 1.00 206.66 -658.35]
@@ -7718,7 +7718,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="θ" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=3.79
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=3.79
 [TEXT_MATRIX] Updated after text: PDF_width=3.79, new X0=210.46
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=4.51, ty=1.50 -> New Tm: [1.00 0.00 0.00 1.00 211.17 -656.85]
@@ -7738,10 +7738,10 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 3 items
 [TJ_ARRAY][0] Text="x," (len=2 runes, 2 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=8.45
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=8.45
 [TJ_ARRAY][1] Kerning=-166 adj=1.65 (x: 8.45 -> 10.10)
 [TJ_ARRAY][2] Text="y" (len=1 runes, 1 CIDs) at x=10.10
-[TJ_ARRAY][2] Rendered run, adv=4.88
+[TJ_ARRAY][2] Rendered TeX glyphs, adv=4.88
 [TEXT_MATRIX] Updated after text: PDF_width=14.98, new X0=230.03
 [Tf] Set font: F12 (BaseFont: SXWWSM+CMR7), Size: 6.97
 [Td] Move text position: tx=15.36, ty=2.88 -> New Tm: [1.00 0.00 0.00 1.00 230.41 -653.97]
@@ -7771,7 +7771,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="/τ" (len=2 runes, 2 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=9.33
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=9.33
 [TEXT_MATRIX] Updated after text: PDF_width=9.33, new X0=250.23
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=9.34, ty=-1.50 -> New Tm: [1.00 0.00 0.00 1.00 250.23 -658.35]
@@ -7781,7 +7781,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="c" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=3.56
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=3.56
 [TEXT_MATRIX] Updated after text: PDF_width=3.56, new X0=253.79
 [Tf] Set font: F13 (BaseFont: CAFZKO+CMEX10), Size: 9.96
 [Td] Move text position: tx=4.06, ty=9.56 -> New Tm: [1.00 0.00 0.00 1.00 254.29 -648.78]
@@ -7791,7 +7791,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text=")" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.56
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.56
 [TEXT_MATRIX] Updated after text: PDF_width=4.56, new X0=258.85
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=9.55, ty=-8.07 -> New Tm: [1.00 0.00 0.00 1.00 263.84 -656.85]
@@ -7811,8 +7811,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="P" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=5.11
-[TEXT_MATRIX] Updated after text: PDF_width=5.11, new X0=281.68
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=10.51
+[TEXT_MATRIX] Updated after text: PDF_width=10.51, new X0=287.08
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=10.52, ty=-2.46 -> New Tm: [1.00 0.00 0.00 1.00 287.08 -651.84]
 
@@ -7821,8 +7821,8 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="K" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=3.78
-[TEXT_MATRIX] Updated after text: PDF_width=3.78, new X0=290.87
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=6.69
+[TEXT_MATRIX] Updated after text: PDF_width=6.69, new X0=293.77
 [Td] Move text position: tx=0.00, ty=-8.00 -> New Tm: [1.00 0.00 0.00 1.00 287.08 -659.84]
 
 [TEXT_STATE] CharSpacing=0.0000 WordSpacing=0.0000 HScale=100.00% FontSize=6.97
@@ -7830,7 +7830,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="k" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.23
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.23
 [TEXT_MATRIX] Updated after text: PDF_width=4.23, new X0=291.32
 [Tf] Set font: F12 (BaseFont: SXWWSM+CMR7), Size: 6.97
 [Td] Move text position: tx=4.40, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 291.49 -659.84]
@@ -7860,7 +7860,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="(" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.56
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.56
 [TEXT_MATRIX] Updated after text: PDF_width=4.56, new X0=325.18
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=4.57, ty=-8.07 -> New Tm: [1.00 0.00 0.00 1.00 325.18 -656.85]
@@ -7870,7 +7870,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="s" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.66
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.66
 [TEXT_MATRIX] Updated after text: PDF_width=4.66, new X0=329.84
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=4.67, ty=-1.50 -> New Tm: [1.00 0.00 0.00 1.00 329.85 -658.35]
@@ -7880,7 +7880,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="θ" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=3.79
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=3.79
 [TEXT_MATRIX] Updated after text: PDF_width=3.79, new X0=333.64
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=4.51, ty=1.50 -> New Tm: [1.00 0.00 0.00 1.00 334.36 -656.85]
@@ -7900,10 +7900,10 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 3 items
 [TJ_ARRAY][0] Text="x," (len=2 runes, 2 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=8.45
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=8.45
 [TJ_ARRAY][1] Kerning=-166 adj=1.65 (x: 8.45 -> 10.10)
 [TJ_ARRAY][2] Text="y" (len=1 runes, 1 CIDs) at x=10.10
-[TJ_ARRAY][2] Rendered run, adv=4.88
+[TJ_ARRAY][2] Rendered TeX glyphs, adv=4.88
 [TEXT_MATRIX] Updated after text: PDF_width=14.98, new X0=353.22
 [Tf] Set font: F16 (BaseFont: DKJWQF+CMSY7), Size: 6.97
 [Td] Move text position: tx=15.36, ty=4.26 -> New Tm: [1.00 0.00 0.00 1.00 353.60 -652.59]
@@ -7913,7 +7913,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="−" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=6.22
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=6.22
 [TEXT_MATRIX] Updated after text: PDF_width=6.22, new X0=359.82
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=-0.36, ty=-7.27 -> New Tm: [1.00 0.00 0.00 1.00 353.24 -659.86]
@@ -7923,7 +7923,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="k" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.23
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.23
 [TEXT_MATRIX] Updated after text: PDF_width=4.23, new X0=357.47
 [Tf] Set font: F8 (BaseFont: PMEZGD+CMR10), Size: 9.96
 [Td] Move text position: tx=7.08, ty=3.01 -> New Tm: [1.00 0.00 0.00 1.00 360.32 -656.85]
@@ -7943,7 +7943,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="/τ" (len=2 runes, 2 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=9.33
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=9.33
 [TEXT_MATRIX] Updated after text: PDF_width=9.33, new X0=373.53
 [Tf] Set font: F7 (BaseFont: FXCERL+CMMI7), Size: 6.97
 [Td] Move text position: tx=9.34, ty=-1.50 -> New Tm: [1.00 0.00 0.00 1.00 373.53 -658.35]
@@ -7953,7 +7953,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="c" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=3.56
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=3.56
 [TEXT_MATRIX] Updated after text: PDF_width=3.56, new X0=377.09
 [Tf] Set font: F13 (BaseFont: CAFZKO+CMEX10), Size: 9.96
 [Td] Move text position: tx=4.06, ty=9.56 -> New Tm: [1.00 0.00 0.00 1.00 377.59 -648.78]
@@ -7963,7 +7963,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text=")" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.56
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.56
 [TEXT_MATRIX] Updated after text: PDF_width=4.56, new X0=382.15
 [Tf] Set font: F6 (BaseFont: WXQHEC+CMMI10), Size: 9.96
 [Td] Move text position: tx=5.76, ty=0.61 -> New Tm: [1.00 0.00 0.00 1.00 383.35 -648.17]
@@ -7973,7 +7973,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="," (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=2.76
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=2.76
 [TEXT_MATRIX] Updated after text: PDF_width=2.76, new X0=386.11
 [Tf] Set font: F3 (BaseFont: ALYRVT+LMRoman10-Regular-Identity-H), Size: 9.96
 [Td] Move text position: tx=70.50, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 453.85 -648.17]
@@ -8011,7 +8011,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="y" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.88
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.88
 [TEXT_MATRIX] Updated after text: PDF_width=4.88, new X0=14.48
 [Tf] Set font: F12 (BaseFont: SXWWSM+CMR7), Size: 6.97
 [Td] Move text position: tx=5.24, ty=3.62 -> New Tm: [1.00 0.00 0.00 1.00 14.84 -690.54]
@@ -8068,7 +8068,7 @@ Operator Execution Log:
 [TEXT_STATE] Using FillColor: RGB(0.000, 0.000, 0.000, 1.000)
 [TJ_ARRAY] Processing 1 items
 [TJ_ARRAY][0] Text="y" (len=1 runes, 1 CIDs) at x=0.00
-[TJ_ARRAY][0] Rendered run, adv=4.88
+[TJ_ARRAY][0] Rendered TeX glyphs, adv=4.88
 [TEXT_MATRIX] Updated after text: PDF_width=4.88, new X0=261.02
 [Tf] Set font: F3 (BaseFont: ALYRVT+LMRoman10-Regular-Identity-H), Size: 9.96
 [Td] Move text position: tx=5.24, ty=0.00 -> New Tm: [1.00 0.00 0.00 1.00 261.38 -694.15]
@@ -8093,79 +8093,38 @@ Operator Execution Log:
 [Q] Restore graphics state - Stack depth: 1
 
 📈 Operator Statistics:
-   cm: 1
-   BT: 8
+   Tf: 368
    TJ: 394
    ET: 8
-   l: 7
+   m: 7
    S: 7
-   q: 8
    G: 1
-   g: 1
-   Tf: 368
+   BT: 8
    Td: 394
    w: 7
-   m: 7
+   l: 7
    Q: 8
-✓ Loaded embedded CFF font data for font F1 (5085 bytes)
-✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
-✓ Default width for CID font F1: 280
-✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
-✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F1: Identity-H
+   q: 8
+   cm: 1
+   g: 1
+✓ Loaded embedded CFF font data for font F15 (756 bytes)
+✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
+✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
+✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
 ✓ Loaded embedded CFF font data for font F5 (5588 bytes)
 ✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
 ✓ Default width for CID font F5: 280
 ✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
 ✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded embedded CFF font data for font F8 (3309 bytes)
-✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F16 (956 bytes)
-✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
-✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
-✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
-✓ Loaded embedded CFF font data for font F18 (2286 bytes)
-✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
-✓ Default width for CID font F18: 280
-✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
-✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F18: Identity-H
-✓ Loaded embedded CFF font data for font F6 (4423 bytes)
-✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
-✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
-✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
-✓ Loaded embedded CFF font data for font F3 (8459 bytes)
-✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
-✓ Default width for CID font F3: 280
-✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
-✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F3: Identity-H
 ✓ Loaded embedded CFF font data for font F7 (2394 bytes)
 ✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
 ✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
 ✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
-✓ Loaded embedded CFF font data for font F9 (1399 bytes)
-✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
-✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
-✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
-✓ Loaded embedded CFF font data for font F13 (1665 bytes)
-✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
-✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
-✓ Loaded embedded CFF font data for font F14 (549 bytes)
-✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
-✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
-✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
-✓ Loaded embedded CFF font data for font F15 (756 bytes)
-✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
-✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
-✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
-✓ Loaded embedded CFF font data for font F19 (839 bytes)
-✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
-✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
-✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
+✓ Loaded embedded CFF font data for font F8 (3309 bytes)
+✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
 ✓ Loaded embedded CFF font data for font F11 (2689 bytes)
 ✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
 ✓ Default width for CID font F11: 280
@@ -8176,75 +8135,116 @@ Operator Execution Log:
 ✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
 ✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
 ✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F6 (4423 bytes)
-✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
-✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
-✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
-✓ Loaded embedded CFF font data for font F7 (2394 bytes)
-✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
-✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
-✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
-✓ Loaded embedded CFF font data for font F16 (956 bytes)
-✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
-✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
-✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
-✓ Loaded embedded CFF font data for font F18 (2286 bytes)
-✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
-✓ Default width for CID font F18: 280
-✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
-✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F18: Identity-H
-✓ Loaded embedded CFF font data for font F1 (5085 bytes)
-✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
-✓ Default width for CID font F1: 280
-✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
-✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F1: Identity-H
-✓ Loaded embedded CFF font data for font F8 (3309 bytes)
-✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F9 (1399 bytes)
-✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
-✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
-✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
-✓ Loaded embedded CFF font data for font F11 (2689 bytes)
-✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
-✓ Default width for CID font F11: 280
-✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
-✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F11: Identity-H
-✓ Loaded embedded CFF font data for font F13 (1665 bytes)
-✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
-✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
-✓ Loaded embedded CFF font data for font F5 (5588 bytes)
-✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
-✓ Default width for CID font F5: 280
-✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
-✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded embedded CFF font data for font F12 (2273 bytes)
-✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F15 (756 bytes)
-✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
-✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
-✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
-✓ Loaded embedded CFF font data for font F19 (839 bytes)
-✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
-✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
-✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
-✓ Loaded embedded CFF font data for font F14 (549 bytes)
-✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
-✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
-✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
 ✓ Loaded embedded CFF font data for font F3 (8459 bytes)
 ✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
 ✓ Default width for CID font F3: 280
 ✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
 ✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F3: Identity-H
+✓ Loaded embedded CFF font data for font F9 (1399 bytes)
+✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
+✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
+✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
+✓ Loaded embedded CFF font data for font F18 (2286 bytes)
+✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
+✓ Default width for CID font F18: 280
+✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
+✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F18: Identity-H
+✓ Loaded embedded CFF font data for font F16 (956 bytes)
+✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
+✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
+✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
+✓ Loaded embedded CFF font data for font F1 (5085 bytes)
+✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
+✓ Default width for CID font F1: 280
+✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
+✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F1: Identity-H
+✓ Loaded embedded CFF font data for font F13 (1665 bytes)
+✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
+✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
+✓ Loaded embedded CFF font data for font F14 (549 bytes)
+✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
+✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
+✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
+✓ Loaded embedded CFF font data for font F6 (4423 bytes)
+✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
+✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
+✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
+✓ Loaded embedded CFF font data for font F19 (839 bytes)
+✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
+✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
+✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
+✓ Loaded embedded CFF font data for font F5 (5588 bytes)
+✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
+✓ Default width for CID font F5: 280
+✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
+✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded embedded CFF font data for font F13 (1665 bytes)
+✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
+✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
+✓ Loaded embedded CFF font data for font F18 (2286 bytes)
+✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
+✓ Default width for CID font F18: 280
+✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
+✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F18: Identity-H
+✓ Loaded embedded CFF font data for font F19 (839 bytes)
+✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
+✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
+✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
+✓ Loaded embedded CFF font data for font F3 (8459 bytes)
+✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
+✓ Default width for CID font F3: 280
+✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
+✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F3: Identity-H
+✓ Loaded embedded CFF font data for font F6 (4423 bytes)
+✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
+✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
+✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
+✓ Loaded embedded CFF font data for font F8 (3309 bytes)
+✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
+✓ Loaded embedded CFF font data for font F12 (2273 bytes)
+✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
+✓ Loaded embedded CFF font data for font F14 (549 bytes)
+✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
+✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
+✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
+✓ Loaded embedded CFF font data for font F15 (756 bytes)
+✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
+✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
+✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
+✓ Loaded embedded CFF font data for font F1 (5085 bytes)
+✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
+✓ Default width for CID font F1: 280
+✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
+✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F1: Identity-H
+✓ Loaded embedded CFF font data for font F11 (2689 bytes)
+✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
+✓ Default width for CID font F11: 280
+✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
+✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F11: Identity-H
+✓ Loaded embedded CFF font data for font F16 (956 bytes)
+✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
+✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
+✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
+✓ Loaded embedded CFF font data for font F7 (2394 bytes)
+✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
+✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
+✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
+✓ Loaded embedded CFF font data for font F9 (1399 bytes)
+✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
+✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
+✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
    Processing array with 1 items
    Array item 0: types.IndirectRef
    Dereferenced to: types.StreamDict
@@ -10509,24 +10509,16 @@ Operator Execution Log:
 [DEBUG] Total displacement: 4.98 (width=4.98, kerning=0.00), new X0=228.13
 [DEBUG] ET operator: End text object
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
-✓ Loaded embedded CFF font data for font F5 (5588 bytes)
-✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
-✓ Default width for CID font F5: 280
-✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
-✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded embedded CFF font data for font F7 (2394 bytes)
-✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
-✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
-✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
-✓ Loaded embedded CFF font data for font F9 (1399 bytes)
-✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
-✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
-✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
-✓ Loaded embedded CFF font data for font F6 (4423 bytes)
-✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
-✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
-✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
+✓ Loaded embedded CFF font data for font F3 (8459 bytes)
+✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
+✓ Default width for CID font F3: 280
+✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
+✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F3: Identity-H
+✓ Loaded embedded CFF font data for font F8 (3309 bytes)
+✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
 ✓ Loaded embedded CFF font data for font F11 (2689 bytes)
 ✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
 ✓ Default width for CID font F11: 280
@@ -10541,91 +10533,22 @@ Operator Execution Log:
 ✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
 ✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
 ✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
-✓ Loaded embedded CFF font data for font F1 (5085 bytes)
-✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
-✓ Default width for CID font F1: 280
-✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
-✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F1: Identity-H
-✓ Loaded embedded CFF font data for font F3 (8459 bytes)
-✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
-✓ Default width for CID font F3: 280
-✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
-✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F3: Identity-H
-✓ Loaded embedded CFF font data for font F16 (956 bytes)
-✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
-✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
-✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
+✓ Loaded embedded CFF font data for font F9 (1399 bytes)
+✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
+✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
+✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
 ✓ Loaded embedded CFF font data for font F18 (2286 bytes)
 ✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
 ✓ Default width for CID font F18: 280
 ✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
 ✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F18: Identity-H
-✓ Loaded embedded CFF font data for font F8 (3309 bytes)
-✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F13 (1665 bytes)
-✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
-✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
-✓ Loaded embedded CFF font data for font F14 (549 bytes)
-✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
-✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
-✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
-✓ Loaded embedded CFF font data for font F15 (756 bytes)
-✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
-✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
-✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
 ✓ Loaded embedded CFF font data for font F1 (5085 bytes)
 ✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
 ✓ Default width for CID font F1: 280
 ✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
 ✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F1: Identity-H
-✓ Loaded embedded CFF font data for font F5 (5588 bytes)
-✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
-✓ Default width for CID font F5: 280
-✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
-✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded embedded CFF font data for font F8 (3309 bytes)
-✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F12 (2273 bytes)
-✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F3 (8459 bytes)
-✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
-✓ Default width for CID font F3: 280
-✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
-✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F3: Identity-H
-✓ Loaded embedded CFF font data for font F6 (4423 bytes)
-✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
-✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
-✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
-✓ Loaded embedded CFF font data for font F9 (1399 bytes)
-✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
-✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
-✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
-✓ Loaded embedded CFF font data for font F11 (2689 bytes)
-✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
-✓ Default width for CID font F11: 280
-✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
-✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F11: Identity-H
-✓ Loaded embedded CFF font data for font F15 (756 bytes)
-✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
-✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
-✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
-✓ Loaded embedded CFF font data for font F19 (839 bytes)
-✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
-✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
-✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
 ✓ Loaded embedded CFF font data for font F7 (2394 bytes)
 ✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
 ✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
@@ -10634,19 +10557,96 @@ Operator Execution Log:
 ✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
 ✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
 ✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
+✓ Loaded embedded CFF font data for font F15 (756 bytes)
+✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
+✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
+✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
 ✓ Loaded embedded CFF font data for font F16 (956 bytes)
 ✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
 ✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
 ✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
+✓ Loaded embedded CFF font data for font F5 (5588 bytes)
+✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
+✓ Default width for CID font F5: 280
+✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
+✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded embedded CFF font data for font F6 (4423 bytes)
+✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
+✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
+✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
 ✓ Loaded embedded CFF font data for font F13 (1665 bytes)
 ✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
 ✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
+✓ Loaded embedded CFF font data for font F3 (8459 bytes)
+✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
+✓ Default width for CID font F3: 280
+✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
+✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F3: Identity-H
+✓ Loaded embedded CFF font data for font F5 (5588 bytes)
+✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
+✓ Default width for CID font F5: 280
+✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
+✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded embedded CFF font data for font F16 (956 bytes)
+✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
+✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
+✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
+✓ Loaded embedded CFF font data for font F6 (4423 bytes)
+✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
+✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
+✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
+✓ Loaded embedded CFF font data for font F11 (2689 bytes)
+✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
+✓ Default width for CID font F11: 280
+✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
+✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F11: Identity-H
 ✓ Loaded embedded CFF font data for font F18 (2286 bytes)
 ✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
 ✓ Default width for CID font F18: 280
 ✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
 ✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F18: Identity-H
+✓ Loaded embedded CFF font data for font F8 (3309 bytes)
+✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
+✓ Loaded embedded CFF font data for font F9 (1399 bytes)
+✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
+✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
+✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
+✓ Loaded embedded CFF font data for font F12 (2273 bytes)
+✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
+✓ Loaded embedded CFF font data for font F1 (5085 bytes)
+✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
+✓ Default width for CID font F1: 280
+✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
+✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F1: Identity-H
+✓ Loaded embedded CFF font data for font F7 (2394 bytes)
+✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
+✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
+✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
+✓ Loaded embedded CFF font data for font F13 (1665 bytes)
+✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
+✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
+✓ Loaded embedded CFF font data for font F14 (549 bytes)
+✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
+✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
+✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
+✓ Loaded embedded CFF font data for font F15 (756 bytes)
+✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
+✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
+✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
+✓ Loaded embedded CFF font data for font F19 (839 bytes)
+✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
+✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
+✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
    Processing array with 1 items
    Array item 0: types.IndirectRef
    Dereferenced to: types.StreamDict
@@ -12911,23 +12911,36 @@ Operator Execution Log:
 [DEBUG] Total displacement: 4.98 (width=4.98, kerning=0.00), new X0=228.13
 [DEBUG] ET operator: End text object
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
+✓ Loaded embedded CFF font data for font F7 (2394 bytes)
+✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
+✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
+✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
+✓ Loaded embedded CFF font data for font F19 (839 bytes)
+✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
+✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
+✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
 ✓ Loaded embedded CFF font data for font F11 (2689 bytes)
 ✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
 ✓ Default width for CID font F11: 280
 ✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
 ✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F11: Identity-H
-✓ Loaded embedded CFF font data for font F13 (1665 bytes)
-✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
-✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
 ✓ Loaded embedded CFF font data for font F14 (549 bytes)
 ✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
 ✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
 ✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
-✓ Loaded embedded CFF font data for font F16 (956 bytes)
-✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
-✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
-✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
+✓ Loaded embedded CFF font data for font F18 (2286 bytes)
+✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
+✓ Default width for CID font F18: 280
+✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
+✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F18: Identity-H
+✓ Loaded embedded CFF font data for font F3 (8459 bytes)
+✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
+✓ Default width for CID font F3: 280
+✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
+✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F3: Identity-H
 ✓ Loaded embedded CFF font data for font F5 (5588 bytes)
 ✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
 ✓ Default width for CID font F5: 280
@@ -12938,28 +12951,59 @@ Operator Execution Log:
 ✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
 ✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
 ✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F19 (839 bytes)
-✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
-✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
-✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
-✓ Loaded embedded CFF font data for font F6 (4423 bytes)
-✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
-✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
-✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
 ✓ Loaded embedded CFF font data for font F9 (1399 bytes)
 ✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
 ✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
 ✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
+✓ Loaded embedded CFF font data for font F1 (5085 bytes)
+✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
+✓ Default width for CID font F1: 280
+✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
+✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F1: Identity-H
+✓ Loaded embedded CFF font data for font F6 (4423 bytes)
+✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
+✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
+✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
+✓ Loaded embedded CFF font data for font F12 (2273 bytes)
+✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
+✓ Loaded embedded CFF font data for font F13 (1665 bytes)
+✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
+✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
 ✓ Loaded embedded CFF font data for font F15 (756 bytes)
 ✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
 ✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
 ✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
-✓ Loaded embedded CFF font data for font F3 (8459 bytes)
-✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
-✓ Default width for CID font F3: 280
-✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
-✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F3: Identity-H
+✓ Loaded embedded CFF font data for font F16 (956 bytes)
+✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
+✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
+✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
+✓ Loaded embedded CFF font data for font F5 (5588 bytes)
+✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
+✓ Default width for CID font F5: 280
+✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
+✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded embedded CFF font data for font F11 (2689 bytes)
+✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
+✓ Default width for CID font F11: 280
+✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
+✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F11: Identity-H
+✓ Loaded embedded CFF font data for font F14 (549 bytes)
+✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
+✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
+✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
+✓ Loaded embedded CFF font data for font F15 (756 bytes)
+✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
+✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
+✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
+✓ Loaded embedded CFF font data for font F16 (956 bytes)
+✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
+✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
+✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
 ✓ Loaded embedded CFF font data for font F7 (2394 bytes)
 ✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
 ✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
@@ -12974,73 +13018,12 @@ Operator Execution Log:
 ✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
 ✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F18: Identity-H
-✓ Loaded embedded CFF font data for font F1 (5085 bytes)
-✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
-✓ Default width for CID font F1: 280
-✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
-✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F1: Identity-H
-✓ Loaded embedded CFF font data for font F13 (1665 bytes)
-✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
-✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
-✓ Loaded embedded CFF font data for font F1 (5085 bytes)
-✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
-✓ Default width for CID font F1: 280
-✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
-✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F1: Identity-H
 ✓ Loaded embedded CFF font data for font F3 (8459 bytes)
 ✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
 ✓ Default width for CID font F3: 280
 ✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
 ✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F3: Identity-H
-✓ Loaded embedded CFF font data for font F5 (5588 bytes)
-✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
-✓ Default width for CID font F5: 280
-✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
-✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded embedded CFF font data for font F14 (549 bytes)
-✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
-✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
-✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
-✓ Loaded embedded CFF font data for font F19 (839 bytes)
-✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
-✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
-✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
-✓ Loaded embedded CFF font data for font F7 (2394 bytes)
-✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
-✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
-✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
-✓ Loaded embedded CFF font data for font F11 (2689 bytes)
-✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
-✓ Default width for CID font F11: 280
-✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
-✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F11: Identity-H
-✓ Loaded embedded CFF font data for font F12 (2273 bytes)
-✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F15 (756 bytes)
-✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
-✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
-✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
-✓ Loaded embedded CFF font data for font F8 (3309 bytes)
-✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F16 (956 bytes)
-✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
-✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
-✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
-✓ Loaded embedded CFF font data for font F18 (2286 bytes)
-✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
-✓ Default width for CID font F18: 280
-✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
-✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F18: Identity-H
 ✓ Loaded embedded CFF font data for font F6 (4423 bytes)
 ✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
 ✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
@@ -13049,6 +13032,23 @@ Operator Execution Log:
 ✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
 ✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
 ✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
+✓ Loaded embedded CFF font data for font F19 (839 bytes)
+✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
+✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
+✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
+✓ Loaded embedded CFF font data for font F1 (5085 bytes)
+✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
+✓ Default width for CID font F1: 280
+✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
+✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F1: Identity-H
+✓ Loaded embedded CFF font data for font F8 (3309 bytes)
+✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
+✓ Loaded embedded CFF font data for font F13 (1665 bytes)
+✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
+✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
    Processing array with 1 items
    Array item 0: types.IndirectRef
    Dereferenced to: types.StreamDict

@@ -9,6 +9,7 @@ import (
 	"os"
 	"strings"
 
+	otcff "github.com/go-text/typesetting/opentype/api/font/cff"
 	"github.com/pdfcpu/pdfcpu/pkg/api"
 	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
 	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
@@ -2009,8 +2010,14 @@ func loadFont(ctx *model.Context, fontName string, fontObj types.Object, resourc
 		!hasUsefulToUnicode &&
 		len(font.CodeToGlyphName) == 0 &&
 		len(font.EmbeddedFontData) > 0 {
-		if enc, err := parseCFFEncoding(font.EmbeddedFontData); err == nil && len(enc) > 0 {
+		if enc, codeToGID, fontMatrix, hasFontMatrix, err := parseCFFEncoding(font.EmbeddedFontData); err == nil && len(enc) > 0 {
 			font.CodeToGlyphName = enc
+			font.CodeToGID = codeToGID
+			font.FontMatrix = fontMatrix
+			font.HasFontMatrix = hasFontMatrix
+			if cff, err := otcff.Parse(font.EmbeddedFontData); err == nil {
+				font.CFF = cff
+			}
 		}
 	}
 

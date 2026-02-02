@@ -4,6 +4,10 @@ import (
 	"fmt"
 	"math"
 	"strings"
+
+	otapi "github.com/go-text/typesetting/opentype/api"
+	cfffont "github.com/go-text/typesetting/opentype/api/font/cff"
+	"github.com/go-text/typesetting/opentype/tables"
 )
 
 // TextState 文本状态
@@ -68,6 +72,10 @@ type Font struct {
 	Encoding            string
 	BaseEncoding        string
 	CodeToGlyphName     map[byte]string
+	CodeToGID           map[byte]uint16
+	CFF                 *cfffont.CFF
+	FontMatrix          [6]float64
+	HasFontMatrix       bool
 	ToUnicodeMap        *CIDToUnicodeMap // CID 字体的 Unicode 映射
 	CIDSystemInfo       string           // CID 字体的系统信息 (Registry-Ordering)
 	EmbeddedFontData    []byte           // 嵌入的字体数据 (TTF/CFF)
@@ -605,7 +613,7 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 				state.FillColor.R,
 				state.FillColor.G,
 				state.FillColor.B,
-				state.FillColor.A,
+				state.FillColor.A*state.FillAlpha,
 			)
 		} else {
 			// 默认使用黑色
@@ -618,7 +626,7 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 				state.StrokeColor.R,
 				state.StrokeColor.G,
 				state.StrokeColor.B,
-				state.StrokeColor.A,
+				state.StrokeColor.A*state.StrokeAlpha,
 			)
 		}
 	case 2: // 填充+描边
@@ -627,11 +635,21 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 				state.FillColor.R,
 				state.FillColor.G,
 				state.FillColor.B,
-				state.FillColor.A,
+				state.FillColor.A*state.FillAlpha,
 			)
 		}
 	case 3: // 不可见
 		return nil
+	}
+
+	if state != nil {
+		ctx.GopdfCtx.SetLineWidth(state.LineWidth)
+		ctx.GopdfCtx.SetLineCap(state.LineCap)
+		ctx.GopdfCtx.SetLineJoin(state.LineJoin)
+		ctx.GopdfCtx.SetMiterLimit(state.MiterLimit)
+		if len(state.DashPattern) > 0 {
+			ctx.GopdfCtx.SetDash(state.DashPattern, state.DashOffset)
+		}
 	}
 
 	// 🔥 新策略：使用 Pango 自动布局
@@ -800,6 +818,199 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 		currentX = baseX + x
 	}
 
+	isTeXMathBaseFont := func(baseFont string) bool {
+		base := strings.ToUpper(stripSubsetPrefix(baseFont))
+		return strings.HasPrefix(base, "CMMI") ||
+			strings.HasPrefix(base, "CMSY") ||
+			strings.HasPrefix(base, "CMEX") ||
+			strings.HasPrefix(base, "MSBM")
+	}
+
+	renderTeXMathFallbackGlyphs := func(runText string, cids []uint16) (adv float64, ok bool) {
+		runes := []rune(runText)
+		if len(runes) == 0 || len(runes) != len(cids) {
+			return 0, false
+		}
+		if textState.Font == nil || len(textState.Font.CodeToGlyphName) == 0 {
+			return 0, false
+		}
+
+		x := currentX
+		for i, r := range runes {
+			cid := cids[i]
+
+			ctx.GopdfCtx.Save()
+			useCFF := textState.Font.CFF != nil && len(textState.Font.CodeToGID) > 0
+			if useCFF {
+				ctx.GopdfCtx.Translate(x, 0)
+				gid, ok := textState.Font.CodeToGID[byte(cid&0xFF)]
+				if !ok {
+					ctx.GopdfCtx.Restore()
+					return 0, false
+				}
+
+				segments, _, err := textState.Font.CFF.LoadGlyph(tables.GlyphID(gid))
+				if err != nil || len(segments) == 0 {
+					ctx.GopdfCtx.Restore()
+					return 0, false
+				}
+
+				fontMatrix := [6]float64{0.001, 0, 0, 0.001, 0, 0}
+				if textState.Font.HasFontMatrix {
+					fontMatrix = textState.Font.FontMatrix
+				}
+				hScale := textState.HorizontalScaling / 100.0
+				m := &Matrix{
+					XX: fontMatrix[0] * textState.FontSize * hScale,
+					YX: fontMatrix[1] * textState.FontSize,
+					XY: fontMatrix[2] * textState.FontSize * hScale,
+					YY: fontMatrix[3] * textState.FontSize,
+					X0: fontMatrix[4] * textState.FontSize * hScale,
+					Y0: fontMatrix[5] * textState.FontSize,
+				}
+				ctx.GopdfCtx.Transform(m)
+
+				ctx.GopdfCtx.NewPath()
+				for _, seg := range segments {
+					switch seg.Op {
+					case otapi.SegmentOpMoveTo:
+						p := seg.Args[0]
+						ctx.GopdfCtx.MoveTo(float64(p.X), float64(p.Y))
+					case otapi.SegmentOpLineTo:
+						p := seg.Args[0]
+						ctx.GopdfCtx.LineTo(float64(p.X), float64(p.Y))
+					case otapi.SegmentOpQuadTo:
+						p1 := seg.Args[0]
+						p2 := seg.Args[1]
+						ctx.GopdfCtx.CurveTo(
+							float64(p1.X), float64(p1.Y),
+							float64(p1.X), float64(p1.Y),
+							float64(p2.X), float64(p2.Y),
+						)
+					case otapi.SegmentOpCubeTo:
+						p1 := seg.Args[0]
+						p2 := seg.Args[1]
+						p3 := seg.Args[2]
+						ctx.GopdfCtx.CurveTo(
+							float64(p1.X), float64(p1.Y),
+							float64(p2.X), float64(p2.Y),
+							float64(p3.X), float64(p3.Y),
+						)
+					}
+				}
+			} else {
+				dy := 0.0
+				scaleY := 1.0
+				if name, ok := textState.Font.CodeToGlyphName[byte(cid&0xFF)]; ok {
+					if dyFactor, sy, ok := delimiterAdjust(name); ok {
+						dy = dyFactor * fontSize
+						scaleY = sy
+					}
+				}
+
+				ctx.GopdfCtx.Translate(x, dy)
+
+				if scaledFont == nil {
+					ctx.GopdfCtx.Restore()
+					return 0, false
+				}
+
+				glyphs, _, _, status := scaledFont.TextToGlyphs(0, 0, string(r))
+				if status != StatusSuccess || len(glyphs) == 0 {
+					ctx.GopdfCtx.Restore()
+					return 0, false
+				}
+
+				gid := glyphs[0].Index
+				glyphPath, err := scaledFont.GlyphPath(gid)
+				if err != nil || glyphPath == nil || len(glyphPath.Data) == 0 {
+					ctx.GopdfCtx.Restore()
+					return 0, false
+				}
+
+				if scaleY != 1.0 {
+					ctx.GopdfCtx.Scale(1.0, scaleY)
+				}
+
+				ctx.GopdfCtx.NewPath()
+				for _, pathData := range glyphPath.Data {
+					switch pathData.Type {
+					case PathMoveTo:
+						if len(pathData.Points) > 0 {
+							ctx.GopdfCtx.MoveTo(pathData.Points[0].X, pathData.Points[0].Y)
+						}
+					case PathLineTo:
+						if len(pathData.Points) > 0 {
+							ctx.GopdfCtx.LineTo(pathData.Points[0].X, pathData.Points[0].Y)
+						}
+					case PathCurveTo:
+						if len(pathData.Points) >= 3 {
+							ctx.GopdfCtx.CurveTo(
+								pathData.Points[0].X, pathData.Points[0].Y,
+								pathData.Points[1].X, pathData.Points[1].Y,
+								pathData.Points[2].X, pathData.Points[2].Y,
+							)
+						}
+					case PathClosePath:
+						ctx.GopdfCtx.ClosePath()
+					}
+				}
+			}
+
+			switch textState.RenderMode {
+			case 1:
+				if state != nil && state.StrokeColor != nil {
+					ctx.GopdfCtx.SetSourceRGBA(
+						state.StrokeColor.R,
+						state.StrokeColor.G,
+						state.StrokeColor.B,
+						state.StrokeColor.A*state.StrokeAlpha,
+					)
+				}
+				ctx.GopdfCtx.Stroke()
+			case 2:
+				if state != nil && state.FillColor != nil {
+					ctx.GopdfCtx.SetSourceRGBA(
+						state.FillColor.R,
+						state.FillColor.G,
+						state.FillColor.B,
+						state.FillColor.A*state.FillAlpha,
+					)
+				}
+				ctx.GopdfCtx.FillPreserve()
+				if state != nil && state.StrokeColor != nil {
+					ctx.GopdfCtx.SetSourceRGBA(
+						state.StrokeColor.R,
+						state.StrokeColor.G,
+						state.StrokeColor.B,
+						state.StrokeColor.A*state.StrokeAlpha,
+					)
+				}
+				ctx.GopdfCtx.Stroke()
+			default:
+				if state != nil && state.FillColor != nil {
+					ctx.GopdfCtx.SetSourceRGBA(
+						state.FillColor.R,
+						state.FillColor.G,
+						state.FillColor.B,
+						state.FillColor.A*state.FillAlpha,
+					)
+				}
+				ctx.GopdfCtx.Fill()
+			}
+
+			ctx.GopdfCtx.Restore()
+
+			isSpace := r == ' '
+			advStep := textState.GlyphAdvance(cid, isSpace)
+			x += advStep
+			adv += advStep
+		}
+
+		currentX += adv
+		return adv, true
+	}
+
 	// 渲染文本
 	if array != nil {
 		// TJ 操作符：处理文本数组
@@ -822,9 +1033,15 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 					renderGlyphs(cids)
 					debugPrintf("[TJ_ARRAY][%d] Rendered glyph run\n", idx)
 				} else {
+					if isTeXMathBaseFont(textState.Font.BaseFont) {
+						if adv, ok := renderTeXMathFallbackGlyphs(decodedText, cids); ok {
+							debugPrintf("[TJ_ARRAY][%d] Rendered TeX glyphs, adv=%.2f\n", idx, adv)
+							continue
+						}
+					}
+
 					scaleX, adv := computeRunScaleAndAdvance(decodedText, cids)
 					renderRun(decodedText, cids, scaleX)
-
 					currentX += adv
 					debugPrintf("[TJ_ARRAY][%d] Rendered run, adv=%.2f\n", idx, adv)
 				}
@@ -867,9 +1084,15 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 				renderGlyphs(cids)
 				debugPrintf("[Tj] Rendered glyph run\n")
 			} else {
+				if isTeXMathBaseFont(textState.Font.BaseFont) {
+					if adv, ok := renderTeXMathFallbackGlyphs(decodedText, cids); ok {
+						debugPrintf("[Tj] Rendered TeX glyphs, adv=%.2f\n", adv)
+						goto updateMatrix
+					}
+				}
+
 				scaleX, adv := computeRunScaleAndAdvance(decodedText, cids)
 				renderRun(decodedText, cids, scaleX)
-
 				currentX += adv
 				debugPrintf("[Tj] Rendered run, adv=%.2f\n", adv)
 			}
@@ -878,6 +1101,7 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 
 	// 更新文本矩阵：使用PDF的字形宽度
 	// 这对于在同一个BT...ET块中的多个Tj操作是必要的
+updateMatrix:
 	if currentX != 0 {
 		translation := NewTranslationMatrix(currentX, 0)
 		textState.TextMatrix = textState.TextMatrix.Multiply(translation)
@@ -956,15 +1180,19 @@ func decodeTextStringWithCIDs(text string, toUnicodeMap *CIDToUnicodeMap, font *
 			}
 		}
 
-		if len(result) < 2 || len(result)%2 != 0 {
-			return "", nil
-		}
-
-		// 提取CID数组
 		var cids []uint16
-		for i := 0; i < len(result); i += 2 {
-			cid := uint16(result[i])<<8 | uint16(result[i+1])
-			cids = append(cids, cid)
+		if font != nil && (font.Subtype == "/Type0" || font.Subtype == "Type0") {
+			if len(result) < 2 || len(result)%2 != 0 {
+				return "", nil
+			}
+			for i := 0; i < len(result); i += 2 {
+				cid := uint16(result[i])<<8 | uint16(result[i+1])
+				cids = append(cids, cid)
+			}
+		} else {
+			for _, b := range result {
+				cids = append(cids, uint16(b))
+			}
 		}
 
 		// 解码为 Unicode
