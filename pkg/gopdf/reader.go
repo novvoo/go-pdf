@@ -198,13 +198,22 @@ type PageInfo struct {
 
 // TextElementInfo 文本元素信息
 type TextElementInfo struct {
-	Text     string
-	X        float64
-	Y        float64
-	Width    float64
-	Height   float64
-	FontName string
-	FontSize float64
+	Text             string
+	RawText          string
+	X                float64
+	Y                float64
+	Width            float64
+	Height           float64
+	FontName         string
+	FontBaseName     string
+	FontSize         float64
+	HasToUnicode     bool
+	IsIdentity       bool
+	CIDCount         int
+	ReplacementCount int
+	ToUnicodeHit     int
+	GlyphNameHit     int
+	IdentityASCIIHit int
 }
 
 // ImageElementInfo 图片元素信息
@@ -1095,12 +1104,20 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 			// 解码文本（处理CID字体和十六进制字符串）
 			// 同时保存原始 CID 数组用于宽度计算
 			var originalCIDs []uint16
+			var rawText string
+			var hasToUnicode bool
+			var isIdentity bool
+			var decodeStats TextDecodeStats
 			if text != "" {
+				rawText = text
 				font := resources.GetFont(currentFont)
 				if font != nil {
-					// 提取 CID 数组
-					originalCIDs = extractCIDsFromText(text)
-					text = decodeTextStringWithFontAndIdentity(text, font.ToUnicodeMap, font.IsIdentity)
+					hasToUnicode = font.ToUnicodeMap != nil
+					isIdentity = font.IsIdentity
+					decoded, cids, ds := decodeTextStringWithCIDs(text, font.ToUnicodeMap, font)
+					text = decoded
+					originalCIDs = cids
+					decodeStats = ds
 				} else {
 					text = decodeTextString(text)
 				}
@@ -1131,12 +1148,26 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 				debugPrintf("[DEBUG] Text element: baseFontSize=%.2f, scale=%.2f, effectiveFontSize=%.2f\n",
 					baseFontSize, currentMatrix.YY, effectiveFontSize)
 
+				baseFontName := ""
+				if f := resources.GetFont(currentFont); f != nil {
+					baseFontName = strings.TrimSpace(f.BaseFont)
+				}
+
 				textElements = append(textElements, TextElementInfo{
-					Text:     text,
-					X:        x,
-					Y:        y,
-					FontName: currentFont,
-					FontSize: effectiveFontSize,
+					Text:             text,
+					RawText:          rawText,
+					X:                x,
+					Y:                y,
+					FontName:         currentFont,
+					FontBaseName:     baseFontName,
+					FontSize:         effectiveFontSize,
+					HasToUnicode:     hasToUnicode,
+					IsIdentity:       isIdentity,
+					CIDCount:         decodeStats.CIDCount,
+					ReplacementCount: decodeStats.Replaced,
+					ToUnicodeHit:     decodeStats.ToUnicodeHit,
+					GlyphNameHit:     decodeStats.GlyphNameHit,
+					IdentityASCIIHit: decodeStats.IdentityASCIIHit,
 				})
 
 				// 🔥 修复：改进文本宽度计算，考虑字体默认宽度和缺失宽度

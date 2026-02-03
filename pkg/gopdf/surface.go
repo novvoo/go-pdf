@@ -690,11 +690,6 @@ func NewPSSurface(filename string, widthInPoints, heightInPoints float64) Surfac
 %%BoundingBox: 0 0 %.0f %.0f
 %%EndComments
 
-gsave
-1 setlinecap
-1 setlinejoin
-10 setmiterlimit
-
 /newfont { /Helvetica findfont exch scalefont setfont } def
 10 newfont
 
@@ -794,19 +789,23 @@ func (s *psSurface) GetHeight() float64 {
 }
 
 func (s *psSurface) CopyPage() {
-	if s.writer != nil {
-		s.writer.WriteString("copypage\n")
-		s.writer.Flush()
+	if s.writer == nil {
+		return
 	}
-	s.pageCount++
+	s.ensureInPage()
+	s.writer.WriteString("copypage\n")
+	s.writer.Flush()
 }
 
 func (s *psSurface) ShowPage() {
-	if s.writer != nil {
-		s.writer.WriteString("showpage grestore grestore\n")
-		s.writer.Flush()
+	if s.writer == nil {
+		return
 	}
+	s.ensureInPage()
+	s.writer.WriteString("grestore\nshowpage\n")
+	s.writer.Flush()
 	s.inPage = false
+	s.pageCount++
 }
 
 func (s *psSurface) SetSize(widthInPoints, heightInPoints float64) {
@@ -827,7 +826,10 @@ func (s *psSurface) DscComment(comment string) {
 
 func (s *psSurface) finishConcrete() error {
 	if s.writer != nil {
-		s.writer.WriteString(fmt.Sprintf("\ngrestore\n%%%%Trailer\n%%%%Pages: %d\n%%%%EOF\n", s.pageCount))
+		if s.inPage {
+			s.ShowPage()
+		}
+		s.writer.WriteString(fmt.Sprintf("\n%%%%Trailer\n%%%%Pages: %d\n%%%%EOF\n", s.pageCount))
 		s.writer.Flush()
 		s.writer = nil
 	}
@@ -836,6 +838,19 @@ func (s *psSurface) finishConcrete() error {
 		s.file = nil
 	}
 	return nil
+}
+
+func (s *psSurface) ensureInPage() {
+	if s.writer == nil || s.inPage {
+		return
+	}
+	s.inPage = true
+	pageNo := s.pageCount + 1
+	s.writer.WriteString(fmt.Sprintf("%%%%Page: %d %d\n", pageNo, pageNo))
+	s.writer.WriteString("gsave\n")
+	s.writer.WriteString(fmt.Sprintf("0 %.4f translate\n1 -1 scale\n", s.height))
+	s.writer.WriteString("1 setlinecap\n1 setlinejoin\n10 setmiterlimit\n")
+	s.writer.Flush()
 }
 
 // NewScriptSurface creates a new Script surface for JSON serialization

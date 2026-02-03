@@ -589,7 +589,7 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 		}
 	}
 	if !registeredPDFFont && (fontFamily == "sans-serif" || fontFamily == "sans") {
-		decodedSample, _ := decodeTextStringWithCIDs(sampleText, toUnicodeMap, textState.Font)
+		decodedSample, _, _ := decodeTextStringWithCIDs(sampleText, toUnicodeMap, textState.Font)
 		if shouldUseCJKFallback(textState.Font, decodedSample) {
 			fontFamily = "sans-cjk"
 		}
@@ -1142,7 +1142,7 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 			switch v := item.(type) {
 			case string:
 				// 解码文本并获取 CID 数组
-				decodedText, cids := decodeTextStringWithCIDs(v, toUnicodeMap, textState.Font)
+				decodedText, cids, _ := decodeTextStringWithCIDs(v, toUnicodeMap, textState.Font)
 				if decodedText == "" && !useGlyphIndices {
 					debugPrintf("[TJ_ARRAY][%d] Empty string after decode\n", idx)
 					continue
@@ -1202,7 +1202,7 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 		}
 	} else {
 		// Tj 操作符：简单文本
-		decodedText, cids := decodeTextStringWithCIDs(text, toUnicodeMap, textState.Font)
+		decodedText, cids, _ := decodeTextStringWithCIDs(text, toUnicodeMap, textState.Font)
 		if (decodedText != "" && !useGlyphIndices) || (useGlyphIndices && len(cids) > 0) {
 			debugPrintf("[Tj] Text=%q (len=%d runes, %d CIDs) at Tm=[%.2f, %.2f]\n",
 				decodedText, len([]rune(decodedText)), len(cids), textState.TextMatrix.X0, textState.TextMatrix.Y0)
@@ -1295,8 +1295,16 @@ func renderGlyphRun(ctx Context, sf *PangoPdfScaledFont, glyphs []Glyph, renderM
 	}
 }
 
-// decodeTextStringWithCIDs 解码文本并返回 Unicode 字符串和 CID 数组
-func decodeTextStringWithCIDs(text string, toUnicodeMap *CIDToUnicodeMap, font *Font) (string, []uint16) {
+type TextDecodeStats struct {
+	CIDCount         int
+	ToUnicodeHit     int
+	GlyphNameHit     int
+	IdentityASCIIHit int
+	Replaced         int
+}
+
+// decodeTextStringWithCIDs 解码文本并返回 Unicode 字符串、CID 数组和解码统计
+func decodeTextStringWithCIDs(text string, toUnicodeMap *CIDToUnicodeMap, font *Font) (string, []uint16, TextDecodeStats) {
 	// 检查是否是十六进制字符串
 	if len(text) >= 2 && text[0] == '<' && text[len(text)-1] == '>' {
 		hexStr := text[1 : len(text)-1]
@@ -1315,7 +1323,7 @@ func decodeTextStringWithCIDs(text string, toUnicodeMap *CIDToUnicodeMap, font *
 		var cids []uint16
 		if font != nil && (font.Subtype == "/Type0" || font.Subtype == "Type0") {
 			if len(result) < 2 || len(result)%2 != 0 {
-				return "", nil
+				return "", nil, TextDecodeStats{}
 			}
 			for i := 0; i < len(result); i += 2 {
 				cid := uint16(result[i])<<8 | uint16(result[i+1])
@@ -1330,107 +1338,98 @@ func decodeTextStringWithCIDs(text string, toUnicodeMap *CIDToUnicodeMap, font *
 		// 解码为 Unicode
 		var decoded strings.Builder
 		isIdentity := font != nil && font.IsIdentity
+		stats := TextDecodeStats{CIDCount: len(cids)}
 
-		// 如果有 ToUnicode 映射，优先使用它
-		if toUnicodeMap != nil {
-			allMapped := true
-			for _, cid := range cids {
+		for _, cid := range cids {
+			if toUnicodeMap != nil {
 				if uni, ok := toUnicodeMap.MapCIDToUnicode(cid); ok {
 					if isValidUnicodeRune(uni) {
 						decoded.WriteRune(uni)
-					} else {
-						decoded.WriteRune('�')
+						stats.ToUnicodeHit++
+						continue
 					}
-				} else {
-					allMapped = false
-					break
 				}
 			}
 
-			if allMapped {
-				return ensureValidUTF8(decoded.String()), cids
+			if font != nil && len(font.CodeToGlyphName) > 0 {
+				if name, ok := font.CodeToGlyphName[byte(cid&0xFF)]; ok {
+					if r, ok := glyphNameToRuneForFont(name, font); ok {
+						decoded.WriteRune(r)
+						stats.GlyphNameHit++
+						continue
+					}
+				}
 			}
-			decoded.Reset()
-		}
 
-		if font != nil && len(font.CodeToGlyphName) > 0 {
-			for _, cid := range cids {
-				name, ok := font.CodeToGlyphName[byte(cid&0xFF)]
-				if !ok {
-					decoded.WriteRune('�')
+			if isIdentity {
+				uni := rune(cid)
+				if isValidUnicodeRune(uni) {
+					decoded.WriteRune(uni)
+					stats.IdentityASCIIHit++
 					continue
 				}
-				if r, ok := glyphNameToRuneForFont(name, font); ok {
-					decoded.WriteRune(r)
-				} else {
-					decoded.WriteRune('�')
-				}
 			}
-			return ensureValidUTF8(decoded.String()), cids
-		}
 
-		// 如果ToUnicode映射失败或不存在，且是Identity映射，CID直接等于Unicode码点
-		if isIdentity {
-			for _, cid := range cids {
-				r := rune(cid)
-				// 验证Unicode码点有效性
-				if isValidUnicodeRune(r) {
-					decoded.WriteRune(r)
-				} else {
-					debugPrintf("⚠️ Invalid Unicode codepoint: U+%04X\n", cid)
-					decoded.WriteRune('�') // 使用替换字符
-				}
-			}
-			return decoded.String(), cids
+			decoded.WriteRune('�')
+			stats.Replaced++
 		}
+		return ensureValidUTF8(decoded.String()), cids, stats
 
 		// 否则尝试标准解码
 		decodedStr := decodeTextString(text)
-		return ensureValidUTF8(decodedStr), cids
+		return ensureValidUTF8(decodedStr), cids, stats
 	}
 
 	// 普通字符串 - 处理反斜杠转义并转换为 CID 数组（字节码）
 	rawBytes := decodePDFLiteralStringBytes(text)
 	var cids []uint16
-	for _, b := range rawBytes {
-		cids = append(cids, uint16(b))
+	if font != nil && (font.Subtype == "/Type0" || font.Subtype == "Type0") && font.IsIdentity && len(rawBytes) >= 2 && len(rawBytes)%2 == 0 {
+		for i := 0; i < len(rawBytes); i += 2 {
+			cid := uint16(rawBytes[i])<<8 | uint16(rawBytes[i+1])
+			cids = append(cids, cid)
+		}
+	} else {
+		for _, b := range rawBytes {
+			cids = append(cids, uint16(b))
+		}
 	}
+	stats := TextDecodeStats{CIDCount: len(cids)}
 
-	if toUnicodeMap != nil {
+	if toUnicodeMap != nil || (font != nil && len(font.CodeToGlyphName) > 0) || (font != nil && font.IsIdentity) {
 		var decoded strings.Builder
-		allMapped := true
 		for _, cid := range cids {
-			if uni, ok := toUnicodeMap.MapCIDToUnicode(cid); ok {
+			if toUnicodeMap != nil {
+				if uni, ok := toUnicodeMap.MapCIDToUnicode(cid); ok {
+					if isValidUnicodeRune(uni) {
+						decoded.WriteRune(uni)
+						stats.ToUnicodeHit++
+						continue
+					}
+				}
+			}
+
+			if font != nil && len(font.CodeToGlyphName) > 0 {
+				if name, ok := font.CodeToGlyphName[byte(cid&0xFF)]; ok {
+					if r, ok := glyphNameToRuneForFont(name, font); ok {
+						decoded.WriteRune(r)
+						stats.GlyphNameHit++
+						continue
+					}
+				}
+			}
+
+			if font != nil && font.IsIdentity {
+				uni := rune(cid)
 				if isValidUnicodeRune(uni) {
 					decoded.WriteRune(uni)
-				} else {
-					decoded.WriteRune('�')
+					stats.IdentityASCIIHit++
+					continue
 				}
-			} else {
-				allMapped = false
-				break
 			}
-		}
-		if allMapped {
-			return ensureValidUTF8(decoded.String()), cids
-		}
-	}
 
-	if font != nil && len(font.CodeToGlyphName) > 0 {
-		var decoded strings.Builder
-		for _, cid := range cids {
-			name, ok := font.CodeToGlyphName[byte(cid&0xFF)]
-			if !ok {
-				decoded.WriteRune(rune(cid))
-				continue
-			}
-			if r, ok := glyphNameToRuneForFont(name, font); ok {
-				decoded.WriteRune(r)
-			} else {
-				decoded.WriteRune(rune(cid))
-			}
+			decoded.WriteRune(rune(cid))
 		}
-		return ensureValidUTF8(decoded.String()), cids
+		return ensureValidUTF8(decoded.String()), cids, stats
 	}
 
 	if font != nil {
@@ -1444,7 +1443,7 @@ func decodeTextStringWithCIDs(text string, toUnicodeMap *CIDToUnicodeMap, font *
 					decoded.WriteRune(rune(cid))
 				}
 			}
-			return ensureValidUTF8(decoded.String()), cids
+			return ensureValidUTF8(decoded.String()), cids, stats
 		}
 	}
 
@@ -1456,12 +1455,13 @@ func decodeTextStringWithCIDs(text string, toUnicodeMap *CIDToUnicodeMap, font *
 				decoded.WriteRune(r)
 			} else {
 				decoded.WriteRune('�')
+				stats.Replaced++
 			}
 		}
-		return ensureValidUTF8(decoded.String()), cids
+		return ensureValidUTF8(decoded.String()), cids, stats
 	}
 
-	return latin1StringFromBytes(rawBytes), cids
+	return latin1StringFromBytes(rawBytes), cids, stats
 }
 
 // isValidUnicodeRune 验证Unicode码点是否有效

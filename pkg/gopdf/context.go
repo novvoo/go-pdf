@@ -1,11 +1,14 @@
 package gopdf
 
 import (
+	"bufio"
 	"fmt"
 	"image"
 	"image/color"
 	"math"
 	"runtime"
+	"sort"
+	"strings"
 	"sync"
 	"sync/atomic"
 	"unsafe"
@@ -168,6 +171,9 @@ func NewContext(target Surface) Context {
 		dummyImage := image.NewRGBA(image.Rect(0, 0, int(s.width), int(s.height)))
 		ctx.gc = newRasterContext(dummyImage)
 		// Store a reference in the surface for Finish()
+	case *psSurface:
+		// Vector PS output: no raster backend
+		ctx.gc = nil
 	}
 
 	// Initialize default state
@@ -203,6 +209,7 @@ func (c *context) Reference() Context {
 
 func (c *context) Destroy() {
 	if atomic.AddInt32(&c.refCount, -1) == 0 {
+		runtime.SetFinalizer(c, nil)
 		c.destroyConcrete()
 	}
 }
@@ -210,6 +217,7 @@ func (c *context) Destroy() {
 func (c *context) destroyConcrete() {
 	if c.target != nil {
 		c.target.Destroy()
+		c.target = nil
 	}
 
 	// Clean up graphics state stack
@@ -305,6 +313,9 @@ func (c *context) Save() error {
 	}
 
 	c.gstate = newState
+	if c.psSurfaceTarget() != nil {
+		c.psWritef("gsave\n")
+	}
 	return nil
 }
 
@@ -316,6 +327,10 @@ func (c *context) Restore() error {
 	if c.gstate.next == nil {
 		c.status = StatusInvalidRestore
 		return newError(StatusInvalidRestore, "")
+	}
+
+	if c.psSurfaceTarget() != nil {
+		c.psWritef("grestore\n")
 	}
 
 	// Release current state resources
@@ -553,6 +568,9 @@ func (c *context) Transform(matrix *Matrix) {
 
 	// Multiply current matrix with the transformation matrix
 	MatrixMultiply(&c.gstate.matrix, &c.gstate.matrix, matrix)
+	if c.psSurfaceTarget() != nil {
+		c.psWritef("[%.8f %.8f %.8f %.8f %.8f %.8f] concat\n", matrix.XX, matrix.YX, matrix.XY, matrix.YY, matrix.X0, matrix.Y0)
+	}
 }
 
 func (c *context) SetMatrix(matrix *Matrix) {
@@ -560,6 +578,12 @@ func (c *context) SetMatrix(matrix *Matrix) {
 		return
 	}
 	c.gstate.matrix = *matrix
+	if s := c.psSurfaceTarget(); s != nil {
+		s.ensureInPage()
+		fmt.Fprintf(s.writer, "initmatrix\n0 %.4f translate\n1 -1 scale\n", s.height)
+		fmt.Fprintf(s.writer, "[%.8f %.8f %.8f %.8f %.8f %.8f] concat\n", matrix.XX, matrix.YX, matrix.XY, matrix.YY, matrix.X0, matrix.Y0)
+		s.writer.Flush()
+	}
 }
 
 func (c *context) GetMatrix() *Matrix {
@@ -828,6 +852,356 @@ func (c *context) applyStateToPango() {
 	}
 }
 
+func (c *context) psSurfaceTarget() *psSurface {
+	if c.target == nil {
+		return nil
+	}
+	if s, ok := c.target.(*psSurface); ok {
+		return s
+	}
+	return nil
+}
+
+func (c *context) psWritef(format string, args ...interface{}) {
+	s := c.psSurfaceTarget()
+	if s == nil || s.writer == nil {
+		return
+	}
+	s.ensureInPage()
+	fmt.Fprintf(s.writer, format, args...)
+	s.writer.Flush()
+}
+
+func (c *context) psApplyDash() {
+	if len(c.gstate.dash) == 0 {
+		c.psWritef("[] 0 setdash\n")
+		return
+	}
+	c.psWritef("[")
+	for i, v := range c.gstate.dash {
+		if i > 0 {
+			c.psWritef(" ")
+		}
+		c.psWritef("%.4f", v)
+	}
+	c.psWritef("] %.4f setdash\n", c.gstate.dashOffset)
+}
+
+func (c *context) psApplyStrokeStyle() {
+	c.psWritef("%.4f setlinewidth\n", c.gstate.lineWidth)
+	c.psWritef("%d setlinecap\n", int(c.gstate.lineCap))
+	c.psWritef("%d setlinejoin\n", int(c.gstate.lineJoin))
+	c.psWritef("%.4f setmiterlimit\n", c.gstate.miterLimit)
+	c.psApplyDash()
+}
+
+func (c *context) psApplySourceColor() {
+	if c.gstate.source == nil {
+		c.psWritef("0 0 0 setrgbcolor\n")
+		return
+	}
+	if p, ok := c.gstate.source.(SolidPattern); ok {
+		r, g, b, _ := p.GetRGBA()
+		c.psWritef("%.6f %.6f %.6f setrgbcolor\n", r, g, b)
+		return
+	}
+	c.psWritef("0 0 0 setrgbcolor\n")
+}
+
+func (c *context) psWritePath() {
+	if len(c.path.data) == 0 {
+		return
+	}
+	c.psWritef("newpath\n")
+	for _, op := range c.path.data {
+		switch op.op {
+		case PathMoveTo:
+			p := op.points[0]
+			c.psWritef("%.4f %.4f moveto\n", p.x, p.y)
+		case PathLineTo:
+			p := op.points[0]
+			c.psWritef("%.4f %.4f lineto\n", p.x, p.y)
+		case PathCurveTo:
+			p1 := op.points[0]
+			p2 := op.points[1]
+			p3 := op.points[2]
+			c.psWritef("%.4f %.4f %.4f %.4f %.4f %.4f curveto\n", p1.x, p1.y, p2.x, p2.y, p3.x, p3.y)
+		case PathClosePath:
+			c.psWritef("closepath\n")
+		}
+	}
+}
+
+func (c *context) psTryPaintSurfacePattern() bool {
+	sp, ok := c.gstate.source.(*surfacePattern)
+	if !ok {
+		return false
+	}
+	imgSurf, ok := sp.surface.(ImageSurface)
+	if !ok {
+		return false
+	}
+	s := c.psSurfaceTarget()
+	if s == nil || s.writer == nil {
+		return false
+	}
+	s.ensureInPage()
+	if len(c.path.data) == 0 {
+		return false
+	}
+
+	img := imgSurf.GetGoImage()
+	if img == nil {
+		img = ConvertGopdfSurfaceToImage(imgSurf)
+	}
+	b := img.Bounds()
+	wpx := b.Dx()
+	hpx := b.Dy()
+	if wpx <= 0 || hpx <= 0 {
+		return false
+	}
+
+	fmt.Fprint(s.writer, "gsave\n")
+	c.psWritePath()
+	if c.gstate.fillRule == FillRuleEvenOdd {
+		fmt.Fprint(s.writer, "eoclip\nnewpath\n")
+	} else {
+		fmt.Fprint(s.writer, "clip\nnewpath\n")
+	}
+
+	fmt.Fprintf(s.writer, "%d %d 8 [%d 0 0 -%d 0 %d] {<\n", wpx, hpx, wpx, hpx, hpx)
+	if err := psWriteImageHexRGB(s.writer, img); err != nil {
+		c.status = StatusWriteError
+		return false
+	}
+	fmt.Fprint(s.writer, "\n>} false 3 colorimage\ngrestore\n")
+	s.writer.Flush()
+	return true
+}
+
+func (c *context) psTryPaintGradientInClip() bool {
+	if lg, ok := c.gstate.source.(*linearGradient); ok {
+		if len(lg.stops) == 0 {
+			return false
+		}
+		for _, st := range lg.stops {
+			if st.alpha != 1 {
+				return false
+			}
+		}
+		s := c.psSurfaceTarget()
+		if s == nil || s.writer == nil {
+			return false
+		}
+		s.ensureInPage()
+		fmt.Fprint(s.writer, "gsave\n")
+		c.psWritePath()
+		if c.gstate.fillRule == FillRuleEvenOdd {
+			fmt.Fprint(s.writer, "eoclip\nnewpath\n")
+		} else {
+			fmt.Fprint(s.writer, "clip\nnewpath\n")
+		}
+		c.psWriteLinearGradientShfill(lg)
+		fmt.Fprint(s.writer, "grestore\n")
+		s.writer.Flush()
+		return true
+	}
+	if rg, ok := c.gstate.source.(*radialGradient); ok {
+		if len(rg.stops) == 0 {
+			return false
+		}
+		for _, st := range rg.stops {
+			if st.alpha != 1 {
+				return false
+			}
+		}
+		s := c.psSurfaceTarget()
+		if s == nil || s.writer == nil {
+			return false
+		}
+		s.ensureInPage()
+		fmt.Fprint(s.writer, "gsave\n")
+		c.psWritePath()
+		if c.gstate.fillRule == FillRuleEvenOdd {
+			fmt.Fprint(s.writer, "eoclip\nnewpath\n")
+		} else {
+			fmt.Fprint(s.writer, "clip\nnewpath\n")
+		}
+		c.psWriteRadialGradientShfill(rg)
+		fmt.Fprint(s.writer, "grestore\n")
+		s.writer.Flush()
+		return true
+	}
+	return false
+}
+
+func (c *context) psTryStrokeGradient() bool {
+	lg, okL := c.gstate.source.(*linearGradient)
+	rg, okR := c.gstate.source.(*radialGradient)
+	if !okL && !okR {
+		return false
+	}
+	if okL {
+		if len(lg.stops) == 0 {
+			return false
+		}
+		for _, st := range lg.stops {
+			if st.alpha != 1 {
+				return false
+			}
+		}
+	}
+	if okR {
+		if len(rg.stops) == 0 {
+			return false
+		}
+		for _, st := range rg.stops {
+			if st.alpha != 1 {
+				return false
+			}
+		}
+	}
+
+	s := c.psSurfaceTarget()
+	if s == nil || s.writer == nil {
+		return false
+	}
+	s.ensureInPage()
+
+	fmt.Fprint(s.writer, "gsave\n")
+	c.psApplyStrokeStyle()
+	c.psWritePath()
+	fmt.Fprint(s.writer, "strokepath\n")
+	if c.gstate.fillRule == FillRuleEvenOdd {
+		fmt.Fprint(s.writer, "eoclip\nnewpath\n")
+	} else {
+		fmt.Fprint(s.writer, "clip\nnewpath\n")
+	}
+	if okL {
+		c.psWriteLinearGradientShfill(lg)
+	} else {
+		c.psWriteRadialGradientShfill(rg)
+	}
+	fmt.Fprint(s.writer, "grestore\n")
+	s.writer.Flush()
+	return true
+}
+
+func (c *context) psExtendArray() string {
+	switch c.gstate.source.GetExtend() {
+	case ExtendNone:
+		return "[false false]"
+	default:
+		return "[true true]"
+	}
+}
+
+func (c *context) psWriteLinearGradientShfill(lg *linearGradient) {
+	s := c.psSurfaceTarget()
+	if s == nil || s.writer == nil {
+		return
+	}
+	extend := c.psExtendArray()
+	fmt.Fprint(s.writer, "<< /ShadingType 2 /ColorSpace /DeviceRGB ")
+	fmt.Fprintf(s.writer, "/Coords [%.6f %.6f %.6f %.6f] ", lg.x0, lg.y0, lg.x1, lg.y1)
+	fmt.Fprintf(s.writer, "/Function %s ", c.psGradientFunction(lg.stops))
+	fmt.Fprintf(s.writer, "/Extend %s >> shfill\n", extend)
+}
+
+func (c *context) psWriteRadialGradientShfill(rg *radialGradient) {
+	s := c.psSurfaceTarget()
+	if s == nil || s.writer == nil {
+		return
+	}
+	extend := c.psExtendArray()
+	fmt.Fprint(s.writer, "<< /ShadingType 3 /ColorSpace /DeviceRGB ")
+	fmt.Fprintf(s.writer, "/Coords [%.6f %.6f %.6f %.6f %.6f %.6f] ", rg.cx0, rg.cy0, rg.radius0, rg.cx1, rg.cy1, rg.radius1)
+	fmt.Fprintf(s.writer, "/Function %s ", c.psGradientFunction(rg.stops))
+	fmt.Fprintf(s.writer, "/Extend %s >> shfill\n", extend)
+}
+
+func (c *context) psGradientFunction(stops []gradientStop) string {
+	if len(stops) == 0 {
+		return "<< /FunctionType 2 /Domain [0 1] /C0 [0 0 0] /C1 [0 0 0] /N 1 >>"
+	}
+	if len(stops) == 1 {
+		s := stops[0]
+		return fmt.Sprintf("<< /FunctionType 2 /Domain [0 1] /C0 [%.6f %.6f %.6f] /C1 [%.6f %.6f %.6f] /N 1 >>", s.red, s.green, s.blue, s.red, s.green, s.blue)
+	}
+	if len(stops) == 2 {
+		s0, s1 := stops[0], stops[1]
+		return fmt.Sprintf("<< /FunctionType 2 /Domain [0 1] /C0 [%.6f %.6f %.6f] /C1 [%.6f %.6f %.6f] /N 1 >>", s0.red, s0.green, s0.blue, s1.red, s1.green, s1.blue)
+	}
+
+	parts := make([]gradientStop, 0, len(stops))
+	for _, s := range stops {
+		if s.offset < 0 {
+			s.offset = 0
+		}
+		if s.offset > 1 {
+			s.offset = 1
+		}
+		parts = append(parts, s)
+	}
+	sort.Slice(parts, func(i, j int) bool { return parts[i].offset < parts[j].offset })
+
+	var b strings.Builder
+	b.WriteString("<< /FunctionType 3 /Domain [0 1] /Functions [")
+	for i := 0; i < len(parts)-1; i++ {
+		a, z := parts[i], parts[i+1]
+		fmt.Fprintf(&b, "<< /FunctionType 2 /Domain [0 1] /C0 [%.6f %.6f %.6f] /C1 [%.6f %.6f %.6f] /N 1 >> ",
+			a.red, a.green, a.blue, z.red, z.green, z.blue)
+	}
+	b.WriteString("] /Bounds [")
+	for i := 1; i < len(parts)-1; i++ {
+		fmt.Fprintf(&b, "%.6f ", parts[i].offset)
+	}
+	b.WriteString("] /Encode [")
+	for i := 0; i < len(parts)-1; i++ {
+		b.WriteString("0 1 ")
+	}
+	b.WriteString("] >>")
+	return b.String()
+}
+
+func psWriteImageHexRGB(w *bufio.Writer, img image.Image) error {
+	b := img.Bounds()
+	lineLen := 0
+	for y := b.Min.Y; y < b.Max.Y; y++ {
+		for x := b.Min.X; x < b.Max.X; x++ {
+			r, g, bb, _ := img.At(x, y).RGBA()
+			if err := psWriteHexByte(w, byte(r>>8), &lineLen); err != nil {
+				return err
+			}
+			if err := psWriteHexByte(w, byte(g>>8), &lineLen); err != nil {
+				return err
+			}
+			if err := psWriteHexByte(w, byte(bb>>8), &lineLen); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+func psWriteHexByte(w *bufio.Writer, b byte, lineLen *int) error {
+	const hex = "0123456789ABCDEF"
+	if err := w.WriteByte(hex[b>>4]); err != nil {
+		return err
+	}
+	if err := w.WriteByte(hex[b&0x0F]); err != nil {
+		return err
+	}
+	*lineLen += 2
+	if *lineLen >= 96 {
+		if err := w.WriteByte('\n'); err != nil {
+			return err
+		}
+		*lineLen = 0
+	}
+	return nil
+}
+
 // Group operations
 func (c *context) PushGroup() {
 	c.PushGroupWithContent(ContentColorAlpha)
@@ -898,42 +1272,84 @@ func (c *context) PopGroupToSource() {
 }
 
 func (c *context) Paint() error {
-	if c.status != StatusSuccess || c.gc == nil {
+	if c.status != StatusSuccess {
+		return newError(c.status, "")
+	}
+
+	if s := c.psSurfaceTarget(); s != nil {
+		if c.psTryPaintSurfacePattern() {
+			return nil
+		}
+		savedPath := c.path
+		if c.gstate.clip != nil && c.gstate.clip.path != nil {
+			c.path = c.gstate.clip.path
+		} else {
+			w, h := s.width, s.height
+			tmp := &path{data: make([]pathOp, 0, 5)}
+			tmp.data = append(tmp.data,
+				pathOp{op: PathMoveTo, points: []point{{0, 0}}},
+				pathOp{op: PathLineTo, points: []point{{w, 0}}},
+				pathOp{op: PathLineTo, points: []point{{w, h}}},
+				pathOp{op: PathLineTo, points: []point{{0, h}}},
+				pathOp{op: PathClosePath},
+			)
+			c.path = tmp
+		}
+		if c.psTryPaintGradientInClip() {
+			c.path = savedPath
+			return nil
+		}
+		c.psApplySourceColor()
+		c.psWritePath()
+		if c.gstate.fillRule == FillRuleEvenOdd {
+			c.psWritef("eofill\n")
+		} else {
+			c.psWritef("fill\n")
+		}
+		c.path = savedPath
+		return nil
+	}
+
+	if c.gc == nil {
 		return newError(c.status, "")
 	}
 
 	c.applyStateToPango()
 
-	// Gopdf's paint is equivalent to filling the current clip region with the source pattern.
-	// If there's a clip region, use it; otherwise fill the entire surface.
-
 	if c.gstate.clip != nil && c.gstate.clip.path != nil {
-		// Use the clip path
 		savedPath := c.path
 		c.path = c.gstate.clip.path
 		c.applyPathToPango()
 		c.gc.Fill()
 		c.path = savedPath
-	} else {
-		// Fill the entire surface
-		if imgSurface, ok := c.target.(ImageSurface); ok {
-			width := float64(imgSurface.GetWidth())
-			height := float64(imgSurface.GetHeight())
+		return nil
+	}
 
-			c.gc.BeginPath()
-			c.gc.MoveTo(0, 0)
-			c.gc.LineTo(width, 0)
-			c.gc.LineTo(width, height)
-			c.gc.LineTo(0, height)
-			c.gc.Close()
-			c.gc.Fill()
-		}
+	if imgSurface, ok := c.target.(ImageSurface); ok {
+		width := float64(imgSurface.GetWidth())
+		height := float64(imgSurface.GetHeight())
+
+		c.gc.BeginPath()
+		c.gc.MoveTo(0, 0)
+		c.gc.LineTo(width, 0)
+		c.gc.LineTo(width, height)
+		c.gc.LineTo(0, height)
+		c.gc.Close()
+		c.gc.Fill()
 	}
 	return nil
 }
 
 func (c *context) PaintWithAlpha(alpha float64) error {
-	if c.status != StatusSuccess || c.gc == nil {
+	if c.status != StatusSuccess {
+		return newError(c.status, "")
+	}
+
+	if c.psSurfaceTarget() != nil {
+		return c.Paint()
+	}
+
+	if c.gc == nil {
 		return newError(c.status, "")
 	}
 
@@ -981,19 +1397,47 @@ func (c *context) MaskSurface(surface Surface, surfaceX, surfaceY float64) {
 
 // Path operations
 func (c *context) Stroke() error {
-	if c.status != StatusSuccess || c.gc == nil {
+	if c.status != StatusSuccess {
+		return newError(c.status, "")
+	}
+	if c.psSurfaceTarget() != nil {
+		if c.psTryStrokeGradient() {
+			c.NewPath()
+			return nil
+		}
+		c.psApplySourceColor()
+		c.psApplyStrokeStyle()
+		c.psWritePath()
+		c.psWritef("stroke\n")
+		c.NewPath()
+		return nil
+	}
+	if c.gc == nil {
 		return newError(c.status, "")
 	}
 
 	c.applyStateToPango()
 	c.applyPathToPango()
 	c.gc.Stroke()
-	c.NewPath() // Clear path after stroke
+	c.NewPath()
 	return nil
 }
 
 func (c *context) StrokePreserve() error {
-	if c.status != StatusSuccess || c.gc == nil {
+	if c.status != StatusSuccess {
+		return newError(c.status, "")
+	}
+	if c.psSurfaceTarget() != nil {
+		if c.psTryStrokeGradient() {
+			return nil
+		}
+		c.psApplySourceColor()
+		c.psApplyStrokeStyle()
+		c.psWritePath()
+		c.psWritef("stroke\n")
+		return nil
+	}
+	if c.gc == nil {
 		return newError(c.status, "")
 	}
 
@@ -1004,19 +1448,60 @@ func (c *context) StrokePreserve() error {
 }
 
 func (c *context) Fill() error {
-	if c.status != StatusSuccess || c.gc == nil {
+	if c.status != StatusSuccess {
+		return newError(c.status, "")
+	}
+	if c.psSurfaceTarget() != nil {
+		if c.psTryPaintGradientInClip() {
+			c.NewPath()
+			return nil
+		}
+		if c.psTryPaintSurfacePattern() {
+			c.NewPath()
+			return nil
+		}
+		c.psApplySourceColor()
+		c.psWritePath()
+		if c.gstate.fillRule == FillRuleEvenOdd {
+			c.psWritef("eofill\n")
+		} else {
+			c.psWritef("fill\n")
+		}
+		c.NewPath()
+		return nil
+	}
+	if c.gc == nil {
 		return newError(c.status, "")
 	}
 
 	c.applyStateToPango()
 	c.applyPathToPango()
 	c.gc.Fill()
-	c.NewPath() // Clear path after fill
+	c.NewPath()
 	return nil
 }
 
 func (c *context) FillPreserve() error {
-	if c.status != StatusSuccess || c.gc == nil {
+	if c.status != StatusSuccess {
+		return newError(c.status, "")
+	}
+	if c.psSurfaceTarget() != nil {
+		if c.psTryPaintGradientInClip() {
+			return nil
+		}
+		if c.psTryPaintSurfacePattern() {
+			return nil
+		}
+		c.psApplySourceColor()
+		c.psWritePath()
+		if c.gstate.fillRule == FillRuleEvenOdd {
+			c.psWritef("eofill\n")
+		} else {
+			c.psWritef("fill\n")
+		}
+		return nil
+	}
+	if c.gc == nil {
 		return newError(c.status, "")
 	}
 
@@ -1211,11 +1696,9 @@ func (c *context) DrawCircle(xc, yc, radius float64) {
 // More placeholder implementations
 func (c *context) PathExtents() (x1, y1, x2, y2 float64) { return 0, 0, 0, 0 }
 func (c *context) Clip() {
-	if c.status != StatusSuccess || c.gc == nil {
+	if c.status != StatusSuccess {
 		return
 	}
-
-	fmt.Printf("[Clip] Before copy, c.path.data length: %d\n", len(c.path.data))
 
 	// Deep copy the current path for the clip region
 	// We need to copy both the path data and the points within each operation
@@ -1234,8 +1717,6 @@ func (c *context) Clip() {
 		copy(clipPath.data[i].points, op.points)
 	}
 
-	fmt.Printf("[Clip] After deep copy, clipPath.data length: %d\n", len(clipPath.data))
-
 	// Set the copied path as the new clip path
 	c.gstate.clip = &clipRegion{
 		path:      clipPath,
@@ -1245,16 +1726,26 @@ func (c *context) Clip() {
 		prev:      c.gstate.clip, // Push current clip onto stack
 	}
 
-	// Apply the new clip path to Pango
-	c.applyPathToPango()
-	// Note: Pango doesn't have SetClipPath method, so we skip this for now
+	if c.psSurfaceTarget() != nil {
+		c.psWritePath()
+		if c.gstate.fillRule == FillRuleEvenOdd {
+			c.psWritef("eoclip\nnewpath\n")
+		} else {
+			c.psWritef("clip\nnewpath\n")
+		}
+	} else {
+		if c.gc == nil {
+			return
+		}
+		c.applyPathToPango()
+	}
 
 	// Clear the current path
 	c.NewPath()
 }
 
 func (c *context) ClipPreserve() {
-	if c.status != StatusSuccess || c.gc == nil {
+	if c.status != StatusSuccess {
 		return
 	}
 
@@ -1267,9 +1758,19 @@ func (c *context) ClipPreserve() {
 		prev:      c.gstate.clip, // Push current clip onto stack
 	}
 
-	// Apply the new clip path to Pango
-	c.applyPathToPango()
-	// Note: Pango doesn't have SetClipPath method, so we skip this for now
+	if c.psSurfaceTarget() != nil {
+		c.psWritePath()
+		if c.gstate.fillRule == FillRuleEvenOdd {
+			c.psWritef("eoclip\nnewpath\n")
+		} else {
+			c.psWritef("clip\nnewpath\n")
+		}
+	} else {
+		if c.gc == nil {
+			return
+		}
+		c.applyPathToPango()
+	}
 }
 
 func (c *context) ClipExtents() (x1, y1, x2, y2 float64) {
@@ -1289,15 +1790,16 @@ func (c *context) InClip(x, y float64) Bool {
 }
 
 func (c *context) ResetClip() {
-	if c.status != StatusSuccess || c.gc == nil {
+	if c.status != StatusSuccess {
 		return
 	}
 
 	// Clear the clip stack
 	c.gstate.clip = nil
 
-	// Reset clip in Pango
-	// Note: Pango doesn't have SetClipPath method, so we skip this for now
+	if c.psSurfaceTarget() != nil {
+		c.psWritef("initclip\n")
+	}
 }
 func (c *context) CopyClipRectangleList() *RectangleList   { return nil }
 func (c *context) InStroke(x, y float64) Bool              { return False }

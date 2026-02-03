@@ -1497,6 +1497,11 @@ func PangoPdfShowText(ctx Context, layout *PangoPdfLayout) {
 		return
 	}
 
+	if c, ok := ctx.(*context); ok && c.psSurfaceTarget() != nil {
+		pangoPSShowText(c, layout)
+		return
+	}
+
 	// Get current point or use (0, 0)
 	x, y := ctx.GetCurrentPoint()
 	if x == 0 && y == 0 && ctx.HasCurrentPoint() == False {
@@ -1576,6 +1581,132 @@ func PangoPdfShowText(ctx Context, layout *PangoPdfLayout) {
 			c.currentPoint.hasPoint = true
 		}
 	}
+}
+
+func pangoPSShowText(c *context, layout *PangoPdfLayout) {
+	if c == nil || layout == nil || layout.fontDesc == nil {
+		return
+	}
+
+	x, y := c.GetCurrentPoint()
+	if x == 0 && y == 0 && c.HasCurrentPoint() == False {
+		x, y = 0, 0
+	}
+
+	fontName := strings.TrimSpace(layout.fontDesc.family)
+	if fontName == "" {
+		fontName = "Helvetica"
+	}
+	fontName = psSafeFontName(fontName)
+
+	fontSize := layout.fontDesc.size
+	if fontSize <= 0 {
+		fontSize = 12
+	}
+
+	c.psApplySourceColor()
+	c.psWritef("/%s findfont %.4f scalefont setfont\n", fontName, fontSize)
+
+	text := layout.GetText()
+	lines := strings.Split(text, "\n")
+	if len(lines) == 0 {
+		return
+	}
+
+	lineHeight := fontSize * 1.2
+	currentY := y
+	for _, line := range lines {
+		if line == "" {
+			currentY += lineHeight
+			continue
+		}
+
+		lineX := x
+		if layout.align != PangoAlignLeft && layout.width > 0 {
+			layoutWidth := float64(layout.width) / 1024.0
+			textWidth := estimateTextWidthSimple(line, fontSize)
+			switch layout.align {
+			case PangoAlignRight:
+				lineX = x + (layoutWidth - textWidth)
+			case PangoAlignCenter:
+				lineX = x + (layoutWidth-textWidth)/2
+			}
+		}
+
+		c.psWritef("%.4f %.4f moveto\n", lineX, currentY)
+		c.psWritef("(%s) show\n", escapePSString(ensureValidUTF8(line)))
+		currentY += lineHeight
+	}
+
+	lastLine := lines[len(lines)-1]
+	if lastLine != "" {
+		c.currentPoint.x = x + estimateTextWidthSimple(lastLine, fontSize)
+		c.currentPoint.y = currentY - lineHeight
+		c.currentPoint.hasPoint = true
+	}
+}
+
+func psSafeFontName(s string) string {
+	s = strings.TrimSpace(s)
+	if s == "" {
+		return "Helvetica"
+	}
+	var b strings.Builder
+	for _, r := range s {
+		switch {
+		case r >= 'a' && r <= 'z':
+			b.WriteRune(r)
+		case r >= 'A' && r <= 'Z':
+			b.WriteRune(r)
+		case r >= '0' && r <= '9':
+			b.WriteRune(r)
+		case r == '-' || r == '_' || r == '+':
+			b.WriteRune(r)
+		default:
+		}
+	}
+	if b.Len() == 0 {
+		return "Helvetica"
+	}
+	return b.String()
+}
+
+func escapePSString(s string) string {
+	var b strings.Builder
+	for _, r := range s {
+		switch r {
+		case '\\':
+			b.WriteString("\\\\")
+		case '(':
+			b.WriteString("\\(")
+		case ')':
+			b.WriteString("\\)")
+		case '\n':
+			b.WriteString("\\n")
+		case '\r':
+			b.WriteString("\\r")
+		case '\t':
+			b.WriteString("\\t")
+		default:
+			b.WriteRune(r)
+		}
+	}
+	return b.String()
+}
+
+func estimateTextWidthSimple(s string, fontSize float64) float64 {
+	if fontSize <= 0 {
+		fontSize = 12
+	}
+	w := 0.0
+	for _, r := range s {
+		if r <= 0x7F {
+			w += 0.55
+		} else {
+			w += 1.0
+		}
+	}
+	return w * fontSize
 }
 
 func shouldFlipGlyphY(ctx Context) bool {
