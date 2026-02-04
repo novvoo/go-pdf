@@ -31,10 +31,10 @@ func TestWritePostScriptBestEffortPreservesText(t *testing.T) {
 		t.Fatalf("read ps: %v", err)
 	}
 	s := string(b)
-	if !strings.Contains(s, " setfont") {
-		t.Fatalf("expected PS to contain setfont")
+	if !strings.Contains(s, "%%Page:") {
+		t.Fatalf("expected PS to contain page markers")
 	}
-	if !strings.Contains(s, " show") {
-		t.Fatalf("expected PS to contain show")
+	if !(strings.Contains(s, " show") || strings.Contains(s, " curveto") || strings.Contains(s, " lineto")) {
+		t.Fatalf("expected PS to contain either text operators or vector paths")
 	}
 }

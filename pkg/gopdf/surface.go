@@ -692,6 +692,12 @@ func NewPSSurface(filename string, widthInPoints, heightInPoints float64) Surfac
 
 /newfont { /Helvetica findfont exch scalefont setfont } def
 10 newfont
+/Helvetica findfont /sans-serif exch definefont pop
+/Helvetica findfont /sans exch definefont pop
+/Helvetica findfont /sans-cjk exch definefont pop
+/Times-Roman findfont /serif exch definefont pop
+/Courier findfont /monospace exch definefont pop
+/Symbol findfont /math exch definefont pop
 
 `, filename, widthInPoints, heightInPoints)
 

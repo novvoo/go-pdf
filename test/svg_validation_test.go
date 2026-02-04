@@ -120,6 +120,48 @@ func TestSVGWithOverlayTextIsValidXML(t *testing.T) {
 	}
 }
 
+func TestSVGOverlayChineseUsesCJKFontFallback(t *testing.T) {
+	helper := NewTestHelper(t)
+	psPath := helper.FindTestPDF("test_vector.ps")
+
+	tmpSVG, err := os.CreateTemp("", "gopdf_svg_cn_*.svg")
+	if err != nil {
+		t.Fatalf("create temp svg: %v", err)
+	}
+	svgPath := tmpSVG.Name()
+	tmpSVG.Close()
+	defer os.Remove(svgPath)
+
+	tmpOut, err := os.CreateTemp("", "gopdf_svg_cn_out_*.svg")
+	if err != nil {
+		t.Fatalf("create temp out svg: %v", err)
+	}
+	outPath := tmpOut.Name()
+	tmpOut.Close()
+	defer os.Remove(outPath)
+
+	if err := gopdf.ConvertPostScriptToSVG(psPath, svgPath); err != nil {
+		t.Fatalf("ConvertPostScriptToSVG: %v", err)
+	}
+
+	ovs := []gopdf.TextOverlayTopLeft{
+		{Page: 1, Text: "中文测试", X: 50, Y: 50, FontName: "Helvetica", FontSize: 12, FillColor: "0 0 0", Opacity: 1, OnTop: true},
+	}
+	if err := gopdf.InsertTextOverlaysIntoSVG(svgPath, outPath, ovs); err != nil {
+		t.Fatalf("InsertTextOverlaysIntoSVG: %v", err)
+	}
+	b, err := os.ReadFile(outPath)
+	if err != nil {
+		t.Fatalf("read out svg: %v", err)
+	}
+	if !strings.Contains(string(b), "中文测试") {
+		t.Fatalf("missing inserted chinese text")
+	}
+	if !strings.Contains(string(b), "Microsoft YaHei") {
+		t.Fatalf("expected CJK font fallback in font-family")
+	}
+}
+
 func TestPostScriptToSVGYAxisNotFlipped(t *testing.T) {
 	helper := NewTestHelper(t)
 	psPath := helper.FindTestPDF("test_vector.ps")

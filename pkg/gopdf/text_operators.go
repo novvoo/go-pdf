@@ -5,9 +5,12 @@ import (
 	"math"
 	"strings"
 
+	"github.com/go-text/typesetting/di"
 	otapi "github.com/go-text/typesetting/opentype/api"
 	cfffont "github.com/go-text/typesetting/opentype/api/font/cff"
 	"github.com/go-text/typesetting/opentype/tables"
+	"github.com/go-text/typesetting/shaping"
+	"golang.org/x/image/math/fixed"
 )
 
 // TextState 文本状态
@@ -757,6 +760,11 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 		return hScale, pangoAdvanceForLayout(runText)
 	}
 
+	psPreferText := false
+	if c, ok := ctx.GopdfCtx.(*context); ok && c.psSurfaceTarget() != nil {
+		psPreferText = true
+	}
+
 	delimiterAdjust := func(glyphName string) (dyFactor float64, scaleY float64, ok bool) {
 		glyphName = strings.TrimPrefix(glyphName, "/")
 		switch glyphName {
@@ -816,6 +824,59 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 		}
 		renderGlyphRun(ctx.GopdfCtx, scaledFont, glyphs, textState.RenderMode)
 		currentX = baseX + x
+	}
+
+	renderShapedGlyphPaths := func(runText string, scaleX float64) bool {
+		if runText == "" {
+			return false
+		}
+		realFace, status := scaledFont.getRealFace()
+		if status != StatusSuccess || realFace == nil {
+			return false
+		}
+
+		runes := []rune(runText)
+		if len(runes) == 0 {
+			return false
+		}
+
+		size := fixed.Int26_6(textState.FontSize * 64)
+		if size <= 0 {
+			size = fixed.I(12)
+		}
+
+		input := shaping.Input{
+			Text:      runes,
+			RunStart:  0,
+			RunEnd:    len(runes),
+			Direction: di.DirectionLTR,
+			Face:      realFace,
+			Size:      size,
+		}
+		output := (&shaping.HarfbuzzShaper{}).Shape(input)
+		if len(output.Glyphs) == 0 {
+			return false
+		}
+
+		glyphs := make([]Glyph, 0, len(output.Glyphs))
+		x := 0.0
+		for _, g := range output.Glyphs {
+			glyphs = append(glyphs, Glyph{
+				Index: uint64(g.GlyphID),
+				X:     x + float64(g.XOffset)/64.0,
+				Y:     -float64(g.YOffset) / 64.0,
+			})
+			x += float64(g.XAdvance) / 64.0
+		}
+
+		ctx.GopdfCtx.Save()
+		ctx.GopdfCtx.Translate(currentX, 0)
+		if scaleX != 1.0 {
+			ctx.GopdfCtx.Scale(scaleX, 1.0)
+		}
+		renderGlyphRun(ctx.GopdfCtx, scaledFont, glyphs, textState.RenderMode)
+		ctx.GopdfCtx.Restore()
+		return true
 	}
 
 	renderType0CFFGlyphs := func(decodedText string, cids []uint16) (adv float64, ok bool) {
@@ -1142,7 +1203,7 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 			switch v := item.(type) {
 			case string:
 				// 解码文本并获取 CID 数组
-				decodedText, cids, _ := decodeTextStringWithCIDs(v, toUnicodeMap, textState.Font)
+				decodedText, cids, stats := decodeTextStringWithCIDs(v, toUnicodeMap, textState.Font)
 				if decodedText == "" && !useGlyphIndices {
 					debugPrintf("[TJ_ARRAY][%d] Empty string after decode\n", idx)
 					continue
@@ -1151,23 +1212,47 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 				debugPrintf("[TJ_ARRAY][%d] Text=%q (len=%d runes, %d CIDs) at x=%.2f\n",
 					idx, decodedText, len([]rune(decodedText)), len(cids), currentX)
 
-				if useGlyphIndices {
-					renderGlyphs(cids)
-					debugPrintf("[TJ_ARRAY][%d] Rendered glyph run\n", idx)
-				} else {
-					if adv, ok := renderType0CFFGlyphs(decodedText, cids); ok {
-						currentX += adv
-						debugPrintf("[TJ_ARRAY][%d] Rendered Type0 CFF glyphs, adv=%.2f\n", idx, adv)
-						continue
-					}
-					if isTeXMathBaseFont(textState.Font.BaseFont) {
-						if adv, ok := renderTeXMathFallbackGlyphs(decodedText, cids); ok {
-							debugPrintf("[TJ_ARRAY][%d] Rendered TeX glyphs, adv=%.2f\n", idx, adv)
+				useGlyphRun := useGlyphIndices
+				outline := psPreferText && shouldOutlineTextInPS(textState.Font, decodedText, cids, stats)
+				if psPreferText && decodedText != "" && !outline {
+					useGlyphRun = false
+				}
+
+				if useGlyphRun {
+					if psPreferText && outline && decodedText != "" {
+						scaleX, adv := computeRunScaleAndAdvance(decodedText, cids)
+						if renderShapedGlyphPaths(decodedText, scaleX) {
+							currentX += adv
+							debugPrintf("[TJ_ARRAY][%d] Rendered shaped glyph paths, adv=%.2f\n", idx, adv)
 							continue
 						}
 					}
 
+					renderGlyphs(cids)
+					debugPrintf("[TJ_ARRAY][%d] Rendered glyph run\n", idx)
+				} else {
+					if !psPreferText || outline {
+						if adv, ok := renderType0CFFGlyphs(decodedText, cids); ok {
+							currentX += adv
+							debugPrintf("[TJ_ARRAY][%d] Rendered Type0 CFF glyphs, adv=%.2f\n", idx, adv)
+							continue
+						}
+						if isTeXMathBaseFont(textState.Font.BaseFont) {
+							if adv, ok := renderTeXMathFallbackGlyphs(decodedText, cids); ok {
+								debugPrintf("[TJ_ARRAY][%d] Rendered TeX glyphs, adv=%.2f\n", idx, adv)
+								continue
+							}
+						}
+					}
+
 					scaleX, adv := computeRunScaleAndAdvance(decodedText, cids)
+					if psPreferText && outline {
+						if renderShapedGlyphPaths(decodedText, scaleX) {
+							currentX += adv
+							debugPrintf("[TJ_ARRAY][%d] Rendered shaped glyph paths, adv=%.2f\n", idx, adv)
+							continue
+						}
+					}
 					renderRun(decodedText, cids, scaleX)
 					currentX += adv
 					debugPrintf("[TJ_ARRAY][%d] Rendered run, adv=%.2f\n", idx, adv)
@@ -1202,28 +1287,52 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 		}
 	} else {
 		// Tj 操作符：简单文本
-		decodedText, cids, _ := decodeTextStringWithCIDs(text, toUnicodeMap, textState.Font)
+		decodedText, cids, stats := decodeTextStringWithCIDs(text, toUnicodeMap, textState.Font)
 		if (decodedText != "" && !useGlyphIndices) || (useGlyphIndices && len(cids) > 0) {
 			debugPrintf("[Tj] Text=%q (len=%d runes, %d CIDs) at Tm=[%.2f, %.2f]\n",
 				decodedText, len([]rune(decodedText)), len(cids), textState.TextMatrix.X0, textState.TextMatrix.Y0)
 
-			if useGlyphIndices {
-				renderGlyphs(cids)
-				debugPrintf("[Tj] Rendered glyph run\n")
-			} else {
-				if adv, ok := renderType0CFFGlyphs(decodedText, cids); ok {
-					currentX += adv
-					debugPrintf("[Tj] Rendered Type0 CFF glyphs, adv=%.2f\n", adv)
-					goto updateMatrix
-				}
-				if isTeXMathBaseFont(textState.Font.BaseFont) {
-					if adv, ok := renderTeXMathFallbackGlyphs(decodedText, cids); ok {
-						debugPrintf("[Tj] Rendered TeX glyphs, adv=%.2f\n", adv)
+			useGlyphRun := useGlyphIndices
+			outline := psPreferText && shouldOutlineTextInPS(textState.Font, decodedText, cids, stats)
+			if psPreferText && decodedText != "" && !outline {
+				useGlyphRun = false
+			}
+
+			if useGlyphRun {
+				if psPreferText && outline && decodedText != "" {
+					scaleX, adv := computeRunScaleAndAdvance(decodedText, cids)
+					if renderShapedGlyphPaths(decodedText, scaleX) {
+						currentX += adv
+						debugPrintf("[Tj] Rendered shaped glyph paths, adv=%.2f\n", adv)
 						goto updateMatrix
 					}
 				}
 
+				renderGlyphs(cids)
+				debugPrintf("[Tj] Rendered glyph run\n")
+			} else {
+				if !psPreferText || outline {
+					if adv, ok := renderType0CFFGlyphs(decodedText, cids); ok {
+						currentX += adv
+						debugPrintf("[Tj] Rendered Type0 CFF glyphs, adv=%.2f\n", adv)
+						goto updateMatrix
+					}
+					if isTeXMathBaseFont(textState.Font.BaseFont) {
+						if adv, ok := renderTeXMathFallbackGlyphs(decodedText, cids); ok {
+							debugPrintf("[Tj] Rendered TeX glyphs, adv=%.2f\n", adv)
+							goto updateMatrix
+						}
+					}
+				}
+
 				scaleX, adv := computeRunScaleAndAdvance(decodedText, cids)
+				if psPreferText && outline {
+					if renderShapedGlyphPaths(decodedText, scaleX) {
+						currentX += adv
+						debugPrintf("[Tj] Rendered shaped glyph paths, adv=%.2f\n", adv)
+						goto updateMatrix
+					}
+				}
 				renderRun(decodedText, cids, scaleX)
 				currentX += adv
 				debugPrintf("[Tj] Rendered run, adv=%.2f\n", adv)
@@ -1301,6 +1410,105 @@ type TextDecodeStats struct {
 	GlyphNameHit     int
 	IdentityASCIIHit int
 	Replaced         int
+}
+
+func shouldOutlineTextInPS(font *Font, decodedText string, cids []uint16, stats TextDecodeStats) bool {
+	if font == nil {
+		return false
+	}
+	base := strings.ToLower(stripSubsetPrefix(font.BaseFont))
+	if base == "" {
+		base = strings.ToLower(stripSubsetPrefix(font.Name))
+	}
+
+	if isTeXMathBaseFontName(font.BaseFont) {
+		return true
+	}
+
+	if len(cids) == 1 && len(font.CodeToGlyphName) > 0 {
+		if name, ok := font.CodeToGlyphName[byte(cids[0]&0xFF)]; ok && name != "" {
+			n := strings.ToLower(strings.TrimPrefix(name, "/"))
+			if strings.Contains(n, "big") || strings.Contains(n, "bigg") || strings.Contains(n, "biggg") {
+				return true
+			}
+			if strings.Contains(n, "integral") || strings.Contains(n, "summation") || strings.Contains(n, "radical") {
+				return true
+			}
+			if strings.Contains(n, "brace") || strings.Contains(n, "bracket") || strings.Contains(n, "paren") {
+				if strings.Contains(n, "big") {
+					return true
+				}
+			}
+		}
+	}
+
+	for _, k := range []string{
+		"math", "stix", "symbol", "dingbat", "zapfdingbats",
+		"cmr", "cmsy", "cmex", "latinmodern", "tex",
+		"bravura", "maestro", "opus", "sonata", "finale", "music",
+		"courier", "consolas", "menlo", "monaco", "fira", "sourcecode", "dejavusansmono", "mono",
+	} {
+		if strings.Contains(base, k) {
+			return true
+		}
+	}
+
+	if looksLikeLaTeXText(decodedText) {
+		return true
+	}
+
+	for _, r := range decodedText {
+		if r == 0x2022 {
+			return true
+		}
+		if r >= 0x0370 && r <= 0x03FF {
+			return true
+		}
+		if r >= 0x2200 && r <= 0x22FF {
+			return true
+		}
+		if r >= 0xE000 && r <= 0xF8FF {
+			return true
+		}
+		if r >= 0x1D100 && r <= 0x1D1FF {
+			return true
+		}
+	}
+
+	return false
+}
+
+func looksLikeLaTeXText(s string) bool {
+	s = strings.TrimSpace(s)
+	if s == "" {
+		return false
+	}
+	if strings.Contains(s, "\\") {
+		for _, k := range []string{
+			"\\frac", "\\sum", "\\int", "\\sqrt", "\\alpha", "\\beta", "\\gamma",
+			"\\left", "\\right", "\\begin", "\\end", "\\mathrm", "\\mathbf",
+		} {
+			if strings.Contains(s, k) {
+				return true
+			}
+		}
+	}
+	symbols := 0
+	for _, r := range s {
+		switch r {
+		case '$', '{', '}', '_', '^':
+			symbols++
+		}
+	}
+	return symbols >= 2
+}
+
+func isTeXMathBaseFontName(baseFont string) bool {
+	base := strings.ToUpper(stripSubsetPrefix(baseFont))
+	return strings.HasPrefix(base, "CMMI") ||
+		strings.HasPrefix(base, "CMSY") ||
+		strings.HasPrefix(base, "CMEX") ||
+		strings.HasPrefix(base, "MSBM")
 }
 
 // decodeTextStringWithCIDs 解码文本并返回 Unicode 字符串、CID 数组和解码统计

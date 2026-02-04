@@ -72,7 +72,6 @@ type pageEditState struct {
 func main() {
 	pdfPath := "example/test_vector.pdf"
 	reportPath := "example/render_vector_translated.txt"
-	outTranslatedPSPath := "example/test_vector_translated.ps"
 	outTranslatedSVGPath := "example/test_vector_translated.svg"
 	outTranslatedPDFPath := "example/test_vector_translated.pdf"
 
@@ -97,7 +96,7 @@ func main() {
 	report.WriteString("======================\n")
 	report.WriteString(fmt.Sprintf("Time: %s\n\n", time.Now().Format("2006-01-02 15:04:05")))
 	report.WriteString(fmt.Sprintf("📄 Input PDF: %s\n", pdfPath))
-	report.WriteString(fmt.Sprintf("📄 Output PS (base): %s\n", outTranslatedPSPath))
+	report.WriteString("📄 Output PS (base): example/test_vector.ps\n")
 	report.WriteString(fmt.Sprintf("📄 Output SVG (editable, with translations): %s\n", outTranslatedSVGPath))
 	report.WriteString(fmt.Sprintf("📄 Output PDF (from SVG): %s\n", outTranslatedPDFPath))
 	report.WriteString("\n")
@@ -153,13 +152,7 @@ func main() {
 		return
 	}
 
-	if b, err := os.ReadFile(basePSPath); err == nil {
-		_ = os.Remove(outTranslatedPSPath)
-		_ = os.WriteFile(outTranslatedPSPath, b, 0644)
-	}
-
 	report.WriteString(fmt.Sprintf("\n✅ Base PS: %s\n", basePSPath))
-	report.WriteString(fmt.Sprintf("✅ Output PS (base copy): %s\n", outTranslatedPSPath))
 	report.WriteString(fmt.Sprintf("✅ Vector translated overlays: %d\n", len(vectorOverlays)))
 
 	_ = os.Remove(outTranslatedSVGPath)
@@ -175,7 +168,7 @@ func main() {
 	tmpBaseSVG.Close()
 	defer os.Remove(tmpBaseSVGPath)
 
-	if err := gopdf.ConvertPostScriptToSVG(outTranslatedPSPath, tmpBaseSVGPath); err != nil {
+	if err := gopdf.ConvertPostScriptToSVG(basePSPath, tmpBaseSVGPath); err != nil {
 		report.WriteString(fmt.Sprintf("❌ Failed to convert PS to base SVG: %v\n", err))
 		finishReport(reportPath, report.String(), &capturedIO{w: w, oldStdout: oldStdout, oldStderr: oldStderr, outChan: outputChan, debug: &debugBuf})
 		return
@@ -1631,7 +1624,8 @@ func buildTranslationOverlaysOnSource(pageNum int, lines []textLine, pageWidth, 
 			maxX = minX + 120
 		}
 
-		belowY := ln.Y + baseLineHeight*0.95
+		belowY := ln.Y + baseLineHeight + 2.0
+
 		belowAvailableH := nextY - belowY - 1
 		if belowAvailableH < 0 {
 			belowAvailableH = 0
@@ -1982,18 +1976,51 @@ func containsEnglishLetters(s string) bool {
 
 func englishToZhPlaceholder(s string) string {
 	var b strings.Builder
+	inWord := false
+	wordLen := 0
+
+	flushWord := func() {
+		if !inWord {
+			return
+		}
+		if wordLen > 0 {
+			b.WriteRune('译')
+			if wordLen > 4 {
+				b.WriteRune('译')
+			}
+		}
+		inWord = false
+		wordLen = 0
+	}
+
 	for _, r := range s {
 		if (r >= 'A' && r <= 'Z') || (r >= 'a' && r <= 'z') {
-			b.WriteRune('Z')
+			inWord = true
+			wordLen++
 			continue
 		}
+		flushWord()
+
 		if unicode.IsSpace(r) {
 			b.WriteRune(' ')
 			continue
 		}
-		b.WriteRune(r)
+		if r >= 0x20 && r <= 0x7E {
+			b.WriteRune(r)
+			continue
+		}
+		if r == '’' || r == '“' || r == '”' || r == '–' || r == '—' || r == '…' {
+			b.WriteRune(r)
+			continue
+		}
 	}
-	return b.String()
+	flushWord()
+
+	res := strings.TrimSpace(b.String())
+	for strings.Contains(res, "  ") {
+		res = strings.ReplaceAll(res, "  ", " ")
+	}
+	return res
 }
 
 func isSpecialLine(s string) bool {

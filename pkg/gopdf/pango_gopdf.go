@@ -1497,11 +1497,6 @@ func PangoPdfShowText(ctx Context, layout *PangoPdfLayout) {
 		return
 	}
 
-	if c, ok := ctx.(*context); ok && c.psSurfaceTarget() != nil {
-		pangoPSShowText(c, layout)
-		return
-	}
-
 	// Get current point or use (0, 0)
 	x, y := ctx.GetCurrentPoint()
 	if x == 0 && y == 0 && ctx.HasCurrentPoint() == False {
