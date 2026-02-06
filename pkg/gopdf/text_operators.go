@@ -10,6 +10,7 @@ import (
 	cfffont "github.com/go-text/typesetting/opentype/api/font/cff"
 	"github.com/go-text/typesetting/opentype/tables"
 	"github.com/go-text/typesetting/shaping"
+	"golang.org/x/image/font/sfnt"
 	"golang.org/x/image/math/fixed"
 )
 
@@ -88,6 +89,8 @@ type Font struct {
 	MissingWidth        float64          // 缺失字形的宽度
 	CIDToGIDMap         []uint16
 	CIDToGIDMapIdentity bool
+	gidToUnicode        map[uint16]rune
+	gidToUnicodeBuilt   bool
 }
 
 func (f *Font) CIDToGID(cid uint16) uint16 {
@@ -104,6 +107,42 @@ func (f *Font) CIDToGID(cid uint16) uint16 {
 		}
 	}
 	return cid
+}
+
+func (f *Font) gidToUnicodeFromEmbeddedFont(gid uint16) (rune, bool) {
+	if f == nil {
+		return 0, false
+	}
+	if !f.gidToUnicodeBuilt {
+		f.gidToUnicodeBuilt = true
+		if len(f.EmbeddedFontData) == 0 {
+			return 0, false
+		}
+		parsed, err := sfnt.Parse(f.EmbeddedFontData)
+		if err != nil {
+			return 0, false
+		}
+		buf := &sfnt.Buffer{}
+		m := make(map[uint16]rune, 2048)
+		for r := rune(0); r <= 0xFFFF; r++ {
+			gi, err := parsed.GlyphIndex(buf, r)
+			if err != nil || gi == 0 {
+				continue
+			}
+			g := uint16(gi)
+			if _, exists := m[g]; !exists {
+				m[g] = r
+			}
+		}
+		if len(m) > 0 {
+			f.gidToUnicode = m
+		}
+	}
+	if f.gidToUnicode == nil {
+		return 0, false
+	}
+	r, ok := f.gidToUnicode[gid]
+	return r, ok
 }
 
 // FontWidths 字形宽度信息
@@ -1569,10 +1608,14 @@ func decodeTextStringWithCIDs(text string, toUnicodeMap *CIDToUnicodeMap, font *
 				}
 			}
 
-			if isIdentity {
-				uni := rune(cid)
-				if isValidUnicodeRune(uni) {
-					decoded.WriteRune(uni)
+			if isIdentity && font != nil && (font.Subtype == "/Type0" || font.Subtype == "Type0") {
+				gid := font.CIDToGID(cid)
+				if r, ok := font.gidToUnicodeFromEmbeddedFont(gid); ok && isValidUnicodeRune(r) {
+					decoded.WriteRune(r)
+					continue
+				}
+				if cid >= 0x20 && cid <= 0x7E {
+					decoded.WriteByte(byte(cid))
 					stats.IdentityASCIIHit++
 					continue
 				}
@@ -1626,6 +1669,22 @@ func decodeTextStringWithCIDs(text string, toUnicodeMap *CIDToUnicodeMap, font *
 				}
 			}
 
+			if font != nil && font.IsIdentity && (font.Subtype == "/Type0" || font.Subtype == "Type0") {
+				gid := font.CIDToGID(cid)
+				if r, ok := font.gidToUnicodeFromEmbeddedFont(gid); ok && isValidUnicodeRune(r) {
+					decoded.WriteRune(r)
+					continue
+				}
+				if cid >= 0x20 && cid <= 0x7E {
+					decoded.WriteByte(byte(cid))
+					stats.IdentityASCIIHit++
+					continue
+				}
+				decoded.WriteRune('�')
+				stats.Replaced++
+				continue
+			}
+
 			if font != nil && font.IsIdentity {
 				uni := rune(cid)
 				if isValidUnicodeRune(uni) {
@@ -1633,6 +1692,9 @@ func decodeTextStringWithCIDs(text string, toUnicodeMap *CIDToUnicodeMap, font *
 					stats.IdentityASCIIHit++
 					continue
 				}
+				decoded.WriteRune('�')
+				stats.Replaced++
+				continue
 			}
 
 			decoded.WriteRune(rune(cid))
