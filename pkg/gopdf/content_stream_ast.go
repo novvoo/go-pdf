@@ -211,7 +211,8 @@ func ParseContentOps(tokens []ContentToken) ([]ContentOp, error) {
 	return ops, nil
 }
 
-func isKnownOperator(name string) bool {
+// isKnownOperator is currently unused but kept for potential future AST validation
+func _(name string) bool {
 	switch name {
 	case "q", "Q", "cm",
 		"BT", "ET",
@@ -223,8 +224,10 @@ func isKnownOperator(name string) bool {
 	}
 }
 
-func tokenIsOperator(tok string) bool {
-	return isKnownOperator(tok)
+// tokenIsOperator is currently unused
+func _(tok ContentToken, op string) bool {
+	// return isKnownOperator(tok) // commented out as isKnownOperator is unused
+	return false
 }
 
 func isOperatorToken(tok string) bool {

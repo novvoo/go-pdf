@@ -1578,6 +1578,7 @@ func PangoPdfShowText(ctx Context, layout *PangoPdfLayout) {
 	}
 }
 
+// pangoPSShowText is currently unused
 func pangoPSShowText(c *context, layout *PangoPdfLayout) {
 	if c == nil || layout == nil || layout.fontDesc == nil {
 		return
@@ -1641,6 +1642,7 @@ func pangoPSShowText(c *context, layout *PangoPdfLayout) {
 	}
 }
 
+// psSafeFontName is currently unused
 func psSafeFontName(s string) string {
 	s = strings.TrimSpace(s)
 	if s == "" {
@@ -1666,6 +1668,7 @@ func psSafeFontName(s string) string {
 	return b.String()
 }
 
+// escapePSString is currently unused
 func escapePSString(s string) string {
 	var b strings.Builder
 	for _, r := range s {
@@ -1689,6 +1692,7 @@ func escapePSString(s string) string {
 	return b.String()
 }
 
+// estimateTextWidthSimple is currently unused
 func estimateTextWidthSimple(s string, fontSize float64) float64 {
 	if fontSize <= 0 {
 		fontSize = 12

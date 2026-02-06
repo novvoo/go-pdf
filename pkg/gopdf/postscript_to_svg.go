@@ -32,6 +32,16 @@ type psRenderState struct {
 	Style psStyle
 }
 
+type psSvgElemKind string
+
+const (
+	psSvgElemPath     psSvgElemKind = "path"
+	psSvgElemRect     psSvgElemKind = "rect"
+	psSvgElemPolygon  psSvgElemKind = "polygon"
+	psSvgElemPolyline psSvgElemKind = "polyline"
+	psSvgElemText     psSvgElemKind = "text"
+)
+
 type svgPathShape struct {
 	Kind           string
 	D              string
@@ -60,7 +70,7 @@ type svgText struct {
 
 type svgElemRecord struct {
 	ModuleID int
-	Kind     svgElemKind
+	Kind     psSvgElemKind
 	Path     svgPathShape
 	Text     svgText
 }
@@ -157,13 +167,13 @@ func ConvertPostScriptToSVG(psPath, svgPath string) error {
 			}
 
 			switch e.Kind {
-			case svgElemPath:
+			case psSvgElemPath:
 				p := e.Path
 				moduleElemIndex++
 				if err := encodeSVGShape(enc, i+1, openModule, moduleElemIndex, p); err != nil {
 					return err
 				}
-			case svgElemText:
+			case psSvgElemText:
 				t := e.Text
 				moduleElemIndex++
 				fontName := strings.TrimSpace(t.FontName)
@@ -378,7 +388,7 @@ func renderPostScriptPageToSVG(page string, pageH float64) []svgElemRecord {
 			return
 		}
 
-		elems = append(elems, svgElemRecord{ModuleID: currentModule(), Kind: svgElemPath, Path: shape})
+		elems = append(elems, svgElemRecord{ModuleID: currentModule(), Kind: psSvgElemPath, Path: shape})
 	}
 
 	sc := bufio.NewScanner(strings.NewReader(page))
@@ -398,7 +408,7 @@ func renderPostScriptPageToSVG(page string, pageH float64) []svgElemRecord {
 			if fs <= 0 {
 				fs = 12
 			}
-			elems = append(elems, svgElemRecord{ModuleID: currentModule(), Kind: svgElemText, Text: svgText{
+			elems = append(elems, svgElemRecord{ModuleID: currentModule(), Kind: psSvgElemText, Text: svgText{
 				X:        curX,
 				Y:        curY,
 				FontSize: fs,
@@ -862,7 +872,7 @@ func avgScale(m *Matrix) float64 {
 }
 
 func formatSVGFloat(v float64) string {
-	s := strconv.FormatFloat(v, 'f', 4, 64)
+	s := strconv.FormatFloat(v, 'f', 2, 64)
 	s = strings.TrimRight(s, "0")
 	s = strings.TrimRight(s, ".")
 	if s == "" || s == "-0" {

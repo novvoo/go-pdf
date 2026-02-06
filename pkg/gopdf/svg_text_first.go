@@ -179,13 +179,13 @@ func detectTextOutlineModules(svg []byte, sourceByPage map[int][]TextElementInfo
 				for _, a := range t.Attr {
 					switch a.Name.Local {
 					case "x":
-						x = parseSVGFloat(a.Value)
+						x, _ = ParseSVGDimension(a.Value, 0)
 					case "y":
-						y = parseSVGFloat(a.Value)
+						y, _ = ParseSVGDimension(a.Value, 0)
 					case "width":
-						w = parseSVGFloat(a.Value)
+						w, _ = ParseSVGDimension(a.Value, 0)
 					case "height":
-						h = parseSVGFloat(a.Value)
+						h, _ = ParseSVGDimension(a.Value, 0)
 					}
 				}
 				if w <= 0 || h <= 0 {
@@ -304,6 +304,7 @@ func rewriteSVGWithTextLayers(input []byte, hide map[int]map[int]bool, sourceByP
 	currentPage := 0
 	var pageStack []int
 	var gHadDataPageStack []bool
+	var suppressGroupStack []bool
 
 	skipDepth := 0
 
@@ -336,20 +337,52 @@ func rewriteSVGWithTextLayers(input []byte, hide map[int]map[int]bool, sourceByP
 				}
 				gHadDataPageStack = append(gHadDataPageStack, hasDataPage)
 
-				if currentPage > 0 {
-					modID := 0
-					for _, a := range t.Attr {
-						if a.Name.Local == "data-module" {
-							if v, err := strconv.Atoi(strings.TrimSpace(a.Value)); err == nil {
-								modID = v
-							}
+				modID := 0
+				for _, a := range t.Attr {
+					if a.Name.Local == "data-module" {
+						if v, err := strconv.Atoi(strings.TrimSpace(a.Value)); err == nil {
+							modID = v
 						}
 					}
-					if modID > 0 && hide[currentPage] != nil && hide[currentPage][modID] {
-						skipDepth = 1
-						continue
+				}
+
+				if currentPage > 0 && modID > 0 && hide[currentPage] != nil && hide[currentPage][modID] {
+					skipDepth = 1
+					continue
+				}
+
+				shouldSuppress := false
+				if !hasDataPage && modID > 0 {
+					hasVisuals := false
+					for _, a := range t.Attr {
+						n := a.Name.Local
+						if n == "transform" || n == "style" || n == "clip-path" || n == "mask" || n == "filter" || n == "opacity" {
+							hasVisuals = true
+							break
+						}
+					}
+					if !hasVisuals {
+						shouldSuppress = true
 					}
 				}
+				suppressGroupStack = append(suppressGroupStack, shouldSuppress)
+
+				if shouldSuppress {
+					continue
+				}
+
+			} else if t.Name.Local == "path" || t.Name.Local == "rect" || t.Name.Local == "polyline" || t.Name.Local == "polygon" {
+				newAttrs := make([]xml.Attr, 0, len(t.Attr))
+				for _, a := range t.Attr {
+					if a.Name.Local == "id" && strings.HasPrefix(a.Value, "p") && strings.Contains(a.Value, "-m") {
+						continue
+					}
+					if a.Name.Local == "data-kind" {
+						continue
+					}
+					newAttrs = append(newAttrs, a)
+				}
+				t.Attr = newAttrs
 			}
 
 			if err := enc.EncodeToken(t); err != nil {
@@ -376,6 +409,15 @@ func rewriteSVGWithTextLayers(input []byte, hide map[int]map[int]bool, sourceByP
 			}
 
 			if t.Name.Local == "g" {
+				shouldWriteEndTag := true
+				if len(suppressGroupStack) > 0 {
+					suppressed := suppressGroupStack[len(suppressGroupStack)-1]
+					suppressGroupStack = suppressGroupStack[:len(suppressGroupStack)-1]
+					if suppressed {
+						shouldWriteEndTag = false
+					}
+				}
+
 				if len(gHadDataPageStack) > 0 && gHadDataPageStack[len(gHadDataPageStack)-1] && currentPage > 0 {
 					if err := encodeSourceTextLayer(enc, sourceByPage[currentPage]); err != nil {
 						return nil, err
@@ -384,13 +426,13 @@ func rewriteSVGWithTextLayers(input []byte, hide map[int]map[int]bool, sourceByP
 						return nil, err
 					}
 				}
-			}
 
-			if err := enc.EncodeToken(t); err != nil {
-				return nil, err
-			}
+				if shouldWriteEndTag {
+					if err := enc.EncodeToken(t); err != nil {
+						return nil, err
+					}
+				}
 
-			if t.Name.Local == "g" {
 				if len(gHadDataPageStack) > 0 {
 					gHadDataPageStack = gHadDataPageStack[:len(gHadDataPageStack)-1]
 				}
@@ -400,8 +442,21 @@ func rewriteSVGWithTextLayers(input []byte, hide map[int]map[int]bool, sourceByP
 				} else {
 					currentPage = 0
 				}
+
+				continue
 			}
 
+			if err := enc.EncodeToken(t); err != nil {
+				return nil, err
+			}
+
+		case xml.CharData:
+			if skipDepth > 0 {
+				continue
+			}
+			if err := enc.EncodeToken(tok); err != nil {
+				return nil, err
+			}
 		default:
 			if skipDepth > 0 {
 				continue
@@ -527,40 +582,19 @@ func getOrCreateBBox(m map[int]map[int]*bbox, page, mod int) *bbox {
 }
 
 func addPathBBox(b *bbox, d string) {
-	nums := extractFloatTokens(d)
-	for i := 0; i+1 < len(nums); i += 2 {
-		b.AddPoint(nums[i], nums[i+1])
+	path := ParseSVGPath(d)
+	if path != nil && path.Status == StatusSuccess {
+		for _, sub := range path.Data {
+			for _, p := range sub.Points {
+				b.AddPoint(p.X, p.Y)
+			}
+		}
 	}
 }
 
 func addPointsBBox(b *bbox, pts string) {
-	nums := extractFloatTokens(pts)
+	nums, _ := ParseSVGPoints(pts)
 	for i := 0; i+1 < len(nums); i += 2 {
 		b.AddPoint(nums[i], nums[i+1])
 	}
-}
-
-func extractFloatTokens(s string) []float64 {
-	out := make([]float64, 0, 64)
-	var cur strings.Builder
-	flush := func() {
-		if cur.Len() == 0 {
-			return
-		}
-		v, err := strconv.ParseFloat(cur.String(), 64)
-		if err == nil && !math.IsNaN(v) && !math.IsInf(v, 0) {
-			out = append(out, v)
-		}
-		cur.Reset()
-	}
-
-	for _, r := range s {
-		if (r >= '0' && r <= '9') || r == '-' || r == '+' || r == '.' || r == 'e' || r == 'E' {
-			cur.WriteRune(r)
-		} else {
-			flush()
-		}
-	}
-	flush()
-	return out
 }

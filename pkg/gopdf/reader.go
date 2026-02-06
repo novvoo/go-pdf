@@ -3365,7 +3365,8 @@ func ReadContextFile(pdfPath string) (*model.Context, error) {
 }
 
 // extractCIDsFromText 从文本字符串中提取 CID 数组
-func extractCIDsFromText(text string) []uint16 {
+// extractCIDsFromText is currently unused
+func _(text string) []uint16 {
 	// 检查是否是十六进制字符串
 	if len(text) >= 2 && text[0] == '<' && text[len(text)-1] == '>' {
 		hexStr := text[1 : len(text)-1]

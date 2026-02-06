@@ -4,3 +4,6 @@ debug*.go
 .kiro
 *.exe
 *.py
+*.log
+*.svg
+*.ps

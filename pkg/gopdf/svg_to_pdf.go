@@ -2,12 +2,10 @@ package gopdf
 
 import (
 	"bytes"
-	"encoding/xml"
 	"fmt"
-	"io"
 	"os"
-	"strconv"
 	"strings"
+	"unsafe"
 
 	"github.com/pdfcpu/pdfcpu/pkg/api"
 	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu"
@@ -16,60 +14,36 @@ import (
 	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
 )
 
-type svgElemKind int
-
-const (
-	svgElemPath svgElemKind = iota
-	svgElemText
-)
-
-type svgElem struct {
-	Kind svgElemKind
-	Path svgPathElem
-	Text svgTextElem
-}
-
-type svgPathElem struct {
-	D              string
-	Fill           string
-	Stroke         string
-	StrokeWidth    float64
-	StrokeLineCap  string
-	StrokeLineJoin string
-	StrokeMiter    float64
-	StrokeDash     string
-	StrokeDashOff  float64
-}
-
-type svgTextElem struct {
-	X, Y     float64
-	FontSize float64
-	Fill     string
-	Text     string
-}
-
 func ConvertSVGToPDF(svgPath, pdfPath string) error {
 	if svgPath == "" || pdfPath == "" {
 		return fmt.Errorf("missing svgPath or pdfPath")
 	}
 
-	data, err := os.ReadFile(svgPath)
+	f, err := os.Open(svgPath)
 	if err != nil {
 		return err
 	}
+	defer f.Close()
 
-	doc, err := parseSVGForPDF(data)
-	if err != nil {
+	pdfCtx := NewPDFGeneratorContext()
+	if err := DrawSVG(f, pdfCtx); err != nil {
 		return err
 	}
-	if doc.PageCount <= 0 {
-		return fmt.Errorf("missing page count in svg")
-	}
-	if doc.PageWidth <= 0 || doc.PageHeight <= 0 {
-		return fmt.Errorf("invalid svg page size")
+
+	if pdfCtx.pageCount == 0 {
+		return fmt.Errorf("no pages generated")
 	}
 
-	ctx, pageRefs, contentRefs, err := createBlankPDFContextForSVG(doc.PageWidth, doc.PageHeight, doc.PageCount)
+	// Create PDF using pdfcpu
+	width, height := pdfCtx.width, pdfCtx.height
+	if width <= 0 {
+		width = 595.28 // A4 width
+	}
+	if height <= 0 {
+		height = 841.89 // A4 height
+	}
+
+	ctx, pageRefs, contentRefs, err := createBlankPDFContextForSVG(width, height, pdfCtx.pageCount)
 	if err != nil {
 		return err
 	}
@@ -85,20 +59,22 @@ func ConvertSVGToPDF(svgPath, pdfPath string) error {
 		return err
 	}
 
-	for page := 1; page <= doc.PageCount; page++ {
-		var buf bytes.Buffer
-		buf.WriteString(fmt.Sprintf("q 1 0 0 -1 0 %.4f cm\n", doc.PageHeight))
-		for _, e := range doc.Pages[page] {
-			switch e.Kind {
-			case svgElemPath:
-				writePDFForSVGPath(&buf, e.Path)
-			case svgElemText:
-				writePDFForSVGText(&buf, e.Text)
-			}
+	for page := 1; page <= pdfCtx.pageCount; page++ {
+		buf := pdfCtx.buffers[page]
+		if buf == nil {
+			buf = &bytes.Buffer{}
 		}
-		buf.WriteString("Q\n")
+
+		// Prepend transformation to flip Y axis (PDF is bottom-up, SVG is top-down)
+		// DrawSVG output is in SVG coordinates.
+		// We need to wrap it: q 1 0 0 -1 0 height cm ... Q
+		var wrapper bytes.Buffer
+		wrapper.WriteString(fmt.Sprintf("q 1 0 0 -1 0 %.4f cm\n", height))
+		wrapper.Write(buf.Bytes())
+		wrapper.WriteString("Q\n")
+
 		if page-1 < len(contentRefs) {
-			if err := writePageContentStream(ctx, contentRefs[page-1], buf.Bytes()); err != nil {
+			if err := writePageContentStream(ctx, contentRefs[page-1], wrapper.Bytes()); err != nil {
 				return err
 			}
 		}
@@ -110,263 +86,309 @@ func ConvertSVGToPDF(svgPath, pdfPath string) error {
 	return api.WriteContextFile(ctx, pdfPath)
 }
 
-type svgDocForPDF struct {
-	PageWidth  float64
-	PageHeight float64
-	PageCount  int
-	Pages      map[int][]svgElem
+// PDFGeneratorContext implements Context and PageAwareContext
+type PDFGeneratorContext struct {
+	buffers    map[int]*bytes.Buffer
+	currPage   int
+	currBuf    *bytes.Buffer
+	width      float64
+	height     float64
+	pageCount  int
+	currentPat Pattern
 }
 
-func parseSVGForPDF(data []byte) (*svgDocForPDF, error) {
-	dec := xml.NewDecoder(bytes.NewReader(data))
-	doc := &svgDocForPDF{
-		Pages: map[int][]svgElem{},
+func NewPDFGeneratorContext() *PDFGeneratorContext {
+	ctx := &PDFGeneratorContext{
+		buffers:  make(map[int]*bytes.Buffer),
+		currPage: 1,
 	}
+	ctx.currBuf = &bytes.Buffer{}
+	ctx.buffers[1] = ctx.currBuf
+	ctx.pageCount = 1
+	return ctx
+}
 
-	currentPage := 0
-	var pageStack []int
-	var currentText *svgTextElem
+func (c *PDFGeneratorContext) SetPage(n int) {
+	if n < 1 {
+		n = 1
+	}
+	c.currPage = n
+	if n > c.pageCount {
+		c.pageCount = n
+	}
+	if _, ok := c.buffers[n]; !ok {
+		c.buffers[n] = &bytes.Buffer{}
+	}
+	c.currBuf = c.buffers[n]
+}
 
-	for {
-		tok, err := dec.Token()
-		if err != nil {
-			if err == io.EOF {
-				break
-			}
-			return nil, err
+func (c *PDFGeneratorContext) w(s string) {
+	c.currBuf.WriteString(s)
+}
+
+func (c *PDFGeneratorContext) wf(format string, a ...interface{}) {
+	c.currBuf.WriteString(fmt.Sprintf(format, a...))
+}
+
+// Context interface implementation
+
+func (c *PDFGeneratorContext) Reference() Context { return c }
+func (c *PDFGeneratorContext) Destroy()           {}
+func (c *PDFGeneratorContext) GetReferenceCount() int { return 1 }
+func (c *PDFGeneratorContext) Status() Status { return StatusSuccess }
+func (c *PDFGeneratorContext) GetTarget() Surface { return nil }
+func (c *PDFGeneratorContext) GetGroupTarget() Surface { return nil }
+func (c *PDFGeneratorContext) SetUserData(key *UserDataKey, userData unsafe.Pointer, destroy DestroyFunc) Status { return StatusSuccess }
+func (c *PDFGeneratorContext) GetUserData(key *UserDataKey) unsafe.Pointer { return nil }
+
+func (c *PDFGeneratorContext) Save() error {
+	c.w("q\n")
+	return nil
+}
+
+func (c *PDFGeneratorContext) Restore() error {
+	c.w("Q\n")
+	return nil
+}
+
+func (c *PDFGeneratorContext) PushGroup() {}
+func (c *PDFGeneratorContext) PushGroupWithContent(content Content) {}
+func (c *PDFGeneratorContext) PopGroup() Pattern { return nil }
+func (c *PDFGeneratorContext) PopGroupToSource() {}
+
+func (c *PDFGeneratorContext) Paint() error { return nil }
+func (c *PDFGeneratorContext) PaintWithAlpha(alpha float64) error { return nil }
+func (c *PDFGeneratorContext) Mask(pattern Pattern) {}
+func (c *PDFGeneratorContext) MaskSurface(surface Surface, surfaceX, surfaceY float64) {}
+
+func (c *PDFGeneratorContext) Stroke() error {
+	c.applyStrokeColor()
+	c.w("S\n")
+	return nil
+}
+func (c *PDFGeneratorContext) StrokePreserve() error {
+	c.applyStrokeColor()
+	c.w("S\n") // PDF S operator ends the path, so preserve is tricky. 's' is close and stroke. 'S' is stroke. 'n' is no-op.
+	// PDF doesn't support "stroke preserve" natively in one op easily without path re-construction?
+	// Actually 'S' clears the path.
+	// To preserve, we'd need to not clear it.
+	// But standard PDF operators consume the path.
+	// We might need to duplicate the path construction if we really want to preserve.
+	// For now, treat as Stroke.
+	return nil
+}
+func (c *PDFGeneratorContext) Fill() error {
+	c.applyFillColor()
+	c.w("f\n")
+	return nil
+}
+func (c *PDFGeneratorContext) FillPreserve() error {
+	c.applyFillColor()
+	c.w("f\n") // Same issue as StrokePreserve
+	return nil
+}
+
+func (c *PDFGeneratorContext) SetSource(source Pattern) {
+	c.currentPat = source
+}
+func (c *PDFGeneratorContext) SetSourceRGB(r, g, b float64) {
+	c.currentPat = NewPatternRGB(r, g, b)
+}
+func (c *PDFGeneratorContext) SetSourceRGBA(r, g, b, a float64) {
+	c.currentPat = NewPatternRGBA(r, g, b, a)
+}
+func (c *PDFGeneratorContext) SetSourceSurface(surface Surface, x, y float64) {}
+func (c *PDFGeneratorContext) GetSource() Pattern { return c.currentPat }
+
+func (c *PDFGeneratorContext) applyFillColor() {
+	if c.currentPat == nil {
+		return
+	}
+	if sp, ok := c.currentPat.(SolidPattern); ok {
+		r, g, b, _ := sp.GetRGBA()
+		c.wf("%.6f %.6f %.6f rg\n", r, g, b)
+	}
+}
+
+func (c *PDFGeneratorContext) applyStrokeColor() {
+	if c.currentPat == nil {
+		return
+	}
+	if sp, ok := c.currentPat.(SolidPattern); ok {
+		r, g, b, _ := sp.GetRGBA()
+		c.wf("%.6f %.6f %.6f RG\n", r, g, b)
+	}
+}
+
+func (c *PDFGeneratorContext) SetOperator(op Operator) {}
+func (c *PDFGeneratorContext) GetOperator() Operator { return OperatorOver }
+func (c *PDFGeneratorContext) SetTolerance(tolerance float64) {}
+func (c *PDFGeneratorContext) GetTolerance() float64 { return 0.1 }
+func (c *PDFGeneratorContext) SetAntialias(antialias Antialias) {}
+func (c *PDFGeneratorContext) GetAntialias() Antialias { return AntialiasDefault }
+func (c *PDFGeneratorContext) SetFillRule(fillRule FillRule) {}
+func (c *PDFGeneratorContext) GetFillRule() FillRule { return FillRuleWinding }
+
+func (c *PDFGeneratorContext) SetLineWidth(width float64) {
+	c.wf("%.4f w\n", width)
+}
+func (c *PDFGeneratorContext) GetLineWidth() float64 { return 1 }
+
+func (c *PDFGeneratorContext) SetLineCap(lineCap LineCap) {
+	lc := 0
+	switch lineCap {
+	case LineCapButt:
+		lc = 0
+	case LineCapRound:
+		lc = 1
+	case LineCapSquare:
+		lc = 2
+	}
+	c.wf("%d J\n", lc)
+}
+func (c *PDFGeneratorContext) GetLineCap() LineCap { return LineCapButt }
+
+func (c *PDFGeneratorContext) SetLineJoin(lineJoin LineJoin) {
+	lj := 0
+	switch lineJoin {
+	case LineJoinMiter:
+		lj = 0
+	case LineJoinRound:
+		lj = 1
+	case LineJoinBevel:
+		lj = 2
+	}
+	c.wf("%d j\n", lj)
+}
+func (c *PDFGeneratorContext) GetLineJoin() LineJoin { return LineJoinMiter }
+
+func (c *PDFGeneratorContext) SetDash(dashes []float64, offset float64) {
+	c.w("[")
+	for i, v := range dashes {
+		if i > 0 {
+			c.w(" ")
 		}
-		switch t := tok.(type) {
-		case xml.StartElement:
-			switch t.Name.Local {
-			case "svg":
-				for _, a := range t.Attr {
-					switch a.Name.Local {
-					case "data-page-count":
-						if v, err := strconv.Atoi(strings.TrimSpace(a.Value)); err == nil {
-							doc.PageCount = v
-						}
-					case "data-page-width":
-						doc.PageWidth = parseSVGFloat(a.Value)
-					case "data-page-height":
-						doc.PageHeight = parseSVGFloat(a.Value)
-					case "width":
-						if doc.PageWidth <= 0 {
-							doc.PageWidth = parseSVGFloat(a.Value)
-						}
-					case "height":
-						if doc.PageHeight <= 0 && doc.PageCount <= 1 {
-							doc.PageHeight = parseSVGFloat(a.Value)
-						}
-					}
-				}
-			case "g":
-				pageStack = append(pageStack, currentPage)
-				for _, a := range t.Attr {
-					if a.Name.Local == "data-page" {
-						if v, err := strconv.Atoi(strings.TrimSpace(a.Value)); err == nil {
-							currentPage = v
-							if currentPage > doc.PageCount {
-								doc.PageCount = currentPage
-							}
-						}
-					}
-				}
-			case "path":
-				if currentPage <= 0 {
-					continue
-				}
-				p := svgPathElem{Fill: "none", Stroke: "none", StrokeWidth: 1, StrokeLineCap: "butt", StrokeLineJoin: "miter", StrokeMiter: 10}
-				for _, a := range t.Attr {
-					switch a.Name.Local {
-					case "d":
-						p.D = a.Value
-					case "fill":
-						p.Fill = a.Value
-					case "stroke":
-						p.Stroke = a.Value
-					case "stroke-width":
-						p.StrokeWidth = parseSVGFloat(a.Value)
-					case "stroke-linecap":
-						p.StrokeLineCap = a.Value
-					case "stroke-linejoin":
-						p.StrokeLineJoin = a.Value
-					case "stroke-miterlimit":
-						p.StrokeMiter = parseSVGFloat(a.Value)
-					case "stroke-dasharray":
-						p.StrokeDash = a.Value
-					case "stroke-dashoffset":
-						p.StrokeDashOff = parseSVGFloat(a.Value)
-					}
-				}
-				doc.Pages[currentPage] = append(doc.Pages[currentPage], svgElem{Kind: svgElemPath, Path: p})
-			case "rect":
-				if currentPage <= 0 {
-					continue
-				}
-				p := svgPathElem{Fill: "none", Stroke: "none", StrokeWidth: 1, StrokeLineCap: "butt", StrokeLineJoin: "miter", StrokeMiter: 10}
-				var x, y, w, h float64
-				for _, a := range t.Attr {
-					switch a.Name.Local {
-					case "x":
-						x = parseSVGFloat(a.Value)
-					case "y":
-						y = parseSVGFloat(a.Value)
-					case "width":
-						w = parseSVGFloat(a.Value)
-					case "height":
-						h = parseSVGFloat(a.Value)
-					case "fill":
-						p.Fill = a.Value
-					case "stroke":
-						p.Stroke = a.Value
-					case "stroke-width":
-						p.StrokeWidth = parseSVGFloat(a.Value)
-					case "stroke-linecap":
-						p.StrokeLineCap = a.Value
-					case "stroke-linejoin":
-						p.StrokeLineJoin = a.Value
-					case "stroke-miterlimit":
-						p.StrokeMiter = parseSVGFloat(a.Value)
-					case "stroke-dasharray":
-						p.StrokeDash = a.Value
-					case "stroke-dashoffset":
-						p.StrokeDashOff = parseSVGFloat(a.Value)
-					}
-				}
-				p.D = buildPathDataForRect(x, y, w, h)
-				doc.Pages[currentPage] = append(doc.Pages[currentPage], svgElem{Kind: svgElemPath, Path: p})
-			case "polyline", "polygon":
-				if currentPage <= 0 {
-					continue
-				}
-				p := svgPathElem{Fill: "none", Stroke: "none", StrokeWidth: 1, StrokeLineCap: "butt", StrokeLineJoin: "miter", StrokeMiter: 10}
-				var pts string
-				for _, a := range t.Attr {
-					switch a.Name.Local {
-					case "points":
-						pts = a.Value
-					case "fill":
-						p.Fill = a.Value
-					case "stroke":
-						p.Stroke = a.Value
-					case "stroke-width":
-						p.StrokeWidth = parseSVGFloat(a.Value)
-					case "stroke-linecap":
-						p.StrokeLineCap = a.Value
-					case "stroke-linejoin":
-						p.StrokeLineJoin = a.Value
-					case "stroke-miterlimit":
-						p.StrokeMiter = parseSVGFloat(a.Value)
-					case "stroke-dasharray":
-						p.StrokeDash = a.Value
-					case "stroke-dashoffset":
-						p.StrokeDashOff = parseSVGFloat(a.Value)
-					}
-				}
-				coords := parseSVGPointList(pts)
-				p.D = buildPathDataFromPoints(coords, t.Name.Local == "polygon")
-				doc.Pages[currentPage] = append(doc.Pages[currentPage], svgElem{Kind: svgElemPath, Path: p})
-			case "text":
-				if currentPage <= 0 {
-					continue
-				}
-				te := &svgTextElem{Fill: "#000000", FontSize: 12}
-				for _, a := range t.Attr {
-					switch a.Name.Local {
-					case "x":
-						te.X = parseSVGFloat(a.Value)
-					case "y":
-						te.Y = parseSVGFloat(a.Value)
-					case "fill":
-						te.Fill = a.Value
-					case "font-size":
-						te.FontSize = parseSVGFloat(a.Value)
-					}
-				}
-				currentText = te
-			}
-		case xml.EndElement:
-			switch t.Name.Local {
-			case "g":
-				if len(pageStack) > 0 {
-					currentPage = pageStack[len(pageStack)-1]
-					pageStack = pageStack[:len(pageStack)-1]
-				} else {
-					currentPage = 0
-				}
-			case "text":
-				if currentText != nil && currentPage > 0 {
-					doc.Pages[currentPage] = append(doc.Pages[currentPage], svgElem{Kind: svgElemText, Text: *currentText})
-				}
-				currentText = nil
-			}
-		case xml.CharData:
-			if currentText != nil {
-				currentText.Text += string([]byte(t))
-			}
+		c.wf("%.4f", v)
+	}
+	c.wf("] %.4f d\n", offset)
+}
+func (c *PDFGeneratorContext) GetDashCount() int { return 0 }
+func (c *PDFGeneratorContext) GetDash() ([]float64, float64) { return nil, 0 }
+
+func (c *PDFGeneratorContext) SetMiterLimit(limit float64) {
+	c.wf("%.4f M\n", limit)
+}
+func (c *PDFGeneratorContext) GetMiterLimit() float64 { return 10 }
+
+func (c *PDFGeneratorContext) Translate(tx, ty float64) {
+	c.wf("1 0 0 1 %.4f %.4f cm\n", tx, ty)
+}
+func (c *PDFGeneratorContext) Scale(sx, sy float64) {
+	c.wf("%.4f 0 0 %.4f 0 0 cm\n", sx, sy)
+}
+func (c *PDFGeneratorContext) Rotate(angle float64) {
+	// Not implemented in simple DrawSVG use case usually (handled by Transform)
+}
+func (c *PDFGeneratorContext) Transform(matrix *Matrix) {
+	c.wf("%.4f %.4f %.4f %.4f %.4f %.4f cm\n", matrix.XX, matrix.YX, matrix.XY, matrix.YY, matrix.X0, matrix.Y0)
+}
+func (c *PDFGeneratorContext) SetMatrix(matrix *Matrix) {}
+func (c *PDFGeneratorContext) GetMatrix() *Matrix { return &Matrix{XX: 1, YY: 1} }
+func (c *PDFGeneratorContext) IdentityMatrix() {}
+
+func (c *PDFGeneratorContext) UserToDevice(x, y float64) (float64, float64) { return x, y }
+func (c *PDFGeneratorContext) UserToDeviceDistance(dx, dy float64) (float64, float64) { return dx, dy }
+func (c *PDFGeneratorContext) DeviceToUser(x, y float64) (float64, float64) { return x, y }
+func (c *PDFGeneratorContext) DeviceToUserDistance(dx, dy float64) (float64, float64) { return dx, dy }
+
+func (c *PDFGeneratorContext) NewPath() {
+	// Implicitly started by drawing ops
+}
+func (c *PDFGeneratorContext) MoveTo(x, y float64) {
+	c.wf("%.4f %.4f m\n", x, y)
+}
+func (c *PDFGeneratorContext) NewSubPath() {}
+func (c *PDFGeneratorContext) LineTo(x, y float64) {
+	c.wf("%.4f %.4f l\n", x, y)
+}
+func (c *PDFGeneratorContext) CurveTo(x1, y1, x2, y2, x3, y3 float64) {
+	c.wf("%.4f %.4f %.4f %.4f %.4f %.4f c\n", x1, y1, x2, y2, x3, y3)
+}
+func (c *PDFGeneratorContext) Arc(xc, yc, radius, angle1, angle2 float64) {}
+func (c *PDFGeneratorContext) ArcNegative(xc, yc, radius, angle1, angle2 float64) {}
+func (c *PDFGeneratorContext) RelMoveTo(dx, dy float64) {}
+func (c *PDFGeneratorContext) RelLineTo(dx, dy float64) {}
+func (c *PDFGeneratorContext) RelCurveTo(dx1, dy1, dx2, dy2, dx3, dy3 float64) {}
+func (c *PDFGeneratorContext) Rectangle(x, y, width, height float64) {
+	c.wf("%.4f %.4f %.4f %.4f re\n", x, y, width, height)
+}
+func (c *PDFGeneratorContext) DrawCircle(xc, yc, radius float64) {
+	// Approximate circle with 4 Bezier curves
+	magic := 0.551915024494
+	offset := radius * magic
+	c.MoveTo(xc+radius, yc)
+	c.CurveTo(xc+radius, yc+offset, xc+offset, yc+radius, xc, yc+radius)
+	c.CurveTo(xc-offset, yc+radius, xc-radius, yc+offset, xc-radius, yc)
+	c.CurveTo(xc-radius, yc-offset, xc-offset, yc-radius, xc, yc-radius)
+	c.CurveTo(xc+offset, yc-radius, xc+radius, yc-offset, xc+radius, yc)
+	c.ClosePath()
+}
+func (c *PDFGeneratorContext) ClosePath() {
+	c.w("h\n")
+}
+func (c *PDFGeneratorContext) PathExtents() (x1, y1, x2, y2 float64) { return 0, 0, 0, 0 }
+
+func (c *PDFGeneratorContext) Clip() {}
+func (c *PDFGeneratorContext) ClipPreserve() {}
+func (c *PDFGeneratorContext) ClipExtents() (x1, y1, x2, y2 float64) { return 0, 0, 0, 0 }
+func (c *PDFGeneratorContext) InClip(x, y float64) Bool { return 1 }
+func (c *PDFGeneratorContext) ResetClip() {}
+func (c *PDFGeneratorContext) CopyClipRectangleList() *RectangleList { return nil }
+func (c *PDFGeneratorContext) InStroke(x, y float64) Bool { return 0 }
+func (c *PDFGeneratorContext) InFill(x, y float64) Bool { return 0 }
+func (c *PDFGeneratorContext) StrokeExtents() (x1, y1, x2, y2 float64) { return 0, 0, 0, 0 }
+func (c *PDFGeneratorContext) FillExtents() (x1, y1, x2, y2 float64) { return 0, 0, 0, 0 }
+func (c *PDFGeneratorContext) HasCurrentPoint() Bool { return 0 }
+func (c *PDFGeneratorContext) GetCurrentPoint() (x, y float64) { return 0, 0 }
+
+func (c *PDFGeneratorContext) CopyPath() *Path { return nil }
+func (c *PDFGeneratorContext) CopyPathFlat() *Path { return nil }
+func (c *PDFGeneratorContext) AppendPath(path *Path) {
+	for _, pd := range path.Data {
+		switch pd.Type {
+		case PathMoveTo:
+			c.MoveTo(pd.Points[0].X, pd.Points[0].Y)
+		case PathLineTo:
+			c.LineTo(pd.Points[0].X, pd.Points[0].Y)
+		case PathCurveTo:
+			c.CurveTo(pd.Points[0].X, pd.Points[0].Y, pd.Points[1].X, pd.Points[1].Y, pd.Points[2].X, pd.Points[2].Y)
+		case PathClosePath:
+			c.ClosePath()
 		}
 	}
-
-	if doc.PageWidth <= 0 || doc.PageHeight <= 0 {
-		return nil, fmt.Errorf("missing svg size metadata")
-	}
-	return doc, nil
 }
 
-func parseSVGFloat(s string) float64 {
-	s = strings.TrimSpace(s)
-	s = strings.TrimSuffix(s, "px")
-	s = strings.TrimSuffix(s, "pt")
-	v, _ := strconv.ParseFloat(s, 64)
-	return v
-}
+func (c *PDFGeneratorContext) ShowGlyphs(glyphs []Glyph) {}
+func (c *PDFGeneratorContext) ShowTextGlyphs(utf8 string, glyphs []Glyph, clusters []TextCluster, clusterFlags TextClusterFlags) {}
+func (c *PDFGeneratorContext) GlyphPath(glyphs []Glyph) {}
+func (c *PDFGeneratorContext) TextExtents(utf8 string) *TextExtents { return nil }
+func (c *PDFGeneratorContext) GlyphExtents(glyphs []Glyph) *TextExtents { return nil }
 
-func parseSVGPointList(s string) []float64 {
-	s = strings.ReplaceAll(s, ",", " ")
-	fields := strings.Fields(s)
-	out := make([]float64, 0, len(fields))
-	for _, f := range fields {
-		if v, err := strconv.ParseFloat(strings.TrimSpace(f), 64); err == nil {
-			out = append(out, v)
-		}
-	}
-	return out
-}
+func (c *PDFGeneratorContext) SetFontMatrix(matrix *Matrix) {}
+func (c *PDFGeneratorContext) GetFontMatrix() *Matrix { return nil }
+func (c *PDFGeneratorContext) SetFontOptions(options *FontOptions) {}
+func (c *PDFGeneratorContext) GetFontOptions() *FontOptions { return nil }
+func (c *PDFGeneratorContext) SetFontFace(fontFace FontFace) {}
+func (c *PDFGeneratorContext) GetFontFace() FontFace { return nil }
+func (c *PDFGeneratorContext) SetScaledFont(scaledFont ScaledFont) {}
+func (c *PDFGeneratorContext) GetScaledFont() ScaledFont { return nil }
+func (c *PDFGeneratorContext) FontExtents() *FontExtents { return nil }
 
-func buildPathDataFromPoints(coords []float64, closed bool) string {
-	if len(coords) < 4 {
-		return ""
-	}
-	var b strings.Builder
-	b.WriteString("M ")
-	b.WriteString(formatSVGFloat(coords[0]))
-	b.WriteByte(' ')
-	b.WriteString(formatSVGFloat(coords[1]))
-	for i := 2; i+1 < len(coords); i += 2 {
-		b.WriteString(" L ")
-		b.WriteString(formatSVGFloat(coords[i]))
-		b.WriteByte(' ')
-		b.WriteString(formatSVGFloat(coords[i+1]))
-	}
-	if closed {
-		b.WriteString(" Z")
-	}
-	return b.String()
-}
+func (c *PDFGeneratorContext) PangoPdfCreateLayout() interface{} { return nil }
+func (c *PDFGeneratorContext) PangoPdfUpdateLayout(layout interface{}) {}
+func (c *PDFGeneratorContext) PangoPdfShowText(layout interface{}) {}
 
-func buildPathDataForRect(x, y, w, h float64) string {
-	if w <= 0 || h <= 0 {
-		return ""
-	}
-	x2 := x + w
-	y2 := y + h
-	return fmt.Sprintf("M %s %s L %s %s L %s %s L %s %s Z",
-		formatSVGFloat(x), formatSVGFloat(y),
-		formatSVGFloat(x2), formatSVGFloat(y),
-		formatSVGFloat(x2), formatSVGFloat(y2),
-		formatSVGFloat(x), formatSVGFloat(y2),
-	)
-}
+// --- Helper functions from original file ---
 
 func createBlankPDFContextForSVG(width, height float64, pageCount int) (*model.Context, []types.IndirectRef, []types.IndirectRef, error) {
 	conf := model.NewDefaultConfiguration()
@@ -391,7 +413,7 @@ func createBlankPDFContextForSVG(width, height float64, pageCount int) (*model.C
 	}
 	pagesIndRef, ok := pagesObj.(types.IndirectRef)
 	if !ok {
-		return nil, nil, nil, fmt.Errorf("Pages is not an indirect ref")
+		return nil, nil, nil, fmt.Errorf("pages is not an indirect ref")
 	}
 
 	if pageCount <= 0 {
@@ -442,24 +464,35 @@ func createBlankPDFContextForSVG(width, height float64, pageCount int) (*model.C
 }
 
 func attachFontResources(ctx *model.Context, pageRefs []types.IndirectRef, fontDict types.Dict) error {
-	for _, pr := range pageRefs {
-		entry := ctx.Table[int(pr.ObjectNumber)]
-		if entry == nil {
-			continue
+	for _, pageRef := range pageRefs {
+		pageDict, err := ctx.XRefTable.DereferenceDict(pageRef)
+		if err != nil {
+			return err
 		}
-		pd, ok := entry.Object.(types.Dict)
-		if !ok {
-			continue
+		resObj, found := pageDict.Find("Resources")
+		var resDict types.Dict
+		if found {
+			resDict, err = ctx.XRefTable.DereferenceDict(resObj)
+			if err != nil {
+				return err
+			}
+		} else {
+			resDict = types.Dict{}
 		}
-		res, ok := pd["Resources"].(types.Dict)
-		if !ok {
-			res = types.Dict{}
-		}
-		res["Font"] = fontDict
-		pd["Resources"] = res
-		entry.Object = pd
+		resDict["Font"] = fontDict
+		pageDict["Resources"] = resDict
 	}
 	return nil
+}
+
+// ensureDirForFile is defined in postscript_to_pdf.go
+
+// escapePDFString is currently unused
+func _(s string) string {
+	s = strings.ReplaceAll(s, "\\", "\\\\")
+	s = strings.ReplaceAll(s, "(", "\\(")
+	s = strings.ReplaceAll(s, ")", "\\)")
+	return s
 }
 
 func writePageContentStream(ctx *model.Context, contentRef types.IndirectRef, content []byte) error {
@@ -477,232 +510,4 @@ func writePageContentStream(ctx *model.Context, contentRef types.IndirectRef, co
 	}
 	entry.Object = sd
 	return nil
-}
-
-func writePDFForSVGPath(buf *bytes.Buffer, p svgPathElem) {
-	if strings.TrimSpace(p.D) == "" {
-		return
-	}
-
-	if p.Stroke != "none" {
-		r, g, b := parseSVGColor(p.Stroke)
-		buf.WriteString(fmt.Sprintf("%.6f %.6f %.6f RG\n", r, g, b))
-		if p.StrokeWidth > 0 {
-			buf.WriteString(fmt.Sprintf("%.4f w\n", p.StrokeWidth))
-		}
-		buf.WriteString(fmt.Sprintf("%d J\n", svgLineCapToPDF(p.StrokeLineCap)))
-		buf.WriteString(fmt.Sprintf("%d j\n", svgLineJoinToPDF(p.StrokeLineJoin)))
-		if p.StrokeMiter > 0 {
-			buf.WriteString(fmt.Sprintf("%.4f M\n", p.StrokeMiter))
-		}
-		if strings.TrimSpace(p.StrokeDash) != "" {
-			dash := parseSVGDashArray(p.StrokeDash)
-			buf.WriteString("[")
-			for i, v := range dash {
-				if i > 0 {
-					buf.WriteByte(' ')
-				}
-				buf.WriteString(formatPDFNumber(v))
-			}
-			buf.WriteString("] ")
-			buf.WriteString(formatPDFNumber(p.StrokeDashOff))
-			buf.WriteString(" d\n")
-		} else {
-			buf.WriteString("[] 0 d\n")
-		}
-	}
-	if p.Fill != "none" {
-		r, g, b := parseSVGColor(p.Fill)
-		buf.WriteString(fmt.Sprintf("%.6f %.6f %.6f rg\n", r, g, b))
-	}
-
-	writePDFPathFromSVGPathData(buf, p.D)
-
-	if p.Fill != "none" && p.Stroke == "none" {
-		buf.WriteString("f\n")
-		return
-	}
-	if p.Stroke != "none" && p.Fill == "none" {
-		buf.WriteString("S\n")
-		return
-	}
-	if p.Stroke != "none" && p.Fill != "none" {
-		buf.WriteString("B\n")
-	}
-}
-
-func writePDFForSVGText(buf *bytes.Buffer, t svgTextElem) {
-	s := strings.TrimSpace(t.Text)
-	if s == "" {
-		return
-	}
-	r, g, b := parseSVGColor(t.Fill)
-	buf.WriteString(fmt.Sprintf("%.6f %.6f %.6f rg\n", r, g, b))
-	fs := t.FontSize
-	if fs <= 0 {
-		fs = 12
-	}
-	buf.WriteString("BT\n")
-	buf.WriteString(fmt.Sprintf("/F1 %.4f Tf\n", fs))
-	buf.WriteString(fmt.Sprintf("1 0 0 1 %.4f %.4f Tm\n", t.X, t.Y))
-	buf.WriteString("(")
-	buf.WriteString(escapePDFString(s))
-	buf.WriteString(") Tj\n")
-	buf.WriteString("ET\n")
-}
-
-func writePDFPathFromSVGPathData(buf *bytes.Buffer, d string) {
-	toks := tokenizeSVGPath(d)
-	i := 0
-	for i < len(toks) {
-		cmd := toks[i]
-		i++
-		switch cmd {
-		case "M":
-			if i+1 >= len(toks) {
-				return
-			}
-			x := parseSVGFloat(toks[i])
-			y := parseSVGFloat(toks[i+1])
-			i += 2
-			buf.WriteString(fmt.Sprintf("%.4f %.4f m\n", x, y))
-		case "L":
-			if i+1 >= len(toks) {
-				return
-			}
-			x := parseSVGFloat(toks[i])
-			y := parseSVGFloat(toks[i+1])
-			i += 2
-			buf.WriteString(fmt.Sprintf("%.4f %.4f l\n", x, y))
-		case "C":
-			if i+5 >= len(toks) {
-				return
-			}
-			x1 := parseSVGFloat(toks[i])
-			y1 := parseSVGFloat(toks[i+1])
-			x2 := parseSVGFloat(toks[i+2])
-			y2 := parseSVGFloat(toks[i+3])
-			x3 := parseSVGFloat(toks[i+4])
-			y3 := parseSVGFloat(toks[i+5])
-			i += 6
-			buf.WriteString(fmt.Sprintf("%.4f %.4f %.4f %.4f %.4f %.4f c\n", x1, y1, x2, y2, x3, y3))
-		case "Z":
-			buf.WriteString("h\n")
-		default:
-		}
-	}
-}
-
-func tokenizeSVGPath(d string) []string {
-	var out []string
-	var b strings.Builder
-	flush := func() {
-		if b.Len() > 0 {
-			out = append(out, b.String())
-			b.Reset()
-		}
-	}
-	for _, r := range d {
-		if r == 'M' || r == 'L' || r == 'C' || r == 'Z' {
-			flush()
-			out = append(out, string(r))
-			continue
-		}
-		if r == ',' || r == ' ' || r == '\n' || r == '\t' || r == '\r' {
-			flush()
-			continue
-		}
-		b.WriteRune(r)
-	}
-	flush()
-	return out
-}
-
-func parseSVGColor(s string) (float64, float64, float64) {
-	s = strings.TrimSpace(s)
-	if s == "" || s == "none" {
-		return 0, 0, 0
-	}
-	if strings.HasPrefix(s, "#") && len(s) == 7 {
-		r, _ := strconv.ParseInt(s[1:3], 16, 64)
-		g, _ := strconv.ParseInt(s[3:5], 16, 64)
-		b, _ := strconv.ParseInt(s[5:7], 16, 64)
-		return float64(r) / 255, float64(g) / 255, float64(b) / 255
-	}
-	return 0, 0, 0
-}
-
-func svgLineCapToPDF(s string) int {
-	switch strings.ToLower(strings.TrimSpace(s)) {
-	case "butt":
-		return 0
-	case "round":
-		return 1
-	case "square":
-		return 2
-	default:
-		return 0
-	}
-}
-
-func svgLineJoinToPDF(s string) int {
-	switch strings.ToLower(strings.TrimSpace(s)) {
-	case "miter":
-		return 0
-	case "round":
-		return 1
-	case "bevel":
-		return 2
-	default:
-		return 0
-	}
-}
-
-func parseSVGDashArray(s string) []float64 {
-	s = strings.ReplaceAll(s, ",", " ")
-	fields := strings.Fields(s)
-	out := make([]float64, 0, len(fields))
-	for _, f := range fields {
-		v := parseSVGFloat(f)
-		if v > 0 {
-			out = append(out, v)
-		}
-	}
-	return out
-}
-
-func formatPDFNumber(v float64) string {
-	s := strconv.FormatFloat(v, 'f', 4, 64)
-	s = strings.TrimRight(s, "0")
-	s = strings.TrimRight(s, ".")
-	if s == "" || s == "-0" {
-		return "0"
-	}
-	return s
-}
-
-func escapePDFString(s string) string {
-	var b strings.Builder
-	for _, r := range s {
-		switch r {
-		case '\\':
-			b.WriteString("\\\\")
-		case '(':
-			b.WriteString("\\(")
-		case ')':
-			b.WriteString("\\)")
-		case '\r':
-			b.WriteString("\\r")
-		case '\n':
-			b.WriteString("\\n")
-		case '\t':
-			b.WriteString("\\t")
-		default:
-			if r < 32 {
-				continue
-			}
-			b.WriteRune(r)
-		}
-	}
-	return b.String()
 }

@@ -1,6 +1,6 @@
 PDF Rendering Report
 ====================
-Time: 2026-02-04 11:40:47
+Time: 2026-02-06 10:06:24
 
 ParseTokens Test:
 -----------------
@@ -21,7 +21,7 @@ Rendering Process:
 Output File Info:
 -----------------
 Size: 170320 bytes
-Created: 2026-02-04 11:40:50
+Created: 2026-02-06 10:06:27
 
 Page Information:
 -----------------
@@ -32,24 +32,7 @@ Page Size: 8.27 x 11.69 inches
 Font Information:
 =================
 
-[Font 1] F1
-  BaseFont: ZDRRSR+LMRoman12-Bold-Identity-H
-  Subtype: Type0
-  Encoding: Identity-H
-  Identity Mapping: YES
-  ToUnicode Map: YES (37 mappings, 0 ranges)
-  CID System Info: Adobe-Identity
-  Embedded Font: YES (5085 bytes)
-
-[Font 2] F14
-  BaseFont: DBKKCI+MSBM10
-  Subtype: Type1
-  Encoding: 
-  Identity Mapping: NO
-  ToUnicode Map: YES (0 mappings, 0 ranges)
-  Embedded Font: YES (549 bytes)
-
-[Font 3] F11
+[Font 1] F11
   BaseFont: WFCGZP+LMRoman7-Regular-Identity-H
   Subtype: Type0
   Encoding: Identity-H
@@ -58,16 +41,16 @@ Font Information:
   CID System Info: Adobe-Identity
   Embedded Font: YES (2689 bytes)
 
-[Font 4] F18
-  BaseFont: UDODLB+LMRoman10-Italic-Identity-H
+[Font 2] F1
+  BaseFont: ZDRRSR+LMRoman12-Bold-Identity-H
   Subtype: Type0
   Encoding: Identity-H
   Identity Mapping: YES
-  ToUnicode Map: YES (11 mappings, 0 ranges)
+  ToUnicode Map: YES (37 mappings, 0 ranges)
   CID System Info: Adobe-Identity
-  Embedded Font: YES (2286 bytes)
+  Embedded Font: YES (5085 bytes)
 
-[Font 5] F3
+[Font 3] F3
   BaseFont: ALYRVT+LMRoman10-Regular-Identity-H
   Subtype: Type0
   Encoding: Identity-H
@@ -76,15 +59,15 @@ Font Information:
   CID System Info: Adobe-Identity
   Embedded Font: YES (8459 bytes)
 
-[Font 6] F7
-  BaseFont: FXCERL+CMMI7
+[Font 4] F12
+  BaseFont: SXWWSM+CMR7
   Subtype: Type1
   Encoding: 
   Identity Mapping: NO
   ToUnicode Map: YES (0 mappings, 0 ranges)
-  Embedded Font: YES (2394 bytes)
+  Embedded Font: YES (2273 bytes)
 
-[Font 7] F13
+[Font 5] F13
   BaseFont: CAFZKO+CMEX10
   Subtype: Type1
   Encoding: 
@@ -92,23 +75,16 @@ Font Information:
   ToUnicode Map: NO
   Embedded Font: YES (1665 bytes)
 
-[Font 8] F16
-  BaseFont: DKJWQF+CMSY7
-  Subtype: Type1
-  Encoding: 
-  Identity Mapping: NO
-  ToUnicode Map: YES (0 mappings, 0 ranges)
-  Embedded Font: YES (956 bytes)
+[Font 6] F18
+  BaseFont: UDODLB+LMRoman10-Italic-Identity-H
+  Subtype: Type0
+  Encoding: Identity-H
+  Identity Mapping: YES
+  ToUnicode Map: YES (11 mappings, 0 ranges)
+  CID System Info: Adobe-Identity
+  Embedded Font: YES (2286 bytes)
 
-[Font 9] F8
-  BaseFont: PMEZGD+CMR10
-  Subtype: Type1
-  Encoding: 
-  Identity Mapping: NO
-  ToUnicode Map: YES (0 mappings, 0 ranges)
-  Embedded Font: YES (3309 bytes)
-
-[Font 10] F5
+[Font 7] F5
   BaseFont: YPJGAH+LMRoman10-Bold-Identity-H
   Subtype: Type0
   Encoding: Identity-H
@@ -117,31 +93,15 @@ Font Information:
   CID System Info: Adobe-Identity
   Embedded Font: YES (5588 bytes)
 
-[Font 11] F19
-  BaseFont: QJDQHI+CMMI12
+[Font 8] F8
+  BaseFont: PMEZGD+CMR10
   Subtype: Type1
   Encoding: 
   Identity Mapping: NO
   ToUnicode Map: YES (0 mappings, 0 ranges)
-  Embedded Font: YES (839 bytes)
+  Embedded Font: YES (3309 bytes)
 
-[Font 12] F12
-  BaseFont: SXWWSM+CMR7
-  Subtype: Type1
-  Encoding: 
-  Identity Mapping: NO
-  ToUnicode Map: YES (0 mappings, 0 ranges)
-  Embedded Font: YES (2273 bytes)
-
-[Font 13] F6
-  BaseFont: WXQHEC+CMMI10
-  Subtype: Type1
-  Encoding: 
-  Identity Mapping: NO
-  ToUnicode Map: YES (0 mappings, 0 ranges)
-  Embedded Font: YES (4423 bytes)
-
-[Font 14] F9
+[Font 9] F9
   BaseFont: NPXZEU+CMSY10
   Subtype: Type1
   Encoding: 
@@ -149,13 +109,53 @@ Font Information:
   ToUnicode Map: YES (0 mappings, 0 ranges)
   Embedded Font: YES (1399 bytes)
 
-[Font 15] F15
+[Font 10] F15
   BaseFont: WIEJAH+CMMI5
   Subtype: Type1
   Encoding: 
   Identity Mapping: NO
   ToUnicode Map: YES (0 mappings, 0 ranges)
   Embedded Font: YES (756 bytes)
+
+[Font 11] F16
+  BaseFont: DKJWQF+CMSY7
+  Subtype: Type1
+  Encoding: 
+  Identity Mapping: NO
+  ToUnicode Map: YES (0 mappings, 0 ranges)
+  Embedded Font: YES (956 bytes)
+
+[Font 12] F14
+  BaseFont: DBKKCI+MSBM10
+  Subtype: Type1
+  Encoding: 
+  Identity Mapping: NO
+  ToUnicode Map: YES (0 mappings, 0 ranges)
+  Embedded Font: YES (549 bytes)
+
+[Font 13] F19
+  BaseFont: QJDQHI+CMMI12
+  Subtype: Type1
+  Encoding: 
+  Identity Mapping: NO
+  ToUnicode Map: YES (0 mappings, 0 ranges)
+  Embedded Font: YES (839 bytes)
+
+[Font 14] F7
+  BaseFont: FXCERL+CMMI7
+  Subtype: Type1
+  Encoding: 
+  Identity Mapping: NO
+  ToUnicode Map: YES (0 mappings, 0 ranges)
+  Embedded Font: YES (2394 bytes)
+
+[Font 15] F6
+  BaseFont: WXQHEC+CMMI10
+  Subtype: Type1
+  Encoding: 
+  Identity Mapping: NO
+  ToUnicode Map: YES (0 mappings, 0 ranges)
+  Embedded Font: YES (4423 bytes)
 
 
 ExtractPageElements Test:
@@ -281,70 +281,32 @@ Font Width Calculation:
 Font Width Calculation Analysis:
 ---------------------------------
 
-Font: F12
-  Text elements: 29
-  Total estimated width: 191.78 points
-  Font size range: 6.97 - 6.97 points
-  Average width per element: 6.61 points
-  Sample texts:
-    [1] "("
-    [2] ")"
-    [3] "CPO"
-    [4] "KL"
-    [5] "HACPO"
-
-Font: F1
+Font: F14
   Text elements: 2
-  Total estimated width: 200.85 points
-  Font size range: 14.35 - 14.35 points
-  Average width per element: 100.42 points
-  Sample texts:
-    [1] "Ob\x00䐀㈀⬀椀䈀瀀e"
-    [2] "Con\x00椀怀ᰀ戀椀䈀瀀e\x00䠀oss:"
-
-Font: F15
-  Text elements: 4
-  Total estimated width: 14.94 points
-  Font size range: 4.98 - 4.98 points
-  Average width per element: 3.74 points
-  Sample texts:
-    [1] "i"
-    [2] "i"
-    [3] "i"
-    [4] "i,k"
-
-Font: F11
-  Text elements: 7
-  Total estimated width: 73.22 points
-  Font size range: 6.97 - 6.97 points
-  Average width per element: 10.46 points
-  Sample texts:
-    [1] "ref"
-    [2] "ref"
-    [3] "ref"
-    [4] "ref"
-    [5] "ref"
-
-Font: F16
-  Text elements: 5
-  Total estimated width: 27.90 points
-  Font size range: 6.97 - 6.97 points
-  Average width per element: 5.58 points
-  Sample texts:
-    [1] "∼D"
-    [2] "∼D"
-    [3] "{"
-    [4] "}∼"
-    [5] "−"
-
-Font: F5
-  Text elements: 2
-  Total estimated width: 94.64 points
+  Total estimated width: 9.96 points
   Font size range: 9.96 - 9.96 points
-  Average width per element: 47.32 points
+  Average width per element: 4.98 points
   Sample texts:
-    [1] "Notation\x00唀洀䴀䈀紀㈀d)."
-    [2] "?"
+    [1] "𝔼"
+    [2] "𝔼"
+
+Font: F19
+  Text elements: 1
+  Total estimated width: 7.17 points
+  Font size range: 14.35 - 14.35 points
+  Average width per element: 7.17 points
+  Sample texts:
+    [1] "L"
+
+Font: F18
+  Text elements: 3
+  Total estimated width: 119.55 points
+  Font size range: 9.96 - 9.96 points
+  Average width per element: 39.85 points
+  Sample texts:
+    [1] "maximize"
+    [2] "minimize"
+    [3] "maximize"
 
 Font: F6
   Text elements: 96
@@ -370,17 +332,73 @@ Font: F8
     [4] ")="
     [5] "("
 
-Font: F9
-  Text elements: 20
-  Total estimated width: 99.63 points
-  Font size range: 9.96 - 9.96 points
-  Average width per element: 4.98 points
+Font: F11
+  Text elements: 7
+  Total estimated width: 73.22 points
+  Font size range: 6.97 - 6.97 points
+  Average width per element: 10.46 points
   Sample texts:
-    [1] "|"
-    [2] "|"
-    [3] "|"
-    [4] "|"
-    [5] "|"
+    [1] "ref"
+    [2] "ref"
+    [3] "ref"
+    [4] "ref"
+    [5] "ref"
+
+Font: F12
+  Text elements: 29
+  Total estimated width: 191.78 points
+  Font size range: 6.97 - 6.97 points
+  Average width per element: 6.61 points
+  Sample texts:
+    [1] "("
+    [2] ")"
+    [3] "CPO"
+    [4] "KL"
+    [5] "HACPO"
+
+Font: F3
+  Text elements: 36
+  Total estimated width: 3128.26 points
+  Font size range: 9.96 - 9.96 points
+  Average width per element: 86.90 points
+  Sample texts:
+    [1] "notation,\x00欀嘀mak\x00㈀clipping/PPO\x00䬀\xe3..."
+    [2] "•"
+    [3] ":\x00吀olicy\x00吀ᰀ怀ᰀ䬀㈀椀㈀怀\xe6\x88..."
+    [4] "."
+    [5] "•"
+
+Font: F5
+  Text elements: 2
+  Total estimated width: 94.64 points
+  Font size range: 9.96 - 9.96 points
+  Average width per element: 47.32 points
+  Sample texts:
+    [1] "Notation\x00唀洀䴀䈀紀㈀d)."
+    [2] "?"
+
+Font: F16
+  Text elements: 5
+  Total estimated width: 27.90 points
+  Font size range: 6.97 - 6.97 points
+  Average width per element: 5.58 points
+  Sample texts:
+    [1] "∼D"
+    [2] "∼D"
+    [3] "{"
+    [4] "}∼"
+    [5] "−"
+
+Font: F15
+  Text elements: 4
+  Total estimated width: 14.94 points
+  Font size range: 4.98 - 4.98 points
+  Average width per element: 3.74 points
+  Sample texts:
+    [1] "i"
+    [2] "i"
+    [3] "i"
+    [4] "i,k"
 
 Font: F7
   Text elements: 65
@@ -394,6 +412,18 @@ Font: F7
     [4] "i"
     [5] "i"
 
+Font: F9
+  Text elements: 20
+  Total estimated width: 99.63 points
+  Font size range: 9.96 - 9.96 points
+  Average width per element: 4.98 points
+  Sample texts:
+    [1] "|"
+    [2] "|"
+    [3] "|"
+    [4] "|"
+    [5] "|"
+
 Font: F13
   Text elements: 25
   Total estimated width: 134.50 points
@@ -406,44 +436,14 @@ Font: F13
     [4] ")"
     [5] "|"
 
-Font: F14
+Font: F1
   Text elements: 2
-  Total estimated width: 9.96 points
-  Font size range: 9.96 - 9.96 points
-  Average width per element: 4.98 points
-  Sample texts:
-    [1] "𝔼"
-    [2] "𝔼"
-
-Font: F18
-  Text elements: 3
-  Total estimated width: 119.55 points
-  Font size range: 9.96 - 9.96 points
-  Average width per element: 39.85 points
-  Sample texts:
-    [1] "maximize"
-    [2] "minimize"
-    [3] "maximize"
-
-Font: F19
-  Text elements: 1
-  Total estimated width: 7.17 points
+  Total estimated width: 200.85 points
   Font size range: 14.35 - 14.35 points
-  Average width per element: 7.17 points
+  Average width per element: 100.42 points
   Sample texts:
-    [1] "L"
-
-Font: F3
-  Text elements: 36
-  Total estimated width: 3128.26 points
-  Font size range: 9.96 - 9.96 points
-  Average width per element: 86.90 points
-  Sample texts:
-    [1] "notation,\x00欀嘀mak\x00㈀clipping/PPO\x00䬀\xe3..."
-    [2] "•"
-    [3] ":\x00吀olicy\x00吀ᰀ怀ᰀ䬀㈀椀㈀怀\xe6\x88..."
-    [4] "."
-    [5] "•"
+    [1] "Ob\x00䐀㈀⬀椀䈀瀀e"
+    [2] "Con\x00椀怀ᰀ戀椀䈀瀀e\x00䠀oss:"
 
 Width Calculation Method:
 -------------------------
@@ -683,44 +683,49 @@ Rendering completed successfully
 
 Operator Execution Log:
 ------------------------
-✓ Loaded embedded CFF font data for font F3 (8459 bytes)
-✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
-✓ Default width for CID font F3: 280
-✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
-✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F3: Identity-H
-✓ Loaded embedded CFF font data for font F14 (549 bytes)
-✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
-✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
-✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
-✓ Loaded embedded CFF font data for font F15 (756 bytes)
-✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
-✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
-✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
-✓ Loaded embedded CFF font data for font F19 (839 bytes)
-✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
-✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
-✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
 ✓ Loaded embedded CFF font data for font F1 (5085 bytes)
 ✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
 ✓ Default width for CID font F1: 280
 ✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
 ✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F1: Identity-H
+✓ Loaded embedded CFF font data for font F12 (2273 bytes)
+✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
+✓ Loaded embedded CFF font data for font F13 (1665 bytes)
+✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
+✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
+✓ Loaded embedded CFF font data for font F15 (756 bytes)
+✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
+✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
+✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
 ✓ Loaded embedded CFF font data for font F5 (5588 bytes)
 ✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
 ✓ Default width for CID font F5: 280
 ✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
 ✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded embedded CFF font data for font F9 (1399 bytes)
+✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
+✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
+✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
+✓ Loaded embedded CFF font data for font F14 (549 bytes)
+✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
+✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
+✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
+✓ Loaded embedded CFF font data for font F16 (956 bytes)
+✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
+✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
+✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
+✓ Loaded embedded CFF font data for font F19 (839 bytes)
+✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
+✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
+✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
 ✓ Loaded embedded CFF font data for font F6 (4423 bytes)
 ✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
 ✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
 ✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
-✓ Loaded embedded CFF font data for font F7 (2394 bytes)
-✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
-✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
-✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
 ✓ Loaded embedded CFF font data for font F8 (3309 bytes)
 ✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
 ✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
@@ -731,21 +736,16 @@ Operator Execution Log:
 ✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
 ✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F11: Identity-H
-✓ Loaded embedded CFF font data for font F12 (2273 bytes)
-✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F13 (1665 bytes)
-✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
-✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
-✓ Loaded embedded CFF font data for font F9 (1399 bytes)
-✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
-✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
-✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
-✓ Loaded embedded CFF font data for font F16 (956 bytes)
-✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
-✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
-✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
+✓ Loaded embedded CFF font data for font F3 (8459 bytes)
+✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
+✓ Default width for CID font F3: 280
+✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
+✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F3: Identity-H
+✓ Loaded embedded CFF font data for font F7 (2394 bytes)
+✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
+✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
+✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
 ✓ Loaded embedded CFF font data for font F18 (2286 bytes)
 ✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
 ✓ Default width for CID font F18: 280
@@ -3016,12 +3016,38 @@ Operator Execution Log:
 [DEBUG] Total displacement: 4.98 (width=4.98, kerning=0.00), new X0=228.13
 [DEBUG] ET operator: End text object
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
+✓ Loaded embedded CFF font data for font F8 (3309 bytes)
+✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
 ✓ Loaded embedded CFF font data for font F1 (5085 bytes)
 ✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
 ✓ Default width for CID font F1: 280
 ✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
 ✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F1: Identity-H
+✓ Loaded embedded CFF font data for font F9 (1399 bytes)
+✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
+✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
+✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
+✓ Loaded embedded CFF font data for font F14 (549 bytes)
+✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
+✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
+✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
+✓ Loaded embedded CFF font data for font F15 (756 bytes)
+✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
+✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
+✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
+✓ Loaded embedded CFF font data for font F3 (8459 bytes)
+✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
+✓ Default width for CID font F3: 280
+✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
+✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F3: Identity-H
+✓ Loaded embedded CFF font data for font F6 (4423 bytes)
+✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
+✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
+✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
 ✓ Loaded embedded CFF font data for font F7 (2394 bytes)
 ✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
 ✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
@@ -3032,59 +3058,33 @@ Operator Execution Log:
 ✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
 ✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F11: Identity-H
-✓ Loaded embedded CFF font data for font F15 (756 bytes)
-✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
-✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
-✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
-✓ Loaded embedded CFF font data for font F12 (2273 bytes)
-✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F14 (549 bytes)
-✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
-✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
-✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
+✓ Loaded embedded CFF font data for font F13 (1665 bytes)
+✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
+✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
 ✓ Loaded embedded CFF font data for font F16 (956 bytes)
 ✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
 ✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
 ✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
-✓ Loaded embedded CFF font data for font F18 (2286 bytes)
-✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
-✓ Default width for CID font F18: 280
-✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
-✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F18: Identity-H
-✓ Loaded embedded CFF font data for font F3 (8459 bytes)
-✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
-✓ Default width for CID font F3: 280
-✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
-✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F3: Identity-H
+✓ Loaded embedded CFF font data for font F19 (839 bytes)
+✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
+✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
+✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
 ✓ Loaded embedded CFF font data for font F5 (5588 bytes)
 ✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
 ✓ Default width for CID font F5: 280
 ✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
 ✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded embedded CFF font data for font F6 (4423 bytes)
-✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
-✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
-✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
-✓ Loaded embedded CFF font data for font F9 (1399 bytes)
-✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
-✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
-✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
-✓ Loaded embedded CFF font data for font F8 (3309 bytes)
-✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F13 (1665 bytes)
-✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
-✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
-✓ Loaded embedded CFF font data for font F19 (839 bytes)
-✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
-✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
-✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
+✓ Loaded embedded CFF font data for font F12 (2273 bytes)
+✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
+✓ Loaded embedded CFF font data for font F18 (2286 bytes)
+✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
+✓ Default width for CID font F18: 280
+✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
+✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F18: Identity-H
    Processing array with 1 items
    Array item 0: types.IndirectRef
    Dereferenced to: types.StreamDict
@@ -8093,118 +8093,57 @@ Operator Execution Log:
 [Q] Restore graphics state - Stack depth: 1
 
 📈 Operator Statistics:
-   ET: 8
-   m: 7
-   l: 7
    Q: 8
-   q: 8
    cm: 1
-   G: 1
    g: 1
-   Tf: 368
    Td: 394
-   w: 7
-   S: 7
-   BT: 8
    TJ: 394
-✓ Loaded embedded CFF font data for font F1 (5085 bytes)
-✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
-✓ Default width for CID font F1: 280
-✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
-✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F1: Identity-H
-✓ Loaded embedded CFF font data for font F3 (8459 bytes)
-✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
-✓ Default width for CID font F3: 280
-✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
-✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F3: Identity-H
-✓ Loaded embedded CFF font data for font F8 (3309 bytes)
-✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F6 (4423 bytes)
-✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
-✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
-✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
-✓ Loaded embedded CFF font data for font F14 (549 bytes)
-✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
-✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
-✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
+   ET: 8
+   w: 7
+   m: 7
+   q: 8
+   G: 1
+   BT: 8
+   Tf: 368
+   l: 7
+   S: 7
 ✓ Loaded embedded CFF font data for font F5 (5588 bytes)
 ✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
 ✓ Default width for CID font F5: 280
 ✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
 ✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded embedded CFF font data for font F7 (2394 bytes)
-✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
-✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
-✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
-✓ Loaded embedded CFF font data for font F9 (1399 bytes)
-✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
-✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
-✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
+✓ Loaded embedded CFF font data for font F8 (3309 bytes)
+✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
+✓ Loaded embedded CFF font data for font F12 (2273 bytes)
+✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
 ✓ Loaded embedded CFF font data for font F13 (1665 bytes)
 ✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
 ✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
-✓ Loaded embedded CFF font data for font F15 (756 bytes)
-✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
-✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
-✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
-✓ Loaded embedded CFF font data for font F19 (839 bytes)
-✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
-✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
-✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
+✓ Loaded embedded CFF font data for font F18 (2286 bytes)
+✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
+✓ Default width for CID font F18: 280
+✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
+✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F18: Identity-H
+✓ Loaded embedded CFF font data for font F6 (4423 bytes)
+✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
+✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
+✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
 ✓ Loaded embedded CFF font data for font F11 (2689 bytes)
 ✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
 ✓ Default width for CID font F11: 280
 ✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
 ✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F11: Identity-H
-✓ Loaded embedded CFF font data for font F12 (2273 bytes)
-✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F18 (2286 bytes)
-✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
-✓ Default width for CID font F18: 280
-✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
-✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F18: Identity-H
-✓ Loaded embedded CFF font data for font F16 (956 bytes)
-✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
-✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
-✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
 ✓ Loaded embedded CFF font data for font F14 (549 bytes)
 ✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
 ✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
 ✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
-✓ Loaded embedded CFF font data for font F15 (756 bytes)
-✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
-✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
-✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
-✓ Loaded embedded CFF font data for font F8 (3309 bytes)
-✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F16 (956 bytes)
-✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
-✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
-✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
-✓ Loaded embedded CFF font data for font F3 (8459 bytes)
-✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
-✓ Default width for CID font F3: 280
-✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
-✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F3: Identity-H
-✓ Loaded embedded CFF font data for font F9 (1399 bytes)
-✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
-✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
-✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
-✓ Loaded embedded CFF font data for font F13 (1665 bytes)
-✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
-✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
 ✓ Loaded embedded CFF font data for font F19 (839 bytes)
 ✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
 ✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
@@ -8215,26 +8154,87 @@ Operator Execution Log:
 ✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
 ✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F1: Identity-H
-✓ Loaded embedded CFF font data for font F5 (5588 bytes)
-✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
-✓ Default width for CID font F5: 280
-✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
-✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded embedded CFF font data for font F6 (4423 bytes)
-✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
-✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
-✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
+✓ Loaded embedded CFF font data for font F9 (1399 bytes)
+✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
+✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
+✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
+✓ Loaded embedded CFF font data for font F3 (8459 bytes)
+✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
+✓ Default width for CID font F3: 280
+✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
+✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F3: Identity-H
+✓ Loaded embedded CFF font data for font F7 (2394 bytes)
+✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
+✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
+✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
+✓ Loaded embedded CFF font data for font F15 (756 bytes)
+✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
+✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
+✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
+✓ Loaded embedded CFF font data for font F16 (956 bytes)
+✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
+✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
+✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
+✓ Loaded embedded CFF font data for font F13 (1665 bytes)
+✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
+✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
+✓ Loaded embedded CFF font data for font F14 (549 bytes)
+✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
+✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
+✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
+✓ Loaded embedded CFF font data for font F16 (956 bytes)
+✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
+✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
+✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
 ✓ Loaded embedded CFF font data for font F18 (2286 bytes)
 ✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
 ✓ Default width for CID font F18: 280
 ✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
 ✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F18: Identity-H
+✓ Loaded embedded CFF font data for font F5 (5588 bytes)
+✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
+✓ Default width for CID font F5: 280
+✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
+✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded embedded CFF font data for font F9 (1399 bytes)
+✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
+✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
+✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
+✓ Loaded embedded CFF font data for font F19 (839 bytes)
+✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
+✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
+✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
+✓ Loaded embedded CFF font data for font F8 (3309 bytes)
+✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
+✓ Loaded embedded CFF font data for font F15 (756 bytes)
+✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
+✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
+✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
+✓ Loaded embedded CFF font data for font F3 (8459 bytes)
+✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
+✓ Default width for CID font F3: 280
+✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
+✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F3: Identity-H
 ✓ Loaded embedded CFF font data for font F7 (2394 bytes)
 ✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
 ✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
 ✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
+✓ Loaded embedded CFF font data for font F1 (5085 bytes)
+✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
+✓ Default width for CID font F1: 280
+✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
+✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F1: Identity-H
+✓ Loaded embedded CFF font data for font F6 (4423 bytes)
+✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
+✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
+✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
 ✓ Loaded embedded CFF font data for font F11 (2689 bytes)
 ✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
 ✓ Default width for CID font F11: 280
@@ -10509,48 +10509,6 @@ Operator Execution Log:
 [DEBUG] Total displacement: 4.98 (width=4.98, kerning=0.00), new X0=228.13
 [DEBUG] ET operator: End text object
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
-✓ Loaded embedded CFF font data for font F5 (5588 bytes)
-✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
-✓ Default width for CID font F5: 280
-✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
-✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded embedded CFF font data for font F6 (4423 bytes)
-✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
-✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
-✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
-✓ Loaded embedded CFF font data for font F8 (3309 bytes)
-✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F14 (549 bytes)
-✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
-✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
-✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
-✓ Loaded embedded CFF font data for font F1 (5085 bytes)
-✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
-✓ Default width for CID font F1: 280
-✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
-✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F1: Identity-H
-✓ Loaded embedded CFF font data for font F3 (8459 bytes)
-✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
-✓ Default width for CID font F3: 280
-✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
-✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F3: Identity-H
-✓ Loaded embedded CFF font data for font F15 (756 bytes)
-✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
-✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
-✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
-✓ Loaded embedded CFF font data for font F7 (2394 bytes)
-✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
-✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
-✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
-✓ Loaded embedded CFF font data for font F9 (1399 bytes)
-✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
-✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
-✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
 ✓ Loaded embedded CFF font data for font F12 (2273 bytes)
 ✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
 ✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
@@ -10558,14 +10516,12 @@ Operator Execution Log:
 ✓ Loaded embedded CFF font data for font F13 (1665 bytes)
 ✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
 ✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
-✓ Loaded embedded CFF font data for font F16 (956 bytes)
-✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
-✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
-✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
-✓ Loaded embedded CFF font data for font F19 (839 bytes)
-✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
-✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
-✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
+✓ Loaded embedded CFF font data for font F3 (8459 bytes)
+✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
+✓ Default width for CID font F3: 280
+✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
+✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F3: Identity-H
 ✓ Loaded embedded CFF font data for font F11 (2689 bytes)
 ✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
 ✓ Default width for CID font F11: 280
@@ -10578,18 +10534,12 @@ Operator Execution Log:
 ✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
 ✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F18: Identity-H
-✓ Loaded embedded CFF font data for font F12 (2273 bytes)
-✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F14 (549 bytes)
-✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
-✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
-✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
-✓ Loaded embedded CFF font data for font F16 (956 bytes)
-✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
-✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
-✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
+✓ Loaded embedded CFF font data for font F1 (5085 bytes)
+✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
+✓ Default width for CID font F1: 280
+✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
+✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F1: Identity-H
 ✓ Loaded embedded CFF font data for font F5 (5588 bytes)
 ✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
 ✓ Default width for CID font F5: 280
@@ -10600,26 +10550,68 @@ Operator Execution Log:
 ✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
 ✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
 ✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
+✓ Loaded embedded CFF font data for font F8 (3309 bytes)
+✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
 ✓ Loaded embedded CFF font data for font F9 (1399 bytes)
 ✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
 ✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
 ✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
+✓ Loaded embedded CFF font data for font F14 (549 bytes)
+✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
+✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
+✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
+✓ Loaded embedded CFF font data for font F19 (839 bytes)
+✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
+✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
+✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
+✓ Loaded embedded CFF font data for font F15 (756 bytes)
+✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
+✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
+✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
+✓ Loaded embedded CFF font data for font F16 (956 bytes)
+✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
+✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
+✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
+✓ Loaded embedded CFF font data for font F6 (4423 bytes)
+✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
+✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
+✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
+✓ Loaded embedded CFF font data for font F3 (8459 bytes)
+✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
+✓ Default width for CID font F3: 280
+✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
+✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F3: Identity-H
+✓ Loaded embedded CFF font data for font F15 (756 bytes)
+✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
+✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
+✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
+✓ Loaded embedded CFF font data for font F5 (5588 bytes)
+✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
+✓ Default width for CID font F5: 280
+✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
+✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded embedded CFF font data for font F6 (4423 bytes)
+✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
+✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
+✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
+✓ Loaded embedded CFF font data for font F7 (2394 bytes)
+✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
+✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
+✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
+✓ Loaded embedded CFF font data for font F8 (3309 bytes)
+✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
 ✓ Loaded embedded CFF font data for font F11 (2689 bytes)
 ✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
 ✓ Default width for CID font F11: 280
 ✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
 ✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F11: Identity-H
-✓ Loaded embedded CFF font data for font F15 (756 bytes)
-✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
-✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
-✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
-✓ Loaded embedded CFF font data for font F18 (2286 bytes)
-✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
-✓ Default width for CID font F18: 280
-✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
-✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F18: Identity-H
 ✓ Loaded embedded CFF font data for font F19 (839 bytes)
 ✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
 ✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
@@ -10630,23 +10622,31 @@ Operator Execution Log:
 ✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
 ✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F1: Identity-H
-✓ Loaded embedded CFF font data for font F3 (8459 bytes)
-✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
-✓ Default width for CID font F3: 280
-✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
-✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F3: Identity-H
-✓ Loaded embedded CFF font data for font F6 (4423 bytes)
-✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
-✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
-✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
-✓ Loaded embedded CFF font data for font F8 (3309 bytes)
-✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
+✓ Loaded embedded CFF font data for font F12 (2273 bytes)
+✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
 ✓ Loaded embedded CFF font data for font F13 (1665 bytes)
 ✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
 ✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
+✓ Loaded embedded CFF font data for font F16 (956 bytes)
+✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
+✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
+✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
+✓ Loaded embedded CFF font data for font F9 (1399 bytes)
+✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
+✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
+✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
+✓ Loaded embedded CFF font data for font F14 (549 bytes)
+✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
+✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
+✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
+✓ Loaded embedded CFF font data for font F18 (2286 bytes)
+✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
+✓ Default width for CID font F18: 280
+✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
+✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F18: Identity-H
    Processing array with 1 items
    Array item 0: types.IndirectRef
    Dereferenced to: types.StreamDict
@@ -12911,89 +12911,10 @@ Operator Execution Log:
 [DEBUG] Total displacement: 4.98 (width=4.98, kerning=0.00), new X0=228.13
 [DEBUG] ET operator: End text object
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
-✓ Loaded embedded CFF font data for font F15 (756 bytes)
-✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
-✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
-✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
 ✓ Loaded embedded CFF font data for font F9 (1399 bytes)
 ✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
 ✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
 ✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
-✓ Loaded embedded CFF font data for font F13 (1665 bytes)
-✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
-✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
-✓ Loaded embedded CFF font data for font F16 (956 bytes)
-✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
-✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
-✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
-✓ Loaded embedded CFF font data for font F18 (2286 bytes)
-✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
-✓ Default width for CID font F18: 280
-✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
-✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F18: Identity-H
-✓ Loaded embedded CFF font data for font F3 (8459 bytes)
-✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
-✓ Default width for CID font F3: 280
-✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
-✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F3: Identity-H
-✓ Loaded embedded CFF font data for font F6 (4423 bytes)
-✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
-✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
-✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
-✓ Loaded embedded CFF font data for font F12 (2273 bytes)
-✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F14 (549 bytes)
-✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
-✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
-✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
-✓ Loaded embedded CFF font data for font F19 (839 bytes)
-✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
-✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
-✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
-✓ Loaded embedded CFF font data for font F1 (5085 bytes)
-✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
-✓ Default width for CID font F1: 280
-✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
-✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F1: Identity-H
-✓ Loaded embedded CFF font data for font F5 (5588 bytes)
-✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
-✓ Default width for CID font F5: 280
-✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
-✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded embedded CFF font data for font F7 (2394 bytes)
-✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
-✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
-✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
-✓ Loaded embedded CFF font data for font F8 (3309 bytes)
-✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F11 (2689 bytes)
-✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
-✓ Default width for CID font F11: 280
-✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
-✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F11: Identity-H
-✓ Loaded embedded CFF font data for font F18 (2286 bytes)
-✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
-✓ Default width for CID font F18: 280
-✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
-✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F18: Identity-H
-✓ Loaded embedded CFF font data for font F8 (3309 bytes)
-✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
-✓ Loaded embedded CFF font data for font F12 (2273 bytes)
-✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
-✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
-✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
 ✓ Loaded embedded CFF font data for font F13 (1665 bytes)
 ✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
 ✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
@@ -13007,48 +12928,127 @@ Operator Execution Log:
 ✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
 ✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F1: Identity-H
-✓ Loaded embedded CFF font data for font F5 (5588 bytes)
-✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
-✓ Default width for CID font F5: 280
-✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
-✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded embedded CFF font data for font F7 (2394 bytes)
-✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
-✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
-✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
-✓ Loaded embedded CFF font data for font F16 (956 bytes)
-✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
-✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
-✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
-✓ Loaded embedded CFF font data for font F19 (839 bytes)
-✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
-✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
-✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
-✓ Loaded embedded CFF font data for font F6 (4423 bytes)
-✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
-✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
-✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
-✓ Loaded embedded CFF font data for font F11 (2689 bytes)
-✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
-✓ Default width for CID font F11: 280
-✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
-✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F11: Identity-H
-✓ Loaded embedded CFF font data for font F14 (549 bytes)
-✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
-✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
-✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
 ✓ Loaded embedded CFF font data for font F3 (8459 bytes)
 ✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
 ✓ Default width for CID font F3: 280
 ✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
 ✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F3: Identity-H
+✓ Loaded embedded CFF font data for font F8 (3309 bytes)
+✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
+✓ Loaded embedded CFF font data for font F18 (2286 bytes)
+✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
+✓ Default width for CID font F18: 280
+✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
+✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F18: Identity-H
+✓ Loaded embedded CFF font data for font F19 (839 bytes)
+✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
+✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
+✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
+✓ Loaded embedded CFF font data for font F5 (5588 bytes)
+✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
+✓ Default width for CID font F5: 280
+✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
+✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded embedded CFF font data for font F11 (2689 bytes)
+✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
+✓ Default width for CID font F11: 280
+✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
+✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F11: Identity-H
+✓ Loaded embedded CFF font data for font F12 (2273 bytes)
+✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
+✓ Loaded embedded CFF font data for font F16 (956 bytes)
+✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
+✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
+✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
+✓ Loaded embedded CFF font data for font F6 (4423 bytes)
+✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
+✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
+✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
+✓ Loaded embedded CFF font data for font F14 (549 bytes)
+✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
+✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
+✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
+✓ Loaded embedded CFF font data for font F7 (2394 bytes)
+✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
+✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
+✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
+✓ Loaded embedded CFF font data for font F18 (2286 bytes)
+✓ Loaded ToUnicode CMap for font F18 (11 mappings, 0 ranges)
+✓ Default width for CID font F18: 280
+✓ Loaded CID widths for font F18: 11 direct mappings, 0 ranges
+✓ Loaded font widths for F18: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F18: Identity-H
+✓ Loaded embedded CFF font data for font F1 (5085 bytes)
+✓ Loaded ToUnicode CMap for font F1 (37 mappings, 0 ranges)
+✓ Default width for CID font F1: 280
+✓ Loaded CID widths for font F1: 37 direct mappings, 0 ranges
+✓ Loaded font widths for F1: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F1: Identity-H
+✓ Loaded embedded CFF font data for font F3 (8459 bytes)
+✓ Loaded ToUnicode CMap for font F3 (67 mappings, 0 ranges)
+✓ Default width for CID font F3: 280
+✓ Loaded CID widths for font F3: 67 direct mappings, 0 ranges
+✓ Loaded font widths for F3: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F3: Identity-H
+✓ Loaded embedded CFF font data for font F6 (4423 bytes)
+✓ Loaded ToUnicode CMap for font F6 (0 mappings, 0 ranges)
+✓ Loaded 111 width values for font F6 (FirstChar=11, LastChar=121)
+✓ Loaded font widths for F6: 111 widths (FirstChar=11, LastChar=121)
+✓ Loaded embedded CFF font data for font F15 (756 bytes)
+✓ Loaded ToUnicode CMap for font F15 (0 mappings, 0 ranges)
+✓ Loaded 49 width values for font F15 (FirstChar=59, LastChar=107)
+✓ Loaded font widths for F15: 49 widths (FirstChar=59, LastChar=107)
+✓ Loaded embedded CFF font data for font F5 (5588 bytes)
+✓ Loaded ToUnicode CMap for font F5 (44 mappings, 0 ranges)
+✓ Default width for CID font F5: 280
+✓ Loaded CID widths for font F5: 44 direct mappings, 0 ranges
+✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F5: Identity-H
+✓ Loaded embedded CFF font data for font F8 (3309 bytes)
+✓ Loaded ToUnicode CMap for font F8 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F8 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F8: 81 widths (FirstChar=40, LastChar=120)
 ✓ Loaded embedded CFF font data for font F9 (1399 bytes)
 ✓ Loaded ToUnicode CMap for font F9 (0 mappings, 0 ranges)
 ✓ Loaded 108 width values for font F9 (FirstChar=0, LastChar=107)
 ✓ Loaded font widths for F9: 108 widths (FirstChar=0, LastChar=107)
+✓ Loaded embedded CFF font data for font F12 (2273 bytes)
+✓ Loaded ToUnicode CMap for font F12 (0 mappings, 0 ranges)
+✓ Loaded 81 width values for font F12 (FirstChar=40, LastChar=120)
+✓ Loaded font widths for F12: 81 widths (FirstChar=40, LastChar=120)
+✓ Loaded embedded CFF font data for font F14 (549 bytes)
+✓ Loaded ToUnicode CMap for font F14 (0 mappings, 0 ranges)
+✓ Loaded 1 width values for font F14 (FirstChar=69, LastChar=69)
+✓ Loaded font widths for F14: 1 widths (FirstChar=69, LastChar=69)
+✓ Loaded embedded CFF font data for font F19 (839 bytes)
+✓ Loaded ToUnicode CMap for font F19 (0 mappings, 0 ranges)
+✓ Loaded 109 width values for font F19 (FirstChar=11, LastChar=119)
+✓ Loaded font widths for F19: 109 widths (FirstChar=11, LastChar=119)
+✓ Loaded embedded CFF font data for font F7 (2394 bytes)
+✓ Loaded ToUnicode CMap for font F7 (0 mappings, 0 ranges)
+✓ Loaded 107 width values for font F7 (FirstChar=15, LastChar=121)
+✓ Loaded font widths for F7: 107 widths (FirstChar=15, LastChar=121)
+✓ Loaded embedded CFF font data for font F11 (2689 bytes)
+✓ Loaded ToUnicode CMap for font F11 (20 mappings, 0 ranges)
+✓ Default width for CID font F11: 280
+✓ Loaded CID widths for font F11: 20 direct mappings, 0 ranges
+✓ Loaded font widths for F11: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F11: Identity-H
+✓ Loaded embedded CFF font data for font F13 (1665 bytes)
+✓ Loaded 126 width values for font F13 (FirstChar=0, LastChar=125)
+✓ Loaded font widths for F13: 126 widths (FirstChar=0, LastChar=125)
+✓ Loaded embedded CFF font data for font F16 (956 bytes)
+✓ Loaded ToUnicode CMap for font F16 (0 mappings, 0 ranges)
+✓ Loaded 104 width values for font F16 (FirstChar=0, LastChar=103)
+✓ Loaded font widths for F16: 104 widths (FirstChar=0, LastChar=103)
    Processing array with 1 items
    Array item 0: types.IndirectRef
    Dereferenced to: types.StreamDict

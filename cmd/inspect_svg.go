@@ -9,6 +9,8 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path/filepath"
+	"regexp"
 	"strings"
 	"unicode/utf8"
 )
@@ -29,29 +31,76 @@ type svgTextNode struct {
 
 func main() {
 	var inPath string
-	flag.StringVar(&inPath, "in", "example/test_vector_translated.svg", "input svg path")
+	flag.StringVar(&inPath, "in", ".", "input svg file or directory path")
 	flag.Parse()
 
-	b, err := os.ReadFile(inPath)
+	stat, err := os.Stat(inPath)
 	if err != nil {
-		fmt.Printf("read: %v\n", err)
+		fmt.Printf("stat: %v\n", err)
 		os.Exit(1)
 	}
 
+	var files []string
+	if stat.IsDir() {
+		err := filepath.Walk(inPath, func(path string, info os.FileInfo, err error) error {
+			if err != nil {
+				return err
+			}
+			if !info.IsDir() && strings.ToLower(filepath.Ext(path)) == ".svg" {
+				files = append(files, path)
+			}
+			return nil
+		})
+		if err != nil {
+			fmt.Printf("walk: %v\n", err)
+			os.Exit(1)
+		}
+	} else {
+		files = append(files, inPath)
+	}
+
+	if len(files) == 0 {
+		fmt.Printf("No SVG files found in %s\n", inPath)
+		return
+	}
+
+	for _, file := range files {
+		processFile(file)
+	}
+}
+
+func processFile(path string) {
+	fmt.Printf("Processing: %s\n", path)
+	b, err := os.ReadFile(path)
+	if err != nil {
+		fmt.Printf("  read error: %v\n", err)
+		return
+	}
+
 	if !utf8.Valid(b) {
-		fmt.Printf("utf8: invalid\n")
-		os.Exit(2)
+		fmt.Printf("  utf8: invalid\n")
+		return
 	}
 
 	report, err := inspectSVG(b)
 	if err != nil {
-		fmt.Printf("parse: %v\n", err)
-		os.Exit(3)
+		fmt.Printf("  parse error: %v\n", err)
+		return
 	}
-	fmt.Print(report)
+	
+	lines := strings.Split(report, "\n")
+	for _, l := range lines {
+		if l != "" {
+			fmt.Println("  " + l)
+		}
+	}
+	fmt.Println()
 }
 
 func inspectSVG(b []byte) (string, error) {
+	// Pre-scan for duplicates in raw XML because xml.Decoder might be lenient
+	dupErr := checkDuplicateAttributes(b)
+	
 	dec := xml.NewDecoder(strings.NewReader(string(b)))
 
 	var rootSeen bool
@@ -147,6 +196,13 @@ func inspectSVG(b []byte) (string, error) {
 	var bld strings.Builder
 	bld.WriteString("SVG Inspect Report\n")
 	bld.WriteString("==================\n")
+	
+	if dupErr != nil {
+		bld.WriteString(fmt.Sprintf("❌ XML Syntax Error: %v\n\n", dupErr))
+	} else {
+		bld.WriteString("✅ XML Syntax Check: No duplicate attributes detected.\n\n")
+	}
+
 	bld.WriteString(fmt.Sprintf("Root element: %s\n", rootName))
 	bld.WriteString(fmt.Sprintf("Element counts: g=%d path=%d rect=%d poly=%d text=%d\n", gCount, pathCount, rectCount, polyCount, textCount))
 
@@ -228,6 +284,40 @@ func inspectSVG(b []byte) (string, error) {
 
 	_ = moduleStack
 	return bld.String(), nil
+}
+
+func checkDuplicateAttributes(b []byte) error {
+	s := string(b)
+	// regex to find tags
+	tagRegex := regexp.MustCompile(`<(\w+)([^>]*)>`)
+	matches := tagRegex.FindAllStringSubmatchIndex(s, -1)
+	
+	attrRegex := regexp.MustCompile(`(\S+)=["']`)
+	
+	for _, m := range matches {
+		if m[4] == -1 {
+			continue
+		}
+		attrsContent := s[m[4]:m[5]]
+		if len(strings.TrimSpace(attrsContent)) == 0 {
+			continue
+		}
+		
+		attrMatches := attrRegex.FindAllStringSubmatch(attrsContent, -1)
+		seen := map[string]bool{}
+		for _, am := range attrMatches {
+			attrName := am[1]
+			if seen[attrName] {
+				// Get line number roughly
+				offset := m[0]
+				line := strings.Count(s[:offset], "\n") + 1
+				tagName := s[m[2]:m[3]]
+				return fmt.Errorf("Duplicate attribute %q found in <%s> at line %d", attrName, tagName, line)
+			}
+			seen[attrName] = true
+		}
+	}
+	return nil
 }
 
 func analyzeTextNode(n *svgTextNode) {

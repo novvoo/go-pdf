@@ -1,392 +1,126 @@
-PDF Translation Report
-======================
-Time: 2026-02-04 15:11:54
+PDF Translation Report (Simplified Vector)
+==========================================
+Time: 2026-02-06 10:07:02
 
 📄 Input PDF: example/test_vector.pdf
-📄 Output PS (base): example/test_vector.ps
-📄 Output SVG (editable, with translations): example/test_vector_translated.svg
-📄 Output PDF (from SVG): example/test_vector_translated.pdf
-
 ✅ Page count: 3
 
 Page 1:
-✅ Extracted 370 text elements -> 100 lines
-
-Extraction diagnostics:
-- Elements: 370
-- Unique fonts: 15
-- Elements with ToUnicode: 345
-- Elements with Identity: 50
-- Total CID count: 1141
-- Total replacement (U+FFFD) inserted: 0
-- Decode hit breakdown: ToUnicode=420 GlyphName=401 IdentityASCII=300
-
-Fonts breakdown:
-- F1: elems=2 toUnicode=2 identity=2 cids=28 repl=0 hits(TU=11 GN=0 ID=17)
-- F11: elems=7 toUnicode=7 identity=7 cids=21 repl=0 hits(TU=21 GN=0 ID=0)
-- F12: elems=29 toUnicode=29 identity=0 cids=55 repl=0 hits(TU=0 GN=55 ID=0)
-- F13: elems=25 toUnicode=0 identity=0 cids=27 repl=0 hits(TU=0 GN=16 ID=0)
-- F14: elems=2 toUnicode=2 identity=0 cids=2 repl=0 hits(TU=0 GN=2 ID=0)
-- F15: elems=4 toUnicode=4 identity=0 cids=6 repl=0 hits(TU=0 GN=6 ID=0)
-- F16: elems=5 toUnicode=5 identity=0 cids=8 repl=0 hits(TU=0 GN=8 ID=0)
-- F18: elems=3 toUnicode=3 identity=3 cids=24 repl=0 hits(TU=24 GN=0 ID=0)
-- F19: elems=1 toUnicode=1 identity=0 cids=1 repl=0 hits(TU=0 GN=1 ID=0)
-- F3: elems=36 toUnicode=36 identity=36 cids=628 repl=0 hits(TU=352 GN=0 ID=276)
-- F5: elems=2 toUnicode=2 identity=2 cids=19 repl=0 hits(TU=12 GN=0 ID=7)
-- F6: elems=96 toUnicode=96 identity=0 cids=110 repl=0 hits(TU=0 GN=110 ID=0)
-- F7: elems=65 toUnicode=65 identity=0 cids=80 repl=0 hits(TU=0 GN=80 ID=0)
-- F8: elems=73 toUnicode=73 identity=0 cids=112 repl=0 hits(TU=0 GN=107 ID=0)
-- F9: elems=20 toUnicode=20 identity=0 cids=20 repl=0 hits(TU=0 GN=16 ID=0)
-
-Worst lines by replacement count (top 12):
-- y=114.70 x=56.69..468.12 w=411.43 fs=9.96 elems=1 fonts=[F3] repl=0 cids=107 hits(TU=62 GN=0 ID=45) text="notation,\x00欀嘀mak\x00㈀clipping/PPO\x00䬀㈀⬀hanics\x00㈀琀吀䠀䈀⬀䈀椀ⴀ3)\x00⼀㈀紀䴀㈀the\x00⬀儀䴀trastiv\x00㈀term\x00ᰀ䴀⼀w\x00㈀䈀㬀㼀ts,\x00㤀嘀giv\x00㈀practical"
-- y=371.06 x=68.87..419.70 w=350.83 fs=9.96 elems=11 fonts=[F11 F12 F3 F6 F7 F8 …] repl=0 cids=92 hits(TU=38 GN=8 ID=45) text="•DKL(πrefkπθ):\x00䔀䜀div\x00㈀怀㬀㈀䴀⬀㈀used\x00ᰀ戀a\x00⬀儀䴀戀椀怀ᰀ䈀䴀t/p\x00㈀䴀ᰀ䠀椀y\x00堀(See\x00䴀儀椀㈀ab\x00儀洀椀direction\x00ᰀ䴀⼀sign.)"
-- y=613.56 x=56.69..387.83 w=331.13 fs=9.96 elems=13 fonts=[F11 F12 F3 F6 F7 F8 …] repl=0 cids=82 hits(TU=38 GN=11 ID=32) text="subtractingβKLDKL(πrefkπθ).\x00䄀㜀y\x00儀洀implemen\x00椀using\x00㬀怀ᰀ⼀䈀㈀䴀t\x00⼀㈀戀⬀㈀䴀t\x00儀䴀a\x00䠀儀戀戀ⴀnegate"
-- y=192.71 x=68.87..304.93 w=236.06 fs=9.96 elems=4 fonts=[F11 F3 F6] repl=0 cids=62 hits(TU=34 GN=1 ID=27) text="•πref:\x00怀㈀ference\x00昀b\x00㈀㼀ᰀvior\x00吀olicy\x00唀紀琀㈀⼀when\x00⬀儀䬀吀洀椀䈀䴀㬀ratios)."
-- y=250.58 x=249.29..469.94 w=220.65 fs=9.96 elems=2 fonts=[F3 F6] repl=0 cids=58 hits(TU=33 GN=1 ID=24) text="k-th\x00⬀儀䴀trastiv\x00㈀(negativ\x00㈀嘀sample\x00ᰀ戀戀儀c\x00䈀ᰀ椀㈀⼀with\x00⬀儀䴀text"
-- y=625.36 x=56.69..268.92 w=212.22 fs=9.96 elems=11 fonts=[F11 F12 F3 F6 F7 F8 …] repl=0 cids=47 hits(TU=27 GN=8 ID=11) text="W\x00㈀useDKL(πrefkπθ)so\x00椀㼀ᰀ椀the\x00吀enalt\x00瘀encourages"
-- y=218.08 x=169.67..342.51 w=172.84 fs=9.96 elems=1 fonts=[F3] repl=0 cids=47 hits(TU=23 GN=0 ID=24) text=":\x00䈀䬀吀ortance\x00昀p\x00儀䠀䈀⬀瘀ratio\x00㜀儀怀sup\x00㈀怀瀀䈀戀㈀⼀sample"
-- y=310.85 x=68.87..236.38 w=167.51 fs=9.96 elems=6 fonts=[F3 F6 F7 F8 F9] repl=0 cids=38 hits(TU=22 GN=6 ID=10) text="•wj,k≥0:\x00爀eigh\x00椀for\x00⬀儀䴀trastiv\x00㈀sample"
-- y=278.67 x=336.59..490.30 w=153.72 fs=9.96 elems=2 fonts=[F3 F6] repl=0 cids=44 hits(TU=20 GN=1 ID=23) text="i.\x00氀戀㈀the\x00戀ᰀ䬀㈀notation\x00㜀儀怀all\x00ᰀ⼀瀀an\x00椀ᰀ㬀㈀戀for"
-- y=330.96 x=244.02..373.96 w=129.93 fs=9.96 elems=13 fonts=[F3 F6 F7 F8 F9] repl=0 cids=25 hits(TU=1 GN=24 ID=0) text="clipϵ(r)=clip(r,1−ϵ,1+ϵ)."
-- y=600.72 x=56.69..186.05 w=129.35 fs=9.96 elems=2 fonts=[F18 F3] repl=0 cids=30 hits(TU=18 GN=0 ID=12) text="minimizea\x00䠀儀戀戀堀Ab\x00儀v\x00㈀w\x00㈀write"
-- y=514.72 x=339.91..459.10 w=119.18 fs=9.96 elems=18 fonts=[F6 F7 F8] repl=0 cids=22 hits(TU=0 GN=21 ID=0) text="i(θ)A^i,clipϵ(ri(θ))Ai"
-
-Text counts (source PDF extraction):
-- Title font threshold: 14.00
-- Title: lines=3 chars=32
-- Body:  lines=70 chars=657
-- Excluded: specialLines=27 emptyLines=0
-
-Translation overlay decisions:
-- Output PDF keeps original page content; only adds translated text overlays.
-- Placement: prefer below the original line if there is vertical room; supports wrapping.
-- Fallback: if below doesn't fit, try right side; otherwise overlay.
-- page=1 line[000] kind=body translate=yes place=below x=56.69 y=128.65 w=411.43 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="notation,\x00欀嘀mak\x00㈀clipping/PPO\x00䬀㈀⬀hanics\x00㈀琀吀䠀䈀⬀䈀椀ⴀ3)\x00⼀㈀紀䴀㈀the\x00⬀儀䴀trastiv\x00㈀term\x00ᰀ䴀⼀w\x00㈀䈀㬀㼀ts,\x00㤀嘀giv\x00㈀practical"
-- page=1 line[001] kind=body translate=yes place=right x=140.66 y=152.56 w=448.62 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="Notation\x00唀洀䴀䈀紀㈀d)."
-- page=1 line[002] kind=special translate=no fs=9.96 fonts="F3,F6" raw="•θ:\x00吀olicy\x00吀ᰀ怀ᰀ䬀㈀椀㈀怀戀for"
-- page=1 line[003] kind=special translate=no fs=9.96 fonts="F6,F7,F8,F9,F3" raw="πθ(y|x)."
-- page=1 line[004] kind=latex translate=no fs=9.96 fonts="F11,F3,F6" raw="•πref:\x00怀㈀ference\x00昀b\x00㈀㼀ᰀvior\x00吀olicy\x00唀紀琀㈀⼀when\x00⬀儀䬀吀洀椀䈀䴀㬀ratios)."
-- page=1 line[005] kind=special translate=no fs=9.96 fonts="F6,F7,F8,F9" raw="πθ(yi|xi)"
-- page=1 line[006] kind=body translate=yes place=right x=348.51 y=218.08 w=240.77 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw=":\x00䈀䬀吀ortance\x00昀p\x00儀䠀䈀⬀瘀ratio\x00㜀儀怀sup\x00㈀怀瀀䈀戀㈀⼀sample"
-- page=1 line[007] kind=special translate=no fs=9.96 fonts="F3,F6,F7,F8" raw="•ri(θ)="
-- page=1 line[008] kind=code translate=no fs=9.96 fonts="F8,F6,F7,F3" raw="(xi,yi)."
-- page=1 line[009] kind=code translate=no fs=9.96 fonts="F6,F11,F8,F7,F9" raw="πref(yi|xi)"
-- page=1 line[010] kind=special translate=no fs=9.96 fonts="F6,F7,F8,F9" raw="πθ(yj,k|xj)"
-- page=1 line[011] kind=code translate=no fs=6.97 fonts="F12,F7" raw="(k)"
-- page=1 line[012] kind=body translate=yes place=right x=475.94 y=250.58 w=120.00 fs=9.96->9.00 wrap=1 cjkFont=Helvetica raw="k-th\x00⬀儀䴀trastiv\x00㈀(negativ\x00㈀嘀sample\x00ᰀ戀戀儀c\x00䈀ᰀ椀㈀⼀with\x00⬀儀䴀text"
-- page=1 line[013] kind=code translate=no fs=9.96 fonts="F6,F7,F3" raw="xj."
-- page=1 line[014] kind=special translate=no fs=9.96 fonts="F3,F6,F7,F8" raw="•rj(θ)="
-- page=1 line[015] kind=code translate=no fs=9.96 fonts="F6,F11,F8,F7,F9" raw="πref(yj,k|xj)"
-- page=1 line[016] kind=special translate=no fs=9.96 fonts="F3,F6,F8,F7" raw="•A^i"
-- page=1 line[017] kind=body translate=yes place=right x=496.30 y=278.67 w=120.00 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="i.\x00氀戀㈀the\x00戀ᰀ䬀㈀notation\x00㜀儀怀all\x00ᰀ⼀瀀an\x00椀ᰀ㬀㈀戀for"
-- page=1 line[018] kind=body translate=yes place=right x=118.67 y=290.62 w=470.61 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="clarit\x00瘀."
-- page=1 line[019] kind=body translate=yes place=right x=341.72 y=303.08 w=247.56 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="P"
-- page=1 line[020] kind=code translate=no fs=9.96 fonts="F6,F3" raw="j."
-- page=1 line[021] kind=latex translate=no fs=9.96 fonts="F3,F6,F7,F8,F9" raw="•wj,k≥0:\x00爀eigh\x00椀for\x00⬀儀䴀trastiv\x00㈀sample"
-- page=1 line[022] kind=body translate=yes place=right x=276.27 y=310.85 w=313.01 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="yj,k"
-- page=1 line[023] kind=body translate=yes place=right x=444.76 y=311.39 w=144.52 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="kwj,k=1for\x00㈀ᰀ⬀h\x00⬀儀䴀text"
-- page=1 line[024] kind=code translate=no fs=9.96 fonts="F6,F8" raw="ϵ>0"
-- page=1 line[025] kind=code translate=no fs=9.96 fonts="F3,F6,F7,F8,F9" raw="clipϵ(r)=clip(r,1−ϵ,1+ϵ)."
-- page=1 line[026] kind=body translate=yes place=right x=111.53 y=350.70 w=477.75 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="•LCPO"
-- page=1 line[027] kind=special translate=no fs=9.96 fonts="F11,F12,F3,F6,F7,F8,…" raw="•DKL(πrefkπθ):\x00䔀䜀div\x00㈀怀㬀㈀䴀⬀㈀used\x00ᰀ戀a\x00⬀儀䴀戀椀怀ᰀ䈀䴀t/p\x00㈀䴀ᰀ䠀椀y\x00堀(See\x00䴀儀椀㈀ab\x00儀洀椀direction\x00ᰀ䴀⼀sign.)"
-- page=1 line[028] kind=title translate=yes place=below x=56.69 y=422.50 w=100.00 fs=14.35->11.35 wrap=1 cjkFont=Helvetica raw="Ob\x00䐀㈀⬀椀䈀瀀e"
-- page=1 line[029] kind=body translate=yes place=right x=85.97 y=437.07 w=503.31 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="term."
-- page=1 line[030] kind=body translate=no fs=9.96 fonts="F13" raw="["
-- page=1 line[031] kind=body translate=no fs=9.96 fonts="F13" raw="("
-- page=1 line[032] kind=body translate=no fs=9.96 fonts="F13" raw=")"
-- page=1 line[033] kind=special translate=no fs=9.96 fonts="F8" raw="^"
-- page=1 line[034] kind=body translate=yes place=below x=114.45 y=481.71 w=100.00 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="JHACPO"
-- page=1 line[035] kind=latex translate=no fs=9.96 fonts="F6,F7,F9,F8" raw="αi⋅minr"
-- page=1 line[036] kind=special translate=no fs=9.96 fonts="F7,F8,F6" raw="i(θ)A^i,clipϵ(ri(θ))Ai"
-- page=1 line[037] kind=special translate=no fs=9.96 fonts="F8,F6,F14,F12,F7,F15,F16" raw="(θ)=𝔼(xi,yi)∼D"
-- page=1 line[038] kind=special translate=no fs=9.96 fonts="F13" raw="{z"
-- page=1 line[039] kind=special translate=no fs=9.96 fonts="F13" raw="}"
-- page=1 line[040] kind=body translate=no fs=9.96 fonts="F13" raw="|"
-- page=1 line[041] kind=body translate=no fs=9.96 fonts="F13" raw="]"
-- page=1 line[042] kind=body translate=yes place=right x=290.86 y=500.49 w=298.42 fs=6.97->6.97 wrap=1 cjkFont=Helvetica raw="K"
-- page=1 line[043] kind=body translate=no fs=9.96 fonts="F13" raw="("
-- page=1 line[044] kind=body translate=no fs=9.96 fonts="F13" raw=")"
-- page=1 line[045] kind=body translate=yes place=right x=294.95 y=503.47 w=294.33 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="X"
-- page=1 line[046] kind=code translate=no fs=6.97 fonts="F12,F7" raw="(k)"
-- page=1 line[047] kind=code translate=no fs=6.97 fonts="F12,F7" raw="(k)"
-- page=1 line[048] kind=code translate=no fs=6.97 fonts="F12,F7" raw="(k)"
-- page=1 line[049] kind=code translate=no fs=6.97 fonts="F12,F7" raw="(k)"
-- page=1 line[050] kind=special translate=no fs=9.96 fonts="F8" raw="^"
-- page=1 line[051] kind=body translate=yes place=right x=345.91 y=513.24 w=243.37 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="wi,kminr"
-- page=1 line[052] kind=code translate=no fs=9.96 fonts="F8,F9,F6,F7" raw="+(1−αi)⋅"
-- page=1 line[053] kind=code translate=no fs=9.96 fonts="F3" raw="(1)"
-- page=1 line[054] kind=special translate=no fs=9.96 fonts="F6,F7,F8" raw="i(θ)A^i,clipϵ(ri(θ))Ai"
-- page=1 line[055] kind=code translate=no fs=6.97 fonts="F7,F12" raw="k=1"
-- page=1 line[056] kind=body translate=no fs=9.96 fonts="F13" raw="|"
-- page=1 line[057] kind=special translate=no fs=9.96 fonts="F13" raw="{z"
-- page=1 line[058] kind=special translate=no fs=9.96 fonts="F13" raw="}"
-- page=1 line[059] kind=body translate=no fs=9.96 fonts="F13" raw="["
-- page=1 line[060] kind=body translate=no fs=9.96 fonts="F13" raw="]"
-- page=1 line[061] kind=body translate=yes place=right x=303.65 y=554.76 w=285.63 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="LCPO"
-- page=1 line[062] kind=special translate=no fs=9.96 fonts="F8,F6,F7,F9" raw="(θ;xi,{yi,k})"
-- page=1 line[063] kind=special translate=no fs=9.96 fonts="F8,F6,F14,F7,F15,F16" raw="+γ𝔼xi∼D,{yi,k}∼A"
-- page=1 line[064] kind=body translate=no fs=9.96 fonts="F13" raw="("
-- page=1 line[065] kind=body translate=no fs=9.96 fonts="F13" raw=")"
-- page=1 line[066] kind=special translate=no fs=9.96 fonts="F6,F9,F7" raw="πkπθ."
-- page=1 line[067] kind=latex translate=no fs=9.96 fonts="F9,F6,F12,F11" raw="−βKLDKLref"
-- page=1 line[068] kind=body translate=yes place=right x=437.83 y=588.77 w=151.45 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="maximize"
-- page=1 line[069] kind=body translate=yes place=right x=368.70 y=600.72 w=220.58 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="maximize"
-- page=1 line[070] kind=body translate=yes place=right x=192.05 y=600.72 w=397.23 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="minimizea\x00䠀儀戀戀堀Ab\x00儀v\x00㈀w\x00㈀write"
-- page=1 line[071] kind=body translate=yes place=right x=243.31 y=601.02 w=345.97 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="JHACPO"
-- page=1 line[072] kind=body translate=yes place=right x=489.20 y=612.98 w=120.00 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="JHACPO"
-- page=1 line[073] kind=special translate=no fs=9.96 fonts="F11,F12,F3,F6,F7,F8,…" raw="subtractingβKLDKL(πrefkπθ).\x00䄀㜀y\x00儀洀implemen\x00椀using\x00㬀怀ᰀ⼀䈀㈀䴀t\x00⼀㈀戀⬀㈀䴀t\x00儀䴀a\x00䠀儀戀戀ⴀnegate"
-- page=1 line[074] kind=body translate=no fs=9.96 fonts="F5,F3" raw="?]."
-- page=1 line[075] kind=special translate=no fs=9.96 fonts="F6,F7" raw="πθ"
-- page=1 line[076] kind=special translate=no fs=9.96 fonts="F11,F12,F3,F6,F7,F8,…" raw="W\x00㈀useDKL(πrefkπθ)so\x00椀㼀ᰀ椀the\x00吀enalt\x00瘀encourages"
-- page=1 line[077] kind=title translate=yes place=right x=164.24 y=657.60 w=425.04 fs=14.35->14.35 wrap=1 cjkFont=Helvetica raw="Con\x00椀怀ᰀ戀椀䈀瀀e\x00䠀oss:"
-- page=1 line[078] kind=title translate=yes place=below x=180.61 y=677.24 w=100.00 fs=14.35->14.35 wrap=1 cjkFont=Helvetica raw="LCPO"
-- page=1 line[079] kind=body translate=no fs=9.96 fonts="F13" raw="("
-- page=1 line[080] kind=body translate=no fs=9.96 fonts="F13" raw=")"
-- page=1 line[081] kind=body translate=no fs=6.97 fonts="F12" raw="+"
-- page=1 line[082] kind=special translate=no fs=9.96 fonts="F8,F6,F7" raw="expsθ(x,y)/τc"
-- page=1 line[083] kind=code translate=no fs=9.96 fonts="F3" raw="(2)"
-- page=1 line[084] kind=body translate=no fs=9.96 fonts="F13,F6" raw="),"
-- page=1 line[085] kind=body translate=yes place=below x=137.16 y=734.43 w=100.00 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="LCPO"
-- page=1 line[086] kind=special translate=no fs=9.96 fonts="F8,F6,F9,F7" raw="(θ;x,{yk})=−log"
-- page=1 line[087] kind=body translate=no fs=9.96 fonts="F13" raw="("
-- page=1 line[088] kind=body translate=no fs=9.96 fonts="F13" raw=")"
-- page=1 line[089] kind=body translate=no fs=9.96 fonts="F13" raw="("
-- page=1 line[090] kind=body translate=yes place=right x=371.77 y=721.87 w=217.51 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="PK"
-- page=1 line[091] kind=body translate=no fs=6.97 fonts="F16" raw="−"
-- page=1 line[092] kind=body translate=no fs=6.97 fonts="F12" raw="+"
-- page=1 line[093] kind=special translate=no fs=9.96 fonts="F8,F6,F7" raw="expsθ(x,y)/τc+"
-- page=1 line[094] kind=special translate=no fs=9.96 fonts="F7,F12,F8,F6" raw="k=1expsθ(x,yk)/τc"
-- page=1 line[095] kind=body translate=yes place=right x=105.89 y=746.23 w=483.39 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="where:"
-- page=1 line[096] kind=body translate=no fs=6.97 fonts="F12" raw="+"
-- page=1 line[097] kind=body translate=yes place=below x=68.87 y=780.11 w=100.00 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="•y"
-- page=1 line[098] kind=code translate=no fs=9.96 fonts="F6,F3" raw="y),"
-- page=1 line[099] kind=body translate=no fs=9.96 fonts="F3" raw="1"
+✅ Extracted 370 text elements -> 48 lines
+- page=1 line[000] translate=yes x=56.69 y=114.70 fs=7.00 lines=1 raw="notation,\x00欀嘀mak\x00㈀clipping/PPO\x00䬀㈀⬀hanics\x00㈀琀吀䠀䈀⬀䈀椀ⴀ3)\x00⼀㈀紀䴀㈀the…"
+- page=1 line[001] translate=yes x=56.69 y=152.56 fs=9.96 lines=1 raw="Notation\x00唀洀䴀䈀紀㈀d)."
+- page=1 line[002] translate=yes x=68.87 y=172.49 fs=8.00 lines=1 raw="•θ:\x00吀olicy\x00吀ᰀ怀ᰀ䬀㈀椀㈀怀戀forπθ(y|x)."
+- page=1 line[003] translate=yes x=68.87 y=192.41 fs=8.00 lines=1 raw="•πref:\x00怀㈀ference\x00昀b\x00㈀㼀ᰀvior\x00吀olicy\x00唀紀琀㈀⼀when\x00⬀儀䬀吀洀椀䈀䴀㬀ratios…"
+- page=1 line[004] translate=yes x=119.15 y=211.34 fs=9.96 lines=1 raw="πθ(yi|xi)"
+- page=1 line[005] translate=yes x=68.87 y=218.08 fs=9.96 lines=1 raw="•ri(θ)=:\x00䈀䬀吀ortance\x00昀p\x00儀䠀䈀⬀瘀ratio\x00㜀儀怀sup\x00㈀怀瀀䈀戀㈀⼀sample(xi,yi…"
+- page=1 line[006] translate=yes x=116.59 y=224.91 fs=9.96 lines=1 raw="πref(yi|xi)"
+- page=1 line[007] translate=yes x=86.37 y=243.84 fs=9.96 lines=1 raw="(k)πθ(yj,k|xj)"
+- page=1 line[008] translate=yes x=68.87 y=250.58 fs=9.96 lines=1 raw="•rj(θ)=k-th\x00⬀儀䴀trastiv\x00㈀(negativ\x00㈀嘀sample\x00ᰀ戀戀儀c\x00䈀ᰀ椀㈀⼀with\x00⬀儀…"
+- page=1 line[009] translate=yes x=124.68 y=257.42 fs=9.96 lines=1 raw="πref(yj,k|xj)"
+- page=1 line[010] translate=yes x=68.87 y=276.15 fs=9.96 lines=1 raw="•A^ii.\x00氀戀㈀the\x00戀ᰀ䬀㈀notation\x00㜀儀怀all\x00ᰀ⼀瀀an\x00椀ᰀ㬀㈀戀for"
+- page=1 line[011] translate=yes x=81.60 y=290.62 fs=9.96 lines=1 raw="clarit\x00瘀."
+- page=1 line[012] translate=yes x=325.21 y=303.08 fs=9.96 lines=1 raw="P"
+- page=1 line[013] translate=yes x=68.87 y=310.55 fs=9.96 lines=1 raw="•wj,k≥0:\x00爀eigh\x00椀for\x00⬀儀䴀trastiv\x00㈀sampleyj,kkwj,k=1for\x00㈀ᰀ⬀h\x00⬀儀…"
+- page=1 line[014] translate=yes x=186.85 y=330.48 fs=9.96 lines=1 raw="ϵ>0clipϵ(r)=clip(r,1−ϵ,1+ϵ)."
+- page=1 line[015] translate=yes x=68.87 y=350.40 fs=9.96 lines=1 raw="•LCPO"
+- page=1 line[016] translate=yes x=68.87 y=370.33 fs=7.00 lines=1 raw="•DKL(πrefkπθ):\x00䔀䜀div\x00㈀怀㬀㈀䴀⬀㈀used\x00ᰀ戀a\x00⬀儀䴀戀椀怀ᰀ䈀䴀t/p\x00㈀䴀ᰀ䠀椀y\x00堀(S…"
+- page=1 line[017] translate=yes x=56.69 y=403.29 fs=13.00 lines=1 raw="Ob\x00䐀㈀⬀椀䈀瀀e"
+- page=1 line[018] translate=yes x=56.69 y=437.07 fs=9.96 lines=1 raw="term."
+- page=1 line[021] translate=yes x=114.45 y=464.94 fs=9.00 lines=1 raw="JHACPO(θ)=𝔼(x,y)∼Dαi⋅minri(θ)A^i,clipϵ(ri(θ))A^i"
+- page=1 line[022] translate=yes x=192.20 y=470.25 fs=6.00 lines=1 raw="ii"
+- page=1 line[023] translate=yes x=243.87 y=478.12 fs=9.96 lines=1 raw="|{z}"
+- page=1 line[024] translate=yes x=278.17 y=495.90 fs=9.96 lines=1 raw="K]"
+- page=1 line[025] translate=yes x=274.56 y=501.88 fs=9.96 lines=1 raw="X()"
+- page=1 line[026] translate=yes x=340.19 y=507.76 fs=9.96 lines=1 raw="(k)^(k)(k)^(k)"
+- page=1 line[027] translate=yes x=219.99 y=512.94 fs=9.96 lines=1 raw="+(1−αi)⋅wi,kminri(θ)Ai,clipϵ(ri(θ))Ai(1)"
+- page=1 line[028] translate=yes x=274.51 y=524.92 fs=6.97 lines=1 raw="k=1"
+- page=1 line[029] translate=yes x=274.51 y=530.10 fs=9.96 lines=1 raw="|{z}"
+- page=1 line[031] translate=yes x=182.91 y=554.46 fs=9.00 lines=1 raw="+γ𝔼xi∼D,{yi,k}∼ALCPO(θ;xi,{yi,k})"
+- page=1 line[033] translate=yes x=182.91 y=570.73 fs=9.96 lines=1 raw="−βKLDKLπrefkπθ."
+- page=1 line[034] translate=yes x=391.05 y=588.77 fs=9.96 lines=1 raw="maximize"
+- page=1 line[035] translate=yes x=56.69 y=600.72 fs=9.96 lines=1 raw="minimizea\x00䠀儀戀戀堀Ab\x00儀v\x00㈀w\x00㈀writeJHACPOmaximize"
+- page=1 line[036] translate=yes x=56.69 y=612.68 fs=9.96 lines=1 raw="subtractingβKLDKL(πrefkπθ).\x00䄀㜀y\x00儀洀implemen\x00椀using\x00㬀怀ᰀ⼀䈀㈀䴀t\x00⼀…"
+- page=1 line[037] translate=yes x=56.69 y=624.63 fs=9.96 lines=1 raw="W\x00㈀useDKL(πrefkπθ)so\x00椀㼀ᰀ椀the\x00吀enalt\x00瘀encouragesπθ?]."
+- page=1 line[038] translate=yes x=56.69 y=657.60 fs=14.35 lines=1 raw="Con\x00椀怀ᰀ戀椀䈀瀀e\x00䠀oss:LCPO"
+- page=1 line[040] translate=yes x=314.19 y=712.80 fs=9.96 lines=1 raw="expsθ(x,y)/τc"
+- page=1 line[041] translate=yes x=137.16 y=720.17 fs=9.96 lines=1 raw="LCPO(θ;x,{yk})=−log()PK(−),(2)"
+- page=1 line[042] translate=yes x=252.54 y=725.97 fs=9.96 lines=1 raw="expsθ(x,y+)/τc+expsθ(x,y)/τc"
+- page=1 line[043] translate=yes x=359.08 y=731.84 fs=6.97 lines=1 raw="k=1k"
+- page=1 line[044] translate=yes x=71.64 y=746.23 fs=9.96 lines=1 raw="where:"
+- page=1 line[046] translate=yes x=68.87 y=766.15 fs=9.96 lines=1 raw="•yy),"
 
 Page 2:
-✅ Extracted 188 text elements -> 65 lines
-
-Extraction diagnostics:
-- Elements: 188
-- Unique fonts: 11
-- Elements with ToUnicode: 180
-- Elements with Identity: 49
-- Total CID count: 1292
-- Total replacement (U+FFFD) inserted: 0
-- Decode hit breakdown: ToUnicode=557 GlyphName=173 IdentityASCII=553
-
-Fonts breakdown:
-- F1: elems=4 toUnicode=4 identity=4 cids=107 repl=0 hits(TU=40 GN=0 ID=67)
-- F12: elems=6 toUnicode=6 identity=0 cids=15 repl=0 hits(TU=0 GN=15 ID=0)
-- F13: elems=8 toUnicode=0 identity=0 cids=8 repl=0 hits(TU=0 GN=6 ID=0)
-- F16: elems=3 toUnicode=3 identity=0 cids=3 repl=0 hits(TU=0 GN=1 ID=0)
-- F19: elems=2 toUnicode=2 identity=0 cids=2 repl=0 hits(TU=0 GN=2 ID=0)
-- F3: elems=43 toUnicode=43 identity=43 cids=953 repl=0 hits(TU=484 GN=0 ID=469)
-- F5: elems=2 toUnicode=2 identity=2 cids=50 repl=0 hits(TU=33 GN=0 ID=17)
-- F6: elems=58 toUnicode=58 identity=0 cids=69 repl=0 hits(TU=0 GN=66 ID=0)
-- F7: elems=21 toUnicode=21 identity=0 cids=33 repl=0 hits(TU=0 GN=31 ID=0)
-- F8: elems=34 toUnicode=34 identity=0 cids=45 repl=0 hits(TU=0 GN=45 ID=0)
-- F9: elems=7 toUnicode=7 identity=0 cids=7 repl=0 hits(TU=0 GN=7 ID=0)
-
-Worst lines by replacement count (top 12):
-- y=140.61 x=71.64..464.37 w=392.74 fs=9.96 elems=1 fonts=[F3] repl=0 cids=107 hits(TU=61 GN=0 ID=46) text="This\x00⬀hoice\x00㈀䴀⬀儀洀怀ᰀ㬀㈀戀the\x00吀olicy\x00椀儀assign\x00㼀䈀㬀㼀㈀怀relativ\x00㈀probabilit\x00瘀to\x00吀ositiv\x00㈀examples\x00椀㼀ᰀ䴀to\x00䴀㈀㬀ᰀ椀䈀瀀es."
-- y=693.21 x=68.87..420.93 w=352.06 fs=9.96 elems=1 fonts=[F3] repl=0 cids=95 hits(TU=39 GN=0 ID=56) text="•\x00倀吀椀䈀䬀䈀砀㈀怀ⰀA\x00⼀ᰀ䬀/\x00ᬀdam\x00焀with\x00䠀㈀ᰀ怀䴀䈀䴀㬀rate\x00椀洀䴀㈀⼀separately\x00㜀儀怀p\x00儀䠀䈀⬀瘀and\x00㜀儀怀an\x00瘀enco\x00⼀㈀怀used\x00⌀y"
-- y=725.09 x=68.87..391.14 w=322.27 fs=9.96 elems=1 fonts=[F3] repl=0 cids=84 hits(TU=49 GN=0 ID=35) text="•\x00ᬀdv\x00ᰀ䴀tage\x00㈀戀椀䈀䬀ᰀ椀䈀儀䴀Ⰰuse\x00㨀ᬀ\u3100(generalized\x00ᰀ⼀瀀an\x00椀ᰀ㬀㈀estimation)\x00椀儀reduce\x00瀀ariance."
-- y=152.56 x=56.69..336.39 w=279.70 fs=9.96 elems=1 fonts=[F3] repl=0 cids=79 hits(TU=36 GN=0 ID=43) text="Alternativ\x00㈀䠀瘀,\x00瘀ou\x00⬀ᰀ䴀use\x00䬀ᰀ怀㬀䈀䴀䀀⌀ᰀ戀㈀⼀or\x00吀ᰀ䈀怀爀䈀戀㈀losses\x00⼀㈀吀ending\x00儀䴀y\x00儀洀怀task."
-- y=641.40 x=165.73..434.71 w=268.98 fs=9.96 elems=9 fonts=[F3 F6 F8] repl=0 cids=73 hits(TU=27 GN=6 ID=40) text="):\x00戀椀ᰀ怀椀with0.1–0.5;\x00椀洀䴀㈀to\x00⌀ᰀ䠀ᰀ䴀⬀㈀sup\x00㈀怀瀀䈀戀㈀⼀vs\x00⬀儀䴀trastiv\x00㈀ob\x00䐀㈀⬀椀䈀瀀es."
-- y=579.72 x=56.69..316.95 w=260.25 fs=14.35 elems=1 fonts=[F1] repl=0 cids=43 hits(TU=20 GN=0 ID=23) text="Hyp\x00㈀怀吀arameter\x00⼀㈀㜀ᰀ洀䠀椀戀&\x00吀怀ᰀ⬀椀䈀⬀ᰀ䠀guidance"
-- y=467.06 x=239.21..495.92 w=256.71 fs=9.96 elems=2 fonts=[F3 F6] repl=0 cids=64 hits(TU=40 GN=1 ID=23) text="βa\x00椀㈀䬀吀erature\x00⬀儀䴀trolling\x00戀䬀儀othness.\x00匀怀ᰀ⬀椀䈀⬀ᰀ䠀recommendations:"
-- y=185.95 x=56.69..304.89 w=248.19 fs=14.35 elems=4 fonts=[F1 F19 F6] repl=0 cids=41 hits(TU=15 GN=4 ID=22) text="W\x00㈀䈀㬀㼀tswi,kand\x00䴀㈀㬀ᰀ椀䈀瀀e\x00戀ᰀ䬀吀䠀䈀䴀㬀strategy"
-- y=455.10 x=71.64..287.23 w=215.59 fs=9.96 elems=5 fonts=[F3 F6 F8] repl=0 cids=51 hits(TU=32 GN=4 ID=14) text="where`(x,yis\x00ᰀsample-lev\x00㈀䠀signal\x00唀㈀堀㬀堀tok\x00㈀䴀length"
-- y=455.10 x=308.29..488.53 w=180.24 fs=9.96 elems=4 fonts=[F3 F6 F9] repl=0 cids=55 hits(TU=15 GN=3 ID=37) text="|y|,\x00儀怀a\x00⼀䈀笀⬀洀䠀椀y\x00戀⬀儀怀㈀suc\x00㼀as\x00䴀㈀㬀ᰀ椀䈀瀀e\x00䠀儀㬀䀀䠀䈀䘀eliho\x00儀d"
-- y=486.98 x=228.03..375.66 w=147.63 fs=9.96 elems=2 fonts=[F3 F6] repl=0 cids=43 hits(TU=14 GN=1 ID=28) text="τon\x00ᰀv\x00ᰀ䠀䈀⼀ᰀ椀䈀儀䴀set\x00唀㠀刀欀is\x00椀ᰀ戀䘀dep\x00㈀䴀⼀㈀䴀t)."
-- y=227.58 x=370.35..513.28 w=142.93 fs=9.96 elems=3 fonts=[F3 F6 F7] repl=0 cids=37 hits(TU=21 GN=2 ID=14) text="sθor\x00ᰀ䴀auxiliary\x00㈀䴀⬀儀der)\x00ᰀ䴀⼀con\x00瀀ert"
-
-Text counts (source PDF extraction):
-- Title font threshold: 14.00
-- Title: lines=4 chars=113
-- Body:  lines=55 chars=992
-- Excluded: specialLines=6 emptyLines=0
-
-Translation overlay decisions:
-- Output PDF keeps original page content; only adds translated text overlays.
-- Placement: prefer below the original line if there is vertical room; supports wrapping.
-- Fallback: if below doesn't fit, try right side; otherwise overlay.
-- page=2 line[000] kind=body translate=no fs=6.97 fonts="F16" raw="−"
-- page=2 line[001] kind=body translate=yes place=right x=364.55 y=80.83 w=224.73 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="A(or\x00㜀怀儀䬀the\x00⬀洀怀怀㈀䴀t\x00䬀䈀䴀䈀䀀⌀ᰀ椀⬀h),"
-- page=2 line[002] kind=body translate=yes place=right x=208.28 y=81.43 w=381.00 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="•ykare\x00䴀㈀㬀ᰀ椀䈀瀀e\x00戀ᰀ䬀吀䠀㈀戀dra\x00爀䴀from"
-- page=2 line[003] kind=special translate=no fs=9.96 fonts="F3,F6,F7,F8,F9" raw="•sθ(x,y)=logπθ(y|x)"
-- page=2 line[004] kind=latex translate=no fs=9.96 fonts="F3,F6,F7,F8" raw="•τc>0"
-- page=2 line[005] kind=body translate=yes place=right x=470.37 y=140.61 w=120.00 fs=9.96->6.00 wrap=1 cjkFont=Helvetica raw="This\x00⬀hoice\x00㈀䴀⬀儀洀怀ᰀ㬀㈀戀the\x00吀olicy\x00椀儀assign\x00㼀䈀㬀㼀㈀怀relativ\x00㈀probabilit\x00瘀to\x00吀ositiv\x00㈀examples\x00椀㼀ᰀ䴀to\x00䴀㈀㬀ᰀ椀䈀瀀es."
-- page=2 line[006] kind=body translate=yes place=below x=56.69 y=166.52 w=279.70 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="Alternativ\x00㈀䠀瘀,\x00瘀ou\x00⬀ᰀ䴀use\x00䬀ᰀ怀㬀䈀䴀䀀⌀ᰀ戀㈀⼀or\x00吀ᰀ䈀怀爀䈀戀㈀losses\x00⼀㈀吀ending\x00儀䴀y\x00儀洀怀task."
-- page=2 line[007] kind=title translate=yes place=right x=310.89 y=185.95 w=278.39 fs=14.35->14.35 wrap=1 cjkFont=Helvetica raw="W\x00㈀䈀㬀㼀tswi,kand\x00䴀㈀㬀ᰀ椀䈀瀀e\x00戀ᰀ䬀吀䠀䈀䴀㬀strategy"
-- page=2 line[008] kind=body translate=no fs=9.96 fonts="F3" raw="•"
-- page=2 line[009] kind=code translate=no fs=9.96 fonts="F6,F7,F8" raw="wi,k=1/K"
-- page=2 line[010] kind=body translate=yes place=right x=187.66 y=227.28 w=401.62 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="•Similarit\x00瘀䀀⌀ᰀ戀㈀⼀w\x00㈀䈀㬀㼀ts:"
-- page=2 line[011] kind=special translate=no fs=9.96 fonts="F3,F6,F7" raw="sθor\x00ᰀ䴀auxiliary\x00㈀䴀⬀儀der)\x00ᰀ䴀⼀con\x00瀀ert"
-- page=2 line[012] kind=body translate=no fs=9.96 fonts="F13" raw="("
-- page=2 line[013] kind=body translate=no fs=9.96 fonts="F13" raw=")"
-- page=2 line[014] kind=code translate=no fs=9.96 fonts="F8,F6,F7" raw="expφ(xi,yi,k)"
-- page=2 line[015] kind=body translate=no fs=9.96 fonts="F13,F6" raw=")."
-- page=2 line[016] kind=body translate=yes place=right x=265.47 y=258.42 w=323.81 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="wi,k"
-- page=2 line[017] kind=body translate=no fs=9.96 fonts="F13" raw="("
-- page=2 line[018] kind=code translate=no fs=9.96 fonts="F8,F13,F7" raw="=PK"
-- page=2 line[019] kind=code translate=no fs=9.96 fonts="F7,F12,F8,F6" raw="`=1expφ(xi,yi,`)"
-- page=2 line[020] kind=body translate=yes place=right x=200.52 y=284.17 w=388.76 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="This\x00㈀䬀吀㼀ᰀ戀䈀砀㈀戀“hard”\x00䴀㈀㬀ᰀ椀䈀瀀es."
-- page=2 line[021] kind=body translate=yes place=right x=202.54 y=304.10 w=386.74 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="•Batc\x00㼀negativ\x00㈀strategy:"
-- page=2 line[022] kind=body translate=yes place=right x=129.74 y=316.06 w=459.54 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="o\x00瀀erhead."
-- page=2 line[023] kind=body translate=yes place=right x=200.68 y=330.50 w=388.60 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="P"
-- page=2 line[024] kind=code translate=no fs=9.96 fonts="F6,F7,F8" raw="wi,k=1"
-- page=2 line[025] kind=body translate=yes place=below x=151.41 y=352.77 w=100.00 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="wi,ksok"
-- page=2 line[026] kind=title translate=yes place=right x=192.15 y=370.94 w=397.13 fs=14.35->14.35 wrap=1 cjkFont=Helvetica raw="A\x00⼀ᰀ吀椀䈀瀀e\x00䬀䈀琀椀洀怀㈀co\x00㈀笀⬀䈀㈀䴀t"
-- page=2 line[027] kind=latex translate=no fs=14.35 fonts="F19,F6" raw="αi"
-- page=2 line[028] kind=latex translate=no fs=9.96 fonts="F6,F7,F3" raw="αip\x00㈀怀sample.\x00倀䴀㈀robust"
-- page=2 line[029] kind=body translate=no fs=9.96 fonts="F13" raw="("
-- page=2 line[030] kind=body translate=no fs=9.96 fonts="F13" raw=")"
-- page=2 line[031] kind=code translate=no fs=9.96 fonts="F6,F8,F7,F9" raw="`(xi,yi)−τ"
-- page=2 line[032] kind=body translate=no fs=9.96 fonts="F6" raw=","
-- page=2 line[033] kind=code translate=no fs=9.96 fonts="F3" raw="(3)"
-- page=2 line[034] kind=latex translate=no fs=9.96 fonts="F6,F7,F8" raw="αi=σ"
-- page=2 line[035] kind=body translate=no fs=6.97 fonts="F16" raw="0"
-- page=2 line[036] kind=latex translate=no fs=9.96 fonts="F6" raw="β"
-- page=2 line[037] kind=body translate=no fs=9.96 fonts="F8" raw=")"
-- page=2 line[038] kind=body translate=yes place=right x=494.53 y=455.10 w=120.00 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="|y|,\x00儀怀a\x00⼀䈀笀⬀洀䠀椀y\x00戀⬀儀怀㈀suc\x00㼀as\x00䴀㈀㬀ᰀ椀䈀瀀e\x00䠀儀㬀䀀䠀䈀䘀eliho\x00儀d"
-- page=2 line[039] kind=body translate=yes place=right x=293.23 y=455.10 w=296.05 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="where`(x,yis\x00ᰀsample-lev\x00㈀䠀signal\x00唀㈀堀㬀堀tok\x00㈀䴀length"
-- page=2 line[040] kind=body translate=no fs=6.97 fonts="F16" raw="0"
-- page=2 line[041] kind=latex translate=no fs=9.96 fonts="F6,F3" raw="τa\x00椀㼀怀㈀戀㼀儀䠀⼀ⴀand"
-- page=2 line[042] kind=latex translate=no fs=9.96 fonts="F3,F6" raw="βa\x00椀㈀䬀吀erature\x00⬀儀䴀trolling\x00戀䬀儀othness.\x00匀怀ᰀ⬀椀䈀⬀ᰀ䠀recommendations:"
-- page=2 line[043] kind=latex translate=no fs=9.96 fonts="F3,F6" raw="τon\x00ᰀv\x00ᰀ䠀䈀⼀ᰀ椀䈀儀䴀set\x00唀㠀刀欀is\x00椀ᰀ戀䘀dep\x00㈀䴀⼀㈀䴀t)."
-- page=2 line[044] kind=body translate=yes place=below x=91.56 y=500.94 w=117.84 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="`=|y|(sequence\x00䠀㈀䴀㬀椀㼀嘀ⴀtune"
-- page=2 line[045] kind=body translate=yes place=below x=68.87 y=540.79 w=100.00 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="•\x00倀吀椀䈀儀䴀ᰀ䠀䠀瘀clip"
-- page=2 line[046] kind=body translate=yes place=right x=304.92 y=526.83 w=284.36 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="]to\x00ᰀv\x00儀䈀⼀extremes."
-- page=2 line[047] kind=latex translate=no fs=9.96 fonts="F6,F7,F9,F8,F12" raw="αi∈[αmin,αmax"
-- page=2 line[048] kind=body translate=yes place=below x=68.87 y=560.71 w=100.00 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="•\x00甀ou\x00⬀ᰀ䴀also\x00戀⬀hedule"
-- page=2 line[049] kind=latex translate=no fs=9.96 fonts="F6" raw="α"
-- page=2 line[050] kind=title translate=yes place=right x=322.95 y=579.72 w=266.33 fs=14.35->14.35 wrap=1 cjkFont=Helvetica raw="Hyp\x00㈀怀吀arameter\x00⼀㈀㜀ᰀ洀䠀椀戀&\x00吀怀ᰀ⬀椀䈀⬀ᰀ䠀guidance"
-- page=2 line[051] kind=latex translate=no fs=9.96 fonts="F3,F6" raw="•ϵ"
-- page=2 line[052] kind=special translate=no fs=9.96 fonts="F8,F6,F3" raw="0.1–0.2;\x00戀椀ᰀ怀椀with0.1."
-- page=2 line[053] kind=body translate=yes place=below x=68.87 y=635.43 w=100.00 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="•K"
-- page=2 line[054] kind=special translate=no fs=9.96 fonts="F8,F3" raw="4–16;\x00吀怀㈀㜀㈀怀batc\x00㼀negativ\x00㈀戀when"
-- page=2 line[055] kind=body translate=yes place=right x=395.34 y=621.48 w=193.94 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="Klarge."
-- page=2 line[056] kind=latex translate=no fs=9.96 fonts="F3,F6" raw="•γ"
-- page=2 line[057] kind=special translate=no fs=9.96 fonts="F3,F6,F8" raw="):\x00戀椀ᰀ怀椀with0.1–0.5;\x00椀洀䴀㈀to\x00⌀ᰀ䠀ᰀ䴀⬀㈀sup\x00㈀怀瀀䈀戀㈀⼀vs\x00⬀儀䴀trastiv\x00㈀ob\x00䐀㈀⬀椀䈀瀀es."
-- page=2 line[058] kind=body translate=yes place=right x=171.23 y=641.70 w=418.05 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="LCPO"
-- page=2 line[059] kind=body translate=no fs=9.96 fonts="F6" raw=">"
-- page=2 line[060] kind=latex translate=no fs=9.96 fonts="F3,F6,F12" raw="•βKL"
-- page=2 line[061] kind=special translate=no fs=9.96 fonts="F6,F12,F3" raw="βKL;"
-- page=2 line[062] kind=body translate=yes place=below x=68.87 y=707.16 w=352.06 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="•\x00倀吀椀䈀䬀䈀砀㈀怀ⰀA\x00⼀ᰀ䬀/\x00ᬀdam\x00焀with\x00䠀㈀ᰀ怀䴀䈀䴀㬀rate\x00椀洀䴀㈀⼀separately\x00㜀儀怀p\x00儀䠀䈀⬀瘀and\x00㜀儀怀an\x00瘀enco\x00⼀㈀怀used\x00⌀y"
-- page=2 line[063] kind=body translate=yes place=below x=68.87 y=739.04 w=322.27 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="•\x00ᬀdv\x00ᰀ䴀tage\x00㈀戀椀䈀䬀ᰀ椀䈀儀䴀Ⰰuse\x00㨀ᬀ\u3100(generalized\x00ᰀ⼀瀀an\x00椀ᰀ㬀㈀estimation)\x00椀儀reduce\x00瀀ariance."
-- page=2 line[064] kind=body translate=no fs=9.96 fonts="F3" raw="2"
+✅ Extracted 188 text elements -> 38 lines
+- page=2 line[001] translate=yes x=68.87 y=80.83 fs=7.00 lines=1 raw="•ykare\x00䴀㈀㬀ᰀ椀䈀瀀e\x00戀ᰀ䬀吀䠀㈀戀dra\x00爀䴀fromA(or\x00㜀怀儀䬀the\x00⬀洀怀怀㈀䴀t\x00䬀䈀䴀䈀䀀⌀…"
+- page=2 line[002] translate=yes x=68.87 y=100.75 fs=9.00 lines=1 raw="•sθ(x,y)=logπθ(y|x)"
+- page=2 line[003] translate=yes x=68.87 y=120.68 fs=9.96 lines=1 raw="•τc>0"
+- page=2 line[004] translate=yes x=71.64 y=140.61 fs=8.00 lines=1 raw="This\x00⬀hoice\x00㈀䴀⬀儀洀怀ᰀ㬀㈀戀the\x00吀olicy\x00椀儀assign\x00㼀䈀㬀㼀㈀怀relativ\x00㈀pro…"
+- page=2 line[005] translate=yes x=56.69 y=152.56 fs=6.00 lines=1 raw="Alternativ\x00㈀䠀瘀,\x00瘀ou\x00⬀ᰀ䴀use\x00䬀ᰀ怀㬀䈀䴀䀀⌀ᰀ戀㈀⼀or\x00吀ᰀ䈀怀爀䈀戀㈀losses\x00⼀㈀吀…"
+- page=2 line[006] translate=yes x=56.69 y=185.52 fs=14.35 lines=1 raw="W\x00㈀䈀㬀㼀tswi,kand\x00䴀㈀㬀ᰀ椀䈀瀀e\x00戀ᰀ䬀吀䠀䈀䴀㬀strategy"
+- page=2 line[007] translate=yes x=68.87 y=207.35 fs=9.96 lines=1 raw="•wi,k=1/K"
+- page=2 line[008] translate=yes x=68.87 y=227.28 fs=9.96 lines=1 raw="•Similarit\x00瘀䀀⌀ᰀ戀㈀⼀w\x00㈀䈀㬀㼀ts:sθor\x00ᰀ䴀auxiliary\x00㈀䴀⬀儀der)\x00ᰀ䴀⼀con\x00…"
+- page=2 line[010] translate=yes x=292.67 y=250.75 fs=9.96 lines=1 raw="expφ(xi,yi,k)"
+- page=2 line[011] translate=yes x=242.93 y=258.12 fs=9.96 lines=1 raw="wi,k=PK()."
+- page=2 line[012] translate=yes x=290.67 y=266.80 fs=9.96 lines=1 raw="`=1expφ(xi,yi,`)"
+- page=2 line[013] translate=yes x=81.60 y=284.17 fs=6.00 lines=1 raw="This\x00㈀䬀吀㼀ᰀ戀䈀砀㈀戀“hard”\x00䴀㈀㬀ᰀ椀䈀瀀es."
+- page=2 line[014] translate=yes x=68.87 y=304.10 fs=9.96 lines=1 raw="•Batc\x00㼀negativ\x00㈀strategy:"
+- page=2 line[015] translate=yes x=81.60 y=316.06 fs=9.96 lines=1 raw="o\x00瀀erhead."
+- page=2 line[016] translate=yes x=184.17 y=330.50 fs=9.96 lines=1 raw="P"
+- page=2 line[017] translate=yes x=151.41 y=337.97 fs=9.96 lines=1 raw="wi,ksokwi,k=1"
+- page=2 line[018] translate=yes x=56.69 y=370.94 fs=10.00 lines=1 raw="A\x00⼀ᰀ吀椀䈀瀀e\x00䬀䈀琀椀洀怀㈀co\x00㈀笀⬀䈀㈀䴀tαi"
+- page=2 line[019] translate=yes x=416.34 y=392.77 fs=8.00 lines=1 raw="αip\x00㈀怀sample.\x00倀䴀㈀robust"
+- page=2 line[020] translate=yes x=279.96 y=420.83 fs=9.96 lines=1 raw="(`(x,y)−τ)"
+- page=2 line[021] translate=yes x=300.82 y=426.64 fs=6.97 lines=1 raw="ii"
+- page=2 line[022] translate=yes x=247.06 y=431.88 fs=9.96 lines=1 raw="αi=σ0,(3)"
+- page=2 line[024] translate=yes x=71.64 y=455.10 fs=7.00 lines=1 raw="where`(x,y)is\x00ᰀsample-lev\x00㈀䠀signal\x00唀㈀堀㬀堀tok\x00㈀䴀length|y|,\x00儀怀a…"
+- page=2 line[026] translate=yes x=159.96 y=467.06 fs=9.96 lines=1 raw="τa\x00椀㼀怀㈀戀㼀儀䠀⼀ⴀandβa\x00椀㈀䬀吀erature\x00⬀儀䴀trolling\x00戀䬀儀othness.\x00匀怀ᰀ⬀椀…"
+- page=2 line[027] translate=yes x=91.56 y=486.98 fs=8.00 lines=1 raw="`=|y|(sequence\x00䠀㈀䴀㬀椀㼀嘀ⴀtuneτon\x00ᰀv\x00ᰀ䠀䈀⼀ᰀ椀䈀儀䴀set\x00唀㠀刀欀is\x00椀ᰀ戀䘀de…"
+- page=2 line[028] translate=yes x=68.87 y=526.83 fs=9.96 lines=1 raw="•\x00倀吀椀䈀儀䴀ᰀ䠀䠀瘀clipαi∈[αmin,αmax]to\x00ᰀv\x00儀䈀⼀extremes."
+- page=2 line[029] translate=yes x=68.87 y=546.76 fs=8.00 lines=1 raw="•\x00甀ou\x00⬀ᰀ䴀also\x00戀⬀heduleα"
+- page=2 line[030] translate=yes x=56.69 y=579.72 fs=12.00 lines=1 raw="Hyp\x00㈀怀吀arameter\x00⼀㈀㜀ᰀ洀䠀椀戀&\x00吀怀ᰀ⬀椀䈀⬀ᰀ䠀guidance"
+- page=2 line[031] translate=yes x=68.87 y=601.55 fs=9.96 lines=1 raw="•ϵ0.1–0.2;\x00戀椀ᰀ怀椀with0.1."
+- page=2 line[032] translate=yes x=68.87 y=621.48 fs=9.96 lines=1 raw="•K4–16;\x00吀怀㈀㜀㈀怀batc\x00㼀negativ\x00㈀戀whenKlarge."
+- page=2 line[033] translate=yes x=68.87 y=641.40 fs=7.00 lines=1 raw="•γLCPO):\x00戀椀ᰀ怀椀with0.1–0.5;\x00椀洀䴀㈀to\x00⌀ᰀ䠀ᰀ䴀⬀㈀sup\x00㈀怀瀀䈀戀㈀⼀vs\x00⬀儀䴀tr…"
+- page=2 line[034] translate=yes x=68.87 y=661.33 fs=9.96 lines=1 raw="•βKL>βKL;"
+- page=2 line[035] translate=yes x=68.87 y=693.21 fs=6.00 lines=1 raw="•\x00倀吀椀䈀䬀䈀砀㈀怀ⰀA\x00⼀ᰀ䬀/\x00ᬀdam\x00焀with\x00䠀㈀ᰀ怀䴀䈀䴀㬀rate\x00椀洀䴀㈀⼀separately\x00㜀…"
+- page=2 line[036] translate=yes x=68.87 y=725.09 fs=8.00 lines=1 raw="•\x00ᬀdv\x00ᰀ䴀tage\x00㈀戀椀䈀䬀ᰀ椀䈀儀䴀Ⰰuse\x00㨀ᬀ\u3100(generalized\x00ᰀ⼀瀀an\x00椀ᰀ㬀㈀estima…"
 
 Page 3:
-✅ Extracted 120 text elements -> 58 lines
-
-Extraction diagnostics:
-- Elements: 120
-- Unique fonts: 11
-- Elements with ToUnicode: 120
-- Elements with Identity: 60
-- Total CID count: 1146
-- Total replacement (U+FFFD) inserted: 0
-- Decode hit breakdown: ToUnicode=628 GlyphName=67 IdentityASCII=449
-
-Fonts breakdown:
-- F1: elems=3 toUnicode=3 identity=3 cids=114 repl=0 hits(TU=54 GN=0 ID=60)
-- F11: elems=1 toUnicode=1 identity=1 cids=3 repl=0 hits(TU=3 GN=0 ID=0)
-- F12: elems=9 toUnicode=9 identity=0 cids=15 repl=0 hits(TU=0 GN=15 ID=0)
-- F18: elems=1 toUnicode=1 identity=1 cids=8 repl=0 hits(TU=8 GN=0 ID=0)
-- F21: elems=13 toUnicode=13 identity=13 cids=30 repl=0 hits(TU=30 GN=0 ID=0)
-- F3: elems=34 toUnicode=34 identity=34 cids=804 repl=0 hits(TU=446 GN=0 ID=358)
-- F5: elems=8 toUnicode=8 identity=8 cids=118 repl=0 hits(TU=87 GN=0 ID=31)
-- F6: elems=23 toUnicode=23 identity=0 cids=24 repl=0 hits(TU=0 GN=24 ID=0)
-- F7: elems=15 toUnicode=15 identity=0 cids=17 repl=0 hits(TU=0 GN=17 ID=0)
-- F8: elems=4 toUnicode=4 identity=0 cids=4 repl=0 hits(TU=0 GN=2 ID=0)
-- F9: elems=9 toUnicode=9 identity=0 cids=9 repl=0 hits(TU=0 GN=9 ID=0)
-
-Worst lines by replacement count (top 12):
-- y=102.71 x=68.87..477.72 w=408.85 fs=9.96 elems=3 fonts=[F3 F5] repl=0 cids=97 hits(TU=66 GN=0 ID=31) text="•Gradien\x00椀conficts:sup\x00㈀怀瀀䈀戀㈀⼀and\x00⬀儀䴀trastiv\x00㈀gradien\x00椀directions\x00⬀ᰀ䴀confict.\x00⨀儀䴀戀䈀⼀㈀怀alternating"
-- y=114.67 x=81.60..477.16 w=395.56 fs=9.96 elems=1 fonts=[F3] repl=0 cids=103 hits(TU=60 GN=0 ID=43) text="up\x00⼀ᰀ椀㈀戀(one\x00戀椀㈀吀sup\x00㈀怀瀀䈀戀㈀⼀PPO-clip,\x00儀䴀㈀step\x00⬀儀䴀trastiv\x00㈀嘀or\x00洀戀㈀gradien\x00椀surgery\x00椀㈀⬀hniques\x00䈀㜀conficts"
-- y=158.50 x=81.60..388.25 w=306.65 fs=9.96 elems=1 fonts=[F3] repl=0 cids=86 hits(TU=44 GN=0 ID=42) text="limited.\x00䨀儀䴀䈀椀儀怀fraction\x00儀㜀clipp\x00㈀⼀up\x00⼀ᰀ椀㈀戀挀if\x00椀儀o\x00㼀䈀㬀㼀ⴀreduce\x00䠀㈀ᰀ怀䴀䈀䴀㬀rate\x00儀怀increase"
-- y=599.73 x=68.87..350.15 w=281.28 fs=9.96 elems=1 fonts=[F3] repl=0 cids=73 hits(TU=35 GN=0 ID=38) text="•\x00匀怀ᰀ⬀椀䈀⬀ᰀ䠀h\x00瘀吀erparameter\x00⼀㈀㜀ᰀ洀䠀椀戀and\x00戀椀ᰀ⌀䈀䠀䈀椀y/implemen\x00椀ᰀ椀䈀儀䴀guidance."
-- y=412.48 x=88.57..364.90 w=276.32 fs=9.96 elems=1 fonts=[F3] repl=0 cids=73 hits(TU=36 GN=0 ID=37) text="Compute\x00戀洀吀ervised\x00匀匀倀䀀⬀䠀䈀吀term\x00ᰀ䴀⼀con\x00椀怀ᰀ戀椀䈀瀀e\x00匀匀倀䀀⬀䠀䈀吀term\x00唀瀀ectorized)"
-- y=80.88 x=56.69..318.81 w=262.12 fs=14.35 elems=1 fonts=[F1] repl=0 cids=50 hits(TU=20 GN=0 ID=30) text="Stabilit\x00瘀c\x00儀䴀戀䈀⼀㈀怀ᰀ椀䈀儀䴀戀and\x00䈀䬀吀䠀㈀䬀㈀䴀tation\x00椀怀䈀⬀ks"
-- y=518.12 x=56.69..310.62 w=253.93 fs=14.35 elems=1 fonts=[F1] repl=0 cids=43 hits(TU=22 GN=0 ID=21) text="Summary\x00儀㜀i\x00䬀吀怀儀v\x00㈀䬀㈀䴀ts\x00儀v\x00㈀怀original\x00戀吀ec"
-- y=146.55 x=229.23..466.62 w=237.39 fs=9.96 elems=1 fonts=[F3] repl=0 cids=67 hits(TU=29 GN=0 ID=38) text="when\x00怀ᰀ椀䈀儀戀are\x00⬀䠀䈀吀吀ed,\x00㬀怀ᰀ⼀䈀㈀䴀t\x00⬀儀䴀tributions\x00㜀怀儀䬀those\x00戀ᰀ䬀吀䠀㈀戀are"
-- y=539.95 x=68.87..300.19 w=231.32 fs=9.96 elems=1 fonts=[F3] repl=0 cids=62 hits(TU=34 GN=0 ID=28) text="•\x00氀䴀䈀紀㈀⼀notation\x00㜀儀怀ratios\x00ᰀ䴀⼀adv\x00ᰀ䴀tages\x00椀儀a\x00瀀oid\x00ᰀ䬀biguit\x00瘀."
-- y=312.68 x=56.69..255.76 w=199.06 fs=9.96 elems=5 fonts=[F3 F5 F6 F9] repl=0 cids=40 hits(TU=32 GN=2 ID=6) text="Require:datasetD,\x00⬀儀䴀trastiv\x00㈀generatorA"
-- y=460.60 x=124.00..287.02 w=163.02 fs=9.96 elems=3 fonts=[F12 F3 F6] repl=0 cids=40 hits(TU=18 GN=3 ID=19) text="βKLadaptiv\x00㈀䠀瘀if\x00洀戀䈀䴀㬀KL-p\x00㈀䴀ᰀ䠀椀y\x00戀⬀heme"
-- y=388.70 x=182.71..338.02 w=155.31 fs=9.96 elems=7 fonts=[F3 F6 F7 F8] repl=0 cids=35 hits(TU=18 GN=4 ID=12) text="A^i,\x00ᰀ䴀⼀(optionally)Aifor\x00䴀㈀㬀ᰀ椀䈀瀀es"
-
-Text counts (source PDF extraction):
-- Title font threshold: 14.00
-- Title: lines=3 chars=114
-- Body:  lines=50 chars=961
-- Excluded: specialLines=5 emptyLines=0
-
-Translation overlay decisions:
-- Output PDF keeps original page content; only adds translated text overlays.
-- Placement: prefer below the original line if there is vertical room; supports wrapping.
-- Fallback: if below doesn't fit, try right side; otherwise overlay.
-- page=3 line[000] kind=title translate=yes place=right x=324.81 y=80.88 w=264.47 fs=14.35->14.35 wrap=1 cjkFont=Helvetica raw="Stabilit\x00瘀c\x00儀䴀戀䈀⼀㈀怀ᰀ椀䈀儀䴀戀and\x00䈀䬀吀䠀㈀䬀㈀䴀tation\x00椀怀䈀⬀ks"
-- page=3 line[001] kind=body translate=yes place=right x=483.72 y=102.71 w=120.00 fs=9.96->7.00 wrap=1 cjkFont=Helvetica raw="•Gradien\x00椀conficts:sup\x00㈀怀瀀䈀戀㈀⼀and\x00⬀儀䴀trastiv\x00㈀gradien\x00椀directions\x00⬀ᰀ䴀confict.\x00⨀儀䴀戀䈀⼀㈀怀alternating"
-- page=3 line[002] kind=body translate=yes place=right x=483.16 y=114.67 w=120.00 fs=9.96->6.00 wrap=1 cjkFont=Helvetica raw="up\x00⼀ᰀ椀㈀戀(one\x00戀椀㈀吀sup\x00㈀怀瀀䈀戀㈀⼀PPO-clip,\x00儀䴀㈀step\x00⬀儀䴀trastiv\x00㈀嘀or\x00洀戀㈀gradien\x00椀surgery\x00椀㈀⬀hniques\x00䈀㜀conficts"
-- page=3 line[003] kind=body translate=yes place=right x=127.59 y=126.62 w=461.69 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="are\x00戀㈀瀀ere."
-- page=3 line[004] kind=body translate=yes place=below x=68.87 y=160.50 w=121.79 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="•Clipping\x00ᰀ䴀⼀zero\x00㬀怀ᰀ⼀䈀㈀䴀ts:"
-- page=3 line[005] kind=body translate=yes place=right x=472.62 y=146.55 w=120.00 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="when\x00怀ᰀ椀䈀儀戀are\x00⬀䠀䈀吀吀ed,\x00㬀怀ᰀ⼀䈀㈀䴀t\x00⬀儀䴀tributions\x00㜀怀儀䬀those\x00戀ᰀ䬀吀䠀㈀戀are"
-- page=3 line[006] kind=body translate=yes place=below x=81.60 y=172.46 w=306.65 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="limited.\x00䨀儀䴀䈀椀儀怀fraction\x00儀㜀clipp\x00㈀⼀up\x00⼀ᰀ椀㈀戀挀if\x00椀儀o\x00㼀䈀㬀㼀ⴀreduce\x00䠀㈀ᰀ怀䴀䈀䴀㬀rate\x00儀怀increase"
-- page=3 line[007] kind=code translate=no fs=9.96 fonts="F6,F3" raw="ϵ."
-- page=3 line[008] kind=body translate=yes place=right x=182.06 y=178.43 w=407.22 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="•V\x00ᰀ䠀洀㈀normalization:"
-- page=3 line[009] kind=body translate=yes place=right x=208.02 y=198.35 w=381.26 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="•Use\x00䬀䈀䴀䈀䀀⌀ᰀ椀⬀h\x00瀀ectorization:"
-- page=3 line[010] kind=body translate=yes place=right x=147.11 y=218.28 w=442.17 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="•Monitoring:"
-- page=3 line[011] kind=latex translate=no fs=9.96 fonts="F6,F3,F12" raw="γandβKL."
-- page=3 line[012] kind=title translate=yes place=below x=56.69 y=282.41 w=132.32 fs=14.35->14.35 wrap=1 cjkFont=Helvetica raw="Pseudo\x00⬀儀d\x00㈀(sk\x00㈀椀⬀h)"
-- page=3 line[013] kind=body translate=yes place=below x=56.69 y=326.63 w=199.06 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="Require:datasetD,\x00⬀儀䴀trastiv\x00㈀generatorA"
-- page=3 line[014] kind=body translate=yes place=below x=308.10 y=326.63 w=100.00 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="B,\x00䴀㈀㬀ᰀ椀䈀瀀es"
-- page=3 line[015] kind=body translate=yes place=right x=379.92 y=312.68 w=209.36 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="K"
-- page=3 line[016] kind=body translate=yes place=below x=62.06 y=338.59 w=100.00 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="1:for"
-- page=3 line[017] kind=body translate=yes place=right x=209.51 y=324.63 w=379.77 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="do"
-- page=3 line[018] kind=body translate=yes place=right x=202.21 y=332.97 w=387.07 fs=6.97->6.97 wrap=1 cjkFont=Helvetica raw="B"
-- page=3 line[019] kind=code translate=no fs=7.97 fonts="F21" raw="2:"
-- page=3 line[020] kind=body translate=yes place=right x=244.15 y=336.59 w=345.13 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="fromD"
-- page=3 line[021] kind=special translate=no fs=9.96 fonts="F3,F9,F8,F6,F7,F12" raw="Sample\x00⌀ᰀ椀⬀h{(xi,yi)}i=1"
-- page=3 line[022] kind=body translate=yes place=right x=252.48 y=344.93 w=336.80 fs=6.97->6.97 wrap=1 cjkFont=Helvetica raw="K"
-- page=3 line[023] kind=code translate=no fs=7.97 fonts="F21" raw="3:"
-- page=3 line[024] kind=body translate=yes place=right x=138.29 y=348.54 w=450.99 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="i"
-- page=3 line[025] kind=body translate=yes place=right x=281.53 y=348.54 w=307.75 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="∼A"
-- page=3 line[026] kind=special translate=no fs=9.96 fonts="F9,F6,F7,F12" raw="{yi,k}k=1"
-- page=3 line[027] kind=code translate=no fs=7.97 fonts="F21" raw="4:"
-- page=3 line[028] kind=latex translate=no fs=9.96 fonts="F6,F11" raw="πref"
-- page=3 line[029] kind=code translate=no fs=6.97 fonts="F12,F7" raw="(k)"
-- page=3 line[030] kind=code translate=no fs=7.97 fonts="F21" raw="5:"
-- page=3 line[031] kind=body translate=yes place=right x=210.67 y=374.39 w=378.61 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="Compute\x00⬀洀怀怀㈀䴀t\x00䠀儀㬀䀀吀怀儀⌀戀under"
-- page=3 line[032] kind=special translate=no fs=9.96 fonts="F6,F7" raw="πθ"
-- page=3 line[033] kind=body translate=yes place=right x=325.76 y=375.18 w=263.52 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="ri,ri"
-- page=3 line[034] kind=code translate=no fs=6.97 fonts="F12,F7" raw="(k)"
-- page=3 line[035] kind=special translate=no fs=9.96 fonts="F8" raw="^"
-- page=3 line[036] kind=code translate=no fs=7.97 fonts="F21" raw="6:"
-- page=3 line[037] kind=special translate=no fs=9.96 fonts="F3,F6,F7,F8" raw="A^i,\x00ᰀ䴀⼀(optionally)Aifor\x00䴀㈀㬀ᰀ椀䈀瀀es"
-- page=3 line[038] kind=code translate=no fs=7.97 fonts="F21" raw="7:"
-- page=3 line[039] kind=latex translate=no fs=9.96 fonts="F3,F6,F7" raw="Computeαip\x00㈀怀Eq.(3)"
-- page=3 line[040] kind=code translate=no fs=7.97 fonts="F21" raw="8:"
-- page=3 line[041] kind=body translate=yes place=right x=370.90 y=412.48 w=218.38 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="Compute\x00戀洀吀ervised\x00匀匀倀䀀⬀䠀䈀吀term\x00ᰀ䴀⼀con\x00椀怀ᰀ戀椀䈀瀀e\x00匀匀倀䀀⬀䠀䈀吀term\x00唀瀀ectorized)"
-- page=3 line[042] kind=code translate=no fs=7.97 fonts="F21" raw="9:"
-- page=3 line[043] kind=code translate=no fs=9.96 fonts="F3" raw="p\x00㈀怀Eq.(2)"
-- page=3 line[044] kind=body translate=yes place=right x=161.67 y=424.73 w=427.61 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="ComputeLCPO"
-- page=3 line[045] kind=code translate=no fs=7.97 fonts="F21" raw="10:"
-- page=3 line[046] kind=latex translate=no fs=9.96 fonts="F6,F9,F3" raw="J←a\x00瀀erage\x00儀⌀jectiv\x00㈀p\x00㈀怀Eq.(1)"
-- page=3 line[047] kind=code translate=no fs=7.97 fonts="F21" raw="11:"
-- page=3 line[048] kind=body translate=yes place=below x=88.57 y=462.30 w=100.00 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="T\x00ᰀ䘀e\x00㬀怀ᰀ⼀䈀㈀䴀t\x00戀椀㈀吀to"
-- page=3 line[049] kind=body translate=yes place=below x=184.95 y=462.30 w=100.00 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="maximizeJ"
-- page=3 line[050] kind=code translate=no fs=9.96 fonts="F9,F6,F3" raw="−J)"
-- page=3 line[051] kind=code translate=no fs=7.97 fonts="F21" raw="12:"
-- page=3 line[052] kind=latex translate=no fs=9.96 fonts="F12,F3,F6" raw="βKLadaptiv\x00㈀䠀瘀if\x00洀戀䈀䴀㬀KL-p\x00㈀䴀ᰀ䠀椀y\x00戀⬀heme"
-- page=3 line[053] kind=code translate=no fs=7.97 fonts="F21" raw="13:"
-- page=3 line[054] kind=title translate=yes place=right x=316.62 y=518.12 w=272.66 fs=14.35->14.35 wrap=1 cjkFont=Helvetica raw="Summary\x00儀㜀i\x00䬀吀怀儀v\x00㈀䬀㈀䴀ts\x00儀v\x00㈀怀original\x00戀吀ec"
-- page=3 line[055] kind=body translate=yes place=below x=68.87 y=553.91 w=231.32 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="•\x00氀䴀䈀紀㈀⼀notation\x00㜀儀怀ratios\x00ᰀ䴀⼀adv\x00ᰀ䴀tages\x00椀儀a\x00瀀oid\x00ᰀ䬀biguit\x00瘀."
-- page=3 line[056] kind=body translate=yes place=below x=68.87 y=613.68 w=281.28 fs=9.96->9.96 wrap=1 cjkFont=Helvetica raw="•\x00匀怀ᰀ⬀椀䈀⬀ᰀ䠀h\x00瘀吀erparameter\x00⼀㈀㜀ᰀ洀䠀椀戀and\x00戀椀ᰀ⌀䈀䠀䈀椀y/implemen\x00椀ᰀ椀䈀儀䴀guidance."
-- page=3 line[057] kind=body translate=no fs=9.96 fonts="F3" raw="3"
+✅ Extracted 120 text elements -> 33 lines
+- page=3 line[000] translate=yes x=56.69 y=80.88 fs=10.00 lines=1 raw="Stabilit\x00瘀c\x00儀䴀戀䈀⼀㈀怀ᰀ椀䈀儀䴀戀and\x00䈀䬀吀䠀㈀䬀㈀䴀tation\x00椀怀䈀⬀ks"
+- page=3 line[001] translate=yes x=68.87 y=102.71 fs=9.00 lines=1 raw="•Gradien\x00椀conficts:sup\x00㈀怀瀀䈀戀㈀⼀and\x00⬀儀䴀trastiv\x00㈀gradien\x00椀direc…"
+- page=3 line[002] translate=yes x=81.60 y=114.67 fs=7.00 lines=1 raw="up\x00⼀ᰀ椀㈀戀(one\x00戀椀㈀吀sup\x00㈀怀瀀䈀戀㈀⼀PPO-clip,\x00儀䴀㈀step\x00⬀儀䴀trastiv\x00㈀嘀o…"
+- page=3 line[003] translate=yes x=81.60 y=126.62 fs=9.96 lines=1 raw="are\x00戀㈀瀀ere."
+- page=3 line[004] translate=yes x=68.87 y=146.55 fs=8.00 lines=1 raw="•Clipping\x00ᰀ䴀⼀zero\x00㬀怀ᰀ⼀䈀㈀䴀ts:when\x00怀ᰀ椀䈀儀戀are\x00⬀䠀䈀吀吀ed,\x00㬀怀ᰀ⼀䈀㈀䴀t…"
+- page=3 line[005] translate=yes x=81.60 y=158.50 fs=9.96 lines=1 raw="limited.\x00䨀儀䴀䈀椀儀怀fraction\x00儀㜀clipp\x00㈀⼀up\x00⼀ᰀ椀㈀戀挀if\x00椀儀o\x00㼀䈀㬀㼀ⴀredu…"
+- page=3 line[006] translate=yes x=68.87 y=178.43 fs=9.96 lines=1 raw="•V\x00ᰀ䠀洀㈀normalization:"
+- page=3 line[007] translate=yes x=68.87 y=198.35 fs=9.00 lines=1 raw="•Use\x00䬀䈀䴀䈀䀀⌀ᰀ椀⬀h\x00瀀ectorization:"
+- page=3 line[008] translate=yes x=68.87 y=218.28 fs=9.96 lines=1 raw="•Monitoring:"
+- page=3 line[009] translate=yes x=353.91 y=230.23 fs=9.96 lines=1 raw="γandβKL."
+- page=3 line[010] translate=yes x=56.69 y=263.19 fs=8.00 lines=1 raw="Pseudo\x00⬀儀d\x00㈀(sk\x00㈀椀⬀h)"
+- page=3 line[011] translate=yes x=56.69 y=312.68 fs=9.96 lines=1 raw="Require:datasetD,\x00⬀儀䴀trastiv\x00㈀generatorAB,\x00䴀㈀㬀ᰀ椀䈀瀀esK"
+- page=3 line[012] translate=yes x=62.06 y=324.63 fs=9.96 lines=1 raw="1:fordo"
+- page=3 line[013] translate=yes x=190.19 y=332.97 fs=6.97 lines=1 raw="B"
+- page=3 line[014] translate=yes x=62.06 y=336.59 fs=9.96 lines=1 raw="2:Sample\x00⌀ᰀ椀⬀h{(xi,yi)}i=1fromD"
+- page=3 line[015] translate=yes x=239.79 y=344.93 fs=6.97 lines=1 raw="K"
+- page=3 line[016] translate=yes x=62.06 y=348.54 fs=9.96 lines=1 raw="3:i{yi,k}k=1∼A"
+- page=3 line[017] translate=yes x=62.06 y=360.50 fs=9.96 lines=1 raw="4:πref"
+- page=3 line[018] translate=yes x=317.22 y=369.21 fs=6.97 lines=1 raw="(k)"
+- page=3 line[019] translate=yes x=62.06 y=374.39 fs=9.96 lines=1 raw="5:Compute\x00⬀洀怀怀㈀䴀t\x00䠀儀㬀䀀吀怀儀⌀戀underπθri,ri"
+- page=3 line[020] translate=yes x=185.34 y=383.39 fs=9.96 lines=1 raw="^^(k)"
+- page=3 line[021] translate=yes x=62.06 y=388.57 fs=9.96 lines=1 raw="6:Ai,\x00ᰀ䴀⼀(optionally)Aifor\x00䴀㈀㬀ᰀ椀䈀瀀es"
+- page=3 line[022] translate=yes x=62.06 y=400.52 fs=9.96 lines=1 raw="7:Computeαip\x00㈀怀Eq.(3)"
+- page=3 line[023] translate=yes x=62.06 y=412.48 fs=9.96 lines=1 raw="8:Compute\x00戀洀吀ervised\x00匀匀倀䀀⬀䠀䈀吀term\x00ᰀ䴀⼀con\x00椀怀ᰀ戀椀䈀瀀e\x00匀匀倀䀀⬀䠀䈀吀te…"
+- page=3 line[024] translate=yes x=62.06 y=424.43 fs=9.96 lines=1 raw="9:ComputeLCPOp\x00㈀怀Eq.(2)"
+- page=3 line[025] translate=yes x=57.83 y=436.39 fs=7.00 lines=1 raw="10:J←a\x00瀀erage\x00儀⌀jectiv\x00㈀p\x00㈀怀Eq.(1)"
+- page=3 line[026] translate=yes x=57.83 y=448.34 fs=9.96 lines=1 raw="11:T\x00ᰀ䘀e\x00㬀怀ᰀ⼀䈀㈀䴀t\x00戀椀㈀吀tomaximizeJ−J)"
+- page=3 line[027] translate=yes x=57.83 y=460.30 fs=9.96 lines=1 raw="12:βKLadaptiv\x00㈀䠀瘀if\x00洀戀䈀䴀㬀KL-p\x00㈀䴀ᰀ䠀椀y\x00戀⬀heme"
+- page=3 line[029] translate=yes x=56.69 y=518.12 fs=11.00 lines=1 raw="Summary\x00儀㜀i\x00䬀吀怀儀v\x00㈀䬀㈀䴀ts\x00儀v\x00㈀怀original\x00戀吀ec"
+- page=3 line[030] translate=yes x=68.87 y=539.95 fs=8.00 lines=1 raw="•\x00氀䴀䈀紀㈀⼀notation\x00㜀儀怀ratios\x00ᰀ䴀⼀adv\x00ᰀ䴀tages\x00椀儀a\x00瀀oid\x00ᰀ䬀biguit\x00…"
+- page=3 line[031] translate=yes x=68.87 y=599.73 fs=9.00 lines=1 raw="•\x00匀怀ᰀ⬀椀䈀⬀ᰀ䠀h\x00瘀吀erparameter\x00⼀㈀㜀ᰀ洀䠀椀戀and\x00戀椀ᰀ⌀䈀䠀䈀椀y/implemen\x00椀ᰀ…"
 
 ✅ Base PS: example/test_vector.ps
-✅ Vector translated overlays: 83
+✅ Vector translated overlays: 105
+✅ Base SVG: example/test_vector.svg
 ✅ Output SVG (editable, with translations): example/test_vector_translated.svg
 ✅ Output PDF (from SVG): example/test_vector_translated.pdf

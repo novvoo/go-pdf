@@ -5,7 +5,9 @@ go 1.24.4
 require (
 	github.com/go-text/typesetting v0.1.1
 	github.com/pdfcpu/pdfcpu v0.11.1
+	github.com/tdewolff/parse/v2 v2.8.5
 	golang.org/x/image v0.32.0
+	golang.org/x/net v0.45.0
 )
 
 require (

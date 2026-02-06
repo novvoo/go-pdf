@@ -2,10 +2,11 @@ package gopdf
 
 import (
 	"bytes"
+	"encoding/xml"
 	"fmt"
+	"io"
 	"math"
 	"os"
-	"regexp"
 	"sort"
 	"strconv"
 	"strings"
@@ -66,107 +67,133 @@ func rgbTripletToHex(s string) string {
 	return fmt.Sprintf("#%02x%02x%02x", ri, gi, bi)
 }
 
+func cleanAttrs(attrs []xml.Attr) []xml.Attr {
+	if len(attrs) == 0 {
+		return attrs
+	}
+	out := make([]xml.Attr, 0, len(attrs))
+	for _, a := range attrs {
+		if a.Name.Local == "xmlns" {
+			continue
+		}
+		if a.Name.Space == "xmlns" {
+			continue
+		}
+		out = append(out, a)
+	}
+	return out
+}
+
 func insertTextOverlaysIntoSVGBytes(input []byte, byPage map[int][]TextOverlayTopLeft) ([]byte, error) {
+	dec := xml.NewDecoder(bytes.NewReader(input))
 	var out bytes.Buffer
-	i := 0
-	depth := 0
+	enc := xml.NewEncoder(&out)
+	enc.Indent("", "  ")
 
-	var pageBuffer bytes.Buffer
-	inPage := false
-	pageDepth := -1
-	currentPage := 0
-
-	for i < len(input) {
-		lt := bytes.IndexByte(input[i:], '<')
-		if lt < 0 {
-			if inPage {
-				pageBuffer.Write(input[i:])
-			} else {
-				out.Write(input[i:])
+	// We process the stream. When we hit a page group, we buffer its children, process them, and write them back.
+	for {
+		tok, err := dec.Token()
+		if err != nil {
+			if err == io.EOF {
+				break
 			}
-			break
-		}
-		lt += i
-
-		if inPage {
-			pageBuffer.Write(input[i:lt])
-		} else {
-			out.Write(input[i:lt])
+			return nil, err
 		}
 
-		gt := bytes.IndexByte(input[lt:], '>')
-		if gt < 0 {
-			if inPage {
-				pageBuffer.Write(input[lt:])
-			} else {
-				out.Write(input[lt:])
-			}
-			break
-		}
-		gt += lt
-		tag := string(input[lt : gt+1])
-		inner := strings.TrimSpace(tag[1 : len(tag)-1])
-
-		isEndG := strings.HasPrefix(inner, "/g")
-		isStartG := !isEndG && strings.HasPrefix(inner, "g") && (len(inner) == 1 || inner[1] == ' ' || inner[1] == '\t' || inner[1] == '\n' || inner[1] == '\r')
-		isSelfClose := strings.HasSuffix(inner, "/")
-
-		if isStartG && !isSelfClose {
-			depth++
-			if !inPage {
-				if p, ok := parseDataPageFromGTag(inner); ok && p > 0 {
-					inPage = true
-					pageDepth = depth
-					currentPage = p
-				}
-			}
-		}
-
-		if inPage {
-			pageBuffer.WriteString(tag)
-		} else {
-			out.WriteString(tag)
-		}
-
-		if isEndG {
-			if inPage && depth == pageDepth {
-				// End of page group
-				pageContent := pageBuffer.Bytes()
-				if ovs, ok := byPage[currentPage]; ok && len(ovs) > 0 {
-					processed := processPageContent(pageContent, ovs)
-					out.Write(processed)
-				} else {
-					out.Write(pageContent)
+		switch t := tok.(type) {
+		case xml.StartElement:
+			t.Attr = cleanAttrs(t.Attr)
+			if t.Name.Local == "g" {
+				// Check for data-page
+				page := 0
+				for _, a := range t.Attr {
+					if a.Name.Local == "data-page" {
+						if v, err := strconv.Atoi(strings.TrimSpace(a.Value)); err == nil {
+							page = v
+						}
+					}
 				}
 
-				pageBuffer.Reset()
-				inPage = false
-				currentPage = 0
-				pageDepth = -1
+				if page > 0 {
+					// Found a page group. Encode the start tag.
+					if err := enc.EncodeToken(t); err != nil {
+						return nil, err
+					}
+
+					// Now consume all children until matching end tag
+					// We need to buffer tokens to perform analysis
+					var children []xml.Token
+					depth := 1
+					for depth > 0 {
+						childTok, err := dec.Token()
+						if err != nil {
+							return nil, err
+						}
+						childTok = xml.CopyToken(childTok)
+
+						switch ct := childTok.(type) {
+						case xml.StartElement:
+							ct.Attr = cleanAttrs(ct.Attr)
+							childTok = ct
+							depth++
+						case xml.EndElement:
+							depth--
+						}
+
+						if depth > 0 {
+							children = append(children, childTok)
+						}
+					}
+
+					// Process children
+					if ovs, ok := byPage[page]; ok {
+						if err := processAndEncodePageContent(enc, children, ovs); err != nil {
+							return nil, err
+						}
+					} else {
+						// Just write back as is (with cleanup)
+						if err := encodeTokensWithCleanup(enc, children); err != nil {
+							return nil, err
+						}
+					}
+
+					// Write the closing </g> for the page
+					if err := enc.EncodeToken(xml.EndElement{Name: t.Name}); err != nil {
+						return nil, err
+					}
+					continue
+				}
 			}
-			if depth > 0 {
-				depth--
+			if err := enc.EncodeToken(t); err != nil {
+				return nil, err
+			}
+
+		case xml.EndElement:
+			if err := enc.EncodeToken(t); err != nil {
+				return nil, err
+			}
+
+		default:
+			if err := enc.EncodeToken(t); err != nil {
+				return nil, err
 			}
 		}
-
-		i = gt + 1
 	}
 
+	if err := enc.Flush(); err != nil {
+		return nil, err
+	}
 	return out.Bytes(), nil
 }
 
-type svgVisualElement struct {
-	EndOffset int
-	Y         float64
-	X         float64
-}
+func processAndEncodePageContent(enc *xml.Encoder, tokens []xml.Token, overlays []TextOverlayTopLeft) error {
+	// Parse tokens into visual elements
+	visuals := ParseVisualTokens(tokens)
 
-func processPageContent(content []byte, overlays []TextOverlayTopLeft) []byte {
-	elements := parseVisualElements(content)
-	insertions := map[int][]string{}
-	var unmatched []TextOverlayTopLeft
+	// Group elements into visual lines
+	lines := DetectVisualLines(visuals)
 
-	// Sort overlays by Y to help with matching
+	// Sort overlays
 	sort.Slice(overlays, func(i, j int) bool {
 		if overlays[i].Y == overlays[j].Y {
 			return overlays[i].X < overlays[j].X
@@ -174,337 +201,354 @@ func processPageContent(content []byte, overlays []TextOverlayTopLeft) []byte {
 		return overlays[i].Y < overlays[j].Y
 	})
 
-	for _, ov := range overlays {
-		bestIdx := -1
-		minDist := 1000000.0
+	groups := groupOverlays(overlays)
 
-		for idx, el := range elements {
-			// We want the text element to be above the overlay (or same line)
-			// el.Y is the anchor Y (baseline). ov.Y is overlay Y.
-			// If ov.Y is significantly above el.Y, then el is below the overlay, so we shouldn't append after it?
-			// Usually we insert AFTER the line above.
-			// So we look for el where el.Y <= ov.Y (el is above or at same level)
+	insertions := map[int]InsertionInfo{}
+	var reflowSteps []ReflowStep
+	var unmatched []TextOverlayTopLeft
 
-			// Allow some tolerance if the overlay is slightly above (e.g. font size diff)
-			if el.Y > ov.Y+10 {
+	for _, group := range groups {
+		if len(group) == 0 {
+			continue
+		}
+		ov := group[0]
+
+		bestLineIdx := -1
+		minDist := 1000.0
+
+		for idx, line := range lines {
+			lineY := line.MinY
+			dy := ov.Y - lineY
+			if dy < -50 || dy > 150 {
 				continue
 			}
 
-			// Vertical distance (positive if overlay is below)
-			dy := ov.Y - el.Y
-
-			// Heuristic: The translation is usually within close proximity (e.g. 50-100 units)
-			if dy > 150 {
-				continue
-			}
-			if dy < -50 { // Don't match if overlay is way above element
-				continue
-			}
-
-			// Horizontal alignment preference
-			dx := math.Abs(ov.X - el.X)
-
-			// Combined distance metric
-			// Weight vertical distance more
-			dist := math.Abs(dy) + dx*0.2
-
-			if dist < minDist {
+			dist := math.Abs(dy)
+			if bestLineIdx == -1 || dist < minDist {
+				bestLineIdx = idx
 				minDist = dist
-				bestIdx = idx
-			}
-		}
-
-		if bestIdx >= 0 {
-			insertions[elements[bestIdx].EndOffset] = append(insertions[elements[bestIdx].EndOffset], buildSVGTranslationGroup(ov))
-		} else {
-			unmatched = append(unmatched, ov)
-		}
-	}
-
-	var out bytes.Buffer
-
-	// Handle unmatched: put them after the opening tag of the page group
-	// The content passed starts with <g ...> and ends with </g>
-	// We want to insert inside, at the top.
-	firstTagEnd := bytes.IndexByte(content, '>')
-	if firstTagEnd >= 0 {
-		out.Write(content[:firstTagEnd+1])
-		for _, ov := range unmatched {
-			out.WriteString("\n")
-			out.WriteString(buildSVGTranslationGroup(ov))
-		}
-
-		lastPos := firstTagEnd + 1
-
-		// Get all insertion points and sort them
-		var offsets []int
-		for off := range insertions {
-			offsets = append(offsets, off)
-		}
-		sort.Ints(offsets)
-
-		for _, off := range offsets {
-			if off > lastPos && off <= len(content) {
-				out.Write(content[lastPos:off])
-				for _, s := range insertions[off] {
-					out.WriteString("\n")
-					out.WriteString(s)
+			} else if math.Abs(dist-minDist) < 5.0 {
+				if dy >= 0 {
+					bestLineIdx = idx
+					minDist = dist
 				}
-				lastPos = off
 			}
 		}
 
-		if lastPos < len(content) {
-			out.Write(content[lastPos:])
-		}
-	} else {
-		out.Write(content)
-	}
-
-	return out.Bytes()
-}
-
-// Regex to find coordinates in SVG elements
-var (
-	rePathD      = regexp.MustCompile(`(?i)[d]="\s*M\s*([-0-9.]+)[,\s]+([-0-9.]+)`)
-	rePolyPoints = regexp.MustCompile(`(?i)points="\s*([-0-9.]+)[,\s]+([-0-9.]+)`)
-	reTextY      = regexp.MustCompile(`(?i)y="([-0-9.]+)"`)
-	reTextX      = regexp.MustCompile(`(?i)x="([-0-9.]+)"`)
-)
-
-func parseVisualElements(content []byte) []svgVisualElement {
-	var elems []svgVisualElement
-	i := 0
-
-	// Skip the opening tag of the page itself
-	firstGt := bytes.IndexByte(content, '>')
-	if firstGt >= 0 {
-		i = firstGt + 1
-	}
-
-	for i < len(content) {
-		lt := bytes.IndexByte(content[i:], '<')
-		if lt < 0 {
-			break
-		}
-		lt += i
-
-		gt := bytes.IndexByte(content[lt:], '>')
-		if gt < 0 {
-			break
-		}
-		gt += lt
-
-		tagContent := string(content[lt : gt+1])
-		inner := strings.TrimSpace(tagContent[1 : len(tagContent)-1])
-		tagName := getTagName(inner)
-
-		// We only care about g, path, polyline, text
-		if tagName != "g" && tagName != "path" && tagName != "polyline" && tagName != "text" {
-			i = gt + 1
-			continue
-		}
-
-		endOffset := -1
-
-		if strings.HasSuffix(inner, "/") {
-			endOffset = gt + 1
+		if bestLineIdx >= 0 {
+			line := lines[bestLineIdx]
+			anchorIdx := -1
+			for _, eIdx := range line.Indices {
+				if eIdx > anchorIdx {
+					anchorIdx = eIdx
+				}
+			}
+			insertions[anchorIdx] = InsertionInfo{
+				Group:       group,
+				RefLineMaxY: line.MaxY,
+			}
 		} else {
-			// Find closing tag
-			endOffset = findClosingTagOffset(content, lt, tagName)
+			unmatched = append(unmatched, group...)
+		}
+	}
+
+	// Write unmatched at the end
+	if len(unmatched) > 0 {
+		if err := encodeTranslationGroup(enc, unmatched, 0); err != nil {
+			return err
+		}
+	}
+
+	// Iterate visuals
+	for idx, v := range visuals {
+		shift := calculateTotalShift(v.Y, reflowSteps)
+
+		// Write the element (subtree)
+		if shift > 0.1 {
+			// Wrap in transform
+			startG := xml.StartElement{
+				Name: xml.Name{Local: "g"},
+				Attr: []xml.Attr{{Name: xml.Name{Local: "transform"}, Value: fmt.Sprintf("translate(0, %s)", formatSVGFloat(shift))}},
+			}
+			if err := enc.EncodeToken(startG); err != nil {
+				return err
+			}
+			if err := encodeTokensWithCleanup(enc, v.Tokens); err != nil {
+				return err
+			}
+			if err := enc.EncodeToken(xml.EndElement{Name: xml.Name{Local: "g"}}); err != nil {
+				return err
+			}
+		} else {
+			if err := encodeTokensWithCleanup(enc, v.Tokens); err != nil {
+				return err
+			}
 		}
 
-		if endOffset == -1 {
-			i = gt + 1
-			continue
-		}
+		if info, ok := insertions[idx]; ok {
+			group := info.Group
+			refY := v.Y
+			totalShift := calculateTotalShift(refY, reflowSteps)
 
-		// Extract coordinates from the full element content
-		elementContent := content[lt:endOffset]
-		y, x, ok := extractCoords(elementContent)
-		if ok {
-			elems = append(elems, svgVisualElement{
-				EndOffset: endOffset,
-				Y:         y,
-				X:         x,
+			topPadding := group[0].FontSize * 0.2
+			if topPadding < 2.0 {
+				topPadding = 2.0
+			}
+
+			localOffset := (info.RefLineMaxY - group[0].Y) + topPadding
+
+			groupMinY, groupMaxY := group[0].Y, group[0].Y
+			for _, o := range group {
+				if o.Y < groupMinY {
+					groupMinY = o.Y
+				}
+				bottom := o.Y + o.FontSize
+				if bottom > groupMaxY {
+					groupMaxY = bottom
+				}
+			}
+			transHeight := groupMaxY - groupMinY
+			if transHeight < group[0].FontSize {
+				transHeight = group[0].FontSize
+			}
+
+			bottomPadding := group[0].FontSize * 0.4
+			shiftAmount := topPadding + transHeight + bottomPadding
+
+			if err := encodeTranslationGroup(enc, group, totalShift+localOffset); err != nil {
+				return err
+			}
+
+			reflowSteps = append(reflowSteps, ReflowStep{
+				ThresholdY: info.RefLineMaxY + 1.0,
+				Shift:      shiftAmount,
 			})
 		}
-
-		i = endOffset
 	}
-	return elems
+
+	return nil
 }
 
-func getTagName(inner string) string {
-	parts := strings.Fields(inner)
-	if len(parts) > 0 {
-		return parts[0]
-	}
-	return ""
-}
+func encodeTokensWithCleanup(enc *xml.Encoder, tokens []xml.Token) error {
+	suppressStack := []bool{}
 
-func findClosingTagOffset(content []byte, startOffset int, tagName string) int {
-	depth := 0
-	curr := startOffset
+	for _, t := range tokens {
+		switch se := t.(type) {
+		case xml.StartElement:
+			se.Attr = cleanAttrs(se.Attr)
+			if se.Name.Local == "g" {
+				// Check suppression
+				shouldSuppress := false
+				hasDataPage := false
+				modID := 0
+				hasVisuals := false
 
-	// Simple scanner to match tags
-	// Note: This is not a full XML parser, but sufficient for standard SVG structure
-	for curr < len(content) {
-		lt := bytes.IndexByte(content[curr:], '<')
-		if lt < 0 {
-			break
-		}
-		lt += curr
-
-		gt := bytes.IndexByte(content[lt:], '>')
-		if gt < 0 {
-			break
-		}
-		gt += lt
-
-		tag := string(content[lt : gt+1])
-		inner := strings.TrimSpace(tag[1 : len(tag)-1])
-
-		isClose := strings.HasPrefix(inner, "/")
-		name := getTagName(strings.TrimPrefix(inner, "/"))
-
-		if name == tagName {
-			if isClose {
-				if depth == 0 {
-					return gt + 1
+				for _, a := range se.Attr {
+					if a.Name.Local == "data-page" {
+						hasDataPage = true
+					}
+					if a.Name.Local == "data-module" {
+						modID, _ = strconv.Atoi(a.Value)
+					}
+					n := a.Name.Local
+					if n == "transform" || n == "style" || n == "clip-path" || n == "mask" || n == "filter" || n == "opacity" {
+						hasVisuals = true
+					}
 				}
-				depth--
-			} else if !strings.HasSuffix(inner, "/") {
-				// Start tag
-				if curr != startOffset { // Don't count the initial tag
-					depth++
+
+				if !hasDataPage && modID > 0 && !hasVisuals {
+					shouldSuppress = true
+				}
+
+				suppressStack = append(suppressStack, shouldSuppress)
+				if shouldSuppress {
+					continue
+				}
+			} else if se.Name.Local == "path" || se.Name.Local == "rect" || se.Name.Local == "polyline" || se.Name.Local == "polygon" {
+				// Clean attributes
+				newAttrs := make([]xml.Attr, 0, len(se.Attr))
+				for _, a := range se.Attr {
+					if a.Name.Local == "id" && strings.HasPrefix(a.Value, "p") && strings.Contains(a.Value, "-m") {
+						continue
+					}
+					if a.Name.Local == "data-kind" {
+						continue
+					}
+					newAttrs = append(newAttrs, a)
+				}
+				se.Attr = newAttrs
+				if err := enc.EncodeToken(se); err != nil {
+					return err
+				}
+				continue
+			}
+
+			if err := enc.EncodeToken(se); err != nil {
+				return err
+			}
+
+		case xml.EndElement:
+			if se.Name.Local == "g" {
+				if len(suppressStack) > 0 {
+					suppressed := suppressStack[len(suppressStack)-1]
+					suppressStack = suppressStack[:len(suppressStack)-1]
+					if suppressed {
+						continue
+					}
 				}
 			}
+			if err := enc.EncodeToken(se); err != nil {
+				return err
+			}
+
+		case xml.CharData:
+			if len(strings.TrimSpace(string(se))) == 0 {
+				continue
+			}
+			if err := enc.EncodeToken(se); err != nil {
+				return err
+			}
+
+		default:
+			if err := enc.EncodeToken(t); err != nil {
+				return err
+			}
 		}
-
-		curr = gt + 1
 	}
-	return -1
+	return nil
 }
 
-func extractCoords(chunk []byte) (float64, float64, bool) {
-	// Try Text
-	if mY := reTextY.FindSubmatch(chunk); mY != nil {
-		y, _ := strconv.ParseFloat(string(mY[1]), 64)
-		x := 0.0
-		if mX := reTextX.FindSubmatch(chunk); mX != nil {
-			x, _ = strconv.ParseFloat(string(mX[1]), 64)
+func encodeTranslationGroup(enc *xml.Encoder, group []TextOverlayTopLeft, shift float64) error {
+	if len(group) == 0 {
+		return nil
+	}
+
+	start := xml.StartElement{
+		Name: xml.Name{Local: "g"},
+		Attr: []xml.Attr{{Name: xml.Name{Local: "data-layer"}, Value: "translation-text"}},
+	}
+	if err := enc.EncodeToken(start); err != nil {
+		return err
+	}
+
+	for _, ov := range group {
+		shiftedOv := ov
+		shiftedOv.Y += shift
+
+		// Halo
+		if err := encodeTextElement(enc, shiftedOv, true); err != nil {
+			return err
 		}
-		return y, x, true
+		// Main
+		if err := encodeTextElement(enc, shiftedOv, false); err != nil {
+			return err
+		}
 	}
 
-	// Try Path
-	if m := rePathD.FindSubmatch(chunk); m != nil {
-		x, _ := strconv.ParseFloat(string(m[1]), 64)
-		y, _ := strconv.ParseFloat(string(m[2]), 64)
-		return y, x, true
-	}
-
-	// Try Polyline
-	if m := rePolyPoints.FindSubmatch(chunk); m != nil {
-		x, _ := strconv.ParseFloat(string(m[1]), 64)
-		y, _ := strconv.ParseFloat(string(m[2]), 64)
-		return y, x, true
-	}
-
-	return 0, 0, false
+	return enc.EncodeToken(xml.EndElement{Name: xml.Name{Local: "g"}})
 }
 
-func parseSVGAttribute(tagContent, attr string) (string, bool) {
-	needle := attr + "="
-	idx := strings.Index(tagContent, needle)
-	if idx < 0 {
-		return "", false
-	}
-
-	rest := tagContent[idx+len(needle):]
-	if len(rest) == 0 {
-		return "", false
-	}
-
-	quote := rest[0]
-	if quote != '"' && quote != '\'' {
-		return "", false
-	}
-
-	rest = rest[1:]
-	end := strings.IndexByte(rest, quote)
-	if end < 0 {
-		return "", false
-	}
-
-	return rest[:end], true
-}
-
-func parseDataPageFromGTag(inner string) (int, bool) {
-	val, ok := parseSVGAttribute(inner, "data-page")
-	if !ok {
-		return 0, false
-	}
-	if v, err := strconv.Atoi(val); err == nil {
-		return v, true
-	}
-	return 0, false
-}
-
-func buildSVGTranslationGroup(o TextOverlayTopLeft) string {
-	var b strings.Builder
-	b.WriteString("  <g data-layer=\"translation-text\">\n")
-	b.WriteString(buildSVGTextElement(o, "    "))
-	b.WriteString("  </g>")
-	return b.String()
-}
-
-func buildSVGTextElement(o TextOverlayTopLeft, indent string) string {
+func encodeTextElement(enc *xml.Encoder, o TextOverlayTopLeft, isHalo bool) error {
 	fontSize := o.FontSize
 	if fontSize <= 0 {
 		fontSize = 12
 	}
 
-	fill := strings.TrimSpace(o.FillColor)
-	if fill == "" {
-		fill = "0 0 0"
+	attrs := []xml.Attr{
+		{Name: xml.Name{Local: "x"}, Value: formatSVGFloat(o.X)},
+		{Name: xml.Name{Local: "y"}, Value: formatSVGFloat(o.Y)},
+		{Name: xml.Name{Local: "font-size"}, Value: formatSVGFloat(fontSize)},
+		{Name: xml.Name{Local: "font-family"}, Value: chooseSVGFontFamily(o.Text, o.FontName)},
+		{Name: xml.Name{Local: "xml:space"}, Value: "preserve"},
 	}
-	fillHex := rgbTripletToHex(fill)
 
-	fontFamily := strings.TrimSpace(o.FontName)
-	if fontFamily == "" {
-		fontFamily = "Helvetica"
-	}
-	fontFamily = chooseSVGFontFamily(o.Text, fontFamily)
+	if isHalo {
+		attrs = append(attrs,
+			xml.Attr{Name: xml.Name{Local: "fill"}, Value: "white"},
+			xml.Attr{Name: xml.Name{Local: "stroke"}, Value: "white"},
+			xml.Attr{Name: xml.Name{Local: "stroke-width"}, Value: "3"},
+			xml.Attr{Name: xml.Name{Local: "stroke-linejoin"}, Value: "round"},
+		)
+		if o.Opacity > 0 && o.Opacity < 1 {
+			attrs = append(attrs, xml.Attr{Name: xml.Name{Local: "opacity"}, Value: formatSVGFloat(o.Opacity * 0.8)})
+		}
+	} else {
+		fill := strings.TrimSpace(o.FillColor)
+		if fill == "" {
+			fill = "0 0 0"
+		}
+		attrs = append(attrs, xml.Attr{Name: xml.Name{Local: "fill"}, Value: rgbTripletToHex(fill)})
 
-	var b strings.Builder
-	if indent == "" {
-		indent = "  "
+		if o.Opacity > 0 && o.Opacity < 1 {
+			attrs = append(attrs, xml.Attr{Name: xml.Name{Local: "opacity"}, Value: formatSVGFloat(o.Opacity)})
+		}
 	}
-	b.WriteString(indent)
-	b.WriteString("<text x=\"")
-	// Use explicit formatting instead of helper to avoid dependency issues
-	b.WriteString(escapeXMLAttr(strconv.FormatFloat(o.X, 'f', -1, 64)))
-	b.WriteString("\" y=\"")
-	b.WriteString(escapeXMLAttr(strconv.FormatFloat(o.Y, 'f', -1, 64)))
-	b.WriteString("\" fill=\"")
-	b.WriteString(escapeXMLAttr(fillHex))
-	b.WriteString("\" font-size=\"")
-	b.WriteString(escapeXMLAttr(strconv.FormatFloat(fontSize, 'f', -1, 64)))
-	b.WriteString("\" font-family=\"")
-	b.WriteString(escapeXMLAttr(fontFamily))
-	b.WriteString("\"")
-	b.WriteString(" xml:space=\"preserve\"")
-	if o.Opacity > 0 && o.Opacity < 1 {
-		b.WriteString(" opacity=\"")
-		b.WriteString(escapeXMLAttr(strconv.FormatFloat(o.Opacity, 'f', -1, 64)))
-		b.WriteString("\"")
+
+	if o.TextLength > 0 {
+		attrs = append(attrs,
+			xml.Attr{Name: xml.Name{Local: "textLength"}, Value: formatSVGFloat(o.TextLength)},
+			xml.Attr{Name: xml.Name{Local: "lengthAdjust"}, Value: "spacingAndGlyphs"},
+		)
 	}
-	b.WriteString(">")
-	b.WriteString(escapeXMLText(sanitizeXMLText(o.Text)))
-	b.WriteString("</text>\n")
-	return b.String()
+
+	start := xml.StartElement{Name: xml.Name{Local: "text"}, Attr: attrs}
+	if err := enc.EncodeToken(start); err != nil {
+		return err
+	}
+	if err := enc.EncodeToken(xml.CharData([]byte(ensureValidUTF8(sanitizeXMLText(o.Text))))); err != nil {
+		return err
+	}
+	return enc.EncodeToken(xml.EndElement{Name: xml.Name{Local: "text"}})
+}
+
+type InsertionInfo struct {
+	Group       []TextOverlayTopLeft
+	RefLineMaxY float64
+}
+
+type ReflowStep struct {
+	ThresholdY float64
+	Shift      float64
+}
+
+// visualLine struct removed in favor of svg_line_detector.go implementation
+
+func calculateTotalShift(y float64, steps []ReflowStep) float64 {
+	shift := 0.0
+	for _, s := range steps {
+		if s.ThresholdY < y {
+			shift += s.Shift
+		}
+	}
+	return shift
+}
+
+func groupOverlays(overlays []TextOverlayTopLeft) [][]TextOverlayTopLeft {
+	if len(overlays) == 0 {
+		return nil
+	}
+	var groups [][]TextOverlayTopLeft
+	var currentGroup []TextOverlayTopLeft
+
+	for _, ov := range overlays {
+		if len(currentGroup) == 0 {
+			currentGroup = append(currentGroup, ov)
+			continue
+		}
+		last := currentGroup[len(currentGroup)-1]
+		dx := math.Abs(ov.X - last.X)
+		dy := ov.Y - last.Y
+		if dx < 5.0 && dy > 0 && dy < last.FontSize*2.5 {
+			currentGroup = append(currentGroup, ov)
+		} else {
+			groups = append(groups, currentGroup)
+			currentGroup = []TextOverlayTopLeft{ov}
+		}
+	}
+	if len(currentGroup) > 0 {
+		groups = append(groups, currentGroup)
+	}
+	return groups
 }
 
 func chooseSVGFontFamily(text, requested string) string {
@@ -515,19 +559,10 @@ func chooseSVGFontFamily(text, requested string) string {
 	if !containsCJKText(text) {
 		return req
 	}
-
 	lower := strings.ToLower(req)
-	if strings.Contains(lower, "yahei") ||
-		strings.Contains(lower, "msyh") ||
-		strings.Contains(lower, "simsun") ||
-		strings.Contains(lower, "simhei") ||
-		strings.Contains(lower, "pingfang") ||
-		strings.Contains(lower, "hiragino") ||
-		strings.Contains(lower, "noto") ||
-		strings.Contains(lower, "cjk") {
+	if strings.Contains(lower, "yahei") || strings.Contains(lower, "msyh") || strings.Contains(lower, "simsun") || strings.Contains(lower, "simhei") || strings.Contains(lower, "pingfang") || strings.Contains(lower, "hiragino") || strings.Contains(lower, "noto") || strings.Contains(lower, "cjk") {
 		return req
 	}
-
 	return "Microsoft YaHei, SimSun, PingFang SC, Noto Sans CJK SC, " + req + ", sans-serif"
 }
 
@@ -567,18 +602,4 @@ func isValidXML10Rune(r rune) bool {
 	default:
 		return false
 	}
-}
-
-func escapeXMLText(s string) string {
-	s = strings.ReplaceAll(s, "&", "&amp;")
-	s = strings.ReplaceAll(s, "<", "&lt;")
-	s = strings.ReplaceAll(s, ">", "&gt;")
-	return s
-}
-
-func escapeXMLAttr(s string) string {
-	s = escapeXMLText(s)
-	s = strings.ReplaceAll(s, "\"", "&quot;")
-	s = strings.ReplaceAll(s, "'", "&apos;")
-	return s
 }

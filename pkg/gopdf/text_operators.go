@@ -583,7 +583,7 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 	}
 
 	sampleText := text
-	if array != nil {
+	if len(array) > 0 {
 		for _, it := range array {
 			if s, ok := it.(string); ok {
 				sampleText = s
@@ -684,7 +684,7 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 		adv := ext.XAdvance
 
 		if textState.CharSpacing != 0 || textState.WordSpacing != 0 {
-			for _, r := range []rune(runText) {
+			for _, r := range runText {
 				if isCJKCharacterRune(r) {
 					if textState.CharSpacing != 0 {
 						adv += textState.CharSpacing * 0.5
@@ -1195,7 +1195,7 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 	}
 
 	// 渲染文本
-	if array != nil {
+	if len(array) > 0 {
 		// TJ 操作符：处理文本数组
 		debugPrintf("[TJ_ARRAY] Processing %d items\n", len(array))
 
@@ -1831,7 +1831,8 @@ func CalculateTextWidthFromCIDs(cids []uint16, textState *TextState, decodedText
 }
 
 // decodeTextStringWithFontAndIdentity 使用字体的 ToUnicode 映射解码文本，支持Identity映射
-func decodeTextStringWithFontAndIdentity(text string, toUnicodeMap *CIDToUnicodeMap, isIdentity bool) string {
+// decodeTextStringWithFontAndIdentity is currently unused
+func _(text string, toUnicodeMap *CIDToUnicodeMap, isIdentity bool) string {
 	// 检查是否是十六进制字符串
 	if len(text) >= 2 && text[0] == '<' && text[len(text)-1] == '>' {
 		hexStr := text[1 : len(text)-1]

@@ -21,11 +21,12 @@ type TextOverlay struct {
 	FontName string
 	FontSize float64
 
-	FillColor string
+	FillColor       string
 	BackgroundColor string
-	Opacity   float64
+	Opacity         float64
 
-	OnTop bool
+	OnTop      bool
+	TextLength float64
 }
 
 func (t TextOverlay) normalize() TextOverlay {
@@ -112,11 +113,12 @@ type TextOverlayTopLeft struct {
 	FontName string
 	FontSize float64
 
-	FillColor string
+	FillColor       string
 	BackgroundColor string
-	Opacity   float64
+	Opacity         float64
 
-	OnTop bool
+	OnTop      bool
+	TextLength float64
 }
 
 func (r *PDFReader) AddTextOverlaysTopLeftFile(outFile string, overlays []TextOverlayTopLeft) error {
@@ -186,16 +188,16 @@ func (r *PDFReader) AddTextOverlaysTopLeftFile(outFile string, overlays []TextOv
 		pdfX, pdfY := inv.Transform(o.X, o.Y)
 
 		out = append(out, TextOverlay{
-			Page:      o.Page,
-			Text:      o.Text,
-			X:         pdfX,
-			Y:         pdfY,
-			FontName:  o.FontName,
-			FontSize:  o.FontSize,
-			FillColor: o.FillColor,
+			Page:            o.Page,
+			Text:            o.Text,
+			X:               pdfX,
+			Y:               pdfY,
+			FontName:        o.FontName,
+			FontSize:        o.FontSize,
+			FillColor:       o.FillColor,
 			BackgroundColor: o.BackgroundColor,
-			Opacity:   o.Opacity,
-			OnTop:     o.OnTop,
+			Opacity:         o.Opacity,
+			OnTop:           o.OnTop,
 		})
 	}
 

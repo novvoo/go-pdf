@@ -41,7 +41,7 @@ func parseCFFEncoding(data []byte) (map[byte]string, map[byte]uint16, [6]float64
 	}
 	off = next
 
-	_, next, err = parseCFFIndex(data, off)
+	_, _, err = parseCFFIndex(data, off)
 	if err != nil {
 		return nil, nil, fontMatrix, false, err
 	}
