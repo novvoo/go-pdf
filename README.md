@@ -82,6 +82,14 @@ go run cmd/render_pdf.go
 go run cmd/merge_layers.go
 ```
 
+### Example Outputs
+
+| Example | Output |
+| --- | --- |
+| Render PDF to PNG (`cmd/render_pdf.go`) | <img src="example/test.png" width="360" /> |
+| Render image to PNG (`cmd/render_pdf_image.go`) | <img src="example/test_image.png" width="360" /> |
+| Render SVG to PNG (`cmd/render_pdf_vector.go`) | <img src="example/test_vector.png" width="360" /> |
+
 ## API Reference
 
 ### PDFRenderer
