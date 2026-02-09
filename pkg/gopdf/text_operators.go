@@ -1,6 +1,7 @@
 package gopdf
 
 import (
+	"encoding/hex"
 	"fmt"
 	"math"
 	"strings"
@@ -1554,27 +1555,50 @@ func isTeXMathBaseFontName(baseFont string) bool {
 func decodeTextStringWithCIDs(text string, toUnicodeMap *CIDToUnicodeMap, font *Font) (string, []uint16, TextDecodeStats) {
 	// 检查是否是十六进制字符串
 	if len(text) >= 2 && text[0] == '<' && text[len(text)-1] == '>' {
-		hexStr := text[1 : len(text)-1]
-		hexStr = strings.ReplaceAll(hexStr, " ", "")
+		result := decodePDFHexStringBytes(text)
 
-		// 转换十六进制到字节
-		var result []byte
-		for i := 0; i < len(hexStr); i += 2 {
-			if i+1 < len(hexStr) {
-				var b byte
-				fmt.Sscanf(hexStr[i:i+2], "%02x", &b)
-				result = append(result, b)
+		if font != nil && (font.Subtype == "/Type0" || font.Subtype == "Type0") && toUnicodeMap != nil && toUnicodeMap.parsed != nil {
+			codes := toUnicodeMap.parsed.splitCodes(result)
+			decodedStr := toUnicodeMap.parsed.decodeFontString(result)
+			stats := TextDecodeStats{CIDCount: len(codes)}
+
+			cids := make([]uint16, 0, len(codes))
+			for _, c := range codes {
+				if _, ok := toUnicodeMap.parsed.mapping[string(c)]; ok {
+					stats.ToUnicodeHit++
+				} else {
+					stats.Replaced++
+				}
+				switch len(c) {
+				case 1:
+					cids = append(cids, uint16(c[0]))
+				case 2:
+					cids = append(cids, uint16(c[0])<<8|uint16(c[1]))
+				default:
+					if len(c) >= 2 {
+						cids = append(cids, uint16(c[len(c)-2])<<8|uint16(c[len(c)-1]))
+					}
+				}
 			}
+
+			return ensureValidUTF8(decodedStr), cids, stats
 		}
 
 		var cids []uint16
 		if font != nil && (font.Subtype == "/Type0" || font.Subtype == "Type0") {
-			if len(result) < 2 || len(result)%2 != 0 {
-				return "", nil, TextDecodeStats{}
-			}
-			for i := 0; i < len(result); i += 2 {
-				cid := uint16(result[i])<<8 | uint16(result[i+1])
-				cids = append(cids, cid)
+			if len(result) < 2 {
+				for _, b := range result {
+					cids = append(cids, uint16(b))
+				}
+			} else if len(result)%2 != 0 {
+				for _, b := range result {
+					cids = append(cids, uint16(b))
+				}
+			} else {
+				for i := 0; i < len(result); i += 2 {
+					cid := uint16(result[i])<<8 | uint16(result[i+1])
+					cids = append(cids, cid)
+				}
 			}
 		} else {
 			for _, b := range result {
@@ -1614,8 +1638,22 @@ func decodeTextStringWithCIDs(text string, toUnicodeMap *CIDToUnicodeMap, font *
 					decoded.WriteRune(r)
 					continue
 				}
+				if font.CFF != nil {
+					if name := font.CFF.GlyphName(otapi.GID(gid)); name != "" {
+						if r, ok := glyphNameToRuneForFont(name, font); ok && isValidUnicodeRune(r) {
+							decoded.WriteRune(r)
+							stats.GlyphNameHit++
+							continue
+						}
+					}
+				}
 				if cid >= 0x20 && cid <= 0x7E {
 					decoded.WriteByte(byte(cid))
+					stats.IdentityASCIIHit++
+					continue
+				}
+				if lo := cid & 0x00FF; lo >= 0x20 && lo <= 0x7E {
+					decoded.WriteByte(byte(lo))
 					stats.IdentityASCIIHit++
 					continue
 				}
@@ -1634,6 +1672,32 @@ func decodeTextStringWithCIDs(text string, toUnicodeMap *CIDToUnicodeMap, font *
 	// 普通字符串 - 处理反斜杠转义并转换为 CID 数组（字节码）
 	rawBytes := decodePDFLiteralStringBytes(text)
 	var cids []uint16
+	if font != nil && (font.Subtype == "/Type0" || font.Subtype == "Type0") && toUnicodeMap != nil && toUnicodeMap.parsed != nil {
+		codes := toUnicodeMap.parsed.splitCodes(rawBytes)
+		decodedStr := toUnicodeMap.parsed.decodeFontString(rawBytes)
+		stats := TextDecodeStats{CIDCount: len(codes)}
+
+		for _, c := range codes {
+			if _, ok := toUnicodeMap.parsed.mapping[string(c)]; ok {
+				stats.ToUnicodeHit++
+			} else {
+				stats.Replaced++
+			}
+			switch len(c) {
+			case 1:
+				cids = append(cids, uint16(c[0]))
+			case 2:
+				cids = append(cids, uint16(c[0])<<8|uint16(c[1]))
+			default:
+				if len(c) >= 2 {
+					cids = append(cids, uint16(c[len(c)-2])<<8|uint16(c[len(c)-1]))
+				}
+			}
+		}
+
+		return ensureValidUTF8(decodedStr), cids, stats
+	}
+
 	if font != nil && (font.Subtype == "/Type0" || font.Subtype == "Type0") && font.IsIdentity && len(rawBytes) >= 2 && len(rawBytes)%2 == 0 {
 		for i := 0; i < len(rawBytes); i += 2 {
 			cid := uint16(rawBytes[i])<<8 | uint16(rawBytes[i+1])
@@ -1675,8 +1739,22 @@ func decodeTextStringWithCIDs(text string, toUnicodeMap *CIDToUnicodeMap, font *
 					decoded.WriteRune(r)
 					continue
 				}
+				if font.CFF != nil {
+					if name := font.CFF.GlyphName(otapi.GID(gid)); name != "" {
+						if r, ok := glyphNameToRuneForFont(name, font); ok && isValidUnicodeRune(r) {
+							decoded.WriteRune(r)
+							stats.GlyphNameHit++
+							continue
+						}
+					}
+				}
 				if cid >= 0x20 && cid <= 0x7E {
 					decoded.WriteByte(byte(cid))
+					stats.IdentityASCIIHit++
+					continue
+				}
+				if lo := cid & 0x00FF; lo >= 0x20 && lo <= 0x7E {
+					decoded.WriteByte(byte(lo))
 					stats.IdentityASCIIHit++
 					continue
 				}
@@ -1956,6 +2034,38 @@ func _(text string, toUnicodeMap *CIDToUnicodeMap, isIdentity bool) string {
 
 	// 普通字符串
 	return text
+}
+
+func decodePDFHexStringBytes(s string) []byte {
+	if len(s) < 2 || s[0] != '<' {
+		return nil
+	}
+	var out []byte
+	i := 0
+	for i < len(s) {
+		if s[i] != '<' {
+			i++
+			continue
+		}
+		j := i + 1
+		for j < len(s) && s[j] != '>' {
+			j++
+		}
+		if j >= len(s) {
+			break
+		}
+		seg := strings.ReplaceAll(s[i+1:j], " ", "")
+		if seg != "" {
+			if len(seg)%2 == 1 {
+				seg += "0"
+			}
+			if b, err := hex.DecodeString(seg); err == nil {
+				out = append(out, b...)
+			}
+		}
+		i = j + 1
+	}
+	return out
 }
 
 // decodeTextString 解码 PDF 文本字符串

@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"io/fs"
 	"strconv"
 	"strings"
 	"unicode/utf16"
@@ -16,6 +17,7 @@ import (
 type CIDToUnicodeMap struct {
 	Mappings map[uint16]rune
 	Ranges   []cidRange
+	parsed   *toUnicodeCMap
 }
 
 type cidRange struct {
@@ -35,6 +37,31 @@ func NewCIDToUnicodeMap() *CIDToUnicodeMap {
 // ParseToUnicodeCMap 解析 ToUnicode CMap 流
 func ParseToUnicodeCMap(cmapData []byte) (*CIDToUnicodeMap, error) {
 	cidMap := NewCIDToUnicodeMap()
+	cm, err := parseToUnicodeCMapBytes(cmapData)
+	if err != nil {
+		return nil, err
+	}
+	cidMap.parsed = cm
+	for k, v := range cm.mapping {
+		if len(k) != 2 {
+			continue
+		}
+		b := []byte(k)
+		cidVal := uint16(b[0])<<8 | uint16(b[1])
+		r := []rune(v)
+		if len(r) == 1 && isValidUnicodeRuneForCID(r[0]) {
+			cidMap.Mappings[cidVal] = r[0]
+		}
+	}
+	return cidMap, nil
+}
+
+func parseToUnicodeCMapInternal(cmapData []byte, visited map[string]bool, depth int) (*CIDToUnicodeMap, error) {
+	if depth > 6 {
+		return NewCIDToUnicodeMap(), nil
+	}
+
+	cidMap := NewCIDToUnicodeMap()
 
 	cmapData = bytes.ReplaceAll(cmapData, []byte{'\r'}, []byte{'\n'})
 	reader := bufio.NewReader(bytes.NewReader(cmapData))
@@ -47,11 +74,29 @@ func ParseToUnicodeCMap(cmapData []byte) (*CIDToUnicodeMap, error) {
 					break
 				}
 			} else {
-			return nil, err
+				return nil, err
 			}
 		}
 
 		line = strings.TrimSpace(line)
+		if line == "" {
+			if err == io.EOF {
+				break
+			}
+			continue
+		}
+
+		if strings.Contains(line, "usecmap") {
+			if name := extractUseCMapName(line); name != "" && !visited[name] {
+				visited[name] = true
+				if baseData, ok := loadCMapFromPopplerData(name); ok {
+					baseMap, err := parseToUnicodeCMapInternal(baseData, visited, depth+1)
+					if err == nil && baseMap != nil {
+						mergeCIDToUnicodeMaps(cidMap, baseMap)
+					}
+				}
+			}
+		}
 
 		// 解析 beginbfchar ... endbfchar
 		if strings.Contains(line, "beginbfchar") {
@@ -69,18 +114,12 @@ func ParseToUnicodeCMap(cmapData []byte) (*CIDToUnicodeMap, error) {
 
 		// 解析 begincodespacerange ... endcodespacerange
 		if strings.Contains(line, "begincodespacerange") {
-			// codespacerange 主要用于确定输入码的长度，对于解码不是必需的
-			// 但我们仍然需要解析它以跳过相关内容
 			if err := parseCodeSpaceRange(reader); err != nil {
 				return nil, err
 			}
 		}
 
-		// 检查是否是Identity-H或Identity-V映射
-		// 这些是特殊的CMap，CID直接等于Unicode码点
 		if strings.Contains(line, "/Identity-H") || strings.Contains(line, "/Identity-V") {
-			// Identity映射：CID = Unicode
-			// 在这种情况下，我们不需要额外的映射表，因为CID直接就是Unicode码点
 			debugPrintf("✓ Detected Identity CMap: %s\n", line)
 		}
 
@@ -90,6 +129,64 @@ func ParseToUnicodeCMap(cmapData []byte) (*CIDToUnicodeMap, error) {
 	}
 
 	return cidMap, nil
+}
+
+func extractUseCMapName(line string) string {
+	parts := strings.Fields(line)
+	for i := 0; i < len(parts); i++ {
+		if parts[i] != "usecmap" {
+			continue
+		}
+		if i == 0 {
+			return ""
+		}
+		name := strings.TrimSpace(parts[i-1])
+		name = strings.TrimPrefix(name, "/")
+		return name
+	}
+	return ""
+}
+
+func loadCMapFromPopplerData(cmapName string) ([]byte, bool) {
+	cmapName = strings.TrimSpace(strings.TrimPrefix(cmapName, "/"))
+	if cmapName == "" {
+		return nil, false
+	}
+
+	fs0 := popplerdata.GetFS()
+	matches, _ := fs.Glob(fs0, "cMap/*/"+cmapName)
+	if len(matches) == 0 {
+		return nil, false
+	}
+
+	f, err := fs0.Open(matches[0])
+	if err != nil {
+		return nil, false
+	}
+	defer f.Close()
+
+	b, err := io.ReadAll(f)
+	if err != nil || len(b) == 0 {
+		return nil, false
+	}
+	return b, true
+}
+
+func mergeCIDToUnicodeMaps(dst, src *CIDToUnicodeMap) {
+	if dst == nil || src == nil {
+		return
+	}
+	if dst.Mappings == nil {
+		dst.Mappings = make(map[uint16]rune, len(src.Mappings))
+	}
+	for k, v := range src.Mappings {
+		if _, exists := dst.Mappings[k]; !exists {
+			dst.Mappings[k] = v
+		}
+	}
+	if len(src.Ranges) > 0 {
+		dst.Ranges = append(dst.Ranges, src.Ranges...)
+	}
 }
 
 // parseBfChar 解析 bfchar 映射
@@ -107,17 +204,29 @@ func parseBfChar(reader *bufio.Reader, cidMap *CIDToUnicodeMap) error {
 		}
 
 		toks := extractAllAngleHexTokens(line)
-		if len(toks) < 2 {
-			continue
+		for len(toks) < 2 {
+			next, err := reader.ReadString('\n')
+			if err != nil {
+				return err
+			}
+			n := strings.TrimSpace(next)
+			if strings.Contains(n, "endbfchar") {
+				return nil
+			}
+			toks = append(toks, extractAllAngleHexTokens(n)...)
+			if len(toks) >= 2 {
+				break
+			}
 		}
+		for i := 0; i+1 < len(toks); i += 2 {
+			cid := parseHexString(toks[i])
+			uni := parseHexString(toks[i+1])
 
-		cid := parseHexString(toks[0])
-		uni := parseHexString(toks[1])
-
-		if len(cid) >= 2 && len(uni) >= 2 {
-			cidVal := uint16(cid[0])<<8 | uint16(cid[1])
-			if runes := decodeUTF16BERunes(uni); len(runes) > 0 {
-				cidMap.Mappings[cidVal] = runes[0]
+			if len(cid) >= 2 && len(uni) >= 2 {
+				cidVal := uint16(cid[0])<<8 | uint16(cid[1])
+				if runes := decodeUTF16BERunes(uni); len(runes) > 0 {
+					cidMap.Mappings[cidVal] = runes[0]
+				}
 			}
 		}
 	}
@@ -140,7 +249,7 @@ func parseBfRange(reader *bufio.Reader, cidMap *CIDToUnicodeMap) error {
 		}
 
 		toks := extractAllAngleHexTokens(line)
-		if len(toks) < 3 {
+		if len(toks) < 2 {
 			continue
 		}
 
@@ -156,20 +265,49 @@ func parseBfRange(reader *bufio.Reader, cidMap *CIDToUnicodeMap) error {
 			continue
 		}
 
-		if strings.Contains(line, "[") {
-			uniTokens := append([]string(nil), toks[2:]...)
+		isArray := strings.Contains(line, "[")
+		uniTokens := append([]string(nil), toks[2:]...)
+		if len(uniTokens) == 0 {
 			for {
-				if strings.Contains(line, "]") {
-					break
-				}
 				next, err := reader.ReadString('\n')
 				if err != nil {
 					return err
 				}
-				line = strings.TrimSpace(next)
-				uniTokens = append(uniTokens, extractAllAngleHexTokens(line)...)
+				n := strings.TrimSpace(next)
+				if strings.Contains(n, "endbfrange") {
+					return nil
+				}
+				if strings.Contains(n, "[") {
+					isArray = true
+				}
+				uniTokens = append(uniTokens, extractAllAngleHexTokens(n)...)
+				if isArray {
+					if strings.Contains(n, "]") {
+						break
+					}
+					continue
+				}
+				if len(uniTokens) > 0 {
+					break
+				}
 			}
+		} else if strings.Contains(line, "]") {
+			isArray = true
+		} else if isArray {
+			for {
+				next, err := reader.ReadString('\n')
+				if err != nil {
+					return err
+				}
+				n := strings.TrimSpace(next)
+				uniTokens = append(uniTokens, extractAllAngleHexTokens(n)...)
+				if strings.Contains(n, "]") {
+					break
+				}
+			}
+		}
 
+		if isArray {
 			expected := int(endCIDVal-startCIDVal) + 1
 			if len(uniTokens) < expected {
 				expected = len(uniTokens)
@@ -183,7 +321,10 @@ func parseBfRange(reader *bufio.Reader, cidMap *CIDToUnicodeMap) error {
 			continue
 		}
 
-		startUni := parseHexString(toks[2])
+		if len(uniTokens) == 0 {
+			continue
+		}
+		startUni := parseHexString(uniTokens[0])
 		if len(startUni) < 2 {
 			continue
 		}
@@ -308,7 +449,8 @@ func (m *CIDToUnicodeMap) MapCIDToUnicode(cid uint16) (rune, bool) {
 	}
 
 	// 然后查找范围映射
-	for _, r := range m.Ranges {
+	for i := len(m.Ranges) - 1; i >= 0; i-- {
+		r := m.Ranges[i]
 		if cid >= r.StartCID && cid <= r.EndCID {
 			offset := cid - r.StartCID
 			uni := r.StartUni + rune(offset)

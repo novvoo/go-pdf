@@ -8,6 +8,7 @@ import (
 	"image/png"
 	"os"
 	"strings"
+	"unicode"
 
 	otcff "github.com/go-text/typesetting/opentype/api/font/cff"
 	"github.com/pdfcpu/pdfcpu/pkg/api"
@@ -1070,30 +1071,96 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 		case "Tj", "TJ", "'", "\"": // 显示文本
 			var text string
 			var textDisplacement float64 // 文本位移（用于更新文本矩阵）
+			var rawText string
+			var originalCIDs []uint16
+			var hasToUnicode bool
+			var isIdentity bool
+			var decodeStats TextDecodeStats
+			decodedInTJ := false
 
 			switch t := op.(type) {
 			case *OpShowText:
 				text = t.Text
 			case *OpShowTextArray:
-				// TJ 操作符：处理文本数组，包括字距调整
+				font := resources.GetFont(currentFont)
+				spaceAdvanceThreshold := baseFontSize * 0.25
+				if spaceAdvanceThreshold < 2 {
+					spaceAdvanceThreshold = 2
+				}
+				pendingSpace := false
+
+				var out strings.Builder
+				var lastRune rune
+				hasLastRune := false
+
+				appendDecoded := func(seg string) {
+					if seg == "" {
+						return
+					}
+					var first rune
+					for _, r := range seg {
+						first = r
+						break
+					}
+					if pendingSpace && out.Len() > 0 && hasLastRune && !unicode.IsSpace(lastRune) && first != 0 && !unicode.IsSpace(first) &&
+						(((unicode.IsLetter(lastRune) || unicode.IsDigit(lastRune)) && (unicode.IsLetter(first) || unicode.IsDigit(first))) ||
+							((lastRune == ':' || lastRune == ';' || lastRune == ',' || lastRune == ')' || lastRune == ']' || lastRune == '}') && (unicode.IsLetter(first) || unicode.IsDigit(first)))) {
+						out.WriteByte(' ')
+						lastRune = ' '
+						hasLastRune = true
+					}
+					pendingSpace = false
+					out.WriteString(seg)
+					for _, r := range seg {
+						lastRune = r
+						hasLastRune = true
+					}
+				}
+
 				for _, elem := range t.Array {
 					if s, ok := elem.(string); ok {
-						text += s
+						rawText += s
+						if font != nil {
+							hasToUnicode = font.ToUnicodeMap != nil
+							isIdentity = font.IsIdentity
+							seg, cids, ds := decodeTextStringWithCIDs(s, font.ToUnicodeMap, font)
+							if seg == "" && s != "" {
+								seg = s
+							}
+							appendDecoded(seg)
+							originalCIDs = append(originalCIDs, cids...)
+							decodeStats.CIDCount += ds.CIDCount
+							decodeStats.ToUnicodeHit += ds.ToUnicodeHit
+							decodeStats.GlyphNameHit += ds.GlyphNameHit
+							decodeStats.IdentityASCIIHit += ds.IdentityASCIIHit
+							decodeStats.Replaced += ds.Replaced
+							decodedInTJ = true
+						} else {
+							appendDecoded(s)
+						}
 					} else if num, ok := elem.(float64); ok {
-						// 数字元素表示字距调整
-						// 负值表示向右移动（收紧间距），正值表示向左移动（放宽间距）
-						// 调整量 = -num / 1000 * fontSize * horizScale
-						// 这里我们累积位移，稍后应用到文本矩阵
 						adjustment := -num / 1000.0 * baseFontSize
 						textDisplacement += adjustment
+						if adjustment >= spaceAdvanceThreshold {
+							pendingSpace = true
+						}
 						debugPrintf("[DEBUG] TJ kerning: num=%.0f, adjustment=%.4f, cumulative=%.4f\n",
 							num, adjustment, textDisplacement)
 					} else if num, ok := elem.(int); ok {
 						adjustment := -float64(num) / 1000.0 * baseFontSize
 						textDisplacement += adjustment
+						if adjustment >= spaceAdvanceThreshold {
+							pendingSpace = true
+						}
 						debugPrintf("[DEBUG] TJ kerning: num=%d, adjustment=%.4f, cumulative=%.4f\n",
 							num, adjustment, textDisplacement)
 					}
+				}
+
+				if decodedInTJ {
+					text = out.String()
+				} else {
+					text = rawText
 				}
 			case *OpShowTextNextLine:
 				text = t.Text
@@ -1103,18 +1170,18 @@ func (r *PDFReader) ExtractPageElements(pageNum int) ([]TextElementInfo, []Image
 
 			// 解码文本（处理CID字体和十六进制字符串）
 			// 同时保存原始 CID 数组用于宽度计算
-			var originalCIDs []uint16
-			var rawText string
-			var hasToUnicode bool
-			var isIdentity bool
-			var decodeStats TextDecodeStats
-			if text != "" {
+			if rawText == "" && text != "" {
 				rawText = text
+			}
+			if text != "" && !decodedInTJ {
 				font := resources.GetFont(currentFont)
 				if font != nil {
 					hasToUnicode = font.ToUnicodeMap != nil
 					isIdentity = font.IsIdentity
 					decoded, cids, ds := decodeTextStringWithCIDs(text, font.ToUnicodeMap, font)
+					if decoded == "" && rawText != "" {
+						decoded = rawText
+					}
 					text = decoded
 					originalCIDs = cids
 					decodeStats = ds
@@ -2069,30 +2136,39 @@ func loadFont(ctx *model.Context, fontName string, fontObj types.Object, resourc
 
 	// 加载 ToUnicode CMap（用于 CID 字体）
 	if toUnicodeObj, found := fontDict.Find("ToUnicode"); found {
-		if indRef, ok := toUnicodeObj.(types.IndirectRef); ok {
-			// 解引用 ToUnicode 流
-			derefObj, err := ctx.Dereference(indRef)
+		var streamDict types.StreamDict
+		var hasStream bool
+		switch v := toUnicodeObj.(type) {
+		case types.StreamDict:
+			streamDict = v
+			hasStream = true
+		case types.IndirectRef:
+			derefObj, err := ctx.Dereference(v)
 			if err == nil {
-				if streamDict, ok := derefObj.(types.StreamDict); ok {
-					// 先解码流
-					if len(streamDict.Content) == 0 && len(streamDict.Raw) > 0 {
-						err := streamDict.Decode()
-						if err != nil {
-							debugPrintf("Warning: failed to decode ToUnicode stream for font %s: %v\n", fontName, err)
-						}
-					}
+				if sd, ok := derefObj.(types.StreamDict); ok {
+					streamDict = sd
+					hasStream = true
+				}
+			}
+		}
+		if hasStream {
+			// 先解码流
+			if len(streamDict.Content) == 0 && len(streamDict.Raw) > 0 {
+				err := streamDict.Decode()
+				if err != nil {
+					debugPrintf("Warning: failed to decode ToUnicode stream for font %s: %v\n", fontName, err)
+				}
+			}
 
-					// 解析 ToUnicode CMap
-					if len(streamDict.Content) > 0 {
-						cidMap, err := ParseToUnicodeCMap(streamDict.Content)
-						if err == nil {
-							font.ToUnicodeMap = cidMap
-							debugPrintf("✓ Loaded ToUnicode CMap for font %s (%d mappings, %d ranges)\n",
-								fontName, len(cidMap.Mappings), len(cidMap.Ranges))
-						} else {
-							debugPrintf("Warning: failed to parse ToUnicode CMap for font %s: %v\n", fontName, err)
-						}
-					}
+			// 解析 ToUnicode CMap
+			if len(streamDict.Content) > 0 {
+				cidMap, err := ParseToUnicodeCMap(streamDict.Content)
+				if err == nil && cidMap != nil {
+					font.ToUnicodeMap = cidMap
+					debugPrintf("✓ Loaded ToUnicode CMap for font %s (%d mappings, %d ranges)\n",
+						fontName, len(cidMap.Mappings), len(cidMap.Ranges))
+				} else if err != nil {
+					debugPrintf("Warning: failed to parse ToUnicode CMap for font %s: %v\n", fontName, err)
 				}
 			}
 		}
@@ -2124,30 +2200,45 @@ func loadFont(ctx *model.Context, fontName string, fontObj types.Object, resourc
 	}
 
 	// 如果没有 ToUnicode，尝试从 poppler-data 加载
-	if font.ToUnicodeMap == nil && font.Subtype == "/Type0" {
-		registry := ""
-		if font.CIDSystemInfo != "" {
-			registry = font.CIDSystemInfo
-		} else {
-			registry = guessCIDRegistry(font.BaseFont)
+	if (font.Subtype == "/Type0" || font.Subtype == "Type0") && !isUsefulCIDToUnicodeMap(font.ToUnicodeMap) {
+		primary := strings.TrimSpace(font.CIDSystemInfo)
+		if strings.Contains(strings.ToLower(primary), "identity") {
+			primary = ""
 		}
-		if registry != "" {
+		secondary := guessCIDRegistry(font.BaseFont)
+
+		tryLoad := func(registry string) bool {
+			registry = strings.TrimSpace(registry)
+			if registry == "" {
+				return false
+			}
 			debugPrintf("→ Trying to load CID map from poppler-data: %s for font %s\n", registry, fontName)
 			cidMap, err := LoadCIDToUnicodeFromRegistry(registry)
-			if err == nil {
-				font.ToUnicodeMap = cidMap
-				if font.CIDSystemInfo == "" {
-					font.CIDSystemInfo = registry
+			if err != nil || cidMap == nil || !isUsefulCIDToUnicodeMap(cidMap) {
+				if err != nil {
+					debugPrintf("Warning: failed to load CID map for %s: %v\n", registry, err)
 				}
-				debugPrintf("✓ Loaded CID map from poppler-data: %s (%d mappings)\n", registry, len(cidMap.Mappings))
-			} else {
-				debugPrintf("Warning: failed to load CID map for %s: %v\n", registry, err)
+				return false
 			}
+			font.ToUnicodeMap = cidMap
+			if font.CIDSystemInfo == "" {
+				font.CIDSystemInfo = registry
+			}
+			debugPrintf("✓ Loaded CID map from poppler-data: %s (%d mappings)\n", registry, len(cidMap.Mappings))
+			return true
+		}
+
+		if !tryLoad(primary) {
+			_ = tryLoad(secondary)
 		}
 	}
 
 	resources.AddFont(fontName, font)
 	return nil
+}
+
+func isUsefulCIDToUnicodeMap(m *CIDToUnicodeMap) bool {
+	return m != nil && (len(m.Mappings) > 0 || len(m.Ranges) > 0)
 }
 
 func getType0DescendantFontDict(ctx *model.Context, fontDict types.Dict) (types.Dict, error) {
@@ -2423,6 +2514,13 @@ func loadXObject(ctx *model.Context, xobjName string, xobjObj types.Object, reso
 				if v, ok := arr[5].(types.Float); ok {
 					xobj.Matrix.Y0 = float64(v)
 				}
+			}
+		}
+
+		if resObj, found := streamDict.Find("Resources"); found {
+			xobj.Resources = NewResources()
+			if err := loadResourcesWithDepth(ctx, resObj, xobj.Resources, 1); err != nil {
+				debugPrintf("Warning: failed to load Form XObject resources %s: %v\n", xobjName, err)
 			}
 		}
 
