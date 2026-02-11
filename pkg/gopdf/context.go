@@ -54,17 +54,11 @@ type context struct {
 	// Drawing context for backend
 	gc *rasterContext
 
-	psLineAgg psLineAggregator
-	psTightShift struct {
-		active bool
-		yUser   float64
-		minX    float64
-		dx      float64
-	}
-	psTightLast struct {
+	psLineAgg  psLineAggregator
+	psLastText struct {
 		active   bool
-		xEndUser float64
 		yUser    float64
+		xEndUser float64
 		fontSize float64
 	}
 }

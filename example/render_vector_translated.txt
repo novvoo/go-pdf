@@ -1,6 +1,6 @@
 PDF Translation Report (Simplified Vector)
 ==========================================
-Time: 2026-02-11 17:02:22
+Time: 2026-02-11 17:46:49
 
 📄 Input PDF: example/test_vector.pdf
 ✅ Page count: 3
@@ -1761,21 +1761,10 @@ Lines (grouped):
 ✅ Vector translated overlays: 121
 
 [PS Text Check]
-- shows=775 literal=775 hex=0
-- short(len=1)=516 len=2=41 len=3=58
-- consecutive-letter-fragments=115 (body=18 math=56)
-- ps_paths: newpath=15 curveto=0
-  body examples:
-  - line=1418 L + CPO
-  - line=1498 ref + k
-  - line=1587 J + HACPO
-  - line=2763 L + CPO
-  - line=2995 ref + k
-  - line=3123 J + HACPO
-  - line=3163 penalty + by
-  - line=3172 by + subtracting
-  - line=3255 ref + k
-  - line=3316 J + HACPO
+- shows=189 literal=189 hex=0
+- short(len=1)=18 len=2=14 len=3=17
+- consecutive-letter-fragments=2 (body=0 math=0)
+- ps_paths: newpath=1313 curveto=18044
 ✅ Base SVG: example/test_vector.svg
 ✅ Output SVG (editable, with translations): example/test_vector_translated.svg
 ✅ Output PDF (from SVG): example/test_vector_translated.pdf

@@ -5,12 +5,14 @@ import (
 	"fmt"
 	"math"
 	"strings"
+	"unicode"
 
 	"github.com/go-text/typesetting/di"
 	otapi "github.com/go-text/typesetting/opentype/api"
 	cfffont "github.com/go-text/typesetting/opentype/api/font/cff"
 	"github.com/go-text/typesetting/opentype/tables"
 	"github.com/go-text/typesetting/shaping"
+	"golang.org/x/image/font"
 	"golang.org/x/image/font/sfnt"
 	"golang.org/x/image/math/fixed"
 )
@@ -92,6 +94,10 @@ type Font struct {
 	CIDToGIDMapIdentity bool
 	gidToUnicode        map[uint16]rune
 	gidToUnicodeBuilt   bool
+	embeddedSFNT        *sfnt.Font
+	embeddedSFNTBuilt   bool
+	cffRefCenterUnits   float64
+	cffRefReady         bool
 }
 
 func (f *Font) CIDToGID(cid uint16) uint16 {
@@ -146,6 +152,87 @@ func (f *Font) gidToUnicodeFromEmbeddedFont(gid uint16) (rune, bool) {
 	return r, ok
 }
 
+func (f *Font) ensureEmbeddedSFNT() {
+	if f == nil || f.embeddedSFNTBuilt {
+		return
+	}
+	f.embeddedSFNTBuilt = true
+	if len(f.EmbeddedFontData) == 0 {
+		return
+	}
+	parsed, err := sfnt.Parse(f.EmbeddedFontData)
+	if err != nil {
+		return
+	}
+	f.embeddedSFNT = parsed
+}
+
+func (f *Font) embeddedWidthAvailable() bool {
+	if f == nil || len(f.EmbeddedFontData) == 0 {
+		return false
+	}
+	f.ensureEmbeddedSFNT()
+	return f.embeddedSFNT != nil
+}
+
+func (f *Font) widthFromEmbeddedSFNT(cid uint16) (float64, bool) {
+	if f == nil || len(f.EmbeddedFontData) == 0 {
+		return 0, false
+	}
+	f.ensureEmbeddedSFNT()
+	if f.embeddedSFNT == nil {
+		return 0, false
+	}
+
+	unitsPerEm := f.embeddedSFNT.UnitsPerEm()
+	if unitsPerEm == 0 {
+		return 0, false
+	}
+
+	gid := f.CIDToGID(cid)
+	if gid == 0 {
+		return 0, false
+	}
+
+	buf := &sfnt.Buffer{}
+	ppem := fixed.I(int(unitsPerEm))
+	adv, err := f.embeddedSFNT.GlyphAdvance(buf, sfnt.GlyphIndex(gid), ppem, font.HintingNone)
+	if err != nil {
+		return 0, false
+	}
+
+	advUnits := float64(adv) / 64.0
+	return advUnits * 1000.0 / float64(unitsPerEm), true
+}
+
+func (f *Font) cffGlyphCenterYUnits(gid uint16) (centerY float64, height float64, ok bool) {
+	if f == nil || f.CFF == nil {
+		return 0, 0, false
+	}
+	segments, _, err := f.CFF.LoadGlyph(tables.GlyphID(gid))
+	if err != nil || len(segments) == 0 {
+		return 0, 0, false
+	}
+
+	minY := math.Inf(1)
+	maxY := math.Inf(-1)
+	for _, seg := range segments {
+		for _, p := range seg.Args {
+			y := float64(p.Y)
+			if y < minY {
+				minY = y
+			}
+			if y > maxY {
+				maxY = y
+			}
+		}
+	}
+	if !math.IsInf(minY, 0) && !math.IsInf(maxY, 0) && maxY > minY {
+		return (minY + maxY) * 0.5, maxY - minY, true
+	}
+	return 0, 0, false
+}
+
 // FontWidths 字形宽度信息
 type FontWidths struct {
 	// Type1/TrueType 字体：FirstChar 到 LastChar 的宽度数组
@@ -170,6 +257,9 @@ type CIDWidthRange struct {
 // GetWidth 获取字符的宽度（以千分之一 em 为单位）
 func (f *Font) GetWidth(cid uint16) float64 {
 	if f.Widths == nil {
+		if w, ok := f.widthFromEmbeddedSFNT(cid); ok && w > 0 {
+			return w
+		}
 		// 🔥 修复：如果没有宽度信息，优先使用字体的默认宽度
 		if f.DefaultWidth > 0 {
 			return f.DefaultWidth
@@ -227,6 +317,10 @@ func (f *Font) GetWidth(cid uint16) float64 {
 			}
 		}
 
+		if w, ok := f.widthFromEmbeddedSFNT(cid); ok && w > 0 {
+			return w
+		}
+
 		// 使用默认宽度
 		if f.DefaultWidth > 0 {
 			return f.DefaultWidth
@@ -259,6 +353,9 @@ func (f *Font) GetWidth(cid uint16) float64 {
 	// 使用默认宽度
 	if f.MissingWidth > 0 {
 		return f.MissingWidth
+	}
+	if w, ok := f.widthFromEmbeddedSFNT(cid); ok && w > 0 {
+		return w
 	}
 	return 1000.0
 }
@@ -569,6 +666,23 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 	debugPrintf("\n[TEXT_STATE] CharSpacing=%.4f WordSpacing=%.4f HScale=%.2f%% FontSize=%.2f\n",
 		textState.CharSpacing, textState.WordSpacing, textState.HorizontalScaling, textState.FontSize)
 
+	// 保存 Gopdf 状态
+	ctx.GopdfCtx.Save()
+	defer ctx.GopdfCtx.Restore()
+
+	fontSize := textState.FontSize
+
+	// 如果字体大小为0，使用默认值
+	if fontSize < 1.0 {
+		fontSize = 12.0
+	}
+
+	// 获取当前字体的 ToUnicode 映射
+	var toUnicodeMap *CIDToUnicodeMap
+	if textState.Font != nil {
+		toUnicodeMap = textState.Font.ToUnicodeMap
+	}
+
 	psPreferText := false
 	var psCtx *context
 	if c, ok := ctx.GopdfCtx.(*context); ok && c.psSurfaceTarget() != nil {
@@ -576,68 +690,69 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 		psCtx = c
 	}
 
-	// 保存 Gopdf 状态
-	ctx.GopdfCtx.Save()
-	defer ctx.GopdfCtx.Restore()
-
-	baseX0 := textState.TextMatrix.X0
-	baseY0 := textState.TextMatrix.Y0
-	fontSize := textState.FontSize
-	if fontSize < 1.0 {
-		fontSize = 12.0
+	renderMatrix := textState.TextMatrix.Clone()
+	if textState.Rise != 0 {
+		renderMatrix = renderMatrix.Multiply(NewTranslationMatrix(0, textState.Rise))
 	}
 
-	var toUnicodeMap *CIDToUnicodeMap
-	if textState.Font != nil {
-		toUnicodeMap = textState.Font.ToUnicodeMap
-	}
-
-	x0 := baseX0
-	y0 := baseY0
-	if psPreferText && psCtx != nil {
-		tolY := math.Max(2.0, fontSize*0.35)
-		if psCtx.psTightShift.active && math.Abs(y0-psCtx.psTightShift.yUser) <= tolY && x0 >= psCtx.psTightShift.minX-0.1 {
-			x0 += psCtx.psTightShift.dx
-		} else if psCtx.psTightShift.active && math.Abs(y0-psCtx.psTightShift.yUser) > tolY {
-			psCtx.psTightShift.active = false
-		}
-	}
-
-	if psPreferText && psCtx != nil &&
-		len(array) == 0 &&
-		textState.Font != nil &&
-		isTeXMathFont(textState.Font.BaseFont) &&
-		math.Abs(textState.TextMatrix.XY) < 1e-3 &&
-		math.Abs(textState.TextMatrix.YX) < 1e-3 &&
-		math.Abs(textState.TextMatrix.XX) > 1e-6 {
-		decodedOp, _, _ := decodeTextStringWithCIDs(text, toUnicodeMap, textState.Font)
-		if decodedOp == ">" || decodedOp == "<" || decodedOp == "=" || decodedOp == "≥" || decodedOp == "≤" {
-			tolY := math.Max(2.0, fontSize*0.35)
-			if psCtx.psTightLast.active &&
-				math.Abs(y0-psCtx.psTightLast.yUser) <= tolY &&
-				fontSize >= psCtx.psTightLast.fontSize*0.8 &&
-				fontSize <= psCtx.psTightLast.fontSize*1.25 {
-				gap := x0 - psCtx.psTightLast.xEndUser
-				if gap > fontSize*1.2 && gap < fontSize*12 {
-					desired := psCtx.psTightLast.xEndUser + fontSize*0.25
-					dx := desired - x0
-					psCtx.psTightShift.active = true
-					psCtx.psTightShift.yUser = y0
-					psCtx.psTightShift.minX = baseX0
-					psCtx.psTightShift.dx = dx
-					x0 += dx
+	candidateText := text
+	if candidateText == "" && len(array) > 0 {
+		strCount := 0
+		for _, it := range array {
+			if s, ok := it.(string); ok {
+				strCount++
+				if strCount == 1 {
+					candidateText = s
+				} else {
+					candidateText = ""
+					break
 				}
 			}
 		}
 	}
 
-	textMatrix := textState.TextMatrix.Clone()
-	textMatrix.X0 = x0
-	textMatrix.Y0 = y0
-	if textState.Rise != 0 {
-		textMatrix = textMatrix.Multiply(NewTranslationMatrix(0, textState.Rise))
+	if psPreferText && psCtx != nil && candidateText != "" {
+		decoded, cids, _ := decodeTextStringWithCIDs(candidateText, toUnicodeMap, textState.Font)
+		trimmed := strings.TrimSpace(decoded)
+		runes := []rune(trimmed)
+		if len(runes) > 0 && len(runes) <= 2 {
+			symbolOnly := true
+			for _, r := range runes {
+				if unicode.IsLetter(r) || unicode.IsNumber(r) || unicode.IsSpace(r) {
+					symbolOnly = false
+					break
+				}
+			}
+			if symbolOnly && psCtx.psLastText.active {
+				tolY := math.Max(2.0, math.Max(psCtx.psLastText.fontSize, fontSize)*0.5)
+				if math.Abs(renderMatrix.Y0-psCtx.psLastText.yUser) <= tolY {
+					symAdv := 0.0
+					for i, cid := range cids {
+						isSpace := i < len(runes) && runes[i] == ' '
+						symAdv += textState.GlyphAdvance(cid, isSpace)
+					}
+					if symAdv > 0 && symAdv <= fontSize*1.6 {
+						gap := renderMatrix.X0 - psCtx.psLastText.xEndUser
+						spaceAdv := textState.GlyphAdvance(32, true)
+						if spaceAdv <= 0 {
+							spaceAdv = fontSize * 0.30
+						}
+						desired := spaceAdv * 0.5
+						if desired < fontSize*0.12 {
+							desired = fontSize * 0.12
+						} else if desired > fontSize*0.35 {
+							desired = fontSize * 0.35
+						}
+						if gap > desired*1.5 {
+							renderMatrix.X0 = psCtx.psLastText.xEndUser + desired
+						}
+					}
+				}
+			}
+		}
 	}
-	ctx.GopdfCtx.Transform(textMatrix)
+
+	ctx.GopdfCtx.Transform(renderMatrix)
 
 	// 设置字体
 	// 🔥 关键：字体大小直接使用 FontSize，不从文本矩阵提取
@@ -763,94 +878,76 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 	defer scaledFont.Destroy()
 	scaledFont.flipY = shouldFlipGlyphY(ctx.GopdfCtx)
 
-	pangoAdvanceForLayout := func(runText string) float64 {
-		if runText == "" {
-			return 0
+	computeRunScaleAndAdvance := func(runText string, cids []uint16) (scaleX float64, adv float64) {
+		runes := []rune(runText)
+		drawAdv := scaledFont.TextExtents(runText).XAdvance
+		if drawAdv <= 0 {
+			return 1.0, 0
 		}
-
-		ext := scaledFont.TextExtents(runText)
-		adv := ext.XAdvance
-
 		if textState.CharSpacing != 0 || textState.WordSpacing != 0 {
-			for _, r := range runText {
+			for _, r := range runes {
 				if isCJKCharacterRune(r) {
 					if textState.CharSpacing != 0 {
-						adv += textState.CharSpacing * 0.5
+						drawAdv += textState.CharSpacing * 0.5
 					}
 				} else {
-					adv += textState.CharSpacing
+					drawAdv += textState.CharSpacing
 				}
 				if r == ' ' {
-					adv += textState.WordSpacing
+					drawAdv += textState.WordSpacing
 				}
 			}
 		}
 
-		adv *= textState.HorizontalScaling / 100.0
-		return adv
-	}
-
-	pdfAdvanceForLayout := func(runText string, cids []uint16) (float64, bool) {
-		if textState.Font == nil || len(cids) == 0 || runText == "" {
-			return 0, false
-		}
-		hasWidths := textState.Font.Widths != nil &&
-			(len(textState.Font.Widths.Widths) > 0 || len(textState.Font.Widths.CIDWidths) > 0 || len(textState.Font.Widths.CIDRanges) > 0)
-		if !hasWidths {
-			if textState.Font.DefaultWidth <= 0 {
-				return 0, false
-			}
-			if math.Abs(textState.Font.DefaultWidth-1000.0) < 1e-3 {
-				return 0, false
-			}
-		}
-
-		adv := 0.0
-		runes := []rune(runText)
-		for i, cid := range cids {
-			isSpace := i < len(runes) && runes[i] == ' '
-			adv += textState.GlyphAdvance(cid, isSpace)
-		}
-		return adv, true
-	}
-
-	computeRunScaleAndAdvance := func(runText string, cids []uint16) (scaleX float64, adv float64) {
 		hScale := textState.HorizontalScaling / 100.0
 		if hScale <= 0 {
 			hScale = 1
 		}
 
-		pangoAdvUnscaled := 0.0
-		if psPreferText && (fontFamily == "sans-serif" || fontFamily == "sans-cjk" || strings.EqualFold(fontFamily, "sans")) {
-			pangoAdvUnscaled = estimateTextWidthSimple(runText, fontSize)
-		} else {
-			pangoAdvUnscaled = scaledFont.TextExtents(runText).XAdvance
-		}
-		if pangoAdvUnscaled <= 0 {
-			return hScale, 0
-		}
-
-		asciiOnly := true
-		for _, r := range runText {
-			if r > 0x7F {
-				asciiOnly = false
-				break
+		pdfAdvOK := false
+		if textState.Font != nil {
+			hasWidths := textState.Font.Widths != nil &&
+				(len(textState.Font.Widths.Widths) > 0 || len(textState.Font.Widths.CIDWidths) > 0 || len(textState.Font.Widths.CIDRanges) > 0)
+			if hasWidths {
+				pdfAdvOK = true
+			} else if textState.Font.DefaultWidth > 0 && math.Abs(textState.Font.DefaultWidth-1000.0) > 1e-3 {
+				pdfAdvOK = true
+			} else if textState.Font.embeddedWidthAvailable() {
+				pdfAdvOK = true
 			}
 		}
 
-		pangoAdvScaled := pangoAdvUnscaled * hScale
-		if pdfAdv, ok := pdfAdvanceForLayout(runText, cids); ok && pdfAdv > 0 {
-			ratio := pdfAdv / pangoAdvScaled
-			minRatio, maxRatio := 0.6, 1.6
-			if !asciiOnly {
-				minRatio, maxRatio = 0.5, 2.0
+		if pdfAdvOK && len(cids) > 0 {
+			pdfAdv := 0.0
+			for i, cid := range cids {
+				isSpace := i < len(runes) && runes[i] == ' '
+				pdfAdv += textState.GlyphAdvance(cid, isSpace)
 			}
-			if ratio >= minRatio && ratio <= maxRatio {
-				return hScale * ratio, pdfAdv
+			if pdfAdv > 0 {
+				scaleX = pdfAdv / drawAdv
+				minRatio, maxRatio := 0.6, 1.6
+				asciiOnly := true
+				for _, r := range runes {
+					if r > 0x7F {
+						asciiOnly = false
+						break
+					}
+				}
+				if !asciiOnly {
+					minRatio, maxRatio = 0.5, 2.0
+				}
+				if scaleX < minRatio {
+					scaleX = minRatio
+				} else if scaleX > maxRatio {
+					scaleX = maxRatio
+				}
+				return scaleX, pdfAdv
 			}
 		}
 
-		return hScale, pangoAdvanceForLayout(runText)
+		scaleX = hScale
+		adv = drawAdv * hScale
+		return scaleX, adv
 	}
 
 	delimiterAdjust := func(glyphName string) (dyFactor float64, scaleY float64, ok bool) {
@@ -869,12 +966,52 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 		}
 	}
 
+	autoSymbolDy := func(runText string) float64 {
+		runes := []rune(runText)
+		if len(runes) != 1 {
+			return 0
+		}
+		r := runes[0]
+		if unicode.IsSpace(r) || unicode.IsLetter(r) || unicode.IsNumber(r) {
+			return 0
+		}
+		if !(unicode.IsSymbol(r) || unicode.IsPunct(r)) {
+			return 0
+		}
+
+		extSym := scaledFont.TextExtents(runText)
+		extRef := scaledFont.TextExtents("x")
+		if extRef.Height <= 0 {
+			extRef = scaledFont.TextExtents("0")
+		}
+		if extSym.Height <= 0 || extRef.Height <= 0 {
+			return 0
+		}
+
+		symMinY := extSym.YBearing
+		symMaxY := extSym.YBearing + extSym.Height
+		refMinY := extRef.YBearing
+		refMaxY := extRef.YBearing + extRef.Height
+
+		symCenter := (symMinY + symMaxY) * 0.5
+		refCenter := (refMinY + refMaxY) * 0.5
+		dy := refCenter - symCenter
+
+		limit := fontSize * 0.6
+		if dy > limit {
+			dy = limit
+		} else if dy < -limit {
+			dy = -limit
+		}
+		return dy
+	}
+
 	renderRun := func(runText string, cids []uint16, scaleX float64) {
 		if runText == "" {
 			return
 		}
 
-		dy := 0.0
+		dy := autoSymbolDy(runText)
 		scaleY := 1.0
 		if textState.Font != nil && len(cids) == 1 && len(textState.Font.CodeToGlyphName) > 0 {
 			if name, ok := textState.Font.CodeToGlyphName[byte(cids[0]&0xFF)]; ok {
@@ -957,8 +1094,9 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 			x += float64(g.XAdvance) / 64.0
 		}
 
+		dy := autoSymbolDy(runText)
 		ctx.GopdfCtx.Save()
-		ctx.GopdfCtx.Translate(currentX, 0)
+		ctx.GopdfCtx.Translate(currentX, dy)
 		if scaleX != 1.0 {
 			ctx.GopdfCtx.Scale(scaleX, 1.0)
 		}
@@ -988,7 +1126,6 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 			}
 
 			ctx.GopdfCtx.Save()
-			ctx.GopdfCtx.Translate(x, 0)
 
 			fontMatrix := [6]float64{0.001, 0, 0, 0.001, 0, 0}
 			if textState.Font.HasFontMatrix {
@@ -1003,6 +1140,51 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 				X0: fontMatrix[4] * textState.FontSize * hScale,
 				Y0: fontMatrix[5] * textState.FontSize,
 			}
+
+			r := rune(0)
+			if i < len(runes) {
+				r = runes[i]
+			}
+
+			minY := math.Inf(1)
+			maxY := math.Inf(-1)
+			for _, seg := range segments {
+				for _, p := range seg.Args {
+					y := float64(p.Y)
+					if y < minY {
+						minY = y
+					}
+					if y > maxY {
+						maxY = y
+					}
+				}
+			}
+
+			centerYUnits := 0.0
+			heightUnits := 0.0
+			if !math.IsInf(minY, 0) && !math.IsInf(maxY, 0) && maxY > minY {
+				centerYUnits = (minY + maxY) * 0.5
+				heightUnits = maxY - minY
+			}
+
+			if !textState.Font.cffRefReady && heightUnits > 0 && (unicode.IsLetter(r) || unicode.IsNumber(r)) {
+				textState.Font.cffRefCenterUnits = centerYUnits
+				textState.Font.cffRefReady = true
+			}
+
+			dy := 0.0
+			if textState.Font.cffRefReady && heightUnits > 0 && !unicode.IsSpace(r) && (unicode.IsSymbol(r) || unicode.IsPunct(r)) {
+				dyUnits := textState.Font.cffRefCenterUnits - centerYUnits
+				dy = dyUnits * m.YY
+				limit := textState.FontSize * 0.6
+				if dy > limit {
+					dy = limit
+				} else if dy < -limit {
+					dy = -limit
+				}
+			}
+
+			ctx.GopdfCtx.Translate(x, dy)
 			ctx.GopdfCtx.Transform(m)
 
 			ctx.GopdfCtx.NewPath()
@@ -1307,9 +1489,6 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 
 			useGlyphRun := useGlyphIndices
 			outline := psPreferText && shouldOutlineTextInPS(textState.Font, decodedText, cids, stats)
-			if psPreferText {
-				outline = false
-			}
 			if psPreferText && decodedText != "" && !outline {
 				useGlyphRun = false
 			}
@@ -1431,9 +1610,6 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 
 				useGlyphRun := useGlyphIndices
 				outline := psPreferText && shouldOutlineTextInPS(textState.Font, decodedText, cids, stats)
-				if psPreferText {
-					outline = false
-				}
 				if psPreferText && decodedText != "" && !outline {
 					useGlyphRun = false
 				}
@@ -1569,9 +1745,6 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 
 			useGlyphRun := useGlyphIndices
 			outline := psPreferText && shouldOutlineTextInPS(textState.Font, decodedText, cids, stats)
-			if psPreferText {
-				outline = false
-			}
 			if psPreferText && decodedText != "" && !outline {
 				useGlyphRun = false
 			}
@@ -1628,14 +1801,11 @@ updateMatrix:
 			currentX, textState.TextMatrix.X0)
 	}
 
-	if psPreferText && psCtx != nil &&
-		math.Abs(textState.TextMatrix.XY) < 1e-3 &&
-		math.Abs(textState.TextMatrix.YX) < 1e-3 &&
-		math.Abs(textState.TextMatrix.XX) > 1e-6 {
-		psCtx.psTightLast.active = true
-		psCtx.psTightLast.yUser = y0
-		psCtx.psTightLast.fontSize = fontSize
-		psCtx.psTightLast.xEndUser = x0 + currentX*textState.TextMatrix.XX
+	if psPreferText && psCtx != nil {
+		psCtx.psLastText.active = true
+		psCtx.psLastText.yUser = renderMatrix.Y0
+		psCtx.psLastText.fontSize = fontSize
+		psCtx.psLastText.xEndUser = renderMatrix.X0 + currentX*renderMatrix.XX
 	}
 
 	return nil
@@ -2399,17 +2569,6 @@ func decodeTextString(text string) string {
 
 // mapPDFFont 将 PDF 字体名称映射到系统字体
 func mapPDFFont(pdfFont string) string {
-	base := strings.ToUpper(stripSubsetPrefix(pdfFont))
-	if strings.Contains(base, "LMROMAN") || strings.HasPrefix(base, "CMR") || strings.HasPrefix(base, "LMTIMES") {
-		return "serif"
-	}
-	if strings.Contains(base, "LMSANS") {
-		return "sans-serif"
-	}
-	if strings.Contains(base, "LMMONO") || strings.Contains(base, "LMTYPEWRITER") {
-		return "monospace"
-	}
-
 	fontMap := map[string]string{
 		"Helvetica":             "sans-serif",
 		"Helvetica-Bold":        "sans-serif",

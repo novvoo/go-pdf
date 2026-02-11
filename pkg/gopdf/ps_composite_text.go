@@ -59,11 +59,7 @@ func pangoPSShowTextComposite(c *context, layout *PangoPdfLayout) {
 				fontName = psSafeFontName(family)
 			}
 			if strings.EqualFold(fontName, "math") || strings.EqualFold(fontName, "symbol") {
-				if psHasASCIILetter(line) {
-					fontName = "sans-serif"
-				} else {
-					fontName = "math"
-				}
+				fontName = "sans-serif"
 			}
 			escaped := escapePSString(line)
 			c.psLineAggAddFromShowLine(lineX, currentY, fontSize, "("+escaped+") show")
@@ -123,15 +119,6 @@ func psIsASCIIOnly(s string) bool {
 		}
 	}
 	return true
-}
-
-func psHasASCIILetter(s string) bool {
-	for _, r := range s {
-		if (r >= 'a' && r <= 'z') || (r >= 'A' && r <= 'Z') {
-			return true
-		}
-	}
-	return false
 }
 
 func psMathFontNeedsMixedFallback(s string) bool {
@@ -418,26 +405,10 @@ func psWriteMixedTextWithSymbolFallback(c *context, baseFont string, fontSize fl
 		seg.Reset()
 	}
 
-	symbolDy := func(r rune) float64 {
-		switch r {
-		case 0x220F, 0x2211, 0x222B:
-			return -0.18 * fontSize
-		default:
-			return 0
-		}
-	}
-
-	writeSymbolByte := func(r rune, by byte) {
+	writeSymbolByte := func(by byte) {
 		flushSeg()
 		c.psWritef("/math findfont %.4f scalefont setfont\n", fontSize)
-		dy := symbolDy(r)
-		if dy != 0 {
-			c.psWritef("0 %.4f rmoveto\n", dy)
-		}
 		c.psWritef("(%s) show\n", psEscapePSBytesToLiteralStringContent([]byte{by}))
-		if dy != 0 {
-			c.psWritef("0 %.4f rmoveto\n", -dy)
-		}
 		c.psWritef("/%s findfont %.4f scalefont setfont\n", baseFont, fontSize)
 	}
 
@@ -451,7 +422,7 @@ func psWriteMixedTextWithSymbolFallback(c *context, baseFont string, fontSize fl
 			continue
 		}
 		if by, ok := psUnicodeToSymbolEncodingByte(r); ok {
-			writeSymbolByte(r, by)
+			writeSymbolByte(by)
 			continue
 		}
 		switch r {

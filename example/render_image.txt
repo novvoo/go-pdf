@@ -1,6 +1,6 @@
 PDF Rendering Report
 ====================
-Time: 2026-02-06 15:09:57
+Time: 2026-02-11 17:05:10
 
 ParseTokens Test:
 -----------------
@@ -22,7 +22,7 @@ Rendering Process:
 Output File Info:
 -----------------
 Size: 321308 bytes
-Created: 2026-02-06 15:10:00
+Created: 2026-02-11 17:05:14
 
 Page Information:
 -----------------
@@ -38,7 +38,7 @@ Font Information:
   Subtype: Type0
   Encoding: Identity-H
   Identity Mapping: YES
-  ToUnicode Map: YES (0 mappings, 8 ranges)
+  ToUnicode Map: YES (8 mappings, 0 ranges)
   CID System Info: Adobe-Identity
   Embedded Font: YES (1658 bytes)
 
@@ -200,19 +200,11 @@ Rendering completed successfully
 Operator Execution Log:
 ------------------------
 ✓ Loaded embedded CFF font data for font C1 (1658 bytes)
-✓ Loaded ToUnicode CMap for font C1 (0 mappings, 8 ranges)
+✓ Loaded ToUnicode CMap for font C1 (8 mappings, 0 ranges)
 ✓ Default width for CID font C1: 1000
 ✓ Loaded CID widths for font C1: 0 direct mappings, 0 ranges
 ✓ Loaded font widths for C1: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font C1: Identity-H
-[loadXObject] Decoding stream for Im2...
-[loadXObject] Raw stream length: 219410 bytes
-[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
-[loadXObject] Stream decoded via direct Decode(): 5137560 bytes
-[loadXObject] Filters detected: [FlateDecode]
-[loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
-[loadXObject] ICCBased profile has N=3 components
-[loadXObject] ICCBased has Alternate colorspace: DeviceRGB
 [loadXObject] Decoding stream for Im1...
 [loadXObject] Raw stream length: 5464 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...
@@ -224,6 +216,14 @@ Operator Execution Log:
 [loadXObject] Found SMask for image Im1
 [loadXObject] SMask is an indirect reference: (10 0 R), attempting load
 [loadXObject] Successfully loaded SMask: 699x595
+[loadXObject] Decoding stream for Im2...
+[loadXObject] Raw stream length: 219410 bytes
+[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
+[loadXObject] Stream decoded via direct Decode(): 5137560 bytes
+[loadXObject] Filters detected: [FlateDecode]
+[loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
+[loadXObject] ICCBased profile has N=3 components
+[loadXObject] ICCBased has Alternate colorspace: DeviceRGB
    Dereferenced to: types.StreamDict
    Decoding StreamDict...
    Raw: 712 bytes, Content: 0 bytes
@@ -266,7 +266,7 @@ Operator Execution Log:
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 ✓ Loaded embedded CFF font data for font C1 (1658 bytes)
-✓ Loaded ToUnicode CMap for font C1 (0 mappings, 8 ranges)
+✓ Loaded ToUnicode CMap for font C1 (8 mappings, 0 ranges)
 ✓ Default width for CID font C1: 1000
 ✓ Loaded CID widths for font C1: 0 direct mappings, 0 ranges
 ✓ Loaded font widths for C1: 0 widths (FirstChar=0, LastChar=0)
@@ -446,33 +446,33 @@ Operator Execution Log:
 📈 Operator Statistics:
    q: 9
    BDC: 4
-   Q: 9
-   re: 4
-   m: 6
-   cs: 2
-   Tm: 1
-   Tj: 1
-   W: 6
-   n: 6
-   gs: 1
-   l: 11
-   h: 3
-   Tc: 1
-   Tf: 1
    cm: 4
    c: 12
    scn: 2
-   BT: 1
-   S: 1
-   f: 1
-   Do: 2
-   EMC: 4
-   ET: 1
+   Tf: 1
+   Tj: 1
    M: 1
+   h: 3
+   EMC: 4
+   Tc: 1
+   Tm: 1
    CS: 1
+   S: 1
+   Q: 9
+   gs: 1
+   Do: 2
+   l: 11
+   BT: 1
    SCN: 1
+   f: 1
+   re: 4
+   W: 6
+   n: 6
+   m: 6
+   cs: 2
+   ET: 1
 ✓ Loaded embedded CFF font data for font C1 (1658 bytes)
-✓ Loaded ToUnicode CMap for font C1 (0 mappings, 8 ranges)
+✓ Loaded ToUnicode CMap for font C1 (8 mappings, 0 ranges)
 ✓ Default width for CID font C1: 1000
 ✓ Loaded CID widths for font C1: 0 direct mappings, 0 ranges
 ✓ Loaded font widths for C1: 0 widths (FirstChar=0, LastChar=0)
@@ -497,98 +497,7 @@ Operator Execution Log:
 [loadXObject] ICCBased profile has N=3 components
 [loadXObject] ICCBased has Alternate colorspace: DeviceRGB
 ✓ Loaded embedded CFF font data for font C1 (1658 bytes)
-✓ Loaded ToUnicode CMap for font C1 (0 mappings, 8 ranges)
-✓ Default width for CID font C1: 1000
-✓ Loaded CID widths for font C1: 0 direct mappings, 0 ranges
-✓ Loaded font widths for C1: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font C1: Identity-H
-[loadXObject] Decoding stream for Im2...
-[loadXObject] Raw stream length: 219410 bytes
-[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
-[loadXObject] Stream decoded via direct Decode(): 5137560 bytes
-[loadXObject] Filters detected: [FlateDecode]
-[loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
-[loadXObject] ICCBased profile has N=3 components
-[loadXObject] ICCBased has Alternate colorspace: DeviceRGB
-[loadXObject] Decoding stream for Im1...
-[loadXObject] Raw stream length: 5464 bytes
-[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
-[loadXObject] Stream decoded via direct Decode(): 1247715 bytes
-[loadXObject] Filters detected: [FlateDecode]
-[loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
-[loadXObject] ICCBased profile has N=3 components
-[loadXObject] ICCBased has Alternate colorspace: DeviceRGB
-[loadXObject] Found SMask for image Im1
-[loadXObject] SMask is an indirect reference: (10 0 R), attempting load
-[loadXObject] Successfully loaded SMask: 699x595
-   Dereferenced to: types.StreamDict
-   Decoding StreamDict...
-   Raw: 712 bytes, Content: 0 bytes
-   Calling Decode()...
-   ✓ After decode: 1548 bytes
-[DEBUG] q operator: Saved graphics state, stack depth=1
-[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
-[DEBUG] q operator: Saved graphics state, stack depth=1
-[DEBUG] q operator: Saved graphics state, stack depth=2
-[DEBUG] cm operator: Matrix=[699.424 0.000 0.000 594.922 36.000 36.000], new CTM=[699.424 0.000 0.000 594.922 36.000 36.000]
-[DEBUG] Do operator: Image Im1 at (36.00, 36.00), size: 699.42x594.92 (original: 699x595)
-[DEBUG]   Corners: (36.00,36.00) (735.42,36.00) (36.00,630.92) (735.42,630.92)
-[DEBUG]   ColorSpace: ICCBased, BitsPerComponent: 8, Stream size: 1247715 bytes
-[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
-[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
-[DEBUG] q operator: Saved graphics state, stack depth=1
-[DEBUG] q operator: Saved graphics state, stack depth=2
-[DEBUG] cm operator: Matrix=[693.424 0.000 0.000 588.922 39.000 41.000], new CTM=[693.424 0.000 0.000 588.922 39.000 41.000]
-[DEBUG] Do operator: Image Im2 at (39.00, 37.00), size: 693.42x588.92 (original: 1420x1206)
-[DEBUG]   Corners: (39.00,41.00) (732.42,41.00) (39.00,629.92) (732.42,629.92)
-[DEBUG]   ColorSpace: ICCBased, BitsPerComponent: 8, Stream size: 5137560 bytes
-[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
-[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
-[DEBUG] q operator: Saved graphics state, stack depth=1
-[DEBUG] q operator: Saved graphics state, stack depth=2
-[DEBUG] cm operator: Matrix=[1.000 0.000 0.000 1.000 351.749 364.135], new CTM=[1.000 0.000 0.000 1.000 351.749 364.135]
-[DEBUG] BT operator: Reset text matrices and text state
-[DEBUG] Tm operator: Matrix=[18.000 0.000 0.000 18.000 0.000 0.000]
-[DEBUG] Tf operator: Font=C1 (BaseFont=AAAAAB+.PingFangSC-Regular), Size=1.00
-[DEBUG] Text element: baseFontSize=1.00, scale=18.00, effectiveFontSize=18.00
-[DEBUG] Calculated text width from CIDs: 144.00 (8 CIDs)
-[DEBUG] Total displacement: 144.00 (width=144.00, kerning=0.00), new X0=2592.00
-[DEBUG] ET operator: End text object
-[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
-[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
-[DEBUG] q operator: Saved graphics state, stack depth=1
-[DEBUG] M operator: MiterLimit=4.00
-[DEBUG] q operator: Saved graphics state, stack depth=2
-[DEBUG] cm operator: Matrix=[0.986 0.169 0.169 -0.986 494.406 371.938], new CTM=[0.986 0.169 0.169 -0.986 494.406 371.938]
-[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
-[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
-✓ Loaded embedded CFF font data for font C1 (1658 bytes)
-✓ Loaded ToUnicode CMap for font C1 (0 mappings, 8 ranges)
-✓ Default width for CID font C1: 1000
-✓ Loaded CID widths for font C1: 0 direct mappings, 0 ranges
-✓ Loaded font widths for C1: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font C1: Identity-H
-[loadXObject] Decoding stream for Im1...
-[loadXObject] Raw stream length: 5464 bytes
-[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
-[loadXObject] Stream decoded via direct Decode(): 1247715 bytes
-[loadXObject] Filters detected: [FlateDecode]
-[loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
-[loadXObject] ICCBased profile has N=3 components
-[loadXObject] ICCBased has Alternate colorspace: DeviceRGB
-[loadXObject] Found SMask for image Im1
-[loadXObject] SMask is an indirect reference: (10 0 R), attempting load
-[loadXObject] Successfully loaded SMask: 699x595
-[loadXObject] Decoding stream for Im2...
-[loadXObject] Raw stream length: 219410 bytes
-[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
-[loadXObject] Stream decoded via direct Decode(): 5137560 bytes
-[loadXObject] Filters detected: [FlateDecode]
-[loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
-[loadXObject] ICCBased profile has N=3 components
-[loadXObject] ICCBased has Alternate colorspace: DeviceRGB
-✓ Loaded embedded CFF font data for font C1 (1658 bytes)
-✓ Loaded ToUnicode CMap for font C1 (0 mappings, 8 ranges)
+✓ Loaded ToUnicode CMap for font C1 (8 mappings, 0 ranges)
 ✓ Default width for CID font C1: 1000
 ✓ Loaded CID widths for font C1: 0 direct mappings, 0 ranges
 ✓ Loaded font widths for C1: 0 widths (FirstChar=0, LastChar=0)
@@ -654,19 +563,11 @@ Operator Execution Log:
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
 ✓ Loaded embedded CFF font data for font C1 (1658 bytes)
-✓ Loaded ToUnicode CMap for font C1 (0 mappings, 8 ranges)
+✓ Loaded ToUnicode CMap for font C1 (8 mappings, 0 ranges)
 ✓ Default width for CID font C1: 1000
 ✓ Loaded CID widths for font C1: 0 direct mappings, 0 ranges
 ✓ Loaded font widths for C1: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font C1: Identity-H
-[loadXObject] Decoding stream for Im2...
-[loadXObject] Raw stream length: 219410 bytes
-[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
-[loadXObject] Stream decoded via direct Decode(): 5137560 bytes
-[loadXObject] Filters detected: [FlateDecode]
-[loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
-[loadXObject] ICCBased profile has N=3 components
-[loadXObject] ICCBased has Alternate colorspace: DeviceRGB
 [loadXObject] Decoding stream for Im1...
 [loadXObject] Raw stream length: 5464 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...
@@ -678,8 +579,107 @@ Operator Execution Log:
 [loadXObject] Found SMask for image Im1
 [loadXObject] SMask is an indirect reference: (10 0 R), attempting load
 [loadXObject] Successfully loaded SMask: 699x595
+[loadXObject] Decoding stream for Im2...
+[loadXObject] Raw stream length: 219410 bytes
+[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
+[loadXObject] Stream decoded via direct Decode(): 5137560 bytes
+[loadXObject] Filters detected: [FlateDecode]
+[loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
+[loadXObject] ICCBased profile has N=3 components
+[loadXObject] ICCBased has Alternate colorspace: DeviceRGB
 ✓ Loaded embedded CFF font data for font C1 (1658 bytes)
-✓ Loaded ToUnicode CMap for font C1 (0 mappings, 8 ranges)
+✓ Loaded ToUnicode CMap for font C1 (8 mappings, 0 ranges)
+✓ Default width for CID font C1: 1000
+✓ Loaded CID widths for font C1: 0 direct mappings, 0 ranges
+✓ Loaded font widths for C1: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font C1: Identity-H
+[loadXObject] Decoding stream for Im1...
+[loadXObject] Raw stream length: 5464 bytes
+[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
+[loadXObject] Stream decoded via direct Decode(): 1247715 bytes
+[loadXObject] Filters detected: [FlateDecode]
+[loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
+[loadXObject] ICCBased profile has N=3 components
+[loadXObject] ICCBased has Alternate colorspace: DeviceRGB
+[loadXObject] Found SMask for image Im1
+[loadXObject] SMask is an indirect reference: (10 0 R), attempting load
+[loadXObject] Successfully loaded SMask: 699x595
+[loadXObject] Decoding stream for Im2...
+[loadXObject] Raw stream length: 219410 bytes
+[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
+[loadXObject] Stream decoded via direct Decode(): 5137560 bytes
+[loadXObject] Filters detected: [FlateDecode]
+[loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
+[loadXObject] ICCBased profile has N=3 components
+[loadXObject] ICCBased has Alternate colorspace: DeviceRGB
+   Dereferenced to: types.StreamDict
+   Decoding StreamDict...
+   Raw: 712 bytes, Content: 0 bytes
+   Calling Decode()...
+   ✓ After decode: 1548 bytes
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[699.424 0.000 0.000 594.922 36.000 36.000], new CTM=[699.424 0.000 0.000 594.922 36.000 36.000]
+[DEBUG] Do operator: Image Im1 at (36.00, 36.00), size: 699.42x594.92 (original: 699x595)
+[DEBUG]   Corners: (36.00,36.00) (735.42,36.00) (36.00,630.92) (735.42,630.92)
+[DEBUG]   ColorSpace: ICCBased, BitsPerComponent: 8, Stream size: 1247715 bytes
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[693.424 0.000 0.000 588.922 39.000 41.000], new CTM=[693.424 0.000 0.000 588.922 39.000 41.000]
+[DEBUG] Do operator: Image Im2 at (39.00, 37.00), size: 693.42x588.92 (original: 1420x1206)
+[DEBUG]   Corners: (39.00,41.00) (732.42,41.00) (39.00,629.92) (732.42,629.92)
+[DEBUG]   ColorSpace: ICCBased, BitsPerComponent: 8, Stream size: 5137560 bytes
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[1.000 0.000 0.000 1.000 351.749 364.135], new CTM=[1.000 0.000 0.000 1.000 351.749 364.135]
+[DEBUG] BT operator: Reset text matrices and text state
+[DEBUG] Tm operator: Matrix=[18.000 0.000 0.000 18.000 0.000 0.000]
+[DEBUG] Tf operator: Font=C1 (BaseFont=AAAAAB+.PingFangSC-Regular), Size=1.00
+[DEBUG] Text element: baseFontSize=1.00, scale=18.00, effectiveFontSize=18.00
+[DEBUG] Calculated text width from CIDs: 144.00 (8 CIDs)
+[DEBUG] Total displacement: 144.00 (width=144.00, kerning=0.00), new X0=2592.00
+[DEBUG] ET operator: End text object
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
+[DEBUG] q operator: Saved graphics state, stack depth=1
+[DEBUG] M operator: MiterLimit=4.00
+[DEBUG] q operator: Saved graphics state, stack depth=2
+[DEBUG] cm operator: Matrix=[0.986 0.169 0.169 -0.986 494.406 371.938], new CTM=[0.986 0.169 0.169 -0.986 494.406 371.938]
+[DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
+[DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[1.000 0.000 0.000 1.000 0.000 0.000]
+✓ Loaded embedded CFF font data for font C1 (1658 bytes)
+✓ Loaded ToUnicode CMap for font C1 (8 mappings, 0 ranges)
+✓ Default width for CID font C1: 1000
+✓ Loaded CID widths for font C1: 0 direct mappings, 0 ranges
+✓ Loaded font widths for C1: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font C1: Identity-H
+[loadXObject] Decoding stream for Im1...
+[loadXObject] Raw stream length: 5464 bytes
+[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
+[loadXObject] Stream decoded via direct Decode(): 1247715 bytes
+[loadXObject] Filters detected: [FlateDecode]
+[loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
+[loadXObject] ICCBased profile has N=3 components
+[loadXObject] ICCBased has Alternate colorspace: DeviceRGB
+[loadXObject] Found SMask for image Im1
+[loadXObject] SMask is an indirect reference: (10 0 R), attempting load
+[loadXObject] Successfully loaded SMask: 699x595
+[loadXObject] Decoding stream for Im2...
+[loadXObject] Raw stream length: 219410 bytes
+[loadXObject] DereferenceStreamDict returned empty, trying direct decode...
+[loadXObject] Stream decoded via direct Decode(): 5137560 bytes
+[loadXObject] Filters detected: [FlateDecode]
+[loadXObject] ColorSpace (IndirectRef->Array): ICCBased, array length: 2
+[loadXObject] ICCBased profile has N=3 components
+[loadXObject] ICCBased has Alternate colorspace: DeviceRGB
+✓ Loaded embedded CFF font data for font C1 (1658 bytes)
+✓ Loaded ToUnicode CMap for font C1 (8 mappings, 0 ranges)
 ✓ Default width for CID font C1: 1000
 ✓ Loaded CID widths for font C1: 0 direct mappings, 0 ranges
 ✓ Loaded font widths for C1: 0 widths (FirstChar=0, LastChar=0)
