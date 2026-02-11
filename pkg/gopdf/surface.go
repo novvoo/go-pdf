@@ -699,6 +699,35 @@ func NewPSSurface(filename string, widthInPoints, heightInPoints float64) Surfac
 /Courier findfont /monospace exch definefont pop
 /Symbol findfont /math exch definefont pop
 
+systemdict /CIDInit known {
+  /CIDInit /ProcSet findresource begin
+  /gopdf_mkType0 {
+    /CMapName exch def
+    /CIDFontName exch def
+    /FontName exch def
+    /ok true def
+    /CMapResource null def
+    /CIDFontResource null def
+    { CMapName /CMap findresource } stopped { /ok false def } { /CMapResource exch def } ifelse
+    { CIDFontName /CIDFont findresource } stopped { /ok false def } { /CIDFontResource exch def } ifelse
+    ok {
+      12 dict begin
+        /Type /Font def
+        /Subtype /Type0 def
+        /BaseFont FontName def
+        /Encoding CMapResource def
+        /DescendantFonts [ CIDFontResource ] def
+        FontName currentdict
+      end
+      definefont pop
+    } if
+  } def
+  /GoPDF-GB /STSong-Light /UniGB-UTF16-H gopdf_mkType0
+  /GoPDF-JP /HeiseiMin-W3 /UniJIS-UTF16-H gopdf_mkType0
+  /GoPDF-KR /HYSMyeongJo-Medium /UniKS-UTF16-H gopdf_mkType0
+  end
+} if
+
 `, filename, widthInPoints, heightInPoints)
 
 	_, err = writer.WriteString(header)

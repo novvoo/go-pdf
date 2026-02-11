@@ -11,6 +11,7 @@ import (
 	"strings"
 	"sync"
 	"sync/atomic"
+	"unicode"
 	"unsafe"
 )
 
@@ -52,6 +53,200 @@ type context struct {
 
 	// Drawing context for backend
 	gc *rasterContext
+
+	psLineAgg psLineAggregator
+	psTightShift struct {
+		active bool
+		yUser   float64
+		minX    float64
+		dx      float64
+	}
+	psTightLast struct {
+		active   bool
+		xEndUser float64
+		yUser    float64
+		fontSize float64
+	}
+}
+
+type psLineAggregator struct {
+	active   bool
+	yDev     float64
+	fontSize float64
+	pieces   []psTextPiece
+}
+
+type psTextPiece struct {
+	xStart   float64
+	xEnd     float64
+	fontSize float64
+	text     string
+}
+
+func (c *context) psLineAggAdd(xUser, yUser, fontSize float64, text string) {
+	if c == nil || c.psSurfaceTarget() == nil {
+		return
+	}
+	if strings.TrimSpace(text) == "" {
+		return
+	}
+
+	xDev, yDev := MatrixTransformPoint(&c.gstate.matrix, xUser, yUser)
+	agg := &c.psLineAgg
+	w := estimateTextWidthSimple(text, fontSize)
+	if w <= 0 {
+		w = fontSize * 0.5 * float64(len([]rune(text)))
+	}
+	p := psTextPiece{
+		xStart:   xDev,
+		xEnd:     xDev + w,
+		fontSize: fontSize,
+		text:     text,
+	}
+
+	if !agg.active {
+		agg.active = true
+		agg.yDev = yDev
+		agg.fontSize = fontSize
+		agg.pieces = agg.pieces[:0]
+		agg.pieces = append(agg.pieces, p)
+		return
+	}
+
+	short := psAggIsShortToken(text) || len(agg.pieces) <= 2
+	tolFactor := 0.75
+	if short {
+		tolFactor = 1.10
+	}
+	tol := math.Max(agg.fontSize, fontSize) * tolFactor
+	if tol < 2 {
+		tol = 2
+	}
+	if math.Abs(yDev-agg.yDev) > tol {
+		c.psLineAggFlush()
+		agg.active = true
+		agg.yDev = yDev
+		agg.fontSize = fontSize
+		agg.pieces = agg.pieces[:0]
+		agg.pieces = append(agg.pieces, p)
+		return
+	}
+
+	if fontSize > agg.fontSize {
+		agg.fontSize = fontSize
+	}
+	agg.pieces = append(agg.pieces, p)
+}
+
+func (c *context) psLineAggAddFromShowLine(xUser, yUser, fontSize float64, showLine string) {
+	if c == nil || c.psSurfaceTarget() == nil {
+		return
+	}
+	text, ok := parsePSShowString(showLine)
+	if !ok {
+		return
+	}
+	c.psLineAggAdd(xUser, yUser, fontSize, text)
+}
+
+func psAggIsShortToken(s string) bool {
+	s = strings.TrimSpace(s)
+	if s == "" {
+		return true
+	}
+	return len([]rune(s)) <= 4
+}
+
+func (c *context) psLineAggFlush() {
+	if c == nil || c.psSurfaceTarget() == nil {
+		return
+	}
+	agg := &c.psLineAgg
+	if !agg.active || len(agg.pieces) == 0 {
+		agg.active = false
+		agg.pieces = agg.pieces[:0]
+		return
+	}
+	sort.Slice(agg.pieces, func(i, j int) bool {
+		if agg.pieces[i].xStart == agg.pieces[j].xStart {
+			return agg.pieces[i].xEnd < agg.pieces[j].xEnd
+		}
+		return agg.pieces[i].xStart < agg.pieces[j].xStart
+	})
+
+	var b strings.Builder
+	var prevEnd float64
+	var prevLast rune
+	prevHasLast := false
+	lastWasSpace := false
+	for i, piece := range agg.pieces {
+		t := strings.TrimRightFunc(piece.text, unicode.IsSpace)
+		if t == "" {
+			continue
+		}
+		trimLeft := strings.TrimLeftFunc(t, unicode.IsSpace)
+		hadLeadingSpace := trimLeft != t
+		if b.Len() > 0 {
+			t = trimLeft
+		}
+		r := []rune(t)
+		if len(r) == 0 {
+			continue
+		}
+		if b.Len() > 0 {
+			gap := piece.xStart - prevEnd
+			needSpace := false
+			if gap > agg.fontSize*1.2 {
+				needSpace = true
+			} else if prevHasLast {
+				if gap > agg.fontSize*0.25 && isWordRune(prevLast) && isWordRune(r[0]) {
+					needSpace = true
+				} else if needsSpaceAfterRune(prevLast, r[0]) && gap > -agg.fontSize*0.80 {
+					needSpace = true
+				}
+			}
+			if hadLeadingSpace {
+				needSpace = true
+			}
+			if needSpace && !lastWasSpace {
+				b.WriteByte(' ')
+				lastWasSpace = true
+			}
+		}
+		b.WriteString(t)
+		lastWasSpace = false
+		prevEnd = math.Max(prevEnd, piece.xEnd)
+		if i == 0 {
+			prevEnd = piece.xEnd
+		}
+		prevLast = r[len(r)-1]
+		prevHasLast = true
+	}
+	lineText := strings.TrimSpace(b.String())
+	if lineText != "" {
+		c.psWritef("%% line=%s\n", psEscapePSComment(lineText, 420))
+	}
+	agg.active = false
+	agg.pieces = agg.pieces[:0]
+}
+
+func isWordRune(r rune) bool {
+	if r == '_' {
+		return true
+	}
+	return unicode.IsLetter(r) || unicode.IsDigit(r)
+}
+
+func needsSpaceAfterRune(prevLast rune, nextFirst rune) bool {
+	if !isWordRune(nextFirst) {
+		return false
+	}
+	switch prevLast {
+	case '•', ':', ';', ',', ')', ']', '}':
+		return true
+	default:
+		return false
+	}
 }
 
 // graphicsState represents the graphics state that can be saved/restored
@@ -215,6 +410,7 @@ func (c *context) Destroy() {
 }
 
 func (c *context) destroyConcrete() {
+	c.psLineAggFlush()
 	if c.target != nil {
 		c.target.Destroy()
 		c.target = nil

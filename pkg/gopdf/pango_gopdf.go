@@ -1496,6 +1496,10 @@ func PangoPdfShowText(ctx Context, layout *PangoPdfLayout) {
 	if ctx.Status() != StatusSuccess {
 		return
 	}
+	if c, ok := ctx.(*context); ok && c.psSurfaceTarget() != nil {
+		pangoPSShowTextComposite(c, layout)
+		return
+	}
 
 	// Get current point or use (0, 0)
 	x, y := ctx.GetCurrentPoint()
@@ -1629,8 +1633,10 @@ func pangoPSShowText(c *context, layout *PangoPdfLayout) {
 			}
 		}
 
+		escaped := escapePSString(ensureValidUTF8(line))
+		c.psLineAggAddFromShowLine(lineX, currentY, fontSize, "("+escaped+") show")
 		c.psWritef("%.4f %.4f moveto\n", lineX, currentY)
-		c.psWritef("(%s) show\n", escapePSString(ensureValidUTF8(line)))
+		c.psWritef("(%s) show\n", escaped)
 		currentY += lineHeight
 	}
 

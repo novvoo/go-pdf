@@ -15,6 +15,27 @@ func glyphNameToRuneForFont(name string, font *Font) (rune, bool) {
 	return glyphNameToRune(name)
 }
 
+func texMathRuneFromCID(baseFont string, cid uint16) (rune, bool) {
+	base := strings.ToUpper(stripSubsetPrefix(baseFont))
+	if strings.HasPrefix(base, "CMEX") {
+		switch cid {
+		case 'P':
+			return 0x2211, true
+		case 'X':
+			return 0x220F, true
+		}
+	}
+	return 0, false
+}
+
+func texMathNormalizeDecodedText(baseFont string, s string) string {
+	base := strings.ToUpper(stripSubsetPrefix(baseFont))
+	if strings.HasPrefix(base, "CMEX") {
+		s = strings.ReplaceAll(s, "{z", "{")
+	}
+	return s
+}
+
 func msbmGlyphNameToRune(name string) (rune, bool) {
 	name = strings.TrimPrefix(name, "/")
 	if len(name) == 1 && name[0] >= 'A' && name[0] <= 'Z' {

@@ -1,5 +1,5 @@
-//go:build ignore
-// +build ignore
+//go:build gopdfcmd
+// +build gopdfcmd
 
 package main
 
@@ -7,6 +7,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"math"
 	"os"
 	"path/filepath"
 	"sort"
@@ -34,6 +35,15 @@ type textLine struct {
 	ToUnicodeHit     int
 	GlyphNameHit     int
 	IdentityASCIIHit int
+}
+
+func normalizeLineTextForReport(s string) string {
+	compact := strings.ReplaceAll(s, " ", "")
+	compact = strings.ReplaceAll(compact, "\t", "")
+	if compact == "|{}" {
+		return "⏟"
+	}
+	return s
 }
 
 func main() {
@@ -95,9 +105,63 @@ func main() {
 
 		textElements, _ := reader.ExtractPageElements(pageNum)
 		lines := groupIntoLines(textElements)
+		titleThr := detectTitleFontThreshold(lines)
 
 		report.WriteString(fmt.Sprintf("\nPage %d:\n", pageNum))
 		report.WriteString(fmt.Sprintf("✅ Extracted %d text elements -> %d lines\n", len(textElements), len(lines)))
+
+		report.WriteString("Elements (ordered by y then x):\n")
+		elemsForLog := append([]gopdf.TextElementInfo(nil), textElements...)
+		sort.Slice(elemsForLog, func(i, j int) bool {
+			if elemsForLog[i].Y == elemsForLog[j].Y {
+				return elemsForLog[i].X < elemsForLog[j].X
+			}
+			return elemsForLog[i].Y < elemsForLog[j].Y
+		})
+		maxElemLog := 400
+		if len(elemsForLog) < maxElemLog {
+			maxElemLog = len(elemsForLog)
+		}
+		for i := 0; i < maxElemLog; i++ {
+			e := elemsForLog[i]
+			report.WriteString(fmt.Sprintf(
+				"  - elem[%03d] x=%.2f y=%.2f w=%.2f h=%.2f fs=%.2f font=%q base=%q tu=%t ident=%t cid=%d repl=%d hitTU=%d hitGN=%d hitIA=%d text=%q raw=%q\n",
+				i, e.X, e.Y, e.Width, e.Height, e.FontSize, e.FontName, e.FontBaseName,
+				e.HasToUnicode, e.IsIdentity, e.CIDCount, e.ReplacementCount, e.ToUnicodeHit, e.GlyphNameHit, e.IdentityASCIIHit,
+				clipForLog(escapeForLog(e.Text), 160), clipForLog(escapeForLog(e.RawText), 160),
+			))
+		}
+		if len(elemsForLog) > maxElemLog {
+			report.WriteString(fmt.Sprintf("  ... omitted %d elements\n", len(elemsForLog)-maxElemLog))
+		}
+
+		report.WriteString("Lines (grouped):\n")
+		for i, ln := range lines {
+			raw := strings.TrimSpace(ln.Text)
+			kind := classifyLineKind(ln, raw, titleThr)
+			report.WriteString(fmt.Sprintf(
+				"  - line[%03d] kind=%s y=%.2f x=[%.2f..%.2f] fs=%.2f elems=%d fonts=%q tu=%d ident=%d cid=%d repl=%d hitTU=%d hitGN=%d hitIA=%d text=%q\n",
+				i, kind, ln.Y, ln.MinX, ln.MaxX, ln.FontSize, ln.ElemCount, strings.Join(ln.FontNames, ","),
+				ln.HasToUnicode, ln.IsIdentity, ln.CIDCount, ln.ReplacementCount, ln.ToUnicodeHit, ln.GlyphNameHit, ln.IdentityASCIIHit,
+				clipForLog(escapeForLog(raw), 220),
+			))
+			maxLineElem := 30
+			if len(ln.Elements) < maxLineElem {
+				maxLineElem = len(ln.Elements)
+			}
+			for j := 0; j < maxLineElem; j++ {
+				e := ln.Elements[j]
+				report.WriteString(fmt.Sprintf(
+					"    * e[%02d] x=%.2f y=%.2f w=%.2f h=%.2f fs=%.2f font=%q base=%q tu=%t ident=%t cid=%d repl=%d text=%q raw=%q\n",
+					j, e.X, e.Y, e.Width, e.Height, e.FontSize, e.FontName, e.FontBaseName,
+					e.HasToUnicode, e.IsIdentity, e.CIDCount, e.ReplacementCount,
+					clipForLog(escapeForLog(e.Text), 120), clipForLog(escapeForLog(e.RawText), 120),
+				))
+			}
+			if len(ln.Elements) > maxLineElem {
+				report.WriteString(fmt.Sprintf("    * ... omitted %d elements\n", len(ln.Elements)-maxLineElem))
+			}
+		}
 
 		pageOverlays, vecLog := buildTranslationOverlays(pageNum, lines, pageInfo.Width, pageInfo.Height, chineseSansFont, chineseSerifFont)
 		vectorOverlays = append(vectorOverlays, pageOverlays...)
@@ -115,6 +179,33 @@ func main() {
 
 	report.WriteString(fmt.Sprintf("\n✅ Base PS: %s\n", basePSPath))
 	report.WriteString(fmt.Sprintf("✅ Vector translated overlays: %d\n", len(vectorOverlays)))
+
+	if b, err := os.ReadFile(basePSPath); err == nil {
+		psContent := string(b)
+		rep := gopdf.AnalyzePSShowFragmentation(psContent, 30)
+		psNewPath := strings.Count(psContent, "\nnewpath\n")
+		psCurveTo := strings.Count(psContent, " curveto\n")
+		report.WriteString("\n[PS Text Check]\n")
+		report.WriteString(fmt.Sprintf("- shows=%d literal=%d hex=%d\n", rep.TotalShows, rep.LiteralShows, rep.HexShows))
+		report.WriteString(fmt.Sprintf("- short(len=1)=%d len=2=%d len=3=%d\n", rep.ShortShowsLen1, rep.ShortShowsLen2, rep.ShortShowsLen3))
+		report.WriteString(fmt.Sprintf("- consecutive-letter-fragments=%d (body=%d math=%d)\n", rep.ConsecutiveLetters, rep.BodyConsecutiveLetters, rep.MathConsecutiveLetters))
+		report.WriteString(fmt.Sprintf("- ps_paths: newpath=%d curveto=%d\n", psNewPath, psCurveTo))
+		if rep.BodyConsecutiveLetters > 0 && len(rep.BodyExamples) > 0 {
+			report.WriteString("  body examples:\n")
+			for i := 0; i < len(rep.BodyExamples) && i < 10; i++ {
+				ex := rep.BodyExamples[i]
+				report.WriteString(fmt.Sprintf("  - line=%d %s\n", ex.LineNo, ex.Text))
+			}
+		}
+		const maxBodyFragmentation = 50
+		if rep.BodyConsecutiveLetters > maxBodyFragmentation {
+			report.WriteString(fmt.Sprintf("❌ PS text check failed: body-fragmentation=%d (limit=%d)\n", rep.BodyConsecutiveLetters, maxBodyFragmentation))
+			finishReport(reportPath, report.String(), &capturedIO{w: w, oldStdout: oldStdout, oldStderr: oldStderr, outChan: outputChan, debug: &debugBuf})
+			os.Exit(2)
+		}
+	} else {
+		report.WriteString(fmt.Sprintf("\n[PS Text Check] ❌ read PS failed: %v\n", err))
+	}
 
 	_ = os.Remove(outTranslatedSVGPath)
 	_ = os.Remove(outTranslatedPDFPath)
@@ -299,6 +390,14 @@ func clipForLog(s string, max int) string {
 	return string(r[:max]) + "…"
 }
 
+func escapeForLog(s string) string {
+	s = strings.ReplaceAll(s, "\r\n", "\n")
+	s = strings.ReplaceAll(s, "\r", "\n")
+	s = strings.ReplaceAll(s, "\n", "\\n")
+	s = strings.ReplaceAll(s, "\t", "\\t")
+	return s
+}
+
 func clamp(v, minV, maxV float64) float64 {
 	if v < minV {
 		return minV
@@ -375,19 +474,101 @@ func groupIntoLines(elems []gopdf.TextElementInfo) []textLine {
 	for _, b := range buckets {
 		sort.Slice(b.elems, func(i, j int) bool { return b.elems[i].X < b.elems[j].X })
 		var sb strings.Builder
+		prevEnd := 0.0
+		prevSet := false
+		prevLast := rune(0)
+		prevHasLast := false
+		isWordRune := func(r rune) bool {
+			if r == '_' {
+				return true
+			}
+			return unicode.IsLetter(r) || unicode.IsDigit(r)
+		}
+		needsSpaceAfterRune := func(prev rune, next rune) bool {
+			if !isWordRune(next) {
+				return false
+			}
+			switch prev {
+			case ':', ';', ',', ')', ']', '}':
+				return true
+			default:
+				return false
+			}
+		}
+		fontSet := make(map[string]bool)
 		var fonts []string
+		hasToUnicode := 0
+		isIdentity := 0
+		cidCount := 0
+		replCount := 0
+		toUnicodeHit := 0
+		glyphNameHit := 0
+		identityASCIIHit := 0
 		for _, e := range b.elems {
+			text := e.Text
+			if text == "" {
+				continue
+			}
+			firstRune := rune(0)
+			hasFirstRune := false
+			for _, r := range text {
+				firstRune = r
+				hasFirstRune = true
+				break
+			}
+
+			if prevSet {
+				gap := e.X - prevEnd
+				needSpace := false
+				if gap > math.Max(1.5, b.fontSize*0.25) {
+					needSpace = true
+				} else if prevHasLast && hasFirstRune && needsSpaceAfterRune(prevLast, firstRune) && gap >= -0.5 {
+					needSpace = true
+				}
+				if needSpace {
+					sb.WriteByte(' ')
+				}
+			}
+
 			sb.WriteString(e.Text)
-			fonts = append(fonts, e.FontName)
+			prevEnd = e.X + e.Width
+			prevSet = true
+			for _, r := range text {
+				prevLast = r
+				prevHasLast = true
+			}
+			if !fontSet[e.FontName] {
+				fontSet[e.FontName] = true
+				fonts = append(fonts, e.FontName)
+			}
+			if e.HasToUnicode {
+				hasToUnicode++
+			}
+			if e.IsIdentity {
+				isIdentity++
+			}
+			cidCount += e.CIDCount
+			replCount += e.ReplacementCount
+			toUnicodeHit += e.ToUnicodeHit
+			glyphNameHit += e.GlyphNameHit
+			identityASCIIHit += e.IdentityASCIIHit
 		}
 		out = append(out, textLine{
-			Y:         b.y,
-			MinX:      b.minX,
-			MaxX:      b.maxX,
-			FontSize:  b.fontSize,
-			Text:      sb.String(),
-			ElemCount: len(b.elems),
-			FontNames: fonts,
+			Y:                b.y,
+			MinX:             b.minX,
+			MaxX:             b.maxX,
+			FontSize:         b.fontSize,
+			Text:             normalizeLineTextForReport(sb.String()),
+			Elements:         b.elems,
+			ElemCount:        len(b.elems),
+			FontNames:        fonts,
+			HasToUnicode:     hasToUnicode,
+			IsIdentity:       isIdentity,
+			CIDCount:         cidCount,
+			ReplacementCount: replCount,
+			ToUnicodeHit:     toUnicodeHit,
+			GlyphNameHit:     glyphNameHit,
+			IdentityASCIIHit: identityASCIIHit,
 		})
 	}
 	sort.Slice(out, func(i, j int) bool { return out[i].Y < out[j].Y })

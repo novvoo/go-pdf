@@ -3,12 +3,15 @@ package gopdf
 import (
 	"bufio"
 	"bytes"
+	"encoding/hex"
 	"encoding/xml"
 	"fmt"
 	"math"
 	"os"
 	"strconv"
 	"strings"
+	"unicode/utf16"
+	"unicode/utf8"
 )
 
 type psRGB struct {
@@ -398,25 +401,38 @@ func renderPostScriptPageToSVG(page string, pageH float64) []svgElemRecord {
 			continue
 		}
 
-		if strings.HasSuffix(line, " show") {
-			s, ok := parsePSShowString(line)
-			if !ok || !hasPoint {
+		if strings.Contains(line, "show") {
+			ops := extractPSShowOps(line, state.Style.FontName)
+			if len(ops) > 0 && hasPoint {
+				scale := avgScale(state.CTM)
+				fs := state.Style.FontSize * scale
+				if fs <= 0 {
+					fs = 12
+				}
+				emitText := func(text string) {
+					if text == "" {
+						return
+					}
+					elems = append(elems, svgElemRecord{ModuleID: currentModule(), Kind: psSvgElemText, Text: svgText{
+						X:        curX,
+						Y:        curY,
+						FontSize: fs,
+						Fill:     rgbToHex(state.Style.Color),
+						FontName: state.Style.FontName,
+						Text:     text,
+					}})
+					curX += estimatePSTextAdvance(text, fs)
+				}
+				if strings.Contains(line, "ifelse") && len(ops) >= 2 {
+					best := pickBestShowOp(ops)
+					emitText(best.Text)
+				} else {
+					for _, op := range ops {
+						emitText(op.Text)
+					}
+				}
 				continue
 			}
-			scale := avgScale(state.CTM)
-			fs := state.Style.FontSize * scale
-			if fs <= 0 {
-				fs = 12
-			}
-			elems = append(elems, svgElemRecord{ModuleID: currentModule(), Kind: psSvgElemText, Text: svgText{
-				X:        curX,
-				Y:        curY,
-				FontSize: fs,
-				Fill:     rgbToHex(state.Style.Color),
-				FontName: state.Style.FontName,
-				Text:     s,
-			}})
-			continue
 		}
 
 		fields := strings.Fields(line)
@@ -533,6 +549,336 @@ func renderPostScriptPageToSVG(page string, pageH float64) []svgElemRecord {
 	}
 
 	return elems
+}
+
+type psShowOp struct {
+	Text     string
+	RawIsHex bool
+}
+
+func pickBestShowOp(ops []psShowOp) psShowOp {
+	best := psShowOp{}
+	bestScore := -1_000_000
+	for _, op := range ops {
+		score := 0
+		if op.RawIsHex {
+			score += 20
+		}
+		if op.Text == "" {
+			score -= 1000
+		}
+		for _, r := range op.Text {
+			switch r {
+			case '�':
+				score -= 50
+			case '?':
+				score -= 3
+			default:
+				score += 1
+			}
+		}
+		if score > bestScore {
+			best = op
+			bestScore = score
+		}
+	}
+	return best
+}
+
+func extractPSShowOps(line string, fontName string) []psShowOp {
+	line = strings.TrimSpace(line)
+	if line == "" {
+		return nil
+	}
+	out := make([]psShowOp, 0, 2)
+
+	for i := 0; i < len(line); i++ {
+		switch line[i] {
+		case '(':
+			j := i + 1
+			esc := false
+			for j < len(line) {
+				c := line[j]
+				if esc {
+					esc = false
+					j++
+					continue
+				}
+				if c == '\\' {
+					esc = true
+					j++
+					continue
+				}
+				if c == ')' {
+					break
+				}
+				j++
+			}
+			if j >= len(line) || line[j] != ')' {
+				continue
+			}
+			k := j + 1
+			for k < len(line) && (line[k] == ' ' || line[k] == '\t') {
+				k++
+			}
+			if k+4 <= len(line) && line[k:k+4] == "show" {
+				raw := line[i+1 : j]
+				text := decodePSLiteralString(raw, fontName)
+				out = append(out, psShowOp{Text: text, RawIsHex: false})
+				i = j
+			}
+		case '<':
+			j := strings.IndexByte(line[i+1:], '>')
+			if j < 0 {
+				continue
+			}
+			j = i + 1 + j
+			k := j + 1
+			for k < len(line) && (line[k] == ' ' || line[k] == '\t') {
+				k++
+			}
+			if k+4 <= len(line) && line[k:k+4] == "show" {
+				token := line[i : j+1]
+				if text, ok := decodePSHexString(token); ok {
+					out = append(out, psShowOp{Text: text, RawIsHex: true})
+				}
+				i = j
+			}
+		}
+	}
+	return out
+}
+
+func decodePSHexString(token string) (string, bool) {
+	hi := strings.IndexByte(token, '<')
+	hj := strings.LastIndexByte(token, '>')
+	if hi < 0 || hj < 0 || hj <= hi {
+		return "", false
+	}
+	hexStr := strings.ReplaceAll(token[hi+1:hj], " ", "")
+	if hexStr == "" {
+		return "", false
+	}
+	if len(hexStr)%2 == 1 {
+		hexStr += "0"
+	}
+	b, err := hex.DecodeString(hexStr)
+	if err != nil {
+		return "", false
+	}
+	if s, ok := decodeUTF16BytesToString(b); ok {
+		return s, true
+	}
+	runes := make([]rune, 0, len(b))
+	for _, by := range b {
+		if by == 0 {
+			runes = append(runes, '�')
+			continue
+		}
+		runes = append(runes, rune(by))
+	}
+	return string(runes), true
+}
+
+func decodePSLiteralString(raw string, fontName string) string {
+	b := unescapePSStringBytes(raw)
+	if len(b) == 0 {
+		return ""
+	}
+	fn := strings.ToLower(strings.TrimSpace(fontName))
+	if fn == "math" || fn == "symbol" || strings.Contains(fn, "symbol") {
+		runes := make([]rune, 0, len(b))
+		for _, by := range b {
+			if r, ok := psSymbolEncodingByteToUnicode(by); ok {
+				runes = append(runes, r)
+				continue
+			}
+			if by >= 0x20 && by <= 0x7E {
+				runes = append(runes, rune(by))
+				continue
+			}
+			runes = append(runes, '�')
+		}
+		return string(runes)
+	}
+	if utf8.Valid(b) {
+		return string(b)
+	}
+	runes := make([]rune, 0, len(b))
+	for _, by := range b {
+		if by >= 0x20 && by <= 0x7E {
+			runes = append(runes, rune(by))
+			continue
+		}
+		runes = append(runes, '�')
+	}
+	return string(runes)
+}
+
+func psSymbolEncodingByteToUnicode(by byte) (rune, bool) {
+	switch by {
+	case 0x41:
+		return 0x0391, true
+	case 0x42:
+		return 0x0392, true
+	case 0x43:
+		return 0x03A7, true
+	case 0x44:
+		return 0x0394, true
+	case 0x45:
+		return 0x0395, true
+	case 0x46:
+		return 0x03A6, true
+	case 0x47:
+		return 0x0393, true
+	case 0x48:
+		return 0x0397, true
+	case 0x49:
+		return 0x0399, true
+	case 0x4B:
+		return 0x039A, true
+	case 0x4C:
+		return 0x039B, true
+	case 0x4D:
+		return 0x039C, true
+	case 0x4E:
+		return 0x039D, true
+	case 0x4F:
+		return 0x039F, true
+	case 0x50:
+		return 0x03A0, true
+	case 0x51:
+		return 0x0398, true
+	case 0x52:
+		return 0x03A1, true
+	case 0x53:
+		return 0x03A3, true
+	case 0x54:
+		return 0x03A4, true
+	case 0x55:
+		return 0x03A5, true
+	case 0x56:
+		return 0x03C2, true
+	case 0x57:
+		return 0x03A9, true
+	case 0x58:
+		return 0x039E, true
+	case 0x59:
+		return 0x03A8, true
+	case 0x5A:
+		return 0x0396, true
+	case 0x60:
+		return 0xF8E5, true
+	case 0x61:
+		return 0x03B1, true
+	case 0x62:
+		return 0x03B2, true
+	case 0x63:
+		return 0x03C7, true
+	case 0x64:
+		return 0x03B4, true
+	case 0x65:
+		return 0x03B5, true
+	case 0x66:
+		return 0x03C6, true
+	case 0x67:
+		return 0x03B3, true
+	case 0x68:
+		return 0x03B7, true
+	case 0x69:
+		return 0x03B9, true
+	case 0x6B:
+		return 0x03BA, true
+	case 0x6C:
+		return 0x03BB, true
+	case 0x6D:
+		return 0x03BC, true
+	case 0x6E:
+		return 0x03BD, true
+	case 0x6F:
+		return 0x03BF, true
+	case 0x70:
+		return 0x03C0, true
+	case 0x71:
+		return 0x03B8, true
+	case 0x72:
+		return 0x03C1, true
+	case 0x73:
+		return 0x03C3, true
+	case 0x74:
+		return 0x03C4, true
+	case 0x75:
+		return 0x03C5, true
+	case 0x77:
+		return 0x03C9, true
+	case 0x78:
+		return 0x03BE, true
+	case 0x79:
+		return 0x03C8, true
+	case 0x7A:
+		return 0x03B6, true
+	case 0x7E:
+		return 0x223C, true
+	case 0xA3:
+		return 0x2264, true
+	case 0xB1:
+		return 0x00B1, true
+	case 0xB3:
+		return 0x2265, true
+	case 0xB4:
+		return 0x00D7, true
+	case 0xB6:
+		return 0x2202, true
+	case 0xB7:
+		return 0x2022, true
+	case 0xB8:
+		return 0x00F7, true
+	case 0xB9:
+		return 0x2260, true
+	case 0xD1:
+		return 0x2207, true
+	case 0xD5:
+		return 0x220F, true
+	case 0xD6:
+		return 0x221A, true
+	case 0xD7:
+		return 0x22C5, true
+	case 0xE5:
+		return 0x2211, true
+	case 0xF2:
+		return 0x222B, true
+	case 0xAB:
+		return 0x2194, true
+	case 0xAC:
+		return 0x2190, true
+	case 0xAD:
+		return 0x2191, true
+	case 0xAE:
+		return 0x2192, true
+	case 0xAF:
+		return 0x2193, true
+	case 0xCE:
+		return 0x2208, true
+	case 0xCF:
+		return 0x2209, true
+	default:
+		return 0, false
+	}
+}
+
+func estimatePSTextAdvance(s string, fontSize float64) float64 {
+	if fontSize <= 0 {
+		fontSize = 12
+	}
+	w := 0.0
+	for _, r := range s {
+		if r <= 0x7F {
+			w += 0.55
+		} else {
+			w += 1.0
+		}
+	}
+	return w * fontSize
 }
 
 type psPoint struct {
@@ -754,42 +1100,218 @@ func parsePSSetFont(line string) (string, float64, bool) {
 func parsePSShowString(line string) (string, bool) {
 	i := strings.IndexByte(line, '(')
 	j := strings.LastIndexByte(line, ')')
-	if i < 0 || j < 0 || j <= i {
+	if i >= 0 && j >= 0 && j > i {
+		raw := line[i+1 : j]
+		return string(unescapePSStringBytes(raw)), true
+	}
+
+	hi := strings.IndexByte(line, '<')
+	hj := strings.LastIndexByte(line, '>')
+	if hi < 0 || hj < 0 || hj <= hi {
 		return "", false
 	}
-	raw := line[i+1 : j]
-	return unescapePSString(raw), true
-}
+	hexStr := strings.ReplaceAll(line[hi+1:hj], " ", "")
+	if hexStr == "" {
+		return "", false
+	}
+	if len(hexStr)%2 == 1 {
+		hexStr += "0"
+	}
+	b, err := hex.DecodeString(hexStr)
+	if err != nil {
+		return "", false
+	}
 
-func unescapePSString(s string) string {
-	var b strings.Builder
-	esc := false
-	for i := 0; i < len(s); i++ {
-		c := s[i]
-		if !esc {
-			if c == '\\' {
-				esc = true
-				continue
-			}
-			b.WriteByte(c)
+	if s, ok := decodeUTF16BytesToString(b); ok {
+		return s, true
+	}
+
+	runes := make([]rune, 0, len(b))
+	for _, by := range b {
+		if by == 0 {
+			runes = append(runes, '�')
 			continue
 		}
-		esc = false
-		switch c {
+		runes = append(runes, rune(by))
+	}
+	return string(runes), true
+}
+
+func unescapePSStringBytes(s string) []byte {
+	out := make([]byte, 0, len(s))
+	for i := 0; i < len(s); i++ {
+		c := s[i]
+		if c != '\\' {
+			out = append(out, c)
+			continue
+		}
+		if i+1 >= len(s) {
+			out = append(out, '\\')
+			break
+		}
+		n := s[i+1]
+
+		if n == '\n' {
+			i++
+			continue
+		}
+		if n == '\r' {
+			if i+2 < len(s) && s[i+2] == '\n' {
+				i += 2
+			} else {
+				i++
+			}
+			continue
+		}
+
+		switch n {
 		case 'n':
-			b.WriteByte('\n')
+			out = append(out, '\n')
+			i++
+			continue
 		case 'r':
-			b.WriteByte('\r')
+			out = append(out, '\r')
+			i++
+			continue
 		case 't':
-			b.WriteByte('\t')
-		default:
-			b.WriteByte(c)
+			out = append(out, '\t')
+			i++
+			continue
+		case 'b':
+			out = append(out, '\b')
+			i++
+			continue
+		case 'f':
+			out = append(out, '\f')
+			i++
+			continue
+		case '\\', '(', ')':
+			out = append(out, n)
+			i++
+			continue
+		}
+
+		if n >= '0' && n <= '7' {
+			val := int(n - '0')
+			i++
+			for j := 0; j < 2; j++ {
+				if i+1 >= len(s) {
+					break
+				}
+				d := s[i+1]
+				if d < '0' || d > '7' {
+					break
+				}
+				val = val*8 + int(d-'0')
+				i++
+			}
+			out = append(out, byte(val&0xFF))
+			continue
+		}
+
+		out = append(out, n)
+		i++
+	}
+	return out
+}
+
+func decodeUTF16BOMBytesToString(b []byte) (string, bool) {
+	if len(b) < 2 || len(b)%2 != 0 {
+		return "", false
+	}
+	if b[0] == 0xFE && b[1] == 0xFF {
+		u16 := make([]uint16, 0, (len(b)-2)/2)
+		for i := 2; i+1 < len(b); i += 2 {
+			u16 = append(u16, uint16(b[i])<<8|uint16(b[i+1]))
+		}
+		return string(utf16.Decode(u16)), true
+	}
+	if b[0] == 0xFF && b[1] == 0xFE {
+		u16 := make([]uint16, 0, (len(b)-2)/2)
+		for i := 2; i+1 < len(b); i += 2 {
+			u16 = append(u16, uint16(b[i+1])<<8|uint16(b[i]))
+		}
+		return string(utf16.Decode(u16)), true
+	}
+	return "", false
+}
+
+func decodeUTF16BytesToString(b []byte) (string, bool) {
+	if s, ok := decodeUTF16BOMBytesToString(b); ok {
+		return s, true
+	}
+	if s, ok := decodeUTF16NoBOMBytesToString(b); ok {
+		return s, true
+	}
+	return "", false
+}
+
+func decodeUTF16NoBOMBytesToString(b []byte) (string, bool) {
+	if len(b) < 4 || len(b)%2 != 0 {
+		return "", false
+	}
+	pairs := len(b) / 2
+	if pairs < 2 {
+		return "", false
+	}
+
+	var zerosEven, zerosOdd int
+	var printableLowEven, printableLowOdd int
+	var nonZeroLowEven, nonZeroLowOdd int
+
+	for i := 0; i < len(b); i += 2 {
+		hi := b[i]
+		lo := b[i+1]
+
+		if hi == 0 {
+			zerosEven++
+		}
+		if lo == 0 {
+			zerosOdd++
+		}
+		if hi != 0 {
+			nonZeroLowEven++
+			if hi == 0x09 || hi == 0x0A || hi == 0x0D || (hi >= 0x20 && hi <= 0x7E) {
+				printableLowEven++
+			}
+		}
+		if lo != 0 {
+			nonZeroLowOdd++
+			if lo == 0x09 || lo == 0x0A || lo == 0x0D || (lo >= 0x20 && lo <= 0x7E) {
+				printableLowOdd++
+			}
 		}
 	}
-	if esc {
-		b.WriteByte('\\')
+
+	zeroRatioEven := float64(zerosEven) / float64(pairs)
+	zeroRatioOdd := float64(zerosOdd) / float64(pairs)
+
+	printableRatioOdd := 0.0
+	if nonZeroLowOdd > 0 {
+		printableRatioOdd = float64(printableLowOdd) / float64(nonZeroLowOdd)
 	}
-	return b.String()
+	printableRatioEven := 0.0
+	if nonZeroLowEven > 0 {
+		printableRatioEven = float64(printableLowEven) / float64(nonZeroLowEven)
+	}
+
+	isBE := zeroRatioEven >= 0.35 && printableRatioOdd >= 0.70 && zeroRatioEven > zeroRatioOdd
+	isLE := zeroRatioOdd >= 0.35 && printableRatioEven >= 0.70 && zeroRatioOdd > zeroRatioEven
+	if !isBE && !isLE {
+		return "", false
+	}
+
+	u16 := make([]uint16, 0, pairs)
+	if isBE {
+		for i := 0; i+1 < len(b); i += 2 {
+			u16 = append(u16, uint16(b[i])<<8|uint16(b[i+1]))
+		}
+	} else {
+		for i := 0; i+1 < len(b); i += 2 {
+			u16 = append(u16, uint16(b[i+1])<<8|uint16(b[i]))
+		}
+	}
+	return string(utf16.Decode(u16)), true
 }
 
 func parsePSFloats(tokens []string) []float64 {

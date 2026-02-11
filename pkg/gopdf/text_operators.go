@@ -569,11 +569,71 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 	debugPrintf("\n[TEXT_STATE] CharSpacing=%.4f WordSpacing=%.4f HScale=%.2f%% FontSize=%.2f\n",
 		textState.CharSpacing, textState.WordSpacing, textState.HorizontalScaling, textState.FontSize)
 
+	psPreferText := false
+	var psCtx *context
+	if c, ok := ctx.GopdfCtx.(*context); ok && c.psSurfaceTarget() != nil {
+		psPreferText = true
+		psCtx = c
+	}
+
 	// 保存 Gopdf 状态
 	ctx.GopdfCtx.Save()
 	defer ctx.GopdfCtx.Restore()
 
+	baseX0 := textState.TextMatrix.X0
+	baseY0 := textState.TextMatrix.Y0
+	fontSize := textState.FontSize
+	if fontSize < 1.0 {
+		fontSize = 12.0
+	}
+
+	var toUnicodeMap *CIDToUnicodeMap
+	if textState.Font != nil {
+		toUnicodeMap = textState.Font.ToUnicodeMap
+	}
+
+	x0 := baseX0
+	y0 := baseY0
+	if psPreferText && psCtx != nil {
+		tolY := math.Max(2.0, fontSize*0.35)
+		if psCtx.psTightShift.active && math.Abs(y0-psCtx.psTightShift.yUser) <= tolY && x0 >= psCtx.psTightShift.minX-0.1 {
+			x0 += psCtx.psTightShift.dx
+		} else if psCtx.psTightShift.active && math.Abs(y0-psCtx.psTightShift.yUser) > tolY {
+			psCtx.psTightShift.active = false
+		}
+	}
+
+	if psPreferText && psCtx != nil &&
+		len(array) == 0 &&
+		textState.Font != nil &&
+		isTeXMathFont(textState.Font.BaseFont) &&
+		math.Abs(textState.TextMatrix.XY) < 1e-3 &&
+		math.Abs(textState.TextMatrix.YX) < 1e-3 &&
+		math.Abs(textState.TextMatrix.XX) > 1e-6 {
+		decodedOp, _, _ := decodeTextStringWithCIDs(text, toUnicodeMap, textState.Font)
+		if decodedOp == ">" || decodedOp == "<" || decodedOp == "=" || decodedOp == "≥" || decodedOp == "≤" {
+			tolY := math.Max(2.0, fontSize*0.35)
+			if psCtx.psTightLast.active &&
+				math.Abs(y0-psCtx.psTightLast.yUser) <= tolY &&
+				fontSize >= psCtx.psTightLast.fontSize*0.8 &&
+				fontSize <= psCtx.psTightLast.fontSize*1.25 {
+				gap := x0 - psCtx.psTightLast.xEndUser
+				if gap > fontSize*1.2 && gap < fontSize*12 {
+					desired := psCtx.psTightLast.xEndUser + fontSize*0.25
+					dx := desired - x0
+					psCtx.psTightShift.active = true
+					psCtx.psTightShift.yUser = y0
+					psCtx.psTightShift.minX = baseX0
+					psCtx.psTightShift.dx = dx
+					x0 += dx
+				}
+			}
+		}
+	}
+
 	textMatrix := textState.TextMatrix.Clone()
+	textMatrix.X0 = x0
+	textMatrix.Y0 = y0
 	if textState.Rise != 0 {
 		textMatrix = textMatrix.Multiply(NewTranslationMatrix(0, textState.Rise))
 	}
@@ -582,13 +642,6 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 	// 设置字体
 	// 🔥 关键：字体大小直接使用 FontSize，不从文本矩阵提取
 	// 因为文本矩阵的缩放已经在计算绝对坐标时应用了
-	fontSize := textState.FontSize
-
-	// 如果字体大小为0，使用默认值
-	if fontSize < 1.0 {
-		fontSize = 12.0
-	}
-
 	fontFamily := "sans-serif"
 	registeredPDFFont := false
 	if textState.Font != nil {
@@ -608,17 +661,12 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 		}
 	}
 
-	// 获取当前字体的 ToUnicode 映射
-	var toUnicodeMap *CIDToUnicodeMap
-	if textState.Font != nil {
-		toUnicodeMap = textState.Font.ToUnicodeMap
-	}
-
 	useGlyphIndices := false
 	if textState.Font != nil &&
 		(textState.Font.Subtype == "/Type0" || textState.Font.Subtype == "Type0") &&
 		textState.Font.IsIdentity &&
-		registeredPDFFont {
+		registeredPDFFont &&
+		!psPreferText {
 		useGlyphIndices = true
 	}
 
@@ -772,7 +820,12 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 			hScale = 1
 		}
 
-		pangoAdvUnscaled := scaledFont.TextExtents(runText).XAdvance
+		pangoAdvUnscaled := 0.0
+		if psPreferText && (fontFamily == "sans-serif" || fontFamily == "sans-cjk" || strings.EqualFold(fontFamily, "sans")) {
+			pangoAdvUnscaled = estimateTextWidthSimple(runText, fontSize)
+		} else {
+			pangoAdvUnscaled = scaledFont.TextExtents(runText).XAdvance
+		}
 		if pangoAdvUnscaled <= 0 {
 			return hScale, 0
 		}
@@ -798,11 +851,6 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 		}
 
 		return hScale, pangoAdvanceForLayout(runText)
-	}
-
-	psPreferText := false
-	if c, ok := ctx.GopdfCtx.(*context); ok && c.psSurfaceTarget() != nil {
-		psPreferText = true
 	}
 
 	delimiterAdjust := func(glyphName string) (dyFactor float64, scaleY float64, ok bool) {
@@ -1239,9 +1287,114 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 		// TJ 操作符：处理文本数组
 		debugPrintf("[TJ_ARRAY] Processing %d items\n", len(array))
 
+		psBodyText := psPreferText && fontFamily != "math"
+
+		mergeTol := fontSize * 0.06
+		pendingKerning := 0.0
+		pendingSpaces := 0
+		var bufText string
+		var bufCIDs []uint16
+		var bufStats TextDecodeStats
+		bufHas := false
+
+		flushBuf := func() {
+			if !bufHas {
+				return
+			}
+			decodedText := bufText
+			cids := bufCIDs
+			stats := bufStats
+
+			useGlyphRun := useGlyphIndices
+			outline := psPreferText && shouldOutlineTextInPS(textState.Font, decodedText, cids, stats)
+			if psPreferText {
+				outline = false
+			}
+			if psPreferText && decodedText != "" && !outline {
+				useGlyphRun = false
+			}
+
+			if useGlyphRun {
+				if psPreferText && outline && decodedText != "" {
+					scaleX, adv := computeRunScaleAndAdvance(decodedText, cids)
+					if renderShapedGlyphPaths(decodedText, scaleX) {
+						currentX += adv
+						debugPrintf("[TJ_ARRAY][BUF] Rendered shaped glyph paths, adv=%.2f\n", adv)
+						bufHas = false
+						bufText = ""
+						bufCIDs = nil
+						bufStats = TextDecodeStats{}
+						return
+					}
+				}
+
+				renderGlyphs(cids)
+				debugPrintf("[TJ_ARRAY][BUF] Rendered glyph run\n")
+			} else {
+				if !psPreferText || outline {
+					if adv, ok := renderType0CFFGlyphs(decodedText, cids); ok {
+						currentX += adv
+						debugPrintf("[TJ_ARRAY][BUF] Rendered Type0 CFF glyphs, adv=%.2f\n", adv)
+						bufHas = false
+						bufText = ""
+						bufCIDs = nil
+						bufStats = TextDecodeStats{}
+						return
+					}
+					if isTeXMathBaseFont(textState.Font.BaseFont) {
+						if adv, ok := renderTeXMathFallbackGlyphs(decodedText, cids); ok {
+							debugPrintf("[TJ_ARRAY][BUF] Rendered TeX glyphs, adv=%.2f\n", adv)
+							bufHas = false
+							bufText = ""
+							bufCIDs = nil
+							bufStats = TextDecodeStats{}
+							return
+						}
+					}
+				}
+
+				scaleX, adv := computeRunScaleAndAdvance(decodedText, cids)
+				if psPreferText && outline {
+					if renderShapedGlyphPaths(decodedText, scaleX) {
+						currentX += adv
+						debugPrintf("[TJ_ARRAY][BUF] Rendered shaped glyph paths, adv=%.2f\n", adv)
+						bufHas = false
+						bufText = ""
+						bufCIDs = nil
+						bufStats = TextDecodeStats{}
+						return
+					}
+				}
+				renderRun(decodedText, cids, scaleX)
+				currentX += adv
+				debugPrintf("[TJ_ARRAY][BUF] Rendered run, adv=%.2f\n", adv)
+			}
+
+			bufHas = false
+			bufText = ""
+			bufCIDs = nil
+			bufStats = TextDecodeStats{}
+		}
+
 		for idx, item := range array {
 			switch v := item.(type) {
 			case string:
+				if psPreferText {
+					if psBodyText && pendingSpaces > 0 && bufHas {
+						bufText += strings.Repeat(" ", pendingSpaces)
+						pendingSpaces = 0
+					}
+					if bufHas {
+						if math.Abs(pendingKerning) > mergeTol {
+							flushBuf()
+							currentX += pendingKerning
+						}
+					} else if pendingKerning != 0 {
+						currentX += pendingKerning
+					}
+					pendingKerning = 0
+				}
+
 				// 解码文本并获取 CID 数组
 				decodedText, cids, stats := decodeTextStringWithCIDs(v, toUnicodeMap, textState.Font)
 				if decodedText == "" && !useGlyphIndices {
@@ -1252,8 +1405,35 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 				debugPrintf("[TJ_ARRAY][%d] Text=%q (len=%d runes, %d CIDs) at x=%.2f\n",
 					idx, decodedText, len([]rune(decodedText)), len(cids), currentX)
 
+				if psPreferText {
+					if !bufHas {
+						bufHas = true
+						bufText = decodedText
+						if !psBodyText {
+							bufCIDs = append(bufCIDs[:0], cids...)
+						} else {
+							bufCIDs = nil
+						}
+						bufStats = stats
+					} else {
+						bufText += decodedText
+						if !psBodyText {
+							bufCIDs = append(bufCIDs, cids...)
+						}
+						bufStats.CIDCount += stats.CIDCount
+						bufStats.ToUnicodeHit += stats.ToUnicodeHit
+						bufStats.GlyphNameHit += stats.GlyphNameHit
+						bufStats.IdentityASCIIHit += stats.IdentityASCIIHit
+						bufStats.Replaced += stats.Replaced
+					}
+					continue
+				}
+
 				useGlyphRun := useGlyphIndices
 				outline := psPreferText && shouldOutlineTextInPS(textState.Font, decodedText, cids, stats)
+				if psPreferText {
+					outline = false
+				}
 				if psPreferText && decodedText != "" && !outline {
 					useGlyphRun = false
 				}
@@ -1299,6 +1479,28 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 				}
 
 			case float64:
+				if psPreferText {
+					kerningAdjustment := -v * fontSize / 1000.0 * textState.HorizontalScaling / 100.0
+					if kerningAdjustment < 0 && !registeredPDFFont {
+						maxBack := fontSize * 0.5
+						if kerningAdjustment < -maxBack {
+							kerningAdjustment = -maxBack
+						}
+					}
+					if psBodyText {
+						spaceTol := fontSize * 0.18
+						if kerningAdjustment > spaceTol {
+							pendingSpaces++
+							if pendingSpaces > 3 {
+								pendingSpaces = 3
+							}
+						}
+						continue
+					}
+					pendingKerning += kerningAdjustment
+					continue
+				}
+
 				// PDF规范：负值表示向右移动，正值表示向左移动
 				// 调整值以千分之一em为单位
 				kerningAdjustment := -v * fontSize / 1000.0 * textState.HorizontalScaling / 100.0
@@ -1313,6 +1515,28 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 				currentX += kerningAdjustment
 
 			case int:
+				if psPreferText {
+					kerningAdjustment := -float64(v) * fontSize / 1000.0 * textState.HorizontalScaling / 100.0
+					if kerningAdjustment < 0 && !registeredPDFFont {
+						maxBack := fontSize * 0.5
+						if kerningAdjustment < -maxBack {
+							kerningAdjustment = -maxBack
+						}
+					}
+					if psBodyText {
+						spaceTol := fontSize * 0.18
+						if kerningAdjustment > spaceTol {
+							pendingSpaces++
+							if pendingSpaces > 3 {
+								pendingSpaces = 3
+							}
+						}
+						continue
+					}
+					pendingKerning += kerningAdjustment
+					continue
+				}
+
 				kerningAdjustment := -float64(v) * fontSize / 1000.0 * textState.HorizontalScaling / 100.0
 				if kerningAdjustment < 0 && !registeredPDFFont {
 					maxBack := fontSize * 0.5
@@ -1325,6 +1549,17 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 				currentX += kerningAdjustment
 			}
 		}
+
+		if psPreferText {
+			if psBodyText && pendingSpaces > 0 && bufHas {
+				bufText += strings.Repeat(" ", pendingSpaces)
+				pendingSpaces = 0
+			}
+			flushBuf()
+			if !psBodyText && pendingKerning != 0 {
+				currentX += pendingKerning
+			}
+		}
 	} else {
 		// Tj 操作符：简单文本
 		decodedText, cids, stats := decodeTextStringWithCIDs(text, toUnicodeMap, textState.Font)
@@ -1334,6 +1569,9 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 
 			useGlyphRun := useGlyphIndices
 			outline := psPreferText && shouldOutlineTextInPS(textState.Font, decodedText, cids, stats)
+			if psPreferText {
+				outline = false
+			}
 			if psPreferText && decodedText != "" && !outline {
 				useGlyphRun = false
 			}
@@ -1388,6 +1626,16 @@ updateMatrix:
 		textState.TextMatrix = textState.TextMatrix.Multiply(translation)
 		debugPrintf("[TEXT_MATRIX] Updated after text: PDF_width=%.2f, new X0=%.2f\n",
 			currentX, textState.TextMatrix.X0)
+	}
+
+	if psPreferText && psCtx != nil &&
+		math.Abs(textState.TextMatrix.XY) < 1e-3 &&
+		math.Abs(textState.TextMatrix.YX) < 1e-3 &&
+		math.Abs(textState.TextMatrix.XX) > 1e-6 {
+		psCtx.psTightLast.active = true
+		psCtx.psTightLast.yUser = y0
+		psCtx.psTightLast.fontSize = fontSize
+		psCtx.psTightLast.xEndUser = x0 + currentX*textState.TextMatrix.XX
 	}
 
 	return nil
@@ -1632,6 +1880,14 @@ func decodeTextStringWithCIDs(text string, toUnicodeMap *CIDToUnicodeMap, font *
 				}
 			}
 
+			if font != nil {
+				if r, ok := texMathRuneFromCID(font.BaseFont, cid); ok {
+					decoded.WriteRune(r)
+					stats.GlyphNameHit++
+					continue
+				}
+			}
+
 			if isIdentity && font != nil && (font.Subtype == "/Type0" || font.Subtype == "Type0") {
 				gid := font.CIDToGID(cid)
 				if r, ok := font.gidToUnicodeFromEmbeddedFont(gid); ok && isValidUnicodeRune(r) {
@@ -1662,7 +1918,11 @@ func decodeTextStringWithCIDs(text string, toUnicodeMap *CIDToUnicodeMap, font *
 			decoded.WriteRune('�')
 			stats.Replaced++
 		}
-		return ensureValidUTF8(decoded.String()), cids, stats
+		decodedText := decoded.String()
+		if font != nil {
+			decodedText = texMathNormalizeDecodedText(font.BaseFont, decodedText)
+		}
+		return ensureValidUTF8(decodedText), cids, stats
 
 		// 否则尝试标准解码
 		decodedStr := decodeTextString(text)
@@ -1733,6 +1993,14 @@ func decodeTextStringWithCIDs(text string, toUnicodeMap *CIDToUnicodeMap, font *
 				}
 			}
 
+			if font != nil {
+				if r, ok := texMathRuneFromCID(font.BaseFont, cid); ok {
+					decoded.WriteRune(r)
+					stats.GlyphNameHit++
+					continue
+				}
+			}
+
 			if font != nil && font.IsIdentity && (font.Subtype == "/Type0" || font.Subtype == "Type0") {
 				gid := font.CIDToGID(cid)
 				if r, ok := font.gidToUnicodeFromEmbeddedFont(gid); ok && isValidUnicodeRune(r) {
@@ -1777,7 +2045,11 @@ func decodeTextStringWithCIDs(text string, toUnicodeMap *CIDToUnicodeMap, font *
 
 			decoded.WriteRune(rune(cid))
 		}
-		return ensureValidUTF8(decoded.String()), cids, stats
+		decodedText := decoded.String()
+		if font != nil {
+			decodedText = texMathNormalizeDecodedText(font.BaseFont, decodedText)
+		}
+		return ensureValidUTF8(decodedText), cids, stats
 	}
 
 	if font != nil {
@@ -2079,36 +2351,25 @@ func decodeTextString(text string) string {
 		// 移除空格
 		hexStr = strings.ReplaceAll(hexStr, " ", "")
 
-		// 转换十六进制到字节
-		var result []byte
-		for i := 0; i < len(hexStr); i += 2 {
-			if i+1 < len(hexStr) {
-				var b byte
-				fmt.Sscanf(hexStr[i:i+2], "%02x", &b)
-				result = append(result, b)
-			}
+		if len(hexStr)%2 == 1 {
+			hexStr += "0"
 		}
 
-		// 尝试 UTF-16BE 解码（CID 字体常用）
-		if len(result) >= 2 && len(result)%2 == 0 {
-			// 检查是否有 BOM
-			if result[0] == 0xFE && result[1] == 0xFF {
-				result = result[2:] // 跳过 BOM
-			}
+		result, err := hex.DecodeString(hexStr)
+		if err != nil {
+			return ""
+		}
 
-			// UTF-16BE 解码
+		if len(result) >= 2 && len(result)%2 == 0 && result[0] == 0xFE && result[1] == 0xFF {
+			utf16Bytes := result[2:]
 			var runes []rune
-			for i := 0; i < len(result); i += 2 {
-				if i+1 < len(result) {
-					r := rune(result[i])<<8 | rune(result[i+1])
-					if r != 0 {
-						runes = append(runes, r)
-					}
+			for i := 0; i+1 < len(utf16Bytes); i += 2 {
+				r := rune(utf16Bytes[i])<<8 | rune(utf16Bytes[i+1])
+				if r != 0 {
+					runes = append(runes, r)
 				}
 			}
-			if len(runes) > 0 {
-				return string(runes)
-			}
+			return string(runes)
 		}
 
 		// 如果不是 UTF-16，尝试作为 Latin-1
@@ -2138,6 +2399,17 @@ func decodeTextString(text string) string {
 
 // mapPDFFont 将 PDF 字体名称映射到系统字体
 func mapPDFFont(pdfFont string) string {
+	base := strings.ToUpper(stripSubsetPrefix(pdfFont))
+	if strings.Contains(base, "LMROMAN") || strings.HasPrefix(base, "CMR") || strings.HasPrefix(base, "LMTIMES") {
+		return "serif"
+	}
+	if strings.Contains(base, "LMSANS") {
+		return "sans-serif"
+	}
+	if strings.Contains(base, "LMMONO") || strings.Contains(base, "LMTYPEWRITER") {
+		return "monospace"
+	}
+
 	fontMap := map[string]string{
 		"Helvetica":             "sans-serif",
 		"Helvetica-Bold":        "sans-serif",

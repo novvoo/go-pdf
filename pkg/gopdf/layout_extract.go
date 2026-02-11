@@ -6,6 +6,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"unicode"
 )
 
 type LayoutExtractOptions struct {
@@ -180,7 +181,28 @@ func (r *PDFReader) extractPageTextLayoutElements(pageNum int) ([]LayoutElement,
 			continue
 		}
 
-		if gap > math.Max(1.5, e.FontSize*0.25) {
+		prevLast := rune(0)
+		hasPrevLast := false
+		for i := len(cur.sb) - 1; i >= 0; i-- {
+			if !unicode.IsSpace(cur.sb[i]) {
+				prevLast = cur.sb[i]
+				hasPrevLast = true
+				break
+			}
+		}
+		nextFirst := rune(0)
+		hasNextFirst := false
+		for _, r := range s {
+			nextFirst = r
+			hasNextFirst = true
+			break
+		}
+
+		if hasPrevLast && hasNextFirst && needsSpaceAfterRune(prevLast, nextFirst) {
+			if len(cur.sb) > 0 && cur.sb[len(cur.sb)-1] != ' ' {
+				cur.sb = append(cur.sb, ' ')
+			}
+		} else if gap > math.Max(1.5, e.FontSize*0.25) {
 			cur.sb = append(cur.sb, ' ')
 		}
 		cur.sb = append(cur.sb, []rune(s)...)
