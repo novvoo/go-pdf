@@ -1,6 +1,6 @@
 PDF Translation Report (Simplified Vector)
 ==========================================
-Time: 2026-02-11 17:46:49
+Time: 2026-02-27 11:14:10
 
 📄 Input PDF: example/test_vector.pdf
 ✅ Page count: 3
@@ -193,7 +193,7 @@ Elements (ordered by y then x):
   - elem[182] x=323.74 y=469.90 w=3.32 h=6.97 fs=6.97 font="F7" base="FXCERL+CMMI7" tu=true ident=false cid=1 repl=0 hitTU=0 hitGN=1 hitIA=0 text="ϵ" raw="\\017"
   - elem[183] x=192.20 y=470.25 w=2.66 h=4.98 fs=4.98 font="F15" base="WIEJAH+CMMI5" tu=true ident=false cid=1 repl=0 hitTU=0 hitGN=1 hitIA=0 text="i" raw="i"
   - elem[184] x=201.76 y=470.25 w=2.66 h=4.98 fs=4.98 font="F15" base="WIEJAH+CMMI5" tu=true ident=false cid=1 repl=0 hitTU=0 hitGN=1 hitIA=0 text="i" raw="i"
-  - elem[185] x=304.56 y=478.12 w=8.97 h=9.96 fs=9.96 font="F13" base="CAFZKO+CMEX10" tu=false ident=false cid=2 repl=0 hitTU=0 hitGN=0 hitIA=0 text="{" raw="{z"
+  - elem[185] x=304.56 y=478.12 w=8.97 h=9.96 fs=9.96 font="F13" base="CAFZKO+CMEX10" tu=false ident=false cid=2 repl=0 hitTU=0 hitGN=0 hitIA=0 text="{z" raw="{z"
   - elem[186] x=369.74 y=478.12 w=4.48 h=9.96 fs=9.96 font="F13" base="CAFZKO+CMEX10" tu=false ident=false cid=1 repl=0 hitTU=0 hitGN=0 hitIA=0 text="}" raw="}"
   - elem[187] x=243.87 y=478.12 w=4.48 h=9.96 fs=9.96 font="F13" base="CAFZKO+CMEX10" tu=false ident=false cid=1 repl=0 hitTU=0 hitGN=0 hitIA=0 text="|" raw="|"
   - elem[188] x=263.40 y=488.00 w=88.39 h=6.97 fs=6.97 font="F11" base="WFCGZP+LMRoman7-Regular-Identity-H" tu=true ident=true cid=23 repl=0 hitTU=23 hitGN=0 hitIA=0 text="supervised/PPO-clip term" raw="<0062006d0054><0032006000700042><00620032002f00660053005300500040002b004800420054><006900320060004b>"
@@ -247,7 +247,7 @@ Elements (ordered by y then x):
   - elem[236] x=274.51 y=524.92 w=4.23 h=6.97 fs=6.97 font="F7" base="FXCERL+CMMI7" tu=true ident=false cid=1 repl=0 hitTU=0 hitGN=1 hitIA=0 text="k" raw="k"
   - elem[237] x=278.92 y=524.92 w=10.08 h=6.97 fs=6.97 font="F12" base="SXWWSM+CMR7" tu=true ident=false cid=2 repl=0 hitTU=0 hitGN=2 hitIA=0 text="=1" raw="=1"
   - elem[238] x=274.51 y=530.10 w=4.48 h=9.96 fs=9.96 font="F13" base="CAFZKO+CMEX10" tu=false ident=false cid=1 repl=0 hitTU=0 hitGN=0 hitIA=0 text="|" raw="|"
-  - elem[239] x=369.45 y=530.10 w=8.97 h=9.96 fs=9.96 font="F13" base="CAFZKO+CMEX10" tu=false ident=false cid=2 repl=0 hitTU=0 hitGN=0 hitIA=0 text="{" raw="{z"
+  - elem[239] x=369.45 y=530.10 w=8.97 h=9.96 fs=9.96 font="F13" base="CAFZKO+CMEX10" tu=false ident=false cid=2 repl=0 hitTU=0 hitGN=0 hitIA=0 text="{z" raw="{z"
   - elem[240] x=468.87 y=530.10 w=4.48 h=9.96 fs=9.96 font="F13" base="CAFZKO+CMEX10" tu=false ident=false cid=1 repl=0 hitTU=0 hitGN=0 hitIA=0 text="}" raw="}"
   - elem[241] x=301.30 y=539.65 w=140.11 h=6.97 fs=6.97 font="F11" base="WFCGZP+LMRoman7-Regular-Identity-H" tu=true ident=true cid=37 repl=0 hitTU=37 hitGN=0 hitIA=0 text="contrastive importance-sampled PPO-clip" raw="<002b0051004d><00690060001c0062006900420070><0032><0042004b0054><005100600069001c004d002b003200400062001c004b005400480032002f><0053005300500040002b004800420054>"
   - elem[242] x=267.91 y=546.39 w=4.14 h=9.96 fs=9.96 font="F13" base="CAFZKO+CMEX10" tu=false ident=false cid=1 repl=0 hitTU=0 hitGN=1 hitIA=0 text="[" raw="\\002"
@@ -611,9 +611,9 @@ Lines (grouped):
   - line[026] kind=body y=470.25 x=[192.20..204.42] fs=4.98 elems=2 fonts="F15" tu=2 ident=0 cid=2 repl=0 hitTU=0 hitGN=2 hitIA=0 text="i i"
     * e[00] x=192.20 y=470.25 w=2.66 h=4.98 fs=4.98 font="F15" base="WIEJAH+CMMI5" tu=true ident=false cid=1 repl=0 text="i" raw="i"
     * e[01] x=201.76 y=470.25 w=2.66 h=4.98 fs=4.98 font="F15" base="WIEJAH+CMMI5" tu=true ident=false cid=1 repl=0 text="i" raw="i"
-  - line[027] kind=body y=478.12 x=[243.87..374.22] fs=9.96 elems=3 fonts="F13" tu=0 ident=0 cid=4 repl=0 hitTU=0 hitGN=0 hitIA=0 text="⏟"
+  - line[027] kind=body y=478.12 x=[243.87..374.22] fs=9.96 elems=3 fonts="F13" tu=0 ident=0 cid=4 repl=0 hitTU=0 hitGN=0 hitIA=0 text="| {z }"
     * e[00] x=243.87 y=478.12 w=4.48 h=9.96 fs=9.96 font="F13" base="CAFZKO+CMEX10" tu=false ident=false cid=1 repl=0 text="|" raw="|"
-    * e[01] x=304.56 y=478.12 w=8.97 h=9.96 fs=9.96 font="F13" base="CAFZKO+CMEX10" tu=false ident=false cid=2 repl=0 text="{" raw="{z"
+    * e[01] x=304.56 y=478.12 w=8.97 h=9.96 fs=9.96 font="F13" base="CAFZKO+CMEX10" tu=false ident=false cid=2 repl=0 text="{z" raw="{z"
     * e[02] x=369.74 y=478.12 w=4.48 h=9.96 fs=9.96 font="F13" base="CAFZKO+CMEX10" tu=false ident=false cid=1 repl=0 text="}" raw="}"
   - line[028] kind=body y=488.00 x=[263.40..351.79] fs=6.97 elems=1 fonts="F11" tu=1 ident=1 cid=23 repl=0 hitTU=23 hitGN=0 hitIA=0 text="supervised/PPO-clip term"
     * e[00] x=263.40 y=488.00 w=88.39 h=6.97 fs=6.97 font="F11" base="WFCGZP+LMRoman7-Regular-Identity-H" tu=true ident=true cid=23 repl=0 text="supervised/PPO-clip term" raw="<0062006d0054><0032006000700042><00620032002f00660053005300500040002b004800420054><006900320060004b>"
@@ -671,9 +671,9 @@ Lines (grouped):
   - line[033] kind=body y=524.92 x=[274.51..289.00] fs=6.97 elems=2 fonts="F7,F12" tu=2 ident=0 cid=3 repl=0 hitTU=0 hitGN=3 hitIA=0 text="k=1"
     * e[00] x=274.51 y=524.92 w=4.23 h=6.97 fs=6.97 font="F7" base="FXCERL+CMMI7" tu=true ident=false cid=1 repl=0 text="k" raw="k"
     * e[01] x=278.92 y=524.92 w=10.08 h=6.97 fs=6.97 font="F12" base="SXWWSM+CMR7" tu=true ident=false cid=2 repl=0 text="=1" raw="=1"
-  - line[034] kind=body y=530.10 x=[274.51..473.36] fs=9.96 elems=3 fonts="F13" tu=0 ident=0 cid=4 repl=0 hitTU=0 hitGN=0 hitIA=0 text="⏟"
+  - line[034] kind=body y=530.10 x=[274.51..473.36] fs=9.96 elems=3 fonts="F13" tu=0 ident=0 cid=4 repl=0 hitTU=0 hitGN=0 hitIA=0 text="| {z }"
     * e[00] x=274.51 y=530.10 w=4.48 h=9.96 fs=9.96 font="F13" base="CAFZKO+CMEX10" tu=false ident=false cid=1 repl=0 text="|" raw="|"
-    * e[01] x=369.45 y=530.10 w=8.97 h=9.96 fs=9.96 font="F13" base="CAFZKO+CMEX10" tu=false ident=false cid=2 repl=0 text="{" raw="{z"
+    * e[01] x=369.45 y=530.10 w=8.97 h=9.96 fs=9.96 font="F13" base="CAFZKO+CMEX10" tu=false ident=false cid=2 repl=0 text="{z" raw="{z"
     * e[02] x=468.87 y=530.10 w=4.48 h=9.96 fs=9.96 font="F13" base="CAFZKO+CMEX10" tu=false ident=false cid=1 repl=0 text="}" raw="}"
   - line[035] kind=body y=539.65 x=[301.30..441.41] fs=6.97 elems=1 fonts="F11" tu=1 ident=1 cid=37 repl=0 hitTU=37 hitGN=0 hitIA=0 text="contrastive importance-sampled PPO-clip"
     * e[00] x=301.30 y=539.65 w=140.11 h=6.97 fs=6.97 font="F11" base="WFCGZP+LMRoman7-Regular-Identity-H" tu=true ident=true cid=37 repl=0 text="contrastive importance-sampled PPO-clip" raw="<002b0051004d><00690060001c0062006900420070><0032><0042004b0054><005100600069001c004d002b003200400062001c004b00540048003…"
@@ -873,11 +873,13 @@ Lines (grouped):
 - page=1 line[022] translate=yes x=56.69 y=437.07 fs=9.96 lines=1 raw="term."
 - page=1 line[025] translate=yes x=114.45 y=464.94 fs=8.00 lines=2 raw="JHACPO(θ)= 𝔼(x ,y )∼D αi ⋅min ri(θ) A^i, clipϵ(ri(θ)) A^i"
 - page=1 line[026] translate=yes x=192.20 y=470.25 fs=6.00 lines=1 raw="i i"
+- page=1 line[027] translate=yes x=243.87 y=478.12 fs=9.96 lines=1 raw="| {z }"
 - page=1 line[028] translate=yes x=263.40 y=488.00 fs=6.97 lines=1 raw="supervised/PPO-clip term"
 - page=1 line[029] translate=yes x=278.17 y=495.90 fs=9.96 lines=1 raw="K ]"
 - page=1 line[031] translate=yes x=340.19 y=507.76 fs=9.96 lines=1 raw="(k) ^(k) (k) ^(k)"
 - page=1 line[032] translate=yes x=219.99 y=512.94 fs=9.96 lines=1 raw="+(1 −αi)⋅ wi,k min ri (θ) Ai , clipϵ(ri (θ)) Ai (1)"
 - page=1 line[033] translate=yes x=274.51 y=524.92 fs=6.97 lines=1 raw="k=1"
+- page=1 line[034] translate=yes x=274.51 y=530.10 fs=9.96 lines=1 raw="| {z }"
 - page=1 line[035] translate=yes x=301.30 y=539.65 fs=6.97 lines=1 raw="contrastive importance-sampled PPO-clip"
 - page=1 line[037] translate=yes x=182.91 y=554.46 fs=9.00 lines=2 raw="+ γ𝔼xi∼D,{yi,k}∼A LCPO(θ; xi,{yi,k})"
 - page=1 line[039] translate=yes x=182.91 y=570.73 fs=9.96 lines=1 raw="− βKLDKL πref k πθ ."
@@ -1758,13 +1760,23 @@ Lines (grouped):
 - page=3 line[035] translate=yes x=68.87 y=619.65 fs=9.96 lines=1 raw="•Pseudocode to reduce misinterpretation at implementation ti…"
 
 ✅ Base PS: example/test_vector.ps
-✅ Vector translated overlays: 121
+✅ Vector translated overlays: 123
 
 [PS Text Check]
-- shows=189 literal=189 hex=0
-- short(len=1)=18 len=2=14 len=3=17
-- consecutive-letter-fragments=2 (body=0 math=0)
-- ps_paths: newpath=1313 curveto=18044
+- shows=1374 literal=1374 hex=0
+- short(len=1)=551 len=2=130 len=3=156
+- consecutive-letter-fragments=223 (body=24 math=90)
+- ps_paths: newpath=50 curveto=314
+  body examples:
+  - line=3211 we + require
+  - line=3884 KL + divergence
+  - line=3902 used + as
+  - line=4009 Objective + W
+  - line=4027 e + present
+  - line=4063 objective + in
+  - line=4081 a + form
+  - line=4144 with + an
+  - line=4153 an + explicit
+  - line=6147 Notes + on
 ✅ Base SVG: example/test_vector.svg
-✅ Output SVG (editable, with translations): example/test_vector_translated.svg
-✅ Output PDF (from SVG): example/test_vector_translated.pdf
+❌ Failed to convert translated SVG to PDF: pdfcpu: font math not available

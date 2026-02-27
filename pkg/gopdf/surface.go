@@ -683,7 +683,7 @@ func NewPSSurface(filename string, widthInPoints, heightInPoints float64) Surfac
 
 	writer := bufio.NewWriter(file)
 
-	header := fmt.Sprintf(`%%!PS-Adobe-3.0
+	_, err = fmt.Fprintf(writer, `%%!PS-Adobe-3.0
 %%Creator: go-pdf
 %%Title: %s
 %%Pages: (atend)
@@ -692,13 +692,59 @@ func NewPSSurface(filename string, widthInPoints, heightInPoints float64) Surfac
 
 /newfont { /Helvetica findfont exch scalefont setfont } def
 10 newfont
-/Helvetica findfont /sans-serif exch definefont pop
-/Helvetica findfont /sans exch definefont pop
-/Helvetica findfont /sans-cjk exch definefont pop
-/Times-Roman findfont /serif exch definefont pop
-/Courier findfont /monospace exch definefont pop
-/Symbol findfont /math exch definefont pop
+`, filename, widthInPoints, heightInPoints)
+	if err != nil {
+		file.Close()
+		os.Remove(filename)
+		return newSurfaceInError(StatusWriteError)
+	}
 
+	embedded := psTryWriteType42FontAliases(writer, []psType42FontSpec{
+		{
+			PSName:      "GoPDF_Serif",
+			AliasNames:  []string{"serif"},
+			TTFPath:     "fonts/apache/tinos/Tinos-Regular.ttf",
+			EncodingTag: "Latin",
+			ByteToRune:  psDefaultLatinByteToRune(),
+		},
+		{
+			PSName:      "GoPDF_Sans",
+			AliasNames:  []string{"sans-serif", "sans", "sans-cjk"},
+			TTFPath:     "fonts/ufl/ubuntu/Ubuntu-Regular.ttf",
+			EncodingTag: "Latin",
+			ByteToRune:  psDefaultLatinByteToRune(),
+		},
+		{
+			PSName:      "GoPDF_Mono",
+			AliasNames:  []string{"monospace"},
+			TTFPath:     "fonts/ufl/ubuntumono/UbuntuMono-Regular.ttf",
+			EncodingTag: "Latin",
+			ByteToRune:  psDefaultLatinByteToRune(),
+		},
+		{
+			PSName:      "GoPDF_Math",
+			AliasNames:  []string{"math"},
+			TTFPath:     "fonts/ofl/stixtwomath/STIXTwoMath-Regular.ttf",
+			EncodingTag: "Math",
+			ByteToRune:  psDefaultMathByteToRune(),
+		},
+	})
+	_ = embedded
+	_, err = writer.WriteString(`
+FontDirectory /sans-serif known not { /Helvetica findfont /sans-serif exch definefont pop } if
+FontDirectory /sans known not { /Helvetica findfont /sans exch definefont pop } if
+FontDirectory /sans-cjk known not { /Helvetica findfont /sans-cjk exch definefont pop } if
+FontDirectory /serif known not { /Times-Roman findfont /serif exch definefont pop } if
+FontDirectory /monospace known not { /Courier findfont /monospace exch definefont pop } if
+FontDirectory /math known not { /Symbol findfont /math exch definefont pop } if
+`)
+	if err != nil {
+		file.Close()
+		os.Remove(filename)
+		return newSurfaceInError(StatusWriteError)
+	}
+
+	_, err = writer.WriteString(`
 systemdict /CIDInit known {
   /CIDInit /ProcSet findresource begin
   /gopdf_mkType0 {
@@ -728,9 +774,7 @@ systemdict /CIDInit known {
   end
 } if
 
-`, filename, widthInPoints, heightInPoints)
-
-	_, err = writer.WriteString(header)
+`)
 	if err != nil {
 		file.Close()
 		os.Remove(filename)

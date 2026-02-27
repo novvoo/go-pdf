@@ -12,12 +12,12 @@ func TestShouldOutlineTextInPS(t *testing.T) {
 		outline bool
 	}{
 		{name: "body-helvetica", font: &Font{BaseFont: "Helvetica"}, text: "time.", outline: false},
-		{name: "bullet", font: &Font{BaseFont: "Helvetica"}, text: "•", outline: true},
-		{name: "greek-theta", font: &Font{BaseFont: "Helvetica"}, text: "θ", outline: true},
+		{name: "bullet", font: &Font{BaseFont: "Helvetica"}, text: "•", outline: false},
+		{name: "greek-theta", font: &Font{BaseFont: "Helvetica"}, text: "θ", outline: false},
 		{name: "tex-math-font", font: &Font{BaseFont: "CMEX10"}, text: "(", outline: true},
-		{name: "code-mono-font", font: &Font{BaseFont: "DejaVuSansMono"}, text: "for(i=0;i<10;i++)", outline: true},
-		{name: "music-font", font: &Font{BaseFont: "Bravura"}, text: "\uE050", outline: true},
-		{name: "latex-string", font: &Font{BaseFont: "Helvetica"}, text: "\\frac{1}{2}", outline: true},
+		{name: "code-mono-font", font: &Font{BaseFont: "DejaVuSansMono"}, text: "for(i=0;i<10;i++)", outline: false},
+		{name: "music-font", font: &Font{BaseFont: "Bravura"}, text: "\uE050", outline: false},
+		{name: "latex-string", font: &Font{BaseFont: "Helvetica"}, text: "\\frac{1}{2}", outline: false},
 		{name: "pua-rune", font: &Font{BaseFont: "Helvetica"}, text: "\uE000", outline: true},
 		{
 			name: "big-delimiter-glyphname",
@@ -27,7 +27,7 @@ func TestShouldOutlineTextInPS(t *testing.T) {
 			},
 			text:    ")",
 			cids:    []uint16{0x01},
-			outline: true,
+			outline: false,
 		},
 	}
 

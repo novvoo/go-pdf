@@ -711,7 +711,8 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 		}
 	}
 
-	if psPreferText && psCtx != nil && candidateText != "" {
+	enablePSSymbolGapClamp := false
+	if enablePSSymbolGapClamp && psPreferText && psCtx != nil && candidateText != "" {
 		decoded, cids, _ := decodeTextStringWithCIDs(candidateText, toUnicodeMap, textState.Font)
 		trimmed := strings.TrimSpace(decoded)
 		runes := []rune(trimmed)
@@ -763,16 +764,24 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 		if len(textState.Font.EmbeddedFontData) > 0 {
 			key := "pdf:" + textState.Font.Name
 			if err := RegisterFontData(key, textState.Font.EmbeddedFontData); err == nil {
-				fontFamily = key
 				registeredPDFFont = true
+				if !psPreferText {
+					fontFamily = key
+				}
 			}
 		}
-		if !registeredPDFFont && textState.Font.BaseFont != "" {
-			if isTeXMathFont(textState.Font.BaseFont) {
-				fontFamily = "math"
-			} else {
-				fontFamily = mapPDFFont(textState.Font.BaseFont)
+
+		if textState.Font.BaseFont != "" {
+			if psPreferText || !registeredPDFFont {
+				if isTeXMathFont(textState.Font.BaseFont) {
+					ensureRepoFontRegistered("math-regular", "fonts/ofl/stixtwomath/STIXTwoMath-Regular.ttf")
+					fontFamily = "math"
+				} else {
+					fontFamily = mapPDFFont(textState.Font.BaseFont)
+				}
 			}
+		} else if psPreferText && textState.Font.Name != "" {
+			fontFamily = mapPDFFont(textState.Font.Name)
 		}
 	}
 
@@ -924,7 +933,8 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 				pdfAdv += textState.GlyphAdvance(cid, isSpace)
 			}
 			if pdfAdv > 0 {
-				scaleX = pdfAdv / drawAdv
+				unclamped := pdfAdv / drawAdv
+				scaleX = unclamped
 				minRatio, maxRatio := 0.6, 1.6
 				asciiOnly := true
 				for _, r := range runes {
@@ -933,13 +943,18 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 						break
 					}
 				}
-				if !asciiOnly {
+				if asciiOnly {
+					minRatio, maxRatio = 0.25, 2.5
+				} else {
 					minRatio, maxRatio = 0.5, 2.0
 				}
 				if scaleX < minRatio {
 					scaleX = minRatio
 				} else if scaleX > maxRatio {
 					scaleX = maxRatio
+				}
+				if scaleX != unclamped {
+					return scaleX, drawAdv * scaleX
 				}
 				return scaleX, pdfAdv
 			}
@@ -1011,13 +1026,18 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 			return
 		}
 
-		dy := autoSymbolDy(runText)
+		isMathFamily := strings.EqualFold(fontFamily, "math")
+
+		dy := 0.0
 		scaleY := 1.0
-		if textState.Font != nil && len(cids) == 1 && len(textState.Font.CodeToGlyphName) > 0 {
-			if name, ok := textState.Font.CodeToGlyphName[byte(cids[0]&0xFF)]; ok {
-				if dyFactor, sy, ok := delimiterAdjust(name); ok {
-					dy = dyFactor * fontSize
-					scaleY = sy
+		if !isMathFamily {
+			dy = autoSymbolDy(runText)
+			if textState.Font != nil && len(cids) == 1 && len(textState.Font.CodeToGlyphName) > 0 {
+				if name, ok := textState.Font.CodeToGlyphName[byte(cids[0]&0xFF)]; ok {
+					if dyFactor, sy, ok := delimiterAdjust(name); ok {
+						dy = dyFactor * fontSize
+						scaleY = sy
+					}
 				}
 			}
 		}
@@ -1284,7 +1304,7 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 		if len(runes) == 0 || len(runes) != len(cids) {
 			return 0, false
 		}
-		if textState.Font == nil || len(textState.Font.CodeToGlyphName) == 0 {
+		if textState.Font == nil {
 			return 0, false
 		}
 
@@ -1293,13 +1313,12 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 			cid := cids[i]
 
 			ctx.GopdfCtx.Save()
-			useCFF := textState.Font.CFF != nil && len(textState.Font.CodeToGID) > 0
+			useCFF := textState.Font.CFF != nil
 			if useCFF {
 				ctx.GopdfCtx.Translate(x, 0)
-				gid, ok := textState.Font.CodeToGID[byte(cid&0xFF)]
-				if !ok {
-					ctx.GopdfCtx.Restore()
-					return 0, false
+				gid := uint16(cid & 0xFF)
+				if mapped, ok := textState.Font.CodeToGID[byte(cid&0xFF)]; ok {
+					gid = mapped
 				}
 
 				segments, _, err := textState.Font.CFF.LoadGlyph(tables.GlyphID(gid))
@@ -1469,7 +1488,8 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 		// TJ 操作符：处理文本数组
 		debugPrintf("[TJ_ARRAY] Processing %d items\n", len(array))
 
-		psBodyText := psPreferText && fontFamily != "math"
+		psBodyText := false
+		enablePSTextSpaceSynthesis := false
 
 		mergeTol := fontSize * 0.06
 		pendingKerning := 0.0
@@ -1559,7 +1579,7 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 			switch v := item.(type) {
 			case string:
 				if psPreferText {
-					if psBodyText && pendingSpaces > 0 && bufHas {
+					if enablePSTextSpaceSynthesis && psBodyText && pendingSpaces > 0 && bufHas {
 						bufText += strings.Repeat(" ", pendingSpaces)
 						pendingSpaces = 0
 					}
@@ -1663,7 +1683,7 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 							kerningAdjustment = -maxBack
 						}
 					}
-					if psBodyText {
+					if enablePSTextSpaceSynthesis && psBodyText {
 						spaceTol := fontSize * 0.18
 						if kerningAdjustment > spaceTol {
 							pendingSpaces++
@@ -1699,7 +1719,7 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 							kerningAdjustment = -maxBack
 						}
 					}
-					if psBodyText {
+					if enablePSTextSpaceSynthesis && psBodyText {
 						spaceTol := fontSize * 0.18
 						if kerningAdjustment > spaceTol {
 							pendingSpaces++
@@ -1727,7 +1747,7 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 		}
 
 		if psPreferText {
-			if psBodyText && pendingSpaces > 0 && bufHas {
+			if enablePSTextSpaceSynthesis && psBodyText && pendingSpaces > 0 && bufHas {
 				bufText += strings.Repeat(" ", pendingSpaces)
 				pendingSpaces = 0
 			}
@@ -1880,21 +1900,21 @@ func shouldOutlineTextInPS(font *Font, decodedText string, cids []uint16, stats 
 	}
 
 	if isTeXMathBaseFontName(font.BaseFont) {
-		return true
+		return strings.HasPrefix(base, "cmex")
 	}
 
 	if len(cids) == 1 && len(font.CodeToGlyphName) > 0 {
 		if name, ok := font.CodeToGlyphName[byte(cids[0]&0xFF)]; ok && name != "" {
 			n := strings.ToLower(strings.TrimPrefix(name, "/"))
 			if strings.Contains(n, "big") || strings.Contains(n, "bigg") || strings.Contains(n, "biggg") {
-				return true
+				return false
 			}
 			if strings.Contains(n, "integral") || strings.Contains(n, "summation") || strings.Contains(n, "radical") {
-				return true
+				return false
 			}
 			if strings.Contains(n, "brace") || strings.Contains(n, "bracket") || strings.Contains(n, "paren") {
 				if strings.Contains(n, "big") {
-					return true
+					return false
 				}
 			}
 		}
@@ -1907,29 +1927,32 @@ func shouldOutlineTextInPS(font *Font, decodedText string, cids []uint16, stats 
 		"courier", "consolas", "menlo", "monaco", "fira", "sourcecode", "dejavusansmono", "mono",
 	} {
 		if strings.Contains(base, k) {
-			return true
+			return false
 		}
 	}
 
 	if looksLikeLaTeXText(decodedText) {
-		return true
+		return false
 	}
 
 	for _, r := range decodedText {
 		if r == 0x2022 {
-			return true
+			return false
 		}
 		if r >= 0x0370 && r <= 0x03FF {
-			return true
+			// Greek
+			return false
 		}
 		if r >= 0x2200 && r <= 0x22FF {
-			return true
+			// Math Operators
+			return false
 		}
 		if r >= 0xE000 && r <= 0xF8FF {
 			return true
 		}
 		if r >= 0x1D100 && r <= 0x1D1FF {
-			return true
+			// Musical symbols
+			return false
 		}
 	}
 
@@ -2569,6 +2592,14 @@ func decodeTextString(text string) string {
 
 // mapPDFFont 将 PDF 字体名称映射到系统字体
 func mapPDFFont(pdfFont string) string {
+	name := stripSubsetPrefix(pdfFont)
+	name = strings.TrimSpace(strings.TrimPrefix(name, "/"))
+	if name == "" {
+		return "sans-serif"
+	}
+
+	lower := strings.ToLower(name)
+
 	fontMap := map[string]string{
 		"Helvetica":             "sans-serif",
 		"Helvetica-Bold":        "sans-serif",
@@ -2585,9 +2616,60 @@ func mapPDFFont(pdfFont string) string {
 		"Symbol":                "sans-serif",
 		"ZapfDingbats":          "sans-serif",
 	}
-
-	if mapped, ok := fontMap[pdfFont]; ok {
+	if mapped, ok := fontMap[name]; ok {
 		return mapped
 	}
+
+	for _, k := range []string{
+		"courier", "consola", "menlo", "monaco", "dejavusansmono",
+		"sourcecode", "source code", "firacode", "fira code",
+		"jetbrainsmono", "jetbrains mono", "cascadiacode", "cascadia code", "cascadiamono", "cascadia mono",
+		"inconsolata", "ubuntumono", "ubuntu mono", "liberationmono", "liberation mono",
+		"noto sans mono", "notosansmono", "sfmono", "sf mono",
+	} {
+		if strings.Contains(lower, strings.ReplaceAll(k, " ", "")) || strings.Contains(strings.ReplaceAll(lower, " ", ""), strings.ReplaceAll(k, " ", "")) {
+			return "monospace"
+		}
+		if strings.Contains(lower, k) {
+			return "monospace"
+		}
+	}
+
+	for _, k := range []string{"times", "georgia", "serif", "garamond", "minion", "palatino"} {
+		if strings.Contains(lower, k) {
+			return "serif"
+		}
+	}
+
+	for _, k := range []string{
+		"lmroman", "latinmodernroman", "latin modern roman", "latin modern",
+		"cmr", "computer modern", "computermodern",
+	} {
+		if strings.Contains(lower, strings.ReplaceAll(k, " ", "")) || strings.Contains(strings.ReplaceAll(lower, " ", ""), strings.ReplaceAll(k, " ", "")) {
+			return "serif"
+		}
+		if strings.Contains(lower, k) {
+			return "serif"
+		}
+	}
+
+	for _, k := range []string{
+		"lmtypewriter", "lm typewriter", "typewriter", "latinmodernmono", "latin modern mono",
+		"cmtt", "computer modern typewriter", "computermoderntypewriter",
+	} {
+		if strings.Contains(lower, strings.ReplaceAll(k, " ", "")) || strings.Contains(strings.ReplaceAll(lower, " ", ""), strings.ReplaceAll(k, " ", "")) {
+			return "monospace"
+		}
+		if strings.Contains(lower, k) {
+			return "monospace"
+		}
+	}
+
+	for _, k := range []string{"helvetica", "arial", "calibri", "segoe", "roboto", "notosans", "noto sans", "opensans", "open sans", "dejavusans", "dejavu sans", "sans"} {
+		if strings.Contains(lower, k) {
+			return "sans-serif"
+		}
+	}
+
 	return "sans-serif"
 }

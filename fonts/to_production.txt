@@ -1,0 +1,7 @@
+# Designer profile
+catalog/designers/ishtarvanlooy # https://github.com/google/fonts/pull/10071
+catalog/designers/maxthunberg # https://github.com/google/fonts/pull/10117
+
+# Metadata / Description / License
+
+ofl/amarna # https://github.com/google/fonts/pull/10218

@@ -49,7 +49,13 @@ func ConvertSVGToPDF(svgPath, pdfPath string) error {
 	}
 
 	fm := model.FontMap{
-		"Helvetica": model.FontResource{Res: model.Resource{ID: "F1"}},
+		"Helvetica":  model.FontResource{Res: model.Resource{ID: "F1"}},
+		"serif":      model.FontResource{Res: model.Resource{ID: "F1"}},
+		"sans":       model.FontResource{Res: model.Resource{ID: "F1"}},
+		"sans-serif": model.FontResource{Res: model.Resource{ID: "F1"}},
+		"sans-cjk":   model.FontResource{Res: model.Resource{ID: "F1"}},
+		"monospace":  model.FontResource{Res: model.Resource{ID: "F1"}},
+		"math":       model.FontResource{Res: model.Resource{ID: "F1"}},
 	}
 	fontDict, err := pdfcpufont.FontResources(ctx.XRefTable, fm)
 	if err != nil {
@@ -132,13 +138,15 @@ func (c *PDFGeneratorContext) wf(format string, a ...interface{}) {
 
 // Context interface implementation
 
-func (c *PDFGeneratorContext) Reference() Context { return c }
-func (c *PDFGeneratorContext) Destroy()           {}
-func (c *PDFGeneratorContext) GetReferenceCount() int { return 1 }
-func (c *PDFGeneratorContext) Status() Status { return StatusSuccess }
-func (c *PDFGeneratorContext) GetTarget() Surface { return nil }
+func (c *PDFGeneratorContext) Reference() Context      { return c }
+func (c *PDFGeneratorContext) Destroy()                {}
+func (c *PDFGeneratorContext) GetReferenceCount() int  { return 1 }
+func (c *PDFGeneratorContext) Status() Status          { return StatusSuccess }
+func (c *PDFGeneratorContext) GetTarget() Surface      { return nil }
 func (c *PDFGeneratorContext) GetGroupTarget() Surface { return nil }
-func (c *PDFGeneratorContext) SetUserData(key *UserDataKey, userData unsafe.Pointer, destroy DestroyFunc) Status { return StatusSuccess }
+func (c *PDFGeneratorContext) SetUserData(key *UserDataKey, userData unsafe.Pointer, destroy DestroyFunc) Status {
+	return StatusSuccess
+}
 func (c *PDFGeneratorContext) GetUserData(key *UserDataKey) unsafe.Pointer { return nil }
 
 func (c *PDFGeneratorContext) Save() error {
@@ -151,14 +159,14 @@ func (c *PDFGeneratorContext) Restore() error {
 	return nil
 }
 
-func (c *PDFGeneratorContext) PushGroup() {}
+func (c *PDFGeneratorContext) PushGroup()                           {}
 func (c *PDFGeneratorContext) PushGroupWithContent(content Content) {}
-func (c *PDFGeneratorContext) PopGroup() Pattern { return nil }
-func (c *PDFGeneratorContext) PopGroupToSource() {}
+func (c *PDFGeneratorContext) PopGroup() Pattern                    { return nil }
+func (c *PDFGeneratorContext) PopGroupToSource()                    {}
 
-func (c *PDFGeneratorContext) Paint() error { return nil }
-func (c *PDFGeneratorContext) PaintWithAlpha(alpha float64) error { return nil }
-func (c *PDFGeneratorContext) Mask(pattern Pattern) {}
+func (c *PDFGeneratorContext) Paint() error                                            { return nil }
+func (c *PDFGeneratorContext) PaintWithAlpha(alpha float64) error                      { return nil }
+func (c *PDFGeneratorContext) Mask(pattern Pattern)                                    {}
 func (c *PDFGeneratorContext) MaskSurface(surface Surface, surfaceX, surfaceY float64) {}
 
 func (c *PDFGeneratorContext) Stroke() error {
@@ -198,7 +206,7 @@ func (c *PDFGeneratorContext) SetSourceRGBA(r, g, b, a float64) {
 	c.currentPat = NewPatternRGBA(r, g, b, a)
 }
 func (c *PDFGeneratorContext) SetSourceSurface(surface Surface, x, y float64) {}
-func (c *PDFGeneratorContext) GetSource() Pattern { return c.currentPat }
+func (c *PDFGeneratorContext) GetSource() Pattern                             { return c.currentPat }
 
 func (c *PDFGeneratorContext) applyFillColor() {
 	if c.currentPat == nil {
@@ -220,14 +228,14 @@ func (c *PDFGeneratorContext) applyStrokeColor() {
 	}
 }
 
-func (c *PDFGeneratorContext) SetOperator(op Operator) {}
-func (c *PDFGeneratorContext) GetOperator() Operator { return OperatorOver }
-func (c *PDFGeneratorContext) SetTolerance(tolerance float64) {}
-func (c *PDFGeneratorContext) GetTolerance() float64 { return 0.1 }
+func (c *PDFGeneratorContext) SetOperator(op Operator)          {}
+func (c *PDFGeneratorContext) GetOperator() Operator            { return OperatorOver }
+func (c *PDFGeneratorContext) SetTolerance(tolerance float64)   {}
+func (c *PDFGeneratorContext) GetTolerance() float64            { return 0.1 }
 func (c *PDFGeneratorContext) SetAntialias(antialias Antialias) {}
-func (c *PDFGeneratorContext) GetAntialias() Antialias { return AntialiasDefault }
-func (c *PDFGeneratorContext) SetFillRule(fillRule FillRule) {}
-func (c *PDFGeneratorContext) GetFillRule() FillRule { return FillRuleWinding }
+func (c *PDFGeneratorContext) GetAntialias() Antialias          { return AntialiasDefault }
+func (c *PDFGeneratorContext) SetFillRule(fillRule FillRule)    {}
+func (c *PDFGeneratorContext) GetFillRule() FillRule            { return FillRuleWinding }
 
 func (c *PDFGeneratorContext) SetLineWidth(width float64) {
 	c.wf("%.4f w\n", width)
@@ -272,7 +280,7 @@ func (c *PDFGeneratorContext) SetDash(dashes []float64, offset float64) {
 	}
 	c.wf("] %.4f d\n", offset)
 }
-func (c *PDFGeneratorContext) GetDashCount() int { return 0 }
+func (c *PDFGeneratorContext) GetDashCount() int             { return 0 }
 func (c *PDFGeneratorContext) GetDash() ([]float64, float64) { return nil, 0 }
 
 func (c *PDFGeneratorContext) SetMiterLimit(limit float64) {
@@ -293,12 +301,12 @@ func (c *PDFGeneratorContext) Transform(matrix *Matrix) {
 	c.wf("%.4f %.4f %.4f %.4f %.4f %.4f cm\n", matrix.XX, matrix.YX, matrix.XY, matrix.YY, matrix.X0, matrix.Y0)
 }
 func (c *PDFGeneratorContext) SetMatrix(matrix *Matrix) {}
-func (c *PDFGeneratorContext) GetMatrix() *Matrix { return &Matrix{XX: 1, YY: 1} }
-func (c *PDFGeneratorContext) IdentityMatrix() {}
+func (c *PDFGeneratorContext) GetMatrix() *Matrix       { return &Matrix{XX: 1, YY: 1} }
+func (c *PDFGeneratorContext) IdentityMatrix()          {}
 
-func (c *PDFGeneratorContext) UserToDevice(x, y float64) (float64, float64) { return x, y }
+func (c *PDFGeneratorContext) UserToDevice(x, y float64) (float64, float64)           { return x, y }
 func (c *PDFGeneratorContext) UserToDeviceDistance(dx, dy float64) (float64, float64) { return dx, dy }
-func (c *PDFGeneratorContext) DeviceToUser(x, y float64) (float64, float64) { return x, y }
+func (c *PDFGeneratorContext) DeviceToUser(x, y float64) (float64, float64)           { return x, y }
 func (c *PDFGeneratorContext) DeviceToUserDistance(dx, dy float64) (float64, float64) { return dx, dy }
 
 func (c *PDFGeneratorContext) NewPath() {
@@ -314,11 +322,11 @@ func (c *PDFGeneratorContext) LineTo(x, y float64) {
 func (c *PDFGeneratorContext) CurveTo(x1, y1, x2, y2, x3, y3 float64) {
 	c.wf("%.4f %.4f %.4f %.4f %.4f %.4f c\n", x1, y1, x2, y2, x3, y3)
 }
-func (c *PDFGeneratorContext) Arc(xc, yc, radius, angle1, angle2 float64) {}
+func (c *PDFGeneratorContext) Arc(xc, yc, radius, angle1, angle2 float64)         {}
 func (c *PDFGeneratorContext) ArcNegative(xc, yc, radius, angle1, angle2 float64) {}
-func (c *PDFGeneratorContext) RelMoveTo(dx, dy float64) {}
-func (c *PDFGeneratorContext) RelLineTo(dx, dy float64) {}
-func (c *PDFGeneratorContext) RelCurveTo(dx1, dy1, dx2, dy2, dx3, dy3 float64) {}
+func (c *PDFGeneratorContext) RelMoveTo(dx, dy float64)                           {}
+func (c *PDFGeneratorContext) RelLineTo(dx, dy float64)                           {}
+func (c *PDFGeneratorContext) RelCurveTo(dx1, dy1, dx2, dy2, dx3, dy3 float64)    {}
 func (c *PDFGeneratorContext) Rectangle(x, y, width, height float64) {
 	c.wf("%.4f %.4f %.4f %.4f re\n", x, y, width, height)
 }
@@ -338,20 +346,20 @@ func (c *PDFGeneratorContext) ClosePath() {
 }
 func (c *PDFGeneratorContext) PathExtents() (x1, y1, x2, y2 float64) { return 0, 0, 0, 0 }
 
-func (c *PDFGeneratorContext) Clip() {}
-func (c *PDFGeneratorContext) ClipPreserve() {}
-func (c *PDFGeneratorContext) ClipExtents() (x1, y1, x2, y2 float64) { return 0, 0, 0, 0 }
-func (c *PDFGeneratorContext) InClip(x, y float64) Bool { return 1 }
-func (c *PDFGeneratorContext) ResetClip() {}
-func (c *PDFGeneratorContext) CopyClipRectangleList() *RectangleList { return nil }
-func (c *PDFGeneratorContext) InStroke(x, y float64) Bool { return 0 }
-func (c *PDFGeneratorContext) InFill(x, y float64) Bool { return 0 }
+func (c *PDFGeneratorContext) Clip()                                   {}
+func (c *PDFGeneratorContext) ClipPreserve()                           {}
+func (c *PDFGeneratorContext) ClipExtents() (x1, y1, x2, y2 float64)   { return 0, 0, 0, 0 }
+func (c *PDFGeneratorContext) InClip(x, y float64) Bool                { return 1 }
+func (c *PDFGeneratorContext) ResetClip()                              {}
+func (c *PDFGeneratorContext) CopyClipRectangleList() *RectangleList   { return nil }
+func (c *PDFGeneratorContext) InStroke(x, y float64) Bool              { return 0 }
+func (c *PDFGeneratorContext) InFill(x, y float64) Bool                { return 0 }
 func (c *PDFGeneratorContext) StrokeExtents() (x1, y1, x2, y2 float64) { return 0, 0, 0, 0 }
-func (c *PDFGeneratorContext) FillExtents() (x1, y1, x2, y2 float64) { return 0, 0, 0, 0 }
-func (c *PDFGeneratorContext) HasCurrentPoint() Bool { return 0 }
-func (c *PDFGeneratorContext) GetCurrentPoint() (x, y float64) { return 0, 0 }
+func (c *PDFGeneratorContext) FillExtents() (x1, y1, x2, y2 float64)   { return 0, 0, 0, 0 }
+func (c *PDFGeneratorContext) HasCurrentPoint() Bool                   { return 0 }
+func (c *PDFGeneratorContext) GetCurrentPoint() (x, y float64)         { return 0, 0 }
 
-func (c *PDFGeneratorContext) CopyPath() *Path { return nil }
+func (c *PDFGeneratorContext) CopyPath() *Path     { return nil }
 func (c *PDFGeneratorContext) CopyPathFlat() *Path { return nil }
 func (c *PDFGeneratorContext) AppendPath(path *Path) {
 	for _, pd := range path.Data {
@@ -369,24 +377,25 @@ func (c *PDFGeneratorContext) AppendPath(path *Path) {
 }
 
 func (c *PDFGeneratorContext) ShowGlyphs(glyphs []Glyph) {}
-func (c *PDFGeneratorContext) ShowTextGlyphs(utf8 string, glyphs []Glyph, clusters []TextCluster, clusterFlags TextClusterFlags) {}
-func (c *PDFGeneratorContext) GlyphPath(glyphs []Glyph) {}
-func (c *PDFGeneratorContext) TextExtents(utf8 string) *TextExtents { return nil }
+func (c *PDFGeneratorContext) ShowTextGlyphs(utf8 string, glyphs []Glyph, clusters []TextCluster, clusterFlags TextClusterFlags) {
+}
+func (c *PDFGeneratorContext) GlyphPath(glyphs []Glyph)                 {}
+func (c *PDFGeneratorContext) TextExtents(utf8 string) *TextExtents     { return nil }
 func (c *PDFGeneratorContext) GlyphExtents(glyphs []Glyph) *TextExtents { return nil }
 
-func (c *PDFGeneratorContext) SetFontMatrix(matrix *Matrix) {}
-func (c *PDFGeneratorContext) GetFontMatrix() *Matrix { return nil }
+func (c *PDFGeneratorContext) SetFontMatrix(matrix *Matrix)        {}
+func (c *PDFGeneratorContext) GetFontMatrix() *Matrix              { return nil }
 func (c *PDFGeneratorContext) SetFontOptions(options *FontOptions) {}
-func (c *PDFGeneratorContext) GetFontOptions() *FontOptions { return nil }
-func (c *PDFGeneratorContext) SetFontFace(fontFace FontFace) {}
-func (c *PDFGeneratorContext) GetFontFace() FontFace { return nil }
+func (c *PDFGeneratorContext) GetFontOptions() *FontOptions        { return nil }
+func (c *PDFGeneratorContext) SetFontFace(fontFace FontFace)       {}
+func (c *PDFGeneratorContext) GetFontFace() FontFace               { return nil }
 func (c *PDFGeneratorContext) SetScaledFont(scaledFont ScaledFont) {}
-func (c *PDFGeneratorContext) GetScaledFont() ScaledFont { return nil }
-func (c *PDFGeneratorContext) FontExtents() *FontExtents { return nil }
+func (c *PDFGeneratorContext) GetScaledFont() ScaledFont           { return nil }
+func (c *PDFGeneratorContext) FontExtents() *FontExtents           { return nil }
 
-func (c *PDFGeneratorContext) PangoPdfCreateLayout() interface{} { return nil }
+func (c *PDFGeneratorContext) PangoPdfCreateLayout() interface{}       { return nil }
 func (c *PDFGeneratorContext) PangoPdfUpdateLayout(layout interface{}) {}
-func (c *PDFGeneratorContext) PangoPdfShowText(layout interface{}) {}
+func (c *PDFGeneratorContext) PangoPdfShowText(layout interface{})     {}
 
 // --- Helper functions from original file ---
 

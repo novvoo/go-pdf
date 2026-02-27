@@ -1,6 +1,6 @@
 PDF Rendering Report
 ====================
-Time: 2026-02-11 17:04:56
+Time: 2026-02-26 18:16:18
 
 ParseTokens Test:
 -----------------
@@ -22,7 +22,7 @@ Rendering Process:
 Output File Info:
 -----------------
 Size: 308528 bytes
-Created: 2026-02-11 17:04:59
+Created: 2026-02-26 18:16:22
 
 Page Information:
 -----------------
@@ -33,16 +33,7 @@ Page Size: 8.26 x 11.69 inches
 Font Information:
 =================
 
-[Font 1] F4
-  BaseFont: AAAAAA+FreightSansProBold-Regular
-  Subtype: Type0
-  Encoding: Identity-H
-  Identity Mapping: YES
-  ToUnicode Map: YES (20 mappings, 0 ranges)
-  CID System Info: Adobe-Identity
-  Embedded Font: YES (9328 bytes)
-
-[Font 2] F5
+[Font 1] F5
   BaseFont: BAAAAA+FreightSansProBook-Regular
   Subtype: Type0
   Encoding: Identity-H
@@ -51,7 +42,7 @@ Font Information:
   CID System Info: Adobe-Identity
   Embedded Font: YES (14728 bytes)
 
-[Font 3] F6
+[Font 2] F6
   BaseFont: CAAAAA+MicrosoftYaHei
   Subtype: Type0
   Encoding: Identity-H
@@ -59,6 +50,15 @@ Font Information:
   ToUnicode Map: YES (938 mappings, 0 ranges)
   CID System Info: Adobe-Identity
   Embedded Font: YES (1415312 bytes)
+
+[Font 3] F4
+  BaseFont: AAAAAA+FreightSansProBold-Regular
+  Subtype: Type0
+  Encoding: Identity-H
+  Identity Mapping: YES
+  ToUnicode Map: YES (20 mappings, 0 ranges)
+  CID System Info: Adobe-Identity
+  Embedded Font: YES (9328 bytes)
 
 
 ExtractPageElements Test:
@@ -4235,31 +4235,31 @@ Operator Execution Log:
 [Q] Restore graphics state - Stack depth: 1
 
 📈 Operator Statistics:
-   BDC: 54
-   h: 30
-   W: 7
    cm: 22
-   W*: 22
-   Tf: 51
-   Td: 158
-   ET: 51
-   Do: 1
-   q: 44
-   rg: 42
    gs: 31
-   BT: 51
-   Tj: 196
-   EMC: 54
+   Q: 44
    S: 8
    l: 51
    re: 44
-   n: 29
    RG: 42
+   rg: 42
+   BT: 51
+   Tf: 51
+   EMC: 54
+   W: 7
+   q: 44
+   BDC: 54
    Tm: 51
+   Tj: 196
+   Td: 158
+   ET: 51
    f: 32
-   Q: 44
-   m: 32
    c: 387
+   W*: 22
+   n: 29
+   m: 32
+   h: 30
+   Do: 1
 
 📌 Rendering 3 annotations...
 [Annotation] Rendering annotation: Link
@@ -5470,6 +5470,12 @@ Operator Execution Log:
 [DEBUG] ET operator: End text object
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+✓ Loaded embedded TTF font data for font F6 (1415312 bytes)
+✓ Loaded ToUnicode CMap for font F6 (938 mappings, 0 ranges)
+✓ Default width for CID font F6: 1000
+✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
+✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F6: Identity-H
 ✓ Loaded embedded TTF font data for font F4 (9328 bytes)
 ✓ Loaded ToUnicode CMap for font F4 (20 mappings, 0 ranges)
 ✓ Default width for CID font F4: 0
@@ -5483,12 +5489,6 @@ Operator Execution Log:
 ✓ Loaded CID widths for font F5: 102 direct mappings, 0 ranges
 ✓ Loaded font widths for F5: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F5: Identity-H
-✓ Loaded embedded TTF font data for font F6 (1415312 bytes)
-✓ Loaded ToUnicode CMap for font F6 (938 mappings, 0 ranges)
-✓ Default width for CID font F6: 1000
-✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
-✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F6: Identity-H
 [loadXObject] Decoding stream for X8...
 [loadXObject] Raw stream length: 207578 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...
@@ -6672,6 +6672,13 @@ Operator Execution Log:
 [DEBUG] ET operator: End text object
 [DEBUG] Q operator: Restored graphics state, stack depth=1, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
 [DEBUG] Q operator: Restored graphics state, stack depth=0, CTM=[0.240 0.000 0.000 -0.240 0.000 841.920]
+✓ Loaded embedded TTF font data for font F4 (9328 bytes)
+✓ Loaded ToUnicode CMap for font F4 (20 mappings, 0 ranges)
+✓ Default width for CID font F4: 0
+✓ Using fallback default width for CID font F4: 1000
+✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
+✓ Loaded font widths for F4: 0 widths (FirstChar=0, LastChar=0)
+✓ Detected Identity encoding for font F4: Identity-H
 ✓ Loaded embedded TTF font data for font F5 (14728 bytes)
 ✓ Loaded ToUnicode CMap for font F5 (90 mappings, 0 ranges)
 ✓ Default width for CID font F5: 500
@@ -6684,13 +6691,6 @@ Operator Execution Log:
 ✓ Loaded CID widths for font F6: 1 direct mappings, 0 ranges
 ✓ Loaded font widths for F6: 0 widths (FirstChar=0, LastChar=0)
 ✓ Detected Identity encoding for font F6: Identity-H
-✓ Loaded embedded TTF font data for font F4 (9328 bytes)
-✓ Loaded ToUnicode CMap for font F4 (20 mappings, 0 ranges)
-✓ Default width for CID font F4: 0
-✓ Using fallback default width for CID font F4: 1000
-✓ Loaded CID widths for font F4: 32 direct mappings, 0 ranges
-✓ Loaded font widths for F4: 0 widths (FirstChar=0, LastChar=0)
-✓ Detected Identity encoding for font F4: Identity-H
 [loadXObject] Decoding stream for X8...
 [loadXObject] Raw stream length: 207578 bytes
 [loadXObject] DereferenceStreamDict returned empty, trying direct decode...

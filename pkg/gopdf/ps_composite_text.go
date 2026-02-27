@@ -58,14 +58,22 @@ func pangoPSShowTextComposite(c *context, layout *PangoPdfLayout) {
 			if family := strings.TrimSpace(layout.fontDesc.family); family != "" {
 				fontName = psSafeFontName(family)
 			}
-			if strings.EqualFold(fontName, "math") || strings.EqualFold(fontName, "symbol") {
-				fontName = "sans-serif"
+			if strings.EqualFold(fontName, "symbol") {
+				fontName = "math"
 			}
-			escaped := escapePSString(line)
-			c.psLineAggAddFromShowLine(lineX, currentY, fontSize, "("+escaped+") show")
+			isMathFont := strings.EqualFold(fontName, "math")
+			var showLine string
+			if isMathFont {
+				encoded := psEncodeWithRuneToByteMap(line, psDefaultMathRuneToByte())
+				showLine = "(" + psEscapePSBytesToLiteralStringContent(encoded) + ") show"
+			} else {
+				escaped := escapePSString(line)
+				showLine = "(" + escaped + ") show"
+			}
+			c.psLineAggAddFromShowLine(lineX, currentY, fontSize, showLine)
 			c.psWritef("%% utf8=%s\n", psEscapePSComment(line, 240))
 			c.psWritef("/%s findfont %.4f scalefont setfont\n", fontName, fontSize)
-			c.psWritef("(%s) show\n", escaped)
+			c.psWritef("%s\n", showLine)
 			currentY += lineHeight
 			continue
 		}
@@ -78,11 +86,17 @@ func pangoPSShowTextComposite(c *context, layout *PangoPdfLayout) {
 			}
 			c.psLineAggAdd(lineX, currentY, fontSize, line)
 			c.psWritef("%% utf8=%s\n", psEscapePSComment(line, 240))
-			if strings.EqualFold(fontName, "math") || strings.EqualFold(fontName, "symbol") {
-				fontName = "sans-serif"
+			if strings.EqualFold(fontName, "symbol") {
+				fontName = "math"
 			}
 			c.psWritef("/%s findfont %.4f scalefont setfont\n", fontName, fontSize)
-			psWriteMixedTextWithSymbolFallback(c, fontName, fontSize, line)
+			isMathFont := strings.EqualFold(fontName, "math")
+			if isMathFont {
+				encoded := psEncodeWithRuneToByteMap(line, psDefaultMathRuneToByte())
+				c.psWritef("(%s) show\n", psEscapePSBytesToLiteralStringContent(encoded))
+			} else {
+				psWriteMixedTextWithSymbolFallback(c, fontName, fontSize, line)
+			}
 			currentY += lineHeight
 			continue
 		}
@@ -110,6 +124,33 @@ func pangoPSShowTextComposite(c *context, layout *PangoPdfLayout) {
 		c.currentPoint.y = currentY - lineHeight
 		c.currentPoint.hasPoint = true
 	}
+}
+
+func psEncodeWithRuneToByteMap(s string, runeToByte map[rune]byte) []byte {
+	if s == "" {
+		return nil
+	}
+	out := make([]byte, 0, len(s)+8)
+	for _, r := range s {
+		if r == 0 || r == '\uFFFD' {
+			out = append(out, byte('?'))
+			continue
+		}
+		if r == '\t' || r == '\n' || r == '\r' || unicode.IsSpace(r) {
+			out = append(out, byte(' '))
+			continue
+		}
+		if r >= 0x20 && r <= 0x7E {
+			out = append(out, byte(r))
+			continue
+		}
+		if by, ok := runeToByte[r]; ok {
+			out = append(out, by)
+			continue
+		}
+		out = append(out, byte('?'))
+	}
+	return out
 }
 
 func psIsASCIIOnly(s string) bool {
@@ -396,13 +437,13 @@ func psWriteMixedTextWithSymbolFallback(c *context, baseFont string, fontSize fl
 	if c == nil {
 		return
 	}
-	var seg strings.Builder
+	seg := make([]byte, 0, len(s)+8)
 	flushSeg := func() {
-		if seg.Len() == 0 {
+		if len(seg) == 0 {
 			return
 		}
-		c.psWritef("(%s) show\n", escapePSString(seg.String()))
-		seg.Reset()
+		c.psWritef("(%s) show\n", psEscapePSBytesToLiteralStringContent(seg))
+		seg = seg[:0]
 	}
 
 	writeSymbolByte := func(by byte) {
@@ -414,11 +455,15 @@ func psWriteMixedTextWithSymbolFallback(c *context, baseFont string, fontSize fl
 
 	for _, r := range s {
 		if unicode.IsSpace(r) {
-			seg.WriteByte(' ')
+			seg = append(seg, ' ')
 			continue
 		}
 		if r >= 0x20 && r <= 0x7E {
-			seg.WriteRune(r)
+			seg = append(seg, byte(r))
+			continue
+		}
+		if r == 0x2022 {
+			seg = append(seg, 0x95)
 			continue
 		}
 		if by, ok := psUnicodeToSymbolEncodingByte(r); ok {
@@ -427,17 +472,17 @@ func psWriteMixedTextWithSymbolFallback(c *context, baseFont string, fontSize fl
 		}
 		switch r {
 		case 0x2013, 0x2014, 0x2212:
-			seg.WriteByte('-')
+			seg = append(seg, '-')
 		case 0x2018, 0x2019:
-			seg.WriteByte('\'')
+			seg = append(seg, '\'')
 		case 0x201C, 0x201D:
-			seg.WriteByte('"')
+			seg = append(seg, '"')
 		case 0x2113:
-			seg.WriteByte('l')
+			seg = append(seg, 'l')
 		case 0x1D53C:
-			seg.WriteByte('E')
+			seg = append(seg, 'E')
 		default:
-			seg.WriteByte('?')
+			seg = append(seg, '?')
 		}
 	}
 	flushSeg()

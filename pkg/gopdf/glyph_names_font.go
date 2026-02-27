@@ -31,7 +31,7 @@ func texMathRuneFromCID(baseFont string, cid uint16) (rune, bool) {
 func texMathNormalizeDecodedText(baseFont string, s string) string {
 	base := strings.ToUpper(stripSubsetPrefix(baseFont))
 	if strings.HasPrefix(base, "CMEX") {
-		s = strings.ReplaceAll(s, "{z", "{")
+		return s
 	}
 	return s
 }

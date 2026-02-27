@@ -3,6 +3,7 @@ package gopdf
 import (
 	"bytes"
 	"fmt"
+	"io/fs"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -401,6 +402,14 @@ func LoadEmbeddedFont(name string) (font.Face, []byte, error) {
 	}
 	fontCacheMu.RUnlock()
 
+	if face, data, err := findFontInFontsDir(name); err == nil {
+		fontCacheMu.Lock()
+		fontCache[name] = face
+		fontDataCache[name] = data
+		fontCacheMu.Unlock()
+		return face, data, nil
+	}
+
 	if name == "math" || strings.HasPrefix(name, "math-") {
 		for _, fallbackPath := range mathFallbackFontPaths {
 			face, fontData, err := LoadFontFromFile(fallbackPath)
@@ -565,6 +574,77 @@ func LoadEmbeddedFont(name string) (font.Face, []byte, error) {
 	fontCacheMu.Unlock()
 
 	return face, data, nil
+}
+
+func findFontInFontsDir(name string) (font.Face, []byte, error) {
+	searchPaths := []string{
+		"fonts",
+		"../fonts",
+		"../../fonts",
+	}
+
+	extensions := []string{".ttf", ".ttc", ".otf"}
+
+	lowerName := strings.ToLower(name)
+
+	var foundPath string
+
+	for _, basePath := range searchPaths {
+		// Check if directory exists
+		if _, err := os.Stat(basePath); os.IsNotExist(err) {
+			continue
+		}
+
+		err := filepath.WalkDir(basePath, func(path string, d fs.DirEntry, err error) error {
+			if err != nil {
+				return nil
+			}
+			if d.IsDir() {
+				return nil
+			}
+
+			ext := strings.ToLower(filepath.Ext(path))
+			isValidExt := false
+			for _, e := range extensions {
+				if ext == e {
+					isValidExt = true
+					break
+				}
+			}
+			if !isValidExt {
+				return nil
+			}
+
+			fileName := strings.ToLower(filepath.Base(path))
+			fileNameNoExt := strings.TrimSuffix(fileName, ext)
+
+			if fileNameNoExt == lowerName {
+				foundPath = path
+				return fs.SkipAll
+			}
+
+			if len(lowerName) > 4 && strings.Contains(fileNameNoExt, lowerName) {
+				if foundPath == "" || len(fileNameNoExt) < len(filepath.Base(foundPath)) {
+					foundPath = path
+				}
+			}
+
+			return nil
+		})
+
+		if err == fs.SkipAll && foundPath != "" {
+			break
+		}
+		if foundPath != "" {
+			break
+		}
+	}
+
+	if foundPath != "" {
+		return LoadFontFromFile(foundPath)
+	}
+
+	return nil, nil, fmt.Errorf("font not found in fonts directory")
 }
 
 // GetDefaultFont returns the default embedded font

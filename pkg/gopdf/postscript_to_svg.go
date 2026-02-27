@@ -687,8 +687,13 @@ func decodePSLiteralString(raw string, fontName string) string {
 	}
 	fn := strings.ToLower(strings.TrimSpace(fontName))
 	if fn == "math" || fn == "symbol" || strings.Contains(fn, "symbol") {
+		mathMap := psDefaultMathByteToRune()
 		runes := make([]rune, 0, len(b))
 		for _, by := range b {
+			if r, ok := mathMap[by]; ok {
+				runes = append(runes, r)
+				continue
+			}
 			if r, ok := psSymbolEncodingByteToUnicode(by); ok {
 				runes = append(runes, r)
 				continue
