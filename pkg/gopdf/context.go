@@ -60,6 +60,7 @@ type context struct {
 		yUser    float64
 		xEndUser float64
 		fontSize float64
+		text     string
 	}
 }
 

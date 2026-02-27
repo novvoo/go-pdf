@@ -5,6 +5,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"strings"
 	"sync"
 )
 
@@ -60,6 +61,16 @@ func (l *Logger) SetLevel(level LogLevel) {
 	l.level = level
 }
 
+func (l *Logger) SetOutput(output io.Writer) {
+	if output == nil {
+		output = io.Discard
+	}
+	l.mu.Lock()
+	defer l.mu.Unlock()
+	l.output = output
+	l.logger.SetOutput(output)
+}
+
 // SetEnabled 启用或禁用日志
 func (l *Logger) SetEnabled(enabled bool) {
 	l.mu.Lock()
@@ -97,6 +108,7 @@ func (l *Logger) log(level LogLevel, levelStr, format string, v ...interface{}) 
 	}
 
 	msg := fmt.Sprintf(format, v...)
+	msg = strings.TrimRight(msg, "\r\n")
 	l.logger.Printf("[%s] %s", levelStr, msg)
 }
 

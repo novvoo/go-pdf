@@ -19,6 +19,8 @@ func TestShouldOutlineTextInPS(t *testing.T) {
 		{name: "music-font", font: &Font{BaseFont: "Bravura"}, text: "\uE050", outline: false},
 		{name: "latex-string", font: &Font{BaseFont: "Helvetica"}, text: "\\frac{1}{2}", outline: false},
 		{name: "pua-rune", font: &Font{BaseFont: "Helvetica"}, text: "\uE000", outline: true},
+		{name: "cjk-han", font: &Font{BaseFont: "Helvetica"}, text: "中文", outline: true},
+		{name: "cyrillic", font: &Font{BaseFont: "Helvetica"}, text: "Привет", outline: true},
 		{
 			name: "big-delimiter-glyphname",
 			font: &Font{

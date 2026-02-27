@@ -711,6 +711,23 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 		}
 	}
 
+	candidateTokenForLabel := candidateText
+	if candidateTokenForLabel == "" && len(array) > 0 {
+		for _, it := range array {
+			if s, ok := it.(string); ok {
+				candidateTokenForLabel = s
+				break
+			}
+		}
+	}
+
+	candidateDecoded := ""
+	if psPreferText && candidateTokenForLabel != "" {
+		if d, _, _ := decodeTextStringWithCIDs(candidateTokenForLabel, toUnicodeMap, textState.Font); d != "" {
+			candidateDecoded = strings.TrimSpace(d)
+		}
+	}
+
 	enablePSSymbolGapClamp := false
 	if enablePSSymbolGapClamp && psPreferText && psCtx != nil && candidateText != "" {
 		decoded, cids, _ := decodeTextStringWithCIDs(candidateText, toUnicodeMap, textState.Font)
@@ -753,6 +770,53 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 		}
 	}
 
+	enablePSLabelGapClamp := true
+	if enablePSLabelGapClamp && psPreferText && psCtx != nil && candidateDecoded != "" && psCtx.psLastText.active {
+		prev := strings.TrimSpace(psCtx.psLastText.text)
+		hasLetter := false
+		hasPunct := false
+		for _, r := range prev {
+			if unicode.IsLetter(r) {
+				hasLetter = true
+				break
+			}
+			if unicode.IsPunct(r) || unicode.IsSymbol(r) {
+				hasPunct = true
+			}
+		}
+
+		isShortLabel := !hasLetter && hasPunct && len([]rune(prev)) <= 6
+		if isShortLabel {
+			tolY := math.Max(2.0, math.Max(psCtx.psLastText.fontSize, fontSize)*0.5)
+			if math.Abs(renderMatrix.Y0-psCtx.psLastText.yUser) <= tolY {
+				runes := []rune(candidateDecoded)
+				startsWithWord := false
+				if len(runes) > 0 {
+					r0 := runes[0]
+					startsWithWord = unicode.IsLetter(r0) || unicode.IsNumber(r0)
+				}
+				if startsWithWord {
+					gap := renderMatrix.X0 - psCtx.psLastText.xEndUser
+					spaceAdv := textState.GlyphAdvance(32, true)
+					if spaceAdv <= 0 {
+						spaceAdv = fontSize * 0.30
+					}
+					desired := spaceAdv
+					minDesired := fontSize * 0.12
+					maxDesired := fontSize * 0.60
+					if desired < minDesired {
+						desired = minDesired
+					} else if desired > maxDesired {
+						desired = maxDesired
+					}
+					if gap > desired*2.0 {
+						renderMatrix.X0 = psCtx.psLastText.xEndUser + desired
+					}
+				}
+			}
+		}
+	}
+
 	ctx.GopdfCtx.Transform(renderMatrix)
 
 	// 设置字体
@@ -760,9 +824,11 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 	// 因为文本矩阵的缩放已经在计算绝对坐标时应用了
 	fontFamily := "sans-serif"
 	registeredPDFFont := false
+	embeddedPDFFontKey := ""
 	if textState.Font != nil {
 		if len(textState.Font.EmbeddedFontData) > 0 {
 			key := "pdf:" + textState.Font.Name
+			embeddedPDFFontKey = key
 			if err := RegisterFontData(key, textState.Font.EmbeddedFontData); err == nil {
 				registeredPDFFont = true
 				if !psPreferText {
@@ -806,9 +872,44 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 	if !registeredPDFFont && (fontFamily == "sans-serif" || fontFamily == "sans") {
 		decodedSample, _, _ := decodeTextStringWithCIDs(sampleText, toUnicodeMap, textState.Font)
 		if shouldUseCJKFallback(textState.Font, decodedSample) {
+			ensureRepoFontRegistered("sans-cjk", "fonts/ofl/notosanssc/NotoSansSC[wght].ttf")
 			fontFamily = "sans-cjk"
 		}
 	}
+
+	psWantsOutline := false
+	if psPreferText {
+		if sampleText != "" {
+			decodedSample, _, _ := decodeTextStringWithCIDs(sampleText, toUnicodeMap, textState.Font)
+			psWantsOutline = shouldOutlineTextInPS(textState.Font, decodedSample, nil, TextDecodeStats{})
+		}
+		if !psWantsOutline && len(array) > 0 {
+			checked := 0
+			for _, it := range array {
+				s, ok := it.(string)
+				if !ok {
+					continue
+				}
+				decoded, _, _ := decodeTextStringWithCIDs(s, toUnicodeMap, textState.Font)
+				if shouldOutlineTextInPS(textState.Font, decoded, nil, TextDecodeStats{}) {
+					psWantsOutline = true
+					break
+				}
+				checked++
+				if checked >= 16 {
+					break
+				}
+			}
+		}
+	}
+
+	if psPreferText && registeredPDFFont && psWantsOutline {
+		if embeddedPDFFontKey != "" {
+			fontFamily = embeddedPDFFontKey
+		}
+	}
+
+	psForceOutline := psPreferText && strings.HasPrefix(fontFamily, "pdf:")
 
 	// 🔥 使用 PangoPdf 进行文本渲染
 	// PangoPdf 会处理字体选择和文本布局
@@ -1028,34 +1129,79 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 
 		isMathFamily := strings.EqualFold(fontFamily, "math")
 
-		dy := 0.0
-		scaleY := 1.0
-		if !isMathFamily {
-			dy = autoSymbolDy(runText)
-			if textState.Font != nil && len(cids) == 1 && len(textState.Font.CodeToGlyphName) > 0 {
-				if name, ok := textState.Font.CodeToGlyphName[byte(cids[0]&0xFF)]; ok {
-					if dyFactor, sy, ok := delimiterAdjust(name); ok {
-						dy = dyFactor * fontSize
-						scaleY = sy
+		renderRunAtX := func(x float64, t string, c []uint16, sx float64) {
+			dy := 0.0
+			sy := 1.0
+			if !isMathFamily {
+				dy = autoSymbolDy(t)
+				if textState.Font != nil && len(c) == 1 && len(textState.Font.CodeToGlyphName) > 0 {
+					if name, ok := textState.Font.CodeToGlyphName[byte(c[0]&0xFF)]; ok {
+						if dyFactor, s, ok := delimiterAdjust(name); ok {
+							dy = dyFactor * fontSize
+							sy = s
+						}
 					}
 				}
 			}
-		}
 
-		if scaleX != 1.0 || dy != 0.0 || scaleY != 1.0 {
-			ctx.GopdfCtx.Save()
-			ctx.GopdfCtx.Translate(currentX, dy)
-			ctx.GopdfCtx.Scale(scaleX, scaleY)
-			ctx.GopdfCtx.MoveTo(0, 0)
-			layout.SetText(runText)
+			if sx != 1.0 || dy != 0.0 || sy != 1.0 {
+				ctx.GopdfCtx.Save()
+				ctx.GopdfCtx.Translate(x, dy)
+				ctx.GopdfCtx.Scale(sx, sy)
+				ctx.GopdfCtx.MoveTo(0, 0)
+				layout.SetText(t)
+				ctx.GopdfCtx.PangoPdfShowText(layout)
+				ctx.GopdfCtx.Restore()
+				return
+			}
+
+			ctx.GopdfCtx.MoveTo(x, 0)
+			layout.SetText(t)
 			ctx.GopdfCtx.PangoPdfShowText(layout)
-			ctx.GopdfCtx.Restore()
-			return
 		}
 
-		ctx.GopdfCtx.MoveTo(currentX, 0)
-		layout.SetText(runText)
-		ctx.GopdfCtx.PangoPdfShowText(layout)
+		if psPreferText && !isMathFamily {
+			runes := []rune(runText)
+			if len(runes) == len(cids) && len(runes) <= 32 {
+				localX := currentX
+				for i, r := range runes {
+					cid := cids[i]
+					isSpace := r == ' '
+					pdfAdv := textState.GlyphAdvance(cid, isSpace)
+
+					drawAdv := scaledFont.TextExtents(string(r)).XAdvance
+					if drawAdv <= 0 {
+						drawAdv = fontSize * 0.50
+					}
+					if textState.CharSpacing != 0 {
+						if isCJKCharacterRune(r) {
+							drawAdv += textState.CharSpacing * 0.5
+						} else {
+							drawAdv += textState.CharSpacing
+						}
+					}
+					if isSpace && textState.WordSpacing != 0 {
+						drawAdv += textState.WordSpacing
+					}
+
+					sx := 1.0
+					if pdfAdv > 0 && drawAdv > 0 {
+						sx = pdfAdv / drawAdv
+						minRatio, maxRatio := 0.25, 2.5
+						if sx < minRatio {
+							sx = minRatio
+						} else if sx > maxRatio {
+							sx = maxRatio
+						}
+					}
+					renderRunAtX(localX, string(r), []uint16{cid}, sx)
+					localX += pdfAdv
+				}
+				return
+			}
+		}
+
+		renderRunAtX(currentX, runText, cids, scaleX)
 	}
 
 	renderGlyphs := func(cids []uint16) {
@@ -1508,7 +1654,7 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 			stats := bufStats
 
 			useGlyphRun := useGlyphIndices
-			outline := psPreferText && shouldOutlineTextInPS(textState.Font, decodedText, cids, stats)
+			outline := psPreferText && (psForceOutline || shouldOutlineTextInPS(textState.Font, decodedText, cids, stats))
 			if psPreferText && decodedText != "" && !outline {
 				useGlyphRun = false
 			}
@@ -1557,6 +1703,15 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 					if renderShapedGlyphPaths(decodedText, scaleX) {
 						currentX += adv
 						debugPrintf("[TJ_ARRAY][BUF] Rendered shaped glyph paths, adv=%.2f\n", adv)
+						bufHas = false
+						bufText = ""
+						bufCIDs = nil
+						bufStats = TextDecodeStats{}
+						return
+					}
+					if psForceOutline && len(cids) > 0 {
+						renderGlyphs(cids)
+						debugPrintf("[TJ_ARRAY][BUF] Rendered glyph run (forced outline)\n")
 						bufHas = false
 						bufText = ""
 						bufCIDs = nil
@@ -1629,7 +1784,7 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 				}
 
 				useGlyphRun := useGlyphIndices
-				outline := psPreferText && shouldOutlineTextInPS(textState.Font, decodedText, cids, stats)
+				outline := psPreferText && (psForceOutline || shouldOutlineTextInPS(textState.Font, decodedText, cids, stats))
 				if psPreferText && decodedText != "" && !outline {
 					useGlyphRun = false
 				}
@@ -1764,7 +1919,7 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 				decodedText, len([]rune(decodedText)), len(cids), textState.TextMatrix.X0, textState.TextMatrix.Y0)
 
 			useGlyphRun := useGlyphIndices
-			outline := psPreferText && shouldOutlineTextInPS(textState.Font, decodedText, cids, stats)
+			outline := psPreferText && (psForceOutline || shouldOutlineTextInPS(textState.Font, decodedText, cids, stats))
 			if psPreferText && decodedText != "" && !outline {
 				useGlyphRun = false
 			}
@@ -1803,6 +1958,11 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 						debugPrintf("[Tj] Rendered shaped glyph paths, adv=%.2f\n", adv)
 						goto updateMatrix
 					}
+					if psForceOutline && len(cids) > 0 {
+						renderGlyphs(cids)
+						debugPrintf("[Tj] Rendered glyph run (forced outline)\n")
+						goto updateMatrix
+					}
 				}
 				renderRun(decodedText, cids, scaleX)
 				currentX += adv
@@ -1826,6 +1986,7 @@ updateMatrix:
 		psCtx.psLastText.yUser = renderMatrix.Y0
 		psCtx.psLastText.fontSize = fontSize
 		psCtx.psLastText.xEndUser = renderMatrix.X0 + currentX*renderMatrix.XX
+		psCtx.psLastText.text = candidateDecoded
 	}
 
 	return nil
@@ -1953,6 +2114,18 @@ func shouldOutlineTextInPS(font *Font, decodedText string, cids []uint16, stats 
 		if r >= 0x1D100 && r <= 0x1D1FF {
 			// Musical symbols
 			return false
+		}
+	}
+
+	for _, r := range decodedText {
+		if r <= 0x7F {
+			continue
+		}
+		if unicode.In(r, unicode.Han, unicode.Hangul, unicode.Hiragana, unicode.Katakana) {
+			return true
+		}
+		if unicode.IsLetter(r) || unicode.IsMark(r) {
+			return true
 		}
 	}
 

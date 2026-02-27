@@ -275,11 +275,9 @@ func decodeImageXObject(xobj *XObject) (*image.RGBA, error) {
 	bpc := xobj.BitsPerComponent
 	colorSpace := xobj.ColorSpace
 
-	debugPrintf("[decodeImageXObject] Decoding image: %dx%d, BPC=%d, ColorSpace=%s, Stream=%d bytes\n",
+	Debug("[image] Decoding image: %dx%d, BPC=%d, ColorSpace=%s, Stream=%d bytes\n",
 		width, height, bpc, colorSpace, len(xobj.Stream))
-	fmt.Printf("🔍 [IMAGE DEBUG] Decoding image: %dx%d, BPC=%d, ColorSpace=%s, Stream=%d bytes\n",
-		width, height, bpc, colorSpace, len(xobj.Stream))
-	fmt.Printf("🔍 [IMAGE DEBUG] ColorComponents=%d\n", xobj.ColorComponents)
+	Debug("[image] ColorComponents=%d\n", xobj.ColorComponents)
 
 	// 根据颜色空间解码
 	switch colorSpace {
@@ -307,8 +305,7 @@ func decodeImageXObject(xobj *XObject) (*image.RGBA, error) {
 		numComponents := 0
 		if xobj.ColorComponents > 0 {
 			numComponents = xobj.ColorComponents
-			debugPrintf("[decodeImageXObject] ICCBased using pre-resolved N=%d\n", numComponents)
-			fmt.Printf("🔍 [IMAGE DEBUG] ICCBased using pre-resolved N=%d\n", numComponents)
+			Debug("[icc] ICCBased using pre-resolved N=%d\n", numComponents)
 		} else {
 			// 回退：通过数据大小推断
 			// ⚠️ 警告：这种推断方法不可靠！
@@ -323,21 +320,17 @@ func decodeImageXObject(xobj *XObject) (*image.RGBA, error) {
 				// 如果推断出4个分量，但没有明确的CMYK标识，优先假设是RGB
 				// 因为现代图像（特别是Mac截图）更常用RGB而非CMYK
 				if estimatedComponents == 4 {
-					debugPrintf("[decodeImageXObject] ⚠️  WARNING: Estimated 4 components, but this is ambiguous!\n")
-					debugPrintf("[decodeImageXObject] Could be CMYK or RGB+Alpha. Defaulting to RGB.\n")
-					fmt.Printf("🔍 [IMAGE DEBUG] ⚠️  Ambiguous: 4 bytes/pixel detected. Defaulting to RGB (not CMYK)\n")
+					Debug("[icc] Estimated 4 components, ambiguous; defaulting to RGB\n")
 					// 默认使用RGB，除非有其他证据表明是CMYK
 					numComponents = 3
 				} else {
 					numComponents = estimatedComponents
 				}
 			}
-			debugPrintf("[decodeImageXObject] ICCBased estimating components from data size: %d\n", numComponents)
-			fmt.Printf("🔍 [IMAGE DEBUG] ICCBased estimated components: %d\n", numComponents)
+			Debug("[icc] ICCBased estimated components: %d\n", numComponents)
 		}
 
-		debugPrintf("[decodeImageXObject] ICCBased final numComponents=%d\n", numComponents)
-		fmt.Printf("🔍 [IMAGE DEBUG] ICCBased final numComponents=%d\n", numComponents)
+		Debug("[icc] ICCBased final numComponents=%d\n", numComponents)
 
 		if numComponents == 4 {
 			debugPrintf("[decodeImageXObject] ICCBased with 4 components, treating as CMYK\n")
@@ -504,8 +497,7 @@ func DecodeDeviceRGBPublic(data []byte, width, height, bpc int) (*image.RGBA, er
 			return nil, fmt.Errorf("insufficient data: expected at least %d bytes (3 bpp), got %d", width*height*3, len(data))
 		}
 
-		debugPrintf("[decodeDeviceRGB] Detected %d bytes per pixel\n", bytesPerPixel)
-		fmt.Printf("🔍 [RGB DECODE] Bytes per pixel: %d (total: %d bytes for %dx%d)\n", bytesPerPixel, len(data), width, height)
+		Debug("[rgb] Bytes per pixel: %d (total: %d bytes for %dx%d)\n", bytesPerPixel, len(data), width, height)
 
 		if bytesPerPixel == 3 {
 			// 标准RGB：3字节/像素
@@ -522,8 +514,7 @@ func DecodeDeviceRGBPublic(data []byte, width, height, bpc int) (*image.RGBA, er
 		} else if bytesPerPixel == 4 {
 			// 🔥 关键修复：4字节/像素，可能是RGB+Alpha或RGB+padding
 			// 我们只取前3个字节作为RGB，忽略第4个字节
-			debugPrintf("[decodeDeviceRGB] ⚠️  4 bytes/pixel detected, treating as RGB (ignoring 4th byte)\n")
-			fmt.Printf("🔍 [RGB DECODE] ⚠️  Treating 4-byte data as RGB (not CMYK)\n")
+			Debug("[rgb] 4 bytes/pixel detected; treating as RGB (ignoring 4th byte)\n")
 
 			for y := 0; y < height; y++ {
 				for x := 0; x < width; x++ {
@@ -542,7 +533,7 @@ func DecodeDeviceRGBPublic(data []byte, width, height, bpc int) (*image.RGBA, er
 			}
 		} else {
 			// 其他情况：尝试按3字节/像素处理
-			debugPrintf("[decodeDeviceRGB] Unusual bytes per pixel: %d, attempting 3-byte stride\n", bytesPerPixel)
+			Debug("[rgb] Unusual bytes per pixel: %d; attempting 3-byte stride\n", bytesPerPixel)
 			expectedSize := width * height * 3
 			if len(data) < expectedSize {
 				return nil, fmt.Errorf("insufficient data: expected %d bytes, got %d", expectedSize, len(data))
@@ -2639,7 +2630,7 @@ func loadXObject(ctx *model.Context, xobjName string, xobjObj types.Object, reso
 								if n, ok := nObj.(types.Integer); ok {
 									xobj.ColorComponents = int(n)
 									debugPrintf("[loadXObject] ICCBased profile has N=%d components\n", xobj.ColorComponents)
-									fmt.Printf("🔍 [LOAD DEBUG] ICCBased profile N=%d\n", xobj.ColorComponents)
+									Debug("[load] ICCBased profile N=%d\n", xobj.ColorComponents)
 								}
 							}
 
@@ -2649,7 +2640,7 @@ func loadXObject(ctx *model.Context, xobjName string, xobjObj types.Object, reso
 								if altName, ok := altObj.(types.Name); ok {
 									altColorSpace := altName.String()
 									debugPrintf("[loadXObject] ICCBased has Alternate colorspace: %s\n", altColorSpace)
-									fmt.Printf("🔍 [LOAD DEBUG] ICCBased Alternate: %s\n", altColorSpace)
+									Debug("[load] ICCBased Alternate: %s\n", altColorSpace)
 
 									// 🔥 关键修复：如果Alternate是DeviceRGB，强制使用RGB解码
 									// 这可以避免将RGB图像误判为CMYK
@@ -2657,19 +2648,19 @@ func loadXObject(ctx *model.Context, xobjName string, xobjObj types.Object, reso
 										if xobj.ColorComponents == 0 {
 											xobj.ColorComponents = 3
 											debugPrintf("[loadXObject] Set ColorComponents=3 based on Alternate DeviceRGB\n")
-											fmt.Printf("🔍 [LOAD DEBUG] Forced N=3 from Alternate DeviceRGB\n")
+											Debug("[load] Forced N=3 from Alternate DeviceRGB\n")
 										}
 									} else if altColorSpace == "/DeviceGray" || altColorSpace == "DeviceGray" {
 										if xobj.ColorComponents == 0 {
 											xobj.ColorComponents = 1
 											debugPrintf("[loadXObject] Set ColorComponents=1 based on Alternate DeviceGray\n")
-											fmt.Printf("🔍 [LOAD DEBUG] Forced N=1 from Alternate DeviceGray\n")
+											Debug("[load] Forced N=1 from Alternate DeviceGray\n")
 										}
 									} else if altColorSpace == "/DeviceCMYK" || altColorSpace == "DeviceCMYK" {
 										if xobj.ColorComponents == 0 {
 											xobj.ColorComponents = 4
 											debugPrintf("[loadXObject] Set ColorComponents=4 based on Alternate DeviceCMYK\n")
-											fmt.Printf("🔍 [LOAD DEBUG] Forced N=4 from Alternate DeviceCMYK\n")
+											Debug("[load] Forced N=4 from Alternate DeviceCMYK\n")
 										}
 									}
 								}

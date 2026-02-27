@@ -1216,7 +1216,7 @@ func (s *PangoPdfScaledFont) GetGlyphMetrics(r rune) (*GlyphMetrics, Status) {
 
 			// Debug: print first few points for 'M'
 			if r == 'M' && pointCount < 3 {
-				fmt.Printf("[DEBUG] 'M' point %d: raw X=%.2f, Y=%.2f\n", pointCount, xInFontUnits, yInFontUnits)
+				debugPrintf("[GetGlyphMetrics] 'M' point %d: raw X=%.2f, Y=%.2f\n", pointCount, xInFontUnits, yInFontUnits)
 			}
 
 			// Apply Y flip to match rendered coordinates
@@ -1255,7 +1255,7 @@ func (s *PangoPdfScaledFont) GetGlyphMetrics(r rune) (*GlyphMetrics, Status) {
 
 	// Debug output for character 'M'
 	if r == 'M' {
-		fmt.Printf("[DEBUG GetGlyphMetrics] 'M': xmin=%.2f, xmax=%.2f, ymin=%.2f, ymax=%.2f\n", xmin, xmax, ymin, ymax)
+		debugPrintf("[GetGlyphMetrics] 'M': xmin=%.2f, xmax=%.2f, ymin=%.2f, ymax=%.2f\n", xmin, xmax, ymin, ymax)
 	}
 
 	// Get horizontal metrics from the font's hmtx table
@@ -1866,7 +1866,7 @@ func (s *PangoPdfScaledFont) GetGlyphCornerCoordinates(glyph Glyph) (*GlyphCorne
 	topRightX := glyph.X + metrics.BoundingBox.XMax
 
 	if glyph.Index == uint64('H') {
-		fmt.Printf("[DEBUG GetGlyphCornerCoordinates] 'H': glyph.X=%.2f, BBox.XMax=%.2f, TopRightX=%.2f\n",
+		debugPrintf("[GetGlyphCornerCoordinates] 'H': glyph.X=%.2f, BBox.XMax=%.2f, TopRightX=%.2f\n",
 			glyph.X, metrics.BoundingBox.XMax, topRightX)
 	}
 
