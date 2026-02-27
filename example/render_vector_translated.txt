@@ -1,6 +1,6 @@
 PDF Translation Report (Simplified Vector)
 ==========================================
-Time: 2026-02-27 13:51:13
+Time: 2026-02-27 14:19:52
 
 📄 Input PDF: example/test_vector.pdf
 ✅ Page count: 3
@@ -972,8 +972,8 @@ Elements (ordered by y then x):
   - elem[069] x=346.52 y=266.80 w=7.64 h=9.96 fs=9.96 font="F6" base="WXQHEC+CMMI10" tu=true ident=false cid=2 repl=0 hitTU=0 hitGN=2 hitIA=0 text=",y" raw=";y"
   - elem[070] x=364.85 y=266.80 w=3.87 h=9.96 fs=9.96 font="F8" base="PMEZGD+CMR10" tu=true ident=false cid=1 repl=0 hitTU=0 hitGN=1 hitIA=0 text=")" raw="\\)"
   - elem[071] x=343.21 y=268.29 w=2.82 h=6.97 fs=6.97 font="F7" base="FXCERL+CMMI7" tu=true ident=false cid=1 repl=0 hitTU=0 hitGN=1 hitIA=0 text="i" raw="i"
-  - elem[072] x=355.84 y=268.29 w=8.52 h=6.97 fs=6.97 font="F7" base="FXCERL+CMMI7" tu=true ident=false cid=3 repl=0 hitTU=0 hitGN=2 hitIA=0 text="i,`" raw="i;`"
-  - elem[073] x=290.67 y=269.79 w=3.33 h=6.97 fs=6.97 font="F7" base="FXCERL+CMMI7" tu=true ident=false cid=1 repl=0 hitTU=0 hitGN=0 hitIA=0 text="`" raw="`"
+  - elem[072] x=355.84 y=268.29 w=8.52 h=6.97 fs=6.97 font="F7" base="FXCERL+CMMI7" tu=true ident=false cid=3 repl=0 hitTU=0 hitGN=3 hitIA=0 text="i,ℓ" raw="i;`"
+  - elem[073] x=290.67 y=269.79 w=3.33 h=6.97 fs=6.97 font="F7" base="FXCERL+CMMI7" tu=true ident=false cid=1 repl=0 hitTU=0 hitGN=1 hitIA=0 text="ℓ" raw="`"
   - elem[074] x=294.01 y=269.79 w=10.08 h=6.97 fs=6.97 font="F12" base="SXWWSM+CMR7" tu=true ident=false cid=2 repl=0 hitTU=0 hitGN=2 hitIA=0 text="=1" raw="=1"
   - elem[075] x=81.60 y=284.17 w=139.99 h=9.96 fs=9.96 font="F3" base="ALYRVT+LMRoman10-Regular-Identity-H" tu=true ident=true cid=30 repl=0 hitTU=30 hitGN=0 hitIA=0 text="This emphasizes“hard”negatives." raw="<0068003f00420062><0032004b0054003f001c00620042007800320062><01f3003f001c0060002f01f4><004d0032003b001c006900420070><003200620058>"
   - elem[076] x=68.87 y=304.10 w=7.75 h=9.96 fs=9.96 font="F3" base="ALYRVT+LMRoman10-Regular-Identity-H" tu=true ident=true cid=1 repl=0 hitTU=1 hitGN=0 hitIA=0 text="•" raw="<00c7>"
@@ -1000,7 +1000,7 @@ Elements (ordered by y then x):
   - elem[097] x=56.69 y=404.72 w=29.33 h=9.96 fs=9.96 font="F3" base="ALYRVT+LMRoman10-Regular-Identity-H" tu=true ident=true cid=7 repl=0 hitTU=7 hitGN=0 hitIA=0 text="choice:" raw="<002b><003f00510042002b0032002c>"
   - elem[098] x=279.96 y=420.83 w=5.95 h=9.96 fs=9.96 font="F13" base="CAFZKO+CMEX10" tu=false ident=false cid=1 repl=0 hitTU=0 hitGN=1 hitIA=0 text="(" raw="\\020"
   - elem[099] x=339.50 y=420.83 w=5.95 h=9.96 fs=9.96 font="F13" base="CAFZKO+CMEX10" tu=false ident=false cid=1 repl=0 hitTU=0 hitGN=1 hitIA=0 text=")" raw="\\021"
-  - elem[100] x=287.10 y=425.14 w=4.14 h=9.96 fs=9.96 font="F6" base="WXQHEC+CMMI10" tu=true ident=false cid=1 repl=0 hitTU=0 hitGN=0 hitIA=0 text="`" raw="`"
+  - elem[100] x=287.10 y=425.14 w=4.14 h=9.96 fs=9.96 font="F6" base="WXQHEC+CMMI10" tu=true ident=false cid=1 repl=0 hitTU=0 hitGN=1 hitIA=0 text="ℓ" raw="`"
   - elem[101] x=291.25 y=425.14 w=3.87 h=9.96 fs=9.96 font="F8" base="PMEZGD+CMR10" tu=true ident=false cid=1 repl=0 hitTU=0 hitGN=1 hitIA=0 text="(" raw="\\("
   - elem[102] x=295.13 y=425.14 w=5.69 h=9.96 fs=9.96 font="F6" base="WXQHEC+CMMI10" tu=true ident=false cid=1 repl=0 hitTU=0 hitGN=1 hitIA=0 text="x" raw="x"
   - elem[103] x=304.14 y=425.14 w=7.64 h=9.96 fs=9.96 font="F6" base="WXQHEC+CMMI10" tu=true ident=false cid=2 repl=0 hitTU=0 hitGN=2 hitIA=0 text=",y" raw=";y"
@@ -1022,7 +1022,7 @@ Elements (ordered by y then x):
   - elem[119] x=123.10 y=455.10 w=3.87 h=9.96 fs=9.96 font="F8" base="PMEZGD+CMR10" tu=true ident=false cid=1 repl=0 hitTU=0 hitGN=1 hitIA=0 text=")" raw="\\)"
   - elem[120] x=308.29 y=455.10 w=2.76 h=9.96 fs=9.96 font="F9" base="NPXZEU+CMSY10" tu=true ident=false cid=1 repl=0 hitTU=0 hitGN=1 hitIA=0 text="|" raw="j"
   - elem[121] x=316.30 y=455.10 w=2.76 h=9.96 fs=9.96 font="F9" base="NPXZEU+CMSY10" tu=true ident=false cid=1 repl=0 hitTU=0 hitGN=1 hitIA=0 text="|" raw="j"
-  - elem[122] x=99.71 y=455.10 w=4.14 h=9.96 fs=9.96 font="F6" base="WXQHEC+CMMI10" tu=true ident=false cid=1 repl=0 hitTU=0 hitGN=0 hitIA=0 text="`" raw="`"
+  - elem[122] x=99.71 y=455.10 w=4.14 h=9.96 fs=9.96 font="F6" base="WXQHEC+CMMI10" tu=true ident=false cid=1 repl=0 hitTU=0 hitGN=1 hitIA=0 text="ℓ" raw="`"
   - elem[123] x=107.74 y=455.10 w=13.33 h=9.96 fs=9.96 font="F6" base="WXQHEC+CMMI10" tu=true ident=false cid=3 repl=0 hitTU=0 hitGN=3 hitIA=0 text="x,y" raw="x;y"
   - elem[124] x=129.56 y=455.10 w=159.57 h=9.96 fs=9.96 font="F3" base="ALYRVT+LMRoman10-Regular-Identity-H" tu=true ident=true cid=37 repl=0 hitTU=37 hitGN=0 hitIA=0 text="is a sample-level signal(e.g.token length" raw="<00420062><001c><0062001c004b0054004800320040004800320070><00320048><00620042003b004d001c0048><005500320058003b0058><006900510046><0032004d><00480032004d003b006…"
   - elem[125] x=311.06 y=455.10 w=4.88 h=9.96 fs=9.96 font="F6" base="WXQHEC+CMMI10" tu=true ident=false cid=1 repl=0 hitTU=0 hitGN=1 hitIA=0 text="y" raw="y"
@@ -1034,7 +1034,7 @@ Elements (ordered by y then x):
   - elem[131] x=239.21 y=467.06 w=5.63 h=9.96 fs=9.96 font="F6" base="WXQHEC+CMMI10" tu=true ident=false cid=1 repl=0 hitTU=0 hitGN=1 hitIA=0 text="β" raw="\\014"
   - elem[132] x=250.48 y=467.06 w=274.48 h=9.96 fs=9.96 font="F3" base="ALYRVT+LMRoman10-Regular-Identity-H" tu=true ident=true cid=59 repl=0 hitTU=59 hitGN=0 hitIA=0 text="atemperaturecontrollingsmoothness.Practicalrecommendations:" raw="<001c><00690032004b0054><00320060001c0069006d00600032><002b0051004d><006900600051004800480042004d003b><0062004b0051><00510069003f004d0032006200620058><005300600…"
   - elem[133] x=68.87 y=486.98 w=14.40 h=9.96 fs=9.96 font="F3" base="ALYRVT+LMRoman10-Regular-Identity-H" tu=true ident=true cid=3 repl=0 hitTU=3 hitGN=0 hitIA=0 text="•If" raw="<00c7><00410037>"
-  - elem[134] x=91.56 y=486.98 w=4.14 h=9.96 fs=9.96 font="F6" base="WXQHEC+CMMI10" tu=true ident=false cid=1 repl=0 hitTU=0 hitGN=0 hitIA=0 text="`" raw="`"
+  - elem[134] x=91.56 y=486.98 w=4.14 h=9.96 fs=9.96 font="F6" base="WXQHEC+CMMI10" tu=true ident=false cid=1 repl=0 hitTU=0 hitGN=1 hitIA=0 text="ℓ" raw="`"
   - elem[135] x=98.48 y=486.98 w=7.74 h=9.96 fs=9.96 font="F8" base="PMEZGD+CMR10" tu=true ident=false cid=1 repl=0 hitTU=0 hitGN=1 hitIA=0 text="=" raw="="
   - elem[136] x=109.00 y=486.98 w=2.76 h=9.96 fs=9.96 font="F9" base="NPXZEU+CMSY10" tu=true ident=false cid=1 repl=0 hitTU=0 hitGN=1 hitIA=0 text="|" raw="j"
   - elem[137] x=111.76 y=486.98 w=4.88 h=9.96 fs=9.96 font="F6" base="WXQHEC+CMMI10" tu=true ident=false cid=1 repl=0 hitTU=0 hitGN=1 hitIA=0 text="y" raw="y"
@@ -1188,8 +1188,8 @@ Lines (grouped):
     * e[05] x=323.14 y=258.73 w=4.56 h=9.96 fs=9.96 font="F13" base="CAFZKO+CMEX10" tu=false ident=false cid=1 repl=0 text="(" raw="\\000"
     * e[06] x=368.73 y=258.73 w=4.56 h=9.96 fs=9.96 font="F13" base="CAFZKO+CMEX10" tu=false ident=false cid=1 repl=0 text=")" raw="\\001"
     * e[07] x=374.49 y=258.12 w=2.76 h=9.96 fs=9.96 font="F6" base="WXQHEC+CMMI10" tu=true ident=false cid=1 repl=0 text="." raw=":"
-  - line[012] kind=body y=266.80 x=[290.67..368.72] fs=9.96 elems=10 fonts="F7,F12,F8,F6" tu=10 ident=0 cid=16 repl=0 hitTU=0 hitGN=14 hitIA=0 text="`=1exp φ(xi,yi,`)"
-    * e[00] x=290.67 y=269.79 w=3.33 h=6.97 fs=6.97 font="F7" base="FXCERL+CMMI7" tu=true ident=false cid=1 repl=0 text="`" raw="`"
+  - line[012] kind=body y=266.80 x=[290.67..368.72] fs=9.96 elems=10 fonts="F7,F12,F8,F6" tu=10 ident=0 cid=16 repl=0 hitTU=0 hitGN=16 hitIA=0 text="ℓ=1exp φ(xi,yi,ℓ)"
+    * e[00] x=290.67 y=269.79 w=3.33 h=6.97 fs=6.97 font="F7" base="FXCERL+CMMI7" tu=true ident=false cid=1 repl=0 text="ℓ" raw="`"
     * e[01] x=294.01 y=269.79 w=10.08 h=6.97 fs=6.97 font="F12" base="SXWWSM+CMR7" tu=true ident=false cid=2 repl=0 text="=1" raw="=1"
     * e[02] x=306.25 y=266.80 w=15.20 h=9.96 fs=9.96 font="F8" base="PMEZGD+CMR10" tu=true ident=false cid=3 repl=0 text="exp" raw="exp"
     * e[03] x=327.70 y=266.80 w=5.93 h=9.96 fs=9.96 font="F6" base="WXQHEC+CMMI10" tu=true ident=false cid=1 repl=0 text="φ" raw="\\036"
@@ -1197,7 +1197,7 @@ Lines (grouped):
     * e[05] x=337.51 y=266.80 w=5.69 h=9.96 fs=9.96 font="F6" base="WXQHEC+CMMI10" tu=true ident=false cid=1 repl=0 text="x" raw="x"
     * e[06] x=343.21 y=268.29 w=2.82 h=6.97 fs=6.97 font="F7" base="FXCERL+CMMI7" tu=true ident=false cid=1 repl=0 text="i" raw="i"
     * e[07] x=346.52 y=266.80 w=7.64 h=9.96 fs=9.96 font="F6" base="WXQHEC+CMMI10" tu=true ident=false cid=2 repl=0 text=",y" raw=";y"
-    * e[08] x=355.84 y=268.29 w=8.52 h=6.97 fs=6.97 font="F7" base="FXCERL+CMMI7" tu=true ident=false cid=3 repl=0 text="i,`" raw="i;`"
+    * e[08] x=355.84 y=268.29 w=8.52 h=6.97 fs=6.97 font="F7" base="FXCERL+CMMI7" tu=true ident=false cid=3 repl=0 text="i,ℓ" raw="i;`"
     * e[09] x=364.85 y=266.80 w=3.87 h=9.96 fs=9.96 font="F8" base="PMEZGD+CMR10" tu=true ident=false cid=1 repl=0 text=")" raw="\\)"
   - line[013] kind=body y=284.17 x=[81.60..221.59] fs=9.96 elems=1 fonts="F3" tu=1 ident=1 cid=30 repl=0 hitTU=30 hitGN=0 hitIA=0 text="This emphasizes“hard”negatives."
     * e[00] x=81.60 y=284.17 w=139.99 h=9.96 fs=9.96 font="F3" base="ALYRVT+LMRoman10-Regular-Identity-H" tu=true ident=true cid=30 repl=0 text="This emphasizes“hard”negatives." raw="<0068003f00420062><0032004b0054003f001c00620042007800320062><01f3003f001c0060002f01f4><004d0032003b001c006900420070><003…"
@@ -1230,9 +1230,9 @@ Lines (grouped):
     * e[03] x=430.32 y=392.77 w=92.05 h=9.96 fs=9.96 font="F3" base="ALYRVT+LMRoman10-Regular-Identity-H" tu=true ident=true cid=19 repl=0 text="per sample.One robust" raw="<0054><00320060><0062001c004b0054004800320058><0050004d0032><006000510023006d00620069>"
   - line[020] kind=body y=404.72 x=[56.69..86.02] fs=9.96 elems=1 fonts="F3" tu=1 ident=1 cid=7 repl=0 hitTU=7 hitGN=0 hitIA=0 text="choice:"
     * e[00] x=56.69 y=404.72 w=29.33 h=9.96 fs=9.96 font="F3" base="ALYRVT+LMRoman10-Regular-Identity-H" tu=true ident=true cid=7 repl=0 text="choice:" raw="<002b><003f00510042002b0032002c>"
-  - line[021] kind=body y=420.83 x=[279.96..345.45] fs=9.96 elems=9 fonts="F13,F6,F8,F9" tu=7 ident=0 cid=10 repl=0 hitTU=0 hitGN=9 hitIA=0 text="(`(x ,y )−τ)"
+  - line[021] kind=body y=420.83 x=[279.96..345.45] fs=9.96 elems=9 fonts="F13,F6,F8,F9" tu=7 ident=0 cid=10 repl=0 hitTU=0 hitGN=10 hitIA=0 text="(ℓ(x ,y )−τ)"
     * e[00] x=279.96 y=420.83 w=5.95 h=9.96 fs=9.96 font="F13" base="CAFZKO+CMEX10" tu=false ident=false cid=1 repl=0 text="(" raw="\\020"
-    * e[01] x=287.10 y=425.14 w=4.14 h=9.96 fs=9.96 font="F6" base="WXQHEC+CMMI10" tu=true ident=false cid=1 repl=0 text="`" raw="`"
+    * e[01] x=287.10 y=425.14 w=4.14 h=9.96 fs=9.96 font="F6" base="WXQHEC+CMMI10" tu=true ident=false cid=1 repl=0 text="ℓ" raw="`"
     * e[02] x=291.25 y=425.14 w=3.87 h=9.96 fs=9.96 font="F8" base="PMEZGD+CMR10" tu=true ident=false cid=1 repl=0 text="(" raw="\\("
     * e[03] x=295.13 y=425.14 w=5.69 h=9.96 fs=9.96 font="F6" base="WXQHEC+CMMI10" tu=true ident=false cid=1 repl=0 text="x" raw="x"
     * e[04] x=304.14 y=425.14 w=7.64 h=9.96 fs=9.96 font="F6" base="WXQHEC+CMMI10" tu=true ident=false cid=2 repl=0 text=",y" raw=";y"
@@ -1253,9 +1253,9 @@ Lines (grouped):
     * e[06] x=525.85 y=431.89 w=12.73 h=9.96 fs=9.96 font="F3" base="ALYRVT+LMRoman10-Regular-Identity-H" tu=true ident=true cid=3 repl=0 text="(3)" raw="<0055006a0056>"
   - line[024] kind=body y=438.72 x=[308.23..313.85] fs=9.96 elems=1 fonts="F6" tu=1 ident=0 cid=1 repl=0 hitTU=0 hitGN=1 hitIA=0 text="β"
     * e[00] x=308.23 y=438.72 w=5.63 h=9.96 fs=9.96 font="F6" base="WXQHEC+CMMI10" tu=true ident=false cid=1 repl=0 text="β" raw="\\014"
-  - line[025] kind=body y=455.10 x=[71.64..518.28] fs=9.96 elems=10 fonts="F3,F6,F8,F9" tu=10 ident=3 cid=96 repl=0 hitTU=87 hitGN=8 hitIA=0 text="where `(x,y) is a sample-level signal(e.g.token length |y|, or a diﬀiculty score such as negative log-likelihood"
+  - line[025] kind=body y=455.10 x=[71.64..518.28] fs=9.96 elems=10 fonts="F3,F6,F8,F9" tu=10 ident=3 cid=96 repl=0 hitTU=87 hitGN=9 hitIA=0 text="where ℓ(x,y) is a sample-level signal(e.g.token length |y|, or a diﬀiculty score such as negative log-likelihood"
     * e[00] x=71.64 y=455.10 w=25.48 h=9.96 fs=9.96 font="F3" base="ALYRVT+LMRoman10-Regular-Identity-H" tu=true ident=true cid=5 repl=0 text="where" raw="<0072003f003200600032>"
-    * e[01] x=99.71 y=455.10 w=4.14 h=9.96 fs=9.96 font="F6" base="WXQHEC+CMMI10" tu=true ident=false cid=1 repl=0 text="`" raw="`"
+    * e[01] x=99.71 y=455.10 w=4.14 h=9.96 fs=9.96 font="F6" base="WXQHEC+CMMI10" tu=true ident=false cid=1 repl=0 text="ℓ" raw="`"
     * e[02] x=103.86 y=455.10 w=3.87 h=9.96 fs=9.96 font="F8" base="PMEZGD+CMR10" tu=true ident=false cid=1 repl=0 text="(" raw="\\("
     * e[03] x=107.74 y=455.10 w=13.33 h=9.96 fs=9.96 font="F6" base="WXQHEC+CMMI10" tu=true ident=false cid=3 repl=0 text="x,y" raw="x;y"
     * e[04] x=123.10 y=455.10 w=3.87 h=9.96 fs=9.96 font="F8" base="PMEZGD+CMR10" tu=true ident=false cid=1 repl=0 text=")" raw="\\)"
@@ -1272,9 +1272,9 @@ Lines (grouped):
     * e[02] x=167.76 y=467.06 w=64.31 h=9.96 fs=9.96 font="F3" base="ALYRVT+LMRoman10-Regular-Identity-H" tu=true ident=true cid=14 repl=0 text="athreshold, and" raw="<001c><0069003f006000320062003f00510048002f002d><001c004d002f>"
     * e[03] x=239.21 y=467.06 w=5.63 h=9.96 fs=9.96 font="F6" base="WXQHEC+CMMI10" tu=true ident=false cid=1 repl=0 text="β" raw="\\014"
     * e[04] x=250.48 y=467.06 w=274.48 h=9.96 fs=9.96 font="F3" base="ALYRVT+LMRoman10-Regular-Identity-H" tu=true ident=true cid=59 repl=0 text="atemperaturecontrollingsmoothness.Practicalrecommendations:" raw="<001c><00690032004b0054><00320060001c0069006d00600032><002b0051004d><006900600051004800480042004d003b><0062004b0051><005…"
-  - line[028] kind=body y=486.98 x=[68.87..403.06] fs=9.96 elems=9 fonts="F3,F6,F8,F9" tu=9 ident=3 cid=67 repl=0 hitTU=61 hitGN=5 hitIA=0 text="•If ` = |y| (sequence length), tune τ on a validation set(512 is task dependent)."
+  - line[028] kind=body y=486.98 x=[68.87..403.06] fs=9.96 elems=9 fonts="F3,F6,F8,F9" tu=9 ident=3 cid=67 repl=0 hitTU=61 hitGN=6 hitIA=0 text="•If ℓ = |y| (sequence length), tune τ on a validation set(512 is task dependent)."
     * e[00] x=68.87 y=486.98 w=14.40 h=9.96 fs=9.96 font="F3" base="ALYRVT+LMRoman10-Regular-Identity-H" tu=true ident=true cid=3 repl=0 text="•If" raw="<00c7><00410037>"
-    * e[01] x=91.56 y=486.98 w=4.14 h=9.96 fs=9.96 font="F6" base="WXQHEC+CMMI10" tu=true ident=false cid=1 repl=0 text="`" raw="`"
+    * e[01] x=91.56 y=486.98 w=4.14 h=9.96 fs=9.96 font="F6" base="WXQHEC+CMMI10" tu=true ident=false cid=1 repl=0 text="ℓ" raw="`"
     * e[02] x=98.48 y=486.98 w=7.74 h=9.96 fs=9.96 font="F8" base="PMEZGD+CMR10" tu=true ident=false cid=1 repl=0 text="=" raw="="
     * e[03] x=109.00 y=486.98 w=2.76 h=9.96 fs=9.96 font="F9" base="NPXZEU+CMSY10" tu=true ident=false cid=1 repl=0 text="|" raw="j"
     * e[04] x=111.76 y=486.98 w=4.88 h=9.96 fs=9.96 font="F6" base="WXQHEC+CMMI10" tu=true ident=false cid=1 repl=0 text="y" raw="y"
@@ -1374,7 +1374,7 @@ Lines (grouped):
 - page=2 line[009] translate=yes x=81.60 y=239.23 fs=9.96 lines=1 raw="to weights via softmax: ( )"
 - page=2 line[010] translate=yes x=292.67 y=250.75 fs=9.96 lines=1 raw="exp φ(xi,yi,k)"
 - page=2 line[011] translate=yes x=242.93 y=258.12 fs=9.96 lines=1 raw="wi,k = ∑K ( )."
-- page=2 line[012] translate=yes x=290.67 y=266.80 fs=9.96 lines=1 raw="`=1exp φ(xi,yi,`)"
+- page=2 line[012] translate=yes x=290.67 y=266.80 fs=9.96 lines=1 raw="ℓ=1exp φ(xi,yi,ℓ)"
 - page=2 line[013] translate=yes x=81.60 y=284.17 fs=9.96 lines=1 raw="This emphasizes“hard”negatives."
 - page=2 line[014] translate=yes x=68.87 y=304.10 fs=9.96 lines=1 raw="• Batch negative strategy: use other examples in the mini-ba…"
 - page=2 line[015] translate=yes x=81.60 y=316.06 fs=9.96 lines=1 raw="overhead."
@@ -1382,12 +1382,12 @@ Lines (grouped):
 - page=2 line[018] translate=yes x=56.69 y=370.94 fs=14.35 lines=1 raw="Adaptive mixture coeﬀicient αi"
 - page=2 line[019] translate=yes x=56.69 y=392.77 fs=9.96 lines=1 raw="To adapt the relative importance of the supervised vs contra…"
 - page=2 line[020] translate=yes x=56.69 y=404.72 fs=9.96 lines=1 raw="choice:"
-- page=2 line[021] translate=yes x=279.96 y=420.83 fs=9.96 lines=1 raw="(`(x ,y )−τ)"
+- page=2 line[021] translate=yes x=279.96 y=420.83 fs=9.96 lines=1 raw="(ℓ(x ,y )−τ)"
 - page=2 line[022] translate=yes x=300.82 y=426.64 fs=6.97 lines=1 raw="i i"
 - page=2 line[023] translate=yes x=247.06 y=431.88 fs=9.96 lines=1 raw="αi = σ 0 , (3)"
-- page=2 line[025] translate=yes x=71.64 y=455.10 fs=9.96 lines=2 raw="where `(x,y) is a sample-level signal(e.g.token length |y|, …"
+- page=2 line[025] translate=yes x=71.64 y=455.10 fs=9.96 lines=2 raw="where ℓ(x,y) is a sample-level signal(e.g.token length |y|, …"
 - page=2 line[027] translate=yes x=56.69 y=467.06 fs=9.96 lines=1 raw="underreferencepolicy), τ athreshold, and β atemperaturecontr…"
-- page=2 line[028] translate=yes x=68.87 y=486.98 fs=9.96 lines=1 raw="•If ` = |y| (sequence length), tune τ on a validation set(51…"
+- page=2 line[028] translate=yes x=68.87 y=486.98 fs=9.96 lines=1 raw="•If ℓ = |y| (sequence length), tune τ on a validation set(51…"
 - page=2 line[029] translate=yes x=68.87 y=506.91 fs=9.96 lines=1 raw="•Consider alternate signals: model confidence, reference log…"
 - page=2 line[030] translate=yes x=68.87 y=526.83 fs=9.96 lines=1 raw="•Optionally clip αi ∈ [αmin,αmax] to avoid extremes."
 - page=2 line[031] translate=yes x=68.87 y=546.76 fs=9.96 lines=1 raw="•You can also schedule α over training steps(e.g.slowly move…"
@@ -1768,12 +1768,12 @@ Lines (grouped):
 - consecutive-letter-fragments=4244 (body=6 math=91)
 - ps_paths: newpath=67 curveto=505
   body examples:
-  - line=1329 s + file
-  - line=1347 refines + t
-  - line=2503 define + t
-  - line=8040 define + c
-  - line=38770 f + conflicts
-  - line=38783 conflicts + a
-  - line=49643 Unified + n
+  - line=1441 s + file
+  - line=1459 refines + t
+  - line=2615 define + t
+  - line=8152 define + c
+  - line=38882 f + conflicts
+  - line=38895 conflicts + a
+  - line=49755 Unified + n
 ✅ Base SVG: example/test_vector.svg
-❌ Failed to convert translated SVG to PDF: pdfcpu: font sans-cjk not available
+❌ Failed to convert translated SVG to PDF: pdfcpu: font sans-serif not available

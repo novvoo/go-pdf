@@ -17,6 +17,12 @@ func glyphNameToRuneForFont(name string, font *Font) (rune, bool) {
 
 func texMathRuneFromCID(baseFont string, cid uint16) (rune, bool) {
 	base := strings.ToUpper(stripSubsetPrefix(baseFont))
+	if strings.HasPrefix(base, "CMMI") {
+		switch cid {
+		case '`':
+			return 0x2113, true
+		}
+	}
 	if strings.HasPrefix(base, "CMEX") {
 		switch cid {
 		case 'P':

@@ -7,6 +7,7 @@ debug*.go
 *.log
 *.svg
 *.ps
+*.txt
 *.vscode
 .gitnexus
 .claude

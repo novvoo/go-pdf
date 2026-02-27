@@ -2266,6 +2266,14 @@ func decodeTextStringWithCIDs(text string, toUnicodeMap *CIDToUnicodeMap, font *
 				}
 			}
 
+			if font != nil && isTeXMathBaseFontName(font.BaseFont) {
+				if r, ok := texMathRuneFromCID(font.BaseFont, cid); ok {
+					decoded.WriteRune(r)
+					stats.GlyphNameHit++
+					continue
+				}
+			}
+
 			if font != nil && len(font.CodeToGlyphName) > 0 {
 				if name, ok := font.CodeToGlyphName[byte(cid&0xFF)]; ok {
 					if r, ok := glyphNameToRuneForFont(name, font); ok {
@@ -2376,6 +2384,14 @@ func decodeTextStringWithCIDs(text string, toUnicodeMap *CIDToUnicodeMap, font *
 						stats.ToUnicodeHit++
 						continue
 					}
+				}
+			}
+
+			if font != nil && isTeXMathBaseFontName(font.BaseFont) {
+				if r, ok := texMathRuneFromCID(font.BaseFont, cid); ok {
+					decoded.WriteRune(r)
+					stats.GlyphNameHit++
+					continue
 				}
 			}
 
