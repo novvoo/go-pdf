@@ -1,6 +1,6 @@
 PDF Translation Report (Simplified Vector)
 ==========================================
-Time: 2026-02-27 11:45:10
+Time: 2026-02-27 13:51:13
 
 📄 Input PDF: example/test_vector.pdf
 ✅ Page count: 3
@@ -1776,4 +1776,4 @@ Lines (grouped):
   - line=38783 conflicts + a
   - line=49643 Unified + n
 ✅ Base SVG: example/test_vector.svg
-❌ Failed to convert translated SVG to PDF: pdfcpu: font serif not available
+❌ Failed to convert translated SVG to PDF: pdfcpu: font sans-cjk not available

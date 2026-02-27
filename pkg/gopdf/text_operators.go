@@ -872,16 +872,39 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 	if !registeredPDFFont && (fontFamily == "sans-serif" || fontFamily == "sans") {
 		decodedSample, _, _ := decodeTextStringWithCIDs(sampleText, toUnicodeMap, textState.Font)
 		if shouldUseCJKFallback(textState.Font, decodedSample) {
-			ensureRepoFontRegistered("sans-cjk", "fonts/ofl/notosanssc/NotoSansSC[wght].ttf")
+			ensureRepoFontRegistered("cjk-regular", "fonts/ofl/notosanssc/NotoSansSC[wght].ttf")
 			fontFamily = "sans-cjk"
 		}
 	}
 
 	psWantsOutline := false
+	containsCJK := false
+	containsMathOrSymbols := false
 	if psPreferText {
+		scanTextForFallback := func(s string) {
+			for _, r := range s {
+				if r <= 0x7F {
+					continue
+				}
+				if unicode.In(r, unicode.Han, unicode.Hangul, unicode.Hiragana, unicode.Katakana) {
+					containsCJK = true
+					continue
+				}
+				if unicode.IsSymbol(r) || unicode.IsPunct(r) {
+					containsMathOrSymbols = true
+					continue
+				}
+				if (r >= 0x2100 && r <= 0x214F) || (r >= 0x2190 && r <= 0x21FF) || (r >= 0x2200 && r <= 0x22FF) || (r >= 0x27F0 && r <= 0x27FF) {
+					containsMathOrSymbols = true
+					continue
+				}
+			}
+		}
+
 		if sampleText != "" {
 			decodedSample, _, _ := decodeTextStringWithCIDs(sampleText, toUnicodeMap, textState.Font)
 			psWantsOutline = shouldOutlineTextInPS(textState.Font, decodedSample, nil, TextDecodeStats{})
+			scanTextForFallback(decodedSample)
 		}
 		if !psWantsOutline && len(array) > 0 {
 			checked := 0
@@ -893,8 +916,10 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 				decoded, _, _ := decodeTextStringWithCIDs(s, toUnicodeMap, textState.Font)
 				if shouldOutlineTextInPS(textState.Font, decoded, nil, TextDecodeStats{}) {
 					psWantsOutline = true
+					scanTextForFallback(decoded)
 					break
 				}
+				scanTextForFallback(decoded)
 				checked++
 				if checked >= 16 {
 					break
@@ -906,6 +931,16 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 	if psPreferText && registeredPDFFont && psWantsOutline {
 		if embeddedPDFFontKey != "" {
 			fontFamily = embeddedPDFFontKey
+		}
+	}
+
+	if psPreferText && !registeredPDFFont && psWantsOutline {
+		if containsCJK {
+			ensureRepoFontRegistered("cjk-regular", "fonts/ofl/notosanssc/NotoSansSC[wght].ttf")
+			fontFamily = "sans-cjk"
+		} else if containsMathOrSymbols {
+			ensureRepoFontRegistered("symbols-regular", "fonts/ofl/notosanssymbols2/NotoSansSymbols2-Regular.ttf")
+			fontFamily = "symbols"
 		}
 	}
 
@@ -2100,14 +2135,6 @@ func shouldOutlineTextInPS(font *Font, decodedText string, cids []uint16, stats 
 		if r == 0x2022 {
 			return false
 		}
-		if r >= 0x0370 && r <= 0x03FF {
-			// Greek
-			return false
-		}
-		if r >= 0x2200 && r <= 0x22FF {
-			// Math Operators
-			return false
-		}
 		if r >= 0xE000 && r <= 0xF8FF {
 			return true
 		}
@@ -2122,6 +2149,9 @@ func shouldOutlineTextInPS(font *Font, decodedText string, cids []uint16, stats 
 			continue
 		}
 		if unicode.In(r, unicode.Han, unicode.Hangul, unicode.Hiragana, unicode.Katakana) {
+			return true
+		}
+		if unicode.IsSymbol(r) {
 			return true
 		}
 		if unicode.IsLetter(r) || unicode.IsMark(r) {

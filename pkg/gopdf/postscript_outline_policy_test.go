@@ -13,7 +13,9 @@ func TestShouldOutlineTextInPS(t *testing.T) {
 	}{
 		{name: "body-helvetica", font: &Font{BaseFont: "Helvetica"}, text: "time.", outline: false},
 		{name: "bullet", font: &Font{BaseFont: "Helvetica"}, text: "•", outline: false},
-		{name: "greek-theta", font: &Font{BaseFont: "Helvetica"}, text: "θ", outline: false},
+		{name: "greek-theta", font: &Font{BaseFont: "Helvetica"}, text: "θ", outline: true},
+		{name: "letterlike-l", font: &Font{BaseFont: "Helvetica"}, text: "ℓ", outline: true},
+		{name: "math-operator-sum", font: &Font{BaseFont: "Helvetica"}, text: "∑", outline: true},
 		{name: "tex-math-font", font: &Font{BaseFont: "CMEX10"}, text: "(", outline: true},
 		{name: "code-mono-font", font: &Font{BaseFont: "DejaVuSansMono"}, text: "for(i=0;i<10;i++)", outline: false},
 		{name: "music-font", font: &Font{BaseFont: "Bravura"}, text: "\uE050", outline: false},
