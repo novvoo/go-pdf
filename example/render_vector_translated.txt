@@ -1,6 +1,6 @@
 PDF Translation Report (Simplified Vector)
 ==========================================
-Time: 2026-02-27 14:19:52
+Time: 2026-02-27 14:56:41
 
 📄 Input PDF: example/test_vector.pdf
 ✅ Page count: 3
@@ -1763,17 +1763,17 @@ Lines (grouped):
 ✅ Vector translated overlays: 123
 
 [PS Text Check]
-- shows=5268 literal=5268 hex=0
-- short(len=1)=5222 len=2=16 len=3=16
-- consecutive-letter-fragments=4244 (body=6 math=91)
+- shows=5316 literal=5316 hex=0
+- short(len=1)=5302 len=2=0 len=3=0
+- consecutive-letter-fragments=4265 (body=6 math=112)
 - ps_paths: newpath=67 curveto=505
   body examples:
   - line=1441 s + file
   - line=1459 refines + t
   - line=2615 define + t
-  - line=8152 define + c
-  - line=38882 f + conflicts
-  - line=38895 conflicts + a
-  - line=49755 Unified + n
+  - line=8242 define + c
+  - line=39296 f + conflicts
+  - line=39309 conflicts + a
+  - line=50187 Unified + n
 ✅ Base SVG: example/test_vector.svg
 ❌ Failed to convert translated SVG to PDF: pdfcpu: font sans-serif not available

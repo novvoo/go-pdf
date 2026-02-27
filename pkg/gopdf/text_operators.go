@@ -1157,9 +1157,9 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 		return dy
 	}
 
-	renderRun := func(runText string, cids []uint16, scaleX float64) {
+	renderRun := func(runText string, cids []uint16, scaleX float64) (adv float64, override bool) {
 		if runText == "" {
-			return
+			return 0, false
 		}
 
 		isMathFamily := strings.EqualFold(fontFamily, "math")
@@ -1195,10 +1195,21 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 			ctx.GopdfCtx.PangoPdfShowText(layout)
 		}
 
-		if psPreferText && !isMathFamily {
+		allowPerGlyph := psPreferText
+		if allowPerGlyph && isMathFamily {
+			if textState.Font != nil {
+				base := strings.ToUpper(stripSubsetPrefix(textState.Font.BaseFont))
+				if strings.HasPrefix(base, "CMEX") {
+					allowPerGlyph = false
+				}
+			}
+		}
+
+		if allowPerGlyph {
 			runes := []rune(runText)
 			if len(runes) == len(cids) && len(runes) <= 32 {
 				localX := currentX
+				localAdv := 0.0
 				for i, r := range runes {
 					cid := cids[i]
 					isSpace := r == ' '
@@ -1231,12 +1242,14 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 					}
 					renderRunAtX(localX, string(r), []uint16{cid}, sx)
 					localX += pdfAdv
+					localAdv += pdfAdv
 				}
-				return
+				return localAdv, true
 			}
 		}
 
 		renderRunAtX(currentX, runText, cids, scaleX)
+		return 0, false
 	}
 
 	renderGlyphs := func(cids []uint16) {
@@ -1754,9 +1767,13 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 						return
 					}
 				}
-				renderRun(decodedText, cids, scaleX)
-				currentX += adv
-				debugPrintf("[TJ_ARRAY][BUF] Rendered run, adv=%.2f\n", adv)
+				if advOverride, ok := renderRun(decodedText, cids, scaleX); ok {
+					currentX += advOverride
+					debugPrintf("[TJ_ARRAY][BUF] Rendered run, adv=%.2f (override)\n", advOverride)
+				} else {
+					currentX += adv
+					debugPrintf("[TJ_ARRAY][BUF] Rendered run, adv=%.2f\n", adv)
+				}
 			}
 
 			bufHas = false
@@ -1859,9 +1876,13 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 							continue
 						}
 					}
-					renderRun(decodedText, cids, scaleX)
-					currentX += adv
-					debugPrintf("[TJ_ARRAY][%d] Rendered run, adv=%.2f\n", idx, adv)
+					if advOverride, ok := renderRun(decodedText, cids, scaleX); ok {
+						currentX += advOverride
+						debugPrintf("[TJ_ARRAY][%d] Rendered run, adv=%.2f (override)\n", idx, advOverride)
+					} else {
+						currentX += adv
+						debugPrintf("[TJ_ARRAY][%d] Rendered run, adv=%.2f\n", idx, adv)
+					}
 				}
 
 			case float64:
@@ -1999,8 +2020,11 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 						goto updateMatrix
 					}
 				}
-				renderRun(decodedText, cids, scaleX)
-				currentX += adv
+				if advOverride, ok := renderRun(decodedText, cids, scaleX); ok {
+					currentX += advOverride
+				} else {
+					currentX += adv
+				}
 				debugPrintf("[Tj] Rendered run, adv=%.2f\n", adv)
 			}
 		}

@@ -17,6 +17,7 @@ import (
 func main() {
 	inPath := flag.String("in", "example/test_image.pdf", "input pdf path")
 	outPS := flag.String("out", "", "output ps path")
+	outPDF := flag.String("pdf", "", "output pdf path")
 	dpi := flag.Float64("dpi", 144.0, "render dpi")
 	inspectDir := flag.String("inspect", "", "inspection output dir")
 	flag.Parse()
@@ -28,6 +29,10 @@ func main() {
 	if *inspectDir == "" {
 		base := strings.TrimSuffix(*outPS, filepath.Ext(*outPS))
 		*inspectDir = base + "_inspect"
+	}
+	if *outPDF == "" {
+		base := strings.TrimSuffix(*outPS, filepath.Ext(*outPS))
+		*outPDF = base + ".pdf"
 	}
 	if err := os.MkdirAll(*inspectDir, 0755); err != nil {
 		panic(err)
@@ -87,5 +92,9 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Printf("OK\nPS: %s\nInspect: %s\n", *outPS, *inspectDir)
+	if err := gopdf.ConvertPostScriptRasterToPDF(*outPS, *outPDF); err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("OK\nPS: %s\nInspect: %s\nPDF: %s\n", *outPS, *inspectDir, *outPDF)
 }

@@ -168,8 +168,10 @@ func (r *PDFReader) RenderPageToImage(pageNum int, dpi float64) (image.Image, er
 
 	// 优化：直接从 surface 转换，避免临时文件
 	if imgSurf, ok := surface.(ImageSurface); ok {
-		img := ConvertGopdfSurfaceToImage(imgSurf)
-		return img, nil
+		if goImg := imgSurf.GetGoImage(); goImg != nil {
+			return goImg, nil
+		}
+		return ConvertGopdfSurfaceToImage(imgSurf), nil
 	}
 
 	return nil, fmt.Errorf("failed to convert surface to image")
@@ -3328,6 +3330,12 @@ func ExtractTextFromStream(stream string) string {
 
 // ConvertGopdfSurfaceToImage 将 Gopdf surface 转换为 Go image.Image（导出供外部使用）
 func ConvertGopdfSurfaceToImage(imgSurf ImageSurface) image.Image {
+	if imgSurf == nil {
+		return nil
+	}
+	if goImg := imgSurf.GetGoImage(); goImg != nil {
+		return goImg
+	}
 	data := imgSurf.GetData()
 	stride := imgSurf.GetStride()
 	width := imgSurf.GetWidth()

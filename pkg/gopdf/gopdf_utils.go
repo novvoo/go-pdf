@@ -148,6 +148,12 @@ func (c *GopdfImageConverter) convertToA1(img image.Image, data []byte, stride i
 // GopdfSurfaceToImage 将 Gopdf ImageSurface 转换为 Go image.Image
 // 正确处理 Stride 和反预乘 Alpha
 func (c *GopdfImageConverter) GopdfSurfaceToImage(imgSurf ImageSurface) image.Image {
+	if imgSurf == nil {
+		return nil
+	}
+	if goImg := imgSurf.GetGoImage(); goImg != nil {
+		return goImg
+	}
 	data := imgSurf.GetData()
 	stride := imgSurf.GetStride()
 	width := imgSurf.GetWidth()
