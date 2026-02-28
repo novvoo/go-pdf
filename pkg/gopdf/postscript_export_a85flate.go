@@ -2,12 +2,14 @@ package gopdf
 
 import (
 	"bufio"
+	"compress/zlib"
+	"encoding/ascii85"
 	"fmt"
 	"image"
 	"os"
 )
 
-func (r *PDFReader) WritePostScript(outPath string, dpi float64) error {
+func (r *PDFReader) WritePostScriptA85Flate(outPath string, dpi float64) error {
 	pageCount, err := r.GetPageCount()
 	if err != nil {
 		return err
@@ -29,10 +31,10 @@ func (r *PDFReader) WritePostScript(outPath string, dpi float64) error {
 		images = append(images, img)
 	}
 
-	return WritePostScriptFromImages(outPath, images, pageInfo.Width, pageInfo.Height)
+	return WritePostScriptFromImagesA85Flate(outPath, images, pageInfo.Width, pageInfo.Height)
 }
 
-func WritePostScriptFromImages(outPath string, pages []image.Image, pageWidthPoints, pageHeightPoints float64) error {
+func WritePostScriptFromImagesA85Flate(outPath string, pages []image.Image, pageWidthPoints, pageHeightPoints float64) error {
 	f, err := os.Create(outPath)
 	if err != nil {
 		return err
@@ -69,13 +71,13 @@ func WritePostScriptFromImages(outPath string, pages []image.Image, pageWidthPoi
 		if _, err := fmt.Fprintf(w, "gsave\n%.8f %.8f scale\n", pageWidthPoints/float64(wpx), pageHeightPoints/float64(hpx)); err != nil {
 			return err
 		}
-		if _, err := fmt.Fprintf(w, "/infile currentfile /ASCIIHexDecode filter def\n/picstr %d string def\n%d %d 8 [1 0 0 -1 0 %d] { infile picstr readstring pop } false 3 colorimage\n", wpx*3, wpx, hpx, hpx); err != nil {
+		if _, err := fmt.Fprintf(w, "/infile currentfile /ASCII85Decode filter /FlateDecode filter def\n/picstr %d string def\n%d %d 8 [1 0 0 -1 0 %d] { infile picstr readstring pop } false 3 colorimage\n", wpx*3, wpx, hpx, hpx); err != nil {
 			return err
 		}
-		if err := writeImageHexRGB(w, img); err != nil {
+		if err := writeImageA85FlateRGB(w, img); err != nil {
 			return err
 		}
-		if _, err := fmt.Fprintf(w, "\n>\ninfile closefile\n\ngrestore\nshowpage\n"); err != nil {
+		if _, err := fmt.Fprintf(w, "\n~>\ninfile closefile\n\ngrestore\nshowpage\n"); err != nil {
 			return err
 		}
 	}
@@ -84,40 +86,34 @@ func WritePostScriptFromImages(outPath string, pages []image.Image, pageWidthPoi
 	return err
 }
 
-func writeImageHexRGB(w *bufio.Writer, img image.Image) error {
+func writeImageA85FlateRGB(w *bufio.Writer, img image.Image) error {
 	b := img.Bounds()
-	lineLen := 0
+	wpx := b.Dx()
+	if wpx <= 0 {
+		return nil
+	}
+
+	a85 := ascii85.NewEncoder(w)
+	z := zlib.NewWriter(a85)
+	row := make([]byte, wpx*3)
 	for y := b.Min.Y; y < b.Max.Y; y++ {
+		idx := 0
 		for x := b.Min.X; x < b.Max.X; x++ {
 			r, g, bb, _ := img.At(x, y).RGBA()
-			if err := writeHexByte(w, byte(r>>8), &lineLen); err != nil {
-				return err
-			}
-			if err := writeHexByte(w, byte(g>>8), &lineLen); err != nil {
-				return err
-			}
-			if err := writeHexByte(w, byte(bb>>8), &lineLen); err != nil {
-				return err
-			}
+			row[idx+0] = byte(r >> 8)
+			row[idx+1] = byte(g >> 8)
+			row[idx+2] = byte(bb >> 8)
+			idx += 3
 		}
-	}
-	return nil
-}
-
-func writeHexByte(w *bufio.Writer, b byte, lineLen *int) error {
-	const hex = "0123456789ABCDEF"
-	if err := w.WriteByte(hex[b>>4]); err != nil {
-		return err
-	}
-	if err := w.WriteByte(hex[b&0x0F]); err != nil {
-		return err
-	}
-	*lineLen += 2
-	if *lineLen >= 96 {
-		if err := w.WriteByte('\n'); err != nil {
+		if _, err := z.Write(row); err != nil {
+			z.Close()
+			a85.Close()
 			return err
 		}
-		*lineLen = 0
 	}
-	return nil
+	if err := z.Close(); err != nil {
+		a85.Close()
+		return err
+	}
+	return a85.Close()
 }

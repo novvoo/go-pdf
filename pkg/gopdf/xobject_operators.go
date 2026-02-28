@@ -46,6 +46,7 @@ type XObject struct {
 	Matrix           *Matrix            // 变换矩阵
 	Resources        *Resources         // 资源字典（仅用于 Form）
 	Stream           []byte             // 内容流
+	Filters          []string           // 滤镜列表
 	Width            int                // 图像宽度（PDF 字典中声明的逻辑宽度）
 	Height           int                // 图像高度（PDF 字典中声明的逻辑高度）
 	ColorSpace       string             // 颜色空间
@@ -223,6 +224,11 @@ func renderImageXObject(ctx *RenderContext, xobj *XObject) error {
 
 	if xobj.ImageData == nil {
 		return fmt.Errorf("no image data available")
+	}
+	if c, ok := ctx.GopdfCtx.(*context); ok {
+		if c.psSurfaceTarget() != nil {
+			return psRenderImageUnitSquare(c, xobj.ImageData)
+		}
 	}
 
 	// 创建 Gopdf image surface

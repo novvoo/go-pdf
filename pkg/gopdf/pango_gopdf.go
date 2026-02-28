@@ -1705,11 +1705,22 @@ func estimateTextWidthSimple(s string, fontSize float64) float64 {
 	}
 	w := 0.0
 	for _, r := range s {
-		if r <= 0x7F {
-			w += 0.55
-		} else {
-			w += 1.0
+		if r == ' ' || r == '\t' {
+			w += 0.33
+			continue
 		}
+		if r <= 0x7F {
+			switch r {
+			case 'i', 'l', 'I', 'j', 't', 'f', 'r', '!', '|', '.', ',', ':', ';', '\'', '`':
+				w += 0.30
+			case 'W', 'M', 'm', 'w', '@', '%', '#':
+				w += 0.70
+			default:
+				w += 0.50
+			}
+			continue
+		}
+		w += 1.0
 	}
 	return w * fontSize
 }

@@ -51,7 +51,7 @@ func (r *PDFReader) WritePostScriptBestEffort(outPath string, rasterDPI float64)
 			ps.SetSize(info.Width, info.Height)
 		}
 
-		needsRaster, err := pdfPageUsesAdvancedTransparencyFeatures(ctx, pageDict)
+		needsRaster, err := pdfPageUsesAdvancedTransparencyFeatures(ctx, pageDict, pageNum)
 		if err != nil {
 			return err
 		}
@@ -84,7 +84,7 @@ func (r *PDFReader) WritePostScriptBestEffort(outPath string, rasterDPI float64)
 	return nil
 }
 
-func pdfPageUsesAdvancedTransparencyFeatures(pdfcpuCtx *model.Context, pageDict types.Dict) (bool, error) {
+func pdfPageUsesAdvancedTransparencyFeatures(pdfcpuCtx *model.Context, pageDict types.Dict, pageNum int) (bool, error) {
 	res := NewResources()
 	if resourcesObj, found := pageDict.Find("Resources"); found {
 		if err := loadResources(pdfcpuCtx, resourcesObj, res); err != nil {
@@ -92,32 +92,85 @@ func pdfPageUsesAdvancedTransparencyFeatures(pdfcpuCtx *model.Context, pageDict 
 		}
 	}
 
-	for _, ext := range res.ExtGState {
-		if ext == nil {
-			continue
-		}
-		if bm, ok := ext["BM"].(string); ok {
-			if bm != "" && bm != "Normal" && bm != "/Normal" {
-				return true, nil
-			}
-		}
-		if ca, ok := ext["ca"].(float64); ok {
-			if ca != 1 {
-				return true, nil
-			}
-		}
-		if CA, ok := ext["CA"].(float64); ok {
-			if CA != 1 {
-				return true, nil
-			}
-		}
-		if smask, ok := ext["SMask"]; ok && smask != nil {
-			if s, ok := smask.(string); ok && (s == "None" || s == "/None") {
+	pageContent, err := pdfcpuCtx.PageContent(pageDict, pageNum)
+	if err != nil {
+		return false, fmt.Errorf("failed to read page content: %w", err)
+	}
+
+	seen := map[string]bool{}
+	if uses, err := scanContentForExtGStateUsage(res, pageContent, seen); err != nil {
+		return false, err
+	} else if uses {
+		return true, nil
+	}
+
+	return false, nil
+}
+
+func scanContentForExtGStateUsage(res *Resources, content []byte, visitedForms map[string]bool) (bool, error) {
+	if res == nil || len(content) == 0 {
+		return false, nil
+	}
+	ops, err := ParseContentStream(content)
+	if err != nil {
+		return false, err
+	}
+
+	for _, op := range ops {
+		switch t := op.(type) {
+		case *OpSetGraphicsState:
+			ext := res.GetExtGState(t.DictName)
+			if ext == nil {
 				continue
 			}
-			return true, nil
+			if bm, ok := ext["BM"].(string); ok {
+				if bm != "" && bm != "Normal" && bm != "/Normal" {
+					return true, nil
+				}
+			}
+			if ca, ok := ext["ca"].(float64); ok {
+				if ca != 1 {
+					return true, nil
+				}
+			}
+			if CA, ok := ext["CA"].(float64); ok {
+				if CA != 1 {
+					return true, nil
+				}
+			}
+			if smask, ok := ext["SMask"]; ok && smask != nil {
+				if s, ok := smask.(string); ok && (s == "None" || s == "/None") {
+					continue
+				}
+				return true, nil
+			}
+		case *OpDoXObject:
+			xobj := res.GetXObject(t.XObjectName)
+			if xobj == nil {
+				continue
+			}
+			if xobj.Subtype != "Form" && xobj.Subtype != "/Form" {
+				continue
+			}
+			key := xobj.Subtype + ":" + t.XObjectName
+			if visitedForms[key] {
+				continue
+			}
+			visitedForms[key] = true
+			childRes := res
+			if xobj.Resources != nil {
+				childRes = xobj.Resources
+			}
+			uses, err := scanContentForExtGStateUsage(childRes, xobj.Stream, visitedForms)
+			if err != nil {
+				return false, err
+			}
+			if uses {
+				return true, nil
+			}
 		}
 	}
+
 	return false, nil
 }
 
@@ -144,13 +197,16 @@ func psWriteRasterPage(surface Surface, img image.Image, pageWidthPoints, pageHe
 	if _, err := fmt.Fprintf(ps.writer, "gsave\n%.8f %.8f scale\n", scaleX, scaleY); err != nil {
 		return err
 	}
-	if _, err := fmt.Fprintf(ps.writer, "%d %d 8 [%d 0 0 %d 0 0] {<\n", wpx, hpx, wpx, hpx); err != nil {
+	if _, err := fmt.Fprintf(ps.writer, "/infile currentfile /ASCIIHexDecode filter def\n/picstr %d string def\n", wpx*3); err != nil {
+		return err
+	}
+	if _, err := fmt.Fprintf(ps.writer, "%d %d 8 [1 0 0 1 0 0] { infile picstr readstring pop } false 3 colorimage\n", wpx, hpx); err != nil {
 		return err
 	}
 	if err := writeImageHexRGB(ps.writer, img); err != nil {
 		return err
 	}
-	if _, err := fmt.Fprintf(ps.writer, "\n>} false 3 colorimage\ngrestore\n"); err != nil {
+	if _, err := fmt.Fprintf(ps.writer, "\n>\ninfile closefile\n\ngrestore\n"); err != nil {
 		return err
 	}
 	return ps.writer.Flush()

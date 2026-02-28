@@ -17,7 +17,9 @@ import (
 func main() {
 	inPath := flag.String("in", "example/test_image.pdf", "input pdf path")
 	outPS := flag.String("out", "", "output ps path")
-	outPDF := flag.String("pdf", "", "output pdf path")
+	mode := flag.String("mode", "xobject", "xobject|raster")
+	encoding := flag.String("encoding", "hex", "raster encoding: hex|a85")
+	outPDF := flag.String("pdf", "", "output pdf path (raster mode only)")
 	dpi := flag.Float64("dpi", 144.0, "render dpi")
 	inspectDir := flag.String("inspect", "", "inspection output dir")
 	flag.Parse()
@@ -30,10 +32,6 @@ func main() {
 		base := strings.TrimSuffix(*outPS, filepath.Ext(*outPS))
 		*inspectDir = base + "_inspect"
 	}
-	if *outPDF == "" {
-		base := strings.TrimSuffix(*outPS, filepath.Ext(*outPS))
-		*outPDF = base + ".pdf"
-	}
 	if err := os.MkdirAll(*inspectDir, 0755); err != nil {
 		panic(err)
 	}
@@ -41,8 +39,37 @@ func main() {
 	reader := gopdf.NewPDFReader(*inPath)
 	defer reader.Close()
 
-	if err := reader.WritePostScript(*outPS, *dpi); err != nil {
-		panic(err)
+	switch strings.ToLower(strings.TrimSpace(*mode)) {
+	case "raster":
+		enc := strings.ToLower(strings.TrimSpace(*encoding))
+		switch enc {
+		case "a85", "a85flate", "a85+flate", "flate":
+			if err := reader.WritePostScriptA85Flate(*outPS, *dpi); err != nil {
+				panic(err)
+			}
+		default:
+			if err := reader.WritePostScript(*outPS, *dpi); err != nil {
+				panic(err)
+			}
+		}
+
+		if enc == "hex" || enc == "" {
+			if *outPDF == "" {
+				base := strings.TrimSuffix(*outPS, filepath.Ext(*outPS))
+				*outPDF = base + ".ps.pdf"
+			}
+			if filepath.Clean(*outPDF) == filepath.Clean(*inPath) {
+				base := strings.TrimSuffix(*outPS, filepath.Ext(*outPS))
+				*outPDF = base + ".ps.pdf"
+			}
+			if err := gopdf.ConvertPostScriptRasterToPDF(*outPS, *outPDF); err != nil {
+				panic(err)
+			}
+		}
+	default:
+		if err := reader.WritePostScriptVector(*outPS); err != nil {
+			panic(err)
+		}
 	}
 
 	psBytes, err := os.ReadFile(*outPS)
@@ -92,9 +119,14 @@ func main() {
 		panic(err)
 	}
 
-	if err := gopdf.ConvertPostScriptRasterToPDF(*outPS, *outPDF); err != nil {
-		panic(err)
+	if strings.ToLower(strings.TrimSpace(*mode)) == "raster" {
+		enc := strings.ToLower(strings.TrimSpace(*encoding))
+		if enc == "hex" || enc == "" {
+			fmt.Printf("OK\nPS: %s\nInspect: %s\nPDF: %s\n", *outPS, *inspectDir, *outPDF)
+			return
+		}
+		fmt.Printf("OK\nPS: %s\nInspect: %s\n", *outPS, *inspectDir)
+		return
 	}
-
-	fmt.Printf("OK\nPS: %s\nInspect: %s\nPDF: %s\n", *outPS, *inspectDir, *outPDF)
+	fmt.Printf("OK\nPS: %s\nInspect: %s\n", *outPS, *inspectDir)
 }

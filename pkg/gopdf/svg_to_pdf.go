@@ -49,13 +49,11 @@ func ConvertSVGToPDF(svgPath, pdfPath string) error {
 	}
 
 	fm := model.FontMap{
-		"Helvetica":  model.FontResource{Res: model.Resource{ID: "F1"}},
-		"serif":      model.FontResource{Res: model.Resource{ID: "F1"}},
-		"sans":       model.FontResource{Res: model.Resource{ID: "F1"}},
-		"sans-serif": model.FontResource{Res: model.Resource{ID: "F1"}},
-		"sans-cjk":   model.FontResource{Res: model.Resource{ID: "F1"}},
-		"monospace":  model.FontResource{Res: model.Resource{ID: "F1"}},
-		"math":       model.FontResource{Res: model.Resource{ID: "F1"}},
+		"Helvetica":    model.FontResource{Res: model.Resource{ID: "F1"}},
+		"Times-Roman":  model.FontResource{Res: model.Resource{ID: "F2"}},
+		"Courier":      model.FontResource{Res: model.Resource{ID: "F3"}},
+		"Symbol":       model.FontResource{Res: model.Resource{ID: "F4"}},
+		"ZapfDingbats": model.FontResource{Res: model.Resource{ID: "F5"}},
 	}
 	fontDict, err := pdfcpufont.FontResources(ctx.XRefTable, fm)
 	if err != nil {

@@ -48,9 +48,9 @@ func normalizeLineTextForReport(s string) string {
 
 func main() {
 	pdfPath := "example/test_vector.pdf"
-	reportPath := "example/render_vector_translated.txt"
-	outTranslatedSVGPath := "example/test_vector_translated.svg"
-	outTranslatedPDFPath := "example/test_vector_translated.pdf"
+	reportPath := "example/render_vector_postscript.txt"
+	outTranslatedSVGPath := "example/test_vector_postscript.svg"
+	outTranslatedPDFPath := "example/test_vector_postscript.pdf"
 
 	oldStdout := os.Stdout
 	oldStderr := os.Stderr

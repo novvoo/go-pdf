@@ -690,8 +690,8 @@ func NewPSSurface(filename string, widthInPoints, heightInPoints float64) Surfac
 %%BoundingBox: 0 0 %.0f %.0f
 %%EndComments
 
-/newfont { /Helvetica findfont exch scalefont setfont } def
-10 newfont
+/newfont { exch findfont exch scalefont setfont } def
+/Helvetica 10 newfont
 `, filename, widthInPoints, heightInPoints)
 	if err != nil {
 		file.Close()
@@ -731,12 +731,40 @@ func NewPSSurface(filename string, widthInPoints, heightInPoints float64) Surfac
 	})
 	_ = embedded
 	_, err = writer.WriteString(`
+/GoPDF_Latin_Enc StandardEncoding 256 array copy def
+GoPDF_Latin_Enc 149 /bullet put
+
 FontDirectory /sans-serif known not { /Helvetica findfont /sans-serif exch definefont pop } if
 FontDirectory /sans known not { /Helvetica findfont /sans exch definefont pop } if
 FontDirectory /sans-cjk known not { /Helvetica findfont /sans-cjk exch definefont pop } if
-FontDirectory /serif known not { /Times-Roman findfont /serif exch definefont pop } if
+FontDirectory /serif known not {
+  /Times-Roman findfont dup length dict begin
+    { 1 index /FID ne { def } { pop pop } ifelse } forall
+    /Encoding GoPDF_Latin_Enc def
+    currentdict
+  end
+  /serif exch definefont pop
+} if
 FontDirectory /monospace known not { /Courier findfont /monospace exch definefont pop } if
-FontDirectory /math known not { /Symbol findfont /math exch definefont pop } if
+
+/GoPDF_Math_Enc StandardEncoding 256 array copy def
+GoPDF_Math_Enc 153 /epsilon1 put
+GoPDF_Math_Enc 188 /lessequal put
+GoPDF_Math_Enc 189 /greaterequal put
+GoPDF_Math_Enc 183 /plusminus put
+GoPDF_Math_Enc 184 /minus put
+GoPDF_Math_Enc 210 /arrowleft put
+GoPDF_Math_Enc 211 /arrowright put
+GoPDF_Math_Enc 212 /arrowup put
+GoPDF_Math_Enc 213 /arrowdown put
+FontDirectory /math known not {
+  /Symbol findfont dup length dict begin
+    { 1 index /FID ne { def } { pop pop } ifelse } forall
+    /Encoding GoPDF_Math_Enc def
+    currentdict
+  end
+  /math exch definefont pop
+} if
 `)
 	if err != nil {
 		file.Close()
@@ -890,10 +918,6 @@ func (s *psSurface) ShowPage() {
 func (s *psSurface) SetSize(widthInPoints, heightInPoints float64) {
 	s.width = widthInPoints
 	s.height = heightInPoints
-	if s.writer != nil {
-		s.writer.WriteString(fmt.Sprintf("%%%%PageBoundingBox: 0 0 %.0f %.0f\n", widthInPoints, heightInPoints))
-		s.writer.Flush()
-	}
 }
 
 func (s *psSurface) DscComment(comment string) {
@@ -926,6 +950,8 @@ func (s *psSurface) ensureInPage() {
 	s.inPage = true
 	pageNo := s.pageCount + 1
 	s.writer.WriteString(fmt.Sprintf("%%%%Page: %d %d\n", pageNo, pageNo))
+	s.writer.WriteString(fmt.Sprintf("%%%%PageBoundingBox: 0 0 %.0f %.0f\n", s.width, s.height))
+	s.writer.WriteString(fmt.Sprintf("<< /PageSize [%.0f %.0f] >> setpagedevice\n", s.width, s.height))
 	s.writer.WriteString("gsave\n")
 	s.writer.WriteString(fmt.Sprintf("0 %.4f translate\n1 -1 scale\n", s.height))
 	s.writer.WriteString("1 setlinecap\n1 setlinejoin\n10 setmiterlimit\n")

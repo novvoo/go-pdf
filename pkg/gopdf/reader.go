@@ -1,10 +1,13 @@
 package gopdf
 
 import (
+	"bytes"
 	"encoding/binary"
 	"fmt"
 	"image"
 	"image/color"
+	"image/draw"
+	"image/jpeg"
 	"image/png"
 	"os"
 	"strings"
@@ -169,7 +172,14 @@ func (r *PDFReader) RenderPageToImage(pageNum int, dpi float64) (image.Image, er
 	// 优化：直接从 surface 转换，避免临时文件
 	if imgSurf, ok := surface.(ImageSurface); ok {
 		if goImg := imgSurf.GetGoImage(); goImg != nil {
-			return goImg, nil
+			if rgba, ok := goImg.(*image.RGBA); ok {
+				cloned := image.NewRGBA(rgba.Rect)
+				copy(cloned.Pix, rgba.Pix)
+				return cloned, nil
+			}
+			cloned := image.NewRGBA(goImg.Bounds())
+			draw.Draw(cloned, cloned.Bounds(), goImg, goImg.Bounds().Min, draw.Src)
+			return cloned, nil
 		}
 		return ConvertGopdfSurfaceToImage(imgSurf), nil
 	}
@@ -280,6 +290,14 @@ func decodeImageXObject(xobj *XObject) (*image.RGBA, error) {
 	Debug("[image] Decoding image: %dx%d, BPC=%d, ColorSpace=%s, Stream=%d bytes\n",
 		width, height, bpc, colorSpace, len(xobj.Stream))
 	Debug("[image] ColorComponents=%d\n", xobj.ColorComponents)
+
+	if filtersContain(xobj.Filters, "/DCTDecode", "DCTDecode") {
+		img, err := decodeJPEGToRGBA(xobj.Stream)
+		if err != nil {
+			return nil, err
+		}
+		return applySMask(img, xobj)
+	}
 
 	// 根据颜色空间解码
 	switch colorSpace {
@@ -479,6 +497,35 @@ func applySMask(img *image.RGBA, xobj *XObject) (*image.RGBA, error) {
 
 	debugPrintf("[applySMask] SMask applied successfully\n")
 	return img, nil
+}
+
+func filtersContain(filters []string, want ...string) bool {
+	if len(filters) == 0 || len(want) == 0 {
+		return false
+	}
+	for _, f := range filters {
+		ff := strings.TrimSpace(f)
+		for _, w := range want {
+			if ff == w {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+func decodeJPEGToRGBA(jpegBytes []byte) (*image.RGBA, error) {
+	if len(jpegBytes) == 0 {
+		return nil, fmt.Errorf("empty jpeg")
+	}
+	im, err := jpeg.Decode(bytes.NewReader(jpegBytes))
+	if err != nil {
+		return nil, err
+	}
+	b := im.Bounds()
+	rgba := image.NewRGBA(image.Rect(0, 0, b.Dx(), b.Dy()))
+	draw.Draw(rgba, rgba.Bounds(), im, b.Min, draw.Src)
+	return rgba, nil
 }
 
 // decodeDeviceRGB 解码 DeviceRGB 图像
@@ -1708,8 +1755,19 @@ func loadResourcesWithDepth(ctx *model.Context, resourcesObj types.Object, resou
 		return fmt.Errorf("resources is not a dictionary")
 	}
 
+	deref := func(obj types.Object) types.Object {
+		if indRef, ok := obj.(types.IndirectRef); ok {
+			derefObj, err := ctx.Dereference(indRef)
+			if err == nil {
+				return derefObj
+			}
+		}
+		return obj
+	}
+
 	// 加载字体
 	if fontsObj, found := resourcesDict.Find("Font"); found {
+		fontsObj = deref(fontsObj)
 		if fontsDict, ok := fontsObj.(types.Dict); ok {
 			for fontName, fontObj := range fontsDict {
 				if err := loadFont(ctx, fontName, fontObj, resources); err != nil {
@@ -1741,6 +1799,7 @@ func loadResourcesWithDepth(ctx *model.Context, resourcesObj types.Object, resou
 
 	// 加载 XObjects
 	if xobjectsObj, found := resourcesDict.Find("XObject"); found {
+		xobjectsObj = deref(xobjectsObj)
 		if xobjectsDict, ok := xobjectsObj.(types.Dict); ok {
 			for xobjName, xobjObj := range xobjectsDict {
 				if err := loadXObject(ctx, xobjName, xobjObj, resources); err != nil {
@@ -1752,6 +1811,7 @@ func loadResourcesWithDepth(ctx *model.Context, resourcesObj types.Object, resou
 
 	// 加载扩展图形状态
 	if extGStateObj, found := resourcesDict.Find("ExtGState"); found {
+		extGStateObj = deref(extGStateObj)
 		if extGStateDict, ok := extGStateObj.(types.Dict); ok {
 			for gsName, gsObj := range extGStateDict {
 				if err := loadExtGState(ctx, gsName, gsObj, resources); err != nil {
@@ -1763,6 +1823,7 @@ func loadResourcesWithDepth(ctx *model.Context, resourcesObj types.Object, resou
 
 	// 加载 Shading（渐变）
 	if shadingObj, found := resourcesDict.Find("Shading"); found {
+		shadingObj = deref(shadingObj)
 		if shadingDict, ok := shadingObj.(types.Dict); ok {
 			for shadingName, shadingObjItem := range shadingDict {
 				if err := loadShading(ctx, shadingName, shadingObjItem, resources); err != nil {
@@ -2396,9 +2457,8 @@ func loadXObject(ctx *model.Context, xobjName string, xobjObj types.Object, reso
 	// 🔥 新增:应用额外的图像滤镜(如果需要)
 	// pdfcpu 的 Decode() 已经处理了 Filter 字段中的标准滤镜
 	// 但对于某些特殊情况,我们可能需要额外处理
+	filters := []string{}
 	if filterObj, found := streamDict.Find("Filter"); found {
-		var filters []string
-
 		// Filter 可以是单个名称或数组
 		if name, ok := filterObj.(types.Name); ok {
 			filters = append(filters, name.String())
@@ -2468,6 +2528,7 @@ func loadXObject(ctx *model.Context, xobjName string, xobjObj types.Object, reso
 			}
 		}
 	}
+	xobj.Filters = filters
 
 	// 根据子类型加载特定属性
 	switch xobj.Subtype {
@@ -3334,7 +3395,14 @@ func ConvertGopdfSurfaceToImage(imgSurf ImageSurface) image.Image {
 		return nil
 	}
 	if goImg := imgSurf.GetGoImage(); goImg != nil {
-		return goImg
+		if rgba, ok := goImg.(*image.RGBA); ok {
+			cloned := image.NewRGBA(rgba.Rect)
+			copy(cloned.Pix, rgba.Pix)
+			return cloned
+		}
+		cloned := image.NewRGBA(goImg.Bounds())
+		draw.Draw(cloned, cloned.Bounds(), goImg, goImg.Bounds().Min, draw.Src)
+		return cloned
 	}
 	data := imgSurf.GetData()
 	stride := imgSurf.GetStride()

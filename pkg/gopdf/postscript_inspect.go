@@ -101,34 +101,30 @@ func ExtractPostScriptColorImages(psContent string, maxImages int) ([]PSColorIma
 		if !ok {
 			continue
 		}
-		hexBuf := make([]byte, 0, w*h*6)
-		j := i + 1
-		for ; j < len(lines); j++ {
-			ln := strings.TrimSpace(strings.TrimRight(lines[j], "\r"))
-			if ln == "" {
-				continue
-			}
-			if strings.Contains(ln, ">} false 3 colorimage") {
-				break
-			}
-			hexBuf = append(hexBuf, ln...)
-		}
-		if j >= len(lines) {
-			return out, fmt.Errorf("unterminated colorimage block at line %d", i+1)
-		}
-		hexStr := strings.ReplaceAll(string(hexBuf), " ", "")
-		hexStr = strings.ReplaceAll(hexStr, "\t", "")
-		hexStr = strings.ReplaceAll(hexStr, "\r", "")
-		b, err := hex.DecodeString(hexStr)
-		if err != nil {
-			return out, fmt.Errorf("decode colorimage hex at line %d: %w", i+1, err)
-		}
 		need := w * h * 3
-		if len(b) < need {
-			return out, fmt.Errorf("colorimage data too short at line %d: got=%d need=%d", i+1, len(b), need)
+		needHex := need * 2
+		hexDigits := make([]byte, 0, needHex)
+		j := i + 1
+		for ; j < len(lines) && len(hexDigits) < needHex; j++ {
+			ln := strings.TrimRight(lines[j], "\r")
+			for k := 0; k < len(ln) && len(hexDigits) < needHex; k++ {
+				c := ln[k]
+				switch {
+				case c >= '0' && c <= '9':
+					hexDigits = append(hexDigits, c)
+				case c >= 'a' && c <= 'f':
+					hexDigits = append(hexDigits, c)
+				case c >= 'A' && c <= 'F':
+					hexDigits = append(hexDigits, c)
+				}
+			}
 		}
-		if len(b) > need {
-			b = b[:need]
+		if len(hexDigits) < needHex {
+			return out, fmt.Errorf("colorimage data too short at line %d: got_hex=%d need_hex=%d", i+1, len(hexDigits), needHex)
+		}
+		b := make([]byte, need)
+		if _, err := hex.Decode(b, hexDigits[:needHex]); err != nil {
+			return out, fmt.Errorf("decode colorimage hex at line %d: %w", i+1, err)
 		}
 		out = append(out, PSColorImage{
 			PageNo:  pageNo,
@@ -188,7 +184,19 @@ func WritePSColorImagesToDir(images []PSColorImage, dir string, prefix string) (
 func parsePSColorImageHeader(line string) (int, int, bool) {
 	var w, h int
 	var w2, h2, h3 int
-	if _, err := fmt.Sscanf(line, "%d %d 8 [%d 0 0 -%d 0 %d] {<", &w, &h, &w2, &h2, &h3); err == nil {
+	if _, err := fmt.Sscanf(line, "%d %d 8 [%d 0 0 -%d 0 %d]", &w, &h, &w2, &h2, &h3); err == nil {
+		if w <= 0 || h <= 0 {
+			return 0, 0, false
+		}
+		return w, h, true
+	}
+	if _, err := fmt.Sscanf(line, "%d %d 8 [1 0 0 -1 0 %d]", &w, &h, &h3); err == nil {
+		if w <= 0 || h <= 0 {
+			return 0, 0, false
+		}
+		return w, h, true
+	}
+	if _, err := fmt.Sscanf(line, "%d %d 8 [1 0 0 1 0 0]", &w, &h); err == nil {
 		if w <= 0 || h <= 0 {
 			return 0, 0, false
 		}

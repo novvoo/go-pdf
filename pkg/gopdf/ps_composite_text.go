@@ -53,68 +53,43 @@ func pangoPSShowTextComposite(c *context, layout *PangoPdfLayout) {
 
 		c.psWritef("%.4f %.4f moveto\n", lineX, currentY)
 
-		if psIsASCIIOnly(line) {
-			fontName := "Helvetica"
-			if family := strings.TrimSpace(layout.fontDesc.family); family != "" {
-				fontName = psSafeFontName(family)
-			}
-			if strings.EqualFold(fontName, "symbol") {
-				fontName = "math"
-			}
-			isMathFont := strings.EqualFold(fontName, "math")
-			var showLine string
-			if isMathFont {
-				encoded := psEncodeWithRuneToByteMap(line, psDefaultMathRuneToByte())
-				showLine = "(" + psEscapePSBytesToLiteralStringContent(encoded) + ") show"
-			} else {
-				escaped := escapePSString(line)
-				showLine = "(" + escaped + ") show"
-			}
-			c.psLineAggAddFromShowLine(lineX, currentY, fontSize, showLine)
-			c.psWritef("%% utf8=%s\n", psEscapePSComment(line, 240))
-			c.psWritef("/%s findfont %.4f scalefont setfont\n", fontName, fontSize)
-			c.psWritef("%s\n", showLine)
-			currentY += lineHeight
-			continue
+		fontName := "Helvetica"
+		if family := strings.TrimSpace(layout.fontDesc.family); family != "" {
+			fontName = psSafeFontName(family)
+		}
+		if strings.EqualFold(fontName, "symbol") {
+			fontName = "math"
 		}
 
-		compositeFont := psPickCompositeFontName(line)
-		if compositeFont == "" {
-			fontName := "Helvetica"
-			if family := strings.TrimSpace(layout.fontDesc.family); family != "" {
-				fontName = psSafeFontName(family)
-			}
-			c.psLineAggAdd(lineX, currentY, fontSize, line)
-			c.psWritef("%% utf8=%s\n", psEscapePSComment(line, 240))
-			if strings.EqualFold(fontName, "symbol") {
-				fontName = "math"
-			}
-			c.psWritef("/%s findfont %.4f scalefont setfont\n", fontName, fontSize)
-			isMathFont := strings.EqualFold(fontName, "math")
-			if isMathFont {
-				encoded := psEncodeWithRuneToByteMap(line, psDefaultMathRuneToByte())
-				c.psWritef("(%s) show\n", psEscapePSBytesToLiteralStringContent(encoded))
-			} else {
-				psWriteMixedTextWithSymbolFallback(c, fontName, fontSize, line)
-			}
-			currentY += lineHeight
-			continue
-		}
-
-		fontName := compositeFont
-		if fontName == "" {
-			fontName = "GoPDF-GB"
-		}
-		hexShow := psUTF16HexStringWithBOM(line)
-		c.psLineAggAddFromShowLine(lineX, currentY, fontSize, hexShow+" show")
-		fallbackText := psASCIIShowFallbackText(line)
-		if fallbackText == "" {
-			fallbackText = "?"
-		}
+		c.psLineAggAdd(lineX, currentY, fontSize, line)
 		c.psWritef("%% utf8=%s\n", psEscapePSComment(line, 240))
-		c.psWritef("/_GoPDF_HasCompositeFont true def\n")
-		c.psWritef("{/%s findfont %.4f scalefont setfont} stopped { /Helvetica findfont %.4f scalefont setfont /_GoPDF_HasCompositeFont false def } if\n", fontName, fontSize, fontSize)
-		c.psWritef("_GoPDF_HasCompositeFont { %s show } { (%s) show } ifelse\n", hexShow, escapePSString(fallbackText))
+
+		if composite := psPickCompositeFontName(line); composite != "" {
+			if err := psShowUTF8TextAsOutline(c, layout, lineX, currentY, fontSize, line); err != nil {
+				fallbackText := psASCIIShowFallbackText(line)
+				if fallbackText == "" {
+					fallbackText = "?"
+				}
+				c.psWritef("/Helvetica findfont %.4f scalefont setfont\n(%s) show\n", fontSize, escapePSString(fallbackText))
+			}
+			currentY += lineHeight
+			continue
+		}
+
+		if strings.EqualFold(fontName, "math") {
+			encoded := psEncodeWithRuneToByteMap(line, psDefaultMathRuneToByte())
+			c.psWritef("/math findfont %.4f scalefont setfont\n", fontSize)
+			c.psWritef("(%s) show\n", psEscapePSBytesToLiteralStringContent(encoded))
+			currentY += lineHeight
+			continue
+		}
+
+		c.psWritef("/%s findfont %.4f scalefont setfont\n", fontName, fontSize)
+		if psIsASCIIOnly(line) {
+			c.psWritef("(%s) show\n", escapePSString(line))
+		} else {
+			psWriteMixedTextWithSymbolFallback(c, fontName, fontSize, line)
+		}
 		currentY += lineHeight
 	}
 
@@ -124,6 +99,92 @@ func pangoPSShowTextComposite(c *context, layout *PangoPdfLayout) {
 		c.currentPoint.y = currentY - lineHeight
 		c.currentPoint.hasPoint = true
 	}
+}
+
+func psShowUTF8TextAsOutline(c *context, layout *PangoPdfLayout, x, y, fontSize float64, text string) error {
+	if c == nil || layout == nil {
+		return fmt.Errorf("nil context")
+	}
+	text = ensureValidUTF8(text)
+	if strings.TrimSpace(text) == "" {
+		return nil
+	}
+
+	family := strings.TrimSpace(layout.fontDesc.family)
+	if family == "" {
+		family = "sans"
+	}
+
+	switch psPickCompositeFontName(text) {
+	case "GoPDF-GB":
+		ensureRepoFontRegistered("cjk-regular", "fonts/ofl/zhimangxing/ZhiMangXing-Regular.ttf")
+		family = "sans-cjk"
+	case "GoPDF-JP":
+		ensureRepoFontRegistered("cjk-regular", "fonts/apache/kosugi/Kosugi-Regular.ttf")
+		family = "sans-cjk"
+	case "GoPDF-KR":
+		ensureRepoFontRegistered("cjk-regular", "fonts/apache/kosugi/Kosugi-Regular.ttf")
+		family = "sans-cjk"
+	}
+
+	fontFace := NewPangoPdfFont(family, FontSlantNormal, FontWeightNormal)
+	defer fontFace.Destroy()
+	fontMatrix := NewMatrix()
+	fontMatrix.InitScale(fontSize, fontSize)
+	ctm := NewMatrix()
+	ctm.InitIdentity()
+	scaledFont := NewPangoPdfScaledFont(fontFace, fontMatrix, ctm, nil)
+	defer scaledFont.Destroy()
+	scaledFont.flipY = shouldFlipGlyphY(c)
+
+	glyphs, _, _, status := scaledFont.TextToGlyphs(x, y, text)
+	if status != StatusSuccess {
+		return newError(status, "TextToGlyphs")
+	}
+
+	c.psApplySourceColor()
+	for _, g := range glyphs {
+		path, err := scaledFont.GlyphPath(g.Index)
+		if err != nil || path == nil || path.Status != StatusSuccess {
+			continue
+		}
+		if err := psWriteOutlinePathAt(c, path, g.X, g.Y); err != nil {
+			return err
+		}
+		c.psWritef("fill\n")
+	}
+
+	return nil
+}
+
+func psWriteOutlinePathAt(c *context, p *Path, tx, ty float64) error {
+	if c == nil || p == nil {
+		return nil
+	}
+	c.psWritef("newpath\n")
+	for _, d := range p.Data {
+		switch d.Type {
+		case PathMoveTo:
+			if len(d.Points) >= 1 {
+				c.psWritef("%.4f %.4f moveto\n", tx+d.Points[0].X, ty+d.Points[0].Y)
+			}
+		case PathLineTo:
+			if len(d.Points) >= 1 {
+				c.psWritef("%.4f %.4f lineto\n", tx+d.Points[0].X, ty+d.Points[0].Y)
+			}
+		case PathCurveTo:
+			if len(d.Points) >= 3 {
+				c.psWritef("%.4f %.4f %.4f %.4f %.4f %.4f curveto\n",
+					tx+d.Points[0].X, ty+d.Points[0].Y,
+					tx+d.Points[1].X, ty+d.Points[1].Y,
+					tx+d.Points[2].X, ty+d.Points[2].Y,
+				)
+			}
+		case PathClosePath:
+			c.psWritef("closepath\n")
+		}
+	}
+	return nil
 }
 
 func psEncodeWithRuneToByteMap(s string, runeToByte map[rune]byte) []byte {
@@ -454,6 +515,26 @@ func psWriteMixedTextWithSymbolFallback(c *context, baseFont string, fontSize fl
 	}
 
 	for _, r := range s {
+		switch r {
+		case 0xFB00:
+			seg = append(seg, 'f', 'f')
+			continue
+		case 0xFB01:
+			seg = append(seg, 'f', 'i')
+			continue
+		case 0xFB02:
+			seg = append(seg, 'f', 'l')
+			continue
+		case 0xFB03:
+			seg = append(seg, 'f', 'f', 'i')
+			continue
+		case 0xFB04:
+			seg = append(seg, 'f', 'f', 'l')
+			continue
+		case 0xFB05, 0xFB06:
+			seg = append(seg, 's', 't')
+			continue
+		}
 		if unicode.IsSpace(r) {
 			seg = append(seg, ' ')
 			continue
@@ -492,6 +573,24 @@ func psASCIIShowFallbackText(s string) string {
 	var b strings.Builder
 	for _, r := range s {
 		switch r {
+		case 0xFB00:
+			b.WriteString("ff")
+			continue
+		case 0xFB01:
+			b.WriteString("fi")
+			continue
+		case 0xFB02:
+			b.WriteString("fl")
+			continue
+		case 0xFB03:
+			b.WriteString("ffi")
+			continue
+		case 0xFB04:
+			b.WriteString("ffl")
+			continue
+		case 0xFB05, 0xFB06:
+			b.WriteString("st")
+			continue
 		case 0x2022:
 			b.WriteString("- ")
 			continue

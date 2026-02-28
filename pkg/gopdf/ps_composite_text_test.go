@@ -36,7 +36,7 @@ func TestPSSurfaceHeaderContainsCompositeFontDefs(t *testing.T) {
 	}
 }
 
-func TestPangoPdfShowTextOnPSSurfaceUsesHexShowForUnicode(t *testing.T) {
+func TestPangoPdfShowTextOnPSSurfaceUsesOutlineForCJK(t *testing.T) {
 	tmp, err := os.CreateTemp("", "gopdf_ps_text_*.ps")
 	if err != nil {
 		t.Fatalf("create temp: %v", err)
@@ -63,8 +63,10 @@ func TestPangoPdfShowTextOnPSSurfaceUsesHexShowForUnicode(t *testing.T) {
 		t.Fatalf("read ps: %v", err)
 	}
 	content := string(b)
-	if !strings.Contains(content, "<FEFF") || !strings.Contains(content, " show") {
-		t.Fatalf("expected PS to contain UTF-16 hex string show, got: %q", content)
+	if strings.Contains(content, "/GoPDF-GB findfont") || strings.Contains(content, "<FEFF") {
+		t.Fatalf("expected PS to use outlines for CJK (no Type0/UTF-16 show), got: %q", content)
+	}
+	if !strings.Contains(content, "newpath") || !strings.Contains(content, "curveto") || !strings.Contains(content, "fill") {
+		t.Fatalf("expected PS to contain outline drawing ops, got: %q", content)
 	}
 }
-

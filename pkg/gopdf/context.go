@@ -56,11 +56,12 @@ type context struct {
 
 	psLineAgg  psLineAggregator
 	psLastText struct {
-		active   bool
-		yUser    float64
-		xEndUser float64
-		fontSize float64
-		text     string
+		active      bool
+		yUser       float64
+		xEndUser    float64
+		xInkEndUser float64
+		fontSize    float64
+		text        string
 	}
 }
 
@@ -194,9 +195,14 @@ func (c *context) psLineAggFlush() {
 			if gap > agg.fontSize*1.2 {
 				needSpace = true
 			} else if prevHasLast {
-				if gap > agg.fontSize*0.25 && isWordRune(prevLast) && isWordRune(r[0]) {
+				nextFirst := r[0]
+				if gap > agg.fontSize*0.20 && isWordRune(prevLast) && isArrowOrMathOpRune(nextFirst) {
 					needSpace = true
-				} else if needsSpaceAfterRune(prevLast, r[0]) && gap > -agg.fontSize*0.80 {
+				} else if gap > agg.fontSize*0.20 && isArrowOrMathOpRune(prevLast) && isWordRune(nextFirst) {
+					needSpace = true
+				} else if gap > agg.fontSize*0.45 && isWordRune(prevLast) && isWordRune(nextFirst) {
+					needSpace = true
+				} else if needsSpaceAfterRune(prevLast, nextFirst) && gap > -agg.fontSize*0.80 {
 					needSpace = true
 				}
 			}
@@ -238,6 +244,18 @@ func needsSpaceAfterRune(prevLast rune, nextFirst rune) bool {
 	}
 	switch prevLast {
 	case '•', ':', ';', ',', ')', ']', '}':
+		return true
+	default:
+		return false
+	}
+}
+
+func isArrowOrMathOpRune(r rune) bool {
+	if r >= 0x2190 && r <= 0x21FF {
+		return true
+	}
+	switch r {
+	case '→', '←', '↔', '⇐', '⇒', '⇔', '↦', '±', '×', '÷', '−', '∼', '≈', '≃', '≅', '≡', '≤', '≥', '≠', '⋅', '∈', '∉':
 		return true
 	default:
 		return false
@@ -1159,13 +1177,13 @@ func (c *context) psTryPaintSurfacePattern() bool {
 	} else {
 		fmt.Fprint(s.writer, "clip\nnewpath\n")
 	}
-
-	fmt.Fprintf(s.writer, "%d %d 8 [%d 0 0 -%d 0 %d] {<\n", wpx, hpx, wpx, hpx, hpx)
+	fmt.Fprintf(s.writer, "/infile currentfile /ASCIIHexDecode filter def\n/picstr %d string def\n", wpx*3)
+	fmt.Fprintf(s.writer, "%d %d 8 [1 0 0 1 0 0] { infile picstr readstring pop } false 3 colorimage\n", wpx, hpx)
 	if err := psWriteImageHexRGB(s.writer, img); err != nil {
 		c.status = StatusWriteError
 		return false
 	}
-	fmt.Fprint(s.writer, "\n>} false 3 colorimage\ngrestore\n")
+	fmt.Fprint(s.writer, "\n>\ninfile closefile\n\ngrestore\n")
 	s.writer.Flush()
 	return true
 }
