@@ -21,6 +21,8 @@ func main() {
 	dpi := flag.Float64("dpi", 144.0, "dpi for best-effort raster fallback")
 	inspectDir := flag.String("inspect", "", "inspection output dir")
 	maxShowLines := flag.Int("max-show", 2000, "max show lines to write")
+	outTextPS := flag.String("out-text", "", "output text-only ps path (split output)")
+	outImagePS := flag.String("out-image", "", "output image-only ps path (split output)")
 	flag.Parse()
 
 	if *outPS == "" {
@@ -37,6 +39,22 @@ func main() {
 
 	reader := gopdf.NewPDFReader(*inPath)
 	defer reader.Close()
+
+	split := *outTextPS != "" || *outImagePS != ""
+	if split {
+		base := strings.TrimSuffix(*outPS, filepath.Ext(*outPS))
+		if *outTextPS == "" {
+			*outTextPS = base + "_text.ps"
+		}
+		if *outImagePS == "" {
+			*outImagePS = base + "_images.ps"
+		}
+		if err := reader.WritePostScriptBestEffortSplit(*outTextPS, *outImagePS, *dpi); err != nil {
+			panic(err)
+		}
+		fmt.Printf("OK\nTextPS: %s\nImagePS: %s\n", *outTextPS, *outImagePS)
+		return
+	}
 
 	switch strings.ToLower(strings.TrimSpace(*mode)) {
 	case "vector":

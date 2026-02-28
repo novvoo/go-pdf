@@ -24,13 +24,15 @@ type PDFRenderer struct {
 	blendMode     string         // 当前混合模式
 }
 
-// RenderOptions 渲染选项
-type RenderOptions struct {
+// PDFRenderOptions 渲染选项
+type PDFRenderOptions struct {
 	DPI        float64 // 分辨率，默认 72
 	OutputPath string  // 输出文件路径
 	Format     Format  // 图片格式，默认 ARGB32
 	Background *RGB    // 背景色，nil 表示透明
 }
+
+type RenderOptions = PDFRenderOptions
 
 // RGB 颜色
 type RGB struct {
@@ -307,7 +309,7 @@ func convertGrayToRGBA(src *image.Gray, dst *image.RGBA) {
 
 // RenderToPNG 使用 Gopdf 渲染图形到 PNG
 func (r *PDFRenderer) RenderToPNG(outputPath string, drawFunc func(ctx Context)) error {
-	opts := &RenderOptions{
+	opts := &PDFRenderOptions{
 		DPI:        r.dpi,
 		OutputPath: outputPath,
 		Format:     FormatARGB32,
@@ -318,9 +320,9 @@ func (r *PDFRenderer) RenderToPNG(outputPath string, drawFunc func(ctx Context))
 }
 
 // RenderWithOptions 使用自定义选项渲染
-func (r *PDFRenderer) RenderWithOptions(opts *RenderOptions, drawFunc func(ctx Context)) error {
+func (r *PDFRenderer) RenderWithOptions(opts *PDFRenderOptions, drawFunc func(ctx Context)) error {
 	if opts == nil {
-		opts = &RenderOptions{
+		opts = &PDFRenderOptions{
 			DPI:    72,
 			Format: FormatARGB32,
 		}
@@ -346,7 +348,7 @@ func (r *PDFRenderer) RenderWithOptions(opts *RenderOptions, drawFunc func(ctx C
 }
 
 // renderWithPixman 使用 Pixman 后端渲染
-func (r *PDFRenderer) renderWithPixman(opts *RenderOptions, width, height int, scale float64, drawFunc func(ctx Context)) error {
+func (r *PDFRenderer) renderWithPixman(opts *PDFRenderOptions, width, height int, scale float64, drawFunc func(ctx Context)) error {
 	// 🔥 修复：添加尺寸验证，避免创建过大的图像
 	if width <= 0 || height <= 0 {
 		return fmt.Errorf("invalid image dimensions: %dx%d", width, height)
@@ -447,7 +449,7 @@ func (r *PDFRenderer) renderWithPixman(opts *RenderOptions, width, height int, s
 }
 
 // renderWithGopdf 使用标准 Gopdf 渲染（回退方法）
-func (r *PDFRenderer) renderWithGopdf(opts *RenderOptions, width, height int, scale float64, drawFunc func(ctx Context)) error {
+func (r *PDFRenderer) renderWithGopdf(opts *PDFRenderOptions, width, height int, scale float64, drawFunc func(ctx Context)) error {
 	// 创建图像 surface
 	imgSurface := NewImageSurface(opts.Format, width, height)
 	defer imgSurface.Destroy()
@@ -505,9 +507,9 @@ func (r *PDFRenderer) RenderToPDF(outputPath string, drawFunc func(ctx Context))
 }
 
 // RenderToWriter 渲染到 io.Writer (PNG 格式)
-func (r *PDFRenderer) RenderToWriter(w io.Writer, opts *RenderOptions, drawFunc func(ctx Context)) error {
+func (r *PDFRenderer) RenderToWriter(w io.Writer, opts *PDFRenderOptions, drawFunc func(ctx Context)) error {
 	if opts == nil {
-		opts = &RenderOptions{
+		opts = &PDFRenderOptions{
 			DPI:    72,
 			Format: FormatARGB32,
 		}

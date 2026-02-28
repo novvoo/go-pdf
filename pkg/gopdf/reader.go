@@ -1482,6 +1482,10 @@ func (r *PDFReader) RenderAllPagesToPNG(outputDir string, dpi float64) error {
 
 // renderPDFPageToGopdf 将 PDF 页面内容渲染到 Gopdf context
 func renderPDFPageToGopdf(pdfPath string, pageNum int, gopdfCtx Context, width, height float64) error {
+	return renderPDFPageToGopdfWithOptions(pdfPath, pageNum, gopdfCtx, width, height, RenderLayerOptions{EnableText: true, EnableImages: true})
+}
+
+func renderPDFPageToGopdfWithOptions(pdfPath string, pageNum int, gopdfCtx Context, width, height float64, opts RenderLayerOptions) error {
 	// 打开 PDF 文件并读取上下文
 	ctx, err := api.ReadContextFile(pdfPath)
 	if err != nil {
@@ -1521,7 +1525,7 @@ func renderPDFPageToGopdf(pdfPath string, pageNum int, gopdfCtx Context, width, 
 	gopdfCtx.SetMiterLimit(10.0)
 
 	// 创建渲染上下文
-	renderCtx := NewRenderContext(gopdfCtx, width, height)
+	renderCtx := NewRenderContextWithOptions(gopdfCtx, width, height, opts)
 
 	// 提取页面资源
 	if resourcesObj, found := pageDict.Find("Resources"); found {

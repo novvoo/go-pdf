@@ -20,6 +20,12 @@ type RenderContext struct {
 	TextState          *TextState
 	Resources          *Resources
 	XObjectCache       map[string]Surface
+	LayerOptions       RenderLayerOptions
+}
+
+type RenderLayerOptions struct {
+	EnableText   bool
+	EnableImages bool
 }
 
 // NewRenderContext 创建新的渲染上下文
@@ -32,7 +38,17 @@ func NewRenderContext(gopdfCtx Context, width, height float64) *RenderContext {
 		TextState:          NewTextState(),
 		Resources:          NewResources(),
 		XObjectCache:       make(map[string]Surface),
+		LayerOptions: RenderLayerOptions{
+			EnableText:   true,
+			EnableImages: true,
+		},
 	}
+}
+
+func NewRenderContextWithOptions(gopdfCtx Context, width, height float64, opts RenderLayerOptions) *RenderContext {
+	rc := NewRenderContext(gopdfCtx, width, height)
+	rc.LayerOptions = opts
+	return rc
 }
 
 // GetCurrentState 获取当前图形状态

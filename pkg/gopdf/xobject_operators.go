@@ -31,6 +31,9 @@ func (op *OpDoXObject) Execute(ctx *RenderContext) error {
 		debugPrintf("[Do] Rendering Form XObject\n")
 		return renderFormXObject(ctx, xobj)
 	case "Image", "/Image":
+		if !ctx.LayerOptions.EnableImages {
+			return nil
+		}
 		debugPrintf("[Do] Rendering Image XObject (size: %dx%d)\n", xobj.Width, xobj.Height)
 		return renderImageXObject(ctx, xobj)
 	default:

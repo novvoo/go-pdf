@@ -10,6 +10,15 @@ import (
 )
 
 func (r *PDFReader) WritePostScriptBestEffort(outPath string, rasterDPI float64) error {
+	return r.WritePostScriptBestEffortWithOptions(outPath, PostScriptBestEffortOptions{RasterDPI: rasterDPI, ForceVector: true})
+}
+
+type PostScriptBestEffortOptions struct {
+	RasterDPI   float64
+	ForceVector bool
+}
+
+func (r *PDFReader) WritePostScriptBestEffortWithOptions(outPath string, opts PostScriptBestEffortOptions) error {
 	ctx, err := api.ReadContextFile(r.pdfPath)
 	if err != nil {
 		return fmt.Errorf("failed to read PDF context: %w", err)
@@ -56,8 +65,12 @@ func (r *PDFReader) WritePostScriptBestEffort(outPath string, rasterDPI float64)
 			return err
 		}
 
-		if needsRaster {
-			img, err := r.RenderPageToImage(pageNum, rasterDPI)
+		if needsRaster && !opts.ForceVector {
+			dpi := opts.RasterDPI
+			if dpi <= 0 {
+				dpi = 144
+			}
+			img, err := r.RenderPageToImage(pageNum, dpi)
 			if err != nil {
 				return err
 			}
@@ -79,6 +92,116 @@ func (r *PDFReader) WritePostScriptBestEffort(outPath string, rasterDPI float64)
 		}
 		pageCtx.Destroy()
 		surface.ShowPage()
+	}
+
+	return nil
+}
+
+func (r *PDFReader) WritePostScriptBestEffortSplit(outTextPSPath, outImagePSPath string, rasterDPI float64) error {
+	return r.WritePostScriptBestEffortSplitWithOptions(outTextPSPath, outImagePSPath, PostScriptBestEffortOptions{RasterDPI: rasterDPI, ForceVector: true})
+}
+
+func (r *PDFReader) WritePostScriptBestEffortSplitWithOptions(outTextPSPath, outImagePSPath string, opts PostScriptBestEffortOptions) error {
+	ctx, err := api.ReadContextFile(r.pdfPath)
+	if err != nil {
+		return fmt.Errorf("failed to read PDF context: %w", err)
+	}
+
+	pageCount, err := r.GetPageCount()
+	if err != nil {
+		return err
+	}
+	if pageCount == 0 {
+		return fmt.Errorf("no pages")
+	}
+
+	first, err := r.GetPageInfo(1)
+	if err != nil {
+		return err
+	}
+
+	textSurface := NewPSSurface(outTextPSPath, first.Width, first.Height)
+	if textSurface == nil || textSurface.Status() != StatusSuccess {
+		if textSurface == nil {
+			return fmt.Errorf("failed to create ps surface")
+		}
+		return fmt.Errorf("failed to create ps surface: %v", textSurface.Status())
+	}
+	defer textSurface.Destroy()
+
+	imageSurface := NewPSSurface(outImagePSPath, first.Width, first.Height)
+	if imageSurface == nil || imageSurface.Status() != StatusSuccess {
+		if imageSurface == nil {
+			return fmt.Errorf("failed to create ps surface")
+		}
+		return fmt.Errorf("failed to create ps surface: %v", imageSurface.Status())
+	}
+	defer imageSurface.Destroy()
+
+	for pageNum := 1; pageNum <= pageCount; pageNum++ {
+		pageDict, _, _, err := ctx.PageDict(pageNum, false)
+		if err != nil {
+			return fmt.Errorf("failed to get page dict: %w", err)
+		}
+
+		info, err := r.GetPageInfo(pageNum)
+		if err != nil {
+			return err
+		}
+		if ps, ok := textSurface.(*psSurface); ok {
+			ps.SetSize(info.Width, info.Height)
+		}
+		if ps, ok := imageSurface.(*psSurface); ok {
+			ps.SetSize(info.Width, info.Height)
+		}
+
+		needsRaster, err := pdfPageUsesAdvancedTransparencyFeatures(ctx, pageDict, pageNum)
+		if err != nil {
+			return err
+		}
+
+		if needsRaster && !opts.ForceVector {
+			dpi := opts.RasterDPI
+			if dpi <= 0 {
+				dpi = 144
+			}
+			img, err := r.RenderPageToImage(pageNum, dpi)
+			if err != nil {
+				return err
+			}
+			if err := psWriteRasterPage(imageSurface, img, info.Width, info.Height); err != nil {
+				return err
+			}
+			imageSurface.ShowPage()
+
+			if err := psWriteBlankPage(textSurface, info.Width, info.Height); err != nil {
+				return err
+			}
+			textSurface.ShowPage()
+			continue
+		}
+
+		textCtx := NewContext(textSurface)
+		textCtx.SetSourceRGB(1, 1, 1)
+		textCtx.Rectangle(0, 0, info.Width, info.Height)
+		textCtx.Fill()
+		if err := renderPDFPageToGopdfWithOptions(r.pdfPath, pageNum, textCtx, info.Width, info.Height, RenderLayerOptions{EnableText: true, EnableImages: false}); err != nil {
+			textCtx.Destroy()
+			return err
+		}
+		textCtx.Destroy()
+		textSurface.ShowPage()
+
+		imageCtx := NewContext(imageSurface)
+		imageCtx.SetSourceRGB(1, 1, 1)
+		imageCtx.Rectangle(0, 0, info.Width, info.Height)
+		imageCtx.Fill()
+		if err := renderPDFPageToGopdfWithOptions(r.pdfPath, pageNum, imageCtx, info.Width, info.Height, RenderLayerOptions{EnableText: false, EnableImages: true}); err != nil {
+			imageCtx.Destroy()
+			return err
+		}
+		imageCtx.Destroy()
+		imageSurface.ShowPage()
 	}
 
 	return nil
@@ -209,5 +332,18 @@ func psWriteRasterPage(surface Surface, img image.Image, pageWidthPoints, pageHe
 	if _, err := fmt.Fprintf(ps.writer, "\n>\ninfile closefile\n\ngrestore\n"); err != nil {
 		return err
 	}
+	return ps.writer.Flush()
+}
+
+func psWriteBlankPage(surface Surface, pageWidthPoints, pageHeightPoints float64) error {
+	ps, ok := surface.(*psSurface)
+	if !ok || ps.writer == nil {
+		return fmt.Errorf("ps surface not available")
+	}
+	ctx := NewContext(surface)
+	ctx.SetSourceRGB(1, 1, 1)
+	ctx.Rectangle(0, 0, pageWidthPoints, pageHeightPoints)
+	ctx.Fill()
+	ctx.Destroy()
 	return ps.writer.Flush()
 }

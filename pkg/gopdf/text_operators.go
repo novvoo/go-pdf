@@ -597,6 +597,9 @@ type OpShowText struct {
 func (op *OpShowText) Name() string { return "Tj" }
 
 func (op *OpShowText) Execute(ctx *RenderContext) error {
+	if !ctx.LayerOptions.EnableText {
+		return nil
+	}
 	return renderText(ctx, op.Text, nil)
 }
 
@@ -645,6 +648,9 @@ type OpShowTextArray struct {
 func (op *OpShowTextArray) Name() string { return "TJ" }
 
 func (op *OpShowTextArray) Execute(ctx *RenderContext) error {
+	if !ctx.LayerOptions.EnableText {
+		return nil
+	}
 	return renderText(ctx, "", op.Array)
 }
 
@@ -807,50 +813,88 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 
 	enablePSLabelGapClamp := true
 	if enablePSLabelGapClamp && psPreferText && psCtx != nil && candidateDecoded != "" && psCtx.psLastText.active {
-		if !(textState.Font != nil && isTeXMathFont(textState.Font.BaseFont)) {
+		if textState.Font != nil && isTeXMathFont(textState.Font.BaseFont) {
 			prev := strings.TrimSpace(psCtx.psLastText.text)
-			hasLetter := false
-			hasPunct := false
-			for _, r := range prev {
-				if unicode.IsLetter(r) {
-					hasLetter = true
-					break
-				}
-				if unicode.IsPunct(r) || unicode.IsSymbol(r) {
-					hasPunct = true
-				}
-			}
-
-			isShortLabel := !hasLetter && hasPunct && len([]rune(prev)) <= 6
-			if isShortLabel {
-				tolY := math.Max(2.0, math.Max(psCtx.psLastText.fontSize, fontSize)*0.5)
-				if math.Abs(renderMatrix.Y0-psCtx.psLastText.yUser) <= tolY {
-					runes := []rune(candidateDecoded)
-					startsWithWord := false
-					if len(runes) > 0 {
-						r0 := runes[0]
-						startsWithWord = unicode.IsLetter(r0) || unicode.IsNumber(r0)
-					}
-					if startsWithWord {
+			cur := strings.TrimSpace(candidateDecoded)
+			prevRunes := []rune(prev)
+			curRunes := []rune(cur)
+			if len(prevRunes) == 1 && len(curRunes) == 1 {
+				pr := prevRunes[0]
+				cr := curRunes[0]
+				prevMathish := unicode.IsSymbol(pr) ||
+					(pr >= 0x2190 && pr <= 0x21FF) ||
+					(pr >= 0x0370 && pr <= 0x03FF) ||
+					(pr >= 0x2070 && pr <= 0x209F) ||
+					(pr >= 0x2200 && pr <= 0x22FF)
+				curWord := unicode.IsLetter(cr) || unicode.IsNumber(cr)
+				yDiff := renderMatrix.Y0 - psCtx.psLastText.yUser
+				isScript := math.Abs(yDiff) >= fontSize*0.10 && fontSize <= psCtx.psLastText.fontSize*0.90
+				if prevMathish && curWord && isScript {
+					tolY := math.Max(2.0, math.Max(psCtx.psLastText.fontSize, fontSize)*0.5)
+					if math.Abs(renderMatrix.Y0-psCtx.psLastText.yUser) <= tolY {
 						prevEnd := psCtx.psLastText.xEndUser
 						if psCtx.psLastText.xInkEndUser > 0 {
 							prevEnd = psCtx.psLastText.xInkEndUser
 						}
 						gap := renderMatrix.X0 - prevEnd
-						spaceAdv := textState.GlyphAdvance(32, true)
-						if spaceAdv <= 0 {
-							spaceAdv = fontSize * 0.30
-						}
-						desired := spaceAdv
-						minDesired := fontSize * 0.12
-						maxDesired := fontSize * 0.60
-						if desired < minDesired {
-							desired = minDesired
-						} else if desired > maxDesired {
-							desired = maxDesired
+						desired := fontSize * 0.10
+						if desired < fontSize*0.02 {
+							desired = fontSize * 0.02
+						} else if desired > fontSize*0.25 {
+							desired = fontSize * 0.25
 						}
 						if gap > desired*2.0 {
 							renderMatrix.X0 = prevEnd + desired
+						}
+					}
+				}
+			}
+		} else {
+			if !(textState.Font != nil && isTeXMathFont(textState.Font.BaseFont)) {
+				prev := strings.TrimSpace(psCtx.psLastText.text)
+				hasLetter := false
+				hasPunct := false
+				for _, r := range prev {
+					if unicode.IsLetter(r) {
+						hasLetter = true
+						break
+					}
+					if unicode.IsPunct(r) || unicode.IsSymbol(r) {
+						hasPunct = true
+					}
+				}
+
+				isShortLabel := !hasLetter && hasPunct && len([]rune(prev)) <= 6
+				if isShortLabel {
+					tolY := math.Max(2.0, math.Max(psCtx.psLastText.fontSize, fontSize)*0.5)
+					if math.Abs(renderMatrix.Y0-psCtx.psLastText.yUser) <= tolY {
+						runes := []rune(candidateDecoded)
+						startsWithWord := false
+						if len(runes) > 0 {
+							r0 := runes[0]
+							startsWithWord = unicode.IsLetter(r0) || unicode.IsNumber(r0)
+						}
+						if startsWithWord {
+							prevEnd := psCtx.psLastText.xEndUser
+							if psCtx.psLastText.xInkEndUser > 0 {
+								prevEnd = psCtx.psLastText.xInkEndUser
+							}
+							gap := renderMatrix.X0 - prevEnd
+							spaceAdv := textState.GlyphAdvance(32, true)
+							if spaceAdv <= 0 {
+								spaceAdv = fontSize * 0.30
+							}
+							desired := spaceAdv
+							minDesired := fontSize * 0.12
+							maxDesired := fontSize * 0.60
+							if desired < minDesired {
+								desired = minDesired
+							} else if desired > maxDesired {
+								desired = maxDesired
+							}
+							if gap > desired*2.0 {
+								renderMatrix.X0 = prevEnd + desired
+							}
 						}
 					}
 				}
