@@ -17,8 +17,8 @@ import (
 func main() {
 	inPath := flag.String("in", "example/test.pdf", "input pdf path")
 	outPS := flag.String("out", "", "output ps path")
-	mode := flag.String("mode", "best", "best|vector")
-	dpi := flag.Float64("dpi", 144.0, "dpi for best-effort raster fallback")
+	mode := flag.String("mode", "vector", "vector|raster (best is alias of vector)")
+	dpi := flag.Float64("dpi", 144.0, "dpi for raster mode")
 	inspectDir := flag.String("inspect", "", "inspection output dir")
 	maxShowLines := flag.Int("max-show", 2000, "max show lines to write")
 	outTextPS := flag.String("out-text", "", "output text-only ps path (split output)")
@@ -57,14 +57,16 @@ func main() {
 	}
 
 	switch strings.ToLower(strings.TrimSpace(*mode)) {
-	case "vector":
+	case "vector", "best":
 		if err := reader.WritePostScriptVector(*outPS); err != nil {
 			panic(err)
 		}
-	default:
-		if err := reader.WritePostScriptBestEffort(*outPS, *dpi); err != nil {
+	case "raster":
+		if err := reader.WritePostScriptBestEffortWithOptions(*outPS, gopdf.PostScriptBestEffortOptions{RasterDPI: *dpi, ForceVector: false}); err != nil {
 			panic(err)
 		}
+	default:
+		panic(fmt.Errorf("unsupported mode: %s", *mode))
 	}
 
 	psBytes, err := os.ReadFile(*outPS)

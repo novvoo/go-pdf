@@ -688,6 +688,7 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 	if textState.Font != nil {
 		toUnicodeMap = textState.Font.ToUnicodeMap
 	}
+	metricsOK := fontWidthMetricsAvailable(textState.Font)
 
 	psPreferText := false
 	var psCtx *context
@@ -730,12 +731,12 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 	candidateDecoded := ""
 	if psPreferText && candidateTokenForLabel != "" {
 		if d, _, _ := decodeTextStringWithCIDs(candidateTokenForLabel, toUnicodeMap, textState.Font); d != "" {
-			candidateDecoded = strings.TrimSpace(d)
+			candidateDecoded = d
 		}
 	}
 
 	enablePSSymbolGapClamp := true
-	if enablePSSymbolGapClamp && psPreferText && psCtx != nil && candidateText != "" {
+	if enablePSSymbolGapClamp && psPreferText && psCtx != nil && candidateText != "" && !metricsOK {
 		decoded, cids, _ := decodeTextStringWithCIDs(candidateText, toUnicodeMap, textState.Font)
 		trimmed := strings.TrimSpace(decoded)
 		runes := []rune(trimmed)
@@ -744,20 +745,40 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 			hasUnicodeSymbol := false
 			hasPunct := false
 			for _, r := range runes {
+				if unicode.IsMark(r) {
+					symbolOnly = false
+					break
+				}
+				switch r {
+				case '^', 0x02C6, 0x02C7, 0x02C9, 0x02D8, 0x02D9, 0x02DA, 0x02DB, 0x02DC, 0x00A8, 0x00B4, 0x0060:
+					symbolOnly = false
+					break
+				}
+				if unicode.IsLetter(r) || unicode.IsNumber(r) {
+					symbolOnly = false
+					break
+				}
 				if unicode.IsPunct(r) {
 					hasPunct = true
 				}
 				mathish := unicode.IsSymbol(r) ||
 					(r >= 0x2190 && r <= 0x21FF) ||
-					(r >= 0x0370 && r <= 0x03FF) ||
-					(r >= 0x2070 && r <= 0x209F) ||
 					(r >= 0x2200 && r <= 0x22FF)
 				if mathish {
 					hasUnicodeSymbol = true
 				}
-				if (unicode.IsLetter(r) || unicode.IsNumber(r) || unicode.IsSpace(r)) && !mathish {
+				if unicode.IsSpace(r) && !mathish {
 					symbolOnly = false
 					break
+				}
+			}
+			if symbolOnly && hasUnicodeSymbol && !hasPunct && psCtx.psLastText.active {
+				if len(runes) == 1 {
+					r0 := runes[0]
+					switch r0 {
+					case '(', ')', '[', ']', '{', '}', '<', '>', '|':
+						symbolOnly = false
+					}
 				}
 			}
 			if symbolOnly && hasUnicodeSymbol && !hasPunct && psCtx.psLastText.active {
@@ -775,15 +796,7 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 						}
 						gap := renderMatrix.X0 - prevEnd
 						spaceAdv := textState.GlyphAdvance(32, true)
-						if spaceAdv <= 0 {
-							spaceAdv = fontSize * 0.30
-						}
 						desired := spaceAdv * 0.5
-						if desired < fontSize*0.12 {
-							desired = fontSize * 0.12
-						} else if desired > fontSize*0.35 {
-							desired = fontSize * 0.35
-						}
 						if gap > desired {
 							renderMatrix.X0 = prevEnd + desired
 						} else if gap < desired*0.1 {
@@ -813,38 +826,160 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 
 	enablePSLabelGapClamp := true
 	if enablePSLabelGapClamp && psPreferText && psCtx != nil && candidateDecoded != "" && psCtx.psLastText.active {
+		prevTrim := strings.TrimSpace(psCtx.psLastText.text)
+		curTrim := strings.TrimSpace(candidateDecoded)
+		prevRunesGeneric := []rune(prevTrim)
+		curRunesGeneric := []rune(curTrim)
+		if len(prevRunesGeneric) >= 4 && len(curRunesGeneric) == 1 {
+			cr := curRunesGeneric[0]
+			prevAllASCII := true
+			for _, rr := range prevRunesGeneric {
+				if rr > 0x7F || !unicode.IsLetter(rr) {
+					prevAllASCII = false
+					break
+				}
+			}
+			if prevAllASCII && cr > 0x7F && unicode.IsLetter(cr) {
+				tolY := math.Max(2.0, math.Max(psCtx.psLastText.fontSize, fontSize)*0.5)
+				if math.Abs(renderMatrix.Y0-psCtx.psLastText.yUser) <= tolY {
+					prevEnd := psCtx.psLastText.xEndUser
+					if psCtx.psLastText.xInkEndUser > 0 {
+						prevEnd = psCtx.psLastText.xInkEndUser
+					}
+					approxW := estimateTextWidthSimple(prevTrim, psCtx.psLastText.fontSize)
+					if approxW > 0 {
+						approxEnd := psCtx.psLastText.xStartUser + approxW
+						if approxEnd > 0 && approxEnd < prevEnd {
+							prevEnd = approxEnd
+						}
+					}
+					gap := renderMatrix.X0 - prevEnd
+					space := psCtx.psLastText.spaceAdvUser
+					if space <= 0 {
+						space = psCtx.psLastText.fontSize * 0.33
+					}
+					minGap := space * 0.90
+					maxGap := space * 1.35
+					if gap < minGap {
+						renderMatrix.X0 = prevEnd + minGap
+					} else if gap > maxGap {
+						renderMatrix.X0 = prevEnd + maxGap
+					}
+				}
+			}
+		}
+
+		if len(prevRunesGeneric) == 1 && len(curRunesGeneric) > 0 {
+			pr := prevRunesGeneric[0]
+			r0 := curRunesGeneric[0]
+			prevIsWord := unicode.IsLetter(pr) || unicode.IsNumber(pr)
+			curStartsWord := unicode.IsLetter(r0) || unicode.IsNumber(r0)
+			if prevIsWord && curStartsWord {
+				tolY := math.Max(2.0, math.Max(psCtx.psLastText.fontSize, fontSize)*0.5)
+				isScript := psCtx.psLastText.fontSize <= fontSize*0.85 && math.Abs(renderMatrix.Y0-psCtx.psLastText.yUser) <= tolY
+				if isScript {
+					prevEnd := psCtx.psLastText.xEndUser
+					if psCtx.psLastText.xInkEndUser > 0 {
+						prevEnd = psCtx.psLastText.xInkEndUser
+					}
+					gap := renderMatrix.X0 - prevEnd
+					maxGap := psCtx.psLastText.spaceAdvUser * 0.75
+					if maxGap <= 0 {
+						maxGap = fontSize * 0.30
+					}
+					if maxGap > fontSize*0.35 {
+						maxGap = fontSize * 0.35
+					}
+					if gap > maxGap {
+						renderMatrix.X0 = prevEnd + maxGap
+					}
+				}
+			}
+		}
+
 		if textState.Font != nil && isTeXMathFont(textState.Font.BaseFont) {
 			prev := strings.TrimSpace(psCtx.psLastText.text)
 			cur := strings.TrimSpace(candidateDecoded)
 			prevRunes := []rune(prev)
 			curRunes := []rune(cur)
-			if len(prevRunes) == 1 && len(curRunes) == 1 {
-				pr := prevRunes[0]
+			if len(curRunes) == 1 {
 				cr := curRunes[0]
-				prevMathish := unicode.IsSymbol(pr) ||
-					(pr >= 0x2190 && pr <= 0x21FF) ||
-					(pr >= 0x0370 && pr <= 0x03FF) ||
-					(pr >= 0x2070 && pr <= 0x209F) ||
-					(pr >= 0x2200 && pr <= 0x22FF)
-				curWord := unicode.IsLetter(cr) || unicode.IsNumber(cr)
 				yDiff := renderMatrix.Y0 - psCtx.psLastText.yUser
 				isScript := math.Abs(yDiff) >= fontSize*0.10 && fontSize <= psCtx.psLastText.fontSize*0.90
-				if prevMathish && curWord && isScript {
-					tolY := math.Max(2.0, math.Max(psCtx.psLastText.fontSize, fontSize)*0.5)
-					if math.Abs(renderMatrix.Y0-psCtx.psLastText.yUser) <= tolY {
+				if !isScript {
+					prevEndsWord := len(prevRunes) >= 4 && unicode.IsLetter(prevRunes[len(prevRunes)-1])
+					prevAllASCII := true
+					for _, rr := range prevRunes {
+						if rr > 0x7F || !unicode.IsLetter(rr) {
+							prevAllASCII = false
+							break
+						}
+					}
+					if prevEndsWord && prevAllASCII && (unicode.IsLetter(cr) || unicode.IsNumber(cr)) {
 						prevEnd := psCtx.psLastText.xEndUser
 						if psCtx.psLastText.xInkEndUser > 0 {
 							prevEnd = psCtx.psLastText.xInkEndUser
 						}
 						gap := renderMatrix.X0 - prevEnd
-						desired := fontSize * 0.10
-						if desired < fontSize*0.02 {
-							desired = fontSize * 0.02
-						} else if desired > fontSize*0.25 {
-							desired = fontSize * 0.25
+						space := psCtx.psLastText.spaceAdvUser
+						if space <= 0 {
+							space = psCtx.psLastText.fontSize * 0.33
 						}
-						if gap > desired*2.0 {
-							renderMatrix.X0 = prevEnd + desired
+						minGap := space * 0.90
+						maxGap := space * 1.35
+						if gap < minGap {
+							renderMatrix.X0 = prevEnd + minGap
+						} else if gap > maxGap {
+							renderMatrix.X0 = prevEnd + maxGap
+						}
+					} else if prevEndsWord && prevAllASCII && cr > 0x7F && unicode.IsLetter(cr) {
+						tolY := math.Max(2.0, math.Max(psCtx.psLastText.fontSize, fontSize)*0.5)
+						if math.Abs(renderMatrix.Y0-psCtx.psLastText.yUser) <= tolY {
+							prevEnd := psCtx.psLastText.xEndUser
+							if psCtx.psLastText.xInkEndUser > 0 {
+								prevEnd = psCtx.psLastText.xInkEndUser
+							}
+							approxW := estimateTextWidthSimple(strings.TrimSpace(psCtx.psLastText.text), psCtx.psLastText.fontSize)
+							if approxW > 0 {
+								approxEnd := psCtx.psLastText.xStartUser + approxW
+								if approxEnd > 0 && approxEnd < prevEnd {
+									prevEnd = approxEnd
+								}
+							}
+							gap := renderMatrix.X0 - prevEnd
+							space := psCtx.psLastText.spaceAdvUser
+							if space <= 0 {
+								space = psCtx.psLastText.fontSize * 0.33
+							}
+							maxGap := space * 1.35
+							if gap > maxGap {
+								renderMatrix.X0 = prevEnd + maxGap
+							}
+						}
+					}
+				}
+				if len(prevRunes) == 1 {
+					pr := prevRunes[0]
+					prevMathish := unicode.IsSymbol(pr) ||
+						(pr >= 0x2190 && pr <= 0x21FF) ||
+						(pr >= 0x0370 && pr <= 0x03FF) ||
+						(pr >= 0x2070 && pr <= 0x209F) ||
+						(pr >= 0x2200 && pr <= 0x22FF)
+					curWord := unicode.IsLetter(cr) || unicode.IsNumber(cr)
+					if prevMathish && curWord && isScript {
+						prevEnd := psCtx.psLastText.xEndUser
+						if psCtx.psLastText.xInkEndUser > 0 {
+							prevEnd = psCtx.psLastText.xInkEndUser
+						}
+						gap := renderMatrix.X0 - prevEnd
+						maxGap := math.Max(fontSize, psCtx.psLastText.fontSize) * 0.25
+						if maxGap < fontSize*0.06 {
+							maxGap = fontSize * 0.06
+						} else if maxGap > fontSize*0.60 {
+							maxGap = fontSize * 0.60
+						}
+						if gap > maxGap {
+							renderMatrix.X0 = prevEnd + maxGap
 						}
 					}
 				}
@@ -891,6 +1026,51 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 								desired = minDesired
 							} else if desired > maxDesired {
 								desired = maxDesired
+							}
+							if gap > desired*2.0 {
+								renderMatrix.X0 = prevEnd + desired
+							}
+						}
+					}
+				}
+
+				prevRunes := []rune(prev)
+				curRunes := []rune(strings.TrimSpace(candidateDecoded))
+				if len(prevRunes) >= 4 && len(curRunes) == 1 {
+					cr := curRunes[0]
+					prevAllASCII := true
+					for _, rr := range prevRunes {
+						if rr > 0x7F || !unicode.IsLetter(rr) {
+							prevAllASCII = false
+							break
+						}
+					}
+					if prevAllASCII && cr > 0x7F && unicode.IsLetter(cr) {
+						tolY := math.Max(2.0, math.Max(psCtx.psLastText.fontSize, fontSize)*0.5)
+						if math.Abs(renderMatrix.Y0-psCtx.psLastText.yUser) <= tolY {
+							prevEnd := psCtx.psLastText.xEndUser
+							if psCtx.psLastText.xInkEndUser > 0 {
+								prevEnd = psCtx.psLastText.xInkEndUser
+							}
+							approxW := estimateTextWidthSimple(prev, psCtx.psLastText.fontSize)
+							if approxW > 0 {
+								approxEnd := psCtx.psLastText.xStartUser + approxW
+								if approxEnd > 0 && approxEnd < prevEnd {
+									prevEnd = approxEnd
+								}
+							}
+							gap := renderMatrix.X0 - prevEnd
+							spaceAdv := fontSize * 0.30
+							if textState.Font != nil {
+								if adv := textState.GlyphAdvance(32, true); adv > 0 {
+									spaceAdv = adv
+								}
+							}
+							desired := spaceAdv
+							if desired < fontSize*0.18 {
+								desired = fontSize * 0.18
+							} else if desired > fontSize*0.70 {
+								desired = fontSize * 0.70
 							}
 							if gap > desired*2.0 {
 								renderMatrix.X0 = prevEnd + desired
@@ -1052,6 +1232,95 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 	defer scaledFont.Destroy()
 	scaledFont.flipY = shouldFlipGlyphY(ctx.GopdfCtx)
 
+	lastRenderedText := ""
+
+	if psPreferText && psCtx != nil && psCtx.psLastText.active {
+		prevTrim := strings.TrimSpace(psCtx.psLastText.text)
+		curTrim := strings.TrimSpace(candidateDecoded)
+		prevRunes := []rune(prevTrim)
+		curRunes := []rune(curTrim)
+		if len(prevRunes) > 0 && len(curRunes) > 0 {
+			prevEndsWord := unicode.IsLetter(prevRunes[len(prevRunes)-1]) || unicode.IsNumber(prevRunes[len(prevRunes)-1])
+			curIsShort := false
+			if len(curRunes) == 1 {
+				r0 := curRunes[0]
+				curIsShort = (unicode.IsLetter(r0) || unicode.IsNumber(r0) || unicode.IsSymbol(r0) || unicode.IsPunct(r0)) && !unicode.IsSpace(r0)
+			}
+			prevFamily := strings.TrimSpace(psCtx.psLastText.fontFamily)
+			currentIsMath := strings.EqualFold(strings.TrimSpace(fontFamily), "math")
+			prevIsMath := strings.EqualFold(prevFamily, "math")
+
+			prevHasTrailingSpace := false
+			if tr := []rune(psCtx.psLastText.text); len(tr) > 0 {
+				prevHasTrailingSpace = unicode.IsSpace(tr[len(tr)-1])
+			}
+
+			if prevEndsWord && curIsShort && currentIsMath && !prevIsMath && prevFamily != "" && !prevHasTrailingSpace {
+				tolY := math.Max(2.0, math.Max(psCtx.psLastText.fontSize, fontSize)*0.5)
+				if math.Abs(renderMatrix.Y0-psCtx.psLastText.yUser) <= tolY {
+					prevEnd := psCtx.psLastText.xInkEndUser
+					if prevEnd <= 0 {
+						approxW := estimateTextWidthSimple(prevTrim, psCtx.psLastText.fontSize)
+						sxx := psCtx.psLastText.mXX
+						if sxx == 0 {
+							sxx = 1
+						}
+						prevEnd = psCtx.psLastText.xStartUser + approxW*sxx
+					}
+					space := psCtx.psLastText.spaceAdvUser
+					if space <= 0 {
+						sxx := psCtx.psLastText.mXX
+						if sxx == 0 {
+							sxx = 1
+						}
+						space = psCtx.psLastText.fontSize * 0.33 * sxx
+					}
+
+					gap := renderMatrix.X0 - prevEnd
+					if gap >= space*0.20 {
+						spaceX0 := renderMatrix.X0 - space
+						newCurrentX0 := renderMatrix.X0
+						if spaceX0 < prevEnd {
+							spaceX0 = prevEnd
+							newCurrentX0 = prevEnd + space
+						}
+
+						switch strings.ToLower(prevFamily) {
+						case "serif":
+							ensureRepoFontRegistered("serif-regular", "fonts/apache/tinos/Tinos-Regular.ttf")
+						case "sans", "sans-serif":
+							ensureRepoFontRegistered("sans-regular", "fonts/ufl/ubuntu/Ubuntu-Regular.ttf")
+						case "monospace", "mono":
+							ensureRepoFontRegistered("mono-regular", "fonts/ufl/ubuntumono/UbuntuMono-Regular.ttf")
+						case "math":
+							ensureRepoFontRegistered("math-regular", "fonts/ofl/stixtwomath/STIXTwoMath-Regular.ttf")
+						}
+
+						spaceLayout := ctx.GopdfCtx.PangoPdfCreateLayout().(*PangoPdfLayout)
+						spaceFontDesc := NewPangoFontDescription()
+						spaceFontDesc.SetFamily(prevFamily)
+						spaceFontDesc.SetSize(psCtx.psLastText.fontSize)
+						spaceLayout.SetFontDescription(spaceFontDesc)
+						spaceLayout.SetText(" ")
+
+						smXX, smXY, smYX, smYY := psCtx.psLastText.mXX, psCtx.psLastText.mXY, psCtx.psLastText.mYX, psCtx.psLastText.mYY
+						if smXX == 0 && smYY == 0 {
+							smXX, smXY, smYX, smYY = renderMatrix.XX, renderMatrix.XY, renderMatrix.YX, renderMatrix.YY
+						}
+						spaceMatrix := &Matrix{XX: smXX, XY: smXY, YX: smYX, YY: smYY, X0: spaceX0, Y0: psCtx.psLastText.yUser}
+						ctx.GopdfCtx.Save()
+						ctx.GopdfCtx.Transform(spaceMatrix)
+						ctx.GopdfCtx.MoveTo(0, 0)
+						ctx.GopdfCtx.PangoPdfShowText(spaceLayout)
+						ctx.GopdfCtx.Restore()
+
+						renderMatrix.X0 = newCurrentX0
+					}
+				}
+			}
+		}
+	}
+
 	computeRunScaleAndAdvance := func(runText string, cids []uint16) (scaleX float64, adv float64) {
 		runes := []rune(runText)
 		drawAdv := scaledFont.TextExtents(runText).XAdvance
@@ -1077,17 +1346,20 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 		if hScale <= 0 {
 			hScale = 1
 		}
-		pdfAdvOK := false
-		if textState.Font != nil {
-			hasWidths := textState.Font.Widths != nil &&
-				(len(textState.Font.Widths.Widths) > 0 || len(textState.Font.Widths.CIDWidths) > 0 || len(textState.Font.Widths.CIDRanges) > 0)
-			if hasWidths {
-				pdfAdvOK = true
-			} else if textState.Font.DefaultWidth > 0 && math.Abs(textState.Font.DefaultWidth-1000.0) > 1e-3 {
-				pdfAdvOK = true
-			} else if textState.Font.embeddedWidthAvailable() {
-				pdfAdvOK = true
+		asciiOnly := true
+		for _, r := range runes {
+			if r > 0x7F {
+				asciiOnly = false
+				break
 			}
+		}
+		pdfAdvOK := fontWidthMetricsAvailable(textState.Font)
+		if psPreferText && asciiOnly && textState.CharSpacing == 0 && textState.WordSpacing == 0 && !pdfAdvOK {
+			est := estimateTextWidthSimple(runText, fontSize)
+			if est <= 0 {
+				est = drawAdv
+			}
+			return hScale, est * hScale
 		}
 
 		if pdfAdvOK && len(cids) > 0 {
@@ -1100,13 +1372,6 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 				unclamped := pdfAdv / drawAdv
 				scaleX = unclamped
 				minRatio, maxRatio := 0.6, 1.6
-				asciiOnly := true
-				for _, r := range runes {
-					if r > 0x7F {
-						asciiOnly = false
-						break
-					}
-				}
 				if asciiOnly {
 					minRatio, maxRatio = 0.25, 2.5
 				} else {
@@ -1236,8 +1501,23 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 				ext := scaledFont.TextExtents(t)
 				if isMathFamily {
 					tr := []rune(t)
-					if len(tr) == 1 && ext.XBearing > 0 {
-						dx = -ext.XBearing * sx
+					if len(tr) == 1 {
+						r := tr[0]
+						if r > 0x7F && unicode.IsLetter(r) {
+							dx = -ext.XBearing * sx
+							limit := fontSize * 0.20
+							if dx > limit {
+								dx = limit
+							} else if dx < -limit {
+								dx = -limit
+							}
+						} else if (unicode.IsLetter(r) || unicode.IsNumber(r)) && ext.XBearing < 0 {
+							dx = -ext.XBearing * sx
+						} else if (unicode.IsSymbol(r) || unicode.IsPunct(r)) && !isASCIIDelimiterRune(r) {
+							if ext.XBearing > 0 {
+								dx = -ext.XBearing * sx
+							}
+						}
 					}
 				}
 				right := (x + dx) + (ext.XBearing+ext.Width)*sx
@@ -1264,6 +1544,9 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 				ctx.GopdfCtx.MoveTo(0, 0)
 				layout.SetText(t)
 				ctx.GopdfCtx.PangoPdfShowText(layout)
+				if psPreferText {
+					lastRenderedText = t
+				}
 				ctx.GopdfCtx.Restore()
 				return
 			}
@@ -1271,6 +1554,9 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 			ctx.GopdfCtx.MoveTo(x+dx, 0)
 			layout.SetText(t)
 			ctx.GopdfCtx.PangoPdfShowText(layout)
+			if psPreferText {
+				lastRenderedText = t
+			}
 		}
 
 		perGlyphUseful := isMathFamily
@@ -1689,23 +1975,7 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 					Y0: fontMatrix[5] * textState.FontSize,
 				}
 
-				glyphName := ""
-				if len(textState.Font.CodeToGlyphName) > 0 {
-					if n, ok := textState.Font.CodeToGlyphName[byte(cid&0xFF)]; ok {
-						glyphName = n
-					}
-				}
-				localDY := 0.0
-				if glyphName != "" {
-					if dyFactor, _, ok := delimiterAdjust(glyphName); ok {
-						localDY = dyFactor * fontSize
-					}
-				}
-				if localDY == 0 && (unicode.IsSymbol(r) || unicode.IsPunct(r)) && !isASCIIDelimiterRune(r) {
-					localDY = autoSymbolDy(string(r))
-				}
-
-				ctx.GopdfCtx.Translate(x, localDY)
+				ctx.GopdfCtx.Translate(x, 0)
 				ctx.GopdfCtx.Transform(m)
 
 				ctx.GopdfCtx.NewPath()
@@ -1737,16 +2007,7 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 					}
 				}
 			} else {
-				dy := 0.0
 				scaleY := 1.0
-				if name, ok := textState.Font.CodeToGlyphName[byte(cid&0xFF)]; ok {
-					if dyFactor, _, ok := delimiterAdjust(name); ok {
-						dy = dyFactor * fontSize
-					}
-				}
-				if dy == 0 && (unicode.IsSymbol(r) || unicode.IsPunct(r)) && !isASCIIDelimiterRune(r) {
-					dy = autoSymbolDy(string(r))
-				}
 
 				ctx.GopdfCtx.Translate(x, 0)
 
@@ -1770,13 +2031,6 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 
 				if scaleY != 1.0 {
 					ctx.GopdfCtx.Scale(1.0, scaleY)
-				}
-				if dy != 0.0 {
-					invSY := scaleY
-					if invSY == 0 {
-						invSY = 1
-					}
-					ctx.GopdfCtx.Translate(0, dy/invSY)
 				}
 
 				ctx.GopdfCtx.NewPath()
@@ -2235,13 +2489,32 @@ updateMatrix:
 	if psPreferText && psCtx != nil {
 		psCtx.psLastText.active = true
 		psCtx.psLastText.yUser = renderMatrix.Y0
+		psCtx.psLastText.xStartUser = renderMatrix.X0
 		psCtx.psLastText.fontSize = fontSize
+		psCtx.psLastText.fontFamily = fontFamily
+		psCtx.psLastText.mXX = renderMatrix.XX
+		psCtx.psLastText.mXY = renderMatrix.XY
+		psCtx.psLastText.mYX = renderMatrix.YX
+		psCtx.psLastText.mYY = renderMatrix.YY
+		hs := textState.HorizontalScaling / 100.0
+		if hs <= 0 {
+			hs = 1
+		}
+		sp := scaledFont.TextExtents(" ").XAdvance
+		if sp <= 0 {
+			sp = fontSize * 0.33
+		}
+		psCtx.psLastText.spaceAdvUser = sp * hs * renderMatrix.XX
 		psCtx.psLastText.xEndUser = renderMatrix.X0 + currentX*renderMatrix.XX
 		psCtx.psLastText.xInkEndUser = 0
 		if inkEndX > 0 {
 			psCtx.psLastText.xInkEndUser = renderMatrix.X0 + inkEndX*renderMatrix.XX
 		}
-		psCtx.psLastText.text = candidateDecoded
+		if lastRenderedText != "" {
+			psCtx.psLastText.text = lastRenderedText
+		} else {
+			psCtx.psLastText.text = candidateDecoded
+		}
 	}
 
 	return nil
@@ -2767,6 +3040,24 @@ func isValidUnicodeRune(r rune) bool {
 		return false
 	}
 	return true
+}
+
+func fontWidthMetricsAvailable(font *Font) bool {
+	if font == nil {
+		return false
+	}
+	hasWidths := font.Widths != nil &&
+		(len(font.Widths.Widths) > 0 || len(font.Widths.CIDWidths) > 0 || len(font.Widths.CIDRanges) > 0)
+	if hasWidths {
+		return true
+	}
+	if font.DefaultWidth > 0 && math.Abs(font.DefaultWidth-1000.0) > 1e-3 {
+		return true
+	}
+	if font.embeddedWidthAvailable() {
+		return true
+	}
+	return false
 }
 
 // GlyphAdvance 计算单个字形的推进距离（核心方法）

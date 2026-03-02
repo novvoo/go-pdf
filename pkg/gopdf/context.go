@@ -56,12 +56,19 @@ type context struct {
 
 	psLineAgg  psLineAggregator
 	psLastText struct {
-		active      bool
-		yUser       float64
-		xEndUser    float64
-		xInkEndUser float64
-		fontSize    float64
-		text        string
+		active       bool
+		yUser        float64
+		xStartUser   float64
+		xEndUser     float64
+		xInkEndUser  float64
+		fontSize     float64
+		fontFamily   string
+		spaceAdvUser float64
+		mXX          float64
+		mXY          float64
+		mYX          float64
+		mYY          float64
+		text         string
 	}
 }
 

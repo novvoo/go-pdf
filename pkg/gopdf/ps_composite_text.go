@@ -64,6 +64,18 @@ func pangoPSShowTextComposite(c *context, layout *PangoPdfLayout) {
 		c.psLineAggAdd(lineX, currentY, fontSize, line)
 		c.psWritef("%% utf8=%s\n", psEscapePSComment(line, 240))
 
+		if psLineNeedsOutline(line) {
+			if err := psShowUTF8TextAsOutline(c, layout, lineX, currentY, fontSize, line); err != nil {
+				fallbackText := psASCIIShowFallbackText(line)
+				if fallbackText == "" {
+					fallbackText = "?"
+				}
+				c.psWritef("/Helvetica findfont %.4f scalefont setfont\n(%s) show\n", fontSize, escapePSString(fallbackText))
+			}
+			currentY += lineHeight
+			continue
+		}
+
 		if composite := psPickCompositeFontName(line); composite != "" {
 			if err := psShowUTF8TextAsOutline(c, layout, lineX, currentY, fontSize, line); err != nil {
 				fallbackText := psASCIIShowFallbackText(line)
@@ -99,6 +111,33 @@ func pangoPSShowTextComposite(c *context, layout *PangoPdfLayout) {
 		c.currentPoint.y = currentY - lineHeight
 		c.currentPoint.hasPoint = true
 	}
+}
+
+func psLineNeedsOutline(s string) bool {
+	for _, r := range s {
+		if unicode.IsSpace(r) {
+			continue
+		}
+		if unicode.IsMark(r) {
+			return true
+		}
+		if r >= 0x20 && r <= 0x7E {
+			continue
+		}
+		switch r {
+		case 0xFB00, 0xFB01, 0xFB02, 0xFB03, 0xFB04, 0xFB05, 0xFB06:
+			continue
+		case 0x2013, 0x2014, 0x2212:
+			continue
+		case 0x2018, 0x2019, 0x201C, 0x201D:
+			continue
+		}
+		if _, ok := psDefaultMathRuneToByte()[r]; ok {
+			continue
+		}
+		return true
+	}
+	return false
 }
 
 func psShowUTF8TextAsOutline(c *context, layout *PangoPdfLayout, x, y, fontSize float64, text string) error {
@@ -547,7 +586,7 @@ func psWriteMixedTextWithSymbolFallback(c *context, baseFont string, fontSize fl
 			seg = append(seg, 0x95)
 			continue
 		}
-		if by, ok := psUnicodeToSymbolEncodingByte(r); ok {
+		if by, ok := psDefaultMathRuneToByte()[r]; ok {
 			writeSymbolByte(by)
 			continue
 		}
