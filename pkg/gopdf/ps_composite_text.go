@@ -688,10 +688,23 @@ func psEscapePSComment(s string, maxRunes int) string {
 	s = strings.ReplaceAll(s, "\r", "\n")
 	s = strings.ReplaceAll(s, "\n", `\n`)
 	s = strings.ReplaceAll(s, "\t", `\t`)
-	s = strings.TrimSpace(s)
 	r := []rune(s)
-	if maxRunes > 0 && len(r) > maxRunes {
-		s = string(r[:maxRunes]) + "…"
+	if len(r) == 0 {
+		return ""
 	}
-	return s
+	var b strings.Builder
+	b.Grow(len(s) + 8)
+	for i, rr := range r {
+		if rr == ' ' && (i == 0 || i == len(r)-1) {
+			b.WriteString(`\s`)
+			continue
+		}
+		b.WriteRune(rr)
+	}
+	out := b.String()
+	rOut := []rune(out)
+	if maxRunes > 0 && len(rOut) > maxRunes {
+		out = string(rOut[:maxRunes]) + "…"
+	}
+	return out
 }
