@@ -1083,7 +1083,6 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 	}
 
 	inkEndX := 0.0
-	ctx.GopdfCtx.Transform(renderMatrix)
 
 	// 设置字体
 	// 🔥 关键：字体大小直接使用 FontSize，不从文本矩阵提取
@@ -1233,10 +1232,30 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 	scaledFont.flipY = shouldFlipGlyphY(ctx.GopdfCtx)
 
 	lastRenderedText := ""
+	decodedForSpacing := candidateDecoded
+	if psPreferText && strings.TrimSpace(decodedForSpacing) == "" {
+		if candidateText != "" {
+			if d, _, _ := decodeTextStringWithCIDs(candidateText, toUnicodeMap, textState.Font); strings.TrimSpace(d) != "" {
+				decodedForSpacing = d
+			}
+		}
+		if strings.TrimSpace(decodedForSpacing) == "" && len(array) > 0 {
+			for _, it := range array {
+				s, ok := it.(string)
+				if !ok {
+					continue
+				}
+				if d, _, _ := decodeTextStringWithCIDs(s, toUnicodeMap, textState.Font); strings.TrimSpace(d) != "" {
+					decodedForSpacing = d
+					break
+				}
+			}
+		}
+	}
 
 	if psPreferText && psCtx != nil && psCtx.psLastText.active {
 		prevTrim := strings.TrimSpace(psCtx.psLastText.text)
-		curTrim := strings.TrimSpace(candidateDecoded)
+		curTrim := strings.TrimSpace(decodedForSpacing)
 		prevRunes := []rune(prevTrim)
 		curRunes := []rune(curTrim)
 		if len(prevRunes) > 0 && len(curRunes) > 0 {
@@ -1277,14 +1296,12 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 					}
 
 					gap := renderMatrix.X0 - prevEnd
-					if gap >= space*0.20 {
-						spaceX0 := renderMatrix.X0 - space
-						newCurrentX0 := renderMatrix.X0
+					maxGap := space * 50.0
+					if gap > -space*0.5 && gap < maxGap {
+						spaceX0 := prevEnd
 						if spaceX0 < prevEnd {
 							spaceX0 = prevEnd
-							newCurrentX0 = prevEnd + space
 						}
-
 						switch strings.ToLower(prevFamily) {
 						case "serif":
 							ensureRepoFontRegistered("serif-regular", "fonts/apache/tinos/Tinos-Regular.ttf")
@@ -1314,12 +1331,90 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 						ctx.GopdfCtx.PangoPdfShowText(spaceLayout)
 						ctx.GopdfCtx.Restore()
 
-						renderMatrix.X0 = newCurrentX0
+						renderMatrix.X0 = prevEnd + space
+					} else if gap >= space*2.2 && gap < maxGap && false {
+						switch strings.ToLower(prevFamily) {
+						case "serif":
+							ensureRepoFontRegistered("serif-regular", "fonts/apache/tinos/Tinos-Regular.ttf")
+						case "sans", "sans-serif":
+							ensureRepoFontRegistered("sans-regular", "fonts/ufl/ubuntu/Ubuntu-Regular.ttf")
+						case "monospace", "mono":
+							ensureRepoFontRegistered("mono-regular", "fonts/ufl/ubuntumono/UbuntuMono-Regular.ttf")
+						case "math":
+							ensureRepoFontRegistered("math-regular", "fonts/ofl/stixtwomath/STIXTwoMath-Regular.ttf")
+						}
+
+						spaceLayout := ctx.GopdfCtx.PangoPdfCreateLayout().(*PangoPdfLayout)
+						spaceFontDesc := NewPangoFontDescription()
+						spaceFontDesc.SetFamily(prevFamily)
+						spaceFontDesc.SetSize(psCtx.psLastText.fontSize)
+						spaceLayout.SetFontDescription(spaceFontDesc)
+						spaceLayout.SetText(" ")
+
+						smXX, smXY, smYX, smYY := psCtx.psLastText.mXX, psCtx.psLastText.mXY, psCtx.psLastText.mYX, psCtx.psLastText.mYY
+						if smXX == 0 && smYY == 0 {
+							smXX, smXY, smYX, smYY = renderMatrix.XX, renderMatrix.XY, renderMatrix.YX, renderMatrix.YY
+						}
+						spaceMatrix := &Matrix{XX: smXX, XY: smXY, YX: smYX, YY: smYY, X0: prevEnd, Y0: psCtx.psLastText.yUser}
+						ctx.GopdfCtx.Save()
+						ctx.GopdfCtx.Transform(spaceMatrix)
+						ctx.GopdfCtx.MoveTo(0, 0)
+						ctx.GopdfCtx.PangoPdfShowText(spaceLayout)
+						ctx.GopdfCtx.Restore()
+
+						renderMatrix.X0 = prevEnd + space
+					}
+				}
+			}
+
+			curStartsWord := false
+			if len(curRunes) > 0 {
+				r0 := curRunes[0]
+				curStartsWord = unicode.IsLetter(r0) || unicode.IsNumber(r0)
+			}
+			if prevIsMath && !currentIsMath && curStartsWord {
+				tolY := math.Max(2.0, math.Max(psCtx.psLastText.fontSize, fontSize)*0.5)
+				if math.Abs(renderMatrix.Y0-psCtx.psLastText.yUser) <= tolY {
+					prevEnd := psCtx.psLastText.xInkEndUser
+					if prevEnd <= 0 {
+						prevEnd = psCtx.psLastText.xEndUser
+					}
+					approxW := estimateTextWidthSimple(strings.TrimSpace(psCtx.psLastText.text), psCtx.psLastText.fontSize)
+					if approxW > 0 {
+						approxEnd := psCtx.psLastText.xStartUser + approxW
+						if approxEnd > 0 && approxEnd < prevEnd {
+							prevEnd = approxEnd
+						}
+					}
+					space := psCtx.psLastText.spaceAdvUser
+					if space <= 0 {
+						space = psCtx.psLastText.fontSize * 0.33
+					}
+					gap := renderMatrix.X0 - prevEnd
+					maxGap := space * 50.0
+					if gap >= space*1.25 && gap < maxGap {
+						spaceLayout := ctx.GopdfCtx.PangoPdfCreateLayout().(*PangoPdfLayout)
+						spaceFontDesc := NewPangoFontDescription()
+						spaceFontDesc.SetFamily(fontFamily)
+						spaceFontDesc.SetSize(fontSize)
+						spaceLayout.SetFontDescription(spaceFontDesc)
+						spaceLayout.SetText(" ")
+
+						spaceMatrix := &Matrix{XX: renderMatrix.XX, XY: renderMatrix.XY, YX: renderMatrix.YX, YY: renderMatrix.YY, X0: prevEnd, Y0: renderMatrix.Y0}
+						ctx.GopdfCtx.Save()
+						ctx.GopdfCtx.Transform(spaceMatrix)
+						ctx.GopdfCtx.MoveTo(0, 0)
+						ctx.GopdfCtx.PangoPdfShowText(spaceLayout)
+						ctx.GopdfCtx.Restore()
+
+						renderMatrix.X0 = prevEnd + space
 					}
 				}
 			}
 		}
 	}
+
+	ctx.GopdfCtx.Transform(renderMatrix)
 
 	computeRunScaleAndAdvance := func(runText string, cids []uint16) (scaleX float64, adv float64) {
 		runes := []rune(runText)
@@ -1513,9 +1608,11 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 							}
 						} else if (unicode.IsLetter(r) || unicode.IsNumber(r)) && ext.XBearing < 0 {
 							dx = -ext.XBearing * sx
-						} else if (unicode.IsSymbol(r) || unicode.IsPunct(r)) && !isASCIIDelimiterRune(r) {
+						} else if unicode.IsSymbol(r) || unicode.IsPunct(r) {
 							if ext.XBearing > 0 {
-								dx = -ext.XBearing * sx
+								if !isASCIIDelimiterRune(r) || r == '<' || r == '>' {
+									dx = -ext.XBearing * sx
+								}
 							}
 						}
 					}
@@ -1545,7 +1642,7 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 				layout.SetText(t)
 				ctx.GopdfCtx.PangoPdfShowText(layout)
 				if psPreferText {
-					lastRenderedText = t
+					lastRenderedText += t
 				}
 				ctx.GopdfCtx.Restore()
 				return
@@ -1555,7 +1652,7 @@ func renderText(ctx *RenderContext, text string, array []any) error {
 			layout.SetText(t)
 			ctx.GopdfCtx.PangoPdfShowText(layout)
 			if psPreferText {
-				lastRenderedText = t
+				lastRenderedText += t
 			}
 		}
 

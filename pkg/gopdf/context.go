@@ -90,7 +90,7 @@ func (c *context) psLineAggAdd(xUser, yUser, fontSize float64, text string) {
 	if c == nil || c.psSurfaceTarget() == nil {
 		return
 	}
-	if strings.TrimSpace(text) == "" {
+	if text == "" {
 		return
 	}
 
@@ -182,7 +182,22 @@ func (c *context) psLineAggFlush() {
 	var prevLast rune
 	prevHasLast := false
 	lastWasSpace := false
+	spaceW := agg.fontSize * 0.33
+	if spaceW < 1 {
+		spaceW = 1
+	}
 	for i, piece := range agg.pieces {
+		if strings.TrimSpace(piece.text) == "" {
+			if b.Len() > 0 && !lastWasSpace {
+				b.WriteByte(' ')
+				lastWasSpace = true
+			}
+			prevEnd = math.Max(prevEnd, piece.xEnd)
+			if i == 0 {
+				prevEnd = piece.xEnd
+			}
+			continue
+		}
 		t := strings.TrimRightFunc(piece.text, unicode.IsSpace)
 		if t == "" {
 			continue
@@ -203,11 +218,11 @@ func (c *context) psLineAggFlush() {
 				needSpace = true
 			} else if prevHasLast {
 				nextFirst := r[0]
-				if gap > agg.fontSize*0.20 && isWordRune(prevLast) && isArrowOrMathOpRune(nextFirst) {
+				if gap > -spaceW*4.0 && isWordRune(prevLast) && isArrowOrMathOpRune(nextFirst) {
 					needSpace = true
-				} else if gap > agg.fontSize*0.20 && isArrowOrMathOpRune(prevLast) && isWordRune(nextFirst) {
+				} else if gap > -spaceW*4.0 && isArrowOrMathOpRune(prevLast) && isWordRune(nextFirst) {
 					needSpace = true
-				} else if gap > agg.fontSize*0.45 && isWordRune(prevLast) && isWordRune(nextFirst) {
+				} else if gap > spaceW*1.0 && isWordRune(prevLast) && isWordRune(nextFirst) {
 					needSpace = true
 				} else if needsSpaceAfterRune(prevLast, nextFirst) && gap > -agg.fontSize*0.80 {
 					needSpace = true
@@ -262,7 +277,7 @@ func isArrowOrMathOpRune(r rune) bool {
 		return true
 	}
 	switch r {
-	case '→', '←', '↔', '⇐', '⇒', '⇔', '↦', '±', '×', '÷', '−', '∼', '≈', '≃', '≅', '≡', '≤', '≥', '≠', '⋅', '∈', '∉':
+	case '→', '←', '↔', '⇐', '⇒', '⇔', '↦', '±', '×', '÷', '−', '∼', '≈', '≃', '≅', '≡', '≤', '≥', '≠', '⋅', '∈', '∉', '<', '>', '=', '+', '-', '*', '/':
 		return true
 	default:
 		return false
