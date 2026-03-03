@@ -54,22 +54,25 @@ type context struct {
 	// Drawing context for backend
 	gc *rasterContext
 
-	psLineAgg  psLineAggregator
-	psLastText struct {
-		active       bool
-		yUser        float64
-		xStartUser   float64
-		xEndUser     float64
-		xInkEndUser  float64
-		fontSize     float64
-		fontFamily   string
-		spaceAdvUser float64
-		mXX          float64
-		mXY          float64
-		mYX          float64
-		mYY          float64
-		text         string
-	}
+	psLineAgg      psLineAggregator
+	psLastText     psLastTextInfo
+	psLastNonSpace psLastTextInfo
+}
+
+type psLastTextInfo struct {
+	active       bool
+	yUser        float64
+	xStartUser   float64
+	xEndUser     float64
+	xInkEndUser  float64
+	fontSize     float64
+	fontFamily   string
+	spaceAdvUser float64
+	mXX          float64
+	mXY          float64
+	mYX          float64
+	mYY          float64
+	text         string
 }
 
 type psLineAggregator struct {
@@ -182,6 +185,7 @@ func (c *context) psLineAggFlush() {
 	var prevLast rune
 	prevHasLast := false
 	lastWasSpace := false
+	prevFontSize := agg.fontSize
 	spaceW := agg.fontSize * 0.33
 	if spaceW < 1 {
 		spaceW = 1
@@ -218,9 +222,15 @@ func (c *context) psLineAggFlush() {
 				needSpace = true
 			} else if prevHasLast {
 				nextFirst := r[0]
+				localSpaceW := math.Min(prevFontSize, piece.fontSize) * 0.33
+				if localSpaceW < 1 {
+					localSpaceW = 1
+				}
 				if gap > -spaceW*4.0 && isWordRune(prevLast) && isArrowOrMathOpRune(nextFirst) {
 					needSpace = true
 				} else if gap > -spaceW*4.0 && isArrowOrMathOpRune(prevLast) && isWordRune(nextFirst) {
+					needSpace = true
+				} else if gap > localSpaceW*0.15 && isWordRune(prevLast) && isWordRune(nextFirst) && (prevFontSize < agg.fontSize*0.86 || piece.fontSize < agg.fontSize*0.86) {
 					needSpace = true
 				} else if gap > spaceW*1.0 && isWordRune(prevLast) && isWordRune(nextFirst) {
 					needSpace = true
@@ -244,6 +254,7 @@ func (c *context) psLineAggFlush() {
 		}
 		prevLast = r[len(r)-1]
 		prevHasLast = true
+		prevFontSize = piece.fontSize
 	}
 	lineText := strings.TrimSpace(b.String())
 	if lineText != "" {
